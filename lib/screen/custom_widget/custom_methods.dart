@@ -180,6 +180,8 @@ Widget customGrid<T>(BuildContext context,
     crossAxisCount = 2,
     double childAspectRatio = 1.0,
     double? mainAxisExtent,
+      double  crossAxisSpacing= 5.0,
+      double  mainAxisSpacing= 2.0,
     EdgeInsets padding = const EdgeInsets.all(0.0),
     Axis axis = Axis.vertical}) {
   return GridView.builder(
@@ -189,8 +191,8 @@ Widget customGrid<T>(BuildContext context,
     shrinkWrap: true,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
-        crossAxisSpacing: 5.0,
-        mainAxisSpacing: 2.0,
+        crossAxisSpacing: crossAxisSpacing,
+        mainAxisSpacing: mainAxisSpacing,
         childAspectRatio: childAspectRatio,
         mainAxisExtent: mainAxisExtent),
     itemBuilder: (context, index) => child(index)

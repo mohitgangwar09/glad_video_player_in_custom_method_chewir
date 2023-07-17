@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45.25" height="45.49" viewBox="0 0 45.25 45.49">
+  <g id="Group_12455" data-name="Group 12455" transform="translate(-344 -671.75)">
+    <g id="Ellipse_1573" data-name="Ellipse 1573" transform="translate(344 673)" fill="none" stroke="#fff" stroke-width="1" opacity="0.24">
+      <ellipse cx="22" cy="21.5" rx="22" ry="21.5" stroke="none"/>
+      <ellipse cx="22" cy="21.5" rx="21.5" ry="21" fill="none"/>
+    </g>
+    <circle id="Ellipse_1572" data-name="Ellipse 1572" cx="17" cy="17" r="17" transform="translate(349 677)" fill="#fff"/>
+    <path id="Subtraction_125" data-name="Subtraction 125" d="M0,45.49H0V43.1c10.632-.212,19.281-9.341,19.281-20.351S10.632,2.608,0,2.4V0A21.167,21.167,0,0,1,8.17,1.786,21.844,21.844,0,0,1,15.158,6.66a22.724,22.724,0,0,1,4.709,7.233A23.247,23.247,0,0,1,21.6,22.747,23.247,23.247,0,0,1,19.867,31.6a22.726,22.726,0,0,1-4.709,7.233A21.916,21.916,0,0,1,8.17,43.708,21.244,21.244,0,0,1,0,45.49Z" transform="translate(367.654 671.75)" fill="#fff"/>
+    <path id="Icon_ionic-ios-arrow-forward" data-name="Icon ionic-ios-arrow-forward" d="M15.532,11.56,11.472,7.5a.764.764,0,0,1,0-1.083.773.773,0,0,1,1.086,0l4.6,4.6a.765.765,0,0,1,.022,1.057L12.561,16.7a.767.767,0,1,1-1.086-1.083Z" transform="translate(352.754 682.804)" fill="#242424"/>
+  </g>
+</svg>

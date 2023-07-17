@@ -5,4 +5,6 @@ class AppConstants {
   static const String fcmToken = 'fcmToken';
   static const String token = 'token';
   static const String userId = 'userId';
+
+  static const Map languages = {'Swahili': 'Mujambo\nMimi Sam', 'English': 'Hi\nI\'m Sam'};
 }
