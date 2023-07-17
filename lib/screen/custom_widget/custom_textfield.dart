@@ -91,13 +91,14 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         contentPadding: 10.paddingVertical(),
+        labelText: hint,
         hintStyle: GoogleFonts.dmSans(
             textStyle: const TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 14
-            )
+            ),
         ),
-        border: InputBorder.none,
+        // border: InputBorder.none,
       ),
       onChanged: onChanged,
     ):
