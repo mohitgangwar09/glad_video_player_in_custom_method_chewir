@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
-import 'package:glad/screen/splash_screen.dart';
+import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/theme/light_theme.dart';
 import 'di_container.dart' as di;
 
