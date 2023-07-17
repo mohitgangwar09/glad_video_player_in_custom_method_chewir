@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'language_permission.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void _route() async {
     Timer(const Duration(seconds: 2), () async {
-      const LanguagePermission().navigate();
+      const LanguagePermission().navigate(isRemove: true);
     });
   }
 
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('assets/images/splash.png'),
+        child: Image.asset(Images.splash),
       ),
     );
   }
