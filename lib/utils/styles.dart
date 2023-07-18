@@ -36,11 +36,3 @@ const forte = TextStyle(
 
 const wallMan =
     TextStyle(fontFamily: 'Wallman-Bold-free.ttf', fontWeight: FontWeight.bold);
-const gradient = LinearGradient(colors: [
-  Color(0xff30A8B7),
-  Color(0xff2EB78D),
-]);
-const greenGradient = LinearGradient(colors: [
-  Color(0xff18444B),
-  Color(0xff005364),
-]);

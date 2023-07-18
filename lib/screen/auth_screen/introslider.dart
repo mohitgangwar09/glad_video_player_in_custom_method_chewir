@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glad/data/model/auth_models/introslider_model.dart';
+import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -77,7 +78,7 @@ class _IntroSliderState extends State<IntroSlider> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            10.verticalSpace(),
+                            15.verticalSpace(),
                             Text(
                               introSliderContents[index].title1,
                               style: figtreeMedium.copyWith(
@@ -163,7 +164,7 @@ class _IntroSliderState extends State<IntroSlider> {
                     image: Images.sliderNext,
                     onTap: () {
                       if (controller.page!.toInt() == 1) {
-                        //const Waves().navigate(isRemove: true);
+                        const UploadProfilePicture().navigate(isRemove: true);
                       }
                       controller.animateToPage(
                         controller.page!.toInt() + 1,

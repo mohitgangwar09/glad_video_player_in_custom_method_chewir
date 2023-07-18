@@ -8,4 +8,7 @@ class Images {
   static const String sliderOne = 'assets/images/onboarding_main1.png';
   static const String sliderTwo = 'assets/images/onboarding_main2.png';
   static const String sliderNext = 'assets/images/onboarding_next.svg';
+  static const String ppBg = 'assets/images/profile_picture_bg.svg';
+  static const String uploadPP = 'assets/images/upload_profile_picture.svg';
+
 }
