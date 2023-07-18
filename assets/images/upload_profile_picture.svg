@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="199" height="199" viewBox="0 0 199 199">
+  <defs>
+    <filter id="Rectangle_3014" x="0" y="0" width="199" height="199" filterUnits="userSpaceOnUse">
+      <feOffset dy="5" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="7.5" result="blur"/>
+      <feFlood flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_12861" data-name="Group 12861" transform="translate(-114.5 -127.5)">
+    <g transform="matrix(1, 0, 0, 1, 114.5, 127.5)" filter="url(#Rectangle_3014)">
+      <g id="Rectangle_3014-2" data-name="Rectangle 3014" transform="translate(22.5 17.5)" fill="#fff" stroke="#999" stroke-width="1">
+        <rect width="154" height="154" rx="50" stroke="none"/>
+        <rect x="0.5" y="0.5" width="153" height="153" rx="49.5" fill="none"/>
+      </g>
+    </g>
+    <g id="vuesax_bold_camera" data-name="vuesax/bold/camera" transform="translate(-169 -113)">
+      <g id="camera" transform="translate(364 316)">
+        <path id="Vector" d="M24.95,6.333a2.6,2.6,0,0,1-2.3-1.409l-1.14-2.3A5.226,5.226,0,0,0,17.271,0H13.645A5.23,5.23,0,0,0,9.386,2.628l-1.14,2.3a2.6,2.6,0,0,1-2.3,1.409A5.943,5.943,0,0,0,.013,12.651L.836,25.729c.19,3.262,1.948,5.938,6.318,5.938H23.747c4.37,0,6.112-2.676,6.317-5.937l.823-13.078A5.943,5.943,0,0,0,24.95,6.333ZM13.075,8.313h4.75a1.188,1.188,0,0,1,0,2.375h-4.75a1.188,1.188,0,1,1,0-2.375ZM15.45,25.523A5.352,5.352,0,1,1,20.8,20.172,5.355,5.355,0,0,1,15.45,25.523Z" transform="translate(3.55 3.167)" fill="#727272"/>
+        <path id="Vector-2" data-name="Vector" d="M0,0H38V38H0Z" fill="none" opacity="0"/>
+      </g>
+    </g>
+  </g>
+</svg>
