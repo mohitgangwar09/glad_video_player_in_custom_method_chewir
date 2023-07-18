@@ -74,33 +74,50 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return withoutBorder?
-    TextField(
-      focusNode: focusNode,
-      controller: controller,
-      autofocus: false,
-      onTap: onTap,
-      enabled: enabled,
-      maxLines: maxLine,
-      minLines: minLine,
-      obscureText: obscureText!,
-      keyboardType: inputType,
-      style: GoogleFonts.dmSans(
-          textStyle: style
-      ),
-      onEditingComplete: onEditingComplete,
-      decoration: InputDecoration(
-        hintText: hint,
-        contentPadding: 10.paddingVertical(),
-        labelText: hint,
-        hintStyle: GoogleFonts.dmSans(
-            textStyle: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 14
+    SizedBox(
+      height: 50,
+      child: Stack(
+        children: [
+
+          TextField(
+            focusNode: focusNode,
+            controller: controller,
+            autofocus: false,
+            onTap: onTap,
+            enabled: enabled,
+            maxLines: maxLine,
+            minLines: minLine,
+            obscureText: obscureText!,
+            keyboardType: inputType,
+            style: GoogleFonts.figtree(
+                textStyle: style
             ),
-        ),
-        // border: InputBorder.none,
+            onEditingComplete: onEditingComplete,
+            decoration: InputDecoration(
+              // hintText: hint,
+              contentPadding: 10.paddingVertical(),
+              labelText: hint,
+              labelStyle: figtreeRegular.copyWith(
+                color: Colors.white,
+                fontSize: 14
+              ),
+              hintStyle: GoogleFonts.figtree(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14
+                  ),
+              ),
+              // border: InputBorder.none,
+            ),
+            onChanged: onChanged,
+          ),
+
+          if(image!=null)
+            Align(alignment: Alignment.centerRight,
+                child: SvgPicture.asset(image!,width: imageWidth,height: imageHeight,))
+
+        ],
       ),
-      onChanged: onChanged,
     ):
     Column(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -16,4 +16,7 @@ class Images {
   static const String main = 'assets/images/loginback_2.svg';
   static const String cardLogin = 'assets/images/cardlogin.svg';
   static const String loginButton = 'assets/images/login_button.png';
+  static const String emailPhone = 'assets/images/email.svg';
+  static const String password = 'assets/images/password.svg';
+  static const String loginLogo = 'assets/images/loginlogo.svg';
 }

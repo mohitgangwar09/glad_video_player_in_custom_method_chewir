@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -14,10 +15,34 @@ class LoginWithPassword extends StatelessWidget {
       body: Stack(
         children: [
 
-          Align(
-          alignment: Alignment.topRight,child: SvgPicture.asset(Images.loginBack_1)),
+          Container(
+            margin: const EdgeInsets.only(bottom: 85,top: 100),
+            width: screenWidth(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
 
-          Center(child: card()),
+                SvgPicture.asset(Images.loginLogo),
+
+                TextButton(onPressed: (){}, child: Text("Login with OTP",
+                  style: figtreeMedium.copyWith(
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
+                      fontSize: 14
+                  ),)),
+
+              ],
+            ),
+          ),
+
+          Align(
+              alignment: Alignment.topRight,child: SvgPicture.asset(Images.loginBack_1)),
+
+          Center(child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: card(context),
+          )),
 
           Positioned(bottom: 0,
               child:SvgPicture.asset(Images.loginBack_2))
@@ -29,7 +54,7 @@ class LoginWithPassword extends StatelessWidget {
 }
 
 
-Widget card(){
+Widget card(BuildContext context){
   return Stack(
     children: [
 
@@ -45,27 +70,39 @@ Widget card(){
             // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: .0),
-              //   child: Text("Welcome Back",
-              //   style: figtreeMedium.copyWith(
-              //     color: Colors.white,
-              //     fontSize: 24
-              //   ),),
-              // ),
-
-              // const CustomTextField(hint: "hint", text: "text",withoutBorder: true,),
-              // const SizedBox(height: 28,),
-              // const CustomTextField(hint: "hint", text: "text"),
 
               Padding(
-                padding: const EdgeInsets.only(top: 25.0),
+                padding: const EdgeInsets.only(top: 60.0),
                 child: Text("Welcome Back",
                   style: figtreeMedium.copyWith(
                       color: Colors.white,
-                      fontSize: 24
+                      fontSize: 22
                   ),),
               ),
+
+              const Padding(
+                padding: EdgeInsets.fromLTRB(33,45,33,0),
+                child: CustomTextField(hint: 'Email/Phone',text: '',
+                image: Images.emailPhone,withoutBorder: true,),
+              ),
+
+
+              const Padding(
+                padding: EdgeInsets.fromLTRB(33,21,33,0),
+                child: CustomTextField(hint: 'Password',text: '',
+                  image: Images.password,withoutBorder: true,),
+              ),
+
+             Padding(
+               padding: const EdgeInsets.only(top: 45.0),
+               child: TextButton(onPressed: (){}, child: Text("Forgot password?",
+                 style: figtreeMedium.copyWith(
+                     color: const Color(0xffFC5E60),
+                   decoration: TextDecoration.underline,
+                   fontSize: 16
+               ),)),
+             )
+
             ],
           ),
         ),

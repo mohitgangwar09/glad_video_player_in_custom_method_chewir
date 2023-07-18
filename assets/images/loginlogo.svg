@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="161.5" height="45.947" viewBox="0 0 161.5 45.947">
+  <g id="Web-logo" transform="translate(-132 -299.947)">
+    <text id="GLAD" transform="translate(186.5 334.947)" fill="#6a0030" font-size="30" font-family="Artifex CF" font-weight="700"><tspan x="0" y="0">GLAD</tspan></text>
+    <g id="Group_1356" data-name="Group 1356" transform="translate(132 301.69)">
+      <path id="Subtraction_5" data-name="Subtraction 5" d="M22.1,44.2a22.277,22.277,0,0,1-4.459-.45A22.094,22.094,0,0,1,.449,26.557a22.318,22.318,0,0,1,0-8.909,22.094,22.094,0,0,1,17.2-17.2,22.318,22.318,0,0,1,8.909,0,22.094,22.094,0,0,1,17.2,17.2,22.317,22.317,0,0,1,0,8.909,22.094,22.094,0,0,1-17.2,17.2A22.265,22.265,0,0,1,22.1,44.2Zm0-43.06A20.958,20.958,0,1,0,43.061,22.1,20.982,20.982,0,0,0,22.1,1.144Z" transform="translate(0 0)" fill="#f6b51d"/>
+      <g id="Group_1238" data-name="Group 1238" transform="matrix(0.999, 0.035, -0.035, 0.999, 11.093, 9.995)">
+        <path id="Path_1665" data-name="Path 1665" d="M9.689,0,0,9.65" transform="translate(0 1)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+        <path id="Path_1666" data-name="Path 1666" d="M10.058,0,0,9.59" transform="translate(12.806 13.48)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+        <path id="Path_1663" data-name="Path 1663" d="M16.566,0,0,16.91" transform="translate(0.219 0)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+        <path id="Path_1664" data-name="Path 1664" d="M15.141,0,0,15.211" transform="translate(7.352 7.554)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+        <line id="Line_3" data-name="Line 3" x1="22.456" y2="23.055" transform="translate(0.339 0.343)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      </g>
+    </g>
+    <text id="Grow_Learn_Adapt_Develop" data-name="Grow  Learn  Adapt  Develop" transform="translate(196.884 343.457)" font-size="3" font-family="Jost" font-weight="700" letter-spacing="0.45em"><tspan x="0" y="0" xml:space="preserve">GROW  LEARN  ADAPT  DEVELOP</tspan></text>
+  </g>
+</svg>
