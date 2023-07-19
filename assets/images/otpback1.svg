@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="428" height="927" viewBox="0 0 428 927">
+  <g id="Group_12859" data-name="Group 12859" transform="translate(0 1)">
+    <path id="Subtraction_10" data-name="Subtraction 10" d="M229,412.814v0a245.982,245.982,0,0,1-57.576-37.8A249.435,249.435,0,0,1,114.99,73H229V412.814Z" transform="translate(199 -73)" fill="#f6b51d"/>
+    <path id="Rectangle_772" data-name="Rectangle 772" d="M60,0H368a60,60,0,0,1,60,60V835a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V60A60,60,0,0,1,60,0Z" transform="translate(0 91)" fill="#fff"/>
+    <path id="Rectangle_627" data-name="Rectangle 627" d="M60,0H368a60,60,0,0,1,60,60V835a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V60A60,60,0,0,1,60,0Z" transform="translate(0 91)" fill="#fff"/>
+    <path id="Intersection_1" data-name="Intersection 1" d="M-180.575-825.989A248.574,248.574,0,0,1-225.456-878.1a247.729,247.729,0,0,1-29.152-63.356A250.056,250.056,0,0,1-265-1013q0-12.044,1.14-24H-183a60,60,0,0,1,60,60v188.811A245.942,245.942,0,0,1-180.575-825.989Z" transform="translate(551 1128)" fill="#fff5de"/>
+    <g id="Group_1365" data-name="Group 1365" transform="matrix(0.999, 0.035, -0.035, 0.999, 356.555, 182.653)">
+      <path id="Path_1665" data-name="Path 1665" d="M13.2,0,0,13.144" transform="translate(0 1.361)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1666" data-name="Path 1666" d="M13.7,0,0,13.062" transform="translate(17.444 18.361)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1663" data-name="Path 1663" d="M22.565,0,0,23.034" transform="translate(0.298 0)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1664" data-name="Path 1664" d="M20.623,0,0,20.719" transform="translate(10.014 10.29)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+      <line id="Line_3" data-name="Line 3" x1="30.587" y2="31.403" transform="translate(0.263 0.283)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/>
+    </g>
+    <path id="Subtraction_8" data-name="Subtraction 8" d="M120,138a51.566,51.566,0,0,1-21.8-4.813,55.823,55.823,0,0,1-17.8-13.125,61.648,61.648,0,0,1-12-19.467A65.816,65.816,0,0,1,64,76.756c0-.252,0-.506,0-.757H176c0,.253,0,.506,0,.757a65.816,65.816,0,0,1-4.4,23.839,61.648,61.648,0,0,1-12,19.467,55.824,55.824,0,0,1-17.8,13.125A51.566,51.566,0,0,1,120,138Z" transform="translate(21 -77)" fill="#fc5e60" opacity="0.5"/>
+    <g id="Group_1365-2" data-name="Group 1365" transform="matrix(0.999, 0.035, -0.035, 0.999, 356.555, 182.653)">
+      <path id="Path_1665-2" data-name="Path 1665" d="M13.2,0,0,13.144" transform="translate(0 1.361)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1666-2" data-name="Path 1666" d="M13.7,0,0,13.062" transform="translate(17.444 18.361)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1663-2" data-name="Path 1663" d="M22.565,0,0,23.034" transform="translate(0.298 0)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1664-2" data-name="Path 1664" d="M20.623,0,0,20.719" transform="translate(10.014 10.29)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <line id="Line_3-2" data-name="Line 3" x1="30.587" y2="31.403" transform="translate(0.263 0.283)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

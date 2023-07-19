@@ -33,6 +33,8 @@ class CustomTextField extends StatelessWidget {
   final bool visibleNumber;
   final double? width;
   final int? borderColor;
+  final Color? underLineBorderColor;
+  final Color? imageColors;
   final int? backgroundColor;
   final List<TextInputFormatter>? inputFormatters;
   final TextStyle? hintStyle;
@@ -44,14 +46,15 @@ class CustomTextField extends StatelessWidget {
     this.visibleNumber=false,
     this.onChanged,
     this.length,
+    this.imageColor = Colors.white,
     this.style,
+    this.underLineBorderColor = Colors.white,
     this.decoration,
     this.borderColor= 0xffD9D9D9,
     this.backgroundColor= 0xffFFFFFF,
     this.onEditingComplete,
     this.focusNode,
     this.onTap,
-    this.imageColor,
     this.focusTag,
     this.status,
     this.imageWidth,
@@ -61,6 +64,7 @@ class CustomTextField extends StatelessWidget {
     this.showEdit=false,
     this.withoutBorder=false,
     this.image,
+    this.imageColors = Colors.white,
     this.enabled,
     this.maxLine=2,
     this.minLine=1,
@@ -87,19 +91,24 @@ class CustomTextField extends StatelessWidget {
             enabled: enabled,
             maxLines: maxLine,
             minLines: minLine,
+            cursorColor: Colors.grey,
             obscureText: obscureText!,
             keyboardType: inputType,
             style: GoogleFonts.figtree(
                 textStyle: style
             ),
+
             onEditingComplete: onEditingComplete,
             decoration: InputDecoration(
               // hintText: hint,
               contentPadding: 10.paddingVertical(),
               labelText: hint,
-              labelStyle: figtreeRegular.copyWith(
-                color: Colors.white,
-                fontSize: 14
+              labelStyle: style,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: underLineBorderColor!),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: underLineBorderColor!),
               ),
               hintStyle: GoogleFonts.figtree(
                   textStyle: const TextStyle(
@@ -107,14 +116,15 @@ class CustomTextField extends StatelessWidget {
                       fontSize: 14
                   ),
               ),
-              // border: InputBorder.none,
+              border: InputBorder.none,
             ),
             onChanged: onChanged,
           ),
 
           if(image!=null)
             Align(alignment: Alignment.centerRight,
-                child: SvgPicture.asset(image!,width: imageWidth,height: imageHeight,))
+                child: SvgPicture.asset(image!,colorFilter: ColorFilter.mode(imageColors!, BlendMode.srcIn),
+                  width: imageWidth,height: imageHeight,))
 
         ],
       ),

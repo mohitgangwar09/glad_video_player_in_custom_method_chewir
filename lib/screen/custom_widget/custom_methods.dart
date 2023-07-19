@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -476,4 +477,57 @@ appBar({int color = 0xffFFF3F4}){
         elevation: 0,
         backgroundColor: Color(color),
       ));
+}
+
+Widget hideKeyboard(BuildContext context,{Widget? child}){
+  return GestureDetector(
+    onTap: (){
+      FocusScope.of(context).requestFocus(FocusNode());
+    },
+    child: child,
+  );
+}
+
+
+Widget customBackground({Widget? widget}){
+  return Stack(
+    children: [
+
+      Align(
+          alignment: Alignment.topRight,child: SvgPicture.asset(Images.otpBack2,
+        fit: BoxFit.fill,)),
+
+      widget!,
+
+      Positioned(
+          bottom: 0,right: 0,child: SvgPicture.asset(Images.otpBack1,)),
+
+
+    ],
+  );
+}
+
+
+validator(String error) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Padding(
+      padding: const EdgeInsets.only(top: 4.0),
+      child: Text(error.toString(),
+        style: figtreeRegular.copyWith(
+            color: Colors.red
+        ),),
+    ),
+  );
+}
+
+Widget customTextButton({required Function onTap,String? text,TextDecoration? decoration,Color? color, double? fontSize}){
+  return TextButton(onPressed: (){
+    onTap();
+  }, child: Text(text.toString().tr,
+      style: figtreeMedium.copyWith(
+          fontSize: fontSize,
+          color: color,
+          decoration: decoration
+    ),));
 }
