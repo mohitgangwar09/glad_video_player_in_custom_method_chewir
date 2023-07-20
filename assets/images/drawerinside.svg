@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="61" height="332" viewBox="0 0 61 332">
+  <g id="Group_12871" data-name="Group 12871" transform="translate(-367 -146)">
+    <g id="Group_11808" data-name="Group 11808" transform="translate(90 -572)">
+      <circle id="Ellipse_1363" data-name="Ellipse 1363" cx="16" cy="16" r="16" transform="translate(281 718)" fill="#fc5e60" opacity="0.12"/>
+      <circle id="Ellipse_1364" data-name="Ellipse 1364" cx="6" cy="6" r="6" transform="translate(291 728)" fill="#fc5e60" opacity="0.79"/>
+    </g>
+    <g id="Group_11809" data-name="Group 11809" transform="translate(367 375)">
+      <path id="Subtraction_77" data-name="Subtraction 77" d="M9.5,0A51.966,51.966,0,0,0,0,.874V102.125A51.952,51.952,0,0,0,9.5,103,51.559,51.559,0,0,0,56.953,71.546a51.671,51.671,0,0,0,0-40.092A51.458,51.458,0,0,0,9.5,0Z" transform="translate(61 103) rotate(180)" fill="#fc5e60" opacity="0.05"/>
+      <path id="Subtraction_76" data-name="Subtraction 76" d="M8.5,0A29.528,29.528,0,0,0,0,1.243V57.758a29.473,29.473,0,0,0,29.36-7.4,29.4,29.4,0,0,0,6.322-9.377,29.6,29.6,0,0,0,0-22.965A29.476,29.476,0,0,0,8.5,0Z" transform="translate(61 82) rotate(180)" fill="#fc5e60" opacity="0.27"/>
+    </g>
+  </g>
+</svg>

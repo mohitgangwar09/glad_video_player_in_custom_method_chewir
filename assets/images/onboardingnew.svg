@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="109.872" height="33.084" viewBox="0 0 109.872 33.084">
+  <g id="Web-logo" transform="translate(-132 -300.41)">
+    <text id="GLAD" transform="translate(170.872 323.41)" fill="#fff" font-size="23" font-family="Artifex CF" font-weight="700"><tspan x="0" y="0">GLAD</tspan></text>
+    <g id="Group_1356" data-name="Group 1356" transform="translate(132 301.484)">
+      <path id="Subtraction_5" data-name="Subtraction 5" d="M16.005,32.01a16.131,16.131,0,0,1-3.229-.326A16,16,0,0,1,.325,19.231a16.161,16.161,0,0,1,0-6.451A16,16,0,0,1,12.779.325a16.161,16.161,0,0,1,6.451,0A16,16,0,0,1,31.685,12.779a16.16,16.16,0,0,1,0,6.451A16,16,0,0,1,19.23,31.685,16.123,16.123,0,0,1,16.005,32.01Zm0-31.181A15.176,15.176,0,1,0,31.182,16.005,15.194,15.194,0,0,0,16.005.829Z" transform="translate(0 0)" fill="#f6b51d"/>
+      <g id="Group_1238" data-name="Group 1238" transform="matrix(0.999, 0.035, -0.035, 0.999, 8.033, 7.238)">
+        <path id="Path_1665" data-name="Path 1665" d="M7.016,0,0,6.988" transform="translate(0 0.724)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+        <path id="Path_1666" data-name="Path 1666" d="M7.283,0,0,6.944" transform="translate(9.274 9.761)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+        <path id="Path_1663" data-name="Path 1663" d="M12,0,0,12.245" transform="translate(0.158 0)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+        <path id="Path_1664" data-name="Path 1664" d="M10.964,0,0,11.015" transform="translate(5.324 5.47)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+        <line id="Line_3" data-name="Line 3" x1="16.261" y2="16.695" transform="translate(0.245 0.249)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+      </g>
+    </g>
+    <text id="Grow_Learn_Adapt_Develop" data-name="Grow  Learn  Adapt  Develop" transform="translate(177.2 330.165)" fill="#fff" font-size="3" font-family="Jost" font-weight="700" letter-spacing="0.131em"><tspan x="0" y="0" xml:space="preserve">GROW  LEARN  ADAPT  DEVELOP</tspan></text>
+  </g>
+</svg>

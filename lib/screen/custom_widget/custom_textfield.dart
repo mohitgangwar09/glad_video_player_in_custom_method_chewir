@@ -33,6 +33,8 @@ class CustomTextField extends StatelessWidget {
   final bool visibleNumber;
   final double? width;
   final int? borderColor;
+  final Color? underLineBorderColor;
+  final Color? imageColors;
   final int? backgroundColor;
   final List<TextInputFormatter>? inputFormatters;
   final TextStyle? hintStyle;
@@ -44,14 +46,15 @@ class CustomTextField extends StatelessWidget {
     this.visibleNumber=false,
     this.onChanged,
     this.length,
+    this.imageColor = Colors.white,
     this.style,
+    this.underLineBorderColor = Colors.white,
     this.decoration,
     this.borderColor= 0xffD9D9D9,
     this.backgroundColor= 0xffFFFFFF,
     this.onEditingComplete,
     this.focusNode,
     this.onTap,
-    this.imageColor,
     this.focusTag,
     this.status,
     this.imageWidth,
@@ -61,6 +64,7 @@ class CustomTextField extends StatelessWidget {
     this.showEdit=false,
     this.withoutBorder=false,
     this.image,
+    this.imageColors = Colors.white,
     this.enabled,
     this.maxLine=2,
     this.minLine=1,
@@ -74,33 +78,56 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return withoutBorder?
-    TextField(
-      focusNode: focusNode,
-      controller: controller,
-      autofocus: false,
-      onTap: onTap,
-      enabled: enabled,
-      maxLines: maxLine,
-      minLines: minLine,
-      obscureText: obscureText!,
-      keyboardType: inputType,
-      style: GoogleFonts.dmSans(
-          textStyle: style
-      ),
-      onEditingComplete: onEditingComplete,
-      decoration: InputDecoration(
-        hintText: hint,
-        contentPadding: 10.paddingVertical(),
-        labelText: hint,
-        hintStyle: GoogleFonts.dmSans(
-            textStyle: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 14
+    SizedBox(
+      height: 50,
+      child: Stack(
+        children: [
+
+          TextField(
+            focusNode: focusNode,
+            controller: controller,
+            autofocus: false,
+            onTap: onTap,
+            enabled: enabled,
+            maxLines: maxLine,
+            minLines: minLine,
+            cursorColor: Colors.grey,
+            obscureText: obscureText!,
+            keyboardType: inputType,
+            style: GoogleFonts.figtree(
+                textStyle: style
             ),
-        ),
-        // border: InputBorder.none,
+
+            onEditingComplete: onEditingComplete,
+            decoration: InputDecoration(
+              // hintText: hint,
+              contentPadding: 10.paddingVertical(),
+              labelText: hint,
+              labelStyle: style,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: underLineBorderColor!),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: underLineBorderColor!),
+              ),
+              hintStyle: GoogleFonts.figtree(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14
+                  ),
+              ),
+              border: InputBorder.none,
+            ),
+            onChanged: onChanged,
+          ),
+
+          if(image!=null)
+            Align(alignment: Alignment.centerRight,
+                child: SvgPicture.asset(image!,colorFilter: ColorFilter.mode(imageColors!, BlendMode.srcIn),
+                  width: imageWidth,height: imageHeight,))
+
+        ],
       ),
-      onChanged: onChanged,
     ):
     Column(
       mainAxisAlignment: MainAxisAlignment.center,

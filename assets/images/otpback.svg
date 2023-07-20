@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="428" height="147.001" viewBox="0 0 428 147.001">
+  <g id="Group_12860" data-name="Group 12860" transform="translate(0 -779)">
+    <path id="Subtraction_6" data-name="Subtraction 6" d="M341.033,204H228V58.932a104.243,104.243,0,0,1,40.741.157A102.565,102.565,0,0,1,305.579,74.56,103.15,103.15,0,0,1,342.9,119.8a102.16,102.16,0,0,1,6,19.3,103.582,103.582,0,0,1-.494,43.722A102.116,102.116,0,0,1,341.033,204Z" transform="translate(-228 722)" fill="#6a0030"/>
+    <g id="Group_1366" data-name="Group 1366" transform="matrix(0.999, 0.035, -0.035, 0.999, 341.072, 828)" opacity="0.46">
+      <path id="Path_1665" data-name="Path 1665" d="M16.642,0,0,16.575" transform="translate(0 1.717)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1666" data-name="Path 1666" d="M17.277,0,0,16.472" transform="translate(21.998 23.155)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1663" data-name="Path 1663" d="M28.456,0,0,29.047" transform="translate(0.376 0)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <path id="Path_1664" data-name="Path 1664" d="M26.007,0,0,26.128" transform="translate(12.628 12.976)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+      <line id="Line_3" data-name="Line 3" x1="38.572" y2="39.601" transform="translate(0.332 0.357)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-width="1.5"/>
+    </g>
+    <path id="Subtraction_12" data-name="Subtraction 12" d="M-1566-1078h-41.529a39.642,39.642,0,0,1,3.263-15.819,40.472,40.472,0,0,1,8.9-12.918,41.453,41.453,0,0,1,13.2-8.71,42.049,42.049,0,0,1,16.165-3.194V-1078Z" transform="translate(1994 2004)" fill="#f6b51d"/>
+  </g>
+</svg>

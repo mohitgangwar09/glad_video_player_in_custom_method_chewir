@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glad/data/model/auth_models/introslider_model.dart';
 import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -164,7 +165,7 @@ class _IntroSliderState extends State<IntroSlider> {
                     image: Images.sliderNext,
                     onTap: () {
                       if (controller.page!.toInt() == 1) {
-                        const UploadProfilePicture().navigate(isRemove: true);
+                        const GuestLandingPage().navigate(isRemove: true);
                       }
                       controller.animateToPage(
                         controller.page!.toInt() + 1,

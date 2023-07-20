@@ -5,6 +5,7 @@ import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -45,7 +46,11 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
                       Row(
                         children: [
                           10.horizontalSpace(),
-                          SvgPicture.asset(Images.drawer),
+                          InkWell(
+                            onTap: () {
+                              const GuestSideDrawer().navigate();
+                            },
+                              child: SvgPicture.asset(Images.drawer)),
                           10.horizontalSpace(),
                           RichText(
                               text: TextSpan(children: [
