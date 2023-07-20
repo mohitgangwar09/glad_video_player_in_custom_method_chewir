@@ -12,37 +12,30 @@ class GuestSideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     return Container(
       color: const Color(0xFF6A0030),
       child: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              menuItem(),
-              navigationItem(),
-              const SizedBox(
-                height: 50,
-              ),
-              Column(
-                children: [
-                  helpLineItem(),
-                ],
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              socialMediaItem(),
-            ],
+
+          Padding(
+            padding: EdgeInsets.fromLTRB(0,screenHeight()*0.085,0,0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                menuItem(),
+                const SizedBox(
+                  height: 25,
+                ),
+                navigationItem(),
+              ],
+            ),
           ),
-          Positioned(
-              right: 0,
-              top: 135,
-              // bottom:0,
-              // left: 0,
-              child: SvgPicture.asset(Images.drawerInside)),
+
+          sideBackground(),
+
+          helpLineItem(),
+
         ],
       ),
     );
@@ -60,19 +53,19 @@ class GuestSideDrawer extends StatelessWidget {
             text: 'News & Events',
           ),
           const SizedBox(
-            height: 25,
+            height: 30,
           ),
           navigationBarItem(
               image: Images.training,
               onTap: () {},
               text: 'Training'),
           const SizedBox(
-            height: 25,
+            height: 30,
           ),
           navigationBarItem(
               image: Images.faq, onTap: () {}, text: "Faq's"),
           const SizedBox(
-            height: 25,
+            height:30,
           ),
           navigationBarItem(
             image: Images.aboutus,
@@ -80,7 +73,7 @@ class GuestSideDrawer extends StatelessWidget {
             text: 'About us',
           ),
           const SizedBox(
-            height: 25,
+            height: 30,
           ),
           navigationBarItem(
               image: Images.privacy,
@@ -91,43 +84,54 @@ class GuestSideDrawer extends StatelessWidget {
     );
   }
 
-
   Widget helpLineItem(){
-    return Container(
-      height: 110,
-      decoration: const BoxDecoration(color: ColorResources.maroon1),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SvgPicture.asset(
-              Images.call,
-              width: 45,
-              height: 45,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'GLAD Helpline Number',
-                  style: figtreeMedium.copyWith(
-                      fontSize: 14, color: Colors.white),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '+234567890',
-                  style: figtreeMedium.copyWith(
-                      fontSize: 14, color: Colors.white),
-                )
-              ],
-            ),
-            SvgPicture.asset(
-              Images.whatsapp,
-              width: 40,
-              height: 40,
-            ),
-          ]),
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Column(
+        children: [
+          Container(
+            height: 110,
+            decoration: const BoxDecoration(color: ColorResources.maroon1),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SvgPicture.asset(
+                    Images.call,
+                    width: 45,
+                    height: 45,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'GLAD Helpline Number',
+                        style: figtreeMedium.copyWith(
+                            fontSize: 14, color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        '+234567890',
+                        style: figtreeMedium.copyWith(
+                            fontSize: 14, color: Colors.white),
+                      )
+                    ],
+                  ),
+                  SvgPicture.asset(
+                    Images.whatsapp,
+                    width: 40,
+                    height: 40,
+                  ),
+                ]),
+          ),
+          const SizedBox(height: 30,),
+          socialMediaItem(),
+          const SizedBox(height: 30,)
+        ],
+      ),
     );
   }
 
@@ -178,7 +182,7 @@ class GuestSideDrawer extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 30,
+          height: 50,
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -189,49 +193,53 @@ class GuestSideDrawer extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 50,
+          height: 40,
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 40, 0),
-          child: Container(
-            height: 45,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                    width: 1, color: const Color(0xffC788A5))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(Images.profile),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Login',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 18, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  const CircleAvatar(
-                    radius: 15,
-                    backgroundColor: ColorResources.maroon1,
-                    child: Icon(Icons.arrow_forward, size: 15),
-                  )
-                ],
-              ),
+        Container(
+          margin: const EdgeInsets.fromLTRB(20, 0,40, 0),
+          height: 45,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                  width: 1, color: const Color(0xffC788A5))),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset(Images.profile),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      'Login',
+                      style: figtreeRegular.copyWith(
+                          fontSize: 18, color: Colors.white),
+                    )
+                  ],
+                ),
+                const CircleAvatar(
+                  radius: 15,
+                  backgroundColor: ColorResources.maroon1,
+                  child: Icon(Icons.arrow_forward, size: 15),
+                )
+              ],
             ),
           ),
-        ),
-        const SizedBox(
-          height: 25,
         ),
       ],);
   }
 
+
+  Widget sideBackground(){
+    return  Positioned(
+        right: 0,
+        top: 135,
+        // bottom:0,
+        // left: 0,
+        child: SvgPicture.asset(Images.drawerInside));
+  }
 
 }
