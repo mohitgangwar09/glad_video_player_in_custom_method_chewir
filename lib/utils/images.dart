@@ -22,4 +22,20 @@ class Images {
   static const String loginBelowBack = 'assets/images/loginbelowback.svg';
   static const String otpBack1 = 'assets/images/otpback.svg';
   static const String otpBack2 = 'assets/images/otpback1.svg';
+  static const String drawer = 'assets/images/drawer.png';
+  static const String drawerInside = 'assets/images/drawerinside.svg';
+  static const String close = 'assets/images/close.svg';
+  static const String onboardingnew = 'assets/images/onboardingnew.svg';
+  static const String profile = 'assets/images/profile.svg';
+  static const String aboutus = 'assets/images/aboutus.svg';
+  static const String faq = 'assets/images/faq.svg';
+  static const String news = 'assets/images/news.svg';
+  static const String privacy = 'assets/images/privacy.svg';
+  static const String training = 'assets/images/training.svg';
+  static const String call = 'assets/images/call.svg';
+  static const String whatsapp = 'assets/images/whatsapp.svg';
+  static const String facebook = 'assets/images/facebook.svg';
+  static const String twitter = 'assets/images/twitter.svg';
+  static const String youtube = 'assets/images/youtube.svg';
+  static const String linkedin = 'assets/images/linkedin.svg';
 }

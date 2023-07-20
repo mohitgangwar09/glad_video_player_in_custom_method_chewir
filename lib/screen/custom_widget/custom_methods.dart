@@ -530,3 +530,23 @@ Widget customTextButton({required Function onTap,String? text,TextDecoration? de
           decoration: decoration
     ),));
 }
+
+Widget navigationBarItem({required String image, String? text,required Function onTap,}){
+  return InkWell(
+    onTap: onTap(),
+    child: Row(
+      children: [
+        SvgPicture.asset(image),
+        const SizedBox(
+          width: 20,
+        ),
+        Text(
+          text!,
+          style: figtreeRegular.copyWith(
+              fontSize: 18, color: Colors.white),
+        ),
+
+      ],
+    ),
+  );
+}
