@@ -51,15 +51,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return SafeArea(
       bottom: true,
       top: false,
+      maintainBottomViewPadding: false,
       child: Scaffold(
         backgroundColor: ColorResources.maroon,
         body: hideKeyboard(
           context,
           child: SingleChildScrollView(
             child: SizedBox(
-              height: screenHeight(),
               width: screenWidth(),
-              child: customBackground(
+              height: screenHeight()>750?screenHeight()-28:screenHeight(),
+              child: authBackgroundForgotOtp(
                 widget: mainView(),
               ),
             ),
@@ -194,7 +195,5 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
     );
   }
-
-
 
 }

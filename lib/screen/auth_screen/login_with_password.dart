@@ -13,54 +13,103 @@ class LoginWithPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: hideKeyboard(
-        context,
-        child: Stack(
-          children: [
-
-            Container(
-              margin: const EdgeInsets.only(bottom: 85,top: 100),
-              width: screenWidth(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  SvgPicture.asset(Images.loginLogo,width: 162,height: 46,),
-
-                  TextButton(onPressed: (){}, child: Text("Login with OTP",
-                    style: figtreeMedium.copyWith(
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                        fontSize: 16,
-                    ),)),
-
-                ],
+    return SafeArea(
+      bottom: true,
+      top: false,
+      child: Scaffold(
+        body: hideKeyboard(
+          context,
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: screenHeight(),
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  if(constraints.maxHeight<750){
+                    return smallDevice(context);
+                  }
+                  return largeDevice(context);
+                },
               ),
             ),
-
-            Align(
-                alignment: Alignment.topRight,child: SvgPicture.asset(Images.loginBack_1)),
-
-            Center(child: Padding(
-              padding: const EdgeInsets.only(top: 40.0,bottom: 10,left: 2.5,right: 2.5),
-              child: card(context),
-            )),
-
-            Positioned(bottom: 0,
-                child:SvgPicture.asset(Images.loginBack_2)),
-
-            Positioned(
-                bottom: 135,
-                right: 50,
-                child: SvgPicture.asset(Images.loginBelowBack,width: 35,height: 35,))
-
-          ],
+          ),
         ),
       ),
     );
   }
+}
+
+Widget smallDevice(BuildContext context){
+  return Stack(
+    children: [
+
+      Positioned(
+          top: screenHeight()*0.092,
+          left: 0,
+          right: 0,
+          child: SvgPicture.asset(Images.loginLogo,width: 162,height: 46,)),
+
+      Positioned(
+        bottom: screenHeight()*0.04,
+        left: 0,
+        right: 0,
+        child: loginWithOtp(),
+      ),
+
+      Align(
+          alignment: Alignment.topRight,child: SvgPicture.asset(Images.loginBack_1,width: screenWidth()*0.5,height: screenHeight()*0.35,)),
+
+      Center(child: Padding(
+        padding: const EdgeInsets.only(top: 50.0,bottom: 0),
+        child: card(context),
+      )),
+
+      Positioned(bottom: 0,
+          child:SvgPicture.asset(Images.loginBack_2,width: screenWidth()*0,height: screenHeight()*0.132,)),
+
+      Positioned(
+          bottom: screenWidth()*0.17,
+          right: screenWidth()*0.09,
+          child: SvgPicture.asset(Images.loginBelowBack,width: 35,height: 35,))
+
+    ],
+  );
+}
+
+Widget largeDevice(BuildContext context){
+  return Stack(
+    children: [
+
+      Positioned(
+          top: screenHeight()*0.12,
+          left: 0,
+          right: 0,
+          child: SvgPicture.asset(Images.loginLogo,width: 162,height: 46,)),
+
+      Positioned(
+        bottom: screenHeight()*0.068,
+        left: 0,
+        right: 0,
+        child: loginWithOtp(),
+      ),
+
+      Align(
+          alignment: Alignment.topRight,child: SvgPicture.asset(Images.loginBack_1,width: screenWidth()*0.35,height: screenHeight()*0.35,)),
+
+      Center(child: Padding(
+        padding: const EdgeInsets.only(top: 40.0,bottom: 10),
+        child: card(context),
+      )),
+
+      Positioned(bottom: 0,
+          child:SvgPicture.asset(Images.loginBack_2,width: screenWidth()*0,height: screenHeight()*0.15,)),
+
+      Positioned(
+          bottom: screenWidth()*0.3,
+          right: screenHeight()*0.055,
+          child: SvgPicture.asset(Images.loginBelowBack,width: 35,height: 35,))
+
+    ],
+  );
 }
 
 Widget card(BuildContext context){
@@ -68,7 +117,7 @@ Widget card(BuildContext context){
     children: [
 
       SizedBox(
-          height: 512,
+          height: screenWidth()*1.15,
           child: loginButton()),
 
       Positioned(
@@ -100,7 +149,7 @@ Widget card(BuildContext context){
               ),
 
 
-               Padding(
+              Padding(
                 padding: const EdgeInsets.fromLTRB(40,21,40,0),
                 child: CustomTextField(hint: 'Password',text: '',
                   image: Images.password,withoutBorder: true,
@@ -110,7 +159,8 @@ Widget card(BuildContext context){
                 ),)
               ),
 
-             Padding(
+
+              Padding(
                padding: const EdgeInsets.only(top: 45.0),
                child: TextButton(onPressed: (){
                  const ForgotPassword().navigate();
@@ -135,12 +185,14 @@ Widget loginButton(){
   return Center(
     child: Stack(
       children: [
-        Padding(
-            padding: const EdgeInsets.only(left: 14.0,right: 14),
+
+        SizedBox(
+            height: screenHeight() * 0.65,
+            width: screenWidth(),
             child: SvgPicture.asset(Images.cardLogin)),
 
         Positioned(
-            bottom: 30,
+            bottom: 0,
             left: 0,
             right: 0,
             child: Row(
@@ -160,4 +212,13 @@ Widget loginButton(){
       ],
     ),
   );
+}
+
+Widget loginWithOtp(){
+  return TextButton(onPressed: (){}, child: Text("Login with OTP",
+    style: figtreeMedium.copyWith(
+      color: Colors.black,
+      decoration: TextDecoration.underline,
+      fontSize: 16,
+    ),));
 }

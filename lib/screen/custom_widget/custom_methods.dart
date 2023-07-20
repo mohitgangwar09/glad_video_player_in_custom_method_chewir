@@ -489,7 +489,7 @@ Widget hideKeyboard(BuildContext context,{Widget? child}){
 }
 
 
-Widget customBackground({Widget? widget}){
+Widget authBackgroundForgotOtp({Widget? widget}){
   return Stack(
     children: [
 
@@ -500,8 +500,7 @@ Widget customBackground({Widget? widget}){
       widget!,
 
       Positioned(
-          bottom: 0,right: 0,child: SvgPicture.asset(Images.otpBack1,)),
-
+          bottom: 0,right: 0,child: SvgPicture.asset(Images.otpBack1,))
 
     ],
   );
