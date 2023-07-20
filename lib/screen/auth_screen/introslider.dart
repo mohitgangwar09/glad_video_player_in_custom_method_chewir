@@ -111,8 +111,7 @@ class _IntroSliderState extends State<IntroSlider> {
                         height: 9,
                         width: 9,
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white),
+                            shape: BoxShape.circle, color: Colors.white),
                       ),
                       6.horizontalSpace(),
                     ],
@@ -132,8 +131,7 @@ class _IntroSliderState extends State<IntroSlider> {
                         height: 9,
                         width: 9,
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white),
+                            shape: BoxShape.circle, color: Colors.white),
                       ),
                     ],
                   ),
@@ -151,21 +149,21 @@ class _IntroSliderState extends State<IntroSlider> {
                 children: [
                   currentPage == 0
                       ? Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                        child: Text(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
                             'SKIP',
                             style: figtreeRegular.copyWith(
                                 fontSize: 18,
                                 color: Colors.white,
                                 decoration: TextDecoration.underline),
                           ),
-                      )
+                        )
                       : const Text(''),
                   svgIconWithOnTap(
                     image: Images.sliderNext,
                     onTap: () {
                       if (controller.page!.toInt() == 1) {
-                        const GuestLandingPage().navigate(isRemove: true);
+                        GuestLandingPage().navigate(isRemove: true);
                       }
                       controller.animateToPage(
                         controller.page!.toInt() + 1,

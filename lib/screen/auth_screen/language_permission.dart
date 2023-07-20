@@ -28,15 +28,14 @@ class LanguagePermission extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 16.0,bottom: 0),
+            padding: const EdgeInsets.only(right: 16.0, bottom: 0),
             child: Stack(
               children: [
-
                 Image.asset(Images.languageBg),
-
                 Positioned(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0,right: 14, top: 60),
+                    padding:
+                        const EdgeInsets.only(left: 30.0, right: 14, top: 60),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -51,8 +50,7 @@ class LanguagePermission extends StatelessWidget {
                         40.verticalSpace(),
                         customGrid(context,
                             crossAxisSpacing: 20,
-                            mainAxisExtent: 155,
-                            child: (int index) {
+                            mainAxisExtent: 155, child: (int index) {
                           return InkWell(
                             onTap: () async {
                               await requestLocationPermission();
@@ -65,10 +63,12 @@ class LanguagePermission extends StatelessWidget {
                               padding: const EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    AppConstants.languages.values.toList()[index],
+                                    AppConstants.languages.values
+                                        .toList()[index],
                                     style:
                                         figtreeRegular.copyWith(fontSize: 20),
                                   ),
@@ -79,7 +79,6 @@ class LanguagePermission extends StatelessWidget {
                                         fontSize: 17,
                                         color: ColorResources.pinkReg),
                                   ),
-
                                   0.verticalSpace(),
                                 ],
                               ),
@@ -93,7 +92,6 @@ class LanguagePermission extends StatelessWidget {
               ],
             ),
           ),
-
           InkWell(
             onTap: () async {
               await requestLocationPermission();

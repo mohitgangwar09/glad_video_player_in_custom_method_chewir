@@ -98,7 +98,7 @@ class UploadProfilePicture extends StatelessWidget {
                     ),
                     100.verticalSpace(),
                     customButton('Submit', onTap: () {
-                      const GuestLandingPage().navigate(isRemove: true);
+                      GuestLandingPage().navigate(isRemove: true);
                     },
                         width: double.infinity,
                         style: figtreeMedium.copyWith(
@@ -107,7 +107,7 @@ class UploadProfilePicture extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: InkWell(
                         onTap: () {
-                          const GuestLandingPage().navigate(isRemove: true);
+                          GuestLandingPage().navigate(isRemove: true);
                         },
                         child: Text(
                           'Skip',
