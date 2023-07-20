@@ -469,11 +469,31 @@ cancelButton({required Function onTap, String text = 'Cancel'}) {
   );
 }
 
-appBar({int color = 0xffFFF3F4}){
+ appBar({int color = 0xffFFF3F4}){
   return PreferredSize(
       preferredSize: const Size(0,0),
       child: AppBar(
         elevation: 0,
         backgroundColor: Color(color),
       ));
+}
+
+Widget navigationBarItem({required String image, String? text,required Function onTap,}){
+  return InkWell(
+    onTap: onTap(),
+    child: Row(
+      children: [
+        SvgPicture.asset(image),
+        const SizedBox(
+          width: 20,
+        ),
+        Text(
+          text!,
+          style: figtreeRegular.copyWith(
+              fontSize: 18, color: Colors.white),
+        ),
+
+      ],
+    ),
+  );
 }

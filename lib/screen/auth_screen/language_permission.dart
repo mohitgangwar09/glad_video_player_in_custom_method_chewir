@@ -14,7 +14,7 @@ class LanguagePermission extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
+      appBar: appBar(color: 0xffFFF3F4),
       backgroundColor: ColorResources.pinkMain,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

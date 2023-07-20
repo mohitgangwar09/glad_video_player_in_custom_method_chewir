@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/extra_screen/navigation.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -37,7 +38,9 @@ class UploadProfilePicture extends StatelessWidget {
                     ),
                     svgIconWithOnTap(image: Images.uploadPP, onTap: () {}),
                     customButton('Submit',
-                        onTap: () {},
+                        onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (builder)=>Navigation()));
+                        },
                         width: double.infinity,
                         height: 60,
                         radius: 88,

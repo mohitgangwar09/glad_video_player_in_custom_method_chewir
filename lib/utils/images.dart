@@ -16,4 +16,20 @@ class Images {
   static const String main = 'assets/images/loginback_2.svg';
   static const String cardLogin = 'assets/images/cardlogin.svg';
   static const String loginButton = 'assets/images/login_button.png';
+  static const String drawer = 'assets/images/drawer.png';
+  static const String drawerInside = 'assets/images/drawerinside.svg';
+  static const String close = 'assets/images/close.svg';
+  static const String onboardingnew = 'assets/images/onboardingnew.svg';
+  static const String profile = 'assets/images/profile.svg';
+  static const String aboutus = 'assets/images/aboutus.svg';
+  static const String faq = 'assets/images/faq.svg';
+  static const String news = 'assets/images/news.svg';
+  static const String privacy = 'assets/images/privacy.svg';
+  static const String training = 'assets/images/training.svg';
+  static const String call = 'assets/images/call.svg';
+  static const String whatsapp = 'assets/images/whatsapp.svg';
+  static const String facebook = 'assets/images/facebook.svg';
+  static const String twitter = 'assets/images/twitter.svg';
+  static const String youtube = 'assets/images/youtube.svg';
+  static const String linkedin = 'assets/images/linkedin.svg';
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ColorResources {
   static const white = Colors.white;
   static const black = Colors.black;
-  static const primary = Color(0xff18444B);
+  static const primary = Color(0xFFFC5E60);
   static const blue = Color(0xff206698);
   static const grey = Color(0xff747474);
   static const bottomNavigationColor = Color(0xff70757D);
@@ -19,4 +19,5 @@ class ColorResources {
   static const Color purple = Color(0xFF6A0030);
   static const Color mustard = Color(0xFFF6B51D);
   static const Color maroon = Color(0xFF6A0030);
+  static const Color maroon1 = Color(0xFF85003C);
 }
