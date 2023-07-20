@@ -5,6 +5,7 @@ import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -27,6 +28,7 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
     return SafeArea(
       top: false,
       child: Scaffold(
+        drawer: const GuestSideDrawer(),
         body: Stack(
           children: [
             Padding(
@@ -46,25 +48,23 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
                       Row(
                         children: [
                           10.horizontalSpace(),
-                          InkWell(
-                            onTap: () {
-                              const GuestSideDrawer().navigate();
-                            },
-                              child: SvgPicture.asset(Images.drawer)),
+                          openDrawer(child: SvgPicture.asset(Images.drawer)),
                           10.horizontalSpace(),
-                          RichText(
-                              text: TextSpan(children: [
-                            TextSpan(
-                                text: 'Welcome to ',
-                                style: figtreeRegular.copyWith(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 22,
-                                    color: Colors.black)),
-                            TextSpan(
-                                text: 'GLAD',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 22, color: Colors.black))
-                          ]))
+                          openDrawer(
+                            child: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                  text: 'Welcome to ',
+                                  style: figtreeRegular.copyWith(
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 22,
+                                      color: Colors.black)),
+                              TextSpan(
+                                  text: 'GLAD',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 22, color: Colors.black))
+                            ])),
+                          )
                         ],
                       ),
                       Row(
