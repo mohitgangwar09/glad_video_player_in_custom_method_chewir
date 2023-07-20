@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="52" height="52" viewBox="0 0 52 52">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff0073"/>
+      <stop offset="1" stop-color="#cf005e"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_12688" data-name="Group 12688" transform="translate(-315 -42)">
+    <g id="Group_12499" data-name="Group 12499" transform="translate(2)">
+      <circle id="Ellipse_1627" data-name="Ellipse 1627" cx="26" cy="26" r="26" transform="translate(313 42)" fill="#d60061" opacity="0.17"/>
+      <circle id="Ellipse_1589" data-name="Ellipse 1589" cx="18" cy="18" r="18" transform="translate(321 50)" fill="url(#linear-gradient)"/>
+      <g id="Group_12498" data-name="Group 12498" transform="translate(-4.102 -261.58) rotate(-13)">
+        <path id="Icon_material-call" data-name="Icon material-call" d="M15.509,10.464a11.6,11.6,0,0,1-5.045,5.045L8.78,13.825A.761.761,0,0,0,8,13.641a8.733,8.733,0,0,1-2.733.436.768.768,0,0,0-.766.766v2.672a.768.768,0,0,0,.766.766A13.014,13.014,0,0,0,18.28,5.266a.768.768,0,0,0-.766-.766h-2.68a.768.768,0,0,0-.766.766A8.7,8.7,0,0,1,13.633,8a.768.768,0,0,0,.191.781Z" transform="translate(248.536 386.536)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

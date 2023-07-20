@@ -16,4 +16,18 @@ class Images {
   static const String main = 'assets/images/loginback_2.svg';
   static const String cardLogin = 'assets/images/cardlogin.svg';
   static const String loginButton = 'assets/images/login_button.png';
+  static const String drawer = 'assets/images/drawer.svg';
+  static const String call = 'assets/images/call.svg';
+  static const String person = 'assets/images/person.svg';
+  static const String milkPrice = 'assets/images/milk_price.png';
+  static const String weather = 'assets/images/weather.png';
+  static const String livestock = 'assets/images/livestock.png';
+  static const String training = 'assets/images/training.png';
+  static const String community = 'assets/images/community.png';
+  static const String sampleUser = 'assets/images/sample_user.png';
+  static const String callPrimary = 'assets/images/call_primary.svg';
+  static const String whatsapp = 'assets/images/whatsapp.svg';
+  static const String redirectLocation = 'assets/images/redirect_location.svg';
+  static const String sampleLivestock = 'assets/images/livestock_sample.png';
+  static const String chatBubble = 'assets/images/chat_bubble.svg';
 }

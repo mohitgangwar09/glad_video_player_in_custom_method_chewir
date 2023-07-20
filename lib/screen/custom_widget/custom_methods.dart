@@ -13,7 +13,7 @@ Widget customButton(String text,
     bool enableLast = false,
     required Function onTap,
     double elevation = 2,
-    int fontColor = 0xffFFFFFF,
+    int fontColor = 0xff000000,
     int color = 0xff6A0030,
     double radius = 30,
     double height = 50,
@@ -180,8 +180,8 @@ Widget customGrid<T>(BuildContext context,
     crossAxisCount = 2,
     double childAspectRatio = 1.0,
     double? mainAxisExtent,
-      double  crossAxisSpacing= 5.0,
-      double  mainAxisSpacing= 2.0,
+    double crossAxisSpacing = 5.0,
+    double mainAxisSpacing = 2.0,
     EdgeInsets padding = const EdgeInsets.all(0.0),
     Axis axis = Axis.vertical}) {
   return GridView.builder(
@@ -264,9 +264,14 @@ void showPicker(
   required Function galleryFunction,
 }) {
   showModalBottomSheet(
+    backgroundColor: Colors.transparent,
     context: context,
     builder: (BuildContext bc) {
-      return SafeArea(
+      return Container(
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         child: Wrap(
           children: <Widget>[
             ListTile(
@@ -469,9 +474,9 @@ cancelButton({required Function onTap, String text = 'Cancel'}) {
   );
 }
 
-appBar({int color = 0xffFFF3F4}){
+appBar({int color = 0xffFFF3F4}) {
   return PreferredSize(
-      preferredSize: const Size(0,0),
+      preferredSize: const Size(0, 0),
       child: AppBar(
         elevation: 0,
         backgroundColor: Color(color),

@@ -12,8 +12,8 @@ Future<void> main() async {
 
   runApp(MultiBlocProvider(
     providers: [BlocProvider(create: (context) => di.sl<AuthCubit>())],
-    child: GetMaterialApp(
-        theme: light, debugShowCheckedModeBanner: false, home: const MyApp()),
+    child: const GetMaterialApp(
+        debugShowCheckedModeBanner: false, home: MyApp()),
   ));
 }
 
