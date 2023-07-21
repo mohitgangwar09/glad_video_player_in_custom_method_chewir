@@ -94,7 +94,7 @@ class LanguagePermission extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              await requestLocationPermission();
+              // await requestLocationPermission();
               const IntroSlider().navigate(isRemove: true);
             },
             child: Row(

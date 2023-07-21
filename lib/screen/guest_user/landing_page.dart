@@ -5,6 +5,7 @@ import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -18,6 +19,7 @@ class GuestLandingPage extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Scaffold(
+        drawer: const GuestSideDrawer(),
         body: Stack(
           children: [
             Padding(
@@ -37,11 +39,7 @@ class GuestLandingPage extends StatelessWidget {
                       Row(
                         children: [
                           10.horizontalSpace(),
-                          InkWell(
-                              onTap: () {
-                                const GuestSideDrawer().navigate();
-                              },
-                              child: SvgPicture.asset(Images.drawer)),
+                          openDrawer(child: SvgPicture.asset(Images.drawer)),
                           10.horizontalSpace(),
                           RichText(
                               text: TextSpan(children: [
@@ -55,7 +53,7 @@ class GuestLandingPage extends StatelessWidget {
                                 text: 'GLAD',
                                 style: figtreeMedium.copyWith(
                                     fontSize: 22, color: Colors.black))
-                          ]))
+                          ])),
                         ],
                       ),
                       Row(

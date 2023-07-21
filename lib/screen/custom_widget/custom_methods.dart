@@ -555,3 +555,27 @@ Widget navigationBarItem({required String image, String? text,required Function 
     ),
   );
 }
+
+Widget openDrawer({required Widget child}){
+
+  return Builder(builder: (context){
+    return InkWell(
+      onTap: (){
+        Scaffold.of(context).openDrawer();
+      },
+      child: child,
+    );
+  });
+}
+
+Widget closeDrawer({required Widget child}){
+
+  return Builder(builder: (context){
+    return InkWell(
+      onTap: (){
+        pressBack();
+      },
+      child: child,
+    );
+  });
+}

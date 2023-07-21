@@ -13,7 +13,7 @@ class GuestSideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(body: Container(
+    return Container(
       color: const Color(0xFF6A0030),
       child: Stack(
         children: [
@@ -39,7 +39,7 @@ class GuestSideDrawer extends StatelessWidget {
 
         ],
       ),
-    ),);
+    );
   }
 
 
@@ -166,8 +166,7 @@ class GuestSideDrawer extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: (){},
+              closeDrawer(
                 child: SvgPicture.asset(
                   Images.close,
                   width: 30,
