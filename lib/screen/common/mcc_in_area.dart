@@ -50,9 +50,9 @@ class _MCCInAreaState extends State<MCCInArea> {
         ),
         Stack(
           children: [
-            GMap(
-              lat: position!.latitude,
-              lng: position!.longitude,
+            const GMap(
+              lat: 28.4986,
+              lng: 77.3999,
               height: 350,
             ),
             Positioned(

@@ -6,6 +6,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dashboard/bottom_navigation_bar.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -19,7 +20,6 @@ class GuestLandingPage extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Scaffold(
-        drawer: const GuestSideDrawer(),
         body: Stack(
           children: [
             Padding(
@@ -33,39 +33,9 @@ class GuestLandingPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 40.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          10.horizontalSpace(),
-                          openDrawer(child: SvgPicture.asset(Images.drawer)),
-                          10.horizontalSpace(),
-                          RichText(
-                              text: TextSpan(children: [
-                            TextSpan(
-                                text: 'Welcome to ',
-                                style: figtreeRegular.copyWith(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 22,
-                                    color: Colors.black)),
-                            TextSpan(
-                                text: 'GLAD',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 22, color: Colors.black))
-                          ])),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SvgPicture.asset(Images.call),
-                          10.horizontalSpace(),
-                          SvgPicture.asset(Images.person),
-                          15.horizontalSpace(),
-                        ],
-                      ),
-                    ],
-                  ),
+
+                  guestAppBar(),
+
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
