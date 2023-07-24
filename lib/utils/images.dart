@@ -64,4 +64,8 @@ class Images {
   static const String selectedNewsBottom = 'assets/images/selectednews.svg';
   static const String selectedTrainingBottom = 'assets/images/selectedtraining.svg';
 
+  //mcc Bottom
+  static const String selectedApplication = 'assets/images/selectedapplication.svg';
+  static const String application = 'assets/images/application.svg';
+
 }

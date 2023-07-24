@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dashboard/bottom_navigation_bar.dart';
+import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -99,7 +99,7 @@ class UploadProfilePicture extends StatelessWidget {
                     ),
                     100.verticalSpace(),
                     customButton('Submit', onTap: () {
-                      const BottomNavigationScreen().navigate(isRemove: true);
+                      const BottomNavigationDDEScreen().navigate(isRemove: true);
                     },
                         width: double.infinity,
                         style: figtreeMedium.copyWith(
@@ -108,7 +108,7 @@ class UploadProfilePicture extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: InkWell(
                         onTap: () {
-                          const BottomNavigationScreen().navigate(isRemove: true);
+                          const BottomNavigationDDEScreen().navigate(isRemove: true);
                         },
                         child: Text(
                           'Skip',

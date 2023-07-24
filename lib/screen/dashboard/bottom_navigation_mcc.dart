@@ -9,16 +9,14 @@ import 'package:glad/utils/extension.dart';
 import '../../utils/color_resources.dart';
 import '../../utils/images.dart';
 
-final GlobalKey<ScaffoldState> landingKey = GlobalKey();
-
-class BottomNavigationScreen extends StatefulWidget {
-  const BottomNavigationScreen({Key? key}) : super(key: key);
+class BottomNavigationMCCScreen extends StatefulWidget {
+  const BottomNavigationMCCScreen({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavigationScreen> createState() => _BottomNavigationScreenState();
+  State<BottomNavigationMCCScreen> createState() => _BottomNavigationMCCScreenState();
 }
 
-class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
+class _BottomNavigationMCCScreenState extends State<BottomNavigationMCCScreen> {
 
   @override
   void initState() {
@@ -46,18 +44,17 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     ];
 
     return SafeArea(
-      top: false,
-      bottom: true,
-      child: BlocBuilder<DashboardCubit, DashboardState>(
-        builder: (BuildContext context, state) {
-          return Scaffold(
-            key: landingKey,
-            drawer: const GuestSideDrawer(),
-            body: widgetOptions.elementAt(state.selectedIndex),
-            bottomNavigationBar: bottomNavigationBar(provider.state,context)
-          );
-        },
-      )
+        top: false,
+        bottom: true,
+        child: BlocBuilder<DashboardCubit, DashboardState>(
+          builder: (BuildContext context, state) {
+            return Scaffold(
+                drawer: const GuestSideDrawer(),
+                body: widgetOptions.elementAt(state.selectedIndex),
+                bottomNavigationBar: bottomNavigationBar(provider.state,context)
+            );
+          },
+        )
     );
   }
 
@@ -89,7 +86,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
               bottomNavigationItem('Home',Images.home,context,state.selectedIndex,0,Images.selectedHome),
               10.horizontalSpace(),
-              bottomNavigationItem('Livestock',Images.liveStock,context,state.selectedIndex,1,Images.selectedLiveStock),
+              bottomNavigationItem('Application',Images.application,context,state.selectedIndex,1,Images.selectedApplication),
               10.horizontalSpace(),
               bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,2,Images.selectedCommunityBottom),
               10.horizontalSpace(),
