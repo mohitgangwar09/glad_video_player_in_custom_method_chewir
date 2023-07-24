@@ -661,3 +661,13 @@ Widget guestAppBar(){
     ],
   );
 }
+
+Widget landingBackground(){
+  return  Padding(
+    padding: const EdgeInsets.only(left: 50.0),
+    child: SvgPicture.asset(
+      Images.ppBg,
+      alignment: Alignment.topRight,
+    ),
+  );
+}

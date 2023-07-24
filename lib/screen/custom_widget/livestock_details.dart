@@ -14,7 +14,12 @@ class LivestockDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16), color: Colors.white),
+          borderRadius: BorderRadius.circular(16), color: Colors.white,
+      /*boxShadow: const [BoxShadow(
+          offset: Offset(3, 3),
+          color: Colors.white,
+          blurRadius: 0.0),
+      ]*/),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,7 +109,7 @@ class LivestockDetails extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
 
         ],
       ),

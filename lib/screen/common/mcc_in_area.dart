@@ -23,12 +23,12 @@ class MCCInArea extends StatefulWidget {
 }
 
 class _MCCInAreaState extends State<MCCInArea> {
-  Position? position;
+  // Position? position;
   @override
   void initState() {
-    Geolocator.getCurrentPosition().then((value) => setState(() {
+    /*Geolocator.getCurrentPosition().then((value) => setState(() {
           position = value;
-        }));
+        }));*/
     super.initState();
   }
 
