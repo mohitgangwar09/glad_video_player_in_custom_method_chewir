@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/theme/light_theme.dart';
 import 'di_container.dart' as di;
@@ -11,7 +12,10 @@ Future<void> main() async {
   await di.init();
 
   runApp(MultiBlocProvider(
-    providers: [BlocProvider(create: (context) => di.sl<AuthCubit>())],
+    providers: [
+      BlocProvider(create: (context) => di.sl<AuthCubit>()),
+      BlocProvider(create: (context) => di.sl<DashboardCubit>()),
+    ],
     child: const GetMaterialApp(
         debugShowCheckedModeBanner: false, home: MyApp()),
   ));

@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/dashboard/bottom_navigation_bar.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -484,63 +488,56 @@ appBar({int color = 0xffFFF3F4}) {
       ));
 }
 
-Widget hideKeyboard(BuildContext context, {Widget? child}) {
+Widget hideKeyboard(BuildContext context,{Widget? child}){
   return GestureDetector(
-    onTap: () {
+    onTap: (){
       FocusScope.of(context).requestFocus(FocusNode());
     },
     child: child,
   );
 }
 
-Widget authBackgroundForgotOtp({Widget? widget}) {
+
+Widget authBackgroundForgotOtp({Widget? widget}){
   return Stack(
     children: [
+
       Align(
-          alignment: Alignment.topRight,
-          child: SvgPicture.asset(
-            Images.otpBack2,
-            fit: BoxFit.fill,
-          )),
+          alignment: Alignment.topRight,child: SvgPicture.asset(Images.otpBack2,
+        fit: BoxFit.fill,)),
+
       widget!,
+
       Positioned(
-          bottom: 0,
-          right: 0,
-          child: SvgPicture.asset(
-            Images.otpBack1,
-          ))
+          bottom: 0,right: 0,child: SvgPicture.asset(Images.otpBack1,))
+
     ],
   );
 }
+
 
 validator(String error) {
   return Align(
     alignment: Alignment.centerLeft,
     child: Padding(
       padding: const EdgeInsets.only(top: 4.0),
-      child: Text(
-        error.toString(),
-        style: figtreeRegular.copyWith(color: Colors.red),
-      ),
+      child: Text(error.toString(),
+        style: figtreeRegular.copyWith(
+            color: Colors.red
+        ),),
     ),
   );
 }
 
-Widget customTextButton(
-    {required Function onTap,
-    String? text,
-    TextDecoration? decoration,
-    Color? color,
-    double? fontSize}) {
-  return TextButton(
-      onPressed: () {
-        onTap();
-      },
-      child: Text(
-        text.toString().tr,
-        style: figtreeMedium.copyWith(
-            fontSize: fontSize, color: color, decoration: decoration),
-      ));
+Widget customTextButton({required Function onTap,String? text,TextDecoration? decoration,Color? color, double? fontSize}){
+  return TextButton(onPressed: (){
+    onTap();
+  }, child: Text(text.toString().tr,
+      style: figtreeMedium.copyWith(
+          fontSize: fontSize,
+          color: color,
+          decoration: decoration
+    ),));
 }
 
 Widget navigationBarItem(
@@ -578,6 +575,119 @@ Widget navigationBarItem(
           ),
         )
       ],
+    ),
+  );
+}
+
+
+Widget openDrawer({required Widget child,required Function onTap}){
+
+  return InkWell(
+    onTap: (){
+      onTap();
+    },
+    child: child,
+  );
+}
+
+Widget closeDrawer({required Widget child}){
+
+  return Builder(builder: (context){
+    return InkWell(
+      onTap: (){
+        pressBack();
+      },
+      child: child,
+    );
+  });
+}
+
+// bottom Navigation View
+bottomNavigationItem(String text, String image,BuildContext context,int selectedIndex , int i,String selectedImage) {
+  return Expanded(
+    flex: 1,
+    child: InkWell(
+      onTap: (){
+        BlocProvider.of<DashboardCubit>(context).selectedIndex(i);
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left:  0,right: 0,top:11,bottom:11),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: selectedIndex == i ? ColorResources.primary:Colors.transparent,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            selectedIndex == i?
+            SvgPicture.asset(selectedImage,width: 28,height: 28):
+            SvgPicture.asset(image,width: 28,height: 28),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(text,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: figtreeRegular.copyWith(
+                    fontSize: 10,
+                    color: selectedIndex == i?ColorResources.yellow:Colors.white
+                    ,
+                  )),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget guestAppBar(){
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+
+      Row(
+        children: [
+          10.horizontalSpace(),
+          openDrawer(onTap: (){
+            landingKey.currentState?.openDrawer();
+          },child: SvgPicture.asset(Images.drawer)),
+          10.horizontalSpace(),
+          RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                    text: 'Welcome to ',
+                    style: figtreeRegular.copyWith(
+                        fontWeight: FontWeight.w100,
+                        fontSize: 22,
+                        color: Colors.black)),
+                TextSpan(
+                    text: 'GLAD',
+                    style: figtreeMedium.copyWith(
+                        fontSize: 22, color: Colors.black))
+              ])),
+        ],
+      ),
+
+      Row(
+        children: [
+          SvgPicture.asset(Images.call),
+          10.horizontalSpace(),
+          SvgPicture.asset(Images.person),
+          15.horizontalSpace(),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget landingBackground(){
+  return  Padding(
+    padding: const EdgeInsets.only(left: 50.0),
+    child: SvgPicture.asset(
+      Images.ppBg,
+      alignment: Alignment.topRight,
     ),
   );
 }

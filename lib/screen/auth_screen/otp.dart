@@ -57,7 +57,7 @@ class _OtpScreenState extends State<OtpScreen> {
           child: SingleChildScrollView(
             child: SizedBox(
               width: screenWidth(),
-              height: screenHeight()>750?screenHeight()-28:screenHeight(),
+              height: screenHeight(),
               child: authBackgroundForgotOtp(
                 widget: mainView(),
               ),

@@ -7,14 +7,9 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class LiveStockMarketplace extends StatefulWidget {
+class LiveStockMarketplace extends StatelessWidget {
   const LiveStockMarketplace({super.key});
 
-  @override
-  State<LiveStockMarketplace> createState() => _LiveStockMarketplaceState();
-}
-
-class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
   @override
   Widget build(BuildContext context) {
     return Column(

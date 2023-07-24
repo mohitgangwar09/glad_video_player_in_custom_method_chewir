@@ -23,12 +23,12 @@ class MCCInArea extends StatefulWidget {
 }
 
 class _MCCInAreaState extends State<MCCInArea> {
-  Position? position;
+  // Position? position;
   @override
   void initState() {
-    Geolocator.getCurrentPosition().then((value) => setState(() {
+    /*Geolocator.getCurrentPosition().then((value) => setState(() {
           position = value;
-        }));
+        }));*/
     super.initState();
   }
 
@@ -50,9 +50,9 @@ class _MCCInAreaState extends State<MCCInArea> {
         ),
         Stack(
           children: [
-            GMap(
-              lat: position!.latitude,
-              lng: position!.longitude,
+            const GMap(
+              lat: 28.4986,
+              lng: 77.3999,
               height: 350,
             ),
             Positioned(

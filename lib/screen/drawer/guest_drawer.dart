@@ -7,41 +7,41 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class GuestSideDrawer extends StatefulWidget {
+class GuestSideDrawer extends StatelessWidget {
   const GuestSideDrawer({super.key});
 
   @override
-  State<GuestSideDrawer> createState() => _GuestSideDrawerState();
-}
-
-class _GuestSideDrawerState extends State<GuestSideDrawer> {
-  bool isVisible = true;
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: const Color(0xFF6A0030),
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, screenHeight() * 0.085, 0, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  menuItem(),
-                  25.verticalSpace(),
-                  navigationItem(),
-                ],
-              ),
+
+    return Container(
+      color: const Color(0xFF6A0030),
+      child: Stack(
+        children: [
+
+          Padding(
+            padding: EdgeInsets.fromLTRB(0,screenHeight()*0.085,0,0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                menuItem(),
+                const SizedBox(
+                  height: 25,
+                ),
+                navigationItem(),
+              ],
             ),
-            sideBackground(),
-            helpLineItem(),
-          ],
-        ),
+          ),
+
+          sideBackground(),
+
+          helpLineItem(),
+
+        ],
       ),
     );
   }
+
 
   Widget navigationItem() {
     return Padding(
@@ -167,8 +167,7 @@ class _GuestSideDrawerState extends State<GuestSideDrawer> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () {},
+              closeDrawer(
                 child: SvgPicture.asset(
                   Images.close,
                   width: 30,
@@ -233,6 +232,7 @@ class _GuestSideDrawerState extends State<GuestSideDrawer> {
       ],
     );
   }
+
 
   Widget sideBackground() {
     return Positioned(

@@ -49,4 +49,20 @@ class Images {
   static const String youtube = 'assets/images/youtube.svg';
   static const String linkedin = 'assets/images/linkedin.svg';
   static const String drawerTraining = 'assets/images/training.svg';
+
+
+  // bottom navigation item//
+  static const String home = 'assets/images/lighthome.svg';
+  static const String liveStock = 'assets/images/livestock.svg';
+  static const String communityBottom = 'assets/images/community.svg';
+  static const String newsBottom = 'assets/images/newsbottom.svg';
+  static const String trainingBottom = 'assets/images/trainingbottom.svg';
+
+  //dark bottom
+  static const String selectedHome = 'assets/images/home.svg';
+  static const String selectedLiveStock = 'assets/images/selectedlivestock.svg';
+  static const String selectedCommunityBottom = 'assets/images/selectedcommunity.svg';
+  static const String selectedNewsBottom = 'assets/images/selectednews.svg';
+  static const String selectedTrainingBottom = 'assets/images/selectedtraining.svg';
+
 }

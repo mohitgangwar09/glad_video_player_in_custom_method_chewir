@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glad/data/model/auth_models/introslider_model.dart';
 import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dashboard/bottom_navigation_bar.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -111,8 +112,7 @@ class _IntroSliderState extends State<IntroSlider> {
                         height: 9,
                         width: 9,
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white),
+                            shape: BoxShape.circle, color: Colors.white),
                       ),
                       6.horizontalSpace(),
                     ],
@@ -132,8 +132,7 @@ class _IntroSliderState extends State<IntroSlider> {
                         height: 9,
                         width: 9,
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white),
+                            shape: BoxShape.circle, color: Colors.white),
                       ),
                     ],
                   ),
@@ -151,21 +150,21 @@ class _IntroSliderState extends State<IntroSlider> {
                 children: [
                   currentPage == 0
                       ? Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                        child: Text(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
                             'SKIP',
                             style: figtreeRegular.copyWith(
                                 fontSize: 18,
                                 color: Colors.white,
                                 decoration: TextDecoration.underline),
                           ),
-                      )
+                        )
                       : const Text(''),
                   svgIconWithOnTap(
                     image: Images.sliderNext,
                     onTap: () {
                       if (controller.page!.toInt() == 1) {
-                        const GuestLandingPage().navigate(isRemove: true);
+                        const BottomNavigationScreen().navigate(isRemove: true);
                       }
                       controller.animateToPage(
                         controller.page!.toInt() + 1,
