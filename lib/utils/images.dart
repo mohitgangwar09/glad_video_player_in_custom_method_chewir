@@ -48,4 +48,5 @@ class Images {
   static const String twitter = 'assets/images/twitter.svg';
   static const String youtube = 'assets/images/youtube.svg';
   static const String linkedin = 'assets/images/linkedin.svg';
+  static const String drawerTraining = 'assets/images/training.svg';
 }

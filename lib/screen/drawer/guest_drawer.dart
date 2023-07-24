@@ -7,43 +7,43 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class GuestSideDrawer extends StatelessWidget {
+class GuestSideDrawer extends StatefulWidget {
   const GuestSideDrawer({super.key});
 
   @override
+  State<GuestSideDrawer> createState() => _GuestSideDrawerState();
+}
+
+class _GuestSideDrawerState extends State<GuestSideDrawer> {
+  bool isVisible = true;
+  @override
   Widget build(BuildContext context) {
-
-    return Scaffold(body: Container(
-      color: const Color(0xFF6A0030),
-      child: Stack(
-        children: [
-
-          Padding(
-            padding: EdgeInsets.fromLTRB(0,screenHeight()*0.085,0,0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                menuItem(),
-                const SizedBox(
-                  height: 25,
-                ),
-                navigationItem(),
-              ],
+    return Scaffold(
+      body: Container(
+        color: const Color(0xFF6A0030),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, screenHeight() * 0.085, 0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  menuItem(),
+                  25.verticalSpace(),
+                  navigationItem(),
+                ],
+              ),
             ),
-          ),
-
-          sideBackground(),
-
-          helpLineItem(),
-
-        ],
+            sideBackground(),
+            helpLineItem(),
+          ],
+        ),
       ),
-    ),);
+    );
   }
 
-
-  Widget navigationItem(){
+  Widget navigationItem() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
       child: Column(
@@ -52,21 +52,19 @@ class GuestSideDrawer extends StatelessWidget {
             image: Images.news,
             onTap: () {},
             text: 'News & Events',
+            visible: true
           ),
           const SizedBox(
             height: 30,
           ),
           navigationBarItem(
-              image: Images.training,
-              onTap: () {},
-              text: 'Training'),
+              image: Images.drawerTraining, onTap: () {}, text: 'Training'),
           const SizedBox(
             height: 30,
           ),
-          navigationBarItem(
-              image: Images.faq, onTap: () {}, text: "Faq's"),
+          navigationBarItem(image: Images.faq, onTap: () {}, text: "Faq's"),
           const SizedBox(
-            height:30,
+            height: 30,
           ),
           navigationBarItem(
             image: Images.aboutus,
@@ -77,15 +75,14 @@ class GuestSideDrawer extends StatelessWidget {
             height: 30,
           ),
           navigationBarItem(
-              image: Images.privacy,
-              onTap: () {},
-              text: 'Privacy policy'),
+              image: Images.privacy, onTap: () {}, text: 'Privacy policy'),
+
         ],
       ),
     );
   }
 
-  Widget helpLineItem(){
+  Widget helpLineItem() {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -128,16 +125,20 @@ class GuestSideDrawer extends StatelessWidget {
                   ),
                 ]),
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(
+            height: 30,
+          ),
           socialMediaItem(),
-          const SizedBox(height: 30,)
+          const SizedBox(
+            height: 30,
+          )
         ],
       ),
     );
   }
 
-  Widget socialMediaItem(){
-    return  Row(
+  Widget socialMediaItem() {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset(Images.facebook),
@@ -157,7 +158,7 @@ class GuestSideDrawer extends StatelessWidget {
     );
   }
 
-  Widget menuItem(){
+  Widget menuItem() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -167,7 +168,7 @@ class GuestSideDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                onTap: (){},
+                onTap: () {},
                 child: SvgPicture.asset(
                   Images.close,
                   width: 30,
@@ -182,31 +183,25 @@ class GuestSideDrawer extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(
-          height: 50,
-        ),
+        50.verticalSpace(),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
           child: Text(
             'Menu',
-            style: figtreeMedium.copyWith(
-                fontSize: 28, color: Colors.white),
+            style: figtreeMedium.copyWith(fontSize: 28, color: Colors.white),
           ),
         ),
-        const SizedBox(
-          height: 40,
-        ),
+        40.verticalSpace(),
         InkWell(
           onTap: () {
             const LoginWithPassword().navigate(isRemove: true);
           },
           child: Container(
-            margin: const EdgeInsets.fromLTRB(20, 0,40, 0),
+            margin: const EdgeInsets.fromLTRB(20, 0, 40, 0),
             height: 45,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                    width: 1, color: const Color(0xffC788A5))),
+                border: Border.all(width: 1, color: const Color(0xffC788A5))),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Row(
@@ -235,17 +230,16 @@ class GuestSideDrawer extends StatelessWidget {
             ),
           ),
         ),
-      ],);
+      ],
+    );
   }
 
-
-  Widget sideBackground(){
-    return  Positioned(
+  Widget sideBackground() {
+    return Positioned(
         right: 0,
         top: 135,
         // bottom:0,
         // left: 0,
         child: SvgPicture.asset(Images.drawerInside));
   }
-
 }

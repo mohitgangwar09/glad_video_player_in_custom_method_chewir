@@ -484,73 +484,99 @@ appBar({int color = 0xffFFF3F4}) {
       ));
 }
 
-Widget hideKeyboard(BuildContext context,{Widget? child}){
+Widget hideKeyboard(BuildContext context, {Widget? child}) {
   return GestureDetector(
-    onTap: (){
+    onTap: () {
       FocusScope.of(context).requestFocus(FocusNode());
     },
     child: child,
   );
 }
 
-
-Widget authBackgroundForgotOtp({Widget? widget}){
+Widget authBackgroundForgotOtp({Widget? widget}) {
   return Stack(
     children: [
-
       Align(
-          alignment: Alignment.topRight,child: SvgPicture.asset(Images.otpBack2,
-        fit: BoxFit.fill,)),
-
+          alignment: Alignment.topRight,
+          child: SvgPicture.asset(
+            Images.otpBack2,
+            fit: BoxFit.fill,
+          )),
       widget!,
-
       Positioned(
-          bottom: 0,right: 0,child: SvgPicture.asset(Images.otpBack1,))
-
+          bottom: 0,
+          right: 0,
+          child: SvgPicture.asset(
+            Images.otpBack1,
+          ))
     ],
   );
 }
-
 
 validator(String error) {
   return Align(
     alignment: Alignment.centerLeft,
     child: Padding(
       padding: const EdgeInsets.only(top: 4.0),
-      child: Text(error.toString(),
-        style: figtreeRegular.copyWith(
-            color: Colors.red
-        ),),
+      child: Text(
+        error.toString(),
+        style: figtreeRegular.copyWith(color: Colors.red),
+      ),
     ),
   );
 }
 
-Widget customTextButton({required Function onTap,String? text,TextDecoration? decoration,Color? color, double? fontSize}){
-  return TextButton(onPressed: (){
-    onTap();
-  }, child: Text(text.toString().tr,
-      style: figtreeMedium.copyWith(
-          fontSize: fontSize,
-          color: color,
-          decoration: decoration
-    ),));
+Widget customTextButton(
+    {required Function onTap,
+    String? text,
+    TextDecoration? decoration,
+    Color? color,
+    double? fontSize}) {
+  return TextButton(
+      onPressed: () {
+        onTap();
+      },
+      child: Text(
+        text.toString().tr,
+        style: figtreeMedium.copyWith(
+            fontSize: fontSize, color: color, decoration: decoration),
+      ));
 }
 
-Widget navigationBarItem({required String image, String? text,required Function onTap,}){
+Widget navigationBarItem(
+    {required String image,
+    String? text,
+    required Function onTap,
+    bool visible = false,
+    String? title = ""}) {
   return InkWell(
     onTap: onTap(),
     child: Row(
       children: [
         SvgPicture.asset(image),
-        const SizedBox(
-          width: 20,
-        ),
+        20.horizontalSpace(),
         Text(
           text!,
-          style: figtreeRegular.copyWith(
-              fontSize: 18, color: Colors.white),
+          style: figtreeRegular.copyWith(fontSize: 18, color: Colors.white),
         ),
+        10.horizontalSpace(),
+        Visibility(
+          visible: visible,
+          child: Container(
+            height:30,
+            width: 40,
+            decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.white),
+                borderRadius: BorderRadius.circular(40)),
+            child: Center(
+              child: Text(
+                title.toString(),
+                style: figtreeMedium.copyWith(color: Colors.white),
 
+              ),
+            ),
+          ),
+        )
       ],
     ),
   );
