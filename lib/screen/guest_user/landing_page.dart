@@ -6,7 +6,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dashboard/bottom_navigation_bar.dart';
+import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -30,7 +30,10 @@ class GuestLandingPage extends StatelessWidget {
               child: Column(
                 children: [
 
-                  guestAppBar(),
+                  guestAppBar(onTapDrawer: (){
+                    landingKey.currentState?.openDrawer();
+                  }, onTapProfile: (){
+                  },visibility: true),
 
                   landingPage(),
 

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
-import 'package:glad/screen/dashboard/bottom_navigation_bar.dart';
+import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -642,7 +642,8 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
   );
 }
 
-Widget guestAppBar(){
+Widget guestAppBar({required Function onTapDrawer,bool visibility = false ,required Function onTapProfile,
+  }){
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -650,9 +651,12 @@ Widget guestAppBar(){
       Row(
         children: [
           10.horizontalSpace(),
-          openDrawer(onTap: (){
-            landingKey.currentState?.openDrawer();
-          },child: SvgPicture.asset(Images.drawer)),
+          Visibility(
+            visible: visibility,
+            child: openDrawer(onTap: (){
+              onTapDrawer();
+            },child: SvgPicture.asset(Images.drawer)),
+          ),
           10.horizontalSpace(),
           RichText(
               text: TextSpan(children: [
@@ -672,9 +676,13 @@ Widget guestAppBar(){
 
       Row(
         children: [
-          SvgPicture.asset(Images.call),
+          InkWell(onTap: (){
+
+          },child: SvgPicture.asset(Images.call)),
           10.horizontalSpace(),
-          SvgPicture.asset(Images.person),
+          InkWell(onTap: (){
+            onTapProfile();
+          },child: SvgPicture.asset(Images.person)),
           15.horizontalSpace(),
         ],
       ),
