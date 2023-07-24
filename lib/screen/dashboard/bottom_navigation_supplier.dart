@@ -9,8 +9,8 @@ import 'package:glad/utils/extension.dart';
 import '../../utils/color_resources.dart';
 import '../../utils/images.dart';
 
-class BottomNavigationMCCScreen extends StatelessWidget {
-  const BottomNavigationMCCScreen({Key? key}) : super(key: key);
+class BottomNavigationSupplierScreen extends StatelessWidget {
+  const BottomNavigationSupplierScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +75,13 @@ class BottomNavigationMCCScreen extends StatelessWidget {
 
               bottomNavigationItem('Home',Images.home,context,state.selectedIndex,0,Images.selectedHome),
               10.horizontalSpace(),
-              bottomNavigationItem('Application',Images.application,context,state.selectedIndex,1,Images.selectedApplication),
+              bottomNavigationItem('Surveys',Images.survey,context,state.selectedIndex,1,Images.selectedSurvey),
               10.horizontalSpace(),
-              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,2,Images.selectedCommunityBottom),
+              bottomNavigationItem('Projects',Images.application,context,state.selectedIndex,2,Images.selectedApplication),
               10.horizontalSpace(),
-              bottomNavigationItem('News',Images.newsBottom,context,state.selectedIndex,3,Images.selectedNewsBottom),
+              bottomNavigationItem('Earning',Images.earning,context,state.selectedIndex,3,Images.selectedEarning),
               10.horizontalSpace(),
-              bottomNavigationItem('Training',Images.trainingBottom,context,state.selectedIndex,4,Images.selectedTrainingBottom),
+              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,4,Images.selectedCommunityBottom)
 
             ],
           ),

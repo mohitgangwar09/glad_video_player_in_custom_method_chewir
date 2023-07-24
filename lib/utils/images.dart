@@ -68,4 +68,17 @@ class Images {
   static const String selectedApplication = 'assets/images/selectedapplication.svg';
   static const String application = 'assets/images/application.svg';
 
+  // farmer Bottom
+  static const String selectedStatement = 'assets/images/selectedstatement.svg';
+  static const String statement = 'assets/images/statement.svg';
+
+  // supplier Bottom
+  static const String selectedEarning = 'assets/images/selectedearning.svg';
+  static const String earning = 'assets/images/earning.svg';
+  static const String selectedSurvey = 'assets/images/selectedsurveys.svg';
+  static const String survey = 'assets/images/surveys.svg';
+
+
+
+
 }
