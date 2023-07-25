@@ -6,7 +6,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
+import 'package:glad/screen/dde_screen/dashboard/bottom_navigation_dde.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -17,32 +17,30 @@ class GuestLandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        body: Stack(
-          children: [
+    return Container(
+      color: Colors.white,
+      child: Stack(
+        children: [
 
-            landingBackground(),
+          landingBackground(),
 
-            Padding(
-              padding: const EdgeInsets.only(top: 40.0),
-              child: Column(
-                children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Column(
+              children: [
 
-                  guestAppBar(onTapDrawer: (){
-                    landingKey.currentState?.openDrawer();
-                  }, onTapProfile: (){
-                  },visibility: true),
+                guestAppBar(onTapDrawer: (){
+                  landingKey.currentState?.openDrawer();
+                }, onTapProfile: (){
+                },visibility: true),
 
-                  landingPage(),
+                landingPage(),
 
-                ],
-              ),
+              ],
             ),
+          ),
 
-          ],
-        ),
+        ],
       ),
     );
   }

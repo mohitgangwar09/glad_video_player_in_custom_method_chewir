@@ -6,11 +6,11 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/extension.dart';
-import '../../utils/color_resources.dart';
-import '../../utils/images.dart';
+import 'package:glad/utils/color_resources.dart';
+import 'package:glad/utils/images.dart';
 
-class BottomNavigationSupplierScreen extends StatelessWidget {
-  const BottomNavigationSupplierScreen({Key? key}) : super(key: key);
+class BottomNavigationMCCScreen extends StatelessWidget {
+  const BottomNavigationMCCScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +75,13 @@ class BottomNavigationSupplierScreen extends StatelessWidget {
 
               bottomNavigationItem('Home',Images.home,context,state.selectedIndex,0,Images.selectedHome),
               10.horizontalSpace(),
-              bottomNavigationItem('Surveys',Images.survey,context,state.selectedIndex,1,Images.selectedSurvey),
+              bottomNavigationItem('Application',Images.application,context,state.selectedIndex,1,Images.selectedApplication),
               10.horizontalSpace(),
-              bottomNavigationItem('Projects',Images.application,context,state.selectedIndex,2,Images.selectedApplication),
+              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,2,Images.selectedCommunityBottom),
               10.horizontalSpace(),
-              bottomNavigationItem('Earning',Images.earning,context,state.selectedIndex,3,Images.selectedEarning),
+              bottomNavigationItem('News',Images.newsBottom,context,state.selectedIndex,3,Images.selectedNewsBottom),
               10.horizontalSpace(),
-              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,4,Images.selectedCommunityBottom)
+              bottomNavigationItem('Training',Images.trainingBottom,context,state.selectedIndex,4,Images.selectedTrainingBottom),
 
             ],
           ),
