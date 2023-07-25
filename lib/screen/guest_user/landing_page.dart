@@ -8,6 +8,7 @@ import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/bottom_navigation_dde.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
+import 'package:glad/screen/profile/glad_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
