@@ -18,32 +18,30 @@ class GuestLandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        body: Stack(
-          children: [
+    return Container(
+      color: Colors.white,
+      child: Stack(
+        children: [
 
-            landingBackground(),
-            Padding(
-              padding: const EdgeInsets.only(top: 40.0),
-              child: Column(
-                children: [
-                  guestAppBar(onTapDrawer: (){
-                    landingKey.currentState?.openDrawer();
-                  }, onTapProfile: (){
-                    const GladProfile().navigate();
+          landingBackground(),
 
-                  },visibility: true),
+          Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Column(
+              children: [
 
-                  landingPage(),
+                guestAppBar(onTapDrawer: (){
+                  landingKey.currentState?.openDrawer();
+                }, onTapProfile: (){
+                },visibility: true),
 
-                ],
-              ),
+                landingPage(),
+
+              ],
             ),
+          ),
 
-          ],
-        ),
+        ],
       ),
     );
   }
