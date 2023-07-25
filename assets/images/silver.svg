@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="53.631" height="72.428" viewBox="0 0 53.631 72.428">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" y1="-1.759" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#dcdcdc"/>
+      <stop offset="1" stop-color="#aeaeae"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f9f9f9"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_12685" data-name="Group 12685" transform="translate(-1140 -318.999)">
+    <g id="Group_12681" data-name="Group 12681" transform="translate(1140 319)">
+      <path id="Path_6129" data-name="Path 6129" d="M213.34,53.136l-2.765-4.9a29.378,29.378,0,0,1-1.9-4.583l-1.58-5.373a4.973,4.973,0,0,0-3.081-3.082l-5.373-1.58a29.4,29.4,0,0,1-4.583-1.9l-4.9-2.686a5.216,5.216,0,0,0-4.346,0l-4.977,2.686a29.379,29.379,0,0,1-4.583,1.9l-5.373,1.58a4.973,4.973,0,0,0-3.081,3.082l-1.58,5.373a29.424,29.424,0,0,1-1.9,4.583l-2.686,4.9a5.216,5.216,0,0,0,0,4.346l2.686,4.9a29.388,29.388,0,0,1,1.9,4.583l1.58,5.373a4.973,4.973,0,0,0,3.081,3.081L175.257,77a29.415,29.415,0,0,1,4.583,1.9l4.9,2.686a5.216,5.216,0,0,0,4.346,0l4.9-2.686a29.382,29.382,0,0,1,4.583-1.9l5.373-1.58a4.973,4.973,0,0,0,3.081-3.081l1.58-5.373a29.412,29.412,0,0,1,1.9-4.583l2.686-4.9a4.693,4.693,0,0,0,.158-4.346Z" transform="translate(-160.166 -28.564)" fill="url(#linear-gradient)"/>
+    </g>
+    <g id="Ellipse_1626" data-name="Ellipse 1626" transform="translate(1148.376 327.376)" stroke="#999" stroke-width="1" fill="url(#linear-gradient-2)">
+      <circle cx="18.147" cy="18.147" r="18.147" stroke="none"/>
+      <circle cx="18.147" cy="18.147" r="17.647" fill="none"/>
+    </g>
+    <text id="Name" transform="translate(1166.261 350.033)" font-size="10" font-family="Figtree-Bold, Figtree" font-weight="700" letter-spacing="-0.08em"><tspan x="-14" y="0">SILVER</tspan></text>
+    <path id="Path_6130" data-name="Path 6130" d="M223.553,384.066a24.306,24.306,0,0,0-5.136,2.133l-5.452,3.082a5.892,5.892,0,0,1-4.9,0l-5.452-3.082a29.356,29.356,0,0,0-5.136-2.133l-3.635-1.027L187.6,399l10.983-3.4,6.8,8.454,4.425-12.01,7.427,12.01,5.926-9.323,10.192.869-7.427-12.168Z" transform="translate(956.269 -12.628)" fill="#727272" fill-rule="evenodd"/>
+    <path id="Path_6131" data-name="Path 6131" d="M223.553,384.066a24.306,24.306,0,0,0-5.136,2.133l-5.452,3.082a5.892,5.892,0,0,1-4.9,0l-5.452-3.082a29.356,29.356,0,0,0-5.136-2.133l-3.635-1.027L187.6,399l10.983-3.4,6.8,8.454,4.425-12.01,7.427,12.01,5.926-9.323,10.192.869-7.427-12.168Z" transform="translate(956.269 -14.024)" fill="#999" fill-rule="evenodd"/>
+  </g>
+</svg>

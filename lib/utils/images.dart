@@ -49,6 +49,10 @@ class Images {
   static const String youtube = 'assets/images/youtube.svg';
   static const String linkedin = 'assets/images/linkedin.svg';
   static const String drawerTraining = 'assets/images/training.svg';
+  static const String silver = 'assets/images/silver.svg';
+  static const String arrowPercent = 'assets/images/arrowPercent.svg';
+  static const String cardImage = 'assets/images/cardImage.svg';
+
 
 
   // bottom navigation item//

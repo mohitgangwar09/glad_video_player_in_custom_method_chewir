@@ -8,6 +8,7 @@ import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
+import 'package:glad/screen/profile/glad_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -24,15 +25,15 @@ class GuestLandingPage extends StatelessWidget {
           children: [
 
             landingBackground(),
-
             Padding(
               padding: const EdgeInsets.only(top: 40.0),
               child: Column(
                 children: [
-
                   guestAppBar(onTapDrawer: (){
                     landingKey.currentState?.openDrawer();
                   }, onTapProfile: (){
+                    const GladProfile().navigate();
+
                   },visibility: true),
 
                   landingPage(),
