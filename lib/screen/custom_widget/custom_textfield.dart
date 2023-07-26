@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final String? focusTag;
   final int? length;
-  final String? image;
+  final String? image,leadingImage;
   final bool? status;
   final double? imageWidth,imageHeight;
   final TextInputType? inputType;
@@ -64,6 +64,7 @@ class CustomTextField extends StatelessWidget {
     this.showEdit=false,
     this.withoutBorder=false,
     this.image,
+    this.leadingImage,
     this.imageColors = Colors.white,
     this.enabled,
     this.maxLine=2,
@@ -101,7 +102,7 @@ class CustomTextField extends StatelessWidget {
             onEditingComplete: onEditingComplete,
             decoration: InputDecoration(
               // hintText: hint,
-              contentPadding: 10.paddingVertical(),
+              contentPadding: leadingImage==null?9.paddingVertical():const EdgeInsets.only(left: 30),
               labelText: hint,
               labelStyle: style,
               enabledBorder: UnderlineInputBorder(
@@ -120,6 +121,11 @@ class CustomTextField extends StatelessWidget {
             ),
             onChanged: onChanged,
           ),
+
+          if(leadingImage!=null)
+            Align(alignment: Alignment.centerLeft,
+                child: SvgPicture.asset(leadingImage!,colorFilter: ColorFilter.mode(imageColors!, BlendMode.srcIn),
+                  width: imageWidth,height: imageHeight,)),
 
           if(image!=null)
             Align(alignment: Alignment.centerRight,

@@ -938,3 +938,13 @@ Widget textRegular({Color color = Colors.transparent,double fontSize = 14,TextDe
     decoration: underLine
   ),);
 }
+
+Widget farmerBackground(){
+  return  Padding(
+    padding: const EdgeInsets.only(left:0.0),
+    child: SvgPicture.asset(
+      Images.farmerBackground,
+      alignment: Alignment.topCenter,
+    ),
+  );
+}

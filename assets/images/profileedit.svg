@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+  <g id="Group_11740" data-name="Group 11740" transform="translate(-373 -100)">
+    <g id="Rectangle_1453" data-name="Rectangle 1453" transform="translate(373 100)" fill="#fff" stroke="#ececff" stroke-width="1">
+      <rect width="34" height="34" rx="8" stroke="none"/>
+      <rect x="0.5" y="0.5" width="33" height="33" rx="7.5" fill="none"/>
+    </g>
+    <g id="Group_11536" data-name="Group 11536" transform="translate(-424.3 -35.3)">
+      <path id="Icon_metro-pencil" data-name="Icon metro-pencil" d="M16.45,1.928a2.491,2.491,0,0,1,2.57,2.4,2.293,2.293,0,0,1-.514,1.442l-1.028.961L13.88,3.37l1.028-.961A2.677,2.677,0,0,1,16.45,1.928ZM3.6,12.985,2.571,17.311,7.2,16.35l9.51-8.894-3.6-3.365ZM14.066,7.39l-7.2,6.73-.886-.829,7.2-6.73.886.829Z" transform="translate(803.729 142.372)" fill="#242424"/>
+    </g>
+  </g>
+</svg>

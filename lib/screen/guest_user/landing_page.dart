@@ -33,6 +33,7 @@ class GuestLandingPage extends StatelessWidget {
                 guestAppBar(onTapDrawer: (){
                   landingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
+                  GladProfile().navigate();
                 },visibility: true),
 
                 landingPage(),
