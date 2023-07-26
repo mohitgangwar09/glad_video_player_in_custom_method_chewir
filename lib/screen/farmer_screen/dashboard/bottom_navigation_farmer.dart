@@ -4,10 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
+import 'package:glad/screen/farmer_screen/landing_page/farmer_landing_page.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
+
+final GlobalKey<ScaffoldState> farmerLandingKey = GlobalKey();
 
 class BottomNavigationFarmerScreen extends StatelessWidget {
   const BottomNavigationFarmerScreen({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class BottomNavigationFarmerScreen extends StatelessWidget {
 
 
     final widgetOptions = [
-      const GuestLandingPage(),
+      const FarmerLandingPage(),
       const Text("Tours"),
       const Text("Stories"),
       const Text("Orders"),
@@ -38,6 +41,7 @@ class BottomNavigationFarmerScreen extends StatelessWidget {
         child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (BuildContext context, state) {
             return Scaffold(
+                key: farmerLandingKey,
                 drawer: const GuestSideDrawer(),
                 body: widgetOptions.elementAt(state.selectedIndex),
                 bottomNavigationBar: bottomNavigationBar(provider.state,context)
