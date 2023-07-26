@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
-import 'package:glad/screen/farmer_screen/dashboard/bottom_navigation_farmer.dart';
+import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/mcc_screen/dashboard/dashboard_mcc.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
@@ -51,7 +51,7 @@ class _NavigationState extends State<Navigation> {
 
             TextButton(onPressed: (){
 
-              const BottomNavigationFarmerScreen().navigate();
+              const DashboardFarmer().navigate();
 
             }, child: Text("Farmer",style: figtreeBold.copyWith(
                 color: Colors.black,

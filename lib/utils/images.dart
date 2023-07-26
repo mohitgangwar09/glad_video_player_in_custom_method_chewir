@@ -56,6 +56,12 @@ class Images {
   static const String silver = 'assets/images/silver.svg';
   static const String arrowPercent = 'assets/images/arrowPercent.svg';
   static const String cardImage = 'assets/images/cardImage.svg';
+  static const String logout = 'assets/images/logout.svg';
+  static const String textCall = 'assets/images/textCall.svg';
+  static const String textEdit = 'assets/images/textEdit.svg';
+  static const String kyc = 'assets/images/kyc.svg';
+  static const String farmerBackground = 'assets/images/farmerbackground.svg';
+  static const String profileEdit = 'assets/images/profileedit.svg';
 
 
 

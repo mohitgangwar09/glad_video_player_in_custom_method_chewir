@@ -5,7 +5,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/farmer_screen/dashboard/bottom_navigation_farmer.dart';
+import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/extension.dart';
 
 class FarmerLandingPage extends StatelessWidget {
@@ -21,11 +21,11 @@ class FarmerLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: const EdgeInsets.only(top: 15.0),
+            padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               children: [
 
-                customAppBar('Hello', 'Abdullah', onTapDrawer: (){
+                customAppBar('Hello ', 'Abdullah', onTapDrawer: (){
                   farmerLandingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
                 },drawerVisibility: true),

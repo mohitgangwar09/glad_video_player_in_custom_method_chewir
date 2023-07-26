@@ -4,32 +4,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
-import 'package:glad/screen/farmer_screen/landing_page/farmer_landing_page.dart';
+import 'package:glad/screen/farmer_screen/landing_page.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/screen/farmer_screen/common/project_screen.dart';
 
 final GlobalKey<ScaffoldState> farmerLandingKey = GlobalKey();
 
-class BottomNavigationFarmerScreen extends StatelessWidget {
-  const BottomNavigationFarmerScreen({Key? key}) : super(key: key);
+class DashboardFarmer extends StatelessWidget {
+  const DashboardFarmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     var provider = BlocProvider.of<DashboardCubit>(context);
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: ColorResources.white,
-        systemNavigationBarColor: Colors.black, // navigation bar color
-        statusBarIconBrightness: Brightness.dark, // status bar icons' color
-        systemNavigationBarIconBrightness: Brightness.light));
-
 
     final widgetOptions = [
       const FarmerLandingPage(),
-      const Text("Tours"),
+      const ProjectScreen(),
       const Text("Stories"),
       const Text("Orders"),
       const Text("Earnings"),

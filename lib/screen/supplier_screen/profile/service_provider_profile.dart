@@ -1,17 +1,17 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
-import 'package:glad/utils/color_resources.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/images.dart';
-import 'package:glad/utils/styles.dart';
 
-class GladProfile extends StatelessWidget {
-  const GladProfile({super.key});
+import '../../../utils/color_resources.dart';
+import '../../../utils/images.dart';
+import '../../../utils/styles.dart';
+import '../../custom_widget/custom_methods.dart';
+import '../../custom_widget/custom_textfield.dart';
+import '../../profile/glad_profile.dart';
+
+class ServiceProvider extends StatelessWidget {
+  const ServiceProvider({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,17 @@ class GladProfile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets. fromLTRB(10,0,0,0),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                      size: 32,
+                   Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                        size: 32,
+                      ),
                     ),
                   ),
                   profileImage(),
@@ -58,6 +63,8 @@ class GladProfile extends StatelessWidget {
           CustomTextField(
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             hint: 'Phone',
+            leadingImage: Images.textCall,
+            imageColors: ColorResources.fieldGrey,
             enabled: true,
             text: '',
             withoutBorder: true,
@@ -66,6 +73,7 @@ class GladProfile extends StatelessWidget {
           20.verticalSpace(),
           CustomTextField(
             hint: 'Email',
+            leadingImage: Images.emailPhone,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
@@ -77,6 +85,8 @@ class GladProfile extends StatelessWidget {
           CustomTextField(
             maxLine: 2,
             hint: 'Address',
+            leadingImage: Images.textEdit,
+            imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
             text: '',
@@ -113,8 +123,7 @@ class GladProfile extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              boxShadow: [
+                          decoration: BoxDecoration(boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(.100),
                                 blurRadius: 15),
@@ -159,12 +168,19 @@ class GladProfile extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(40)),
                                           child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(3,0,4,0),
-                                            child: Row(children: [
-                                              Icon(Icons.trending_up,size:25),
-                                              Text('+5.0%',style: figtreeBold.copyWith(fontSize: 13),)
-
-                                            ],),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                3, 0, 4, 0),
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.trending_up,
+                                                    size: 25),
+                                                Text(
+                                                  '+5.0%',
+                                                  style: figtreeBold.copyWith(
+                                                      fontSize: 13),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -241,11 +257,31 @@ class GladProfile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Begumanya Charles',
                 style: figtreeSemiBold.copyWith(fontSize: 22),
               ),
+              10.verticalSpace(),
+              Row(
+                children: [
+                  SvgPicture.asset(Images.kyc),
+                  05.horizontalSpace(),
+                  Text(
+                    'KYC not verified',
+                    style: figtreeMedium.copyWith(
+                        fontSize: 12, color: ColorResources.black),
+                  ),
+                  10.horizontalSpace(),
+                  Text(
+                    'Upload Documents',
+                    style: figtreeMedium.copyWith(
+                        fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                  )
+                ],
+              ),
+              10.verticalSpace(),
               RatingBar.builder(
                   initialRating: 0,
                   glowColor: Colors.amber,
@@ -269,9 +305,8 @@ class GladProfile extends StatelessWidget {
     );
   }
 
-
   /////////ProfileImage////////
-Widget profileImage(){
+  Widget profileImage() {
     return Center(
       child: Stack(
         children: [
@@ -295,24 +330,11 @@ Widget profileImage(){
                 child: CircleAvatar(
                   radius: 18,
                   backgroundColor: ColorResources.primary,
-                  child: Icon(Icons.camera_alt,
-                      color: Colors.white, size: 20),
+                  child: Icon(Icons.camera_alt, color: Colors.white, size: 20),
                 ),
               )),
         ],
       ),
     );
-  }
-}
-
-class MyClip extends CustomClipper<Rect> {
-  @override
-  Rect getClip(Size size) {
-    return Rect.fromLTWH(0, 0,Platform.isAndroid? size.width-20:size.width-10,size.height);
-  }
-
-  @override
-  bool shouldReclip(oldClipper) {
-    return false;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glad/screen/custom_widget/custom_toast.dart';
+import 'package:glad/utils/styles.dart';
 
 /*extension Utility on String {
   toast() => Fluttertoast.showToast(
@@ -12,6 +13,42 @@ import 'package:glad/screen/custom_widget/custom_toast.dart';
   );
   removeBracket() =>  replaceAll('[', '').replaceAll(']', '');
 }*/
+
+extension Utility on String {
+
+  textRegular({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.normal}) => Text(this,
+    style: figtreeRegular.copyWith(
+        color: color,
+        fontSize: fontSize,
+        decoration: underLine,
+        fontWeight: fontWeight,
+    ),);
+
+  textMedium({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.w500}) => Text(this,
+    style: figtreeMedium.copyWith(
+        color: color,
+        fontSize: fontSize,
+        decoration: underLine,
+        fontWeight: fontWeight
+    ),);
+
+  textSemiBold({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.w600}) => Text(this,
+    style: figtreeMedium.copyWith(
+        color: color,
+        fontSize: fontSize,
+        decoration: underLine,
+        fontWeight: fontWeight
+    ),);
+
+  textBold({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.bold}) => Text(this,
+    style: figtreeMedium.copyWith(
+        color: color,
+        fontSize: fontSize,
+        decoration: underLine,
+        fontWeight: fontWeight
+    ),);
+
+}
 
 void showCustomToast(BuildContext context, String message) {
   OverlayEntry overlayEntry = OverlayEntry(

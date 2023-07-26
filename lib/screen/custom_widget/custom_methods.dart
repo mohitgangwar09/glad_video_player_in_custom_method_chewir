@@ -699,3 +699,252 @@ Widget landingBackground(){
     ),
   );
 }
+
+BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
+  double borderWidth = 0,double borderRadius = 0,Color backgroundColor = Colors.transparent}){
+  return BoxDecoration(
+    border: Border.all(color: borderColor,width: borderWidth),
+    borderRadius: BorderRadius.circular(borderRadius),
+    color: backgroundColor
+  );
+}
+
+Widget customProjectContainer({required Widget child,double? width,double? height}){
+  return Container(
+    margin: const EdgeInsets.all(20),
+    width: width,
+    height: height,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+    ),
+    child: child,
+  );
+}
+
+Widget projectCommonDesign(){
+  return Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Dam Construction",
+            style: figtreeMedium.copyWith(
+              color: Colors.black,
+              fontSize: 18
+            ),),
+
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 7),
+              decoration: boxDecoration(
+                borderRadius: 30,
+                borderColor: const Color(0xff6A0030),
+              ),
+              child: Text("Active",
+              style: figtreeMedium.copyWith(
+                color: const Color(0xff6A0030),
+                fontSize: 12
+
+              ),),
+            )
+          ],
+        ),
+
+        Padding(
+          padding: const EdgeInsets.only(top: 2.0),
+          child: Text("Water Management",
+            style: figtreeRegular.copyWith(
+                color: const Color(0xff808080),
+                fontSize: 12
+            ),),
+        ),
+
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Text("Construct a water tank and water trough in night paddock plus water pump …",
+            style: figtreeRegular.copyWith(
+                color: const Color(0xff808080),
+                fontSize: 14
+            ),),
+        ),
+
+        20.verticalSpace(),
+
+        Container(
+          height: 60,
+          padding: 20.paddingHorizontal(),
+          decoration: boxDecoration(
+            backgroundColor: const Color(0xffFFF3F4),
+            borderRadius: 10
+          ),child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                "UGX 3.2M".textSemiBold(color: Colors.black, fontSize: 16),
+
+                "Investment".textMedium(fontSize: 12,color: const Color(0xff808080)),
+
+
+
+              ],
+            ),
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                "UGX 4.5M".textSemiBold(color: Colors.black, fontSize: 16),
+
+                "Revenue".textMedium(fontSize: 12,color: const Color(0xff808080)),
+
+
+
+              ],
+            ),
+
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                "40%".textSemiBold(color: Colors.black, fontSize: 16),
+
+                "ROI".textMedium(fontSize: 12,color: const Color(0xff808080)),
+
+
+
+              ],
+            ),
+
+
+          ],
+        ),
+        ),
+
+        15.verticalSpace(),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text.rich(
+              TextSpan(
+                children: [
+                   TextSpan(text: 'Loan: ',
+                       style: figtreeMedium.copyWith(
+                           color: const Color(0xff808080),
+                           fontSize: 12
+                       )),
+                  TextSpan(
+                    text: 'UGX 3.7M',
+                    style: figtreeMedium.copyWith(
+                      color: Colors.black,
+                      fontSize: 12
+                    ),
+                  ),
+                ],
+              ),),
+            Text.rich(
+              TextSpan(
+                children: [
+                   TextSpan(text: 'EMI/MO: ',
+                       style: figtreeMedium.copyWith(
+                           color: const Color(0xff808080),
+                           fontSize: 12
+                       )),
+                  TextSpan(
+                    text: 'UGX 4.5k',
+                    style: figtreeMedium.copyWith(
+                      color: Colors.black,
+                      fontSize: 12
+                    ),
+                  ),
+                ],
+              ),),
+
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'Balance: ',
+                      style: figtreeMedium.copyWith(
+                          color: const Color(0xff808080),
+                          fontSize: 12
+                      )),
+                  TextSpan(
+                    text: '40%',
+                    style: figtreeMedium.copyWith(
+                        color: Colors.black,
+                        fontSize: 12
+                    ),
+                  ),
+                ],
+              ),),
+          ],
+        ),
+
+        30.verticalSpace(),
+
+        Row(
+          children: [
+
+            CircleAvatar(
+              radius: 30,
+              child: Image.asset(Images.sampleUser,
+              fit: BoxFit.cover,width: 80,height: 80,)),
+
+            12.horizontalSpace(),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                "Matts Francesca".textMedium(fontSize: 14,),
+
+                5.verticalSpace(),
+
+                "+256 758711344".textRegular(fontSize: 12, ),
+
+                5.verticalSpace(),
+
+                "Luwum St. Rwoozi, Kampala...".textRegular(fontSize: 12,),
+
+              ],
+            )
+
+          ],
+        ),
+
+      ],
+    ),
+  );
+}
+
+Widget textRegular({Color color = Colors.transparent,double fontSize = 14,TextDecoration? underLine}){
+  return Text("data",
+  style: figtreeRegular.copyWith(
+    color: color,
+    fontSize: fontSize,
+    decoration: underLine
+  ),);
+}
+
+Widget farmerBackground(){
+  return  Padding(
+    padding: const EdgeInsets.only(left:0.0),
+    child: SvgPicture.asset(
+      Images.farmerBackground,
+      alignment: Alignment.topCenter,
+    ),
+  );
+}
