@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
-import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -642,7 +642,7 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
   );
 }
 
-Widget guestAppBar({required Function onTapDrawer,bool visibility = false ,required Function onTapProfile,
+Widget customAppBar(String text1, String text2,{required Function onTapDrawer,bool drawerVisibility = false ,required Function onTapProfile,
   }){
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -652,7 +652,7 @@ Widget guestAppBar({required Function onTapDrawer,bool visibility = false ,requi
         children: [
           10.horizontalSpace(),
           Visibility(
-            visible: visibility,
+            visible: drawerVisibility,
             child: openDrawer(onTap: (){
               onTapDrawer();
             },child: SvgPicture.asset(Images.drawer)),
@@ -661,13 +661,13 @@ Widget guestAppBar({required Function onTapDrawer,bool visibility = false ,requi
           RichText(
               text: TextSpan(children: [
                 TextSpan(
-                    text: 'Welcome to ',
+                    text: text1,
                     style: figtreeRegular.copyWith(
                         fontWeight: FontWeight.w100,
                         fontSize: 22,
                         color: Colors.black)),
                 TextSpan(
-                    text: 'GLAD',
+                    text: text2,
                     style: figtreeMedium.copyWith(
                         fontSize: 22, color: Colors.black))
               ])),

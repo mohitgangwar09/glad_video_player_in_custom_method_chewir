@@ -3,14 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/drawer/guest_drawer.dart';
+import 'package:glad/screen/guest_user/drawer_screen.dart';
+import 'package:glad/screen/farmer_screen/landing_page/farmer_landing_page.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import '../../utils/color_resources.dart';
-import '../../utils/images.dart';
+import 'package:glad/utils/images.dart';
 
-class BottomNavigationSupplierScreen extends StatelessWidget {
-  const BottomNavigationSupplierScreen({Key? key}) : super(key: key);
+final GlobalKey<ScaffoldState> farmerLandingKey = GlobalKey();
+
+class BottomNavigationFarmerScreen extends StatelessWidget {
+  const BottomNavigationFarmerScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,25 +28,22 @@ class BottomNavigationSupplierScreen extends StatelessWidget {
 
 
     final widgetOptions = [
-      const GuestLandingPage(),
+      const FarmerLandingPage(),
       const Text("Tours"),
       const Text("Stories"),
       const Text("Orders"),
       const Text("Earnings"),
     ];
 
-    return SafeArea(
-        top: false,
-        bottom: true,
-        child: BlocBuilder<DashboardCubit, DashboardState>(
-          builder: (BuildContext context, state) {
-            return Scaffold(
-                drawer: const GuestSideDrawer(),
-                body: widgetOptions.elementAt(state.selectedIndex),
-                bottomNavigationBar: bottomNavigationBar(provider.state,context)
-            );
-          },
-        )
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (BuildContext context, state) {
+        return Scaffold(
+            key: farmerLandingKey,
+            extendBody: true,
+            body: widgetOptions.elementAt(state.selectedIndex),
+            bottomNavigationBar: bottomNavigationBar(provider.state,context)
+        );
+      },
     );
   }
 
@@ -75,13 +75,13 @@ class BottomNavigationSupplierScreen extends StatelessWidget {
 
               bottomNavigationItem('Home',Images.home,context,state.selectedIndex,0,Images.selectedHome),
               10.horizontalSpace(),
-              bottomNavigationItem('Surveys',Images.survey,context,state.selectedIndex,1,Images.selectedSurvey),
+              bottomNavigationItem('Projects',Images.application,context,state.selectedIndex,1,Images.selectedApplication),
               10.horizontalSpace(),
-              bottomNavigationItem('Projects',Images.application,context,state.selectedIndex,2,Images.selectedApplication),
+              bottomNavigationItem('Statement',Images.statement,context,state.selectedIndex,2,Images.selectedStatement),
               10.horizontalSpace(),
-              bottomNavigationItem('Earning',Images.earning,context,state.selectedIndex,3,Images.selectedEarning),
+              bottomNavigationItem('Livestock',Images.liveStock,context,state.selectedIndex,3,Images.selectedLiveStock),
               10.horizontalSpace(),
-              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,4,Images.selectedCommunityBottom)
+              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,4,Images.selectedCommunityBottom),
 
             ],
           ),

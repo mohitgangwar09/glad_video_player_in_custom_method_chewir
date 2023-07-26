@@ -53,6 +53,10 @@ class Images {
   static const String likeButton = 'assets/images/like.svg';
   static const String commentButton = 'assets/images/comment.svg';
   static const String comma = 'assets/images/comma.png';
+  static const String silver = 'assets/images/silver.svg';
+  static const String arrowPercent = 'assets/images/arrowPercent.svg';
+  static const String cardImage = 'assets/images/cardImage.svg';
+
 
 
   // bottom navigation item//
@@ -83,7 +87,10 @@ class Images {
   static const String selectedSurvey = 'assets/images/selectedsurveys.svg';
   static const String survey = 'assets/images/surveys.svg';
 
-
+  // dde bottom
+  static const String farmer = 'assets/images/farmer.svg';
+  static const String enquiry = 'assets/images/enquiry.svg';
+  static const String selectedEnquiry = 'assets/images/selectedenquiry.svg';
 
 
 }
