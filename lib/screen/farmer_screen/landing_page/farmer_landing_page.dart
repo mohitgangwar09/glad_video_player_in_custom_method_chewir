@@ -74,7 +74,6 @@ class FarmerLandingPage extends StatelessWidget {
               video: '',
               timeAgo: '5 Hrs ago',
             ),
-
           ],
         ),
       ),

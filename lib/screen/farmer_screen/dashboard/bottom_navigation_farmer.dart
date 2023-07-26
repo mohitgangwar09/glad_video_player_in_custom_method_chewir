@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
+import 'package:glad/screen/farmer_screen/common/project_screen.dart';
 import 'package:glad/screen/farmer_screen/landing_page/farmer_landing_page.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -29,7 +30,7 @@ class BottomNavigationFarmerScreen extends StatelessWidget {
 
     final widgetOptions = [
       const FarmerLandingPage(),
-      const Text("Tours"),
+      const ProjectScreen(),
       const Text("Stories"),
       const Text("Orders"),
       const Text("Earnings"),
