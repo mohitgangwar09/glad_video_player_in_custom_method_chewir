@@ -9,7 +9,14 @@ import 'package:glad/utils/styles.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CommunityForum extends StatefulWidget {
-  const CommunityForum({super.key, required this.name, required this.location, required this.image, required this.caption, required this.video, required this.timeAgo});
+  const CommunityForum(
+      {super.key,
+      required this.name,
+      required this.location,
+      required this.image,
+      required this.caption,
+      required this.video,
+      required this.timeAgo});
   final String name;
   final String location;
   final String image;
@@ -41,46 +48,132 @@ class _CommunityForumState extends State<CommunityForum> {
             ],
           ),
         ),
-        CarouselSlider(
-            items: ['', '', ''].map<Widget>((e) => Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(Images.sampleUser),
-                      15.horizontalSpace(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.name,
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 18, color: Colors.black)),
-                          4.verticalSpace(),
-                          Text(
-                              'Kampala, Uganda',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 12,
-                                  color: Colors.black)),
-                        ],
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: CarouselSlider(
+              items: ['', '', '']
+                  .map<Widget>(
+                    (e) => Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xFFDCDCDC)),
+                            borderRadius: BorderRadius.circular(20),
+                        color: Colors.white),
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset(Images.sampleUser),
+                                15.horizontalSpace(),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(widget.name,
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 18, color: Colors.black)),
+                                    4.verticalSpace(),
+                                    Row(
+                                      children: [
+                                        Text(widget.location,
+                                            style: figtreeMedium.copyWith(
+                                                fontSize: 12,
+                                                color: Colors.black)),
+                                        10.horizontalSpace(),
+                                        Text(widget.timeAgo,
+                                            style: figtreeMedium.copyWith(
+                                                fontSize: 12,
+                                                color: Colors.black)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            10.verticalSpace(),
+                            Text(
+                              widget.caption,
+                              style: figtreeRegular.copyWith(
+                                  fontSize: 16, color: Colors.black),
+                              softWrap: true,
+                            ),
+                            10.verticalSpace(),
+                            Image.asset(Images.sampleVideo),
+                            10.verticalSpace(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(Images.likeButton),
+                                      4.horizontalSpace(),
+                                      Text(
+                                        'Like',
+                                        style: figtreeRegular.copyWith(
+                                            fontSize: 14,
+                                            color: const Color(0xFF727272)),
+                                        softWrap: true,
+                                      ),
+                                    ],
+                                  ),
+                                  15.horizontalSpace(),
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(Images.commentButton),
+                                      4.horizontalSpace(),
+                                      Text(
+                                        'Comment',
+                                        style: figtreeRegular.copyWith(
+                                            fontSize: 14,
+                                            color: const Color(0xFF727272)),
+                                        softWrap: true,
+                                      ),
+                                    ],
+                                  ),
+                                  15.horizontalSpace(),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.share_outlined,
+                                        color: Color(0xFF727272),
+                                        size: 19,
+                                      ),
+                                      4.horizontalSpace(),
+                                      Text(
+                                        'Share',
+                                        style: figtreeRegular.copyWith(
+                                            fontSize: 14,
+                                            color: const Color(0xFF727272)),
+                                        softWrap: true,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            ),).toList(),
-            options: CarouselOptions(
-              autoPlay: true,
-              enableInfiniteScroll: false,
-              viewportFraction: 0.86,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  activeIndex = index;
-                });
-              },
-            )),
+                    ),
+                  )
+                  .toList(),
+              options: CarouselOptions(
+                autoPlay: true,
+                enableInfiniteScroll: false,
+                viewportFraction: 0.9,
+                aspectRatio: 0.8,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    activeIndex = index;
+                  });
+                },
+              )),
+        ),
         Center(
           child: Padding(
             padding: const EdgeInsets.all(5),

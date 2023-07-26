@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
+import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/screen/common/review.dart';
+import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
@@ -74,14 +77,18 @@ class GuestLandingPage extends StatelessWidget {
             10.verticalSpace(),
             const CommunityForum(
               name: 'Begumanya Charles',
-              location: '+256 758711344',
+              location: 'Kampala, Uganda',
               image: '',
-              caption: 'Begumanya Charles',
+              caption: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
             ),
-
-
+            10.verticalSpace(),
+            const FeaturedTrainings(),
+            10.verticalSpace(),
+            const TrendingNewsAndEvents(),
+            10.verticalSpace(),
+            const GladReview(),
 
           ],
         ),
