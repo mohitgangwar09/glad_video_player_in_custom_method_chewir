@@ -24,7 +24,7 @@ class Images {
   static const String livestock = 'assets/images/livestock.png';
   static const String training = 'assets/images/training.png';
   static const String community = 'assets/images/community.png';
-  static const String sampleUser = 'assets/images/sample_user.png';
+  static const String sampleUser = 'assets/images/profile_demo.png';
   static const String callPrimary = 'assets/images/call_primary.svg';
   static const String whatsapp = 'assets/images/whatsapp.svg';
   static const String redirectLocation = 'assets/images/redirect_location.svg';
@@ -52,6 +52,12 @@ class Images {
   static const String silver = 'assets/images/silver.svg';
   static const String arrowPercent = 'assets/images/arrowPercent.svg';
   static const String cardImage = 'assets/images/cardImage.svg';
+  static const String logout = 'assets/images/logout.svg';
+  static const String textCall = 'assets/images/textCall.svg';
+  static const String textEdit = 'assets/images/textEdit.svg';
+  static const String kyc = 'assets/images/kyc.svg';
+  static const String farmerBackground = 'assets/images/farmerbackground.svg';
+  static const String profileEdit = 'assets/images/profileedit.svg';
 
 
 
@@ -72,5 +78,18 @@ class Images {
   //mcc Bottom
   static const String selectedApplication = 'assets/images/selectedapplication.svg';
   static const String application = 'assets/images/application.svg';
+
+  // farmer Bottom
+  static const String selectedStatement = 'assets/images/selectedstatement.svg';
+  static const String statement = 'assets/images/statement.svg';
+
+  // supplier Bottom
+  static const String selectedEarning = 'assets/images/selectedearning.svg';
+  static const String earning = 'assets/images/earning.svg';
+  static const String selectedSurvey = 'assets/images/selectedsurveys.svg';
+  static const String survey = 'assets/images/surveys.svg';
+
+
+
 
 }

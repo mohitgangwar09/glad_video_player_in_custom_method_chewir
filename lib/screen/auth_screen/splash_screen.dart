@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'language_permission.dart';
@@ -15,7 +16,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void _route() async {
     Timer(const Duration(seconds: 2), () async {
-      const LanguagePermission().navigate(isRemove: true);
+      // const LanguagePermission().navigate(isRemove: true);
+      const ProfileNavigate().navigate(isRemove: true);
     });
   }
 

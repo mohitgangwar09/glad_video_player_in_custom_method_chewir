@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dashboard/bottom_navigation_dde.dart';
-import 'package:glad/screen/dashboard/bottom_navigation_mcc.dart';
+import 'package:glad/screen/dde_screen/dashboard/bottom_navigation_dde.dart';
+import 'package:glad/screen/farmer_screen/dashboard/bottom_navigation_farmer.dart';
+import 'package:glad/screen/mcc_screen/dashboard/bottom_navigation_mcc.dart';
+import 'package:glad/screen/supplier_screen/dashboard/bottom_navigation_supplier.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
-import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class Navigation extends StatefulWidget {
@@ -44,12 +42,16 @@ class _NavigationState extends State<Navigation> {
 
             TextButton(onPressed: (){
 
+              const BottomNavigationSupplierScreen().navigate();
+
             }, child: Text("Service Provider",style: figtreeBold.copyWith(
                 color: Colors.black,
                 fontSize: 16
             ))),
 
             TextButton(onPressed: (){
+
+              const BottomNavigationFarmerScreen().navigate();
 
             }, child: Text("Farmer",style: figtreeBold.copyWith(
                 color: Colors.black,

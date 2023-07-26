@@ -6,8 +6,8 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/drawer/guest_drawer.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/extension.dart';
-import '../../utils/color_resources.dart';
-import '../../utils/images.dart';
+import 'package:glad/utils/images.dart';
+import 'package:glad/utils/color_resources.dart';
 
 final GlobalKey<ScaffoldState> landingKey = GlobalKey();
 
