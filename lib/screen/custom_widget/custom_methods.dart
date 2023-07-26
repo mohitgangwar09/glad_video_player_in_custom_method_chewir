@@ -723,7 +723,7 @@ Widget customProjectContainer({required Widget child,double? width,double? heigh
   );
 }
 
-Widget projectCommonDesign(){
+Widget farmerProjectDesign(){
   return Padding(
     padding: const EdgeInsets.all(15.0),
     child: Column(

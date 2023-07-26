@@ -10,7 +10,7 @@ class ProjectScreen extends StatelessWidget {
     return Column(
       children: [
 
-        customProjectContainer(child: projectCommonDesign(),width: screenWidth()),
+        customProjectContainer(child: farmerProjectDesign(),width: screenWidth()),
 
       ],
     );
