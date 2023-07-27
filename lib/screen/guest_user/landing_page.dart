@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
@@ -8,7 +9,7 @@ import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/review.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/profile/glad_profile.dart';
+import 'package:glad/screen/profile/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'dashboard/dashboard_guest.dart';
 
@@ -32,7 +33,7 @@ class GuestLandingPage extends StatelessWidget {
                 customAppBar('Welcome to ', 'GLAD', onTapDrawer: (){
                   landingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
-                  GladProfile().navigate();
+                  const LoginWithPassword().navigate();
                 },drawerVisibility: true),
 
                 landingPage(),

@@ -4,6 +4,7 @@ import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/mcc_screen/profile/mcc_profile.dart';
 import 'package:glad/utils/extension.dart';
 
 class MCCLandingPage extends StatelessWidget {
@@ -22,7 +23,9 @@ class MCCLandingPage extends StatelessWidget {
               children: [
                 customAppBar('Welcome to ', 'GLAD',
                     onTapDrawer: () {},
-                    onTapProfile: () {},
+                    onTapProfile: () {
+                  const MccProfile().navigate();
+                    },
                     drawerVisibility: false),
                 landingPage(),
               ],

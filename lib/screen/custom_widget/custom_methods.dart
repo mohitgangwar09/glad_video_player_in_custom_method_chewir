@@ -26,7 +26,7 @@ Widget customButton(String text,
     TextStyle? style,
     // int ? borderColor=0xff18444B,
     int borderColor = 0x00000000,
-    LinearGradient? greenGradient = null,
+    LinearGradient? greenGradient,
     bool enableGradient = true,
     EdgeInsetsGeometry? margin}) {
   return InkWell(
@@ -180,7 +180,6 @@ Widget customList<T>(
 // gridView
 Widget customGrid<T>(BuildContext context,
     {required Widget Function(int) child,
-    // required Widget Function(T, int) child,
     List<T> list = const [],
     crossAxisCount = 2,
     double childAspectRatio = 1.0,
@@ -711,7 +710,7 @@ BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
 
 Widget customProjectContainer({required Widget child,double? width,double? height}){
   return Container(
-    margin: const EdgeInsets.all(20),
+    margin: const EdgeInsets.only(left: 20,top: 20),
     width: width,
     height: height,
     decoration: BoxDecoration(
@@ -723,7 +722,7 @@ Widget customProjectContainer({required Widget child,double? width,double? heigh
   );
 }
 
-Widget projectCommonDesign(){
+Widget farmerProjectDesign(){
   return Padding(
     padding: const EdgeInsets.all(15.0),
     child: Column(
@@ -947,4 +946,28 @@ Widget farmerBackground(){
       alignment: Alignment.topCenter,
     ),
   );
+}
+
+Widget customPaint(){
+  return CustomPaint(
+      size: const Size(1.1, double.infinity),
+      painter: DashedLineVerticalPainter()
+  );
+}
+
+class DashedLineVerticalPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    double dashHeight = 5, dashSpace = 3, startY = 0;
+    final paint = Paint()
+      ..color = Colors.grey
+      ..strokeWidth = size.width;
+    while (startY < size.height) {
+      canvas.drawLine(Offset(0, startY), Offset(0, startY + dashHeight), paint);
+      startY += dashHeight + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

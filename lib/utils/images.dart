@@ -68,6 +68,9 @@ class Images {
   static const String dryCows = 'assets/images/dry_cows.svg';
   static const String heifer = 'assets/images/heifer.svg';
   static const String herdSize = 'assets/images/herd_size.svg';
+  static const String myEarning = 'assets/images/myearning.svg';
+  static const String notification = 'assets/images/notification.svg';
+  static const String drawerLogout = 'assets/images/drawerlogout.svg';
 
 
 
