@@ -8,7 +8,7 @@ import '../../../utils/images.dart';
 import '../../../utils/styles.dart';
 import '../../custom_widget/custom_methods.dart';
 import '../../custom_widget/custom_textfield.dart';
-import '../../profile/glad_profile.dart';
+import '../../profile/dde_profile.dart';
 
 class ServiceProvider extends StatelessWidget {
   const ServiceProvider({super.key});
@@ -16,39 +16,41 @@ class ServiceProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            landingBackground(),
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                        size: 32,
-                      ),
-                    ),
+      body: Stack(
+        children: [
+          landingBackground(),
+          Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                    size: 32,
                   ),
-                  profileImage(),
-                  40.verticalSpace(),
-                  ratingBar(),
-                  profileInputField(),
-                  earningCardDetails(),
-                  20.verticalSpace(),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                      profileImage(),
+                      40.verticalSpace(),
+                      ratingBar(),
+                      profileInputField(),
+                      earningCardDetails(),
+                      20.verticalSpace(),
+                    ],),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+        ],
       ),
     );
   }
@@ -172,7 +174,7 @@ class ServiceProvider extends StatelessWidget {
                                                 3, 0, 4, 0),
                                             child: Row(
                                               children: [
-                                                Icon(Icons.trending_up,
+                                                const Icon(Icons.trending_up,
                                                     size: 25),
                                                 Text(
                                                   '+5.0%',
@@ -311,15 +313,15 @@ class ServiceProvider extends StatelessWidget {
       child: Stack(
         children: [
           ClipOval(
-            child: Container(
+            clipper: MyClip(),
+            child: SizedBox(
               height: 180,
               width: 190,
               child: Image.asset(
-                Images.sampleUser,
+                Images.profileDemo,
                 fit: BoxFit.fill,
               ),
             ),
-            clipper: MyClip(),
           ),
           const Positioned(
               right: 0,

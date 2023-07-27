@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dashboard/dde_drawer.dart';
 import 'package:glad/screen/dde_screen/landing_page.dart';
+import 'package:glad/screen/guest_user/drawer_screen.dart';
+import 'package:glad/screen/profile/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/color_resources.dart';
 
-final GlobalKey<ScaffoldState> landingKey = GlobalKey();
+final GlobalKey<ScaffoldState> ddeLandingKey = GlobalKey();
 
 class DashboardDDE extends StatelessWidget {
   const DashboardDDE({Key? key}) : super(key: key);
@@ -27,7 +30,8 @@ class DashboardDDE extends StatelessWidget {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
         return Scaffold(
-            key: landingKey,
+            key: ddeLandingKey,
+            drawer: DdeDrawer(),
             extendBody: true,
             body: widgetOptions.elementAt(state.selectedIndex),
             bottomNavigationBar: bottomNavigationBar(provider.state, context));

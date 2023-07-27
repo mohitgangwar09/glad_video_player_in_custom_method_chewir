@@ -16,34 +16,47 @@ class GladProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            landingBackground(),
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets. fromLTRB(10,0,0,0),
+      body: Stack(
+        children: [
+          landingBackground(),
+          Padding(
+            padding: const EdgeInsets.only(top: 60.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(
+                        context,
+                      );
+                    },
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.black,
                       size: 32,
                     ),
                   ),
-                  profileImage(),
-                  40.verticalSpace(),
-                  ratingBar(),
-                  profileInputField(),
-                  earningCardDetails(),
-                  20.verticalSpace(),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        profileImage(),
+                        40.verticalSpace(),
+                        ratingBar(),
+                        profileInputField(),
+                        earningCardDetails(),
+                        20.verticalSpace(),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -113,8 +126,7 @@ class GladProfile extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              boxShadow: [
+                          decoration: BoxDecoration(boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(.100),
                                 blurRadius: 15),
@@ -159,12 +171,19 @@ class GladProfile extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(40)),
                                           child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(3,0,4,0),
-                                            child: Row(children: [
-                                              Icon(Icons.trending_up,size:25),
-                                              Text('+5.0%',style: figtreeBold.copyWith(fontSize: 13),)
-
-                                            ],),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                3, 0, 4, 0),
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.trending_up,
+                                                    size: 25),
+                                                Text(
+                                                  '+5.0%',
+                                                  style: figtreeBold.copyWith(
+                                                      fontSize: 13),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -269,22 +288,21 @@ class GladProfile extends StatelessWidget {
     );
   }
 
-
   /////////ProfileImage////////
-Widget profileImage(){
+  Widget profileImage() {
     return Center(
       child: Stack(
         children: [
           ClipOval(
-            child: Container(
+            clipper: MyClip(),
+            child: SizedBox(
               height: 180,
               width: 190,
               child: Image.asset(
-                Images.sampleUser,
+                Images.profileDemo,
                 fit: BoxFit.fill,
               ),
             ),
-            clipper: MyClip(),
           ),
           const Positioned(
               right: 0,
@@ -295,8 +313,7 @@ Widget profileImage(){
                 child: CircleAvatar(
                   radius: 18,
                   backgroundColor: ColorResources.primary,
-                  child: Icon(Icons.camera_alt,
-                      color: Colors.white, size: 20),
+                  child: Icon(Icons.camera_alt, color: Colors.white, size: 20),
                 ),
               )),
         ],
@@ -308,7 +325,8 @@ Widget profileImage(){
 class MyClip extends CustomClipper<Rect> {
   @override
   Rect getClip(Size size) {
-    return Rect.fromLTWH(0, 0,Platform.isAndroid? size.width-20:size.width-10,size.height);
+    return Rect.fromLTWH(0, 0,
+        Platform.isAndroid ? size.width - 20 : size.width - 10, size.height);
   }
 
   @override

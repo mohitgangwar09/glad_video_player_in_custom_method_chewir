@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/supplier_screen/dashboard/service_provider_drawer.dart';
 import 'package:glad/screen/supplier_screen/landing_page.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -28,6 +29,7 @@ class DashboardSupplier extends StatelessWidget {
         builder: (BuildContext context, state) {
       return Scaffold(
         key: landingKey,
+        drawer: ServiceProviderDrawer(),
         extendBody: true,
         bottomNavigationBar: bottomNavigationBar(provider.state, context),
         body: widgetOptions.elementAt(state.selectedIndex),

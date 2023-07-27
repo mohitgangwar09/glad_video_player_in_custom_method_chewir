@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/dashboard/farmer_drawer.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/farmer_screen/landing_page.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
@@ -34,6 +35,7 @@ class DashboardFarmer extends StatelessWidget {
       builder: (BuildContext context, state) {
         return Scaffold(
             key: farmerLandingKey,
+            drawer:const FarmerDrawer(),
             extendBody: true,
             body: widgetOptions.elementAt(state.selectedIndex),
             bottomNavigationBar: bottomNavigationBar(provider.state,context)

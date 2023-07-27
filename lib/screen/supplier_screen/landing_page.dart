@@ -4,6 +4,7 @@ import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
 import 'package:glad/utils/extension.dart';
 
 import 'dashboard/dashboard_supplier.dart';
@@ -17,17 +18,16 @@ class SupplierLandingPage extends StatelessWidget {
       color: Colors.white,
       child: Stack(
         children: [
-
           landingBackground(),
 
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               children: [
-
                 customAppBar('Hello ', ' Hurton,', onTapDrawer: (){
                   landingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
+                  const ServiceProvider().navigate();
                 },drawerVisibility: true),
 
                 landingPage(),

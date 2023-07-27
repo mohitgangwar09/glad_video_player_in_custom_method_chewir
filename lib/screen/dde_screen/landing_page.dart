@@ -6,7 +6,10 @@ import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/guest_user/drawer_screen.dart';
+import 'package:glad/screen/profile/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
+import '../auth_screen/login_with_password.dart';
 import 'dashboard/dashboard_dde.dart';
 
 class DDELandingPage extends StatelessWidget {
@@ -25,10 +28,10 @@ class DDELandingPage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               children: [
-
                 customAppBar('Hello ', 'Abdullah', onTapDrawer: (){
-                  landingKey.currentState?.openDrawer();
+                  ddeLandingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
+                  const GladProfile().navigate();
                 },drawerVisibility: true),
 
                 landingPage(),
