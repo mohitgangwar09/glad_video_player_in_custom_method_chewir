@@ -16,7 +16,7 @@ List<IntroSliderModel> introSliderContents = [
   IntroSliderModel(
     title1: 'Herd performance title goes here',
     title2: 'Herd performance takes a crew with the right tools sub title...',
-    color: ColorResources.purple
+    color: ColorResources.maroon
     ),
   IntroSliderModel(
     title1: 'Title goes here, lorem ipsum dolar sit',

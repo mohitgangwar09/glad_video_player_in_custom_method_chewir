@@ -166,7 +166,7 @@ class _CommunityForumState extends State<CommunityForum> {
                 autoPlay: true,
                 enableInfiniteScroll: false,
                 viewportFraction: 0.9,
-                aspectRatio: 0.8,
+                height: screenHeight() * 0.58,
                 onPageChanged: (index, reason) {
                   setState(() {
                     activeIndex = index;
@@ -181,7 +181,7 @@ class _CommunityForumState extends State<CommunityForum> {
               activeIndex: activeIndex,
               count: 3,
               effect: const WormEffect(
-                  activeDotColor: ColorResources.purple,
+                  activeDotColor: ColorResources.maroon,
                   dotHeight: 7,
                   dotWidth: 7,
                   dotColor: ColorResources.grey),

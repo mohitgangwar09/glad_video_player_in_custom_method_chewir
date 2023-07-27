@@ -6,6 +6,7 @@ import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/extension.dart';
 
 class FarmerLandingPage extends StatelessWidget {
@@ -28,6 +29,7 @@ class FarmerLandingPage extends StatelessWidget {
                 customAppBar('Hello ', 'Abdullah', onTapDrawer: (){
                   farmerLandingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
+                  const FarmerProfile().navigate();
                 },drawerVisibility: true),
 
                 landingPage(),
@@ -70,7 +72,7 @@ class FarmerLandingPage extends StatelessWidget {
               name: 'Begumanya Charles',
               location: '+256 758711344',
               image: '',
-              caption: 'Begumanya Charles',
+              caption: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
             ),

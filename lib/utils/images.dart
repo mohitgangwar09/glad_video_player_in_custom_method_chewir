@@ -25,6 +25,7 @@ class Images {
   static const String training = 'assets/images/training.png';
   static const String community = 'assets/images/community.png';
   static const String sampleUser = 'assets/images/sample_user.png';
+  static const String profileDemo = 'assets/images/profile_demo.png';
   static const String callPrimary = 'assets/images/call_primary.svg';
   static const String whatsapp = 'assets/images/whatsapp.svg';
   static const String redirectLocation = 'assets/images/redirect_location.svg';
@@ -62,6 +63,11 @@ class Images {
   static const String kyc = 'assets/images/kyc.svg';
   static const String farmerBackground = 'assets/images/farmerbackground.svg';
   static const String profileEdit = 'assets/images/profileedit.svg';
+  static const String imageEdit = 'assets/images/edit_image.svg';
+  static const String kycUnverified = 'assets/images/kyc_unverified.svg';
+  static const String dryCows = 'assets/images/dry_cows.svg';
+  static const String heifer = 'assets/images/heifer.svg';
+  static const String herdSize = 'assets/images/herd_size.svg';
 
 
 

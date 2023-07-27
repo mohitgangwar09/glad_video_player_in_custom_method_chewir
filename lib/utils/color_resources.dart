@@ -12,7 +12,6 @@ class ColorResources {
 
   static const Color pinkMain = Color(0xFFFFF3F4);
   static const Color pinkReg = Color(0xFFFC5E60);
-  static const Color purple = Color(0xFF6A0030);
   static const Color mustard = Color(0xFFF6B51D);
   static const Color maroon = Color(0xFF6A0030);
   static const Color maroon1 = Color(0xFF85003C);
