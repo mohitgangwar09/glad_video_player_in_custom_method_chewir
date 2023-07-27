@@ -3,47 +3,42 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/drawer/guest_drawer.dart';
+import 'package:glad/screen/guest_user/drawer_screen.dart';
+import 'package:glad/screen/farmer_screen/landing_page.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
-import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/color_resources.dart';
+import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/screen/farmer_screen/common/project_screen.dart';
 
-class BottomNavigationMCCScreen extends StatelessWidget {
-  const BottomNavigationMCCScreen({Key? key}) : super(key: key);
+final GlobalKey<ScaffoldState> farmerLandingKey = GlobalKey();
+
+class DashboardFarmer extends StatelessWidget {
+  const DashboardFarmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     var provider = BlocProvider.of<DashboardCubit>(context);
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: ColorResources.white,
-        systemNavigationBarColor: Colors.black, // navigation bar color
-        statusBarIconBrightness: Brightness.dark, // status bar icons' color
-        systemNavigationBarIconBrightness: Brightness.light));
-
 
     final widgetOptions = [
-      const GuestLandingPage(),
-      const Text("Tours"),
+      const FarmerLandingPage(),
+      const ProjectScreen(),
       const Text("Stories"),
       const Text("Orders"),
       const Text("Earnings"),
     ];
 
-    return SafeArea(
-        top: false,
-        bottom: true,
-        child: BlocBuilder<DashboardCubit, DashboardState>(
-          builder: (BuildContext context, state) {
-            return Scaffold(
-                drawer: const GuestSideDrawer(),
-                body: widgetOptions.elementAt(state.selectedIndex),
-                bottomNavigationBar: bottomNavigationBar(provider.state,context)
-            );
-          },
-        )
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (BuildContext context, state) {
+        return Scaffold(
+            key: farmerLandingKey,
+            extendBody: true,
+            body: widgetOptions.elementAt(state.selectedIndex),
+            bottomNavigationBar: bottomNavigationBar(provider.state,context)
+        );
+      },
     );
   }
 
@@ -75,13 +70,13 @@ class BottomNavigationMCCScreen extends StatelessWidget {
 
               bottomNavigationItem('Home',Images.home,context,state.selectedIndex,0,Images.selectedHome),
               10.horizontalSpace(),
-              bottomNavigationItem('Application',Images.application,context,state.selectedIndex,1,Images.selectedApplication),
+              bottomNavigationItem('Projects',Images.application,context,state.selectedIndex,1,Images.selectedApplication),
               10.horizontalSpace(),
-              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,2,Images.selectedCommunityBottom),
+              bottomNavigationItem('Statement',Images.statement,context,state.selectedIndex,2,Images.selectedStatement),
               10.horizontalSpace(),
-              bottomNavigationItem('News',Images.newsBottom,context,state.selectedIndex,3,Images.selectedNewsBottom),
+              bottomNavigationItem('Livestock',Images.liveStock,context,state.selectedIndex,3,Images.selectedLiveStock),
               10.horizontalSpace(),
-              bottomNavigationItem('Training',Images.trainingBottom,context,state.selectedIndex,4,Images.selectedTrainingBottom),
+              bottomNavigationItem('Community',Images.communityBottom,context,state.selectedIndex,4,Images.selectedCommunityBottom),
 
             ],
           ),

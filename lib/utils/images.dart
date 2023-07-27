@@ -24,7 +24,7 @@ class Images {
   static const String livestock = 'assets/images/livestock.png';
   static const String training = 'assets/images/training.png';
   static const String community = 'assets/images/community.png';
-  static const String sampleUser = 'assets/images/profile_demo.png';
+  static const String sampleUser = 'assets/images/sample_user.png';
   static const String callPrimary = 'assets/images/call_primary.svg';
   static const String whatsapp = 'assets/images/whatsapp.svg';
   static const String redirectLocation = 'assets/images/redirect_location.svg';
@@ -49,6 +49,10 @@ class Images {
   static const String youtube = 'assets/images/youtube.svg';
   static const String linkedin = 'assets/images/linkedin.svg';
   static const String drawerTraining = 'assets/images/training.svg';
+  static const String sampleVideo = 'assets/images/sample_video.png';
+  static const String likeButton = 'assets/images/like.svg';
+  static const String commentButton = 'assets/images/comment.svg';
+  static const String comma = 'assets/images/comma.png';
   static const String silver = 'assets/images/silver.svg';
   static const String arrowPercent = 'assets/images/arrowPercent.svg';
   static const String cardImage = 'assets/images/cardImage.svg';
@@ -89,7 +93,10 @@ class Images {
   static const String selectedSurvey = 'assets/images/selectedsurveys.svg';
   static const String survey = 'assets/images/surveys.svg';
 
-
+  // dde bottom
+  static const String farmer = 'assets/images/farmer.svg';
+  static const String enquiry = 'assets/images/enquiry.svg';
+  static const String selectedEnquiry = 'assets/images/selectedenquiry.svg';
 
 
 }

@@ -15,7 +15,7 @@ class ShowAllButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
             border: Border.all(color: ColorResources.purple),
             color: ColorResources.purple),
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
         child: Text('Show All',
             style: figtreeSemiBold.copyWith(fontSize: 12, color: Colors.white)),
       ),

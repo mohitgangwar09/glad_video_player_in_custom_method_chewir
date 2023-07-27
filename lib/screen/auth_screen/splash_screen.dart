@@ -16,8 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void _route() async {
     Timer(const Duration(seconds: 2), () async {
-      // const LanguagePermission().navigate(isRemove: true);
-      const ProfileNavigate().navigate(isRemove: true);
+      const LanguagePermission().navigate(isRemove: true);
     });
   }
 

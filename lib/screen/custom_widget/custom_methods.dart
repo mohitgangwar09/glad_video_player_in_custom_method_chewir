@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
-import 'package:glad/screen/dde_screen/dashboard/bottom_navigation_dde.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -26,7 +26,7 @@ Widget customButton(String text,
     TextStyle? style,
     // int ? borderColor=0xff18444B,
     int borderColor = 0x00000000,
-    LinearGradient? greenGradient = null,
+    LinearGradient? greenGradient,
     bool enableGradient = true,
     EdgeInsetsGeometry? margin}) {
   return InkWell(
@@ -180,7 +180,6 @@ Widget customList<T>(
 // gridView
 Widget customGrid<T>(BuildContext context,
     {required Widget Function(int) child,
-    // required Widget Function(T, int) child,
     List<T> list = const [],
     crossAxisCount = 2,
     double childAspectRatio = 1.0,
@@ -642,7 +641,7 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
   );
 }
 
-Widget guestAppBar({required Function onTapDrawer,bool visibility = false ,required Function onTapProfile,
+Widget customAppBar(String text1, String text2,{required Function onTapDrawer,bool drawerVisibility = false ,required Function onTapProfile,
   }){
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -652,7 +651,7 @@ Widget guestAppBar({required Function onTapDrawer,bool visibility = false ,requi
         children: [
           10.horizontalSpace(),
           Visibility(
-            visible: visibility,
+            visible: drawerVisibility,
             child: openDrawer(onTap: (){
               onTapDrawer();
             },child: SvgPicture.asset(Images.drawer)),
@@ -661,13 +660,13 @@ Widget guestAppBar({required Function onTapDrawer,bool visibility = false ,requi
           RichText(
               text: TextSpan(children: [
                 TextSpan(
-                    text: 'Welcome to ',
+                    text: text1,
                     style: figtreeRegular.copyWith(
                         fontWeight: FontWeight.w100,
                         fontSize: 22,
                         color: Colors.black)),
                 TextSpan(
-                    text: 'GLAD',
+                    text: text2,
                     style: figtreeMedium.copyWith(
                         fontSize: 22, color: Colors.black))
               ])),
@@ -711,7 +710,7 @@ BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
 
 Widget customProjectContainer({required Widget child,double? width,double? height}){
   return Container(
-    margin: const EdgeInsets.all(20),
+    margin: const EdgeInsets.only(left: 20,top: 20),
     width: width,
     height: height,
     decoration: BoxDecoration(
@@ -947,4 +946,28 @@ Widget farmerBackground(){
       alignment: Alignment.topCenter,
     ),
   );
+}
+
+Widget customPaint(){
+  return CustomPaint(
+      size: const Size(1.1, double.infinity),
+      painter: DashedLineVerticalPainter()
+  );
+}
+
+class DashedLineVerticalPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    double dashHeight = 5, dashSpace = 3, startY = 0;
+    final paint = Paint()
+      ..color = Colors.grey
+      ..strokeWidth = size.width;
+    while (startY < size.height) {
+      canvas.drawLine(Offset(0, startY), Offset(0, startY + dashHeight), paint);
+      startY += dashHeight + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:glad/data/model/auth_models/introslider_model.dart';
 import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dde_screen/dashboard/bottom_navigation_dde.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
+import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
 import 'package:glad/screen/guest_user/landing_page.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -149,14 +150,19 @@ class _IntroSliderState extends State<IntroSlider> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   currentPage == 0
-                      ? Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text(
-                            'SKIP',
-                            style: figtreeRegular.copyWith(
-                                fontSize: 18,
-                                color: Colors.white,
-                                decoration: TextDecoration.underline),
+                      ? InkWell(
+                          onTap: () {
+                            const DashboardGuest().navigate(isRemove: true);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Text(
+                              'SKIP',
+                              style: figtreeRegular.copyWith(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline),
+                            ),
                           ),
                         )
                       : const Text(''),
@@ -164,7 +170,7 @@ class _IntroSliderState extends State<IntroSlider> {
                     image: Images.sliderNext,
                     onTap: () {
                       if (controller.page!.toInt() == 1) {
-                        const BottomNavigationDDEScreen().navigate(isRemove: true);
+                        const DashboardGuest().navigate(isRemove: true);
                       }
                       controller.animateToPage(
                         controller.page!.toInt() + 1,
