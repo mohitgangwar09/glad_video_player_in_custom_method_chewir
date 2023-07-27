@@ -7,7 +7,7 @@ import '../../../utils/color_resources.dart';
 import '../../../utils/images.dart';
 import '../../../utils/styles.dart';
 import '../../custom_widget/custom_textfield.dart';
-import '../../profile/glad_profile.dart';
+import '../../profile/dde_profile.dart';
 
 class MccProfile extends StatelessWidget {
   const MccProfile({super.key});
@@ -15,40 +15,41 @@ class MccProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
+      body: Stack(
+          children: [
+        landingBackground(),
+        Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          landingBackground(),
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets. fromLTRB(10,0,0,0),
-                  child: InkWell(
-                    onTap: (){
-                      Navigator.pop(context);
-                      },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                      size: 32,
-                    ),
+              Padding(
+                padding: const EdgeInsets. fromLTRB(10,0,0,0),
+                child: InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                    },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                    size: 32,
                   ),
                 ),
-                profileImage(),
-                profileInputField(),
-                helpLineItem(),
+              ),
+              Expanded(
+                child :SingleChildScrollView(
+                  child: Column(children: [
+                    profileImage(),
+                    profileInputField(),
+                    helpLineItem(),
 
-
-
-              ],
-            ),
+                  ],),
+                ),
+              ),
+            ],
           ),
-
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 
@@ -64,7 +65,7 @@ class MccProfile extends StatelessWidget {
           CustomTextField(
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             hint: 'Phone',
-            enabled: false,
+            enabled: true,
             text: '',
             leadingImage: Images.textCall,
             imageColors: ColorResources.fieldGrey,
@@ -77,7 +78,7 @@ class MccProfile extends StatelessWidget {
             leadingImage: Images.emailPhone,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: false,
+            enabled: true,
             text: '',
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
@@ -89,7 +90,7 @@ class MccProfile extends StatelessWidget {
             leadingImage: Images.textEdit,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: false,
+            enabled: true,
             text: '',
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
@@ -122,7 +123,7 @@ class MccProfile extends StatelessWidget {
                   height: 180,
                   width: 190,
                   child: Image.asset(
-                    Images.sampleUser,
+                    Images.profileDemo,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -204,6 +205,8 @@ class MccProfile extends StatelessWidget {
     );
   }
 
+
+
   //////////////SocialMedia///////////
   Widget socialMediaItem() {
     return Row(
@@ -225,4 +228,5 @@ class MccProfile extends StatelessWidget {
       ],
     );
   }
+
 }
