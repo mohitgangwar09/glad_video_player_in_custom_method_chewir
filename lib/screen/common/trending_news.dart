@@ -45,7 +45,7 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
                         Images.sampleVideo,
                         width: 150,
                         height: 200,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     Positioned(

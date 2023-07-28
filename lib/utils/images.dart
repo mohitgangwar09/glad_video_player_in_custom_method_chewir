@@ -63,6 +63,11 @@ class Images {
   static const String kyc = 'assets/images/kyc.svg';
   static const String farmerBackground = 'assets/images/farmerbackground.svg';
   static const String profileEdit = 'assets/images/profileedit.svg';
+  static const String imageEdit = 'assets/images/edit_image.svg';
+  static const String kycUnverified = 'assets/images/kyc_unverified.svg';
+  static const String dryCows = 'assets/images/dry_cows.svg';
+  static const String heifer = 'assets/images/heifer.svg';
+  static const String herdSize = 'assets/images/herd_size.svg';
   static const String myEarning = 'assets/images/myearning.svg';
   static const String notification = 'assets/images/notification.svg';
   static const String drawerLogout = 'assets/images/drawerlogout.svg';

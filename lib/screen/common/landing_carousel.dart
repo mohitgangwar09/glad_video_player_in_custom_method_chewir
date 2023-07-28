@@ -55,7 +55,7 @@ class _LandingCarouselState extends State<LandingCarousel> {
               activeIndex: activeIndex,
               count: 5,
               effect: const WormEffect(
-                  activeDotColor: ColorResources.purple,
+                  activeDotColor: ColorResources.maroon,
                   dotHeight: 7,
                   dotWidth: 7,
                   dotColor: ColorResources.grey),

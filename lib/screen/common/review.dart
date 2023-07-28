@@ -64,7 +64,7 @@ class _GladReviewState extends State<GladReview> {
                                   child: Image.asset(Images.sampleVideo,
                                       width: 120,
                                       height: 200,
-                                      fit: BoxFit.fill),
+                                      fit: BoxFit.cover),
                                 )
                               ],
                             ),
@@ -118,7 +118,7 @@ class _GladReviewState extends State<GladReview> {
               activeIndex: activeIndex,
               count: 3,
               effect: const WormEffect(
-                  activeDotColor: ColorResources.purple,
+                  activeDotColor: ColorResources.maroon,
                   dotHeight: 7,
                   dotWidth: 7,
                   dotColor: ColorResources.grey),
