@@ -66,6 +66,7 @@ class Images {
   static const String myEarning = 'assets/images/myearning.svg';
   static const String notification = 'assets/images/notification.svg';
   static const String drawerLogout = 'assets/images/drawerlogout.svg';
+  static const String farmerFilter = 'assets/images/farmerfilter.svg';
 
 
 

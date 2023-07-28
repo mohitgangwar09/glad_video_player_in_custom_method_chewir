@@ -71,6 +71,8 @@ class GladProfile extends StatelessWidget {
           CustomTextField(
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             hint: 'Phone',
+            leadingImage: Images.textCall,
+            imageColors: ColorResources.fieldGrey,
             enabled: true,
             text: '',
             withoutBorder: true,
@@ -79,6 +81,7 @@ class GladProfile extends StatelessWidget {
           20.verticalSpace(),
           CustomTextField(
             hint: 'Email',
+            leadingImage: Images.emailPhone,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
@@ -90,6 +93,8 @@ class GladProfile extends StatelessWidget {
           CustomTextField(
             maxLine: 2,
             hint: 'Address',
+            leadingImage: Images.textEdit,
+            imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
             text: '',
