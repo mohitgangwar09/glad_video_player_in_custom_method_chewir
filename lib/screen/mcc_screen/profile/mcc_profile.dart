@@ -66,7 +66,7 @@ class MccProfile extends StatelessWidget {
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             hint: 'Phone',
             enabled: true,
-            text: '',
+
             leadingImage: Images.textCall,
             imageColors: ColorResources.fieldGrey,
             withoutBorder: true,
@@ -79,7 +79,7 @@ class MccProfile extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -91,7 +91,7 @@ class MccProfile extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),

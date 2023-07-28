@@ -4,6 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class GMap extends StatelessWidget {
   final double lat;
   final double lng;
+  final bool? myLocationEnabled;
+  final bool? myLocationButtonEnabled;
+  final bool? zoomControlsEnabled;
+  final bool? zoomGesturesEnabled;
   final Function()? onCameraIdle;
   final Function(GoogleMapController googleMapController)? onMapCreated;
   final Function(CameraPosition position)? onCameraMove;
@@ -22,7 +26,11 @@ class GMap extends StatelessWidget {
       this.onCameraIdle,
       this.onMapCreated,
       this.onCameraMove,
-      this.markers})
+      this.markers,
+      this.myLocationEnabled = true,
+      this.myLocationButtonEnabled = true,
+      this.zoomControlsEnabled = true,
+      this.zoomGesturesEnabled = true})
       : super(key: key);
 
   @override
@@ -34,8 +42,10 @@ class GMap extends StatelessWidget {
         onTap: (position) {
           onTap!(position);
         },
-        myLocationButtonEnabled: true,
-        myLocationEnabled: true,
+        zoomControlsEnabled: zoomControlsEnabled!,
+        zoomGesturesEnabled: zoomGesturesEnabled!,
+        myLocationButtonEnabled: myLocationButtonEnabled!,
+        myLocationEnabled: myLocationEnabled!,
         onCameraIdle: onCameraIdle,
         onCameraMove: onCameraMove,
         markers: markers != null ? markers!.toSet() : <Marker>{},

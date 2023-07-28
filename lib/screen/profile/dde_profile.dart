@@ -72,7 +72,7 @@ class GladProfile extends StatelessWidget {
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             hint: 'Phone',
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -82,7 +82,7 @@ class GladProfile extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -92,7 +92,7 @@ class GladProfile extends StatelessWidget {
             hint: 'Address',
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),

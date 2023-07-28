@@ -171,7 +171,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
           Padding(
             padding: const EdgeInsets.fromLTRB(40,21,40,0),
-            child: CustomTextField(hint: 'Email',text: '',
+            child: CustomTextField(hint: 'Email',
               borderColor: 0xff727272,
               style: figtreeRegular.copyWith(
                   color: Colors.black,
