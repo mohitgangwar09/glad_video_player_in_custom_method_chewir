@@ -25,6 +25,7 @@ class Images {
   static const String training = 'assets/images/training.png';
   static const String community = 'assets/images/community.png';
   static const String sampleUser = 'assets/images/sample_user.png';
+  static const String menuIcon = 'assets/images/menuicon.svg';
   static const String profileDemo = 'assets/images/profile_demo.png';
   static const String callPrimary = 'assets/images/call_primary.svg';
   static const String whatsapp = 'assets/images/whatsapp.svg';
@@ -71,6 +72,8 @@ class Images {
   static const String myEarning = 'assets/images/myearning.svg';
   static const String notification = 'assets/images/notification.svg';
   static const String drawerLogout = 'assets/images/drawerlogout.svg';
+  static const String activeProject = 'assets/images/activeproject.svg';
+  static const String suggestedProject = 'assets/images/suggestedproject.svg';
 
 
 

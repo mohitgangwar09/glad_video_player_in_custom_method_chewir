@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
+import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/screen/common/review.dart';
+import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
@@ -21,8 +24,6 @@ class FarmerLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List item = [1,2,3,4];
-
     return Container(
       color: Colors.white,
       child: Stack(
@@ -31,7 +32,7 @@ class FarmerLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top: 20.0),
             child: Column(
               children: [
 
@@ -68,45 +69,58 @@ class FarmerLandingPage extends StatelessWidget {
               padding: const EdgeInsets.only(right: 20.0,bottom: 25),
               child: customGrid(
                   context,
-                  mainAxisExtent: 170,
+                  mainAxisExtent: 185,
                   crossAxisSpacing: 0,
                   child: (int index) {
                 return customProjectContainer(
                       width: screenWidth(),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Stack(
                         children: [
-
-                          "18 K ltr.".textMedium(fontSize: 22),
-
-                          Container(
-                            width: 70,
-                            margin: 10.marginAll(),
-                            padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 7),
-                            decoration: boxDecoration(
-                              borderRadius: 30,
-                              backgroundColor: const Color(0xffE4FFE3),
-                            ),
-                            child: Row(
+                          Align(
+                            alignment: Alignment.center,
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
 
-                                "30%".textSemiBold(color: const Color(0xff4BC56F)),
+                                "18 K ltr.".textMedium(fontSize: 22),
 
-                                const Icon(Icons.trending_up,color: Color(0xff4BC56F),size: 20,),
+                                Container(
+                                  width: 70,
+                                  margin: 10.marginAll(),
+                                  padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 7),
+                                  decoration: boxDecoration(
+                                    borderRadius: 30,
+                                    backgroundColor: const Color(0xffE4FFE3),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+
+                                      "30%".textSemiBold(color: const Color(0xff4BC56F)),
+
+                                      const Icon(Icons.trending_up,color: Color(0xff4BC56F),size: 20,),
+
+                                    ],
+                                  ),
+                                ),
+
+                                12.verticalSpace(),
+
+                                "Milking cows".textMedium(fontSize: 16),
+
+                                7.verticalSpace(),
+
+                                "05 Breeds".textMedium(fontSize: 12,color: const Color(0xff727272))
 
                               ],
                             ),
                           ),
-
-                          14.verticalSpace(),
-
-                          "Milking cows".textMedium(fontSize: 16),
-
-                          7.verticalSpace(),
-
-                          "05 Breeds".textMedium(fontSize: 12,color: const Color(0xff727272))
-
+                          Align(
+                              alignment: Alignment.topRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 14.0,top: 9),
+                                child: SvgPicture.asset(Images.menuIcon),
+                              )),
                         ],
                       ));
               }),
@@ -142,7 +156,7 @@ class FarmerLandingPage extends StatelessWidget {
               image: '',
             ),
 
-            10.verticalSpace(),
+            35.verticalSpace(),
 
             const DDEInArea(
               name: 'Begumanya Charles',
@@ -166,6 +180,18 @@ class FarmerLandingPage extends StatelessWidget {
               video: '',
               timeAgo: '5 Hrs ago',
             ),
+
+            10.verticalSpace(),
+
+            const FeaturedTrainings(),
+
+            10.verticalSpace(),
+
+            const TrendingNewsAndEvents(),
+
+            10.verticalSpace(),
+
+            const GladReview(),
 
             100.verticalSpace()
 
