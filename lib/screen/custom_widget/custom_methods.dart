@@ -683,8 +683,11 @@ Widget customAppBar(String text1, String text2,{required Function onTapDrawer,bo
             onTapProfile();
           },child: SvgPicture.asset(Images.person)),
           15.horizontalSpace(),
+
+
         ],
       ),
+
     ],
   );
 }

@@ -74,6 +74,7 @@ class Images {
   static const String drawerLogout = 'assets/images/drawerlogout.svg';
   static const String activeProject = 'assets/images/activeproject.svg';
   static const String suggestedProject = 'assets/images/suggestedproject.svg';
+  static const String farmerFilter = 'assets/images/farmerfilter.svg';
 
 
 
