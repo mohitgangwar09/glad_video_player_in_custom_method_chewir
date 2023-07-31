@@ -54,6 +54,7 @@ class _MCCInAreaState extends State<MCCInArea> {
               lat: 28.4986,
               lng: 77.3999,
               height: 350,
+              zoomGesturesEnabled: false,
             ),
             Positioned(
               bottom: 10,

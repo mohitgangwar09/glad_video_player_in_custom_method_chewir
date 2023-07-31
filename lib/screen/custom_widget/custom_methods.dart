@@ -984,6 +984,45 @@ class DashedLineVerticalPainter extends CustomPainter {
 
 }
 
+Widget documentImage(String image, Function() onTapCancel) {
+  return Stack(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xFF819891)),
+          borderRadius: BorderRadius.circular(200),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(200),
+              child: Image.asset(
+                Images.sampleVideo,
+                fit: BoxFit.fill,
+                height: 70,
+                width: 70,
+              )),
+        ),
+      ),
+      Positioned(
+        right: 0,
+        child: InkWell(
+          onTap: onTapCancel,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(200),
+                color: Colors.white),
+            child: SvgPicture.asset(
+              Images.cancelImage,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+
 class DashLinePainter extends CustomPainter {
   final Color color;
   final double strokeWidth;

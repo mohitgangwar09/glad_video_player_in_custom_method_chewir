@@ -140,7 +140,7 @@ Widget card(BuildContext context){
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(40,21,40,0),
-                child: CustomTextField(hint: 'Email/Phone',text: '',
+                child: CustomTextField(hint: 'Email/Phone',
                   style: figtreeRegular.copyWith(
                       color: Colors.white,
                       fontSize: 14
@@ -151,7 +151,7 @@ Widget card(BuildContext context){
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(40,21,40,0),
-                child: CustomTextField(hint: 'Password',text: '',
+                child: CustomTextField(hint: 'Password',
                   image: Images.password,withoutBorder: true,
                 style: figtreeRegular.copyWith(
                     color: Colors.white,

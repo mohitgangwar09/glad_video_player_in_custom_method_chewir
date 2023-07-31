@@ -115,7 +115,7 @@ class ProjectWidget extends StatelessWidget {
 
                       "UGX 3.2M".textSemiBold(color: Colors.black, fontSize: 16),
 
-                      "Investment".textMedium(fontSize: 12,color: const Color(0xff808080)),
+                      "Investment".textMedium(fontSize: 12),
 
 
 
@@ -129,7 +129,7 @@ class ProjectWidget extends StatelessWidget {
 
                       "UGX 4.5M".textSemiBold(color: Colors.black, fontSize: 16),
 
-                      "Revenue".textMedium(fontSize: 12,color: const Color(0xff808080)),
+                      "Revenue".textMedium(fontSize: 12,color: Colors.black),
 
 
 
@@ -144,7 +144,7 @@ class ProjectWidget extends StatelessWidget {
 
                       "40%".textSemiBold(color: Colors.black, fontSize: 16),
 
-                      "ROI".textMedium(fontSize: 12,color: const Color(0xff808080)),
+                      "ROI".textMedium(fontSize: 12,),
 
 
 
