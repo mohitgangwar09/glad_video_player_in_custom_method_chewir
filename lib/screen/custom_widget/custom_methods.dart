@@ -958,6 +958,13 @@ Widget customPaint(){
   );
 }
 
+Widget horizontalPaint(){
+  return CustomPaint(
+    size: Size(1.1,double.infinity),
+    painter: DashLinePainter(),
+  );
+}
+
 class DashedLineVerticalPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -973,4 +980,42 @@ class DashedLineVerticalPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+
+
+}
+
+class DashLinePainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+  final double dashWidth;
+  final double dashSpace;
+
+  DashLinePainter({
+    this.color = ColorResources.grey,
+    this.strokeWidth = 1.0,
+    this.dashWidth = 5.0,
+    this.dashSpace = 5.0,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    // Horizontal Dash Line
+    double y = size.height / 2;
+    double startX = 0.0;
+    while (startX < size.width) {
+      double endX = startX + dashWidth;
+      canvas.drawLine(Offset(startX, y), Offset(endX, y), paint);
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+   return false;
+  }
 }

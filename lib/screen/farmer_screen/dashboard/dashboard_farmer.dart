@@ -27,8 +27,8 @@ class DashboardFarmer extends StatelessWidget {
     final widgetOptions = [
       const FarmerLandingPage(),
       const ProjectScreen(),
-      const Text("Statement"),
-      // const FarmerStatement(),
+      // const Text("Statement"),
+      const FarmerStatement(),
       const Text("Orders"),
       const Text("Earnings"),
     ];
