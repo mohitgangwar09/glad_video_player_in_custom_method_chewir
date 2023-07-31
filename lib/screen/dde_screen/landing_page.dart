@@ -25,7 +25,7 @@ class DDELandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top: 20.0),
             child: Column(
               children: [
                 customAppBar('Hello ', 'Abdullah', onTapDrawer: (){

@@ -1,4 +1,4 @@
-package com.glad.glad
+package com.glad
 
 import io.flutter.embedding.android.FlutterActivity
 

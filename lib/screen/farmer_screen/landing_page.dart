@@ -32,7 +32,7 @@ class FarmerLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: EdgeInsets.only(top: screenHeight()>750?40.0:20),
             child: Column(
               children: [
 
