@@ -26,7 +26,7 @@ class GuestLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: EdgeInsets.only(top: screenHeight()>750?40.0:20),
             child: Column(
               children: [
 

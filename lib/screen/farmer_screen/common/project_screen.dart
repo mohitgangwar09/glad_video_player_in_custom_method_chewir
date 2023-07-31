@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
+import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 
@@ -11,9 +12,15 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 0.0),
+      padding: const EdgeInsets.only(top: 40.0),
       child: Column(
         children: [
+
+          customAppBar('Hello ', 'Abdullah', onTapDrawer: (){
+            farmerLandingKey.currentState?.openDrawer();
+          }, onTapProfile: (){
+            // const FarmerProfile().navigate();
+          },drawerVisibility: true),
 
           25.verticalSpace(),
 
