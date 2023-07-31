@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
-import 'package:glad/theme/light_theme.dart';
 import 'di_container.dart' as di;
 
 Future<void> main() async {

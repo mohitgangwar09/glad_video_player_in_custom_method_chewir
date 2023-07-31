@@ -69,7 +69,7 @@ class FarmerStatement extends StatelessWidget {
                   }),
             ),
             Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.fromLTRB(18,18,18,110),
               child: Column(
                 children: [
                   Container(
@@ -80,6 +80,7 @@ class FarmerStatement extends StatelessWidget {
                         color: Colors.white),
                     child: ListView.separated(
                         shrinkWrap: true,
+                        padding: 0.paddingAll(),
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           final color =
@@ -94,10 +95,14 @@ class FarmerStatement extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Dam construction',
-                                      style:
-                                          figtreeMedium.copyWith(fontSize: 16),
+                                    Expanded(
+                                      child: Text(
+                                        'Dam construction',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            figtreeMedium.copyWith(fontSize: 16),
+                                      ),
                                     ),
                                     Text(
                                       'UGX 100K',
