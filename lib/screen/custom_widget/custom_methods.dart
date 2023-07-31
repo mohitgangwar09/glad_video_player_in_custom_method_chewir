@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
-import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -683,8 +682,11 @@ Widget customAppBar(String text1, String text2,{required Function onTapDrawer,bo
             onTapProfile();
           },child: SvgPicture.asset(Images.person)),
           15.horizontalSpace(),
+
+
         ],
       ),
+
     ],
   );
 }
@@ -970,4 +972,42 @@ class DashedLineVerticalPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+Widget documentImage(String image, Function() onTapCancel) {
+  return Stack(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xFF819891)),
+          borderRadius: BorderRadius.circular(200),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(200),
+              child: Image.asset(
+                Images.sampleVideo,
+                fit: BoxFit.fill,
+                height: 70,
+                width: 70,
+              )),
+        ),
+      ),
+      Positioned(
+        right: 0,
+        child: InkWell(
+          onTap: onTapCancel,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(200),
+                color: Colors.white),
+            child: SvgPicture.asset(
+              Images.cancelImage,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
 }

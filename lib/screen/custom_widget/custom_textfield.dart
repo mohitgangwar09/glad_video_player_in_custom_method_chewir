@@ -23,6 +23,8 @@ class CustomTextField extends StatelessWidget {
   final String? image, leadingImage;
   final bool? status;
   final double? imageWidth, imageHeight;
+  final double? image2Width, image2Height;
+  final String? image2;
   final TextInputType? inputType;
   final bool showEdit;
   final bool withoutBorder;
@@ -35,11 +37,13 @@ class CustomTextField extends StatelessWidget {
   final int? borderColor;
   final Color? underLineBorderColor;
   final Color? imageColors;
+  final Color? image2Colors;
   final int? backgroundColor;
   final List<TextInputFormatter>? inputFormatters;
   final TextStyle? hintStyle;
   final Icon? suffixIcon;
   final Color? suffixIconColor;
+  final bool? readOnly;
 
   const CustomTextField(
       {Key? key,
@@ -76,7 +80,12 @@ class CustomTextField extends StatelessWidget {
       this.inputFormatters,
       this.hintStyle,
       this.suffixIcon,
-      this.suffixIconColor})
+      this.suffixIconColor,
+      this.image2Width,
+      this.image2Height,
+      this.image2,
+      this.image2Colors,
+        this.readOnly})
       : super(key: key);
 
   @override
@@ -144,126 +153,142 @@ class CustomTextField extends StatelessWidget {
             ),
           )
         : Stack(
-          children: [
-            ContainerBorder(
-              margin: 0.marginVertical(),
-              padding: 10.paddingOnly(top: 15, bottom: 15),
-              borderColor: borderColor,
-              backColor: backgroundColor,
-              radius: 10,
-              widget: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  5.horizontalSpace(),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: SizedBox(
-                        width: width,
-                        child: TextField(
-                          focusNode: focusNode,
-                          controller: controller,
-                          inputFormatters: inputFormatters ??
-                              [
-                                LengthLimitingTextInputFormatter(length),
-                              ],
-                          autofocus: false,
-                          cursorColor: Colors.black,
-                          onTap: onTap,
-                          enabled: enabled,
-                          maxLines: maxLine,
-                          minLines: minLine,
-                          obscureText: obscureText!,
-                          keyboardType: inputType,
-                          style: hintStyle ??
-                              figtreeRegular.copyWith(
-                                  fontSize: 16, color: Colors.black),
-                          onEditingComplete: onEditingComplete,
-                          decoration: InputDecoration(
-                            labelText: hint,
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.transparent),
-                            ),
-                            labelStyle: figtreeRegular.copyWith(
-                                fontSize: 15, color: const Color(0xff8A98A5)),
-                            hintStyle: hintStyle ??
+            children: [
+              ContainerBorder(
+                margin: 0.marginVertical(),
+                padding: 10.paddingOnly(top: 15, bottom: 15),
+                borderColor: borderColor,
+                backColor: backgroundColor,
+                radius: 10,
+                widget: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    5.horizontalSpace(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: SizedBox(
+                          width: width,
+                          child: TextField(
+                            focusNode: focusNode,
+                            controller: controller,
+                            inputFormatters: inputFormatters ??
+                                [
+                                  LengthLimitingTextInputFormatter(length),
+                                ],
+                            autofocus: false,
+                            cursorColor: Colors.black,
+                            onTap: onTap,
+                            readOnly: readOnly ?? false,
+                            enabled: enabled,
+                            maxLines: maxLine,
+                            minLines: minLine,
+                            obscureText: obscureText!,
+                            keyboardType: inputType,
+                            style: hintStyle ??
                                 figtreeRegular.copyWith(
-                                    fontSize: 16,
-                                    color: const Color(0xff70757D)),
-                            contentPadding: const EdgeInsets.all(0.0),
-                            isDense: true,
-                            suffixIcon: suffixIcon,
-                            suffixIconColor: suffixIconColor,
-                            border: InputBorder.none,
+                                    fontSize: 16, color: Colors.black),
+                            onEditingComplete: onEditingComplete,
+                            decoration: InputDecoration(
+                              labelText: hint,
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: const UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              labelStyle: figtreeRegular.copyWith(
+                                  fontSize: 15, color: Colors.grey),
+                              hintStyle: hintStyle ??
+                                  figtreeMedium.copyWith(
+                                      fontSize: 16,
+                                      color: Colors.grey),
+                              contentPadding: const EdgeInsets.all(0.0),
+                              isDense: true,
+                              suffixIcon: suffixIcon,
+                              suffixIconColor: suffixIconColor,
+                              border: InputBorder.none,
+                            ),
+                            onChanged: onChanged,
                           ),
-                          onChanged: onChanged,
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (error != null)
-              Visibility(
-                visible: error == '' ? false : true,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0, top: 7),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        Images.errorIcon,
-                        width: 20,
-                        height: 20,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 7.0),
-                          child: Text(
-                            error.toString(),
-                            style: figtreeRegular.copyWith(
-                              color: const Color(0xff929292),
+              if (error != null)
+                Visibility(
+                  visible: error == '' ? false : true,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5.0, top: 7),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          Images.errorIcon,
+                          width: 20,
+                          height: 20,
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 7.0),
+                            child: Text(
+                              error.toString(),
+                              style: figtreeRegular.copyWith(
+                                color: const Color(0xff929292),
+                              ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+              if (leadingImage != null)
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 10,
+                  child: SvgPicture.asset(
+                    leadingImage!,
+                    colorFilter:
+                        ColorFilter.mode(imageColors!, BlendMode.srcIn),
+                    width: imageWidth,
+                    height: imageHeight,
+                  ),
+                ),
+
+                Positioned(
+                  right: 13,
+                  top: 0,
+                  bottom: 0,
+                  child: Row(
+                    children: [
+                      if (image != null)
+                      SvgPicture.asset(
+                        image!,
+                        colorFilter:
+                            ColorFilter.mode(imageColors!, BlendMode.srcIn),
+                        width: imageWidth,
+                        height: imageHeight,
                       ),
+                      if (image != null)
+                        10.horizontalSpace(),
+                      if (image2 != null)
+                      SvgPicture.asset(
+                        image2!,
+                        colorFilter:
+                        ColorFilter.mode(image2Colors!, BlendMode.srcIn),
+                        width: image2Width,
+                        height: image2Height,
+                      )
                     ],
                   ),
                 ),
-              ),
-            if (leadingImage != null)
-              Positioned(
-                top: 0,
-                bottom: 0,
-                left: 10,
-                child: SvgPicture.asset(
-                  leadingImage!,
-                  colorFilter:
-                  ColorFilter.mode(imageColors!, BlendMode.srcIn),
-                  width: imageWidth,
-                  height: imageHeight,
-                ),
-              ),
-            if (image != null)
-              Positioned(
-                right: 10,
-                top: 0,
-                bottom: 0,
-                child: SvgPicture.asset(
-                  image!,
-                  colorFilter:
-                  ColorFilter.mode(imageColors!, BlendMode.srcIn),
-                  width: imageWidth,
-                  height: imageHeight,
-                ),
-              )
-          ],
-        );
+            ],
+          );
   }
 }

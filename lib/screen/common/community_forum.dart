@@ -160,13 +160,12 @@ class _CommunityForumState extends State<CommunityForum> {
                         ),
                       ),
                     ),
-                  )
-                  .toList(),
+                  ).toList(),
               options: CarouselOptions(
                 autoPlay: true,
                 enableInfiniteScroll: false,
                 viewportFraction: 0.9,
-                height: screenHeight() * 0.58,
+                height: screenHeight() < 750 ? screenHeight() * 0.68:screenHeight() * 0.58,
                 onPageChanged: (index, reason) {
                   setState(() {
                     activeIndex = index;

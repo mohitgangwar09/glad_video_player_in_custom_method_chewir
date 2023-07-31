@@ -10,6 +10,8 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
+import 'edit_profile.dart';
+
 class FarmerProfile extends StatelessWidget {
   const FarmerProfile({super.key});
 
@@ -45,7 +47,11 @@ class FarmerProfile extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20.0),
-                        child: SvgPicture.asset(Images.profileEdit),
+                        child: InkWell(
+                          onTap: () {
+                            const EditProfile().navigate();
+                          },
+                            child: SvgPicture.asset(Images.profileEdit)),
                       )
                     ],
                   ),
@@ -84,7 +90,7 @@ class FarmerProfile extends StatelessWidget {
                             4.horizontalSpace(),
                             InkWell(
                                 onTap: () {
-                                  // const KYCUpdate().navigate();
+                                  const KYCUpdate().navigate();
                                 },
                                 child: SvgPicture.asset(Images.kycUnverified))
                           ],
