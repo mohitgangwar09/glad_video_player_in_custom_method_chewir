@@ -78,46 +78,63 @@ class FarmerStatement extends StatelessWidget {
                             Border.all(width: 1, color: ColorResources.grey),
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white),
-                    child: customList(
-                      padding: const EdgeInsets.fromLTRB(31, 20, 31, 20),
-                        child: (int index) {
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Dam construction',
-                                style: figtreeMedium.copyWith(fontSize: 16),
-                              ),
-                              Text(
-                                'UGX 100K',
-                                style:
-                                    figtreeSemiBold.copyWith(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          5.verticalSpace(),
-                          Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '01/04/2023',
-                                style: figtreeMedium.copyWith(fontSize: 12),
-                              ),
-                              Text(
-                                'Paid',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12,
-                                    color: ColorResources.paidGreenText),
-                              ),
-                            ],
-                          )
-                        ],
-                      );
-                    }),
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final color =
+                              index % 2 == 0 ? Colors.white : ColorResources.pinkMain;
+                          return Container(
+                            color: color,
+                            margin: const EdgeInsets.only(left: 20,right: 20),
+                            padding: const EdgeInsets.fromLTRB(10, 25, 10, 15),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Dam construction',
+                                      style:
+                                          figtreeMedium.copyWith(fontSize: 16),
+                                    ),
+                                    Text(
+                                      'UGX 100K',
+                                      style: figtreeSemiBold.copyWith(
+                                          fontSize: 18),
+                                    ),
+                                  ],
+                                ),
+                                5.verticalSpace(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '01/04/2023',
+                                      style:
+                                          figtreeMedium.copyWith(fontSize: 12),
+                                    ),
+                                    Text(
+                                      'Paid',
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 12,
+                                          color: ColorResources.paidGreenText),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(20,0,20,0),
+                            child: SizedBox(height:0, width:30,child: horizontalPaint()),
+                          );
+                        },
+                        itemCount: 8),
                   ),
                 ],
               ),
