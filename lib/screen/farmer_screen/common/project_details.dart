@@ -42,16 +42,14 @@ class ProjectDetails extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            description(),
-                            30.verticalSpace(),
-                            dde(context),
-                            kpi(context),
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          description(),
+                          30.verticalSpace(),
+                          dde(context),
+                          kpi(context),
+                        ],
                       ),
                     ),
                   ),
