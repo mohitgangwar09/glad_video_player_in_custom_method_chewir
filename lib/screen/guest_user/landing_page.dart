@@ -9,7 +9,7 @@ import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/review.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/profile/dde_profile.dart';
+import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'dashboard/dashboard_guest.dart';
 

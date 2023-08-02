@@ -41,7 +41,7 @@ class LanguagePermission extends StatelessWidget {
                       children: [
                         Text(
                           'Choose',
-                          style: figtreeBold.copyWith(fontSize: 34),
+                          style: figtreeSemiBold.copyWith(fontSize: 34),
                         ),
                         Text(
                           'your language',

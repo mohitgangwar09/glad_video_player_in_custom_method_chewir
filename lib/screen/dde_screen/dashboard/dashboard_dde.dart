@@ -5,7 +5,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dde_drawer.dart';
 import 'package:glad/screen/dde_screen/landing_page.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
-import 'package:glad/screen/profile/dde_profile.dart';
+import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/color_resources.dart';

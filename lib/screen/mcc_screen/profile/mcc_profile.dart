@@ -7,7 +7,7 @@ import '../../../utils/color_resources.dart';
 import '../../../utils/images.dart';
 import '../../../utils/styles.dart';
 import '../../custom_widget/custom_textfield.dart';
-import '../../profile/dde_profile.dart';
+import '../../dde_screen/dde_profile.dart';
 
 class MccProfile extends StatelessWidget {
   const MccProfile({super.key});
@@ -23,19 +23,7 @@ class MccProfile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets. fromLTRB(10,0,0,0),
-                child: InkWell(
-                  onTap: (){
-                    Navigator.pop(context);
-                    },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: 32,
-                  ),
-                ),
-              ),
+              arrowBackButton(),
               Expanded(
                 child :SingleChildScrollView(
                   child: Column(children: [

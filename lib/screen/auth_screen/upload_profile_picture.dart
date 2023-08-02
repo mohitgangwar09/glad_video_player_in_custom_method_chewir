@@ -36,9 +36,7 @@ class UploadProfilePicture extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.arrow_back)))
+                        child: arrowBackButton())
                   ],
                 ),
                 Text(

@@ -90,6 +90,7 @@ class Images {
   static const String communityBottom = 'assets/images/community.svg';
   static const String newsBottom = 'assets/images/newsbottom.svg';
   static const String trainingBottom = 'assets/images/trainingbottom.svg';
+  static const String arrowBack = 'assets/images/arrow_back.svg';
 
   //dark bottom
   static const String selectedHome = 'assets/images/home.svg';

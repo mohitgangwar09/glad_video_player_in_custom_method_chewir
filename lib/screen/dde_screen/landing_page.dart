@@ -7,7 +7,7 @@ import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
-import 'package:glad/screen/profile/dde_profile.dart';
+import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
 import '../auth_screen/login_with_password.dart';
 import 'dashboard/dashboard_dde.dart';
@@ -25,7 +25,7 @@ class DDELandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               children: [
                 customAppBar('Hello ', 'Abdullah', onTapDrawer: (){

@@ -20,25 +20,11 @@ class GladProfile extends StatelessWidget {
         children: [
           landingBackground(),
           Padding(
-            padding: const EdgeInsets.only(top: 60.0),
+            padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(
-                        context,
-                      );
-                    },
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                      size: 32,
-                    ),
-                  ),
-                ),
+                arrowBackButton(),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
