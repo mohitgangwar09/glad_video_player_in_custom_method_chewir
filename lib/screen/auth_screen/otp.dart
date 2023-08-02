@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/extra_screen/navigation.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -101,7 +102,7 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
             onCompleted: (v) {
               print("Completed");
-              const Navigation().navigate();
+              const UploadProfilePicture().navigate();
             },
             onChanged: (value) {
               print(value);

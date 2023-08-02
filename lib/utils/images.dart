@@ -75,6 +75,12 @@ class Images {
   static const String activeProject = 'assets/images/activeproject.svg';
   static const String suggestedProject = 'assets/images/suggestedproject.svg';
   static const String farmerFilter = 'assets/images/farmerfilter.svg';
+  static const String facilities = 'assets/images/facilities.png';
+  static const String camera = 'assets/images/camera.svg';
+  static const String attachment = 'assets/images/attachment.svg';
+  static const String calender = 'assets/images/calender.svg';
+  static const String arrowDropdown = 'assets/images/arrow_dropdown.svg';
+  static const String cancelImage = 'assets/images/cancel_image.svg';
 
 
 

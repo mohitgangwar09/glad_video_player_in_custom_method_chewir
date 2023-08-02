@@ -693,8 +693,8 @@ Widget customAppBar(String text1, String text2,{required Function onTapDrawer,bo
 }
 
 Widget landingBackground(){
-  return  Padding(
-    padding: const EdgeInsets.only(left: 50.0),
+  return  Positioned(
+    right: 0,
     child: SvgPicture.asset(
       Images.ppBg,
       alignment: Alignment.topRight,
@@ -720,6 +720,11 @@ Widget customProjectContainer({required Widget child,double? width,double? heigh
       color: Colors.white,
       borderRadius: BorderRadius.circular(20),
       border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+      boxShadow:[
+    BoxShadow(
+    color: Colors.grey.withOpacity(0.5),
+      blurRadius: 16.0,
+      offset: const Offset(0, 5))],
     ),
     child: child,
   );
@@ -984,6 +989,45 @@ class DashedLineVerticalPainter extends CustomPainter {
 
 }
 
+Widget documentImage(String image, Function() onTapCancel) {
+  return Stack(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xFF819891)),
+          borderRadius: BorderRadius.circular(200),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(200),
+              child: Image.asset(
+                Images.sampleVideo,
+                fit: BoxFit.fill,
+                height: 70,
+                width: 70,
+              )),
+        ),
+      ),
+      Positioned(
+        right: 0,
+        child: InkWell(
+          onTap: onTapCancel,
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(200),
+                color: Colors.white),
+            child: SvgPicture.asset(
+              Images.cancelImage,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+
 class DashLinePainter extends CustomPainter {
   final Color color;
   final double strokeWidth;
@@ -1019,3 +1063,29 @@ class DashLinePainter extends CustomPainter {
    return false;
   }
 }
+
+Widget customShadowContainer({bool enabled=true,
+  double? width, int margin=6,
+  bool enabledBack=false,Color color=Colors.white,Color backColor=Colors.white,double elevation=0,double radius=20, String hintText='Search', Function ? textFieldOnTap,Function ? onTap,Function ? backOnTap,ValueChanged<String>? onChanged,bool enabledSearch=false,bool enableLoc=false,
+  bool showCross=true,bool showMap=false,bool
+  boxShadow=true, required Widget child }) {
+  return Container(
+    width: width,
+      margin: margin.marginOnly(top: 0, bottom: 0),
+    decoration: BoxDecoration(
+      color:color ,
+      border: Border.all(color: backColor),
+      borderRadius: BorderRadius.circular(radius),
+      boxShadow:boxShadow? [
+        BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            blurRadius: 16.0,
+            offset: const Offset(0, 5)
+        ),
+      ]:null,
+    ),
+    child: child
+  );
+}
+
+

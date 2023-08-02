@@ -68,7 +68,7 @@ class ServiceProvider extends StatelessWidget {
             leadingImage: Images.textCall,
             imageColors: ColorResources.fieldGrey,
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -79,7 +79,7 @@ class ServiceProvider extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -91,7 +91,7 @@ class ServiceProvider extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            text: '',
+            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),

@@ -11,6 +11,7 @@ import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/profile/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'dashboard/dashboard_guest.dart';
 
 class GuestLandingPage extends StatelessWidget {
@@ -26,7 +27,7 @@ class GuestLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: EdgeInsets.only(top: screenHeight()>750?40.0:20),
+            padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
 

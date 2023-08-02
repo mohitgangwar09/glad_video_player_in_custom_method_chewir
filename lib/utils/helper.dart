@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:glad/utils/extension.dart';
 import 'package:image_picker/image_picker.dart';
 
 double getStatusBarHeight(BuildContext context) {
@@ -70,4 +71,12 @@ Future<bool> checkInternetConnection() async {
 
 Future requestLocationPermission() async {
   await Geolocator.requestPermission();
+}
+
+double deviceSize(){
+  return screenHeight() < 750 ? screenHeight() * 0.68:screenHeight()>870 ? screenHeight()* 0.492:screenHeight()*0.52;
+}
+
+double appBarHeight(){
+  return screenHeight()>750?40.0:20;
 }

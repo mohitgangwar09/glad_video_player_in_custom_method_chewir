@@ -3,10 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/custom_widget/g_map.dart';
+import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+
+import 'edit_profile.dart';
 
 class FarmerProfile extends StatelessWidget {
   const FarmerProfile({super.key});
@@ -43,7 +47,11 @@ class FarmerProfile extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20.0),
-                        child: SvgPicture.asset(Images.profileEdit),
+                        child: InkWell(
+                          onTap: () {
+                            const EditProfile().navigate();
+                          },
+                            child: SvgPicture.asset(Images.profileEdit)),
                       )
                     ],
                   ),
@@ -80,7 +88,11 @@ class FarmerProfile extends StatelessWidget {
                             Text('Matts Francesca',
                                 style: figtreeMedium.copyWith(fontSize: 24)),
                             4.horizontalSpace(),
-                            SvgPicture.asset(Images.kycUnverified)
+                            InkWell(
+                                onTap: () {
+                                  const KYCUpdate().navigate();
+                                },
+                                child: SvgPicture.asset(Images.kycUnverified))
                           ],
                         ),
                         10.verticalSpace(),
@@ -118,7 +130,12 @@ class FarmerProfile extends StatelessWidget {
                                     )),
                               ],
                             ),
-                            10.horizontalSpace(),
+                            7.horizontalSpace(),
+                            SizedBox(
+                              height: 35,
+                              child: customPaint(),
+                            ),
+                            7.horizontalSpace(),
                             Column(
                               children: [
                                 Text('62',
@@ -344,9 +361,8 @@ class FarmerProfile extends StatelessWidget {
                                           )
                                         ],
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15.0),
+                                      const Padding(
+                                        padding: EdgeInsets.only(right: 15.0),
                                         child: Divider(),
                                       ),
                                       Text(
@@ -397,8 +413,9 @@ class FarmerProfile extends StatelessWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          color: ColorResources.maroon,),
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: ColorResources.maroon,
+                                      ),
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
                                         'Overall',
@@ -408,8 +425,9 @@ class FarmerProfile extends StatelessWidget {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Color(0xFFF9F9F9)),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: Color(0xFFF9F9F9)),
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
                                         'Friesian',
@@ -419,8 +437,9 @@ class FarmerProfile extends StatelessWidget {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Color(0xFFF9F9F9)),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: Color(0xFFF9F9F9)),
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
                                         'Guernsey',
@@ -430,8 +449,9 @@ class FarmerProfile extends StatelessWidget {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Color(0xFFF9F9F9)),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: Color(0xFFF9F9F9)),
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
                                         'Guernsey',
@@ -450,43 +470,52 @@ class FarmerProfile extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 12, horizontal: 16),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                    RichText(
-                                        text: TextSpan(children: [
-                                          TextSpan(
-                                              text: 'Milking Cows  ',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 14, color: const Color(0xFF727272))),
-                                          TextSpan(
-                                              text: '20',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 14, color: Colors.black)),
-
-                                        ])),
-                                    RichText(
-                                        text: TextSpan(children: [
-                                          TextSpan(
-                                              text: 'Yield  ',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 14, color: const Color(0xFF727272))),
-                                          TextSpan(
-                                              text: '10 Ltr/Day',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 14, color: Colors.black)),
-
-                                        ])),
-
-                                  ],),
+                                      RichText(
+                                          text: TextSpan(children: [
+                                        TextSpan(
+                                            text: 'Milking Cows  ',
+                                            style: figtreeRegular.copyWith(
+                                                fontSize: 14,
+                                                color:
+                                                    const Color(0xFF727272))),
+                                        TextSpan(
+                                            text: '20',
+                                            style: figtreeSemiBold.copyWith(
+                                                fontSize: 14,
+                                                color: Colors.black)),
+                                      ])),
+                                      SizedBox(
+                                        height: 20,
+                                        child: customPaint(),
+                                      ),
+                                      RichText(
+                                          text: TextSpan(children: [
+                                        TextSpan(
+                                            text: 'Yield  ',
+                                            style: figtreeRegular.copyWith(
+                                                fontSize: 14,
+                                                color:
+                                                    const Color(0xFF727272))),
+                                        TextSpan(
+                                            text: '10 Ltr/Day',
+                                            style: figtreeSemiBold.copyWith(
+                                                fontSize: 14,
+                                                color: Colors.black)),
+                                      ])),
+                                    ],
+                                  ),
                                 ),
                                 20.verticalSpace(),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SvgPicture.asset(Images.herdSize),
                                         Text('Herd Size',
@@ -500,7 +529,7 @@ class FarmerProfile extends StatelessWidget {
                                     10.horizontalSpace(),
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SvgPicture.asset(Images.dryCows),
                                         Text('Dry Cows',
@@ -514,7 +543,7 @@ class FarmerProfile extends StatelessWidget {
                                     10.horizontalSpace(),
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SvgPicture.asset(Images.heifer),
                                         Text('Heifer',
@@ -528,63 +557,179 @@ class FarmerProfile extends StatelessWidget {
                                   ],
                                 ),
                                 20.verticalSpace(),
-                                Row(children: [
-                                  RichText(
-                                      text: TextSpan(children: [
-                                        TextSpan(
-                                            text: '7-12 month: ',
-                                            style: figtreeRegular.copyWith(
-                                                fontSize: 14, color: const Color(0xFF727272))),
-                                        TextSpan(
-                                            text: '08',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 14, color: Colors.black)),
-
-                                      ])),
-                                  4.horizontalSpace(),
-                                  Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  4.horizontalSpace(),
-                                  RichText(
-                                      text: TextSpan(children: [
-                                        TextSpan(
-                                            text: '<6 month: ',
-                                            style: figtreeRegular.copyWith(
-                                                fontSize: 14, color: const Color(0xFF727272))),
-                                        TextSpan(
-                                            text: '02',
-                                            style: figtreeRegular.copyWith(
-                                                fontSize: 14, color: Colors.black)),
-
-                                      ])),
-                                  4.horizontalSpace(),
-                                  Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  4.horizontalSpace(),
-                                  RichText(
-                                      text: TextSpan(children: [
-                                        TextSpan(
-                                            text: 'Bull calf: ',
-                                            style: figtreeRegular.copyWith(
-                                                fontSize: 14, color: const Color(0xFF727272))),
-                                        TextSpan(
-                                            text: '01',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 14, color: Colors.black)),
-
-                                      ])),
-                                ],)
+                                Row(
+                                  children: [
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                          text: '7-12 month: ',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14,
+                                              color: const Color(0xFF727272))),
+                                      TextSpan(
+                                          text: '08',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 14,
+                                              color: Colors.black)),
+                                    ])),
+                                    4.horizontalSpace(),
+                                    Container(
+                                      height: 5,
+                                      width: 5,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.black,
+                                          shape: BoxShape.circle),
+                                    ),
+                                    4.horizontalSpace(),
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                          text: '<6 month: ',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14,
+                                              color: const Color(0xFF727272))),
+                                      TextSpan(
+                                          text: '02',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14,
+                                              color: Colors.black)),
+                                    ])),
+                                    4.horizontalSpace(),
+                                    Container(
+                                      height: 5,
+                                      width: 5,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.black,
+                                          shape: BoxShape.circle),
+                                    ),
+                                    4.horizontalSpace(),
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                          text: 'Bull calf: ',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14,
+                                              color: const Color(0xFF727272))),
+                                      TextSpan(
+                                          text: '01',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 14,
+                                              color: Colors.black)),
+                                    ])),
+                                  ],
+                                ),
                               ],
+                            ),
+                          ),
+                        ),
+                        20.verticalSpace(),
+                        Stack(
+                          children: [
+                            const GMap(
+                              lat: 28.4986,
+                              lng: 77.3999,
+                              height: 350,
+                              zoomGesturesEnabled: false,
+                              zoomControlsEnabled: false,
+                              myLocationEnabled: true,
+                              myLocationButtonEnabled: false,
+                            ),
+                            Positioned(
+                              bottom: 20,
+                              left: 30,
+                              right: 30,
+                              child: Container(
+                                height: 105,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(Images.sampleLivestock),
+                                      15.horizontalSpace(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text('Address',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                          4.verticalSpace(),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            child: Text(
+                                              'Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489 Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489',
+                                              style: figtreeRegular.copyWith(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 20,
+                              top: 10,
+                              child: SvgPicture.asset(Images.profileEdit),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20.0, 20, 0, 0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('Facilities in the Farm',
+                                style: figtreeMedium.copyWith(fontSize: 18)),
+                          ),
+                        ),
+                        15.verticalSpace(),
+                        SizedBox(
+                          height: 120,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: ListView.separated(
+                              itemCount: 10,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Image.asset(
+                                        Images.facilities,
+                                        // width: 150,
+                                        // height: 200,
+                                        // fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    7.verticalSpace(),
+                                    Text(
+                                      'Water',
+                                      style: figtreeMedium.copyWith(
+                                          color: Colors.black, fontSize: 14),
+                                    )
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return 10.horizontalSpace();
+                              },
                             ),
                           ),
                         )
