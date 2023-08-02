@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/livestock_details.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -26,22 +27,16 @@ class LiveStockMarketplace extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 20, 0, 20),
-          child: SizedBox(
-            height: 314,
-            child: ListView.separated(
-              itemCount: 10,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
+
+        SizedBox(
+          height: 318,
+          child: customList(
+              padding: 10.marginLeft(),
+              axis: Axis.horizontal,
+              child: (index){
                 return const LivestockDetails();
-              },
-              separatorBuilder: (context, index) {
-                return 10.horizontalSpace();
-              },
-            ),
-          ),
-        ),
+              }
+        )),
       ],
     );
   }

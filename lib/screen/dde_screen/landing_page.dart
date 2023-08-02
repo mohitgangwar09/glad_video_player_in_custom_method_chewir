@@ -9,6 +9,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import '../auth_screen/login_with_password.dart';
 import 'dashboard/dashboard_dde.dart';
 
@@ -25,7 +26,7 @@ class DDELandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
                 customAppBar('Hello ', 'Abdullah', onTapDrawer: (){

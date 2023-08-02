@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -486,63 +487,56 @@ appBar({int color = 0xffFFF3F4}) {
       ));
 }
 
-Widget hideKeyboard(BuildContext context, {Widget? child}) {
+Widget hideKeyboard(BuildContext context,{Widget? child}){
   return GestureDetector(
-    onTap: () {
+    onTap: (){
       FocusScope.of(context).requestFocus(FocusNode());
     },
     child: child,
   );
 }
 
-Widget authBackgroundForgotOtp({Widget? widget}) {
+
+Widget authBackgroundForgotOtp({Widget? widget}){
   return Stack(
     children: [
+
       Align(
-          alignment: Alignment.topRight,
-          child: SvgPicture.asset(
-            Images.otpBack2,
-            fit: BoxFit.fill,
-          )),
+          alignment: Alignment.topRight,child: SvgPicture.asset(Images.otpBack2,
+        fit: BoxFit.fill,)),
+
       widget!,
+
       Positioned(
-          bottom: 0,
-          right: 0,
-          child: SvgPicture.asset(
-            Images.otpBack1,
-          ))
+          bottom: 0,right: 0,child: SvgPicture.asset(Images.otpBack1,))
+
     ],
   );
 }
+
 
 validator(String error) {
   return Align(
     alignment: Alignment.centerLeft,
     child: Padding(
       padding: const EdgeInsets.only(top: 4.0),
-      child: Text(
-        error.toString(),
-        style: figtreeRegular.copyWith(color: Colors.red),
-      ),
+      child: Text(error.toString(),
+        style: figtreeRegular.copyWith(
+            color: Colors.red
+        ),),
     ),
   );
 }
 
-Widget customTextButton(
-    {required Function onTap,
-    String? text,
-    TextDecoration? decoration,
-    Color? color,
-    double? fontSize}) {
-  return TextButton(
-      onPressed: () {
-        onTap();
-      },
-      child: Text(
-        text.toString().tr,
-        style: figtreeMedium.copyWith(
-            fontSize: fontSize, color: color, decoration: decoration),
-      ));
+Widget customTextButton({required Function onTap,String? text,TextDecoration? decoration,Color? color, double? fontSize}){
+  return TextButton(onPressed: (){
+    onTap();
+  }, child: Text(text.toString().tr,
+      style: figtreeMedium.copyWith(
+          fontSize: fontSize,
+          color: color,
+          decoration: decoration
+    ),));
 }
 
 Widget navigationBarItem(
@@ -565,7 +559,7 @@ Widget navigationBarItem(
         Visibility(
           visible: visible,
           child: Container(
-            height: 30,
+            height:30,
             width: 40,
             decoration: BoxDecoration(
                 border: Border.all(width: 1, color: Colors.white),
@@ -574,6 +568,7 @@ Widget navigationBarItem(
               child: Text(
                 title.toString(),
                 style: figtreeMedium.copyWith(color: Colors.white),
+
               ),
             ),
           ),
@@ -583,19 +578,22 @@ Widget navigationBarItem(
   );
 }
 
-Widget openDrawer({required Widget child, required Function onTap}) {
+
+Widget openDrawer({required Widget child,required Function onTap}){
+
   return InkWell(
-    onTap: () {
+    onTap: (){
       onTap();
     },
     child: child,
   );
 }
 
-Widget closeDrawer({required Widget child}) {
-  return Builder(builder: (context) {
+Widget closeDrawer({required Widget child}){
+
+  return Builder(builder: (context){
     return InkWell(
-      onTap: () {
+      onTap: (){
         pressBack();
       },
       child: child,
@@ -604,27 +602,27 @@ Widget closeDrawer({required Widget child}) {
 }
 
 // bottom Navigation View
-bottomNavigationItem(String text, String image, BuildContext context,
-    int selectedIndex, int i, String selectedImage) {
+bottomNavigationItem(String text, String image,BuildContext context,int selectedIndex , int i,String selectedImage) {
   return Expanded(
     flex: 1,
     child: InkWell(
-      onTap: () {
+      onTap: (){
         BlocProvider.of<DashboardCubit>(context).selectedIndex(i);
       },
       child: Container(
-        padding: const EdgeInsets.only(left: 0, right: 0, top: 11, bottom: 11),
+        padding: const EdgeInsets.only(left:  0,right: 0,top:11,bottom:11),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color:
-              selectedIndex == i ? ColorResources.primary : Colors.transparent,
+          color: selectedIndex == i ? ColorResources.primary:Colors.transparent,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            selectedIndex == i
-                ? SvgPicture.asset(selectedImage, width: 28, height: 28)
-                : SvgPicture.asset(image, width: 28, height: 28),
+
+            selectedIndex == i?
+            SvgPicture.asset(selectedImage,width: 28,height: 28):
+            SvgPicture.asset(image,width: 28,height: 28),
+
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(text,
@@ -632,9 +630,8 @@ bottomNavigationItem(String text, String image, BuildContext context,
                   overflow: TextOverflow.ellipsis,
                   style: figtreeRegular.copyWith(
                     fontSize: 10,
-                    color: selectedIndex == i
-                        ? ColorResources.yellow
-                        : Colors.white,
+                    color: selectedIndex == i?ColorResources.yellow:Colors.white
+                    ,
                   )),
             )
           ],
@@ -644,62 +641,60 @@ bottomNavigationItem(String text, String image, BuildContext context,
   );
 }
 
-Widget customAppBar(
-  String text1,
-  String text2, {
-  required Function onTapDrawer,
-  bool drawerVisibility = false,
-  required Function onTapProfile,
-}) {
+Widget customAppBar(String text1, String text2,{required Function onTapDrawer,bool drawerVisibility = false ,required Function onTapProfile,
+  }){
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
+
       Row(
         children: [
           10.horizontalSpace(),
           Visibility(
             visible: drawerVisibility,
-            child: openDrawer(
-                onTap: () {
-                  onTapDrawer();
-                },
-                child: SvgPicture.asset(Images.drawer)),
+            child: openDrawer(onTap: (){
+              onTapDrawer();
+            },child: SvgPicture.asset(Images.drawer)),
           ),
           10.horizontalSpace(),
           RichText(
               text: TextSpan(children: [
-            TextSpan(
-                text: text1,
-                style: figtreeRegular.copyWith(
-                    fontWeight: FontWeight.w100,
-                    fontSize: 22,
-                    color: Colors.black)),
-            TextSpan(
-                text: text2,
-                style:
-                    figtreeMedium.copyWith(fontSize: 22, color: Colors.black))
-          ])),
+                TextSpan(
+                    text: text1,
+                    style: figtreeRegular.copyWith(
+                        fontWeight: FontWeight.w100,
+                        fontSize: 22,
+                        color: Colors.black)),
+                TextSpan(
+                    text: text2,
+                    style: figtreeMedium.copyWith(
+                        fontSize: 22, color: Colors.black))
+              ])),
         ],
       ),
+
       Row(
         children: [
-          InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+          InkWell(onTap: (){
+
+          },child: SvgPicture.asset(Images.call)),
           10.horizontalSpace(),
-          InkWell(
-              onTap: () {
-                onTapProfile();
-              },
-              child: SvgPicture.asset(Images.person)),
+          InkWell(onTap: (){
+            onTapProfile();
+          },child: SvgPicture.asset(Images.person)),
           15.horizontalSpace(),
+
+
         ],
       ),
+
     ],
   );
 }
 
-Widget landingBackground() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 50.0),
+Widget landingBackground(){
+  return  Positioned(
+    right: 0,
     child: SvgPicture.asset(
       Images.ppBg,
       alignment: Alignment.topRight,
@@ -727,194 +722,236 @@ Widget customProjectContainer(
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: const Color(0xffDCDCDC), width: 1),
+      border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+      boxShadow:[
+    BoxShadow(
+    color: Colors.grey.withOpacity(0.5),
+      blurRadius: 16.0,
+      offset: const Offset(0, 5))],
     ),
     child: child,
   );
 }
 
-Widget farmerProjectDesign() {
+Widget farmerProjectDesign(){
   return Padding(
     padding: const EdgeInsets.all(15.0),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Dam Construction",
-              style: figtreeMedium.copyWith(color: Colors.black, fontSize: 18),
-            ),
+            Text("Dam Construction",
+            style: figtreeMedium.copyWith(
+              color: Colors.black,
+              fontSize: 18
+            ),),
+
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 7),
+              padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 7),
               decoration: boxDecoration(
                 borderRadius: 30,
                 borderColor: const Color(0xff6A0030),
               ),
-              child: Text(
-                "Active",
-                style: figtreeMedium.copyWith(
-                    color: const Color(0xff6A0030), fontSize: 12),
-              ),
+              child: Text("Active",
+              style: figtreeMedium.copyWith(
+                color: const Color(0xff6A0030),
+                fontSize: 12
+
+              ),),
             )
           ],
         ),
+
         Padding(
           padding: const EdgeInsets.only(top: 2.0),
-          child: Text(
-            "Water Management",
+          child: Text("Water Management",
             style: figtreeRegular.copyWith(
-                color: const Color(0xff808080), fontSize: 12),
-          ),
+                color: const Color(0xff808080),
+                fontSize: 12
+            ),),
         ),
+
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: Text(
-            "Construct a water tank and water trough in night paddock plus water pump …",
+          child: Text("Construct a water tank and water trough in night paddock plus water pump …",
             style: figtreeRegular.copyWith(
-                color: const Color(0xff808080), fontSize: 14),
-          ),
+                color: const Color(0xff808080),
+                fontSize: 14
+            ),),
         ),
+
         20.verticalSpace(),
+
         Container(
           height: 60,
           padding: 20.paddingHorizontal(),
           decoration: boxDecoration(
-              backgroundColor: const Color(0xffFFF3F4), borderRadius: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  "UGX 3.2M".textSemiBold(color: Colors.black, fontSize: 16),
-                  "Investment"
-                      .textMedium(fontSize: 12, color: const Color(0xff808080)),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  "UGX 4.5M".textSemiBold(color: Colors.black, fontSize: 16),
-                  "Revenue"
-                      .textMedium(fontSize: 12, color: const Color(0xff808080)),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  "40%".textSemiBold(color: Colors.black, fontSize: 16),
-                  "ROI"
-                      .textMedium(fontSize: 12, color: const Color(0xff808080)),
-                ],
-              ),
-            ],
-          ),
+            backgroundColor: const Color(0xffFFF3F4),
+            borderRadius: 10
+          ),child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                "UGX 3.2M".textSemiBold(color: Colors.black, fontSize: 16),
+
+                "Investment".textMedium(fontSize: 12,color: const Color(0xff808080)),
+
+
+
+              ],
+            ),
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                "UGX 4.5M".textSemiBold(color: Colors.black, fontSize: 16),
+
+                "Revenue".textMedium(fontSize: 12,color: const Color(0xff808080)),
+
+
+
+              ],
+            ),
+
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                "40%".textSemiBold(color: Colors.black, fontSize: 16),
+
+                "ROI".textMedium(fontSize: 12,color: const Color(0xff808080)),
+
+
+
+              ],
+            ),
+
+
+          ],
         ),
+        ),
+
         15.verticalSpace(),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                      text: 'Loan: ',
-                      style: figtreeMedium.copyWith(
-                          color: const Color(0xff808080), fontSize: 12)),
+                   TextSpan(text: 'Loan: ',
+                       style: figtreeMedium.copyWith(
+                           color: const Color(0xff808080),
+                           fontSize: 12
+                       )),
                   TextSpan(
                     text: 'UGX 3.7M',
                     style: figtreeMedium.copyWith(
-                        color: Colors.black, fontSize: 12),
+                      color: Colors.black,
+                      fontSize: 12
+                    ),
                   ),
                 ],
-              ),
-            ),
+              ),),
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                      text: 'EMI/MO: ',
-                      style: figtreeMedium.copyWith(
-                          color: const Color(0xff808080), fontSize: 12)),
+                   TextSpan(text: 'EMI/MO: ',
+                       style: figtreeMedium.copyWith(
+                           color: const Color(0xff808080),
+                           fontSize: 12
+                       )),
                   TextSpan(
                     text: 'UGX 4.5k',
                     style: figtreeMedium.copyWith(
-                        color: Colors.black, fontSize: 12),
+                      color: Colors.black,
+                      fontSize: 12
+                    ),
                   ),
                 ],
-              ),
-            ),
+              ),),
+
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(
-                      text: 'Balance: ',
+                  TextSpan(text: 'Balance: ',
                       style: figtreeMedium.copyWith(
-                          color: const Color(0xff808080), fontSize: 12)),
+                          color: const Color(0xff808080),
+                          fontSize: 12
+                      )),
                   TextSpan(
                     text: '40%',
                     style: figtreeMedium.copyWith(
-                        color: Colors.black, fontSize: 12),
+                        color: Colors.black,
+                        fontSize: 12
+                    ),
                   ),
                 ],
-              ),
-            ),
+              ),),
           ],
         ),
+
         30.verticalSpace(),
+
         Row(
           children: [
+
             CircleAvatar(
-                radius: 30,
-                child: Image.asset(
-                  Images.sampleUser,
-                  fit: BoxFit.cover,
-                  width: 80,
-                  height: 80,
-                )),
+              radius: 30,
+              child: Image.asset(Images.sampleUser,
+              fit: BoxFit.cover,width: 80,height: 80,)),
+
             12.horizontalSpace(),
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                "Matts Francesca".textMedium(
-                  fontSize: 14,
-                ),
+
+                "Matts Francesca".textMedium(fontSize: 14,),
+
                 5.verticalSpace(),
-                "+256 758711344".textRegular(
-                  fontSize: 12,
-                ),
+
+                "+256 758711344".textRegular(fontSize: 12, ),
+
                 5.verticalSpace(),
-                "Luwum St. Rwoozi, Kampala...".textRegular(
-                  fontSize: 12,
-                ),
+
+                "Luwum St. Rwoozi, Kampala...".textRegular(fontSize: 12,),
+
               ],
             )
+
           ],
         ),
+
       ],
     ),
   );
 }
 
-Widget textRegular(
-    {Color color = Colors.transparent,
-    double fontSize = 14,
-    TextDecoration? underLine}) {
-  return Text(
-    "data",
-    style: figtreeRegular.copyWith(
-        color: color, fontSize: fontSize, decoration: underLine),
-  );
+Widget textRegular({Color color = Colors.transparent,double fontSize = 14,TextDecoration? underLine}){
+  return Text("data",
+  style: figtreeRegular.copyWith(
+    color: color,
+    fontSize: fontSize,
+    decoration: underLine
+  ),);
 }
 
-Widget farmerBackground() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 0.0),
+Widget farmerBackground(){
+  return  Padding(
+    padding: const EdgeInsets.only(left:0.0),
     child: SvgPicture.asset(
       Images.farmerBackground,
       alignment: Alignment.topCenter,
@@ -922,15 +959,16 @@ Widget farmerBackground() {
   );
 }
 
-Widget customPaint() {
+Widget customPaint(){
   return CustomPaint(
       size: const Size(1.1, double.infinity),
-      painter: DashedLineVerticalPainter());
+      painter: DashedLineVerticalPainter()
+  );
 }
 
-Widget horizontalPaint() {
+Widget horizontalPaint(){
   return CustomPaint(
-    size: Size(1.1, double.infinity),
+    size: Size(1.1,double.infinity),
     painter: DashLinePainter(),
   );
 }
@@ -950,6 +988,8 @@ class DashedLineVerticalPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+
+
 }
 
 Widget documentImage(String image, Function() onTapCancel) {
@@ -978,7 +1018,8 @@ Widget documentImage(String image, Function() onTapCancel) {
           onTap: onTapCancel,
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(200), color: Colors.white),
+                borderRadius: BorderRadius.circular(200),
+                color: Colors.white),
             child: SvgPicture.asset(
               Images.cancelImage,
             ),
@@ -988,6 +1029,7 @@ Widget documentImage(String image, Function() onTapCancel) {
     ],
   );
 }
+
 
 class DashLinePainter extends CustomPainter {
   final Color color;
@@ -1021,7 +1063,7 @@ class DashLinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+   return false;
   }
 }
 
@@ -1035,3 +1077,29 @@ Widget arrowBackButton() {
         child: SvgPicture.asset(Images.arrowBack),
       ));
 }
+
+Widget customShadowContainer({bool enabled=true,
+  double? width, int margin=6,
+  bool enabledBack=false,Color color=Colors.white,Color backColor=Colors.white,double elevation=0,double radius=20, String hintText='Search', Function ? textFieldOnTap,Function ? onTap,Function ? backOnTap,ValueChanged<String>? onChanged,bool enabledSearch=false,bool enableLoc=false,
+  bool showCross=true,bool showMap=false,bool
+  boxShadow=true, required Widget child }) {
+  return Container(
+      width: width,
+      margin: margin.marginOnly(top: 0, bottom: 0),
+      decoration: BoxDecoration(
+        color:color ,
+        border: Border.all(color: backColor),
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow:boxShadow? [
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 16.0,
+              offset: const Offset(0, 5)
+          ),
+        ]:null,
+      ),
+      child: child
+  );
+}
+
+

@@ -15,6 +15,7 @@ import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -32,7 +33,7 @@ class FarmerLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: EdgeInsets.only(top: screenHeight()>750?40.0:20),
+            padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
 
@@ -142,7 +143,8 @@ class FarmerLandingPage extends StatelessWidget {
               margin: 20.marginRight(),
               height: 242,
               child: customList(axis: Axis.horizontal,child: (int i) {
-                return customProjectContainer(child: const ProjectWidget(status: true,),width: screenWidth()-53);
+                return customProjectContainer(
+                    child: const ProjectWidget(status: true,),width: screenWidth()-53);
               }),
             ),
 

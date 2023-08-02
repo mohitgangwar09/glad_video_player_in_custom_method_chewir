@@ -47,8 +47,14 @@ class _DDEInAreaState extends State<DDEInArea> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: ColorResources.grey),
-                color: Colors.white),
+                    border: Border.all(color: ColorResources.grey.withOpacity(0.5)),
+                  boxShadow:[
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        blurRadius: 16.0,
+                        offset: const Offset(0, 5)
+                    )],
+                color: Colors.white,),
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
@@ -77,7 +83,9 @@ class _DDEInAreaState extends State<DDEInArea> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(180),
                           border: Border.all(color: ColorResources.yellow),
-                          color: const Color(0xFFFFF3F4)),
+                          color: const Color(0xFFFFF3F4),
+                      ),
+
                       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
