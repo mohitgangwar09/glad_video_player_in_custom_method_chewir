@@ -713,7 +713,7 @@ BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
 
 Widget customProjectContainer({required Widget child,double? width,double? height}){
   return Container(
-    margin: const EdgeInsets.only(left: 20,top: 20),
+    margin: const EdgeInsets.only(left:10,top: 20),
     width: width,
     height: height,
     decoration: BoxDecoration(
