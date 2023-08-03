@@ -88,7 +88,7 @@ class FarmerStatement extends StatelessWidget {
                           return Container(
                             color: color,
                             margin: const EdgeInsets.only(left: 20,right: 20),
-                            padding: const EdgeInsets.fromLTRB(10, 25, 10, 15),
+                            padding: const EdgeInsets.fromLTRB(10,15, 10,15),
                             child: Column(
                               children: [
                                 Row(

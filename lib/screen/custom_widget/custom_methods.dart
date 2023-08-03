@@ -202,7 +202,7 @@ Widget customGrid<T>(BuildContext context,
     itemBuilder: (context, index) => child(index)
     // child(list[index], index),
     ,
-    itemCount: list.isNotEmpty ? list.length : 2,
+    itemCount: list.isNotEmpty ? list.length :2,
     //controller: listScrollController,
   );
 }
@@ -702,21 +702,18 @@ Widget landingBackground(){
   );
 }
 
-BoxDecoration boxDecoration(
-    {Color borderColor = Colors.transparent,
-    double borderWidth = 0,
-    double borderRadius = 0,
-    Color backgroundColor = Colors.transparent}) {
+BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
+  double borderWidth = 0,double borderRadius = 0,Color backgroundColor = Colors.transparent,}){
   return BoxDecoration(
-      border: Border.all(color: borderColor, width: borderWidth),
-      borderRadius: BorderRadius.circular(borderRadius),
-      color: backgroundColor);
+    border: Border.all(color: borderColor,width: borderWidth),
+    borderRadius: BorderRadius.circular(borderRadius),
+    color: backgroundColor
+  );
 }
 
-Widget customProjectContainer(
-    {required Widget child, double? width, double? height}) {
+Widget customProjectContainer({required Widget child,double? width,double? height,}){
   return Container(
-    margin: const EdgeInsets.only(left: 20, top: 20),
+    margin: const EdgeInsets.only(left:10,top: 20),
     width: width,
     height: height,
     decoration: BoxDecoration(
@@ -1088,7 +1085,7 @@ Widget customShadowContainer({bool enabled=true,
       margin: margin.marginOnly(top: 0, bottom: 0),
       decoration: BoxDecoration(
         color:color ,
-        border: Border.all(color: backColor),
+        border: Border.all(color: backColor,),
         borderRadius: BorderRadius.circular(radius),
         boxShadow:boxShadow? [
           BoxShadow(
