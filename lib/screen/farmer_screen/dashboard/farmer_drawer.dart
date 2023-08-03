@@ -57,7 +57,7 @@ class FarmerDrawer extends StatelessWidget {
               image: Images.aboutus,
               onTap: () {},
               text: 'Message board',
-              visible: true),
+              visible: false),
           30.verticalSpace(),
           navigationBarItem(
               image: Images.drawerTraining, onTap: () {}, text: 'Training'),
@@ -72,7 +72,7 @@ class FarmerDrawer extends StatelessWidget {
               image: Images.notification,
               onTap: () {},
               text: 'Notification',
-              visible: true),
+              visible: false),
           30.verticalSpace(),
           navigationBarItem(
             image: Images.aboutus,
@@ -107,22 +107,22 @@ class FarmerDrawer extends StatelessWidget {
               width: 45,
               height: 45,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'GLAD Helpline Number',
-                  style:
-                      figtreeMedium.copyWith(fontSize: 14, color: Colors.white),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'GLAD Helpline Number',
+                      style: figtreeMedium.copyWith(
+                          fontSize: 12, color: Colors.white),
+                    ),
+                    5.verticalSpace(),
+                    Text(
+                      '+234567890',
+                      style: figtreeSemiBold.copyWith(
+                          fontSize: 20, color: Colors.white),
+                    )
+                  ],
                 ),
-                10.verticalSpace(),
-                Text(
-                  '+234567890',
-                  style:
-                      figtreeMedium.copyWith(fontSize: 14, color: Colors.white),
-                )
-              ],
-            ),
             SvgPicture.asset(
               Images.whatsapp,
               width: 40,
