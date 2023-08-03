@@ -8,7 +8,7 @@ import '../../../utils/images.dart';
 import '../../../utils/styles.dart';
 import '../../custom_widget/custom_methods.dart';
 import '../../custom_widget/custom_textfield.dart';
-import '../../profile/dde_profile.dart';
+import '../../dde_screen/dde_profile.dart';
 
 class ServiceProvider extends StatelessWidget {
   const ServiceProvider({super.key});
@@ -24,16 +24,7 @@ class ServiceProvider extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: 32,
-                  ),
-                ),
+                arrowBackButton(),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [

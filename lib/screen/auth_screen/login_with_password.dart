@@ -131,7 +131,7 @@ Widget card(BuildContext context){
 
               Padding(
                 padding: const EdgeInsets.only(top: 60.0),
-                child: Text("Welcome Back",
+                child: Text("Welcome back!",
                   style: figtreeMedium.copyWith(
                       color: Colors.white,
                       fontSize: 24

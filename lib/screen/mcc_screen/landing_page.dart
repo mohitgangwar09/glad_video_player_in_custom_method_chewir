@@ -6,6 +6,7 @@ import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/mcc_screen/profile/mcc_profile.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 
 class MCCLandingPage extends StatelessWidget {
   const MCCLandingPage({super.key});
@@ -18,7 +19,7 @@ class MCCLandingPage extends StatelessWidget {
         children: [
           landingBackground(),
           Padding(
-            padding: EdgeInsets.only(top: screenHeight()>750?40.0:20),
+            padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
                 customAppBar('Welcome to ', 'GLAD',

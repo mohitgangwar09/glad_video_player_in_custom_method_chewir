@@ -31,6 +31,7 @@ class Images {
   static const String whatsapp = 'assets/images/whatsapp.svg';
   static const String redirectLocation = 'assets/images/redirect_location.svg';
   static const String sampleLivestock = 'assets/images/livestock_sample.png';
+  static const String messageChat = 'assets/images/messagechat.png';
   static const String chatBubble = 'assets/images/chat_bubble.svg';
   static const String emailPhone = 'assets/images/email.svg';
   static const String password = 'assets/images/password.svg';
@@ -90,6 +91,8 @@ class Images {
   static const String communityBottom = 'assets/images/community.svg';
   static const String newsBottom = 'assets/images/newsbottom.svg';
   static const String trainingBottom = 'assets/images/trainingbottom.svg';
+  static const String arrowBack = 'assets/images/arrow_back.svg';
+
 
   //dark bottom
   static const String selectedHome = 'assets/images/home.svg';

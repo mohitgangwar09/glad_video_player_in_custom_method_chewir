@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
+import 'package:glad/utils/extension.dart';
 import 'di_container.dart' as di;
 
 Future<void> main() async {
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    print(screenHeight());
+
     return const SplashScreen();
   }
 }

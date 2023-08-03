@@ -24,27 +24,24 @@ class KYCUpdate extends StatelessWidget {
             padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const BackButton(),
-                      1.horizontalSpace(),
-                      Text('KYC documents',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    arrowBackButton(),
+                    1.horizontalSpace(),
+                    Text('KYC documents',
+                        style: figtreeMedium.copyWith(
+                            fontWeight: FontWeight.w100,
+                            fontSize: 20,
+                            color: Colors.black)),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Save',
                           style: figtreeMedium.copyWith(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 20,
-                              color: Colors.black)),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Save',
-                            style: figtreeMedium.copyWith(
-                                color: ColorResources.maroon, fontSize: 14),
-                          )),
-                    ],
-                  ),
+                              color: ColorResources.maroon, fontSize: 14),
+                        )),
+                  ],
                 ),
                 Text(
                   'Provide the following details',

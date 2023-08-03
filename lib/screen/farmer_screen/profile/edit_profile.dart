@@ -21,26 +21,23 @@ class EditProfile extends StatelessWidget {
             padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const BackButton(),
-                      Text('Edit profile',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    arrowBackButton(),
+                    Text('Edit profile',
+                        style: figtreeMedium.copyWith(
+                            fontWeight: FontWeight.w100,
+                            fontSize: 20,
+                            color: Colors.black)),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Save',
                           style: figtreeMedium.copyWith(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 20,
-                              color: Colors.black)),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Save',
-                            style: figtreeMedium.copyWith(
-                                color: ColorResources.maroon, fontSize: 14),
-                          )),
-                    ],
-                  ),
+                              color: ColorResources.maroon, fontSize: 14),
+                        )),
+                  ],
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -83,34 +80,31 @@ class EditProfile extends StatelessWidget {
                           width: screenWidth(),
                           decoration: boxDecoration(
                               borderRadius: 62,
-                              borderColor: const Color(0xffDCDCDC)
-                          ),
+                              borderColor: const Color(0xffDCDCDC)),
                           child: Row(
                             children: [
-
                               Expanded(
                                 child: Container(
                                   height: screenHeight(),
                                   margin: const EdgeInsets.all(6),
                                   decoration: boxDecoration(
                                       backgroundColor: const Color(0xff6A0030),
-                                      borderRadius: 62
-                                  ),
+                                      borderRadius: 62),
                                   alignment: Alignment.center,
-                                  child: "Personal information".textMedium(color: Colors.white,fontSize: 13),
+                                  child: "Personal information".textMedium(
+                                      color: Colors.white, fontSize: 13),
                                 ),
                               ),
-
                               Expanded(
                                 child: Container(
                                   height: screenHeight(),
                                   margin: const EdgeInsets.all(6),
                                   decoration: boxDecoration(
                                       backgroundColor: const Color(0xff6A0030),
-                                      borderRadius: 62
-                                  ),
+                                      borderRadius: 62),
                                   alignment: Alignment.center,
-                                  child: "Farm details".textMedium(color: Colors.white,fontSize: 13),
+                                  child: "Farm details".textMedium(
+                                      color: Colors.white, fontSize: 13),
                                 ),
                               ),
                             ],
@@ -125,6 +119,70 @@ class EditProfile extends StatelessWidget {
                               20.verticalSpace(),
                               const CustomTextField2(title: 'Email'),
                               20.verticalSpace(),
+                              CustomTextField2(
+                                title: 'Gender',
+                                isDropdown: true,
+                                itemList: const ['Male', 'Female'],
+                                dropdownValue: null,
+                                icon: Images.arrowDropdown,
+                                iconColors: Colors.black,
+                                onChanged: (String? value) {},
+                              ),
+                              20.verticalSpace(),
+                              CustomTextField2(
+                                title: 'DOB',
+                                image2: Images.calender,
+                                image2Colors: ColorResources.maroon,
+                                readOnly: true,
+                                onTap: () {
+                                  showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime.now());
+                                },
+                                focusNode: FocusNode(),
+                              ),
+                              20.verticalSpace(),
+                              CustomTextField2(
+                                title: 'Farming since',
+                                image2: Images.calender,
+                                image2Colors: ColorResources.maroon,
+                                readOnly: true,
+                                onTap: () {
+                                  showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime.now());
+                                },
+                                focusNode: FocusNode(),
+                              ),
+                              40.verticalSpace(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: customButton(
+                                  'Save',
+                                  onTap: () { },
+                                  radius: 40,
+                                  width: double.infinity,
+                                  height: 70,
+                                  style: figtreeMedium.copyWith(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                              20.verticalSpace(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: customButton('Cancel',
+                                    onTap: () {},
+                                    radius: 40,
+                                    width: double.infinity,
+                                    height: 70,
+                                    style: figtreeMedium.copyWith(
+                                        color: Colors.black, fontSize: 16),
+                                    color: 0xFFDCDCDC),
+                              ),
                             ],
                           ),
                         )

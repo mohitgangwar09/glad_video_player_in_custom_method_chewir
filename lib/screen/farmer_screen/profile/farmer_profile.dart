@@ -26,20 +26,11 @@ class FarmerProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8.0, 8, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.black,
-                          size: 32,
-                        ),
-                      ),
+                      arrowBackButton(),
                       Text(
                         'My Profile',
                         style: figtreeMedium.copyWith(fontSize: 22),
@@ -269,14 +260,6 @@ class FarmerProfile extends StatelessWidget {
                         ),
                         30.verticalSpace(),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('DDE',
-                                style: figtreeMedium.copyWith(fontSize: 18)),
-                          ),
-                        ),
-                        Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Stack(
                             alignment: Alignment.center,
@@ -292,7 +275,7 @@ class FarmerProfile extends StatelessWidget {
                                         Border.all(color: ColorResources.grey)),
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(
-                                      15.0, 20, 0, 10),
+                                      15.0, 16, 0, 10),
                                   child: Column(
                                     children: [
                                       Row(
@@ -384,9 +367,15 @@ class FarmerProfile extends StatelessWidget {
                                       6.horizontalSpace(),
                                     ],
                                   )),
+                              Positioned(
+                                left: 0,
+                                top: -4,
+                                child: Text('DDE',
+                                    style: figtreeMedium.copyWith(fontSize: 18)),)
                             ],
                           ),
                         ),
+                        20.verticalSpace(),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
                           child: Align(
@@ -395,6 +384,7 @@ class FarmerProfile extends StatelessWidget {
                                 style: figtreeMedium.copyWith(fontSize: 18)),
                           ),
                         ),
+                        10.verticalSpace(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -10,20 +11,16 @@ class LivestockDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        /*boxShadow: const [BoxShadow(
-          offset: Offset(3, 3),
-          color: Colors.white,
-          blurRadius: 0.0),
-      ]*/
-      ),
+    return customShadowContainer(
+      width: 190,
+      backColor: Colors.grey.withOpacity(0.4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(Images.sampleLivestock),
+          Container(
+            padding: 2.marginAll(),
+            width: screenWidth(),
+              height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.asset(Images.sampleLivestock,fit: BoxFit.cover,))),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
