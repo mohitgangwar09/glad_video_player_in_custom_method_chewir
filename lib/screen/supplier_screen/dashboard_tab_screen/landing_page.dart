@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
-import 'package:glad/screen/common/livestock_marketplace.dart';
-import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/guest_user/drawer_screen.dart';
-import 'package:glad/screen/dde_screen/dde_profile.dart';
+import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
-import '../auth_screen/login_with_password.dart';
-import 'dashboard/dashboard_dde.dart';
 
-class DDELandingPage extends StatelessWidget {
-  const DDELandingPage({super.key});
+import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
+
+class SupplierLandingPage extends StatelessWidget {
+  const SupplierLandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +19,16 @@ class DDELandingPage extends StatelessWidget {
       color: Colors.white,
       child: Stack(
         children: [
-
           landingBackground(),
 
           Padding(
             padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
-                customAppBar('Hello ', 'Abdullah', onTapDrawer: (){
-                  ddeLandingKey.currentState?.openDrawer();
+                customAppBar('Hello ', ' Hurton,', onTapDrawer: (){
+                  landingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
-                  const GladProfile().navigate();
+                  const ServiceProvider().navigate();
                 },drawerVisibility: true),
 
                 landingPage(),
@@ -55,8 +51,6 @@ class DDELandingPage extends StatelessWidget {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
-            const LiveStockMarketplace(),
-            10.verticalSpace(),
             const CommunityForum(
               name: 'Begumanya Charles',
               location: 'Kampala, Uganda',
@@ -67,14 +61,6 @@ class DDELandingPage extends StatelessWidget {
             ),
             10.verticalSpace(),
             const FeaturedTrainings(),
-            10.verticalSpace(),
-            const MCCInArea(
-              name: 'Begumanya Charles',
-              phone: '+256 758711344',
-              address:
-              'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
-              image: '',
-            ),
             10.verticalSpace(),
             const TrendingNewsAndEvents(),
             100.verticalSpace(),

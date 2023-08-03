@@ -74,8 +74,9 @@ Future requestLocationPermission() async {
 }
 
 double deviceSize(){
-  return screenHeight() < 750 ? screenHeight() * 0.68:screenHeight()>870 ? screenHeight()* 0.492:screenHeight()*0.52;
+  return screenHeight() < 750 ? screenHeight() * 0.68:screenHeight()>870 ? screenHeight()* 0.52:screenHeight()<770?screenHeight()*0.6:screenHeight()*0.54;
 }
+
 
 double appBarHeight(){
   return screenHeight()>750?40.0:20;
