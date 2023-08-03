@@ -12,7 +12,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
-import 'dashboard/dashboard_guest.dart';
+import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
 
 class GuestLandingPage extends StatelessWidget {
   const GuestLandingPage({super.key});

@@ -6,7 +6,6 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
 import '../../../utils/images.dart';
-import '../../extra_screen/navigation.dart';
 
 class ProjectDetails extends StatelessWidget {
   const ProjectDetails({super.key});
@@ -49,6 +48,7 @@ class ProjectDetails extends StatelessWidget {
                           30.verticalSpace(),
                           dde(context),
                           kpi(context),
+                          projectMilestones(),
                         ],
                       ),
                     ),
@@ -57,6 +57,14 @@ class ProjectDetails extends StatelessWidget {
               ],
             ),
           ),
+          Positioned(
+              bottom: 0,
+              right: 0,
+              child: Image.asset(
+                Images.messageChat,
+                width: 100,
+                height: 100,
+              ))
         ],
       ),
     );
@@ -220,6 +228,7 @@ class ProjectDetails extends StatelessWidget {
     );
   }
 
+/////////KPI///////////////////////
   Widget kpi(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -231,18 +240,156 @@ class ProjectDetails extends StatelessWidget {
             fontSize: 18,
           ),
         ),
-        customGrid(
-            context,
-            list: [1,2,3,4,5,6,7],
+        10.verticalSpace(),
+        customGrid(context,
+            list: [1, 2, 3, 4, 5, 6, 7],
             crossAxisCount: 3,
-            mainAxisExtent: 140,
-            crossAxisSpacing:0,
-            child: (int index) {
-          return customProjectContainer(
-            width: screenWidth(),
-              child: Column());
+            mainAxisSpacing: 20,
+            mainAxisExtent:135, child: (int index) {
+          return customShadowContainer(
+              backColor: ColorResources.grey,
+              margin: 2,
+              radius: 14,
+              width: screenWidth(),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset(
+                          Images.callPrimary,
+                          width: 30,
+                          height: 30,
+                        ),
+                        SvgPicture.asset(Images.menuIcon)
+                      ],
+                    ),
+                    15.verticalSpace(),
+                    Text(
+                      'UGX 800K',
+                      style: figtreeMedium.copyWith(fontSize: 16),
+                    ),
+                    05.verticalSpace(),
+                    Text(
+                      'Farmer Participation',
+                      style: figtreeRegular.copyWith(fontSize: 14),
+                    )
+                  ],
+                ),
+              ));
         })
       ],
     );
+  }
+
+  ///////////ProjectMilestones///////////
+  Widget projectMilestones() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      50.verticalSpace(),
+      Text(
+        'Project milestones',
+        style: figtreeMedium.copyWith(fontSize: 18),
+      ),
+      15.verticalSpace(),
+      customList(
+          axis: Axis.vertical,
+          child: (int index) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20,
+              ),
+              child: customShadowContainer(
+                  margin: 0,
+                  backColor: ColorResources.grey,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 10, 10, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Installation of water tank...',
+                              style: figtreeMedium.copyWith(fontSize: 18),
+                            ),
+                            checkBox(
+                              value: true,
+                            )
+                          ],
+                        ),
+                        Text(
+                          '05 tasks included in this milestone.',
+                          style: figtreeMedium.copyWith(fontSize: 12),
+                        ),
+                        20.verticalSpace(),
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Value',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 12,
+                                      color: ColorResources.fieldGrey),
+                                ),
+                                Text(
+                                  'UGX 600K',
+                                  style: figtreeSemiBold.copyWith(
+                                      fontSize: 16,
+                                      color: ColorResources.maroon),
+                                )
+                              ],
+                            ),
+                            40.horizontalSpace(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Duration',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 12,
+                                      color: ColorResources.fieldGrey),
+                                ),
+                                Text(
+                                  '12 Days',
+                                  style: figtreeSemiBold.copyWith(
+                                      fontSize: 16,
+                                      color: ColorResources.maroon),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+            );
+          }),
+
+      20.verticalSpace(),
+      Center(
+          child: Padding(
+            padding: const EdgeInsets.only(left:50,right:50),
+            child: customButton('Revoke',
+                width: screenWidth(),
+                style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                onTap: () {},
+                radius: 88,
+                color: 0xffFC5E60),
+          )),
+      05.verticalSpace(),
+      Center(
+          child: Text(
+        'Tap above to revoke the loan application.',
+        style: figtreeMedium.copyWith(
+            fontSize: 10, color: ColorResources.fieldGrey),
+      )),
+      20.verticalSpace(),
+    ]);
   }
 }

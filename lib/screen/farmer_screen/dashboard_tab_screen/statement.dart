@@ -4,7 +4,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
-import 'dashboard/dashboard_farmer.dart';
+
 
 class FarmerStatement extends StatelessWidget {
   const FarmerStatement({super.key});
@@ -88,7 +88,7 @@ class FarmerStatement extends StatelessWidget {
                           return Container(
                             color: color,
                             margin: const EdgeInsets.only(left: 20,right: 20),
-                            padding: const EdgeInsets.fromLTRB(10, 25, 10, 15),
+                            padding: const EdgeInsets.fromLTRB(10,15, 10,15),
                             child: Column(
                               children: [
                                 Row(

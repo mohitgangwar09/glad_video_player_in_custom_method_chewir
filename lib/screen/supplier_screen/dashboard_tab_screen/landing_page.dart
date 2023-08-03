@@ -11,7 +11,7 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'dashboard/dashboard_supplier.dart';
+import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 
 class SupplierLandingPage extends StatelessWidget {
   SupplierLandingPage({super.key});

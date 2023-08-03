@@ -4,7 +4,7 @@ import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
-import 'package:glad/screen/guest_user/landing_page.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/landing_page.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
