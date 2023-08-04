@@ -120,6 +120,7 @@ class Images {
 
   // dde bottom
   static const String farmer = 'assets/images/farmer.svg';
+  static const String selectedFarmer = 'assets/images/selectedfarmer.svg';
   static const String enquiry = 'assets/images/enquiry.svg';
   static const String selectedEnquiry = 'assets/images/selectedenquiry.svg';
 

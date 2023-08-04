@@ -549,7 +549,10 @@ Widget navigationBarItem(
     onTap: onTap(),
     child: Row(
       children: [
-        SvgPicture.asset(image),
+        SizedBox(
+          width: 25,
+          child: SvgPicture.asset(image),
+        ),
         20.horizontalSpace(),
         Text(
           text!,
@@ -956,26 +959,27 @@ Widget farmerBackground(){
   );
 }
 
-Widget customPaint(){
+Widget customPaint(Color color) {
   return CustomPaint(
       size: const Size(1.1, double.infinity),
-      painter: DashedLineVerticalPainter()
-  );
+      painter: DashedLineVerticalPainter(color: color));
 }
 
-Widget horizontalPaint(){
+Widget horizontalPaint() {
   return CustomPaint(
-    size: Size(1.1,double.infinity),
+    size: Size(1.1, double.infinity),
     painter: DashLinePainter(),
   );
 }
 
 class DashedLineVerticalPainter extends CustomPainter {
+  DashedLineVerticalPainter({required this.color});
+  final Color color;
   @override
   void paint(Canvas canvas, Size size) {
-    double dashHeight = 5, dashSpace = 3, startY = 0;
+    double dashHeight = 2, dashSpace = 2, startY = 0;
     final paint = Paint()
-      ..color = Colors.grey
+      ..color = color
       ..strokeWidth = size.width;
     while (startY < size.height) {
       canvas.drawLine(Offset(0, startY), Offset(0, startY + dashHeight), paint);
@@ -1064,14 +1068,19 @@ class DashLinePainter extends CustomPainter {
   }
 }
 
-Widget arrowBackButton() {
+Widget arrowBackButton({Color? color}) {
   return InkWell(
       onTap: () {
         pressBack();
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 12.0),
-        child: SvgPicture.asset(Images.arrowBack),
+        child: color != null
+            ? SvgPicture.asset(
+                Images.arrowBack,
+                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              )
+            : SvgPicture.asset(Images.arrowBack),
       ));
 }
 
