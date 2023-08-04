@@ -711,9 +711,9 @@ BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
   );
 }
 
-Widget customProjectContainer({required Widget child,double? width,double? height,}){
+Widget customProjectContainer({required Widget child,double? width,double? height,double? marginTop =20,double? marginLeft = 10}){
   return Container(
-    margin: const EdgeInsets.only(left:10,top: 20),
+    margin: EdgeInsets.only(left:marginLeft!,top: marginTop!),
     width: width,
     height: height,
     decoration: BoxDecoration(
@@ -1077,7 +1077,7 @@ Widget arrowBackButton() {
 
 Widget customShadowContainer({bool enabled=true,
   double? width, int margin=6,
-  bool enabledBack=false,Color color=Colors.white,Color backColor=Colors.white,double elevation=0,double radius=20, String hintText='Search', Function ? textFieldOnTap,Function ? onTap,Function ? backOnTap,ValueChanged<String>? onChanged,bool enabledSearch=false,bool enableLoc=false,
+  bool enabledBack=false,Color color=Colors.white,Color backColor=Colors.white,double elevation=0.5,double radius=20, String hintText='Search', Function ? textFieldOnTap,Function ? onTap,Function ? backOnTap,ValueChanged<String>? onChanged,bool enabledSearch=false,bool enableLoc=false,
   bool showCross=true,bool showMap=false,bool
   boxShadow=true, required Widget child }) {
   return Container(
