@@ -68,7 +68,7 @@ class FarmerLandingPage extends StatelessWidget {
             10.verticalSpace(),
 
             Padding(
-              padding: const EdgeInsets.only(right: 20.0,bottom: 25),
+              padding: const EdgeInsets.only(right: 20.0,left: 10,bottom: 25),
               child: customGrid(
                   context,
                   mainAxisExtent: 185,
@@ -146,7 +146,7 @@ class FarmerLandingPage extends StatelessWidget {
             ),
 
             Container(
-              margin: 20.marginRight(),
+              margin: const EdgeInsets.only(left: 10,right: 20),
               height: 242,
               child: customList(axis: Axis.horizontal,child: (int i) {
                 return customProjectContainer(

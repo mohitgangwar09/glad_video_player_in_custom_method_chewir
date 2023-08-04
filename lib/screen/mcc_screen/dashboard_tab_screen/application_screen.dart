@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class MCCApplicationScreen extends StatelessWidget {
@@ -9,9 +10,10 @@ class MCCApplicationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return customProjectContainer(
-        width: screenWidth(),
+        marginTop: 10,
+        width: screenWidth()-45,
         child: Padding(
-          padding: const EdgeInsets.only(top: 25.0,left: 20,right: 20,bottom: 20),
+          padding: const EdgeInsets.only(top: 25.0,left: 20,right: 20,),
           child: InkWell(
             onTap: (){
             },
@@ -20,9 +22,8 @@ class MCCApplicationScreen extends StatelessWidget {
               children: [
 
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    12.horizontalSpace(),
 
                     Expanded(
                       child: Column(
@@ -44,11 +45,19 @@ class MCCApplicationScreen extends StatelessWidget {
                   ],
                 ),
 
+                18.verticalSpace(),
+
+                "Construct a water tank and water trough in night paddock plus water pump ".textRegular(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  fontSize: 14,color: const Color(0xff808080)
+                ),
+
                 15.verticalSpace(),
 
                 Container(
-                  height: 60,
-                  padding: 20.paddingHorizontal(),
+                  height: 70,
+                  padding: 15.paddingHorizontal(),
                   decoration: boxDecoration(
                       backgroundColor: const Color(0xffFFF3F4),
                       borderRadius: 10
@@ -56,102 +65,36 @@ class MCCApplicationScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
 
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
 
-                        "18 Ltr./day".textSemiBold(color: Colors.black, fontSize: 16),
+                          "Begumanya Charles".textMedium(color: Colors.black, fontSize: 14,maxLines: 1,overflow: TextOverflow.ellipsis),
 
-                        3.verticalSpace(),
+                          1.verticalSpace(),
 
-                        "Target yield /cow".textRegular(fontSize: 12,color: Colors.black),
+                          "+256 758711344".textRegular(fontSize: 12,color: Colors.black),
+
+                          4.verticalSpace(),
+
+                          "Luwum St. Rwoozi, Kampala...".textRegular(fontSize: 12,color: Colors.black,maxLines: 1,overflow: TextOverflow.ellipsis),
 
 
 
-                      ],
+                        ],
+                      ),
                     ),
 
-                    SizedBox(
-                      height: 45,
-                      child: customPaint(Colors.grey),
-                    ),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "180 Ltr./day".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        3.verticalSpace(),
-
-                        "Incremental production".textRegular(fontSize: 12,color: Colors.black)
-
-                      ],
-                    ),
+                    CircleAvatar(
+                      radius: 24,
+                      child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 53,height: 53,),
+                    )
 
                   ],
                 ),),
 
-                10.verticalSpace(),
-
-                Container(
-                  margin: 4.marginTop(),
-                  padding: 20.paddingHorizontal(),
-                  decoration: boxDecoration(
-                      borderRadius: 10
-                  ),child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "UGX 3.2M".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        "Investment".textMedium(fontSize: 12),
-
-
-
-                      ],
-                    ),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "UGX 4.5M".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        "Revenue".textMedium(fontSize: 12,color: Colors.black),
-
-
-
-                      ],
-                    ),
-
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "40%".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        "ROI".textMedium(fontSize: 12,),
-
-
-
-                      ],
-                    ),
-
-
-                  ],
-                ),
-                ),
 
                 // 30.verticalSpace()
 
