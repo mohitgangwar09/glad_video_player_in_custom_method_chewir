@@ -69,7 +69,7 @@ class DashboardDDE extends StatelessWidget {
                   state.selectedIndex, 0, Images.selectedHome),
               10.horizontalSpace(),
               bottomNavigationItem('Farmers', Images.farmer, context,
-                  state.selectedIndex, 1, Images.selectedNewsBottom),
+                  state.selectedIndex, 1, Images.selectedFarmer),
               10.horizontalSpace(),
               bottomNavigationItem('Projects', Images.application, context,
                   state.selectedIndex, 2, Images.selectedApplication),

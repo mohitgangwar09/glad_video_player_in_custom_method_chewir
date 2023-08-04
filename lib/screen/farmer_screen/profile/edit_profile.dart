@@ -2,14 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/farmer_screen/profile/farm_details.dart';
+import 'package:glad/screen/farmer_screen/profile/personal_details.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class EditProfile extends StatelessWidget {
-  const EditProfile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key, required this.section});
+  final String section;
+
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  String? section;
+
+  @override
+  void initState() {
+    section = widget.section;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +70,7 @@ class EditProfile extends StatelessWidget {
                             },
                             child: Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(18.0, 18, 18, 0),
+                                  const EdgeInsets.fromLTRB(18.0, 0, 18, 0),
                               child: SvgPicture.asset(Images.uploadPP),
                             )),
                         RichText(
@@ -80,112 +96,62 @@ class EditProfile extends StatelessWidget {
                           width: screenWidth(),
                           decoration: boxDecoration(
                               borderRadius: 62,
-                              borderColor: const Color(0xffDCDCDC)),
+                              borderColor: const Color(0xffDCDCDC),
+                              backgroundColor: Colors.white),
                           child: Row(
                             children: [
                               Expanded(
-                                child: Container(
-                                  height: screenHeight(),
-                                  margin: const EdgeInsets.all(6),
-                                  decoration: boxDecoration(
-                                      backgroundColor: const Color(0xff6A0030),
-                                      borderRadius: 62),
-                                  alignment: Alignment.center,
-                                  child: "Personal information".textMedium(
-                                      color: Colors.white, fontSize: 13),
+                                child: InkWell(
+                                  onTap: () {
+                                    section = 'personal';
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: screenHeight(),
+                                    margin: const EdgeInsets.all(6),
+                                    decoration: boxDecoration(
+                                        backgroundColor: section == 'personal'
+                                            ? const Color(0xff6A0030)
+                                            : Colors.white,
+                                        borderRadius: 62),
+                                    alignment: Alignment.center,
+                                    child: "Personal information".textMedium(
+                                        color: section == 'personal'
+                                            ? Colors.white
+                                            : Colors.black,
+                                        fontSize: 13),
+                                  ),
                                 ),
                               ),
                               Expanded(
-                                child: Container(
-                                  height: screenHeight(),
-                                  margin: const EdgeInsets.all(6),
-                                  decoration: boxDecoration(
-                                      backgroundColor: const Color(0xff6A0030),
-                                      borderRadius: 62),
-                                  alignment: Alignment.center,
-                                  child: "Farm details".textMedium(
-                                      color: Colors.white, fontSize: 13),
+                                child: InkWell(
+                                  onTap: () {
+                                    section = 'farm';
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: screenHeight(),
+                                    margin: const EdgeInsets.all(6),
+                                    decoration: boxDecoration(
+                                        backgroundColor: section == 'farm'
+                                            ? const Color(0xff6A0030)
+                                            : Colors.white,
+                                        borderRadius: 62),
+                                    alignment: Alignment.center,
+                                    child: "Farm details".textMedium(
+                                        color: section == 'farm'
+                                            ? Colors.white
+                                            : Colors.black,
+                                        fontSize: 13),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
                         20.verticalSpace(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Column(
-                            children: [
-                              const CustomTextField2(title: 'Name'),
-                              20.verticalSpace(),
-                              const CustomTextField2(title: 'Email'),
-                              20.verticalSpace(),
-                              CustomTextField2(
-                                title: 'Gender',
-                                isDropdown: true,
-                                itemList: const ['Male', 'Female'],
-                                dropdownValue: null,
-                                icon: Images.arrowDropdown,
-                                iconColors: Colors.black,
-                                onChanged: (String? value) {},
-                              ),
-                              20.verticalSpace(),
-                              CustomTextField2(
-                                title: 'DOB',
-                                image2: Images.calender,
-                                image2Colors: ColorResources.maroon,
-                                readOnly: true,
-                                onTap: () {
-                                  showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime.now());
-                                },
-                                focusNode: FocusNode(),
-                              ),
-                              20.verticalSpace(),
-                              CustomTextField2(
-                                title: 'Farming since',
-                                image2: Images.calender,
-                                image2Colors: ColorResources.maroon,
-                                readOnly: true,
-                                onTap: () {
-                                  showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime.now());
-                                },
-                                focusNode: FocusNode(),
-                              ),
-                              40.verticalSpace(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: customButton(
-                                  'Save',
-                                  onTap: () { },
-                                  radius: 40,
-                                  width: double.infinity,
-                                  height: 70,
-                                  style: figtreeMedium.copyWith(
-                                      color: Colors.white, fontSize: 16),
-                                ),
-                              ),
-                              20.verticalSpace(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: customButton('Cancel',
-                                    onTap: () {},
-                                    radius: 40,
-                                    width: double.infinity,
-                                    height: 70,
-                                    style: figtreeMedium.copyWith(
-                                        color: Colors.black, fontSize: 16),
-                                    color: 0xFFDCDCDC),
-                              ),
-                            ],
-                          ),
-                        )
+                        if (section == 'personal') const PersonalDetails(),
+                        if (section == 'farm') const FarmDetails()
                       ],
                     ),
                   ),

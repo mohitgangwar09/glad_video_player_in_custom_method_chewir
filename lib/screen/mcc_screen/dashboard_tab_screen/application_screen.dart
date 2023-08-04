@@ -74,7 +74,7 @@ class MCCApplicationScreen extends StatelessWidget {
 
                     SizedBox(
                       height: 45,
-                      child: customPaint(),
+                      child: customPaint(Colors.grey),
                     ),
 
                     Column(

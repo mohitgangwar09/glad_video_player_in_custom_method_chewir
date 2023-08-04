@@ -44,6 +44,7 @@ class CustomTextField extends StatelessWidget {
   final Icon? suffixIcon;
   final Color? suffixIconColor;
   final bool? readOnly;
+  final double? borderRadius;
 
   const CustomTextField(
       {Key? key,
@@ -85,7 +86,8 @@ class CustomTextField extends StatelessWidget {
       this.image2Height,
       this.image2,
       this.image2Colors,
-        this.readOnly})
+      this.readOnly,
+      this.borderRadius})
       : super(key: key);
 
   @override
@@ -159,7 +161,7 @@ class CustomTextField extends StatelessWidget {
                 padding: 10.paddingOnly(top: 15, bottom: 15),
                 borderColor: borderColor,
                 backColor: backgroundColor,
-                radius: 10,
+                radius: borderRadius ?? 10,
                 widget: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,8 +206,7 @@ class CustomTextField extends StatelessWidget {
                                   fontSize: 15, color: Colors.grey),
                               hintStyle: hintStyle ??
                                   figtreeMedium.copyWith(
-                                      fontSize: 16,
-                                      color: Colors.grey),
+                                      fontSize: 16, color: Colors.grey),
                               contentPadding: const EdgeInsets.all(0.0),
                               isDense: true,
                               suffixIcon: suffixIcon,
@@ -260,14 +261,13 @@ class CustomTextField extends StatelessWidget {
                     height: imageHeight,
                   ),
                 ),
-
-                Positioned(
-                  right: 13,
-                  top: 0,
-                  bottom: 0,
-                  child: Row(
-                    children: [
-                      if (image != null)
+              Positioned(
+                right: 13,
+                top: 0,
+                bottom: 0,
+                child: Row(
+                  children: [
+                    if (image != null)
                       SvgPicture.asset(
                         image!,
                         colorFilter:
@@ -275,19 +275,18 @@ class CustomTextField extends StatelessWidget {
                         width: imageWidth,
                         height: imageHeight,
                       ),
-                      if (image != null)
-                        10.horizontalSpace(),
-                      if (image2 != null)
+                    if (image != null) 10.horizontalSpace(),
+                    if (image2 != null)
                       SvgPicture.asset(
                         image2!,
                         colorFilter:
-                        ColorFilter.mode(image2Colors!, BlendMode.srcIn),
+                            ColorFilter.mode(image2Colors!, BlendMode.srcIn),
                         width: image2Width,
                         height: image2Height,
                       )
-                    ],
-                  ),
+                  ],
                 ),
+              ),
             ],
           );
   }
