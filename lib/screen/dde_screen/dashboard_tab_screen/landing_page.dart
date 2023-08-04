@@ -13,6 +13,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/utils/styles.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../auth_screen/login_with_password.dart';
 import '../dashboard/dashboard_dde.dart';
@@ -67,34 +68,120 @@ class DDELandingPage extends StatelessWidget {
           farmersNearMe(),
 
           Container(
-            padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
             margin: const EdgeInsets.only(left: 20,right: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: const Color(0xffE4FFE3),
+              border: Border.all(color: const Color(0xffECECFF))
             ),
-            child: TableCalendar(
-              headerStyle: const HeaderStyle(
-                leftChevronIcon: Icon(Icons.arrow_back,
-                color: Colors.black,),
-                rightChevronIcon: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Colors.grey,
-                  child: Icon(Icons.arrow_forward_rounded,
-                    color: Colors.black,),
+            child: Column(
+              children: [
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                  child: TableCalendar(
+                    headerStyle: const HeaderStyle(
+                      leftChevronIcon: Icon(Icons.arrow_back,
+                      color: Colors.black,),
+                      rightChevronIcon: CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.grey,
+                        child: Icon(Icons.arrow_forward_rounded,
+                          color: Colors.black,),
+                      ),
+                      formatButtonVisible: false
+                    ),
+                    firstDay: DateTime.utc(2010, 10, 16),
+                    lastDay: DateTime.utc(2030, 3, 14),
+                    focusedDay: DateTime.now(),
+                    calendarFormat: calendarFormat,
+                    startingDayOfWeek: StartingDayOfWeek.sunday,
+                    calendarStyle: CalendarStyle(
+                      selectedDecoration: BoxDecoration(
+                          color: ColorResources.primary,
+                          borderRadius: BorderRadiusDirectional.circular(30)),
+                    ),
+                  ),
                 ),
-                formatButtonVisible: false
-              ),
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
-              calendarFormat: calendarFormat,
-              startingDayOfWeek: StartingDayOfWeek.sunday,
-              calendarStyle: CalendarStyle(
-                selectedDecoration: BoxDecoration(
-                    color: ColorResources.primary,
-                    borderRadius: BorderRadiusDirectional.circular(30)),
-              ),
+
+                Stack(
+                  children: [
+                    Container(
+                      // height: 105,
+                      // padding: 10.paddingAll(),
+                      width: screenWidth(),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(12.0, 20, 12, 22),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(Images.sampleUser),
+                            15.horizontalSpace(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Begumanya Charles",
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 16, color: Colors.black)),
+                                4.verticalSpace(),
+
+                                "Visit schedule for today".textRegular(fontSize: 12),
+
+                                10.verticalSpace(),
+
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    'Project: '.textRegular(color: Colors.grey,
+                                    fontSize: 12),
+                                    Text("Dam Construction",
+                                        style: figtreeRegular.copyWith(
+                                            fontSize: 12, color: Colors.black)),
+                                  ],
+                                ),
+                                4.verticalSpace(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    const Icon(
+                                      Icons.location_on,
+                                      color: Colors.black,
+                                      size: 16,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                      screenWidth() * 0.5,
+                                      child: Text(
+                                        "Plot 11, Street 09, Luwum St.Rwo",
+                                        style: figtreeRegular.copyWith(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Align(alignment: Alignment.topRight,
+                        child: "9:00 am".textRegular(color: Colors.grey,
+                        fontSize: 12),),
+                    )
+                  ],
+                ),
+
+              ],
             ),
           ),
 
