@@ -10,6 +10,7 @@ import 'container_border.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hint;
+  final double? radius;
   final Color? imageColor;
   final TextEditingController? controller;
   final Function(String)? onChanged;
@@ -49,6 +50,7 @@ class CustomTextField extends StatelessWidget {
       {Key? key,
       required this.hint,
       this.controller,
+      this.radius = 10,
       this.visibleNumber = false,
       this.onChanged,
       this.length,
@@ -159,7 +161,7 @@ class CustomTextField extends StatelessWidget {
                 padding: 10.paddingOnly(top: 15, bottom: 15),
                 borderColor: borderColor,
                 backColor: backgroundColor,
-                radius: 10,
+                radius: radius!,
                 widget: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

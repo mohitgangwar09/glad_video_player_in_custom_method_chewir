@@ -3,16 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/dashboard_tab_screen/project_screen.dart';
 import 'package:glad/screen/farmer_screen/dashboard/farmer_drawer.dart';
-import 'package:glad/screen/farmer_screen/statement.dart';
+import 'package:glad/screen/farmer_screen/dashboard_tab_screen/statement.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
-import 'package:glad/screen/farmer_screen/landing_page.dart';
-import 'package:glad/screen/guest_user/landing_page.dart';
+import 'package:glad/screen/farmer_screen/dashboard_tab_screen/landing_page.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/landing_page.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
-
-import '../common/project_screen.dart';
 
 final GlobalKey<ScaffoldState> farmerLandingKey = GlobalKey();
 
@@ -29,8 +28,8 @@ class DashboardFarmer extends StatelessWidget {
       const FarmerLandingPage(),
       const ProjectScreen(),
       // const Text("Statement"),
-      // const Text("Statement"),
-      const FarmerStatement(),
+      const Text("Statement"),
+      // const FarmerStatement(),
       const Text("Orders"),
       const Text("Earnings"),
     ];

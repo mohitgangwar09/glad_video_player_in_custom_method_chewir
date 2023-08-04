@@ -4,6 +4,7 @@ import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_screen.dart';
 import 'package:glad/screen/mcc_screen/profile/mcc_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -28,7 +29,7 @@ class MCCLandingPage extends StatelessWidget {
                   const MccProfile().navigate();
                     },
                     drawerVisibility: false),
-                landingPage(),
+                landingPage(context),
               ],
             ),
           ),
@@ -37,7 +38,7 @@ class MCCLandingPage extends StatelessWidget {
     );
   }
 
-  Widget landingPage() {
+  Widget landingPage(context) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -45,6 +46,49 @@ class MCCLandingPage extends StatelessWidget {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
+
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0,bottom: 25),
+              child: customGrid(
+                  context,
+                  mainAxisExtent: 160,
+                  crossAxisSpacing: 0,
+                  child: (int index) {
+                    return customProjectContainer(
+                        width: screenWidth(),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  "09".textMedium(fontSize: 32,
+                                      color: const Color(0xffFC5E60)),
+
+                                  12.verticalSpace(),
+
+                                  "Pending".textMedium(fontSize: 16),
+
+                                  7.verticalSpace(),
+
+                                  "Loans pending for\n approval".textMedium(fontSize: 12,color: const Color(0xff727272),
+                                      maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+
+
+                                ],
+                              ),
+                            ),
+                          ],
+                        ));
+                  }),
+            ),
+
+            const MCCApplicationScreen(),
+
+
+
             const CommunityForum(
               name: 'Begumanya Charles',
               location: 'Kampala, Uganda',

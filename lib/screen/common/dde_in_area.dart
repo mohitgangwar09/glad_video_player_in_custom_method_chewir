@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/guest_user/invite_our_friend.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -79,31 +80,36 @@ class _DDEInAreaState extends State<DDEInArea> {
                       ],
                     ),
                     20.verticalSpace(),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(180),
-                          border: Border.all(color: ColorResources.yellow),
-                          color: const Color(0xFFFFF3F4),
-                      ),
+                    InkWell(
+                      onTap: (){
+                        const InviteAnExpert().navigate();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(180),
+                            border: Border.all(color: ColorResources.yellow),
+                            color: const Color(0xFFFFF3F4),
+                        ),
 
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Invite our expert',
-                                  style: figtreeSemiBold.copyWith(
-                                      fontSize: 22, color: Colors.black)),
-                              Text('to survey your farm',
-                                  style: figtreeRegular.copyWith(
-                                      fontSize: 14, color: Colors.black)),
-                            ],
-                          ),
-                          Image.asset(Images.loginButton, height: 40, width: 40,),
-                        ],
+                        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Invite our expert',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 22, color: Colors.black)),
+                                Text('to survey your farm',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 14, color: Colors.black)),
+                              ],
+                            ),
+                            Image.asset(Images.loginButton, height: 40, width: 40,),
+                          ],
+                        ),
                       ),
                     )
                   ],

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/extra_screen/navigation.dart';
-import 'package:glad/screen/guest_user/landing_page.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/landing_page.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';

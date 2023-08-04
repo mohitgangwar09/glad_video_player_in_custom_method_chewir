@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_forum.dart';
+import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
+import 'package:glad/screen/common/livestock_marketplace.dart';
+import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/screen/common/review.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
+import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
+import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
 
-import 'dashboard/dashboard_supplier.dart';
-
-class SupplierLandingPage extends StatelessWidget {
-  const SupplierLandingPage({super.key});
+class GuestLandingPage extends StatelessWidget {
+  const GuestLandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +23,18 @@ class SupplierLandingPage extends StatelessWidget {
       color: Colors.white,
       child: Stack(
         children: [
+
           landingBackground(),
 
           Padding(
             padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
-                customAppBar('Hello ', ' Hurton,', onTapDrawer: (){
+
+                customAppBar('Welcome to ', 'GLAD', onTapDrawer: (){
                   landingKey.currentState?.openDrawer();
                 }, onTapProfile: (){
-                  const ServiceProvider().navigate();
+                  const LoginWithPassword().navigate();
                 },drawerVisibility: true),
 
                 landingPage(),
@@ -51,6 +57,22 @@ class SupplierLandingPage extends StatelessWidget {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
+            const MCCInArea(
+              name: 'Begumanya Charles',
+              phone: '+256 758711344',
+              address:
+              'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
+              image: '',
+            ),
+            10.verticalSpace(),
+            const DDEInArea(
+              name: 'Begumanya Charles',
+              phone: '+256 758711344',
+              image: '',
+            ),
+            10.verticalSpace(),
+            const LiveStockMarketplace(),
+            10.verticalSpace(),
             const CommunityForum(
               name: 'Begumanya Charles',
               location: 'Kampala, Uganda',
@@ -63,6 +85,8 @@ class SupplierLandingPage extends StatelessWidget {
             const FeaturedTrainings(),
             10.verticalSpace(),
             const TrendingNewsAndEvents(),
+            10.verticalSpace(),
+            const GladReview(),
             100.verticalSpace(),
           ],
         ),

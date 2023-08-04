@@ -722,7 +722,7 @@ Widget customProjectContainer({required Widget child,double? width,double? heigh
       border: Border.all(color: const Color(0xffDCDCDC),width: 1),
       boxShadow:[
     BoxShadow(
-    color: Colors.grey.withOpacity(0.5),
+    color: Colors.grey.withOpacity(0.3),
       blurRadius: 16.0,
       offset: const Offset(0, 5))],
     ),

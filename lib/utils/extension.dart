@@ -16,7 +16,11 @@ import 'package:glad/utils/styles.dart';
 
 extension Utility on String {
 
-  textRegular({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.normal}) => Text(this,
+  textRegular({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.normal,
+    int? maxLines, TextOverflow? overflow,TextAlign? textAlign}) => Text(this,
+    maxLines: maxLines,
+    overflow: overflow,
+    textAlign: textAlign,
     style: figtreeRegular.copyWith(
         color: color,
         fontSize: fontSize,
@@ -24,7 +28,11 @@ extension Utility on String {
         fontWeight: fontWeight,
     ),);
 
-  textMedium({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.w500}) => Text(this,
+  textMedium({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.w500,
+    int? maxLines, TextOverflow? overflow,TextAlign? textAlign}) => Text(this,
+    maxLines: maxLines,
+    overflow: overflow,
+    textAlign: textAlign,
     style: figtreeMedium.copyWith(
         color: color,
         fontSize: fontSize,
@@ -32,7 +40,11 @@ extension Utility on String {
         fontWeight: fontWeight
     ),);
 
-  textSemiBold({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.w600}) => Text(this,
+  textSemiBold({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.w600,
+    int? maxLines, TextOverflow? overflow,TextAlign? textAlign}) => Text(this,
+    maxLines: maxLines,
+    overflow: overflow,
+    textAlign: textAlign,
     style: figtreeMedium.copyWith(
         color: color,
         fontSize: fontSize,
@@ -40,7 +52,11 @@ extension Utility on String {
         fontWeight: fontWeight
     ),);
 
-  textBold({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.bold}) => Text(this,
+  textBold({Color color = Colors.black,double fontSize = 14,TextDecoration? underLine,FontWeight? fontWeight = FontWeight.bold,
+    int? maxLines, TextOverflow? overflow,TextAlign? textAlign}) => Text(this,
+    maxLines: maxLines,
+    overflow: overflow,
+    textAlign: textAlign,
     style: figtreeMedium.copyWith(
         color: color,
         fontSize: fontSize,
