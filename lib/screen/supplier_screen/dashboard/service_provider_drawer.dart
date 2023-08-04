@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../../utils/color_resources.dart';
-import '../../../utils/extension.dart';
-import '../../../utils/images.dart';
-import '../../../utils/styles.dart';
-import '../../auth_screen/login_with_password.dart';
-import '../../custom_widget/custom_methods.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/utils/color_resources.dart';
+import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
+import 'package:glad/utils/styles.dart';
 
 class ServiceProviderDrawer extends StatelessWidget {
   const ServiceProviderDrawer({super.key});

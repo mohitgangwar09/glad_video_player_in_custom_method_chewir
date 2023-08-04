@@ -82,6 +82,9 @@ class Images {
   static const String calender = 'assets/images/calender.svg';
   static const String arrowDropdown = 'assets/images/arrow_dropdown.svg';
   static const String cancelImage = 'assets/images/cancel_image.svg';
+  static const String search = 'assets/images/search.svg';
+  static const String addRemark = 'assets/images/addremark.svg';
+  static const String addRemark1 = 'assets/images/addremark1.svg';
 
 
 
