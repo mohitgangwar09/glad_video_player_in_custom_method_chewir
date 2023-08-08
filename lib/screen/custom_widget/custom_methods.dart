@@ -7,6 +7,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:shimmer/shimmer.dart';
@@ -644,57 +645,6 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
   );
 }
 
-Widget customAppBar(String text1, String text2,{required Function onTapDrawer,bool drawerVisibility = false ,required Function onTapProfile,
-  }){
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-
-      Row(
-        children: [
-          10.horizontalSpace(),
-          Visibility(
-            visible: drawerVisibility,
-            child: openDrawer(onTap: (){
-              onTapDrawer();
-            },child: SvgPicture.asset(Images.drawer)),
-          ),
-          10.horizontalSpace(),
-          RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: text1,
-                    style: figtreeRegular.copyWith(
-                        fontWeight: FontWeight.w100,
-                        fontSize: 22,
-                        color: Colors.black)),
-                TextSpan(
-                    text: text2,
-                    style: figtreeMedium.copyWith(
-                        fontSize: 22, color: Colors.black))
-              ])),
-        ],
-      ),
-
-      Row(
-        children: [
-          InkWell(onTap: (){
-
-          },child: SvgPicture.asset(Images.call)),
-          10.horizontalSpace(),
-          InkWell(onTap: (){
-            onTapProfile();
-          },child: SvgPicture.asset(Images.person)),
-          15.horizontalSpace(),
-
-
-        ],
-      ),
-
-    ],
-  );
-}
-
 Widget landingBackground(){
   return  Positioned(
     right: 0,
@@ -1073,15 +1023,12 @@ Widget arrowBackButton({Color? color}) {
       onTap: () {
         pressBack();
       },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 12.0),
-        child: color != null
-            ? SvgPicture.asset(
-                Images.arrowBack,
-                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-              )
-            : SvgPicture.asset(Images.arrowBack),
-      ));
+      child: color != null
+          ? SvgPicture.asset(
+              Images.arrowBack,
+              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            )
+          : SvgPicture.asset(Images.arrowBack));
 }
 
 Widget customShadowContainer({bool enabled=true,

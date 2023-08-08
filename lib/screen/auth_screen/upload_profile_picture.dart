@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/extra_screen/navigation.dart';
@@ -16,13 +17,21 @@ class UploadProfilePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            if(constraints.maxHeight<750){
-              return smallDevice(context);
-            }
-            return largeDevice(context);
-        }
+      body: Stack(
+        children: [
+          landingBackground(),
+          Column(
+            children: [
+
+              CustomAppBar(context: context, richTitle: false, titleText1: 'Hello Abdullah,', description: 'Complete your profile', centerTitle: true, leading: arrowBackButton(),),
+
+
+              uploadProfilePhoto(context),
+
+              actionButton()
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -108,91 +117,6 @@ class UploadProfilePicture extends StatelessWidget {
             ),
           ),
         )
-      ],
-    );
-  }
-
-
-  Widget smallDevice(BuildContext context){
-    return Stack(
-      children: [
-        landingBackground(),
-        Padding(
-          padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Hello Abdullah,',
-                      style: figtreeMedium.copyWith(fontSize: 20),
-                    ),
-                  ),
-                  Positioned(
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.arrow_back)))
-                ],
-              ),
-              Text(
-                'Complete your profile',
-                style: figtreeMedium.copyWith(fontSize: 12),
-              ),
-
-
-              uploadProfilePhoto(context),
-
-              actionButton()
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget largeDevice(BuildContext context){
-    return Stack(
-      children: [
-        landingBackground(),
-        Padding(
-          padding: const EdgeInsets.only(top: 40.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Hello Abdullah,',
-                      style: figtreeMedium.copyWith(fontSize: 20),
-                    ),
-                  ),
-                  Positioned(
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.arrow_back)))
-                ],
-              ),
-              Text(
-                'Complete your profile',
-                style: figtreeMedium.copyWith(fontSize: 12),
-              ),
-
-
-              uploadProfilePhoto(context),
-
-              actionButton()
-            ],
-          ),
-        ),
       ],
     );
   }

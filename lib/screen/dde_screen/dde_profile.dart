@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -19,28 +20,29 @@ class GladProfile extends StatelessWidget {
       body: Stack(
         children: [
           landingBackground(),
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                arrowBackButton(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        profileImage(),
-                        40.verticalSpace(),
-                        ratingBar(),
-                        profileInputField(),
-                        earningCardDetails(),
-                        20.verticalSpace(),
-                      ],
-                    ),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                richTitle: false,
+                titleText1: '',
+                leading: arrowBackButton(),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      profileImage(),
+                      40.verticalSpace(),
+                      ratingBar(),
+                      profileInputField(),
+                      earningCardDetails(),
+                      20.verticalSpace(),
+                    ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ],
       ),
@@ -60,7 +62,6 @@ class GladProfile extends StatelessWidget {
             leadingImage: Images.textCall,
             imageColors: ColorResources.fieldGrey,
             enabled: true,
-            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -71,7 +72,6 @@ class GladProfile extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -83,7 +83,6 @@ class GladProfile extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),

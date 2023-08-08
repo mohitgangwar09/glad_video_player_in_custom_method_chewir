@@ -8,6 +8,7 @@ import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/review.dart';
 import 'package:glad/screen/common/trending_news.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
@@ -33,21 +34,36 @@ class FarmerLandingPage extends StatelessWidget {
 
           landingBackground(),
 
-          Padding(
-            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-            child: Column(
-              children: [
+          Column(
+            children: [
 
-                customAppBar('Hello ', 'Abdullah', onTapDrawer: (){
-                  farmerLandingKey.currentState?.openDrawer();
-                }, onTapProfile: (){
-                  const FarmerProfile().navigate();
-                },drawerVisibility: true),
+              CustomAppBar(
+                context: context,
+                titleText1: 'Hello ',
+                titleText2: 'Abdullah',
+                leading: openDrawer(
+                    onTap: () {
+                      farmerLandingKey.currentState?.openDrawer();
+                    },
+                    child: SvgPicture.asset(Images.drawer)),
+                action: Row(
+                  children: [
+                    InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+                    7.horizontalSpace(),
+                    InkWell(
+                        onTap: () {
+                          const FarmerProfile().navigate();
+                        },
+                        child: SvgPicture.asset(Images.person)),
+                    8.horizontalSpace(),
+                  ],
+                ),
+                richTitle: true,
+              ),
 
-                landingPage(context),
+              landingPage(context),
 
-              ],
-            ),
+            ],
           ),
 
         ],

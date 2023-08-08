@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
@@ -22,57 +23,47 @@ class FarmerProfile extends StatelessWidget {
       body: Stack(
         children: [
           farmerBackground(),
-          Padding(
-            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                richTitle: false,
+                titleText1: 'My Profile',
+                centerTitle: true,
+                leading: arrowBackButton(),
+                action: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: InkWell(
+                      onTap: () {
+                        const EditProfile(
+                          section: 'personal',
+                        ).navigate();
+                      },
+                      child: SvgPicture.asset(Images.profileEdit)),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      arrowBackButton(),
-                      Text(
-                        'My Profile',
-                        style: figtreeMedium.copyWith(fontSize: 22),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: InkWell(
-                            onTap: () {
-                              const EditProfile(
-                                section: 'personal',
-                              ).navigate();
-                            },
-                            child: SvgPicture.asset(Images.profileEdit)),
-                      )
+                      10.verticalSpace(),
+                      profileData(),
+                      40.verticalSpace(),
+                      farmDetails(),
+                      30.verticalSpace(),
+                      dde(context),
+                      20.verticalSpace(),
+                      cowsInTheFarm(),
+                      30.verticalSpace(),
+                      address(context),
+                      facilitiesInTheFarm(),
+                      20.verticalSpace(),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        10.verticalSpace(),
-                        profileData(),
-                        40.verticalSpace(),
-                        farmDetails(),
-                        30.verticalSpace(),
-                        dde(context),
-                        20.verticalSpace(),
-                        cowsInTheFarm(),
-                        30.verticalSpace(),
-                        address(context),
-                        facilitiesInTheFarm(),
-                        20.verticalSpace(),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ],
       ),
