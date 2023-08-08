@@ -13,7 +13,7 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: appBarHeight()),
+      padding: EdgeInsets.only(top: getStatusBarHeight(context)),
       child: Column(
         children: [
 

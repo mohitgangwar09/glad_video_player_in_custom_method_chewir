@@ -546,7 +546,7 @@ Widget navigationBarItem(
     bool visible = false,
     String? title = ""}) {
   return InkWell(
-    onTap: onTap(),
+    onTap: () => onTap(),
     child: Row(
       children: [
         SizedBox(

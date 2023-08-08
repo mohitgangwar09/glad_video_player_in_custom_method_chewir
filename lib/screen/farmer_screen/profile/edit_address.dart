@@ -117,7 +117,7 @@ class EditAddress extends StatelessWidget {
                                   onTap: () { },
                                   radius: 40,
                                   width: double.infinity,
-                                  height: 70,
+                                  height: 60,
                                   style: figtreeMedium.copyWith(
                                       color: Colors.white, fontSize: 16),
                                 ),
@@ -129,7 +129,7 @@ class EditAddress extends StatelessWidget {
                                     onTap: () {},
                                     radius: 40,
                                     width: double.infinity,
-                                    height: 70,
+                                    height: 60,
                                     style: figtreeMedium.copyWith(
                                         color: Colors.black, fontSize: 16),
                                     color: 0xFFDCDCDC),

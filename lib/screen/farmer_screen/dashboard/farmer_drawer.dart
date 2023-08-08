@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/farmer_screen/drawer_screen/add_testimonial.dart';
 
 import '../../../utils/color_resources.dart';
 import '../../../utils/extension.dart';
@@ -76,7 +77,9 @@ class FarmerDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
             image: Images.aboutus,
-            onTap: () {},
+            onTap: () {
+              const AddTestimonial().navigate();
+            },
             text: 'Add testimonial',
           ),
           30.verticalSpace(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -31,7 +32,7 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
         children: [
           Container(
             color: ColorResources.maroon,
-            padding: const EdgeInsets.fromLTRB(0, 48, 0, 0),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context), bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -57,7 +58,7 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        10.verticalSpace(),
+                        // 10.verticalSpace(),
                         Text(
                           'Last 6 months',
                           style: figtreeRegular.copyWith(
@@ -172,7 +173,39 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
                     ),
                   ),
                   20.verticalSpace(),
-                  monthData()
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        monthData(month: 'April, 2023'),
+                        SizedBox(
+                            height: 0,
+                            width: screenWidth(),
+                            child: horizontalPaint()),
+                        monthData(month: 'March, 2023'),
+                        SizedBox(
+                            height: 0,
+                            width: screenWidth(),
+                            child: horizontalPaint()),
+                        monthData(month: 'February, 2023'),
+                        SizedBox(
+                            height: 0,
+                            width: screenWidth(),
+                            child: horizontalPaint()),
+                        monthData(month: 'January, 2023'),
+                        SizedBox(
+                            height: 0,
+                            width: screenWidth(),
+                            child: horizontalPaint()),
+                        monthData(month: 'December, 2022'),
+                        SizedBox(
+                            height: 0,
+                            width: screenWidth(),
+                            child: horizontalPaint()),
+                        monthData(month: 'November, 2022')
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -182,108 +215,94 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
     );
   }
 
-  Widget monthData() {
+  Widget monthData({required String month}) {
     return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      Text('April, 2023',
-                          style: figtreeMedium.copyWith(fontSize: 12)),
-                      10.verticalSpace(),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: const Color(0xFFFFF3F4),
-                            borderRadius: BorderRadius.circular(14)),
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('20',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 18)),
-                                Text('Milking cows',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey)),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('5580 Ltr.',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 18)),
-                                Text('Production',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey)),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('06 Ltr.',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 18)),
-                                Text('Yield /day',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('180 Ltr.',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 18)),
-                                Text('Self use',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey)),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('4000 Ltr.',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 18)),
-                                Text('Supply to PDFL',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey)),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('1400 Ltr.',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 18)),
-                                Text('Supply to others',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+      padding: const EdgeInsets.only(bottom: 8.0, top: 18),
+      child: Column(
+        children: [
+          Text(month, style: figtreeMedium.copyWith(fontSize: 14)),
+          10.verticalSpace(),
+          Container(
+            decoration: BoxDecoration(
+                color: const Color(0xFFFFF3F4),
+                borderRadius: BorderRadius.circular(14)),
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('20', style: figtreeSemiBold.copyWith(fontSize: 18)),
+                    Text('Milking cows',
+                        style: figtreeRegular.copyWith(
+                            fontSize: 12, color: ColorResources.fieldGrey)),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('5580 Ltr.',
+                        style: figtreeSemiBold.copyWith(fontSize: 18)),
+                    Text('Production',
+                        style: figtreeRegular.copyWith(
+                            fontSize: 12, color: ColorResources.fieldGrey)),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('06 Ltr.',
+                        style: figtreeSemiBold.copyWith(fontSize: 18)),
+                    Text('Yield /day',
+                        style: figtreeRegular.copyWith(
+                            fontSize: 12, color: ColorResources.fieldGrey)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('180 Ltr.',
+                        style: figtreeSemiBold.copyWith(fontSize: 18)),
+                    Text('Self use',
+                        style: figtreeRegular.copyWith(
+                            fontSize: 12, color: ColorResources.fieldGrey)),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('4000 Ltr.',
+                        style: figtreeSemiBold.copyWith(fontSize: 18)),
+                    Text('Supply to PDFL',
+                        style: figtreeRegular.copyWith(
+                            fontSize: 12, color: ColorResources.fieldGrey)),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('1400 Ltr.',
+                        style: figtreeSemiBold.copyWith(fontSize: 18)),
+                    Text('Supply to others',
+                        style: figtreeRegular.copyWith(
+                            fontSize: 12, color: ColorResources.fieldGrey)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

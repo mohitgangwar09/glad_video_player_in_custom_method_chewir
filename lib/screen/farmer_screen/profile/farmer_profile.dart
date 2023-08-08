@@ -8,6 +8,7 @@ import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'edit_profile.dart';
@@ -22,7 +23,7 @@ class FarmerProfile extends StatelessWidget {
         children: [
           farmerBackground(),
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
