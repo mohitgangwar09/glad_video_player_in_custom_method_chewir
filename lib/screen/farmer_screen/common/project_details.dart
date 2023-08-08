@@ -10,7 +10,6 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-
 class ProjectDetails extends StatelessWidget {
   const ProjectDetails({super.key});
 
@@ -22,7 +21,14 @@ class ProjectDetails extends StatelessWidget {
           landingBackground(),
           Column(
             children: [
-              CustomAppBar(context: context, richTitle: false, titleText1: 'Dam construction', leading: arrowBackButton(), centerTitle: true,),
+              CustomAppBar(
+                context: context,
+                titleText1: 'Dam construction',
+                leading: arrowBackButton(),
+                centerTitle: true,
+                titleText1Style:
+                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -365,9 +371,7 @@ class ProjectDetails extends StatelessWidget {
             style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
             onTap: () {
           // const AddRemark().navigate();
-            },
-            radius: 88,
-            color: 0xffFC5E60),
+        }, radius: 88, color: 0xffFC5E60),
       )),
       05.verticalSpace(),
       Center(
@@ -427,18 +431,24 @@ class ProjectDetails extends StatelessWidget {
                               focusNode: FocusNode(),
                             ),
                             20.verticalSpace(),
-                            Text('Remarks',style: figtreeMedium.copyWith(fontSize: 12),),
+                            Text(
+                              'Remarks',
+                              style: figtreeMedium.copyWith(fontSize: 12),
+                            ),
                             5.verticalSpace(),
                             TextField(
                               maxLines: 4,
                               minLines: 4,
                               decoration: InputDecoration(
                                   hintText: 'Write...',
-                                  hintStyle: figtreeMedium.copyWith(fontSize: 18),
+                                  hintStyle:
+                                      figtreeMedium.copyWith(fontSize: 18),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: const BorderSide(
-                                          width: 1, color: Color(0xff999999),))),
+                                        width: 1,
+                                        color: Color(0xff999999),
+                                      ))),
                             ),
                             30.verticalSpace(),
                             Padding(

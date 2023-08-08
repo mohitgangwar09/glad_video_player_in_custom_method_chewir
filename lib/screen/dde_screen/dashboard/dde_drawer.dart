@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 
 import '../../../utils/color_resources.dart';
 import '../../../utils/extension.dart';
@@ -18,19 +19,14 @@ class DdeDrawer extends StatelessWidget {
       color: const Color(0xFF6A0030),
       child: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0,screenHeight()*0.085,0,0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                menuItem(),
-                const SizedBox(
-                  height: 25,
-                ),
-                navigationItem(),
-              ],
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              menuItem(context),
+              25.verticalSpace(),
+              navigationItem(),
+            ],
           ),
 
           sideBackground(),
@@ -158,29 +154,23 @@ class DdeDrawer extends StatelessWidget {
     );
   }
 
-  Widget menuItem() {
+  Widget menuItem(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              closeDrawer(
-                child: SvgPicture.asset(
-                  Images.close,
-                  width: 30,
-                  height: 30,
-                ),
-              ),
-              SvgPicture.asset(
-                Images.onboardingnew,
-                width: 30,
-                height: 30,
-              )
-            ],
-          ),
+          padding: const EdgeInsets.only(left: 15.0),
+          child: CustomAppBar(context: context, titleText1: '', leading: closeDrawer(
+            child: SvgPicture.asset(
+              Images.close,
+              width: 30,
+              height: 30,
+            ),
+          ), action: SvgPicture.asset(
+            Images.onboardingnew,
+            width: 30,
+            height: 30,
+          ),),
         ),
         50.verticalSpace(),
         Padding(

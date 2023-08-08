@@ -23,8 +23,9 @@ class EditAddress extends StatelessWidget {
             children: [
               CustomAppBar(
                 context: context,
-                richTitle: false,
                 titleText1: 'Address',
+                titleText1Style: figtreeMedium.copyWith(
+                    fontSize: 20, color: Colors.black),
                 centerTitle: true,
                 leading: arrowBackButton(),
                 action: TextButton(

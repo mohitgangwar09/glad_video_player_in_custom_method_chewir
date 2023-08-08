@@ -23,8 +23,9 @@ class AddTestimonial extends StatelessWidget {
             children: [
               CustomAppBar(
                 context: context,
-                richTitle: false,
                 titleText1: 'Add testimonial',
+                titleText1Style: figtreeMedium.copyWith(
+                    fontSize: 20, color: Colors.black),
                 centerTitle: true,
                 leading: arrowBackButton(),
                 action: TextButton(

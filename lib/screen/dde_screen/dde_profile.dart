@@ -24,7 +24,6 @@ class GladProfile extends StatelessWidget {
             children: [
               CustomAppBar(
                 context: context,
-                richTitle: false,
                 titleText1: '',
                 leading: arrowBackButton(),
               ),

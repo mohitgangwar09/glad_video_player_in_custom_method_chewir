@@ -7,26 +7,26 @@ class CustomAppBar extends StatelessWidget {
   final BuildContext context;
   final Widget? leading;
   final Widget? action;
-  final bool richTitle;
   final String titleText1;
   final String? titleText2;
   final String? description;
   final bool? centerTitle;
-  final Color? titleColor;
   final Color? backgroundColor;
+  final TextStyle? titleText1Style;
+  final TextStyle? titleText2Style;
 
   const CustomAppBar(
       {super.key,
       required this.context,
       this.leading,
       this.action,
-      required this.richTitle,
       required this.titleText1,
       this.titleText2,
       this.description,
       this.centerTitle = false,
-      this.titleColor,
-      this.backgroundColor});
+      this.backgroundColor,
+      this.titleText1Style,
+      this.titleText2Style});
 
   @override
   Widget build(BuildContext context) {
@@ -35,84 +35,66 @@ class CustomAppBar extends StatelessWidget {
       child: Container(
         height: AppBar().preferredSize.height,
         width: screenWidth(),
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         color: backgroundColor ?? Colors.transparent,
         child: centerTitle!
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+            ? Stack(
+                alignment: Alignment.center,
                 children: [
-                  if (leading != null) Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      leading!,
-                    ],
+                  Positioned(left: 0, top: 0, bottom: 0, child: leading!),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                        text: titleText1,
+                        style: titleText1Style ??
+                            figtreeRegular.copyWith(
+                                fontWeight: FontWeight.w100,
+                                fontSize: 20,
+                                color: Colors.black)),
+                    TextSpan(
+                        text: titleText2,
+                        style: titleText2Style ??
+                            figtreeMedium.copyWith(
+                                fontSize: 20, color: Colors.black))
+                  ])),
+                  if (description != null)
+                  Positioned(
+                    bottom: 0,
+                    child: Text(
+                      description!,
+                      style: figtreeMedium.copyWith(fontSize: 12),
+                    ),
                   ),
-                  Column(
-                    mainAxisAlignment: description != null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: leading == null ? 10 : 0),
-                        child: richTitle
-                            ? RichText(
-                                text: TextSpan(children: [
-                                TextSpan(
-                                    text: titleText1,
-                                    style: figtreeRegular.copyWith(
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 20,
-                                        color: Colors.black)),
-                                TextSpan(
-                                    text: titleText2,
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 20, color: Colors.black))
-                              ]))
-                            : Text(titleText1,
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 20,
-                                    color: titleColor ?? Colors.black)),
-                      ),
-                      if (description != null)
-                        Text(
-                          description!,
-                          style: figtreeMedium.copyWith(fontSize: 12),
-                        ),
-                    ],
-                  ),
-                  action ?? const Text(''),
+                  if (action != null)
+                    Positioned(right: 0, top: 0, bottom: 0, child: action!),
                 ],
               )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            : Stack(
+                alignment: Alignment.center,
                 children: [
                   Row(
                     children: [
-                      if (leading != null) Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          leading!,
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: titleText1,
-                              style: figtreeRegular.copyWith(
-                                  fontWeight: FontWeight.w100,
-                                  fontSize: 20,
-                                  color: Colors.black)),
-                          TextSpan(
-                              text: titleText2,
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 20, color: Colors.black))
-                        ])),
-                      ),
+                      if (leading != null) leading!,
+                      10.horizontalSpace(),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: titleText1,
+                            style: titleText1Style ??
+                                figtreeRegular.copyWith(
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 20,
+                                    color: Colors.black)),
+                        TextSpan(
+                            text: titleText2,
+                            style: titleText2Style ??
+                                figtreeMedium.copyWith(
+                                    fontSize: 20, color: Colors.black))
+                      ])),
                     ],
                   ),
-                  action ?? const Text(''),
+                  if (action != null)
+                    Positioned(right: 0, top: 0, bottom: 0, child: action!),
                 ],
               ),
       ),

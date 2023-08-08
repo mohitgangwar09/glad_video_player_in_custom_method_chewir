@@ -22,12 +22,16 @@ class UploadProfilePicture extends StatelessWidget {
           landingBackground(),
           Column(
             children: [
-
-              CustomAppBar(context: context, richTitle: false, titleText1: 'Hello Abdullah,', description: 'Complete your profile', centerTitle: true, leading: arrowBackButton(),),
-
-
+              CustomAppBar(
+                context: context,
+                titleText1: 'Hello Abdullah,',
+                titleText1Style: figtreeMedium.copyWith(
+                    fontSize: 20, color: Colors.black),
+                description: 'Complete your profile',
+                centerTitle: true,
+                leading: arrowBackButton(),
+              ),
               uploadProfilePhoto(context),
-
               actionButton()
             ],
           ),
@@ -37,7 +41,7 @@ class UploadProfilePicture extends StatelessWidget {
   }
 
   ///////// profile Photo /////////
-  Widget uploadProfilePhoto(BuildContext context){
+  Widget uploadProfilePhoto(BuildContext context) {
     return Column(
       children: [
         InkWell(
@@ -55,22 +59,20 @@ class UploadProfilePicture extends StatelessWidget {
             )),
         RichText(
             text: TextSpan(children: [
-              TextSpan(
-                  text: 'Tap to upload ',
-                  style: figtreeMedium.copyWith(
-                      color: ColorResources.redText, fontSize: 14)),
-              TextSpan(
-                  text: 'your profile picture',
-                  style: figtreeMedium.copyWith(
-                      color: Colors.black, fontSize: 14))
-            ])),
+          TextSpan(
+              text: 'Tap to upload ',
+              style: figtreeMedium.copyWith(
+                  color: ColorResources.redText, fontSize: 14)),
+          TextSpan(
+              text: 'your profile picture',
+              style: figtreeMedium.copyWith(color: Colors.black, fontSize: 14))
+        ])),
         Text(
           'Max size 20 MB',
-          style:
-          figtreeMedium.copyWith(fontSize: 12, color: Colors.grey),
+          style: figtreeMedium.copyWith(fontSize: 12, color: Colors.grey),
         ),
         // 80.verticalSpace(),
-        screenHeight()<750?50.verticalSpace():80.verticalSpace(),
+        screenHeight() < 750 ? 50.verticalSpace() : 80.verticalSpace(),
         Text(
           'Benefits of adding\nprofile photo',
           style: figtreeMedium.copyWith(
@@ -86,13 +88,13 @@ class UploadProfilePicture extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        screenHeight()<750? 40.verticalSpace():100.verticalSpace(),
+        screenHeight() < 750 ? 40.verticalSpace() : 100.verticalSpace(),
       ],
     );
   }
 
   ///// Submit & Skip Button //////
-  Widget actionButton(){
+  Widget actionButton() {
     return Column(
       children: [
         Padding(
@@ -101,8 +103,7 @@ class UploadProfilePicture extends StatelessWidget {
             const Navigation().navigate();
           },
               width: double.infinity,
-              style: figtreeMedium.copyWith(
-                  color: Colors.white, fontSize: 16)),
+              style: figtreeMedium.copyWith(color: Colors.white, fontSize: 16)),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 20),
@@ -120,5 +121,4 @@ class UploadProfilePicture extends StatelessWidget {
       ],
     );
   }
-
 }

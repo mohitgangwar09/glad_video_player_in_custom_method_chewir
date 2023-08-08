@@ -58,7 +58,6 @@ class FarmerLandingPage extends StatelessWidget {
                     8.horizontalSpace(),
                   ],
                 ),
-                richTitle: true,
               ),
 
               landingPage(context),

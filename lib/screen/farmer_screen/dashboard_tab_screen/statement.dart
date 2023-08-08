@@ -41,7 +41,6 @@ class FarmerStatement extends StatelessWidget {
                       8.horizontalSpace(),
                     ],
                   ),
-                  richTitle: true,
                 ),
                 listviewDetails(),
               ],

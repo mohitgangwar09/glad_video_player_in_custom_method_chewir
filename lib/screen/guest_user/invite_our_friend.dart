@@ -19,7 +19,7 @@ class InviteAnExpert extends StatelessWidget {
           landingBackground(),
           Column(
             children: [
-              CustomAppBar(context: context, richTitle: false, titleText1: 'Invite an expert', description: 'Provide the following details', leading: arrowBackButton(), centerTitle: true,),
+              CustomAppBar(context: context, titleText1: 'Invite an expert', description: 'Provide the following details', leading: arrowBackButton(), centerTitle: true,),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(

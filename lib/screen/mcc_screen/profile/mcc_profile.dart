@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
 
@@ -18,24 +19,25 @@ class MccProfile extends StatelessWidget {
       body: Stack(
           children: [
         landingBackground(),
-        Padding(
-          padding: const EdgeInsets.only(top: 40.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              arrowBackButton(),
-              Expanded(
-                child :SingleChildScrollView(
-                  child: Column(children: [
-                    profileImage(),
-                    profileInputField(),
-                    helpLineItem(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomAppBar(
+              context: context,
+              titleText1: '',
+              leading: arrowBackButton(),
+            ),
+            Expanded(
+              child :SingleChildScrollView(
+                child: Column(children: [
+                  profileImage(),
+                  profileInputField(),
+                  helpLineItem(),
 
-                  ],),
-                ),
+                ],),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ]),
     );
@@ -67,7 +69,7 @@ class MccProfile extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            
+
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -79,7 +81,7 @@ class MccProfile extends StatelessWidget {
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            
+
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),

@@ -25,8 +25,9 @@ class KYCUpdate extends StatelessWidget {
             children: [
               CustomAppBar(
                 context: context,
-                richTitle: false,
                 titleText1: 'KYC documents',
+                titleText1Style: figtreeMedium.copyWith(
+                    fontSize: 20, color: Colors.black),
                 centerTitle: true,
                 leading: arrowBackButton(),
                 action: TextButton(

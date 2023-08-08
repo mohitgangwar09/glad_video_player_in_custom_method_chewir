@@ -50,11 +50,12 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
           CustomAppBar(
             context: context,
             titleText1: 'Milk production & yield',
-            richTitle: false,
             centerTitle: true,
             leading: arrowBackButton(color: Colors.white),
             backgroundColor: ColorResources.maroon,
-            titleColor: Colors.white,
+            titleText1Style: figtreeMedium.copyWith(
+                fontSize: 20,
+                color: Colors.white),
           ),
 
           Expanded(

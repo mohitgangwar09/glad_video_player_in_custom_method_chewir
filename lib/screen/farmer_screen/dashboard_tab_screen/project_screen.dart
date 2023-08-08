@@ -8,6 +8,7 @@ import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/utils/styles.dart';
 
 class ProjectScreen extends StatelessWidget {
   const ProjectScreen({Key? key}) : super(key: key);
@@ -20,7 +21,8 @@ class ProjectScreen extends StatelessWidget {
         CustomAppBar(
           context: context,
           titleText1: 'Projects',
-          richTitle: false,
+          titleText1Style: figtreeMedium.copyWith(
+              fontSize: 20, color: Colors.black),
           centerTitle: true,
           leading: openDrawer(
               onTap: () {

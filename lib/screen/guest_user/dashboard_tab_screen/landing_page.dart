@@ -51,7 +51,6 @@ class GuestLandingPage extends StatelessWidget {
                     8.horizontalSpace(),
                   ],
                 ),
-                richTitle: true,
               ),
               landingPage(),
             ],

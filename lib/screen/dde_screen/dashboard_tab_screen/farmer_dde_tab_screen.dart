@@ -24,7 +24,6 @@ class FarmerDdeTabScreen extends StatelessWidget {
             children: [
               CustomAppBar(
                 context: context,
-                richTitle: false,
                 titleText1: "Farmers",
                 action: Row(
                   children: [
