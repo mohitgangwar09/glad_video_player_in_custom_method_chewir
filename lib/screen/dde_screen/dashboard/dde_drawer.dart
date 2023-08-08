@@ -54,7 +54,7 @@ class DdeDrawer extends StatelessWidget {
               image: Images.aboutus,
               onTap: () {},
               text: 'Message board',
-              visible: true
+              visible: false
           ),
           const SizedBox(
             height: 30,
@@ -64,7 +64,7 @@ class DdeDrawer extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          navigationBarItem(image: Images.notification, onTap: () {}, text: 'Notification',visible: true),
+          navigationBarItem(image: Images.notification, onTap: () {}, text: 'Notification',visible: false),
           const SizedBox(
             height: 30,
           ),
@@ -108,15 +108,13 @@ class DdeDrawer extends StatelessWidget {
                       Text(
                         'GLAD Helpline Number',
                         style: figtreeMedium.copyWith(
-                            fontSize: 14, color: Colors.white),
+                            fontSize: 12, color: Colors.white),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      5.verticalSpace(),
                       Text(
                         '+234567890',
-                        style: figtreeMedium.copyWith(
-                            fontSize: 14, color: Colors.white),
+                        style: figtreeSemiBold.copyWith(
+                            fontSize: 20, color: Colors.white),
                       )
                     ],
                   ),

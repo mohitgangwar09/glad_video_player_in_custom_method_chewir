@@ -546,10 +546,13 @@ Widget navigationBarItem(
     bool visible = false,
     String? title = ""}) {
   return InkWell(
-    onTap: onTap(),
+    onTap: () => onTap(),
     child: Row(
       children: [
-        SvgPicture.asset(image),
+        SizedBox(
+          width: 25,
+          child: SvgPicture.asset(image),
+        ),
         20.horizontalSpace(),
         Text(
           text!,
@@ -711,9 +714,9 @@ BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
   );
 }
 
-Widget customProjectContainer({required Widget child,double? width,double? height,}){
+Widget customProjectContainer({required Widget child,double? width,double? height,double? marginTop =20,double? marginLeft = 10}){
   return Container(
-    margin: const EdgeInsets.only(left:10,top: 20),
+    margin: EdgeInsets.only(left:marginLeft!,top: marginTop!),
     width: width,
     height: height,
     decoration: BoxDecoration(
@@ -956,26 +959,27 @@ Widget farmerBackground(){
   );
 }
 
-Widget customPaint(){
+Widget customPaint(Color color) {
   return CustomPaint(
       size: const Size(1.1, double.infinity),
-      painter: DashedLineVerticalPainter()
-  );
+      painter: DashedLineVerticalPainter(color: color));
 }
 
-Widget horizontalPaint(){
+Widget horizontalPaint() {
   return CustomPaint(
-    size: Size(1.1,double.infinity),
+    size: Size(1.1, double.infinity),
     painter: DashLinePainter(),
   );
 }
 
 class DashedLineVerticalPainter extends CustomPainter {
+  DashedLineVerticalPainter({required this.color});
+  final Color color;
   @override
   void paint(Canvas canvas, Size size) {
-    double dashHeight = 5, dashSpace = 3, startY = 0;
+    double dashHeight = 2, dashSpace = 2, startY = 0;
     final paint = Paint()
-      ..color = Colors.grey
+      ..color = color
       ..strokeWidth = size.width;
     while (startY < size.height) {
       canvas.drawLine(Offset(0, startY), Offset(0, startY + dashHeight), paint);
@@ -1064,20 +1068,25 @@ class DashLinePainter extends CustomPainter {
   }
 }
 
-Widget arrowBackButton() {
+Widget arrowBackButton({Color? color}) {
   return InkWell(
       onTap: () {
         pressBack();
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 12.0),
-        child: SvgPicture.asset(Images.arrowBack),
+        child: color != null
+            ? SvgPicture.asset(
+                Images.arrowBack,
+                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              )
+            : SvgPicture.asset(Images.arrowBack),
       ));
 }
 
 Widget customShadowContainer({bool enabled=true,
   double? width, int margin=6,
-  bool enabledBack=false,Color color=Colors.white,Color backColor=Colors.white,double elevation=0,double radius=20, String hintText='Search', Function ? textFieldOnTap,Function ? onTap,Function ? backOnTap,ValueChanged<String>? onChanged,bool enabledSearch=false,bool enableLoc=false,
+  bool enabledBack=false,Color color=Colors.white,Color backColor=Colors.white,double elevation=0.5,double radius=20, String hintText='Search', Function ? textFieldOnTap,Function ? onTap,Function ? backOnTap,ValueChanged<String>? onChanged,bool enabledSearch=false,bool enableLoc=false,
   bool showCross=true,bool showMap=false,bool
   boxShadow=true, required Widget child }) {
   return Container(

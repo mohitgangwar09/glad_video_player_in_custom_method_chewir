@@ -4,6 +4,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 
 class ProjectScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40.0),
+      padding: EdgeInsets.only(top: getStatusBarHeight(context)),
       child: Column(
         children: [
 
@@ -22,7 +23,7 @@ class ProjectScreen extends StatelessWidget {
             // const FarmerProfile().navigate();
           },drawerVisibility: true),
 
-          25.verticalSpace(),
+          10.verticalSpace(),
 
           Container(
             height: 50,
@@ -86,7 +87,7 @@ class ProjectScreen extends StatelessWidget {
 
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 120),
+              padding: const EdgeInsets.only(bottom: 120,left: 10),
               child: customList(child: (int i) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 20.0),
@@ -94,7 +95,8 @@ class ProjectScreen extends StatelessWidget {
                 );
               }),
             ),
-          ),
+          )
+
         ],
       ),
     );

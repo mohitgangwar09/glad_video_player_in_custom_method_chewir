@@ -49,22 +49,30 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
                       ),
                     ),
                     Positioned(
-                        bottom: 10,
-                        left: 10,
-                        right: 10,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                '"Identification of gaps in farmers businesses and fixing them"',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 14, color: Colors.white),
-                                softWrap: true),
-                            5.verticalSpace(),
-                            Text('18 Apr, 2023',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 10, color: Colors.white))
-                          ],
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          decoration:  BoxDecoration(
+                              color: Colors.black.withOpacity(.5),
+                              borderRadius: const BorderRadius.only(bottomRight: Radius.circular(10),
+                                  bottomLeft: Radius.circular(14))
+                          ),
+                          padding: 5.paddingAll(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  '"Identification of gaps in farmers businesses and fixing them"',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 14, color: Colors.white),
+                                  softWrap: true),
+                              5.verticalSpace(),
+                              Text('18 Apr, 2023',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 10, color: Colors.white))
+                            ],
+                          ),
                         )),
                   ],
                 );

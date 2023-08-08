@@ -18,7 +18,7 @@ class DashboardSupplier extends StatelessWidget {
     var provider = BlocProvider.of<DashboardCubit>(context);
 
     final widgetOptions = [
-      const SupplierLandingPage(),
+      SupplierLandingPage(),
       const Text("Tours"),
       const Text("Stories"),
       const Text("Orders"),

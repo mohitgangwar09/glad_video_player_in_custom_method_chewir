@@ -82,7 +82,7 @@ class ProjectWidget extends StatelessWidget {
 
                     SizedBox(
                       height: 45,
-                      child: customPaint(),
+                      child: customPaint(Colors.grey),
                     ),
 
                     Column(

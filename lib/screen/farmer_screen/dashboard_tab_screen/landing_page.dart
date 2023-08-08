@@ -12,6 +12,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -33,7 +34,7 @@ class FarmerLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: EdgeInsets.only(top: appBarHeight()),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               children: [
 
@@ -67,63 +68,68 @@ class FarmerLandingPage extends StatelessWidget {
             10.verticalSpace(),
 
             Padding(
-              padding: const EdgeInsets.only(right: 20.0,bottom: 25),
+              padding: const EdgeInsets.only(right: 20.0,left: 10,bottom: 25),
               child: customGrid(
                   context,
                   mainAxisExtent: 185,
                   crossAxisSpacing: 0,
                   child: (int index) {
-                return customProjectContainer(
-                      width: screenWidth(),
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                return InkWell(
+                  onTap: () {
+                    const MilkProductionYield().navigate();
+                  },
+                  child: customProjectContainer(
+                        width: screenWidth(),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
 
-                                "18 K ltr.".textMedium(fontSize: 22),
+                                  "18 K ltr.".textMedium(fontSize: 22),
 
-                                Container(
-                                  width: 70,
-                                  margin: 10.marginAll(),
-                                  padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 7),
-                                  decoration: boxDecoration(
-                                    borderRadius: 30,
-                                    backgroundColor: const Color(0xffE4FFE3),
+                                  Container(
+                                    width: 70,
+                                    margin: 10.marginAll(),
+                                    padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 7),
+                                    decoration: boxDecoration(
+                                      borderRadius: 30,
+                                      backgroundColor: const Color(0xffE4FFE3),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+
+                                        "30%".textSemiBold(color: const Color(0xff4BC56F)),
+
+                                        const Icon(Icons.trending_up,color: Color(0xff4BC56F),size: 20,),
+
+                                      ],
+                                    ),
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
 
-                                      "30%".textSemiBold(color: const Color(0xff4BC56F)),
+                                  12.verticalSpace(),
 
-                                      const Icon(Icons.trending_up,color: Color(0xff4BC56F),size: 20,),
+                                  "Milking cows".textMedium(fontSize: 16),
 
-                                    ],
-                                  ),
-                                ),
+                                  7.verticalSpace(),
 
-                                12.verticalSpace(),
+                                  "05 Breeds".textMedium(fontSize: 12,color: const Color(0xff727272))
 
-                                "Milking cows".textMedium(fontSize: 16),
-
-                                7.verticalSpace(),
-
-                                "05 Breeds".textMedium(fontSize: 12,color: const Color(0xff727272))
-
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Align(
-                              alignment: Alignment.topRight,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 14.0,top: 9),
-                                child: SvgPicture.asset(Images.menuIcon),
-                              )),
-                        ],
-                      ));
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 14.0,top: 9),
+                                  child: SvgPicture.asset(Images.menuIcon),
+                                )),
+                          ],
+                        )),
+                );
               }),
             ),
 
@@ -140,7 +146,7 @@ class FarmerLandingPage extends StatelessWidget {
             ),
 
             Container(
-              margin: 20.marginRight(),
+              margin: const EdgeInsets.only(left: 10,right: 20),
               height: 242,
               child: customList(axis: Axis.horizontal,child: (int i) {
                 return customProjectContainer(

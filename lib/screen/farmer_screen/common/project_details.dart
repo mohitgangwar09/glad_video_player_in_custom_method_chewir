@@ -6,6 +6,7 @@ import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/farmer_screen/common/installation_watertank.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -20,7 +21,7 @@ class ProjectDetails extends StatelessWidget {
         children: [
           landingBackground(),
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               children: [
                 Stack(

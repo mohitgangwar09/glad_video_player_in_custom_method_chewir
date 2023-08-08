@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dde_drawer.dart';
+import 'package:glad/screen/dde_screen/dashboard_tab_screen/farmer_dde_tab_screen.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/landing_page.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
@@ -21,7 +22,8 @@ class DashboardDDE extends StatelessWidget {
 
     final widgetOptions = [
       const DDELandingPage(),
-      const Text("Tours"),
+      const FarmerDdeTabScreen(),
+      // const Text("Tours"),
       const Text("Stories"),
       const Text("Orders"),
       const Text("Earnings"),
@@ -69,7 +71,7 @@ class DashboardDDE extends StatelessWidget {
                   state.selectedIndex, 0, Images.selectedHome),
               10.horizontalSpace(),
               bottomNavigationItem('Farmers', Images.farmer, context,
-                  state.selectedIndex, 1, Images.selectedNewsBottom),
+                  state.selectedIndex, 1, Images.selectedFarmer),
               10.horizontalSpace(),
               bottomNavigationItem('Projects', Images.application, context,
                   state.selectedIndex, 2, Images.selectedApplication),

@@ -85,6 +85,9 @@ class Images {
   static const String search = 'assets/images/search.svg';
   static const String addRemark = 'assets/images/addremark.svg';
   static const String addRemark1 = 'assets/images/addremark1.svg';
+  static const String filter1 = 'assets/images/filter.svg';
+  static const String filter2 = 'assets/images/newfilter.svg';
+  static const String searchLeft = 'assets/images/search_icon.svg';
 
 
 
@@ -120,6 +123,7 @@ class Images {
 
   // dde bottom
   static const String farmer = 'assets/images/farmer.svg';
+  static const String selectedFarmer = 'assets/images/selectedfarmer.svg';
   static const String enquiry = 'assets/images/enquiry.svg';
   static const String selectedEnquiry = 'assets/images/selectedenquiry.svg';
 
