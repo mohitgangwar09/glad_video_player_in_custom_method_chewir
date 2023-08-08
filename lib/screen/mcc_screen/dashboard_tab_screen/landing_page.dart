@@ -6,6 +6,7 @@ import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_screen.dart';
 import 'package:glad/screen/mcc_screen/profile/mcc_profile.dart';
@@ -26,19 +27,29 @@ class MCCLandingPage extends StatelessWidget {
       child: Stack(
         children: [
           landingBackground(),
-          Padding(
-            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-            child: Column(
-              children: [
-                customAppBar('Welcome to ', 'GLAD',
-                    onTapDrawer: () {},
-                    onTapProfile: () {
-                  const MccProfile().navigate();
-                    },
-                    drawerVisibility: false),
-                landingPage(context),
-              ],
-            ),
+          Column(
+            children: [
+
+              CustomAppBar(
+                context: context,
+                titleText1: 'Welcome to ',
+                titleText2: 'GLAD',
+                leading: null,
+                action: Row(
+                  children: [
+                    InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+                    7.horizontalSpace(),
+                    InkWell(
+                        onTap: () {
+                          const MccProfile().navigate();
+                        },
+                        child: SvgPicture.asset(Images.person)),
+                    8.horizontalSpace(),
+                  ],
+                ),
+              ),
+              landingPage(context),
+            ],
           ),
         ],
       ),

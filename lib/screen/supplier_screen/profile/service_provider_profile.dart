@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/custom_widget/custom_textfield.dart';
+import 'package:glad/screen/dde_screen/dde_profile.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-
-import '../../../utils/color_resources.dart';
-import '../../../utils/images.dart';
-import '../../../utils/styles.dart';
-import '../../custom_widget/custom_methods.dart';
-import '../../custom_widget/custom_textfield.dart';
-import '../../dde_screen/dde_profile.dart';
+import 'package:glad/utils/images.dart';
+import 'package:glad/utils/styles.dart';
 
 class ServiceProvider extends StatelessWidget {
   const ServiceProvider({super.key});
@@ -19,26 +19,26 @@ class ServiceProvider extends StatelessWidget {
       body: Stack(
         children: [
           landingBackground(),
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                arrowBackButton(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                      profileImage(),
-                      40.verticalSpace(),
-                      ratingBar(),
-                      profileInputField(),
-                      earningCardDetails(),
-                      20.verticalSpace(),
-                    ],),
-                  ),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                titleText1: '',
+                leading: arrowBackButton(),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                    profileImage(),
+                    40.verticalSpace(),
+                    ratingBar(),
+                    profileInputField(),
+                    earningCardDetails(),
+                    20.verticalSpace(),
+                  ],),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
 
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
@@ -20,47 +21,35 @@ class ProjectDetails extends StatelessWidget {
       body: Stack(
         children: [
           landingBackground(),
-          Padding(
-            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-            child: Column(
-              children: [
-                Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    Center(
-                      child: Text(
-                        'Dam construction',
-                        style: figtreeMedium.copyWith(fontSize: 22),
-                      ),
-                    ),
-                    Positioned(
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.arrow_back))),
-                  ],
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          description(),
-                          30.verticalSpace(),
-                          dde(context),
-                          kpi(context),
-                          projectMilestones(context),
-                          inviteExpert(context),
-                        ],
-                      ),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                titleText1: 'Dam construction',
+                leading: arrowBackButton(),
+                centerTitle: true,
+                titleText1Style:
+                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        description(),
+                        30.verticalSpace(),
+                        dde(context),
+                        kpi(context),
+                        projectMilestones(context),
+                        // inviteExpert(context),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           Positioned(
               bottom: 0,

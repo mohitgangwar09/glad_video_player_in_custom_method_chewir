@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 
@@ -19,9 +22,26 @@ class FarmerStatement extends StatelessWidget {
             padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               children: [
-                customAppBar('Loan ', 'statement', onTapDrawer: () {
-                  // farmerLandingKey.currentState?.openDrawer();
-                }, onTapProfile: () {}, drawerVisibility: true),
+                CustomAppBar(
+                  context: context,
+                  titleText1: 'Loan ',
+                  titleText2: 'statement',
+                  leading: openDrawer(
+                      onTap: () {
+                      },
+                      child: SvgPicture.asset(Images.drawer)),
+                  action: Row(
+                    children: [
+                      InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+                      7.horizontalSpace(),
+                      InkWell(
+                          onTap: () {
+                          },
+                          child: SvgPicture.asset(Images.person)),
+                      8.horizontalSpace(),
+                    ],
+                  ),
+                ),
                 listviewDetails(),
               ],
             ),

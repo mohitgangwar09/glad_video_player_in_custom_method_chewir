@@ -4,6 +4,7 @@ import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -45,18 +46,32 @@ class SupplierLandingPage extends StatelessWidget {
       child: Stack(
         children: [
           landingBackground(),
-          Padding(
-            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-            child: Column(
-              children: [
-                customAppBar('Hello ', ' Hurton,', onTapDrawer: () {
-                  landingKey.currentState?.openDrawer();
-                }, onTapProfile: () {
-                  const ServiceProvider().navigate();
-                }, drawerVisibility: true),
-                landingPage(),
-              ],
-            ),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                titleText1: 'Hello ',
+                titleText2: 'Hurton,',
+                leading: openDrawer(
+                    onTap: () {
+                      landingKey.currentState?.openDrawer();
+                    },
+                    child: SvgPicture.asset(Images.drawer)),
+                action: Row(
+                  children: [
+                    InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+                    7.horizontalSpace(),
+                    InkWell(
+                        onTap: () {
+                          const ServiceProvider().navigate();
+                        },
+                        child: SvgPicture.asset(Images.person)),
+                    8.horizontalSpace(),
+                  ],
+                ),
+              ),
+              landingPage(),
+            ],
           ),
         ],
       ),

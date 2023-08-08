@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -30,22 +31,33 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            color: ColorResources.maroon,
-            padding: EdgeInsets.only(top: getStatusBarHeight(context), bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                arrowBackButton(color: Colors.white),
-                Text(
-                  'Milk production & yield',
-                  style:
-                      figtreeMedium.copyWith(fontSize: 20, color: Colors.white),
-                ),
-                const Text(''),
-              ],
-            ),
+          // Container(
+          //   color: ColorResources.maroon,
+          //   padding: EdgeInsets.only(top: getStatusBarHeight(context), bottom: 10),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       arrowBackButton(color: Colors.white),
+          //       Text(
+          //         'Milk production & yield',
+          //         style:
+          //             figtreeMedium.copyWith(fontSize: 20, color: Colors.white),
+          //       ),
+          //       const Text(''),
+          //     ],
+          //   ),
+          // ),
+          CustomAppBar(
+            context: context,
+            titleText1: 'Milk production & yield',
+            centerTitle: true,
+            leading: arrowBackButton(color: Colors.white),
+            backgroundColor: ColorResources.maroon,
+            titleText1Style: figtreeMedium.copyWith(
+                fontSize: 20,
+                color: Colors.white),
           ),
+
           Expanded(
             child: SingleChildScrollView(
               child: Column(

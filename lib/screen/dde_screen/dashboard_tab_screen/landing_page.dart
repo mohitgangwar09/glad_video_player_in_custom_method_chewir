@@ -6,6 +6,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
@@ -34,20 +35,33 @@ class DDELandingPage extends StatelessWidget {
 
           landingBackground(),
 
-          Padding(
-            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-            child: Column(
-              children: [
-                customAppBar('Hello ', 'Abdullah', onTapDrawer: (){
-                  ddeLandingKey.currentState?.openDrawer();
-                }, onTapProfile: (){
-                  const GladProfile().navigate();
-                },drawerVisibility: true),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                titleText1: 'Hello ',
+                titleText2: 'Abdullah',
+                leading: openDrawer(
+                    onTap: () {
+                      ddeLandingKey.currentState?.openDrawer();
+                    },
+                    child: SvgPicture.asset(Images.drawer)),
+                action: Row(
+                  children: [
+                    InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+                    7.horizontalSpace(),
+                    InkWell(
+                        onTap: () {
+                          const GladProfile().navigate();
+                        },
+                        child: SvgPicture.asset(Images.person)),
+                    8.horizontalSpace(),
+                  ],
+                ),
+              ),
+              landingPage(calendarFormat),
 
-                landingPage(calendarFormat),
-
-              ],
-            ),
+            ],
           ),
 
         ],

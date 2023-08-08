@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
@@ -18,7 +19,7 @@ class InviteAnExpert extends StatelessWidget {
           landingBackground(),
           Column(
             children: [
-              heading(context),
+              CustomAppBar(context: context, titleText1: 'Invite an expert', description: 'Provide the following details', leading: arrowBackButton(), centerTitle: true,),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -33,43 +34,6 @@ class InviteAnExpert extends StatelessWidget {
               )
             ],
           )
-        ],
-      ),
-    );
-  }
-
-//////////Heading/////////////////
-  Widget heading(context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 40.0),
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.centerLeft,
-            children: [
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Invite an expert',
-                      style: figtreeMedium.copyWith(fontSize: 22),
-                    ),
-                    05.verticalSpace(),
-                    Text(
-                      'Provide the following details',
-                      style: figtreeMedium.copyWith(fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back))),
-            ],
-          ),
         ],
       ),
     );
