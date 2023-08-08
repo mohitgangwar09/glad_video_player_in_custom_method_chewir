@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/common/attributes_edit.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
@@ -52,6 +53,8 @@ class InstallationOfWaterTank extends StatelessWidget {
       ),
     );
   }
+
+
 
   ///////DescriptionDetails///////////
   Widget description() {
@@ -138,20 +141,25 @@ class InstallationOfWaterTank extends StatelessWidget {
                 style: figtreeMedium.copyWith(fontSize: 18),
               ),
               05.horizontalSpace(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                decoration: boxDecoration(
-                  backgroundColor: ColorResources.white,
-                  borderWidth: 1,
-                  borderRadius: 160,
-                  borderColor: const Color(0xff6A0030),
-                ),
-                child: Text(
-                  "Edit",
-                  textAlign: TextAlign.center,
-                  style: figtreeMedium.copyWith(
-                      color: const Color(0xff6A0030), fontSize: 10),
+              InkWell(
+                onTap: (){
+                  const AttributesEdit().navigate();
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                  decoration: boxDecoration(
+                    backgroundColor: ColorResources.white,
+                    borderWidth: 1,
+                    borderRadius: 160,
+                    borderColor: const Color(0xff6A0030),
+                  ),
+                  child: Text(
+                    "Edit",
+                    textAlign: TextAlign.center,
+                    style: figtreeMedium.copyWith(
+                        color: const Color(0xff6A0030), fontSize: 10),
+                  ),
                 ),
               )
             ],
@@ -189,19 +197,46 @@ class InstallationOfWaterTank extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         30.verticalSpace(),
-        Text(
-          'Milestone deliverables',
-          style: figtreeMedium.copyWith(fontSize: 18),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+          child: Text(
+            'Milestone deliverables',
+            style: figtreeMedium.copyWith(fontSize: 18),
+          ),
         ),
-        customList(child: (int index) {
+        10.verticalSpace(),
+        customList(child: (
+          int index,
+        ) {
           return Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Container(
+              height: 60,
+              margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(width: 1, color: ColorResources.grey),
                   borderRadius: BorderRadius.circular(14)),
-              height: 80,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20,0,5,0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Various versions have evolved',
+                      style: figtreeMedium.copyWith(fontSize: 14),
+                    ),
+                    Container(
+                      height:50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          color: ColorResources.pinkMain,
+                          borderRadius: BorderRadius.circular(14)),
+                      child: Center(child: Text('01',style: figtreeMedium.copyWith(fontSize: 14),)),
+                    )
+                  ],
+                ),
+              ),
             ),
           );
         })
