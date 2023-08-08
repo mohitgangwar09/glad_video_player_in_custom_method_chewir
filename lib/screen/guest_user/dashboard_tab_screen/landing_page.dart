@@ -29,7 +29,7 @@ class GuestLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: EdgeInsets.only(top: appBarHeight()),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               children: [
 

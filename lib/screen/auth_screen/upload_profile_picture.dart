@@ -118,7 +118,7 @@ class UploadProfilePicture extends StatelessWidget {
       children: [
         landingBackground(),
         Padding(
-          padding: EdgeInsets.only(top: appBarHeight()),
+          padding: EdgeInsets.only(top: getStatusBarHeight(context)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

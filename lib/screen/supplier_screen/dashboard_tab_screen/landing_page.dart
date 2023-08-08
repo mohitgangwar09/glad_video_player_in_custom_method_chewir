@@ -46,7 +46,7 @@ class SupplierLandingPage extends StatelessWidget {
         children: [
           landingBackground(),
           Padding(
-            padding: EdgeInsets.only(top: appBarHeight()),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               children: [
                 customAppBar('Hello ', ' Hurton,', onTapDrawer: () {

@@ -34,7 +34,7 @@ class FarmerLandingPage extends StatelessWidget {
           landingBackground(),
 
           Padding(
-            padding: EdgeInsets.only(top: appBarHeight()),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               children: [
 
@@ -75,9 +75,9 @@ class FarmerLandingPage extends StatelessWidget {
                   crossAxisSpacing: 0,
                   child: (int index) {
                 return InkWell(
-                  // onTap: () {
-                  //   const MilkProductionYield().navigate();
-                  // },
+                  onTap: () {
+                    const MilkProductionYield().navigate();
+                  },
                   child: customProjectContainer(
                         width: screenWidth(),
                         child: Stack(

@@ -190,6 +190,7 @@ class CustomTextField2 extends StatelessWidget {
                                 onEditingComplete: onEditingComplete,
                                 decoration: InputDecoration(
                                   labelText: hint,
+                                  alignLabelWithHint: true,
                                   enabledBorder: const UnderlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Colors.transparent),
