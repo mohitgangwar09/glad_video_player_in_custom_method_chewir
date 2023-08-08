@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-import '../../../utils/images.dart';
 
 class ProjectDetails extends StatelessWidget {
   const ProjectDetails({super.key});
@@ -17,7 +20,7 @@ class ProjectDetails extends StatelessWidget {
         children: [
           landingBackground(),
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
                 Stack(
@@ -48,7 +51,8 @@ class ProjectDetails extends StatelessWidget {
                           30.verticalSpace(),
                           dde(context),
                           kpi(context),
-                          projectMilestones(),
+                          projectMilestones(context),
+                          // inviteExpert(context),
                         ],
                       ),
                     ),
@@ -245,7 +249,7 @@ class ProjectDetails extends StatelessWidget {
             list: [1, 2, 3, 4, 5, 6, 7],
             crossAxisCount: 3,
             mainAxisSpacing: 20,
-            mainAxisExtent:135, child: (int index) {
+            mainAxisExtent: 135, child: (int index) {
           return customShadowContainer(
               backColor: ColorResources.grey,
               margin: 2,
@@ -286,7 +290,7 @@ class ProjectDetails extends StatelessWidget {
   }
 
   ///////////ProjectMilestones///////////
-  Widget projectMilestones() {
+  Widget projectMilestones(context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       50.verticalSpace(),
       Text(
@@ -370,18 +374,19 @@ class ProjectDetails extends StatelessWidget {
                   )),
             );
           }),
-
       20.verticalSpace(),
       Center(
           child: Padding(
-            padding: const EdgeInsets.only(left:50,right:50),
-            child: customButton('Revoke',
-                width: screenWidth(),
-                style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-                onTap: () {},
-                radius: 88,
-                color: 0xffFC5E60),
-          )),
+        padding: const EdgeInsets.only(left: 50, right: 50),
+        child: customButton('Revoke',
+            width: screenWidth(),
+            style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+            onTap: () {
+          // const AddRemark().navigate();
+            },
+            radius: 88,
+            color: 0xffFC5E60),
+      )),
       05.verticalSpace(),
       Center(
           child: Text(
@@ -391,5 +396,86 @@ class ProjectDetails extends StatelessWidget {
       )),
       20.verticalSpace(),
     ]);
+  }
+
+  /////////////InviteExpert/////////
+  Widget inviteExpert(context) {
+    return Center(
+        child: Padding(
+      padding: const EdgeInsets.only(left: 50, right: 50),
+      child: customButton(
+        'Invite expert for survey',
+        width: screenWidth(),
+        style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+        onTap: () {
+          modalBottomSheetMenu(context,
+              radius: 40,
+              child: SizedBox(
+                height: 450,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            'Farmer feedback',
+                            style: figtreeMedium.copyWith(fontSize: 22),
+                          ),
+                        ),
+                        30.verticalSpace(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextField2(
+                              borderColor: 0xff727272,
+                              hint: 'Select Date',
+                              width: screenWidth(),
+                              title: 'Preferred date',
+                              image2: Images.calender,
+                              image2Colors: ColorResources.maroon,
+                              readOnly: true,
+                              onTap: () {
+                                showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime.now());
+                              },
+                              focusNode: FocusNode(),
+                            ),
+                            20.verticalSpace(),
+                            Text('Remarks',style: figtreeMedium.copyWith(fontSize: 12),),
+                            5.verticalSpace(),
+                            TextField(
+                              maxLines: 4,
+                              minLines: 4,
+                              decoration: InputDecoration(
+                                  hintText: 'Write...',
+                                  hintStyle: figtreeMedium.copyWith(fontSize: 18),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Color(0xff999999),))),
+                            ),
+                            30.verticalSpace(),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                              child: customButton(
+                                'Submit',
+                                fontColor: 0xffFFFFFF,
+                                onTap: () {},
+                                height: 60,
+                                width: screenWidth(),
+                              ),
+                            )
+                          ],
+                        )
+                      ]),
+                ),
+              ));
+        },
+      ),
+    ));
   }
 }

@@ -21,7 +21,7 @@ class KYCUpdate extends StatelessWidget {
         children: [
           landingBackground(),
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
                 Row(

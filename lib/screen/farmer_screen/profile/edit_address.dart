@@ -5,6 +5,7 @@ import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -18,7 +19,7 @@ class EditAddress extends StatelessWidget {
         children: [
           landingBackground(),
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: EdgeInsets.only(top: appBarHeight()),
             child: Column(
               children: [
                 Row(
@@ -67,7 +68,7 @@ class EditAddress extends StatelessWidget {
                                   hint: 'Search By...',
                                   leadingImage: Images.search,
                                   imageColors: Colors.black,
-                                  borderRadius: 60,
+                                  radius: 60,
                                 ))
                           ],
                         ),

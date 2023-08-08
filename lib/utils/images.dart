@@ -83,6 +83,13 @@ class Images {
   static const String arrowDropdown = 'assets/images/arrow_dropdown.svg';
   static const String cancelImage = 'assets/images/cancel_image.svg';
   static const String search = 'assets/images/search.svg';
+  static const String addRemark = 'assets/images/addremark.svg';
+  static const String addRemark1 = 'assets/images/addremark1.svg';
+  static const String filter1 = 'assets/images/filter.svg';
+  static const String filter2 = 'assets/images/newfilter.svg';
+  static const String searchLeft = 'assets/images/search_icon.svg';
+
+
 
   // bottom navigation item//
   static const String home = 'assets/images/lighthome.svg';
@@ -92,18 +99,16 @@ class Images {
   static const String trainingBottom = 'assets/images/trainingbottom.svg';
   static const String arrowBack = 'assets/images/arrow_back.svg';
 
+
   //dark bottom
   static const String selectedHome = 'assets/images/home.svg';
   static const String selectedLiveStock = 'assets/images/selectedlivestock.svg';
-  static const String selectedCommunityBottom =
-      'assets/images/selectedcommunity.svg';
+  static const String selectedCommunityBottom = 'assets/images/selectedcommunity.svg';
   static const String selectedNewsBottom = 'assets/images/selectednews.svg';
-  static const String selectedTrainingBottom =
-      'assets/images/selectedtraining.svg';
+  static const String selectedTrainingBottom = 'assets/images/selectedtraining.svg';
 
   //mcc Bottom
-  static const String selectedApplication =
-      'assets/images/selectedapplication.svg';
+  static const String selectedApplication = 'assets/images/selectedapplication.svg';
   static const String application = 'assets/images/application.svg';
 
   // farmer Bottom
@@ -121,4 +126,6 @@ class Images {
   static const String selectedFarmer = 'assets/images/selectedfarmer.svg';
   static const String enquiry = 'assets/images/enquiry.svg';
   static const String selectedEnquiry = 'assets/images/selectedenquiry.svg';
+
+
 }
