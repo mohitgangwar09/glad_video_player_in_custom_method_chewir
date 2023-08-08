@@ -295,7 +295,7 @@ class ProjectDetails extends StatelessWidget {
       15.verticalSpace(),
       InkWell(
         onTap: (){
-          const InstallationOfWaterTank().navigate();
+          // const InstallationOfWaterTank().navigate();
         },
         child: customList(
             axis: Axis.vertical,
