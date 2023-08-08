@@ -34,7 +34,7 @@ class _EditProfileState extends State<EditProfile> {
         children: [
           landingBackground(),
           Padding(
-            padding: EdgeInsets.only(top: appBarHeight()),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               children: [
                 Row(

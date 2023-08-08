@@ -2,10 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/extra_screen/profile_navigate.dart';
-import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
-import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
-import 'package:glad/screen/farmer_screen/dashboard_tab_screen/landing_page.dart';
-import 'package:glad/screen/farmer_screen/drawer_screen/add_testimonial.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_profile.dart';
 import 'package:glad/translation/change_language.dart';
 import 'package:glad/utils/extension.dart';
@@ -22,7 +18,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void _route() async {
     Timer(const Duration(seconds: 2), () async {
-      const DashboardFarmer().navigate(isRemove: true);
+      const LanguagePermission().navigate(isRemove: true);
     });
   }
 

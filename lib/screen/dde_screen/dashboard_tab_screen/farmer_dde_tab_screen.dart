@@ -22,7 +22,7 @@ class FarmerDdeTabScreen extends StatelessWidget {
         hideKeyboard(
           context,
           child: Padding(
-            padding: EdgeInsets.only(top: appBarHeight()),
+            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
             child: Column(
               children: [
 
