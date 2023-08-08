@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
@@ -19,6 +20,7 @@ class GuestLandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       color: Colors.white,
       child: Stack(
