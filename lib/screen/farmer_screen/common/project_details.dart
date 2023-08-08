@@ -44,7 +44,7 @@ class ProjectDetails extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -249,7 +249,7 @@ class ProjectDetails extends StatelessWidget {
         customGrid(context,
             list: [1, 2, 3, 4, 5, 6, 7],
             crossAxisCount: 3,
-            mainAxisSpacing: 20,
+            mainAxisSpacing: 10,
             mainAxisExtent: 135, child: (int index) {
           return customShadowContainer(
               backColor: ColorResources.grey,
@@ -257,7 +257,8 @@ class ProjectDetails extends StatelessWidget {
               radius: 14,
               width: screenWidth(),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 2),
+                // padding: 0.paddingAll(),
+                padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -275,12 +276,16 @@ class ProjectDetails extends StatelessWidget {
                     15.verticalSpace(),
                     Text(
                       'UGX 800K',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: figtreeMedium.copyWith(fontSize: 16),
                     ),
                     05.verticalSpace(),
                     Text(
                       'Farmer Participation',
-                      style: figtreeRegular.copyWith(fontSize: 14),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: figtreeRegular.copyWith(fontSize: 14,),
                     )
                   ],
                 ),
