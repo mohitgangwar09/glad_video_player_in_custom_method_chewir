@@ -21,4 +21,5 @@ class ColorResources {
   static const Color fieldGrey = Color(0xff727272);
   static const Color paidGreen = Color(0xff4BC56F);
   static const Color paidGreenText = Color(0xff12CE57);
+  static const Color containerColor = Color(0xffFBF9F9);
 }

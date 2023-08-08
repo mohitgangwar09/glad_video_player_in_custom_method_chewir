@@ -4,6 +4,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
+import 'package:glad/screen/farmer_screen/common/installation_watertank.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -286,82 +287,87 @@ class ProjectDetails extends StatelessWidget {
         style: figtreeMedium.copyWith(fontSize: 18),
       ),
       15.verticalSpace(),
-      customList(
-          axis: Axis.vertical,
-          child: (int index) {
-            return Padding(
-              padding: const EdgeInsets.only(
-                bottom: 20,
-              ),
-              child: customShadowContainer(
-                  margin: 0,
-                  backColor: ColorResources.grey,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 10, 10, 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Installation of water tank...',
-                              style: figtreeMedium.copyWith(fontSize: 18),
-                            ),
-                            checkBox(
-                              value: true,
-                            )
-                          ],
-                        ),
-                        Text(
-                          '05 tasks included in this milestone.',
-                          style: figtreeMedium.copyWith(fontSize: 12),
-                        ),
-                        20.verticalSpace(),
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Value',
-                                  style: figtreeMedium.copyWith(
-                                      fontSize: 12,
-                                      color: ColorResources.fieldGrey),
-                                ),
-                                Text(
-                                  'UGX 600K',
-                                  style: figtreeSemiBold.copyWith(
-                                      fontSize: 16,
-                                      color: ColorResources.maroon),
-                                )
-                              ],
-                            ),
-                            40.horizontalSpace(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Duration',
-                                  style: figtreeMedium.copyWith(
-                                      fontSize: 12,
-                                      color: ColorResources.fieldGrey),
-                                ),
-                                Text(
-                                  '12 Days',
-                                  style: figtreeSemiBold.copyWith(
-                                      fontSize: 16,
-                                      color: ColorResources.maroon),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
-            );
-          }),
+      InkWell(
+        onTap: (){
+          const InstallationOfWaterTank().navigate();
+        },
+        child: customList(
+            axis: Axis.vertical,
+            child: (int index) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 20,
+                ),
+                child: customShadowContainer(
+                    margin: 0,
+                    backColor: ColorResources.grey,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 10, 10, 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Installation of water tank...',
+                                style: figtreeMedium.copyWith(fontSize: 18),
+                              ),
+                              checkBox(
+                                value: true,
+                              )
+                            ],
+                          ),
+                          Text(
+                            '05 tasks included in this milestone.',
+                            style: figtreeMedium.copyWith(fontSize: 12),
+                          ),
+                          20.verticalSpace(),
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Value',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.fieldGrey),
+                                  ),
+                                  Text(
+                                    'UGX 600K',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 16,
+                                        color: ColorResources.maroon),
+                                  )
+                                ],
+                              ),
+                              40.horizontalSpace(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Duration',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.fieldGrey),
+                                  ),
+                                  Text(
+                                    '12 Days',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 16,
+                                        color: ColorResources.maroon),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )),
+              );
+            }),
+      ),
       20.verticalSpace(),
       Center(
           child: Padding(
@@ -370,8 +376,10 @@ class ProjectDetails extends StatelessWidget {
             width: screenWidth(),
             style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
             onTap: () {
-          // const AddRemark().navigate();
-        }, radius: 88, color: 0xffFC5E60),
+          const AddRemark().navigate();
+            },
+            radius: 88,
+            color: 0xffFC5E60),
       )),
       05.verticalSpace(),
       Center(
@@ -431,24 +439,18 @@ class ProjectDetails extends StatelessWidget {
                               focusNode: FocusNode(),
                             ),
                             20.verticalSpace(),
-                            Text(
-                              'Remarks',
-                              style: figtreeMedium.copyWith(fontSize: 12),
-                            ),
+                            Text('Remarks',style: figtreeMedium.copyWith(fontSize: 12),),
                             5.verticalSpace(),
                             TextField(
                               maxLines: 4,
                               minLines: 4,
                               decoration: InputDecoration(
                                   hintText: 'Write...',
-                                  hintStyle:
-                                      figtreeMedium.copyWith(fontSize: 18),
+                                  hintStyle: figtreeMedium.copyWith(fontSize: 18),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: const BorderSide(
-                                        width: 1,
-                                        color: Color(0xff999999),
-                                      ))),
+                                          width: 1, color: Color(0xff999999),))),
                             ),
                             30.verticalSpace(),
                             Padding(
