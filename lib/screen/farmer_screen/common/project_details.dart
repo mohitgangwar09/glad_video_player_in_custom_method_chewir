@@ -377,16 +377,15 @@ class ProjectDetails extends StatelessWidget {
       20.verticalSpace(),
       Center(
           child: Padding(
-        padding: const EdgeInsets.only(left: 50, right: 50),
-        child: customButton('Revoke',
-            width: screenWidth(),
-            style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-            onTap: () {
-          const AddRemark().navigate();
-            },
-            radius: 88,
-            color: 0xffFC5E60),
-      )),
+            padding: const EdgeInsets.only(left: 50, right: 50),
+            child: customButton('Revoke',
+                width: screenWidth(),
+                style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                onTap: () {
+              const AddRemark().navigate();
+              },
+                radius: 88, color: 0xffFC5E60),
+          )),
       05.verticalSpace(),
       Center(
           child: Text(
