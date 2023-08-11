@@ -56,7 +56,7 @@ class CustomAppBar extends StatelessWidget {
                         style: titleText2Style ??
                             figtreeMedium.copyWith(
                                 fontSize: 20, color: Colors.black))
-                  ])),
+                  ]), maxLines: 1, overflow: TextOverflow.ellipsis,),
                   if (description != null)
                   Positioned(
                     bottom: 0,
@@ -76,21 +76,24 @@ class CustomAppBar extends StatelessWidget {
                     children: [
                       if (leading != null) leading!,
                       10.horizontalSpace(),
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: titleText1,
-                            style: titleText1Style ??
-                                figtreeRegular.copyWith(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 20,
-                                    color: Colors.black)),
-                        TextSpan(
-                            text: titleText2,
-                            style: titleText2Style ??
-                                figtreeMedium.copyWith(
-                                    fontSize: 20, color: Colors.black))
-                      ])),
+                      SizedBox(
+                        width: screenWidth() * 0.8,
+                        child: RichText(
+                            text: TextSpan(children: [
+                          TextSpan(
+                              text: titleText1,
+                              style: titleText1Style ??
+                                  figtreeRegular.copyWith(
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 20,
+                                      color: Colors.black)),
+                          TextSpan(
+                              text: titleText2,
+                              style: titleText2Style ??
+                                  figtreeMedium.copyWith(
+                                      fontSize: 20, color: Colors.black))
+                        ]), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                      ),
                     ],
                   ),
                   if (action != null)

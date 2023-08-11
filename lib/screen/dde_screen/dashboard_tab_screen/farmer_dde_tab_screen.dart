@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
+import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filer.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
@@ -120,21 +121,25 @@ class FarmerDdeTabScreen extends StatelessWidget {
                 child: customList(
                     axis: Axis.horizontal,
                     child: (int index) {
-                      return Container(
-                        margin: const EdgeInsets.only(right: 12, left: 0),
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        decoration: boxDecoration(
-                            borderColor: const Color(0xffDCDCDC),
-                            borderWidth: 1.1,
-                            borderRadius: 62,
-                            backgroundColor: Colors.white),
-                        child: Row(
-                          children: [
-                            "Critical".textMedium(fontSize: 14),
-                            6.horizontalSpace(),
-                            "04".textSemiBold(
-                                fontSize: 12, color: const Color(0xffFC5E60)),
-                          ],
+                      return InkWell(
+                        onTap: (){
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 12, left: 0),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: boxDecoration(
+                              borderColor: const Color(0xffDCDCDC),
+                              borderWidth: 1.1,
+                              borderRadius: 62,
+                              backgroundColor: Colors.white),
+                          child: Row(
+                            children: [
+                              "Critical".textMedium(fontSize: 14),
+                              6.horizontalSpace(),
+                              "04".textSemiBold(
+                                  fontSize: 12, color: const Color(0xffFC5E60)),
+                            ],
+                          ),
                         ),
                       );
                     }),
@@ -148,238 +153,243 @@ class FarmerDdeTabScreen extends StatelessWidget {
                           left: 10, right: 20, bottom: 12),
                       child: Stack(
                         children: [
-                          customProjectContainer(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(15.0, 20, 0, 0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset(Images.sampleUser),
-                                      15.horizontalSpace(),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Matts Francesca",
-                                              style: figtreeMedium.copyWith(
-                                                  fontSize: 16,
-                                                  color: Colors.black)),
-                                          4.verticalSpace(),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              const Icon(
-                                                Icons.call,
-                                                color: Colors.black,
-                                                size: 16,
-                                              ),
-                                              Text("+22112 3232 3223",
-                                                  style:
-                                                      figtreeRegular.copyWith(
-                                                          fontSize: 12,
-                                                          color: Colors.black)),
-                                            ],
-                                          ),
-                                          4.verticalSpace(),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              const Icon(
-                                                Icons.location_on,
-                                                color: Colors.black,
-                                                size: 16,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.5,
-                                                child: Text(
-                                                  "Luwum St. Rwoozi, Kampala...",
-                                                  style:
-                                                      figtreeRegular.copyWith(
-                                                    fontSize: 12,
-                                                    color: Colors.black,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                          InkWell(
+                            onTap: (){
+                              const DdeFarmerDetail().navigate();
+                            },
+                            child: customProjectContainer(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15.0, 20, 0, 0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.asset(Images.sampleUser),
+                                        15.horizontalSpace(),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Matts Francesca",
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 16,
+                                                    color: Colors.black)),
+                                            4.verticalSpace(),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                const Icon(
+                                                  Icons.call,
+                                                  color: Colors.black,
+                                                  size: 16,
+                                                ),
+                                                Text("+22112 3232 3223",
+                                                    style:
+                                                        figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: Colors.black)),
+                                              ],
+                                            ),
+                                            4.verticalSpace(),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                const Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.black,
+                                                  size: 16,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.5,
+                                                  child: Text(
+                                                    "Luwum St. Rwoozi, Kampala...",
+                                                    style:
+                                                        figtreeRegular.copyWith(
+                                                      fontSize: 12,
+                                                      color: Colors.black,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12.0, right: 22, top: 18),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: 'Farm: ',
-                                                  style:
-                                                      figtreeRegular.copyWith(
-                                                          color: const Color(
-                                                              0xff808080),
-                                                          fontSize: 12)),
-                                              TextSpan(
-                                                text: '50 Acres',
-                                                style: figtreeRegular.copyWith(
-                                                    fontSize: 12),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: 'Milking/Cows: ',
-                                                  style:
-                                                      figtreeRegular.copyWith(
-                                                          color: const Color(
-                                                              0xff808080),
-                                                          fontSize: 12)),
-                                              TextSpan(
-                                                text: '50',
-                                                style: figtreeRegular.copyWith(
-                                                    fontSize: 12),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: 'Yield/Cow: ',
-                                                  style:
-                                                      figtreeRegular.copyWith(
-                                                          color: const Color(
-                                                              0xff808080),
-                                                          fontSize: 12)),
-                                              TextSpan(
-                                                text: '50 ltr',
-                                                style: figtreeRegular.copyWith(
-                                                    fontSize: 12),
-                                              ),
-                                            ],
-                                          ),
+                                              ],
+                                            )
+                                          ],
                                         )
                                       ],
                                     ),
-                                  ),
-                                  20.verticalSpace(),
-                                  Container(
-                                    height: 80,
-                                    padding: 20.paddingHorizontal(),
-                                    decoration: boxDecoration(
-                                        backgroundColor:
-                                            const Color(0xffFFF3F4),
-                                        borderRadius: 10),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            "Dam Construction"
-                                                .textMedium(fontSize: 12),
-                                            Container(
-                                              margin: 9.marginAll(),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 7),
-                                              decoration: boxDecoration(
-                                                borderRadius: 30,
-                                                borderColor:
-                                                    const Color(0xff6A0030),
-                                              ),
-                                              child: Text(
-                                                "Suggested",
-                                                textAlign: TextAlign.center,
-                                                style: figtreeMedium.copyWith(
-                                                    color:
-                                                        const Color(0xff6A0030),
-                                                    fontSize: 10),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 12.0, right: 22, top: 18),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text.rich(
+                                            TextSpan(
                                               children: [
-                                                "UGX 3.2M".textSemiBold(
-                                                    color: Colors.black,
-                                                    fontSize: 16),
-                                                "Investment".textMedium(
-                                                    fontSize: 12,
-                                                    color: const Color(
-                                                        0xff808080)),
+                                                TextSpan(
+                                                    text: 'Farm: ',
+                                                    style:
+                                                        figtreeRegular.copyWith(
+                                                            color: const Color(
+                                                                0xff808080),
+                                                            fontSize: 12)),
+                                                TextSpan(
+                                                  text: '50 Acres',
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 12),
+                                                ),
                                               ],
                                             ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                          ),
+                                          Text.rich(
+                                            TextSpan(
                                               children: [
-                                                "UGX 4.5M".textSemiBold(
-                                                    color: Colors.black,
-                                                    fontSize: 16),
-                                                "Revenue".textMedium(
-                                                    fontSize: 12,
-                                                    color: const Color(
-                                                        0xff808080)),
+                                                TextSpan(
+                                                    text: 'Milking/Cows: ',
+                                                    style:
+                                                        figtreeRegular.copyWith(
+                                                            color: const Color(
+                                                                0xff808080),
+                                                            fontSize: 12)),
+                                                TextSpan(
+                                                  text: '50',
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 12),
+                                                ),
                                               ],
                                             ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                          ),
+                                          Text.rich(
+                                            TextSpan(
                                               children: [
-                                                "40%".textSemiBold(
-                                                    color: Colors.black,
-                                                    fontSize: 16),
-                                                "ROI".textMedium(
-                                                    fontSize: 12,
-                                                    color: const Color(
-                                                        0xff808080)),
+                                                TextSpan(
+                                                    text: 'Yield/Cow: ',
+                                                    style:
+                                                        figtreeRegular.copyWith(
+                                                            color: const Color(
+                                                                0xff808080),
+                                                            fontSize: 12)),
+                                                TextSpan(
+                                                  text: '50 ltr',
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 12),
+                                                ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ],
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  15.verticalSpace(),
-                                  Container(
-                                    width: 140,
-                                    height: 3,
-                                    decoration: boxDecoration(
-                                        borderRadius: 10,
-                                        backgroundColor: Colors.green),
-                                  )
-                                ],
+                                    20.verticalSpace(),
+                                    Container(
+                                      height: 80,
+                                      padding: 20.paddingHorizontal(),
+                                      decoration: boxDecoration(
+                                          backgroundColor:
+                                              const Color(0xffFFF3F4),
+                                          borderRadius: 10),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              "Dam Construction"
+                                                  .textMedium(fontSize: 12),
+                                              Container(
+                                                margin: 9.marginAll(),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 4,
+                                                        horizontal: 7),
+                                                decoration: boxDecoration(
+                                                  borderRadius: 30,
+                                                  borderColor:
+                                                      const Color(0xff6A0030),
+                                                ),
+                                                child: Text(
+                                                  "Suggested",
+                                                  textAlign: TextAlign.center,
+                                                  style: figtreeMedium.copyWith(
+                                                      color:
+                                                          const Color(0xff6A0030),
+                                                      fontSize: 10),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  "UGX 3.2M".textSemiBold(
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                  "Investment".textMedium(
+                                                      fontSize: 12,
+                                                      color: const Color(
+                                                          0xff808080)),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  "UGX 4.5M".textSemiBold(
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                  "Revenue".textMedium(
+                                                      fontSize: 12,
+                                                      color: const Color(
+                                                          0xff808080)),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  "40%".textSemiBold(
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                  "ROI".textMedium(
+                                                      fontSize: 12,
+                                                      color: const Color(
+                                                          0xff808080)),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    15.verticalSpace(),
+                                    Container(
+                                      width: 140,
+                                      height: 3,
+                                      decoration: boxDecoration(
+                                          borderRadius: 10,
+                                          backgroundColor: Colors.green),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),

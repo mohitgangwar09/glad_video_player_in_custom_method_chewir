@@ -174,6 +174,7 @@ class FarmerProfile extends StatelessWidget {
                         )),
                     const CustomIndicator(
                       percentage: 69,
+                      width: 122,
                     ),
                   ],
                 ))
@@ -717,19 +718,20 @@ class FarmerProfile extends StatelessWidget {
 }
 
 class CustomIndicator extends StatelessWidget {
-  const CustomIndicator({super.key, required this.percentage});
+  const CustomIndicator({super.key, required this.percentage,required this.width});
   final int percentage;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 30,
-      width: 122,
+      width: width,
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
           Container(
-            width: 122,
+            width: width,
             height: 5,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),

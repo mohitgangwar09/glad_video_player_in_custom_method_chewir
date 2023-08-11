@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/common/attributes_edit.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -14,40 +15,47 @@ class InstallationOfWaterTank extends StatelessWidget {
       body: Stack(
         children: [
           landingBackground(),
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Column(
-              children: [
-                Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    Center(
-                      child: Text(
-                        'Installation of water tank...',
-                        style: figtreeMedium.copyWith(fontSize: 22),
-                      ),
-                    ),
-                    Positioned(
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.arrow_back))),
-                  ],
-                ),
-                Expanded(
-                    child: SingleChildScrollView(
-                        child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    description(),
-                    dividerValue(),
-                    attributes(),
-                    mileStoneDeliverable(),
-                  ],
-                )))
-              ],
-            ),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                titleText1: 'Installation of water tank',
+
+                titleText1Style: figtreeMedium.copyWith(
+                    fontSize: 20, color: Colors.black),
+
+                leading: arrowBackButton(),
+
+              ),
+              // Stack(
+              //   alignment: Alignment.centerLeft,
+              //   children: [
+              //     Center(
+              //       child: Text(
+              //         'Installation of water tank...',
+              //         style: figtreeMedium.copyWith(fontSize: 22),
+              //       ),
+              //     ),
+              //     Positioned(
+              //         child: IconButton(
+              //             onPressed: () {
+              //               Navigator.pop(context);
+              //             },
+              //             icon: const Icon(Icons.arrow_back))),
+              //   ],
+              // ),
+              Expanded(
+                  child: SingleChildScrollView(
+                      child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  description(),
+                  dividerValue(),
+                  attributes(),
+                  mileStoneDeliverable(),
+                ],
+              )))
+            ],
           )
         ],
       ),
@@ -205,12 +213,12 @@ class InstallationOfWaterTank extends StatelessWidget {
           ),
         ),
         10.verticalSpace(),
-        customList(child: (
-          int index,
-        ) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Container(
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20,0,20,20),
+          child: customList(child: (
+            int index,
+          ) {
+            return Container(
               height: 60,
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
               decoration: BoxDecoration(
@@ -237,9 +245,9 @@ class InstallationOfWaterTank extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          );
-        })
+            );
+          }),
+        )
       ],
     );
   }

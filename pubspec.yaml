@@ -30,6 +30,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   syncfusion_flutter_charts: ^22.2.7
   table_calendar: ^3.0.9
+  expandable_text: ^2.3.0
 
 dev_dependencies:
   flutter_test:
