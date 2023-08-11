@@ -5,6 +5,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
+import 'package:glad/screen/supplier_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -257,22 +258,25 @@ class ServiceProvider extends StatelessWidget {
                 style: figtreeSemiBold.copyWith(fontSize: 22),
               ),
               10.verticalSpace(),
-              Row(
-                children: [
-                  SvgPicture.asset(Images.kyc),
-                  05.horizontalSpace(),
-                  Text(
-                    'KYC not verified',
-                    style: figtreeMedium.copyWith(
-                        fontSize: 12, color: ColorResources.black),
-                  ),
-                  10.horizontalSpace(),
-                  Text(
-                    'Upload Documents',
-                    style: figtreeMedium.copyWith(
-                        fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
-                  )
-                ],
+              InkWell(
+                onTap: () => const KYCUpdate().navigate(),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(Images.kyc),
+                    05.horizontalSpace(),
+                    Text(
+                      'KYC not verified',
+                      style: figtreeMedium.copyWith(
+                          fontSize: 12, color: ColorResources.black),
+                    ),
+                    10.horizontalSpace(),
+                    Text(
+                      'Upload Documents',
+                      style: figtreeMedium.copyWith(
+                          fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                    )
+                  ],
+                ),
               ),
               10.verticalSpace(),
               RatingBar.builder(
