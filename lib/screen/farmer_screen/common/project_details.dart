@@ -1,3 +1,4 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -92,18 +93,14 @@ class ProjectDetails extends StatelessWidget {
           ],
         ),
         10.verticalSpace(),
-        RichText(
-            text: TextSpan(children: [
-          TextSpan(
-              text:
-                  'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in pump...',
-              style: figtreeMedium.copyWith(
-                  fontSize: 14, color: ColorResources.black)),
-          TextSpan(
-              text: 'read more',
-              style: figtreeMedium.copyWith(
-                  fontSize: 14, color: ColorResources.maroon))
-        ])),
+        ExpandableText(
+          'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in pump',
+          expandText: 'Read More',
+          linkColor: ColorResources.maroon,
+          style: figtreeMedium.copyWith(fontSize: 14),
+          collapseText: 'Show Less',
+        )
+
       ],
     );
   }
@@ -294,8 +291,8 @@ class ProjectDetails extends StatelessWidget {
       ),
       15.verticalSpace(),
       InkWell(
-        onTap: (){
-          // const InstallationOfWaterTank().navigate();
+        onTap: () {
+          const InstallationOfWaterTank().navigate();
         },
         child: customList(
             axis: Axis.vertical,
@@ -377,15 +374,14 @@ class ProjectDetails extends StatelessWidget {
       20.verticalSpace(),
       Center(
           child: Padding(
-            padding: const EdgeInsets.only(left: 50, right: 50),
-            child: customButton('Revoke',
-                width: screenWidth(),
-                style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-                onTap: () {
-              const AddRemark().navigate();
-              },
-                radius: 88, color: 0xffFC5E60),
-          )),
+        padding: const EdgeInsets.only(left: 50, right: 50),
+        child: customButton('Revoke',
+            width: screenWidth(),
+            style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+            onTap: () {
+          const AddRemark().navigate();
+        }, radius: 88, color: 0xffFC5E60),
+      )),
       05.verticalSpace(),
       Center(
           child: Text(
@@ -444,18 +440,24 @@ class ProjectDetails extends StatelessWidget {
                               focusNode: FocusNode(),
                             ),
                             20.verticalSpace(),
-                            Text('Remarks',style: figtreeMedium.copyWith(fontSize: 12),),
+                            Text(
+                              'Remarks',
+                              style: figtreeMedium.copyWith(fontSize: 12),
+                            ),
                             5.verticalSpace(),
                             TextField(
                               maxLines: 4,
                               minLines: 4,
                               decoration: InputDecoration(
                                   hintText: 'Write...',
-                                  hintStyle: figtreeMedium.copyWith(fontSize: 18),
+                                  hintStyle:
+                                      figtreeMedium.copyWith(fontSize: 18),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: const BorderSide(
-                                          width: 1, color: Color(0xff999999),))),
+                                        width: 1,
+                                        color: Color(0xff999999),
+                                      ))),
                             ),
                             30.verticalSpace(),
                             Padding(

@@ -213,12 +213,12 @@ class InstallationOfWaterTank extends StatelessWidget {
           ),
         ),
         10.verticalSpace(),
-        customList(child: (
-          int index,
-        ) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Container(
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20,0,20,20),
+          child: customList(child: (
+            int index,
+          ) {
+            return Container(
               height: 60,
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
               decoration: BoxDecoration(
@@ -245,9 +245,9 @@ class InstallationOfWaterTank extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          );
-        })
+            );
+          }),
+        )
       ],
     );
   }
