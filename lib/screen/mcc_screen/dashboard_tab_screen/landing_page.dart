@@ -8,7 +8,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_screen.dart';
+import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_widget.dart';
 import 'package:glad/screen/mcc_screen/profile/mcc_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';

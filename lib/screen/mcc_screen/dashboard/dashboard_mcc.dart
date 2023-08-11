@@ -5,6 +5,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/landing_page.dart';
+import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_screen.dart';
 import 'package:glad/screen/mcc_screen/dashboard_tab_screen/landing_page.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -19,7 +20,7 @@ class DashboardMCC extends StatelessWidget {
 
     final widgetOptions = [
       const MCCLandingPage(),
-      const Text("Tours"),
+      const ApplicationScreen(),
       const Text("Stories"),
       const Text("Orders"),
       const Text("Earnings"),

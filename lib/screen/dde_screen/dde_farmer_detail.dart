@@ -16,251 +16,299 @@ class DdeFarmerDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
+      body: Stack(
         children: [
+          Column(
+            children: [
 
-          CustomAppBar(
-            context: context,
-            titleText1: "Farmer Details",
-            action: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: InkWell(
-                  onTap: () {
-                    // const EditAddress().navigate();
-                  },
-                  child: SvgPicture.asset(Images.profileEdit)),
-            ),
+              CustomAppBar(
+                context: context,
+                titleText1: "Farmer Details",
+                action: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: InkWell(
+                      onTap: () {
+                        // const EditAddress().navigate();
+                      },
+                      child: SvgPicture.asset(Images.profileEdit)),
+                ),
 
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: InkWell(
-                onTap: (){
-                  pressBack();
-                }, child: SvgPicture.asset(Images.arrowBack)),
-            ),
-            centerTitle: true,
-          ),
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: InkWell(
+                    onTap: (){
+                      pressBack();
+                    }, child: SvgPicture.asset(Images.arrowBack)),
+                ),
+                centerTitle: true,
+              ),
 
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 31),
-                    padding: const EdgeInsets.only(left: 20,right: 20),
-                    height: 171,
-                    child: Row(
-                      children: [
-
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.asset(Images.sampleLivestock,width: 137,height: 164,
-                              fit: BoxFit.cover,)),
-
-                        15.horizontalSpace(),
-
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-
-                                SvgPicture.asset(Images.kycUnverified,
-                                  width: 30,height: 30,),
-
-                                4.horizontalSpace(),
-
-                                Text('KYC Verified',
-                                    style: figtreeMedium.copyWith(fontSize: 12)),
-
-                              ],
-                            ),
-
-                            10.verticalSpace(),
-
-                            Text('Matts Francesca',
-                                style: figtreeMedium.copyWith(fontSize: 18)),
-
-                            5.verticalSpace(),
-
-                            Text('+256 758711344',
-                                style: figtreeRegular.copyWith(
-                                  fontSize: 12,)),
-
-                            5.verticalSpace(),
-
-                            Text('FrancescaMetts@gmail.com',
-                                style: figtreeRegular.copyWith(
-                                  fontSize: 12,)),
-                          ],
-                        ),
-
-                        Column(
-                          children: [
-
-                            SvgPicture.asset(Images.callPrimary,width: 37,height: 37,),
-
-                            10.verticalSpace(),
-
-                            SvgPicture.asset(Images.whatsapp,width: 37,height: 37,),
-
-                          ],
-                        )
-
-                      ],
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0,right: 25,top: 22),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-
-                        Row(
-                          children: [
-
-                            "62 years old".textRegular(),
-
-                            10.horizontalSpace(),
-
-                            const CircleAvatar(radius: 4,backgroundColor: Colors.black,),
-
-                            10.horizontalSpace(),
-
-                            "25 years experience".textRegular(),
-
-                          ],
-                        ),
-
-                        const CustomIndicator(
-                          percentage: 53, width: 75,
-                        ),
-
-                      ],
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0,right: 25),
-                    child: Row(
-                      children: [
-
-                        Expanded(child: "Luwum St. Rwoozi, Kampala".textRegular(fontSize: 12)),
-
-                        "Critical".textMedium(fontSize: 12),
-
-                        23.horizontalSpace()
-
-                      ],
-                    ),
-                  ),
-
-
-                  Container(
-                    margin: const EdgeInsets.only(left: 20,right: 20,top: 28),
-                    width: screenWidth(),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-
-                        boxShadow:[
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              blurRadius: 16.0,
-                              offset: const Offset(0, 5)),
-                        ],
-                        border: Border.all(color: ColorResources.grey)),
-                    padding: const EdgeInsets.fromLTRB(18.0,18,18,10),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 90.0),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('150 Acres',
-                                    style: figtreeSemiBold.copyWith(fontSize: 18)),
-                                Text('Farm Area',
-                                    style: figtreeRegular.copyWith(fontSize: 12)),
-                              ],
-                            ),
-                            10.horizontalSpace(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('80 Acres',
-                                    style: figtreeSemiBold.copyWith(fontSize: 18)),
-                                Text('Dairy area',
-                                    style: figtreeRegular.copyWith(fontSize: 12)),
-                              ],
-                            ),
-                            10.horizontalSpace(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('05',
-                                    style: figtreeSemiBold.copyWith(fontSize: 18)),
-                                Text('Members',
-                                    style: figtreeRegular.copyWith(fontSize: 12)),
-                              ],
-                            ),
-                          ],
-                        ),
-                        17.verticalSpace(),
                         Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            // color: const Color(0xFFE4FFE3).withOpacity(1),
-                          ),
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 10, horizontal: 9),
+                          margin: const EdgeInsets.only(top: 31),
+                          padding: const EdgeInsets.only(left: 20,right: 20),
+                          height: 171,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Managed by: Moses Emanuel',
-                                  style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
-                              10.horizontalSpace(),
-                              Container(
-                                height: 5,
-                                width: 5,
-                                decoration: const BoxDecoration(
-                                    color: Colors.black, shape: BoxShape.circle),
+
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.asset(Images.sampleLivestock,width: 137,height: 164,
+                                    fit: BoxFit.cover,)),
+
+                              15.horizontalSpace(),
+
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+
+                                      SvgPicture.asset(Images.kycUnverified,
+                                        width: 30,height: 30,),
+
+                                      4.horizontalSpace(),
+
+                                      Text('KYC Verified',
+                                          style: figtreeMedium.copyWith(fontSize: 12)),
+
+                                    ],
+                                  ),
+
+                                  10.verticalSpace(),
+
+                                  Text('Matts Francesca',
+                                      style: figtreeMedium.copyWith(fontSize: 18)),
+
+                                  5.verticalSpace(),
+
+                                  Text('+256 758711344',
+                                      style: figtreeRegular.copyWith(
+                                        fontSize: 12,)),
+
+                                  5.verticalSpace(),
+
+                                  Text('FrancescaMetts@gmail.com',
+                                      style: figtreeRegular.copyWith(
+                                        fontSize: 12,)),
+                                ],
                               ),
-                              10.horizontalSpace(),
-                              Text('+256 758711344',
-                                  style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
+
+                              Column(
+                                children: [
+
+                                  SvgPicture.asset(Images.callPrimary,width: 37,height: 37,),
+
+                                  10.verticalSpace(),
+
+                                  SvgPicture.asset(Images.whatsapp,width: 37,height: 37,),
+
+                                ],
+                              )
+
                             ],
                           ),
-                        )
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0,right: 25,top: 22),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+
+                              Row(
+                                children: [
+
+                                  "62 years old".textRegular(),
+
+                                  10.horizontalSpace(),
+
+                                  const CircleAvatar(radius: 4,backgroundColor: Colors.black,),
+
+                                  10.horizontalSpace(),
+
+                                  "25 years experience".textRegular(),
+
+                                ],
+                              ),
+
+                              const CustomIndicator(
+                                percentage: 53, width: 75,
+                              ),
+
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0,right: 25),
+                          child: Row(
+                            children: [
+
+                              Expanded(child: "Luwum St. Rwoozi, Kampala".textRegular(fontSize: 12)),
+
+                              "Critical".textMedium(fontSize: 12),
+
+                              23.horizontalSpace()
+
+                            ],
+                          ),
+                        ),
+
+
+                        Container(
+                          margin: const EdgeInsets.only(left: 20,right: 20,top: 28),
+                          width: screenWidth(),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+
+                              boxShadow:[
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    blurRadius: 16.0,
+                                    offset: const Offset(0, 5)),
+                              ],
+                              border: Border.all(color: ColorResources.grey)),
+                          padding: const EdgeInsets.fromLTRB(18.0,18,18,10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('150 Acres',
+                                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                                      Text('Farm Area',
+                                          style: figtreeRegular.copyWith(fontSize: 12)),
+                                    ],
+                                  ),
+                                  10.horizontalSpace(),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('80 Acres',
+                                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                                      Text('Dairy area',
+                                          style: figtreeRegular.copyWith(fontSize: 12)),
+                                    ],
+                                  ),
+                                  10.horizontalSpace(),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('05',
+                                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                                      Text('Members',
+                                          style: figtreeRegular.copyWith(fontSize: 12)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              17.verticalSpace(),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  // color: const Color(0xFFE4FFE3).withOpacity(1),
+                                ),
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 10, horizontal: 9),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Managed by: Moses Emanuel',
+                                        style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
+                                    10.horizontalSpace(),
+                                    Container(
+                                      height: 5,
+                                      width: 5,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.black, shape: BoxShape.circle),
+                                    ),
+                                    10.horizontalSpace(),
+                                    Text('+256 758711344',
+                                        style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        30.verticalSpace(),
+
+                        milkSupplyCardDetails(),
+
+                        30.verticalSpace(),
+
+                        cowsInTheFarm(),
+
+                        30.verticalSpace(),
+
+                        address(context),
+
+                        topPerformingFarmer(),
+
+                        25.verticalSpace(),
+
                       ],
                     ),
                   ),
-
-                  30.verticalSpace(),
-
-                  milkSupplyCardDetails(),
-
-                  30.verticalSpace(),
-
-                  cowsInTheFarm(),
-
-                  30.verticalSpace(),
-
-                  address(context),
-
-                  topPerformingFarmer(),
-
-                  25.verticalSpace(),
-
-                ],
+                ),
               ),
-            ),
+
+            ],
           ),
 
+          Positioned(
+              bottom: 20,
+              right: 20,
+              left: 20,
+              child: Container(
+                padding: const EdgeInsets.only(left: 25),
+                height: 75,
+                decoration: boxDecoration(
+                    backgroundColor: ColorResources.primary,
+                    borderRadius: 40
+                ),
+                child: Row(
+                  children: [
+
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          "Improvement areas".textRegular(fontSize: 19,color: Colors.white),
+
+                          "Based on the survey done by our experts!".textRegular(fontSize: 12,color: Colors.white)
+
+                        ],
+                      ),
+                    ),
+
+                    const Padding(
+                      padding: EdgeInsets.only(right: 25),
+                      child: CircleAvatar(
+                        radius: 23,
+                        backgroundColor: Color(0xffFC5E60),
+                        child: Icon(Icons.arrow_forward_rounded),
+                      ),
+                    )
+
+                  ],
+                ),
+          )),
         ],
       ),
     );
