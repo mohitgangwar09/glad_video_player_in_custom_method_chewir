@@ -249,6 +249,6 @@ class _AddRemarkState extends State<AddRemark> {
           //   child: validator(provider.state.validator == 'otp'?'Please enter otp':provider.state.validator == 'length'?'Please input valid otp':''),)
         ],
       ),
-    );
-  }
+    );}
+
 }
