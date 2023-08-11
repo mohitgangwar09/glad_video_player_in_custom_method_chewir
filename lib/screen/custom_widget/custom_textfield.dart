@@ -166,7 +166,7 @@ class CustomTextField extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    5.horizontalSpace(),
+                    leadingImage != null ? 25.horizontalSpace() :5.horizontalSpace(),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
@@ -253,7 +253,7 @@ class CustomTextField extends StatelessWidget {
                 Positioned(
                   top: 0,
                   bottom: 0,
-                  left: 10,
+                  left: 15,
                   child: SvgPicture.asset(
                     leadingImage!,
                     colorFilter:
