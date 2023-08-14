@@ -88,6 +88,10 @@ class Images {
   static const String filter1 = 'assets/images/filter.svg';
   static const String filter2 = 'assets/images/newfilter.svg';
   static const String searchLeft = 'assets/images/search_icon.svg';
+  static const String lessCows = 'assets/images/lessCows.svg';
+  static const String addCows = 'assets/images/addCows.svg';
+  static const String deleteCows = 'assets/images/deleteCows.svg';
+  static const String less1 = 'assets/images/less1.svg';
 
 
 
