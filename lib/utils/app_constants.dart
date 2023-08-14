@@ -1,6 +1,11 @@
 class AppConstants {
   static const String baseUrl = '';
 
+
+  // api End Point
+  static const String loginWithPasswordApi = 'v1/mobile/signup';
+  static const String createPasswordPasswordApi = 'v1/mobile/signup';
+
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
   static const String token = 'token';

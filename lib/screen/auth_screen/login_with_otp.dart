@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
-import 'package:glad/screen/auth_screen/create_password.dart';
 import 'package:glad/screen/auth_screen/forgot_password.dart';
-import 'package:glad/screen/auth_screen/login_with_otp.dart';
 import 'package:glad/screen/auth_screen/otp.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
@@ -12,8 +10,8 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class LoginWithPassword extends StatelessWidget {
-  const LoginWithPassword({Key? key}) : super(key: key);
+class LoginWithOTP extends StatelessWidget {
+  const LoginWithOTP({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -122,13 +120,13 @@ Widget largeDevice(BuildContext context){
 
 Widget card(BuildContext context){
   return BlocBuilder<AuthCubit,AuthCubitState>(
-    builder: (BuildContext contexts, state) {
+    builder: (BuildContext context, state) {
       return Stack(
         children: [
 
           SizedBox(
               height: screenWidth()*1.15,
-              child: loginButton(context)),
+              child: loginButton()),
 
           Positioned(
             top: 0,
@@ -148,66 +146,9 @@ Widget card(BuildContext context){
                       ),),
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(40,21,40,0),
-                    child: CustomTextField(hint: 'Email/Phone',
-                      controller: state.emailController,
-                      style: figtreeRegular.copyWith(
-                          color: Colors.white,
-                          fontSize: 14
-                      ),
-                      image: Images.emailPhone,withoutBorder: true,),
-                  ),
 
 
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(40,21,40,0),
-                      child: Stack(
-                        children: [
-
-                          CustomTextField(hint: 'Password',
-                            controller: state.passwordController,
-                            withoutBorder: true,
-                            maxLine: 1,
-                            obscureText: state.passwordVisible,
-                            style: figtreeRegular.copyWith(
-                                color: Colors.white,
-                                fontSize: 14
-                            ),),
-
-                          Positioned(
-                            right: -10,
-                            top: 0,
-                            child: IconButton(
-                              icon: Icon(
-                                // Based on passwordVisible state choose the icon
-                                state.passwordVisible
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                context.read<AuthCubit>().passwordVisible();
-                              },
-                            ),
-                          )
-                        ],
-                      )
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(top: 45.0),
-                    child: TextButton(onPressed: (){
-                      // const ForgotPassword().navigate();
-                      const CreatePassword().navigate();
-                    }, child: Text("Forgot password?",
-                      style: figtreeMedium.copyWith(
-                          color: const Color(0xffFC5E60),
-                          decoration: TextDecoration.underline,
-                          fontSize: 16
-                      ),)),
-                  )
-
+                  
                 ],
               ),
             ),
@@ -219,7 +160,7 @@ Widget card(BuildContext context){
   );
 }
 
-Widget loginButton(BuildContext context){
+Widget loginButton(){
   return Center(
     child: Stack(
       children: [
@@ -228,6 +169,18 @@ Widget loginButton(BuildContext context){
             height: screenHeight() * 0.65,
             width: screenWidth(),
             child: SvgPicture.asset(Images.cardLogin)),
+
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(40,0,40,50),
+            child: CustomTextField(hint: 'Phone',
+              style: figtreeRegular.copyWith(
+                  color: Colors.white,
+                  fontSize: 14
+              ),
+              image: Images.emailPhone,withoutBorder: true,),
+          ),
+        ),
 
         Positioned(
             bottom: 0,
@@ -239,8 +192,7 @@ Widget loginButton(BuildContext context){
                 InkWell(
                   onTap: (){
 
-                    context.read<AuthCubit>().loginWithPasswordAPi(context);
-                    // const OtpScreen().navigate();
+                    const OtpScreen().navigate();
 
                   }, child: Image.asset(Images.loginButton,
                   width: 80,height: 80,),
@@ -255,8 +207,8 @@ Widget loginButton(BuildContext context){
 
 Widget loginWithOtp(BuildContext context){
   return TextButton(onPressed: (){
-    const LoginWithOTP().navigate();
-  }, child: Text("Login with OTP",
+    pressBack();
+  }, child: Text("Login with Password",
     style: figtreeMedium.copyWith(
       color: Colors.black,
       decoration: TextDecoration.underline,

@@ -20,32 +20,6 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
 
-  int secondsRemaining = 20;
-  bool enableResend = false;
-  late Timer timer;
-
-  @override
-  initState() {
-    super.initState();
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (secondsRemaining != 0) {
-        setState(() {
-          secondsRemaining--;
-        });
-      } else {
-        setState(() {
-          enableResend = true;
-        });
-      }
-    });
-  }
-
-  @override
-  dispose(){
-    timer.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,62 +40,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  // pinFieldController
-  Widget pinFieldController(){
-    return Padding(
-      padding: const EdgeInsets.only(left: 40.0,right: 40),
-      child: Stack(
-        children: [
-
-          PinCodeTextField(appContext: context, length: 4,
-            textStyle: figtreeRegular.copyWith(
-                color: Colors.black),
-            keyboardType: TextInputType.phone,
-            obscureText: false,
-            showCursor: true,
-            cursorColor: Colors.grey,
-            animationType: AnimationType.fade,
-            autoFocus: false,
-            animationDuration: const Duration(milliseconds: 300),
-            pinTheme: PinTheme(
-              selectedColor: const Color(0xff727272),
-              activeBorderWidth: 1.5,
-              selectedBorderWidth: 1.5,
-              disabledBorderWidth: 1.5,
-              inactiveBorderWidth:1.5,
-              activeFillColor: Colors.grey,
-              inactiveColor: Colors.grey,
-              inactiveFillColor: Colors.grey,
-              activeColor: Colors.grey,
-              fieldHeight: 42,
-              // fieldOuterPadding: 2.paddingAll(),
-            ),
-            onCompleted: (v) {
-              print("Completed");
-            },
-            onChanged: (value) {
-              print(value);
-              setState(() {
-                // currentText = value;
-              });
-            },
-            beforeTextPaste: (text) {
-              print("Allowing to paste $text");
-              //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-              //but you can show anything you want here, like your pop up saying wrong paste format or etc
-              return true;
-            },
-          ),
-
-          // Positioned(
-          //   bottom: 0,left: 0,
-          //   child: validator(provider.state.validator == 'otp'?'Please enter otp':provider.state.validator == 'length'?'Please input valid otp':''),)
-
-        ],
       ),
     );
   }

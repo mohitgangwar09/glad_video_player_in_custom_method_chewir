@@ -1,13 +1,58 @@
 import 'package:flutter/foundation.dart';
+import 'package:glad/data/model/api_response.dart';
+import 'package:glad/data/model/auth_models/mobile_sign_up_model.dart';
+import 'package:glad/data/model/errors_model.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:glad/data/network/api_hitter.dart' as api_hitter;
 
 class AuthRepository {
   final SharedPreferences sharedPreferences;
 
+
   AuthRepository({required this.sharedPreferences});
 
   ///////////////// loginApi //////////
+
+  Future loginAndSignUpWithPhoneApi(String email,String password) async {
+
+    var data = {
+      "email": email,
+      "password": password
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
+      AppConstants.loginWithPasswordApi,
+      data: data);
+
+    if (apiResponse.status) {
+      return MobileSignUpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return MobileSignUpModel(
+          statusCode: 422,
+          errors: [ErrorModel(message: apiResponse.msg)],
+          message: apiResponse.msg);
+    }
+  }
+
+
+  ///////////////// resetPasswordApi //////////
+  Future createPasswordApi(String password) async {
+
+    var data = {
+      "password": password,
+    };
+
+    print(data);
+    api_hitter.ApiResponse response = await api_hitter.ApiHitter().getPostApiResponse(
+        AppConstants.createPasswordPasswordApi,
+        data: data);
+
+    return response;
+
+
+  }
+
   /*Future<MobileSignUpModel> loginAndSignUpWithPhoneApi(
       String phone, bool isTermsCondition, String countryCode,) async {
     String fcm=await SharedPrefManager.getPreferenceString(AppConstants.fcmToken,);
