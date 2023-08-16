@@ -4,15 +4,20 @@ enum AuthStatus{initial,submit,success,error}
 
 class AuthCubitState extends Equatable{
   final AuthStatus status;
-  final String token;
+  final String token, validator,validatorString,id;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController otpController;
   final bool passwordVisible,confirmVisible;
 
     const AuthCubitState({
       required this.status,
+      required this.id,
       required this.emailController,
+      required this.otpController,
       required this.token,
+      required this.validator,
+      required this.validatorString,
       required this.passwordController,
       required this.passwordVisible,
       required this.confirmVisible,
@@ -22,7 +27,11 @@ class AuthCubitState extends Equatable{
     return AuthCubitState(
       status: AuthStatus.initial,
       emailController: TextEditingController(),
+      otpController: TextEditingController(),
       token: '',
+      validator: '',
+      id: '',
+      validatorString: '',
       passwordController: TextEditingController(),
       passwordVisible: true,
       confirmVisible: true,
@@ -32,17 +41,22 @@ class AuthCubitState extends Equatable{
   AuthCubitState copyWith({
     AuthStatus? status,
     TextEditingController? emailController,
+    TextEditingController? otpController,
     TextEditingController? passwordController,
-    String? token,
+    String? token,validator,validatorString,id,
     bool? passwordVisible,confirmVisible
   }) {
     return AuthCubitState(
         status: status ?? this.status,
+        id: id ?? this.id,
         emailController: emailController ?? this.emailController,
+        otpController: otpController ?? this.otpController,
         token: token ?? this.token,
         passwordController: passwordController ?? this.passwordController,
         passwordVisible: passwordVisible ?? this.passwordVisible,
         confirmVisible: confirmVisible ?? this.confirmVisible,
+        validator: validator ?? this.validator,
+        validatorString: validatorString ?? this.validatorString,
     );
   }
 
@@ -53,7 +67,11 @@ class AuthCubitState extends Equatable{
     passwordController,
     token,
     passwordVisible,
-    confirmVisible
+    confirmVisible,
+    validator,
+    validatorString,
+    otpController,
+    id
   ];
 
 }

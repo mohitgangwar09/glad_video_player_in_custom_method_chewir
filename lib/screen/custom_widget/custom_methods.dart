@@ -516,15 +516,34 @@ Widget authBackgroundForgotOtp({Widget? widget}){
 }
 
 
-validator(String error) {
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: Padding(
-      padding: const EdgeInsets.only(top: 4.0),
-      child: Text(error.toString(),
-        style: figtreeRegular.copyWith(
-            color: Colors.red
-        ),),
+validator(String error,{Color color = Colors.red}) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 8.0),
+    child: Row(
+      children: [
+
+        Image.asset(
+          Images.errorIcon,
+          width: 23,
+          height: 23,
+          color: color,
+        ),
+
+        8.horizontalSpace(),
+
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Text(error.toString(),
+                style: figtreeRegular.copyWith(
+                    color: color
+                ),),
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }

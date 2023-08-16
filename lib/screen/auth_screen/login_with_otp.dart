@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
@@ -15,6 +16,9 @@ class LoginWithOTP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+
     return SafeArea(
       bottom: true,
       top: false,
@@ -174,6 +178,10 @@ Widget loginButton(){
           child: Padding(
             padding: const EdgeInsets.fromLTRB(40,0,40,50),
             child: CustomTextField(hint: 'Phone',
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              maxLine: 1,
+              length: 12,
+              inputType: TextInputType.phone,
               style: figtreeRegular.copyWith(
                   color: Colors.white,
                   fontSize: 14

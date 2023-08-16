@@ -17,6 +17,9 @@ class LoginWithPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+
     return SafeArea(
       bottom: true,
       top: false,
@@ -150,8 +153,11 @@ Widget card(BuildContext context){
 
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40,21,40,0),
-                    child: CustomTextField(hint: 'Email/Phone',
+                    child: CustomTextField(hint: 'Email',
                       controller: state.emailController,
+                      onChanged: (value){
+                        context.read<AuthCubit>().emailValidate();
+                      },
                       style: figtreeRegular.copyWith(
                           color: Colors.white,
                           fontSize: 14
@@ -159,6 +165,10 @@ Widget card(BuildContext context){
                       image: Images.emailPhone,withoutBorder: true,),
                   ),
 
+                  if(state.validator == "email" || state.validator == "emailError")
+                    Padding(padding: const EdgeInsets.only(left: 40),
+                      child: validator(state.validatorString,
+                      color: Colors.white),),
 
                   Padding(
                       padding: const EdgeInsets.fromLTRB(40,21,40,0),
@@ -194,6 +204,11 @@ Widget card(BuildContext context){
                         ],
                       )
                   ),
+
+                  if(state.validator == "password")
+                    Padding(padding: const EdgeInsets.only(left: 40),
+                      child: validator("Please enter password",
+                          color: Colors.white),),
 
                   Padding(
                     padding: const EdgeInsets.only(top: 45.0),

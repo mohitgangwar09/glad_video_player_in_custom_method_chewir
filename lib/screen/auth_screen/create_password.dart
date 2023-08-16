@@ -22,8 +22,12 @@ class CreatePassword extends StatefulWidget {
 
 class _CreatePasswordState extends State<CreatePassword> {
 
+
   @override
   Widget build(BuildContext context) {
+
+    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+
     return SafeArea(
       bottom: true,
       top: false,
@@ -97,8 +101,11 @@ class _CreatePasswordState extends State<CreatePassword> {
                     child: Stack(
                       children: [
                         CustomTextField(hint: 'New Password',
-                          controller: state.emailController,
+                          controller: state.passwordController,
                           borderColor: 0xff727272,
+                          onChanged: (value){
+                            context.read<AuthCubit>().password();
+                          },
                           style: figtreeRegular.copyWith(
                               color: Colors.black,
                               fontSize: 14
@@ -128,18 +135,25 @@ class _CreatePasswordState extends State<CreatePassword> {
                     ),
                   ),
 
+                  if(state.validator == "password"|| state.validator == "length" ||state.validator == "weak")
+                    Padding(padding: const EdgeInsets.only(left: 40),
+                      child: validator(state.validatorString),),
+
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40,21,40,0),
                     child: Stack(
                       children: [
                         CustomTextField(hint: 'Confirm Password',
-                          controller: state.passwordController,
+                          controller: state.emailController,
                           borderColor: 0xff727272,
                           obscureText: state.confirmVisible,
                           style: figtreeRegular.copyWith(
                               color: Colors.black,
                               fontSize: 14
                           ),
+                          onChanged: (value){
+                            context.read<AuthCubit>().confirmValidate();
+                          },
                           maxLine: 1,
                           withoutBorder: true,
                           imageColors: Colors.black,
@@ -163,13 +177,19 @@ class _CreatePasswordState extends State<CreatePassword> {
                       ],
                     ),
                   ),
+
+                  if(state.validator == "confirmPassword"|| state.validator == "invalid")
+                    Padding(padding: const EdgeInsets.only(left: 40),
+                      child: validator(state.validatorString),),
                 ],
               ),
 
               Center(
                   child: customButton("Submit", style:figtreeSemiBold.copyWith(
                       color: Colors.black
-                  ),onTap: (){},
+                  ),onTap: (){
+                    context.read<AuthCubit>().resetPasswordAPi(context);
+                  },
                       borderColor: 0xFF6A0030,
                       color: 0x00000000)
               ),

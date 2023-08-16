@@ -1,10 +1,12 @@
 class AppConstants {
-  static const String baseUrl = '';
+  static const String baseUrl = 'https://develop-glad.staqo.com';
 
 
   // api End Point
-  static const String loginWithPasswordApi = 'v1/mobile/signup';
-  static const String createPasswordPasswordApi = 'v1/mobile/signup';
+  static const String loginWithPasswordApi = '/api/login';
+  static const String createPasswordPasswordApi = '/api/create/password';
+  static const String verifyOtpApi = '/api/validate/otp';
+  static const String resetPasswordApi = '/api/password/reset';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
