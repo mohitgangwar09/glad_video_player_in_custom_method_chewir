@@ -15,96 +15,101 @@ class ProjectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
+        landingBackground(),
+        Column(
+          children: [
 
-        CustomAppBar(
-          context: context,
-          titleText1: 'Projects',
-          titleText1Style: figtreeMedium.copyWith(
-              fontSize: 20, color: Colors.black),
-          centerTitle: true,
-          leading: openDrawer(
-              onTap: () {
-                farmerLandingKey.currentState?.openDrawer();
-              },
-              child: SvgPicture.asset(Images.drawer)),
-        ),
+            CustomAppBar(
+              context: context,
+              titleText1: 'Projects',
+              titleText1Style: figtreeMedium.copyWith(
+                  fontSize: 20, color: Colors.black),
+              centerTitle: true,
+              leading: openDrawer(
+                  onTap: () {
+                    farmerLandingKey.currentState?.openDrawer();
+                  },
+                  child: SvgPicture.asset(Images.drawer)),
+            ),
 
-        10.verticalSpace(),
+            10.verticalSpace(),
 
-        Container(
-          height: 50,
-          margin: 20.marginHorizontal(),
-          width: screenWidth(),
-          decoration: boxDecoration(
-              borderRadius: 62,
-              borderColor: const Color(0xffDCDCDC)
-          ),
-          child: Row(
-            children: [
-
-              Expanded(
-                child: Container(
-                  height: screenHeight(),
-                  margin: const EdgeInsets.all(6),
-                  decoration: boxDecoration(
-                    backgroundColor: const Color(0xff6A0030),
-                    borderRadius: 62
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      "Active".textMedium(color: Colors.white,fontSize: 14),
-
-                      5.horizontalSpace(),
-
-                      SvgPicture.asset(Images.suggestedProject)
-
-                    ],
-                  ),
-                ),
+            Container(
+              height: 50,
+              margin: 20.marginHorizontal(),
+              width: screenWidth(),
+              decoration: boxDecoration(
+                  borderRadius: 62,
+                  borderColor: const Color(0xffDCDCDC)
               ),
+              child: Row(
+                children: [
 
-              Expanded(
-                child: Container(
-                  height: screenHeight(),
-                  margin: const EdgeInsets.all(6),
-                  decoration: boxDecoration(
-                      backgroundColor: const Color(0xff6A0030),
-                      borderRadius: 62
+                  Expanded(
+                    child: Container(
+                      height: screenHeight(),
+                      margin: const EdgeInsets.all(6),
+                      decoration: boxDecoration(
+                        backgroundColor: const Color(0xff6A0030),
+                        borderRadius: 62
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          "Active".textMedium(color: Colors.white,fontSize: 14),
+
+                          5.horizontalSpace(),
+
+                          SvgPicture.asset(Images.suggestedProject)
+
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
 
-                      "Suggested".textMedium(color: Colors.white,fontSize: 14),
+                  Expanded(
+                    child: Container(
+                      height: screenHeight(),
+                      margin: const EdgeInsets.all(6),
+                      decoration: boxDecoration(
+                          backgroundColor: const Color(0xff6A0030),
+                          borderRadius: 62
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
 
-                      5.horizontalSpace(),
+                          "Suggested".textMedium(color: Colors.white,fontSize: 14),
 
-                      SvgPicture.asset(Images.activeProject,)
+                          5.horizontalSpace(),
 
-                    ],
+                          SvgPicture.asset(Images.activeProject,)
+
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 120,left: 10),
+                child: customList(child: (int i) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: customProjectContainer(child: const ProjectWidget(status: true,),width: screenWidth()),
+                  );
+                }),
+              ),
+            )
+
+          ],
         ),
-
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 120,left: 10),
-            child: customList(child: (int i) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: customProjectContainer(child: const ProjectWidget(status: true,),width: screenWidth()),
-              );
-            }),
-          ),
-        )
-
       ],
     );
   }

@@ -1,0 +1,179 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/utils/color_resources.dart';
+import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
+import 'package:glad/utils/styles.dart';
+
+class AddMilestone extends StatefulWidget {
+  const AddMilestone({super.key});
+
+  @override
+  State<AddMilestone> createState() => _AddMilestoneState();
+}
+
+class _AddMilestoneState extends State<AddMilestone> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          landingBackground(),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                titleText1: 'Project milestone',
+                titleText1Style:
+                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                centerTitle: true,
+                leading: arrowBackButton(),
+                action: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Save',
+                      style: figtreeMedium.copyWith(
+                          color: ColorResources.maroon, fontSize: 14),
+                    )),
+              ),
+              Expanded(
+                  child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      const CustomTextField2(
+                        title: 'Title of  the milestone',
+                        isDropdown: true,
+                        iconColors: Colors.black,
+                        icon: Images.arrowDropdown,
+                        dropdownValue: null,
+                        itemList: [' ', ' '],
+                      ),
+                      20.verticalSpace(),
+                      const CustomTextField2(
+                        title: 'Describe the milestone',
+                        maxLine: 7,
+                        minLine: 7,
+                      ),
+                      20.verticalSpace(),
+                      const CustomTextField2(
+                        title: 'Duration',
+                        image2: Images.timer,
+                        image2Colors: Colors.black,
+                      ),
+                      30.verticalSpace(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                          child: Text('Attributes', style: figtreeMedium.copyWith(color: Colors.black, fontSize: 18))),
+                      25.verticalSpace(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextField2(
+                              title: 'Size/Capacity',
+                              isDropdown: true,
+                              itemList: const ['Male', 'Female'],
+                              dropdownValue: null,
+                              icon: Images.arrowDropdown,
+                              iconColors: Colors.black,
+                              onChanged: (String? value) {},
+                            ),
+                          ),
+                          20.horizontalSpace(),
+                          Expanded(
+                            child: CustomTextField2(
+                              title: '',
+                              isDropdown: true,
+                              itemList: const ['Male', 'Female'],
+                              dropdownValue: null,
+                              icon: Images.arrowDropdown,
+                              iconColors: Colors.black,
+                              onChanged: (String? value) {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      20.verticalSpace(),
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: CustomTextField2(
+                              title: 'Required Qty.',
+                            ),
+                          ),
+                          20.horizontalSpace(),
+                          Expanded(
+                            child: CustomTextField2(
+                              title: '',
+                              isDropdown: true,
+                              itemList: const ['Male', 'Female'],
+                              dropdownValue: null,
+                              icon: Images.arrowDropdown,
+                              iconColors: Colors.black,
+                              onChanged: (String? value) {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      20.verticalSpace(),
+                      const CustomTextField2(
+                        title: 'Price per unit',
+                      ),
+                      20.verticalSpace(),
+                      const CustomTextField2(
+                        title: 'Value',
+                      ),
+                      30.verticalSpace(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Milestone deliverables',
+                            style: figtreeMedium.copyWith(fontSize: 18),
+                          ),
+                          InkWell(
+                              onTap: () {
+                              },
+                              child: SvgPicture.asset(Images.add))
+                        ],
+                      ),
+                      20.verticalSpace(),
+                      Stack(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: ColorResources.grey)),
+                            child: const CustomTextField2(
+                              title: 'Task Name',
+                            ),
+                          ),
+                          Positioned(
+                            right: 10,
+                              top: 10,
+                              child: SvgPicture.asset(Images.cross))
+                        ],
+                      ),
+                      40.verticalSpace(),
+                      customButton("Save",
+                          fontColor: 0xffffffff,
+                          height: 60,
+                          width: screenWidth(),
+                          onTap: () {})
+                    ],
+                  ),
+                ),
+              )),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}

@@ -4,7 +4,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
-import 'package:glad/screen/dde_screen/dde_farmer_filer.dart';
+import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/extension.dart';

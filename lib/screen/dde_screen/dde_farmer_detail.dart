@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
+import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -284,16 +285,21 @@ class DdeFarmerDetail extends StatelessWidget {
                   children: [
 
                     Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                      child: InkWell(
+                        onTap: () {
+                          const ImprovementAreas().navigate();
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-                          "Improvement areas".textRegular(fontSize: 19,color: Colors.white),
+                            "Improvement areas".textRegular(fontSize: 19,color: Colors.white),
 
-                          "Based on the survey done by our experts!".textRegular(fontSize: 12,color: Colors.white)
+                            "Based on the survey done by our experts!".textRegular(fontSize: 12,color: Colors.white)
 
-                        ],
+                          ],
+                        ),
                       ),
                     ),
 

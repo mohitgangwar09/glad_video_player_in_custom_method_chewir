@@ -43,7 +43,7 @@ class ProjectWidget extends StatelessWidget {
 
                           5.verticalSpace(),
 
-                          "Water Management".textRegular(fontSize: 12, ),
+                          "Water Management".textMedium(fontSize: 12, ),
 
                         ],
                       ),

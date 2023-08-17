@@ -1,0 +1,250 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/common/attributes_edit.dart';
+import 'package:glad/screen/supplier_screen/edit_milestone.dart';
+import 'package:glad/utils/color_resources.dart';
+import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
+import 'package:glad/utils/styles.dart';
+
+class MilestoneDetail extends StatelessWidget {
+  const MilestoneDetail({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          landingBackground(),
+          Column(
+            children: [
+              CustomAppBar(
+                context: context,
+                titleText1: 'Installation of water tank',
+                titleText1Style:
+                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                leading: arrowBackButton(),
+                centerTitle: true,
+                action: InkWell(
+                    onTap: () {
+                      const EditMilestone().navigate();
+                    },
+                    child: SvgPicture.asset(Images.profileEdit)),
+              ),
+              Expanded(
+                  child: SingleChildScrollView(
+                      child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  description(),
+                  dividerValue(),
+                  attributes(),
+                  mileStoneDeliverable(),
+                ],
+              )))
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  ///////DescriptionDetails///////////
+  Widget description() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Description',
+            style: figtreeMedium.copyWith(fontSize: 18),
+          ),
+          05.horizontalSpace(),
+          10.verticalSpace(),
+          Text(
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries dummy text ever since the 1500s.",
+            style: figtreeMedium.copyWith(fontSize: 14),
+          )
+        ],
+      ),
+    );
+  }
+
+///////DividerValue///////////
+  Widget dividerValue() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+      child: Column(
+        children: [
+          30.verticalSpace(),
+          const Divider(
+            thickness: 1,
+          ),
+          10.verticalSpace(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Value',
+                style: figtreeMedium.copyWith(fontSize: 14),
+              ),
+              Text(
+                'Duration',
+                style: figtreeMedium.copyWith(fontSize: 14),
+              ),
+            ],
+          ),
+          05.verticalSpace(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'UGX 700K',
+                style: figtreeSemiBold.copyWith(
+                    fontSize: 16, color: ColorResources.maroon),
+              ),
+              Text(
+                '12 days',
+                style: figtreeSemiBold.copyWith(fontSize: 16),
+              ),
+            ],
+          ),
+          10.verticalSpace(),
+          const Divider(
+            thickness: 1,
+          ),
+        ],
+      ),
+    );
+  }
+
+  ////////Attributes///////////
+  Widget attributes() {
+    return Column(
+      children: [
+        20.verticalSpace(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Attributes',
+                style: figtreeMedium.copyWith(fontSize: 18),
+              ),
+            ],
+          ),
+        ),
+        20.verticalSpace(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+          child: customShadowContainer(
+              backColor: ColorResources.grey,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    customAttribute("Type", "Plastic"),
+                    10.verticalSpace(),
+                    customAttribute("Size/capacity", "5000Ltr"),
+                    10.verticalSpace(),
+                    customAttribute("Quantity", "02 NOS"),
+                    10.verticalSpace(),
+                    customAttribute("Price", "UGX 100K"),
+                    40.verticalSpace(),
+                  ],
+                ),
+              )),
+        )
+      ],
+    );
+  }
+
+  ////////Milestone Deliverable//////////////
+  Widget mileStoneDeliverable() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        30.verticalSpace(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+          child: Text(
+            'Milestone deliverables',
+            style: figtreeMedium.copyWith(fontSize: 18),
+          ),
+        ),
+        10.verticalSpace(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: customList(child: (
+            int index,
+          ) {
+            return Container(
+              height: 60,
+              margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(width: 1, color: ColorResources.grey),
+                  borderRadius: BorderRadius.circular(14)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 5, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Various versions have evolved',
+                      style: figtreeMedium.copyWith(fontSize: 14),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          color: ColorResources.pinkMain,
+                          borderRadius: BorderRadius.circular(14)),
+                      child: Center(
+                          child: Text(
+                        '01',
+                        style: figtreeMedium.copyWith(fontSize: 14),
+                      )),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }),
+        )
+      ],
+    );
+  }
+
+  Widget customAttribute(String attributeName, String attributeData) {
+    return Container(
+      height: 32,
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      decoration: BoxDecoration(
+          color: ColorResources.containerColor,
+          borderRadius: BorderRadius.circular(06)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              attributeName,
+              style: figtreeMedium.copyWith(fontSize: 14),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              attributeData,
+              style: figtreeMedium.copyWith(fontSize: 14),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

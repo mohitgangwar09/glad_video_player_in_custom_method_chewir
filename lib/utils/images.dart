@@ -88,6 +88,14 @@ class Images {
   static const String filter1 = 'assets/images/filter.svg';
   static const String filter2 = 'assets/images/newfilter.svg';
   static const String searchLeft = 'assets/images/search_icon.svg';
+  static const String cross = 'assets/images/cross.svg';
+  static const String add = 'assets/images/add.svg';
+  static const String drop = 'assets/images/drop.svg';
+  static const String done = 'assets/images/done.svg';
+  static const String timer = 'assets/images/timer.svg';
+  static const String waterDrop = 'assets/images/water_drop.svg';
+
+  static const String timelineApplied = 'assets/images/timelineApplied.svg';
 
 
 

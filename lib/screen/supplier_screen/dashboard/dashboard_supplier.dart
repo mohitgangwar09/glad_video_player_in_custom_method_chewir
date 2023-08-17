@@ -4,11 +4,13 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/dashboard/service_provider_drawer.dart';
 import 'package:glad/screen/supplier_screen/dashboard_tab_screen/landing_page.dart';
+import 'package:glad/screen/supplier_screen/dashboard_tab_screen/projects.dart';
+import 'package:glad/screen/supplier_screen/dashboard_tab_screen/surveys.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/images.dart';
 
-final GlobalKey<ScaffoldState> landingKey = GlobalKey();
+final GlobalKey<ScaffoldState> supplierLandingKey = GlobalKey();
 
 class DashboardSupplier extends StatelessWidget {
   const DashboardSupplier({Key? key}) : super(key: key);
@@ -19,8 +21,8 @@ class DashboardSupplier extends StatelessWidget {
 
     final widgetOptions = [
       SupplierLandingPage(),
-      const Text("Tours"),
-      const Text("Stories"),
+      const SurveysScreen(),
+      const Projects(),
       const Text("Orders"),
       const Text("Earnings"),
     ];
@@ -28,8 +30,8 @@ class DashboardSupplier extends StatelessWidget {
     return BlocBuilder<DashboardCubit, DashboardState>(
         builder: (BuildContext context, state) {
       return Scaffold(
-        key: landingKey,
-        drawer: ServiceProviderDrawer(),
+        key: supplierLandingKey,
+        drawer: const ServiceProviderDrawer(),
         extendBody: true,
         bottomNavigationBar: bottomNavigationBar(provider.state, context),
         body: widgetOptions.elementAt(state.selectedIndex),
