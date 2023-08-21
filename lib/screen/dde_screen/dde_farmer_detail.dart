@@ -544,7 +544,7 @@ class DdeFarmerDetail extends StatelessWidget {
               ),
               InkWell(
                   onTap: () {
-                     const CowsAndYield().navigate();
+                     CowsAndYield().navigate();
                   },
                   child: SvgPicture.asset(Images.profileEdit))
             ],
