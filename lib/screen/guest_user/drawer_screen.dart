@@ -108,7 +108,7 @@ class GuestSideDrawer extends StatelessWidget {
                       ),
                       5.verticalSpace(),
                       Text(
-                        '+234567890',
+                        '+256 758 711 344',
                         style: figtreeSemiBold.copyWith(
                             fontSize: 20, color: Colors.white),
                       )

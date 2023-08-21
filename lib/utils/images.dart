@@ -93,6 +93,7 @@ class Images {
   static const String deleteCows = 'assets/images/deleteCows.svg';
   static const String less1 = 'assets/images/less1.svg';
   static const String placeHolder = 'assets/images/profileplaceholder.jpeg';
+  static const String deleteField = 'assets/images/deleteField.svg';
 
 
 
