@@ -127,7 +127,7 @@ class CustomTextField2 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  5.horizontalSpace(),
+                  leadingImage != null ? 25.horizontalSpace() :5.horizontalSpace(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0),
@@ -189,7 +189,7 @@ class CustomTextField2 extends StatelessWidget {
                                         fontSize: 16, color: Colors.black),
                                 onEditingComplete: onEditingComplete,
                                 decoration: InputDecoration(
-                                  labelText: hint,
+                                  hintText: hint,
                                   alignLabelWithHint: true,
                                   enabledBorder: const UnderlineInputBorder(
                                     borderSide:
@@ -204,7 +204,7 @@ class CustomTextField2 extends StatelessWidget {
                                   hintStyle: hintStyle ??
                                       figtreeMedium.copyWith(
                                           fontSize: 16, color: Colors.grey),
-                                  contentPadding: const EdgeInsets.all(0.0),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
                                   isDense: true,
                                   suffixIcon: suffixIcon,
                                   suffixIconColor: suffixIconColor,

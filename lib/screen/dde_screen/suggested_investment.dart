@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/farmer_screen/common/add_remark.dart';
+import 'package:glad/screen/dde_screen/add_remark.dart';
+import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/farmer_screen/common/installation_watertank.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -41,7 +42,22 @@ class SuggestedInvestment extends StatelessWidget {
                         farmer(context),
                         kpi(context),
                         projectMilestones(context),
-                        // inviteExpert(context),
+                        InkWell(
+                          onTap: () {
+                            const TrackProgress().navigate();
+                          },
+                            child: Center(child: 'Track Progress'.textSemiBold(fontSize: 18, color: ColorResources.maroon, underLine: TextDecoration.underline),)),
+                        20.verticalSpace(),
+                        Center(
+                          child: customButton(
+                            'Farmer feedback',
+                            style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                            onTap: () {
+                              AddRemark().navigate();
+                            },
+                          ),
+                        ),
+                        40.verticalSpace(),
                       ],
                     ),
                   ),
@@ -49,14 +65,6 @@ class SuggestedInvestment extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
-              bottom: 0,
-              right: 0,
-              child: Image.asset(
-                Images.messageChat,
-                width: 100,
-                height: 100,
-              ))
         ],
       ),
     );
@@ -348,7 +356,7 @@ class SuggestedInvestment extends StatelessWidget {
             }),
       ),
 
-      40.verticalSpace(),
+      20.verticalSpace(),
     ]);
   }
 }
