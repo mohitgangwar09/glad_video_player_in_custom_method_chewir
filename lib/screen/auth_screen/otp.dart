@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/screen/auth_screen/login_with_otp.dart';
 import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/extra_screen/navigation.dart';
@@ -13,7 +16,8 @@ import 'package:glad/utils/styles.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+  final String tag;
+  const OtpScreen({Key? key,required this.tag}) : super(key: key);
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -49,6 +53,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       bottom: true,
       top: false,
@@ -71,7 +76,7 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   // pinFieldController
-  Widget pinFieldController(){
+  Widget pinFieldController(BuildContext context,AuthCubitState state){
     return Padding(
       padding: const EdgeInsets.only(left: 40.0,right: 40),
       child: Stack(
@@ -85,6 +90,7 @@ class _OtpScreenState extends State<OtpScreen> {
             showCursor: true,
             cursorColor: Colors.grey,
             animationType: AnimationType.fade,
+            controller: state.otpController,
             autoFocus: false,
             animationDuration: const Duration(milliseconds: 300),
             pinTheme: PinTheme(
@@ -101,19 +107,27 @@ class _OtpScreenState extends State<OtpScreen> {
               // fieldOuterPadding: 2.paddingAll(),
             ),
             onCompleted: (v) {
-              print("Completed");
-              const UploadProfilePicture().navigate();
             },
             onChanged: (value) {
-              print(value);
-              setState(() {
-                // currentText = value;
-              });
+              if(value.length==4)
+              {
+                if(enableResend)
+                {
+                  setState((){
+                    secondsRemaining = 30;
+                    enableResend = false;
+                  });
+                }
+                if(widget.tag == "phone"){
+                  BlocProvider.of<AuthCubit>(context).verifyMobileOtpAPi(context);
+                }else{
+                  BlocProvider.of<AuthCubit>(context).verifyOtpAPi(context);
+                }
+
+
+              }
             },
             beforeTextPaste: (text) {
-              print("Allowing to paste $text");
-              //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-              //but you can show anything you want here, like your pop up saying wrong paste format or etc
               return true;
             },
           ),
@@ -129,110 +143,116 @@ class _OtpScreenState extends State<OtpScreen> {
 
   // main View
   Widget mainView() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 110),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-
-          Padding(
-            padding: const EdgeInsets.only(left: 35.0),
-            child: SvgPicture.asset(Images.loginLogo,width: 162,height: 50,),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 35.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("OTP Verification",
-                  style: figtreeMedium.copyWith(
-                      color: Colors.black,
-                      fontSize: 24
-                  ),),
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: Text.rich(
-                      TextSpan(
-                          text: 'Enter OTP we just sent to ',
-                          style: figtreeRegular.copyWith(fontSize: 14),
-                          children: <InlineSpan>[
-                            TextSpan(
-                              text: '+256 1234 456 678.',
-                              style: figtreeRegular.copyWith(fontSize: 14,fontWeight: FontWeight.bold),
-                            )
-                          ]
-                      )
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-
-
-
-          Column(
+    return BlocBuilder<AuthCubit,AuthCubitState>(
+      builder: (BuildContext contexts, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 110),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
 
-              pinFieldController(),
-
-              Container(
-                margin: const EdgeInsets.only(top: 16),
-                width: screenWidth(),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Visibility(
-                    visible: !enableResend,
-                    child: Text('Resend Code in '.tr+secondsRemaining.toString()+' second'.tr,
-                      style: figtreeMedium.copyWith(
-                          fontSize: 16,
-                          color: const Color(0xff18444B)
-                      ),),
-                  ),
-                ),
+              Padding(
+                padding: const EdgeInsets.only(left: 35.0),
+                child: SvgPicture.asset(Images.loginLogo,width: 162,height: 50,),
               ),
 
-              Visibility(
-                visible: enableResend,
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              Padding(
+                padding: const EdgeInsets.only(left: 35.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    Text(secondsRemaining>0?"Didn't receive the OTP? ".tr+secondsRemaining.toString()+' second'.tr:"Didn't receive the OTP? ",
+                    Text("OTP Verification",
                       style: figtreeMedium.copyWith(
-                          fontSize: 16,
-                          color: const Color(0xff18444B)
+                          color: Colors.black,
+                          fontSize: 24
                       ),),
 
-                    customTextButton(text: "Resend",
-                        onTap: (){
-                          setState((){
-                            secondsRemaining = 30;
-                            enableResend = false;
-                          });
-                        },decoration: TextDecoration.underline,
-                        color: const Color(0xffFC5E60),fontSize: 16)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: Text.rich(
+                          TextSpan(
+                              text: 'Enter OTP we just sent to ',
+                              style: figtreeRegular.copyWith(fontSize: 14),
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: state.emailController.text,
+                                  style: figtreeRegular.copyWith(fontSize: 14,fontWeight: FontWeight.bold),
+                                )
+                              ]
+                          )
+                      ),
+                    ),
 
                   ],
                 ),
               ),
 
+
+
+              Column(
+                children: [
+
+                  pinFieldController(context,state),
+
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    width: screenWidth(),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Visibility(
+                        visible: !enableResend,
+                        child: Text('Resend Code in '.tr+secondsRemaining.toString()+' second'.tr,
+                          style: figtreeMedium.copyWith(
+                              fontSize: 16,
+                              color: const Color(0xff18444B)
+                          ),),
+                      ),
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: enableResend,
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        Text(secondsRemaining>0?"Didn't receive the OTP? ".tr+secondsRemaining.toString()+' second'.tr:"Didn't receive the OTP? ",
+                          style: figtreeMedium.copyWith(
+                              fontSize: 16,
+                              color: const Color(0xff18444B)
+                          ),),
+
+                        customTextButton(text: "Resend",
+                            onTap: (){
+                              setState((){
+                                secondsRemaining = 30;
+                                enableResend = false;
+                              });
+                              context.read<AuthCubit>().resendOtp(context,widget.tag);
+                            },decoration: TextDecoration.underline,
+                            color: const Color(0xffFC5E60),fontSize: 16)
+
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+
+              Center(
+                child: customTextButton(onTap: (){
+                  const LoginWithOTP().navigate(isInfinity: true);
+                  BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+                }, text: "Cancel",color: const Color(0xff727272),
+                    fontSize: 15,decoration: TextDecoration.underline),
+              ),
+
+
             ],
           ),
-
-          Center(
-            child: customTextButton(onTap: (){
-
-            }, text: "Cancel",color: const Color(0xff727272),
-            fontSize: 15,decoration: TextDecoration.underline),
-          ),
-
-
-        ],
-      ),
+        );
+      },
     );
   }
 

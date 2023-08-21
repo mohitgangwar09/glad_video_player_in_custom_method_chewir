@@ -33,7 +33,7 @@ class DashboardDDE extends StatelessWidget {
       builder: (BuildContext context, state) {
         return Scaffold(
             key: ddeLandingKey,
-            drawer: DdeDrawer(),
+            drawer: const DdeDrawer(),
             extendBody: true,
             body: widgetOptions.elementAt(state.selectedIndex),
             bottomNavigationBar: bottomNavigationBar(provider.state, context));

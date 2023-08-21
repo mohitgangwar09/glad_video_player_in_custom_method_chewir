@@ -4,14 +4,20 @@ import 'package:dio/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/data/repository/auth_repo.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'network_exception.dart';
 
 class ApiHitter {
   Dio? dio;
+  // final SharedPreferences? sharedPreferences;
   static final ApiHitter singleton = ApiHitter._internal();
   factory ApiHitter() => singleton;
+
 
   ApiHitter._internal() {
     dio = getDio();
@@ -29,7 +35,9 @@ class ApiHitter {
         connectTimeout: const Duration(milliseconds: 30000),
         receiveTimeout: const Duration(milliseconds: 30000),
       );
-      return Dio(options)
+      return Dio(options)..options.headers ={
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${AuthRepository().getUserToken()}'}
         ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
           return handler.next(options); //continue
         }, onResponse: (response, handler) async {
@@ -56,10 +64,6 @@ class ApiHitter {
     dynamic data,
     String baseurl = '',
   }) async {
-    if (kDebugMode) {
-      print('queryParameters');
-      print(data);
-    }
     bool value = await checkInternetConnection();
     if (value) {
       try {
@@ -220,15 +224,19 @@ class ApiHitter {
 
   ApiResponse exception(DioException error) {
     return ApiResponse(false,
-        msg: NetworkExceptions.getErrorMessage(
-            NetworkExceptions.getDioException(error)));
+        msg: error.response!.data['message'].toString(),
+      statusCode: NetworkExceptions.getErrorMessage(
+        NetworkExceptions.getDioException(error),
+      )
+    );
   }
 }
 
 class ApiResponse {
   final bool status;
+  final String? statusCode;
   final String msg;
   final Response? response;
 
-  ApiResponse(this.status, {this.msg = 'Success', this.response});
+  ApiResponse(this.status ,{this.msg = 'Success', this.response, this.statusCode});
 }

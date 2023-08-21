@@ -120,6 +120,9 @@ class CustomTextField extends StatelessWidget {
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: underLineBorderColor!),
                     ),
+                    disabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: underLineBorderColor!),
+                    ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: underLineBorderColor!),
                     ),

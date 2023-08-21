@@ -4,6 +4,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
+import 'package:glad/screen/dde_screen/cows_and_yield.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -573,7 +574,7 @@ class DdeFarmerDetail extends StatelessWidget {
 
               InkWell(
                   onTap: () {
-                    // const EditAddress().navigate();
+                     CowsAndYield().navigate();
                   },
                   child: SvgPicture.asset(Images.profileEdit))
 
@@ -729,6 +730,7 @@ class DdeFarmerDetail extends StatelessWidget {
                 ),
                 20.verticalSpace(),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RichText(
                         text: TextSpan(children: [

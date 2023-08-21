@@ -75,7 +75,7 @@ void showCustomToast(BuildContext context, String message) {
 
   Overlay.of(context).insert(overlayEntry);
 
-  Future.delayed(const Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 4), () {
     overlayEntry.remove();
   });
 }

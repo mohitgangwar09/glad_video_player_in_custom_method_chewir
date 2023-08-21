@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
@@ -8,11 +11,27 @@ import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/screen/supplier_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class ServiceProvider extends StatelessWidget {
-  const ServiceProvider({super.key});
+class SupplierProfile extends StatefulWidget {
+  const SupplierProfile({super.key});
+
+  @override
+  State<SupplierProfile> createState() => _SupplierProfileState();
+}
+
+class _SupplierProfileState extends State<SupplierProfile> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<ProfileCubit>(context).profileApi(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +48,18 @@ class ServiceProvider extends StatelessWidget {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                    profileImage(),
-                    40.verticalSpace(),
-                    ratingBar(),
-                    profileInputField(),
-                    earningCardDetails(),
-                    20.verticalSpace(),
-                  ],),
+                  child: BlocBuilder<ProfileCubit,ProfileCubitState>(
+                      builder: (BuildContext context, state) {
+                      return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                        profileImage(context,state),
+                        40.verticalSpace(),
+                        ratingBar(context,state),
+                        profileInputField(context,state),
+                        earningCardDetails(context,state),
+                        20.verticalSpace(),
+                      ],);
+                    }
+                  ),
                 ),
               ),
             ],
@@ -48,7 +71,7 @@ class ServiceProvider extends StatelessWidget {
   }
 
   ///////ProfileInputField//////////
-  Widget profileInputField() {
+  Widget profileInputField(BuildContext context,ProfileCubitState state) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(36, 0, 30, 0),
       child: Column(
@@ -59,8 +82,8 @@ class ServiceProvider extends StatelessWidget {
             hint: 'Phone',
             leadingImage: Images.textCall,
             imageColors: ColorResources.fieldGrey,
-            enabled: true,
-            
+            enabled: false,
+            controller: state.phoneController,
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -70,8 +93,8 @@ class ServiceProvider extends StatelessWidget {
             leadingImage: Images.emailPhone,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: true,
-            
+            enabled: false,
+            controller: state.emailController,
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -79,11 +102,12 @@ class ServiceProvider extends StatelessWidget {
           CustomTextField(
             maxLine: 2,
             hint: 'Address',
+            controller: state.addressController,
             leadingImage: Images.textEdit,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             enabled: true,
-            
+
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -94,7 +118,7 @@ class ServiceProvider extends StatelessWidget {
   }
 
   ///////////EarningCardDetails/////////
-  Widget earningCardDetails() {
+  Widget earningCardDetails(BuildContext context,ProfileCubitState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -244,8 +268,8 @@ class ServiceProvider extends StatelessWidget {
   }
 
 /////////RatingBar///////////
-  Widget ratingBar() {
-    return Padding(
+  Widget ratingBar(BuildContext context,ProfileCubitState state) {
+    return state.responseProfile!=null ?Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 19, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -254,7 +278,7 @@ class ServiceProvider extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Begumanya Charles',
+                state.responseProfile!.data!.user!.name.toString(),
                 style: figtreeSemiBold.copyWith(fontSize: 22),
               ),
               10.verticalSpace(),
@@ -299,12 +323,12 @@ class ServiceProvider extends StatelessWidget {
           )
         ],
       ),
-    );
+    ):sizeBox();
   }
 
   /////////ProfileImage////////
-  Widget profileImage() {
-    return Center(
+  Widget profileImage(BuildContext context,ProfileCubitState state) {
+    return state.responseProfile!=null ?Center(
       child: Stack(
         children: [
           ClipOval(
@@ -312,26 +336,37 @@ class ServiceProvider extends StatelessWidget {
             child: SizedBox(
               height: 180,
               width: 190,
-              child: Image.asset(
+              child: state.responseProfile!.data!.user!.profilePic == "false" ?Image.asset(
                 Images.profileDemo,
                 fit: BoxFit.fill,
-              ),
+              ):networkImage(text: state.responseProfile!.data!.user!.profilePic.toString()),
             ),
           ),
-          const Positioned(
+          Positioned(
               right: 0,
               bottom: 24,
-              child: CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.white,
-                child: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: ColorResources.primary,
-                  child: Icon(Icons.camera_alt, color: Colors.white, size: 20),
+              child: InkWell(
+                onTap: (){
+                  showPicker(context, cameraFunction: () async{
+                    var image = await imgFromCamera();
+                    await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                  }, galleryFunction: () async{
+                    var image = await imgFromGallery();
+                    await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                  });
+                },
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    radius: 18,
+                    backgroundColor: ColorResources.primary,
+                    child: Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                  ),
                 ),
               )),
         ],
       ),
-    );
+    ):sizeBox();
   }
 }

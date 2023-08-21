@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 
@@ -26,7 +28,7 @@ class DdeDrawer extends StatelessWidget {
             children: [
               menuItem(context),
               25.verticalSpace(),
-              navigationItem(),
+              navigationItem(context),
             ],
           ),
 
@@ -40,7 +42,7 @@ class DdeDrawer extends StatelessWidget {
   }
 
 
-  Widget navigationItem() {
+  Widget navigationItem(context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
       child: Column(
@@ -76,7 +78,10 @@ class DdeDrawer extends StatelessWidget {
             height: 30,
           ),
           navigationBarItem(
-              image: Images.drawerLogout, onTap: () {}, text: 'Logout'),
+              image: Images.drawerLogout, onTap: () {
+            BlocProvider.of<AuthCubit>(context).clearSharedData();
+            BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+          }, text: 'Logout'),
 
         ],
       ),

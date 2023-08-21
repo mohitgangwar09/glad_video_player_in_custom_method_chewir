@@ -1,21 +1,41 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class GladProfile extends StatelessWidget {
-  const GladProfile({super.key});
+class DDEProfile extends StatefulWidget {
+  const DDEProfile({super.key});
+
+  @override
+  State<DDEProfile> createState() => _DDEProfileState();
+}
+
+class _DDEProfileState extends State<DDEProfile> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<ProfileCubit>(context).profileApi(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
@@ -29,15 +49,19 @@ class GladProfile extends StatelessWidget {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      profileImage(),
-                      40.verticalSpace(),
-                      ratingBar(),
-                      profileInputField(),
-                      earningCardDetails(),
-                      20.verticalSpace(),
-                    ],
+                  child: BlocBuilder<ProfileCubit,ProfileCubitState>(
+                      builder: (BuildContext context, state) {
+                      return Column(
+                        children: [
+                          profileImage(context,state),
+                          40.verticalSpace(),
+                          ratingBar(context,state),
+                          profileInputField(context,state),
+                          earningCardDetails(context,state),
+                          20.verticalSpace(),
+                        ],
+                      );
+                    }
                   ),
                 ),
               )
@@ -49,7 +73,7 @@ class GladProfile extends StatelessWidget {
   }
 
   ///////ProfileInputField//////////
-  Widget profileInputField() {
+  Widget profileInputField(BuildContext context,ProfileCubitState state) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(36, 0, 30, 0),
       child: Column(
@@ -58,19 +82,21 @@ class GladProfile extends StatelessWidget {
           CustomTextField(
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             hint: 'Phone',
+            controller: state.phoneController,
             leadingImage: Images.textCall,
             imageColors: ColorResources.fieldGrey,
-            enabled: true,
+            enabled: false,
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
           20.verticalSpace(),
           CustomTextField(
             hint: 'Email',
+            controller: state.emailController,
             leadingImage: Images.emailPhone,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: true,
+            enabled: false,
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
@@ -78,6 +104,7 @@ class GladProfile extends StatelessWidget {
           CustomTextField(
             maxLine: 2,
             hint: 'Address',
+            controller: state.addressController,
             leadingImage: Images.textEdit,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
@@ -92,7 +119,7 @@ class GladProfile extends StatelessWidget {
   }
 
   ///////////EarningCardDetails/////////
-  Widget earningCardDetails() {
+  Widget earningCardDetails(BuildContext context,ProfileCubitState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -164,7 +191,7 @@ class GladProfile extends StatelessWidget {
                                                 3, 0, 4, 0),
                                             child: Row(
                                               children: [
-                                                Icon(Icons.trending_up,
+                                                const Icon(Icons.trending_up,
                                                     size: 25),
                                                 Text(
                                                   '+5.0%',
@@ -242,8 +269,9 @@ class GladProfile extends StatelessWidget {
   }
 
 /////////RatingBar///////////
-  Widget ratingBar() {
-    return Padding(
+  Widget ratingBar(BuildContext context,ProfileCubitState state) {
+    return state.responseProfile!=null ?
+    Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 19, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -251,7 +279,7 @@ class GladProfile extends StatelessWidget {
           Column(
             children: [
               Text(
-                'Begumanya Charles',
+                '${state.responseProfile!.data!.user!.name}',
                 style: figtreeSemiBold.copyWith(fontSize: 22),
               ),
               RatingBar.builder(
@@ -274,12 +302,12 @@ class GladProfile extends StatelessWidget {
           )
         ],
       ),
-    );
+    ):const SizedBox(width: 0,height: 0,);
   }
 
   /////////ProfileImage////////
-  Widget profileImage() {
-    return Center(
+  Widget profileImage(BuildContext context,ProfileCubitState state) {
+    return state.responseProfile!=null ?Center(
       child: Stack(
         children: [
           ClipOval(
@@ -287,27 +315,35 @@ class GladProfile extends StatelessWidget {
             child: SizedBox(
               height: 180,
               width: 190,
-              child: Image.asset(
-                Images.profileDemo,
-                fit: BoxFit.fill,
-              ),
+              child: networkImage(text: state.responseProfile!.data!.user!.profilePic.toString()),
             ),
           ),
-          const Positioned(
+          Positioned(
               right: 0,
               bottom: 24,
-              child: CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.white,
-                child: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: ColorResources.primary,
-                  child: Icon(Icons.camera_alt, color: Colors.white, size: 20),
+              child: InkWell(
+                onTap: (){
+                  showPicker(context, cameraFunction: () async{
+                    var image = await imgFromCamera();
+                    await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                  }, galleryFunction: () async{
+                    var image = await imgFromGallery();
+                    await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                  });
+                },
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    radius: 18,
+                    backgroundColor: ColorResources.primary,
+                    child: Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                  ),
                 ),
               )),
         ],
       ),
-    );
+    ):const SizedBox(width: 0,height: 0,);
   }
 }
 
