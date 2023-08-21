@@ -14,7 +14,8 @@ import 'package:glad/utils/styles.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class CreatePassword extends StatefulWidget {
-  const CreatePassword({Key? key}) : super(key: key);
+  final String? id,tagForgotPassword;
+  const CreatePassword(this.tagForgotPassword,{Key? key,this.id}) : super(key: key);
 
   @override
   State<CreatePassword> createState() => _CreatePasswordState();
@@ -26,7 +27,7 @@ class _CreatePasswordState extends State<CreatePassword> {
   @override
   Widget build(BuildContext context) {
 
-    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+    // BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
 
     return SafeArea(
       bottom: true,
@@ -71,7 +72,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Create password?",
+                    Text("Create New password?",
                       style: figtreeMedium.copyWith(
                           color: Colors.black,
                           fontSize: 24
@@ -96,10 +97,34 @@ class _CreatePasswordState extends State<CreatePassword> {
 
               Column(
                 children: [
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40,21,40,0),
+                    child: SizedBox(
+                      height: 55,
+                      child: CustomTextField(hint: 'Email',
+                        controller: state.emailController,
+                        onChanged: (value){
+
+                        },
+                        style: figtreeRegular.copyWith(
+                            color: Colors.black,
+                            fontSize: 14
+                        ),
+                        enabled: false,
+                        underLineBorderColor: const Color(0xff727272),
+                        image: Images.emailPhone,imageColors: Colors.black,withoutBorder: true,),
+                    ),
+                  ),
+
+
+
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40,21,40,0),
                     child: Stack(
                       children: [
+
+
                         CustomTextField(hint: 'New Password',
                           controller: state.passwordController,
                           borderColor: 0xff727272,
@@ -144,7 +169,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                     child: Stack(
                       children: [
                         CustomTextField(hint: 'Confirm Password',
-                          controller: state.emailController,
+                          controller: state.confirmPasswordController,
                           borderColor: 0xff727272,
                           obscureText: state.confirmVisible,
                           style: figtreeRegular.copyWith(
@@ -188,7 +213,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                   child: customButton("Submit", style:figtreeSemiBold.copyWith(
                       color: Colors.black
                   ),onTap: (){
-                    context.read<AuthCubit>().resetPasswordAPi(context);
+                    context.read<AuthCubit>().createPasswordAPi(context,widget.id.toString(),widget.tagForgotPassword.toString());
                   },
                       borderColor: 0xFF6A0030,
                       color: 0x00000000)

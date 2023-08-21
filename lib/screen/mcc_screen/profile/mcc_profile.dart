@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 
 import '../../../utils/color_resources.dart';
 import '../../../utils/images.dart';
@@ -10,11 +14,27 @@ import '../../../utils/styles.dart';
 import '../../custom_widget/custom_textfield.dart';
 import '../../dde_screen/dde_profile.dart';
 
-class MccProfile extends StatelessWidget {
+class MccProfile extends StatefulWidget {
   const MccProfile({super.key});
 
   @override
+  State<MccProfile> createState() => _MccProfileState();
+}
+
+class _MccProfileState extends State<MccProfile> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<ProfileCubit>(context).profileApi(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
           children: [
@@ -29,12 +49,15 @@ class MccProfile extends StatelessWidget {
             ),
             Expanded(
               child :SingleChildScrollView(
-                child: Column(children: [
-                  profileImage(),
-                  profileInputField(),
-                  helpLineItem(),
-
-                ],),
+                child: BlocBuilder<ProfileCubit,ProfileCubitState>(
+                  builder: (BuildContext contexts, state) {
+                    return Column(children: [
+                      profileImage(context,state),
+                      profileInputField(context,state),
+                      helpLineItem(context,state),
+                    ],);
+                  }
+                ),
               ),
             ),
           ],
@@ -43,10 +66,8 @@ class MccProfile extends StatelessWidget {
     );
   }
 
-
-
   ///////ProfileInputField//////////
-  Widget profileInputField() {
+  Widget profileInputField(BuildContext context,ProfileCubitState state) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(36, 0, 30, 0),
       child: Column(
@@ -55,8 +76,8 @@ class MccProfile extends StatelessWidget {
           CustomTextField(
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
             hint: 'Phone',
-            enabled: true,
-
+            enabled: false,
+            controller: state.phoneController,
             leadingImage: Images.textCall,
             imageColors: ColorResources.fieldGrey,
             withoutBorder: true,
@@ -65,10 +86,11 @@ class MccProfile extends StatelessWidget {
           20.verticalSpace(),
           CustomTextField(
             hint: 'Email',
+            controller: state.emailController,
             leadingImage: Images.emailPhone,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: true,
+            enabled: false,
 
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
@@ -76,21 +98,17 @@ class MccProfile extends StatelessWidget {
           20.verticalSpace(),
           CustomTextField(
             maxLine: 2,
+            controller: state.addressController,
             hint: 'Address',
             leadingImage: Images.textEdit,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: true,
-
+            enabled: false,
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),
           30.verticalSpace(),
-          Row(children: [
-            SvgPicture.asset(Images.logout,height: 25,width:25,),
-            15.horizontalSpace(),
-            Text('Logout',style: figtreeRegular.copyWith(fontSize: 18),)
-          ],),
+          logOut(context),
           60.verticalSpace(),
 
         ],
@@ -98,11 +116,10 @@ class MccProfile extends StatelessWidget {
     );
   }
 
-
-
   /////////ProfileImage////////
-  Widget profileImage(){
-    return Column(
+  Widget profileImage(BuildContext context,ProfileCubitState state){
+    return state.responseProfile!=null ?
+    Column(
       children: [
         Center(
           child: Stack(
@@ -112,40 +129,46 @@ class MccProfile extends StatelessWidget {
                 child: SizedBox(
                   height: 180,
                   width: 190,
-                  child: Image.asset(
-                    Images.profileDemo,
-                    fit: BoxFit.fill,
-                  ),
+                  child: networkImage(text: state.responseProfile!.data!.user!.profilePic.toString()),
                 ),
               ),
-              const Positioned(
+              Positioned(
                   right: 0,
                   bottom: 24,
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: ColorResources.primary,
-                      child: Icon(Icons.camera_alt,
-                          color: Colors.white, size: 20),
+                  child: InkWell(
+                    onTap: (){
+                      showPicker(context, cameraFunction: () async{
+                        var image = await imgFromCamera();
+                        await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                      }, galleryFunction: () async{
+                        var image = await imgFromGallery();
+                        await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                      });
+                    },
+                    child: const CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 18,
+                        backgroundColor: ColorResources.primary,
+                        child: Icon(Icons.camera_alt,
+                            color: Colors.white, size: 20),
+                      ),
                     ),
                   )),
             ],
           ),
         ),
         30.verticalSpace(),
-        Text(
-          'Begumanya Charles',
+        Text(state.responseProfile!.data!.user!.name.toString(),
           style: figtreeSemiBold.copyWith(fontSize: 22),
         ),
       ],
-    );
+    ):const SizedBox();
   }
 
-
 ///////////HelpLine/////////
-  Widget helpLineItem() {
+  Widget helpLineItem(BuildContext context,ProfileCubitState state) {
     return Column(
       children: [
         Container(
@@ -154,11 +177,7 @@ class MccProfile extends StatelessWidget {
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SvgPicture.asset(
-                  Images.call,
-                  width: 45,
-                  height: 45,
-                ),
+                phoneCall(234567890),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -177,11 +196,7 @@ class MccProfile extends StatelessWidget {
                     )
                   ],
                 ),
-                SvgPicture.asset(
-                  Images.whatsapp,
-                  width: 40,
-                  height: 40,
-                ),
+                whatsapp(234567890),
               ]),
         ),
         const SizedBox(
@@ -194,8 +209,6 @@ class MccProfile extends StatelessWidget {
       ],
     );
   }
-
-
 
   //////////////SocialMedia///////////
   Widget socialMediaItem() {
@@ -218,5 +231,4 @@ class MccProfile extends StatelessWidget {
       ],
     );
   }
-
 }

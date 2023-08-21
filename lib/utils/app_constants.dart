@@ -4,9 +4,14 @@ class AppConstants {
 
   // api End Point
   static const String loginWithPasswordApi = '/api/login';
+  static const String loginWithMobileApi = '/api/generate-otp';
+  static const String verifyMobileApi = '/api/login-otp';
   static const String createPasswordPasswordApi = '/api/create/password';
   static const String verifyOtpApi = '/api/validate/otp';
-  static const String resetPasswordApi = '/api/password/reset';
+  static const String resendOtpApi = '/api/resend-otp';
+  static const String forgotPasswordApi = '/api/password/reset';
+  static const String updateProfileImageAPi = '/api/profile-pic';
+  static const String profileApi = '/api/profile';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -11,6 +12,8 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 Widget customButton(String text,
     {Widget widget = const SizedBox(),
@@ -91,13 +94,13 @@ Widget networkImage(
     width: width,
     height: height,
     decoration: BoxDecoration(
-        color: Colors.black12,
+        color: Colors.transparent,
         borderRadius: BorderRadius.all(
           Radius.circular(radius),
         ),
         border: Border.all(
           width: 1,
-          color: backColor != null ? Color(backColor) : Colors.black12,
+          color: backColor != null ? Color(backColor) : Colors.transparent,
         )),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(radius),
@@ -105,53 +108,24 @@ Widget networkImage(
         height: height,
         imageUrl: text,
         fit: BoxFit.cover,
-        placeholder: (context, url) => ClipRRect(
-          borderRadius: BorderRadius.circular(radius),
-          child: SizedBox(
-            width: width ?? screenWidth(),
-            height: height ?? screenWidth() * 0.3,
-            child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Card(
-                color: Colors.grey[300],
-              ),
+        placeholder: (context, url) => SizedBox(
+          width: width ?? screenWidth(),
+          height: height ?? screenWidth() * 0.3,
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Card(
+              color: Colors.grey[300],
             ),
           ),
         ),
-        errorWidget: (context, url, error) => Icon(
-          Icons.error,
-          color: Colors.grey,
-          size: size,
+        errorWidget: (context, url, error) => Image.asset(
+          Images.placeHolder,
+          // fit: BoxFit.cover,
+          // fit: BoxFit.contain,
         ),
       ),
     ),
-    /*  Image.network(
-      text, loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        }
-        return   ClipRRect(
-          borderRadius: BorderRadius.circular(radius),
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Card(
-
-                color: Colors.grey[300],
-              ),
-            ),
-          ),
-        );
-      },
-      errorBuilder: (context, error, stackTrace) =>
-          const Icon(Icons.error,color: Colors.grey,size: 28,),
-      fit: BoxFit.cover,
-      height: height,
-    ),*/
   );
 }
 
@@ -1074,4 +1048,59 @@ Widget customShadowContainer({bool enabled=true,
   );
 }
 
+Widget sizeBox(){
+  return const SizedBox(width: 0,height: 0,);
+}
+
+Widget logOut(BuildContext context){
+  return InkWell(
+    onTap: (){
+      BlocProvider.of<AuthCubit>(context).clearSharedData();
+      BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+    },
+    child: Row(children: [
+      SvgPicture.asset(Images.logout,height: 25,width:25,),
+      15.horizontalSpace(),
+      Text('Logout',style: figtreeRegular.copyWith(fontSize: 18),)
+    ],),
+  );
+}
+
+Future<void> launchWhatsApp(var mobile) async {
+  Uri url = Uri.parse('https://api.whatsapp.com/send?phone=${mobile.toString()}&text=Hi! Glad');
+  if (!await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication)) {
+    throw Exception('Could not launch $url');
+  } }
+
+Future<void> callOnMobile(var mobile)async{
+
+  launchUrlString("tel://${mobile.toString()}");
+}
+
+
+Widget phoneCall(mobile){
+  return InkWell(
+    onTap: ()async{
+      await callOnMobile(mobile);
+    },
+    child: SvgPicture.asset(
+      Images.call,
+      width: 45,
+      height: 45,
+    ),
+  );
+}
+
+Widget whatsapp(mobile){
+  return InkWell(
+    onTap: ()async{
+      await launchWhatsApp(mobile);
+    },
+    child: SvgPicture.asset(
+      Images.whatsapp,
+      width: 40,
+      height: 40,
+    ),
+  );
+}
 

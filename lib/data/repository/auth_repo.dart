@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:glad/data/model/api_response.dart';
 import 'package:glad/data/model/auth_models/mail_login_model.dart';
+import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/errors_model.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
@@ -29,7 +30,6 @@ class AuthRepository {
       AppConstants.loginWithPasswordApi,
       data: data);
 
-    print(apiResponse.response);
     if (apiResponse.status) {
       return MobileLoginModel.fromJson(apiResponse.response!.data);
     } {
@@ -41,39 +41,61 @@ class AuthRepository {
 
 
    ///////////////// verifyOtpApi //////////
-   Future verifyOtpApi(String otp, String id) async {
+   Future<ResponseOtpModel> verifyOtpApi(String otp, String id) async {
      api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
          .getPostApiResponse(AppConstants.verifyOtpApi,
          data: {
            'otp': otp,
            'id': id});
 
-     return apiResponse.response!.data;
-   }
-     /*if (apiResponse.status) {
-       // return VerifyPasswordModel.fromJson(apiResponse.response!.data);
-       return apiResponse.response!.data;
+     if (apiResponse.status) {
+       return ResponseOtpModel.fromJson(apiResponse.response!.data);
      } else {
-       return apiResponse.response!.data;
-   }*/
+       return ResponseOtpModel(
+           status: 422,
+           message: apiResponse.msg);
+     }
+   }
 
-   /*Future<ResendModel> resendOtpApi(String token) async {
+   Future<ResponseOtpModel> resendOtpApi(String email) async {
+
+     var data = {
+       "email": email
+     };
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.resendAPi,
-        headers: {'Authorization': 'Bearer $token'});
+        .getPostApiResponse(AppConstants.resendOtpApi,data: data);
     if (apiResponse.status) {
-      return ResendModel.fromJson(apiResponse.response!.data);
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
-      return ResendModel(
-          statusCode: 422,
-          errors: [ErrorModel(message: apiResponse.msg)],
+      return ResponseOtpModel(
+          status: 422,
           message: apiResponse.msg);
     }
-  }*/
+  }
+
+  // forgot Password Api
+   Future<MobileLoginModel> forgotPasswordApi(String email) async {
+
+    var data = {
+      "email": email
+    };
+
+     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+         .getPostApiResponse(AppConstants.forgotPasswordApi,
+     data: data);
+     if (apiResponse.status) {
+       return MobileLoginModel.fromJson(apiResponse.response!.data);
+     } else {
+       return MobileLoginModel(
+           status: 422,
+           message: apiResponse.msg);
+     }
+   }
 
 
   ///////////////// resetPasswordApi //////////
-  Future createPasswordApi(String id,String password,String confirmPassword) async {
+  Future<ResponseOtpModel> createPasswordApi(String id,String password,String confirmPassword) async {
 
     var data = {
       "id": id,
@@ -81,91 +103,52 @@ class AuthRepository {
       "password_confirmation": confirmPassword,
     };
 
-    print(data);
-    api_hitter.ApiResponse response = await api_hitter.ApiHitter().getPostApiResponse(
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
         AppConstants.createPasswordPasswordApi,
         data: data);
 
-    return response;
-
-
-  }
-
-  /*Future<MobileSignUpModel> loginAndSignUpWithPhoneApi(
-      String phone, bool isTermsCondition, String countryCode,) async {
-    String fcm=await SharedPrefManager.getPreferenceString(AppConstants.fcmToken,);
-    if (kDebugMode) {
-      print(fcm);
-    }
-    var data = {
-      'mobileNo': phone,
-      'isTermsCondition': isTermsCondition,
-      'phoneCode': countryCode,
-      'roleId': AppConstants.roleId,
-     // 'timeZone': currentTimeZone(),
-      'fcmToken':fcm};
-    api_hitter.ApiResponse apiResponse =
-        await api_hitter.ApiHitter().getPostApiResponse(
-      AppConstants.loginAndSignUpWithPhoneApi,
-      data: data,
-    );
     if (apiResponse.status) {
-      return MobileSignUpModel.fromJson(apiResponse.response!.data);
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
-      return MobileSignUpModel(
-          statusCode: 422,
-          errors: [ErrorModel(message: apiResponse.msg)],
+      return ResponseOtpModel(
+          status: 422,
           message: apiResponse.msg);
     }
   }
 
-  Future<ResendModel> resendOtpApi(String token) async {
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.resendAPi,
-            headers: {'Authorization': 'Bearer $token'});
+  Future<MobileLoginModel> loginWithPhoneApi(
+      String phone) async {
+
+    var data = {
+      'user': phone};
+
+    api_hitter.ApiResponse apiResponse =
+        await api_hitter.ApiHitter().getPostApiResponse(
+      AppConstants.loginWithMobileApi,
+      data: data,
+    );
     if (apiResponse.status) {
-      return ResendModel.fromJson(apiResponse.response!.data);
+      return MobileLoginModel.fromJson(apiResponse.response!.data);
     } else {
-      return ResendModel(
-          statusCode: 422,
-          errors: [ErrorModel(message: apiResponse.msg)],
+      return MobileLoginModel(
+          status: 422,
           message: apiResponse.msg);
     }
   }
 
   ///////////////// verifyOtpApi //////////
-  Future<VerifyPasswordModel> verifyOtpApi(String otp, String token) async {
+  Future<MobileLoginModel> verifyMobileOtpApi(String otp, String id) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.verifyOtpAPi,
-            data: {'otp': otp,
-             // 'timeZone': currentTimeZone(),
-            }, headers: {'Authorization': 'Bearer $token'});
+        .getPostApiResponse(AppConstants.verifyMobileApi,
+            data: {'otp_number': otp,"user_id": id});
     if (apiResponse.status) {
-      return VerifyPasswordModel.fromJson(apiResponse.response!.data);
+      return MobileLoginModel.fromJson(apiResponse.response!.data);
     } else {
-      return VerifyPasswordModel(
-          statusCode: 422,
-          errors: [ErrorModel(message: apiResponse.msg)],
+      return MobileLoginModel(
+          status: 422,
           message: apiResponse.msg);
     }
   }
-
-
-  Future<GetProfileModel> getProfileApi(String token) async {
-    print(token);
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
-      AppConstants.profileApi,
-      headers: {'Authorization': 'Bearer $token'},
-    );
-    if (apiResponse.status) {
-      return GetProfileModel.fromJson(apiResponse.response!.data);
-    } else {
-      return GetProfileModel(
-          statusCode: 422,
-          errors: [ErrorModel(message: apiResponse.msg)],
-          message: apiResponse.msg);
-    }
-  }*/
 
   // for  user token
   Future<void> saveUserToken(String token) async {

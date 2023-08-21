@@ -52,7 +52,7 @@ class DDELandingPage extends StatelessWidget {
                     7.horizontalSpace(),
                     InkWell(
                         onTap: () {
-                          const GladProfile().navigate();
+                          const DDEProfile().navigate();
                         },
                         child: SvgPicture.asset(Images.person)),
                     8.horizontalSpace(),

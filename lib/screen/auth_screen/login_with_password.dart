@@ -8,6 +8,7 @@ import 'package:glad/screen/auth_screen/login_with_otp.dart';
 import 'package:glad/screen/auth_screen/otp.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
+import 'package:glad/screen/extra_screen/navigation.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -17,8 +18,6 @@ class LoginWithPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
 
     return SafeArea(
       bottom: true,
@@ -213,8 +212,8 @@ Widget card(BuildContext context){
                   Padding(
                     padding: const EdgeInsets.only(top: 45.0),
                     child: TextButton(onPressed: (){
-                      // const ForgotPassword().navigate();
-                      const CreatePassword().navigate();
+                      const ForgotPassword().navigate();
+                      BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
                     }, child: Text("Forgot password?",
                       style: figtreeMedium.copyWith(
                           color: const Color(0xffFC5E60),
@@ -255,7 +254,7 @@ Widget loginButton(BuildContext context){
                   onTap: (){
 
                     context.read<AuthCubit>().loginWithPasswordAPi(context);
-                    // const OtpScreen().navigate();
+                    // const Navigation().navigate();
 
                   }, child: Image.asset(Images.loginButton,
                   width: 80,height: 80,),
@@ -271,6 +270,7 @@ Widget loginButton(BuildContext context){
 Widget loginWithOtp(BuildContext context){
   return TextButton(onPressed: (){
     const LoginWithOTP().navigate();
+    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
   }, child: Text("Login with OTP",
     style: figtreeMedium.copyWith(
       color: Colors.black,

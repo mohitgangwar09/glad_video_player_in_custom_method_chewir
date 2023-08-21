@@ -63,7 +63,7 @@ class SupplierLandingPage extends StatelessWidget {
                     7.horizontalSpace(),
                     InkWell(
                         onTap: () {
-                          const ServiceProvider().navigate();
+                          const SupplierProfile().navigate();
                         },
                         child: SvgPicture.asset(Images.person)),
                     8.horizontalSpace(),

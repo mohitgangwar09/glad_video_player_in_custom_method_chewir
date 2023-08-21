@@ -65,7 +65,6 @@ class ApiHitter {
     String baseurl = '',
   }) async {
     bool value = await checkInternetConnection();
-    print(value);
     if (value) {
       try {
         if (kDebugMode) {

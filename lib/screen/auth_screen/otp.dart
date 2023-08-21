@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/screen/auth_screen/login_with_otp.dart';
 import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/extra_screen/navigation.dart';
@@ -15,7 +16,8 @@ import 'package:glad/utils/styles.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+  final String tag;
+  const OtpScreen({Key? key,required this.tag}) : super(key: key);
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -51,8 +53,6 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    var provider = BlocProvider.of<AuthCubit>(context,listen: true);
 
     return SafeArea(
       bottom: true,
@@ -118,7 +118,12 @@ class _OtpScreenState extends State<OtpScreen> {
                     enableResend = false;
                   });
                 }
-                context.read<AuthCubit>().verifyOtpAPi(context);
+                if(widget.tag == "phone"){
+                  BlocProvider.of<AuthCubit>(context).verifyMobileOtpAPi(context);
+                }else{
+                  BlocProvider.of<AuthCubit>(context).verifyOtpAPi(context);
+                }
+
 
               }
             },
@@ -224,6 +229,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                 secondsRemaining = 30;
                                 enableResend = false;
                               });
+                              context.read<AuthCubit>().resendOtp(context,widget.tag);
                             },decoration: TextDecoration.underline,
                             color: const Color(0xffFC5E60),fontSize: 16)
 
@@ -236,7 +242,8 @@ class _OtpScreenState extends State<OtpScreen> {
 
               Center(
                 child: customTextButton(onTap: (){
-
+                  const LoginWithOTP().navigate(isInfinity: true);
+                  BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
                 }, text: "Cancel",color: const Color(0xff727272),
                     fontSize: 15,decoration: TextDecoration.underline),
               ),

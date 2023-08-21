@@ -17,8 +17,6 @@ class LoginWithOTP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
-
     return SafeArea(
       bottom: true,
       top: false,
@@ -130,7 +128,7 @@ Widget card(BuildContext context){
 
           SizedBox(
               height: screenWidth()*1.15,
-              child: loginButton()),
+              child: loginButton(context,state)),
 
           Positioned(
             top: 0,
@@ -164,7 +162,7 @@ Widget card(BuildContext context){
   );
 }
 
-Widget loginButton(){
+Widget loginButton(BuildContext context,AuthCubitState state){
   return Center(
     child: Stack(
       children: [
@@ -177,16 +175,31 @@ Widget loginButton(){
         Center(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(40,0,40,50),
-            child: CustomTextField(hint: 'Phone',
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              maxLine: 1,
-              length: 12,
-              inputType: TextInputType.phone,
-              style: figtreeRegular.copyWith(
-                  color: Colors.white,
-                  fontSize: 14
-              ),
-              image: Images.emailPhone,withoutBorder: true,),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(hint: 'Phone',
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  maxLine: 1,
+                  controller: state.emailController,
+                  length: 12,
+                  inputType: TextInputType.phone,
+                  style: figtreeRegular.copyWith(
+                      color: Colors.white,
+                      fontSize: 14
+                  ),
+                  onChanged: (value){
+                  context.read<AuthCubit>().mobileValidate();
+                  },
+                  image: Images.emailPhone,withoutBorder: true,),
+
+                if(state.validator == "mobile" || state.validator ==  "validNumber")
+                  validator(state.validatorString,
+                      color: Colors.white),
+
+              ],
+            ),
           ),
         ),
 
@@ -200,7 +213,8 @@ Widget loginButton(){
                 InkWell(
                   onTap: (){
 
-                    const OtpScreen().navigate();
+                    context.read<AuthCubit>().loginWithPhoneAPi(context,);
+                    // const OtpScreen().navigate();
 
                   }, child: Image.asset(Images.loginButton,
                   width: 80,height: 80,),
@@ -216,6 +230,7 @@ Widget loginButton(){
 Widget loginWithOtp(BuildContext context){
   return TextButton(onPressed: (){
     pressBack();
+    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
   }, child: Text("Login with Password",
     style: figtreeMedium.copyWith(
       color: Colors.black,

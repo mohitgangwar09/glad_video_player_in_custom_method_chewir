@@ -1,11 +1,11 @@
-class MobileLoginModel {
+class ResponseProfile {
   String? message;
   int? status;
   Data? data;
 
-  MobileLoginModel({this.message, this.status, this.data});
+  ResponseProfile({this.message, this.status, this.data});
 
-  MobileLoginModel.fromJson(Map<String, dynamic> json) {
+  ResponseProfile.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -23,6 +23,24 @@ class MobileLoginModel {
 }
 
 class Data {
+  User? user;
+
+  Data({this.user});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    return data;
+  }
+}
+
+class User {
   int? id;
   String? firstName;
   dynamic middleName;
@@ -39,6 +57,7 @@ class Data {
   dynamic loginAt;
   dynamic logoutAt;
   String? email;
+  // String? address;
   dynamic emailVerifiedAt;
   dynamic twoFactorConfirmedAt;
   String? createdAt;
@@ -47,11 +66,11 @@ class Data {
   dynamic updatedBy;
   dynamic deletedBy;
   int? isFirst;
-  String? accessToken;
   String? name;
-  List<dynamic>? roles;
+  dynamic profilePic;
+  List<Roles>? roles;
 
-  Data(
+  User(
       {this.id,
         this.firstName,
         this.middleName,
@@ -76,11 +95,11 @@ class Data {
         this.updatedBy,
         this.deletedBy,
         this.isFirst,
-        this.accessToken,
         this.name,
+        this.profilePic,
         this.roles});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     middleName = json['middle_name'];
@@ -105,12 +124,18 @@ class Data {
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     isFirst = json['is_first'];
-    accessToken = json['access_token'];
     name = json['name'];
+    profilePic = json['profile_pic'];
+    if (json['roles'] != null) {
+      roles = <Roles>[];
+      json['roles'].forEach((v) {
+        roles!.add(Roles.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['first_name'] = firstName;
     data['middle_name'] = middleName;
@@ -135,8 +160,89 @@ class Data {
     data['updated_by'] = updatedBy;
     data['deleted_by'] = deletedBy;
     data['is_first'] = isFirst;
-    data['access_token'] = accessToken;
     data['name'] = name;
+    data['profile_pic'] = profilePic;
+    if (roles != null) {
+      data['roles'] = roles!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Roles {
+  int? id;
+  String? name;
+  String? alias;
+  dynamic parentId;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  Pivot? pivot;
+
+  Roles(
+      {this.id,
+        this.name,
+        this.alias,
+        this.parentId,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.pivot});
+
+  Roles.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    alias = json['alias'];
+    parentId = json['parent_id'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['alias'] = alias;
+    data['parent_id'] = parentId;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (pivot != null) {
+      data['pivot'] = pivot!.toJson();
+    }
+    return data;
+  }
+}
+
+class Pivot {
+  int? userId;
+  int? roleId;
+
+  Pivot({this.userId, this.roleId});
+
+  Pivot.fromJson(Map<String, dynamic> json) {
+    userId = json['user_id'];
+    roleId = json['role_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user_id'] = userId;
+    data['role_id'] = roleId;
     return data;
   }
 }

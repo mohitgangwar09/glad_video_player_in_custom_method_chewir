@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -25,7 +27,7 @@ class ServiceProviderDrawer extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(children: [
-                    navigationItem(),
+                    navigationItem(context),
 
                     helpLineItem(),
 
@@ -45,7 +47,7 @@ class ServiceProviderDrawer extends StatelessWidget {
   }
 
 
-  Widget navigationItem() {
+  Widget navigationItem(context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
       child: Column(
@@ -84,7 +86,10 @@ class ServiceProviderDrawer extends StatelessWidget {
               image: Images.privacy, onTap: () {}, text: 'Privacy'),
           30.verticalSpace(),
           navigationBarItem(
-              image: Images.drawerLogout, onTap: () {}, text: 'Logout'),
+              image: Images.drawerLogout, onTap: () {
+            BlocProvider.of<AuthCubit>(context).clearSharedData();
+            BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+          }, text: 'Logout'),
           30.verticalSpace(),
 
         ],
@@ -101,11 +106,7 @@ class ServiceProviderDrawer extends StatelessWidget {
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SvgPicture.asset(
-                  Images.call,
-                  width: 45,
-                  height: 45,
-                ),
+                phoneCall(234567890),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -122,11 +123,7 @@ class ServiceProviderDrawer extends StatelessWidget {
                     )
                   ],
                 ),
-                SvgPicture.asset(
-                  Images.whatsapp,
-                  width: 40,
-                  height: 40,
-                ),
+                whatsapp(234567890),
               ]),
         ),
         const SizedBox(

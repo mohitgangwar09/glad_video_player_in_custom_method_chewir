@@ -29,7 +29,7 @@ class DashboardSupplier extends StatelessWidget {
         builder: (BuildContext context, state) {
       return Scaffold(
         key: landingKey,
-        drawer: ServiceProviderDrawer(),
+        drawer: const ServiceProviderDrawer(),
         extendBody: true,
         bottomNavigationBar: bottomNavigationBar(provider.state, context),
         body: widgetOptions.elementAt(state.selectedIndex),
