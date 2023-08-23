@@ -252,7 +252,6 @@ Widget loginButton(BuildContext context){
               children: [
                 InkWell(
                   onTap: (){
-
                     context.read<AuthCubit>().loginWithPasswordAPi(context);
                     // const Navigation().navigate();
 
