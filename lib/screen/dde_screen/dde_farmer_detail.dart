@@ -60,10 +60,10 @@ class DdeFarmerDetail extends StatelessWidget {
 
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(Images.sampleLivestock,width: 137,height: 164,
+                                  child: Image.asset(Images.sampleLivestock,width: 117,height: 150,
                                     fit: BoxFit.cover,)),
 
-                              15.horizontalSpace(),
+                              10.horizontalSpace(),
 
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,30 +217,23 @@ class DdeFarmerDetail extends StatelessWidget {
                                 ],
                               ),
                               17.verticalSpace(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  // color: const Color(0xFFE4FFE3).withOpacity(1),
-                                ),
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 10, horizontal: 9),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('Managed by: Moses Emanuel',
-                                        style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
-                                    10.horizontalSpace(),
-                                    Container(
-                                      height: 5,
-                                      width: 5,
-                                      decoration: const BoxDecoration(
-                                          color: Colors.black, shape: BoxShape.circle),
-                                    ),
-                                    10.horizontalSpace(),
-                                    Text('+256 758711344',
-                                        style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
-                                  ],
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Managed by: Moses Emanuel',
+                                      style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
+                                  10.horizontalSpace(),
+                                  Container(
+                                    height: 5,
+                                    width: 5,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.black, shape: BoxShape.circle),
+                                  ),
+                                  10.horizontalSpace(),
+                                  Text('+256 758711344',
+                                      style: figtreeMedium.copyWith(fontSize: 12,color: const Color(0xff727272))),
+                                  30.verticalSpace()
+                                ],
                               )
                             ],
                           ),

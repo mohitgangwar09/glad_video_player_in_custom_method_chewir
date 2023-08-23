@@ -245,7 +245,7 @@ class FarmerDdeTabScreen extends StatelessWidget {
                                                             fontSize: 12)),
                                                 TextSpan(
                                                   text: '50 Acres',
-                                                  style: figtreeRegular.copyWith(
+                                                  style: figtreeSemiBold.copyWith(
                                                       fontSize: 12),
                                                 ),
                                               ],
@@ -263,7 +263,7 @@ class FarmerDdeTabScreen extends StatelessWidget {
                                                             fontSize: 12)),
                                                 TextSpan(
                                                   text: '50',
-                                                  style: figtreeRegular.copyWith(
+                                                  style: figtreeSemiBold.copyWith(
                                                       fontSize: 12),
                                                 ),
                                               ],
@@ -281,7 +281,7 @@ class FarmerDdeTabScreen extends StatelessWidget {
                                                             fontSize: 12)),
                                                 TextSpan(
                                                   text: '50 ltr',
-                                                  style: figtreeRegular.copyWith(
+                                                  style: figtreeSemiBold.copyWith(
                                                       fontSize: 12),
                                                 ),
                                               ],
@@ -291,93 +291,96 @@ class FarmerDdeTabScreen extends StatelessWidget {
                                       ),
                                     ),
                                     20.verticalSpace(),
-                                    Container(
-                                      height: 80,
-                                      padding: 20.paddingHorizontal(),
-                                      decoration: boxDecoration(
-                                          backgroundColor:
-                                              const Color(0xffFFF3F4),
-                                          borderRadius: 10),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              "Dam Construction"
-                                                  .textMedium(fontSize: 12),
-                                              Container(
-                                                margin: 9.marginAll(),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 4,
-                                                        horizontal: 7),
-                                                decoration: boxDecoration(
-                                                  borderRadius: 30,
-                                                  borderColor:
-                                                      const Color(0xff6A0030),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right:15),
+                                      child: Container(
+                                        height: 80,
+                                        padding: 20.paddingHorizontal(),
+                                        decoration: boxDecoration(
+                                            backgroundColor:
+                                                const Color(0xffFFF3F4),
+                                            borderRadius: 10),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                "Dam Construction"
+                                                    .textMedium(fontSize: 12),
+                                                Container(
+                                                  margin: 9.marginAll(),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                          vertical: 4,
+                                                          horizontal: 7),
+                                                  decoration: boxDecoration(
+                                                    borderRadius: 30,
+                                                    borderColor:
+                                                        const Color(0xff6A0030),
+                                                  ),
+                                                  child: Text(
+                                                    "Suggested",
+                                                    textAlign: TextAlign.center,
+                                                    style: figtreeMedium.copyWith(
+                                                        color:
+                                                            const Color(0xff6A0030),
+                                                        fontSize: 10),
+                                                  ),
                                                 ),
-                                                child: Text(
-                                                  "Suggested",
-                                                  textAlign: TextAlign.center,
-                                                  style: figtreeMedium.copyWith(
-                                                      color:
-                                                          const Color(0xff6A0030),
-                                                      fontSize: 10),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    "UGX 3.2M".textSemiBold(
+                                                        color: Colors.black,
+                                                        fontSize: 16),
+                                                    "Investment".textMedium(
+                                                        fontSize: 12,
+                                                        color: const Color(
+                                                            0xff808080)),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  "UGX 3.2M".textSemiBold(
-                                                      color: Colors.black,
-                                                      fontSize: 16),
-                                                  "Investment".textMedium(
-                                                      fontSize: 12,
-                                                      color: const Color(
-                                                          0xff808080)),
-                                                ],
-                                              ),
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  "UGX 4.5M".textSemiBold(
-                                                      color: Colors.black,
-                                                      fontSize: 16),
-                                                  "Revenue".textMedium(
-                                                      fontSize: 12,
-                                                      color: const Color(
-                                                          0xff808080)),
-                                                ],
-                                              ),
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  "40%".textSemiBold(
-                                                      color: Colors.black,
-                                                      fontSize: 16),
-                                                  "ROI".textMedium(
-                                                      fontSize: 12,
-                                                      color: const Color(
-                                                          0xff808080)),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    "UGX 4.5M".textSemiBold(
+                                                        color: Colors.black,
+                                                        fontSize: 16),
+                                                    "Revenue".textMedium(
+                                                        fontSize: 12,
+                                                        color: const Color(
+                                                            0xff808080)),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    "40%".textSemiBold(
+                                                        color: Colors.black,
+                                                        fontSize: 16),
+                                                    "ROI".textMedium(
+                                                        fontSize: 12,
+                                                        color: const Color(
+                                                            0xff808080)),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     15.verticalSpace(),
