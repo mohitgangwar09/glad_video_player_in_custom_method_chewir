@@ -31,6 +31,10 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
         if(response.data!.user!.email!=null){
           state.emailController.text = response.data!.user!.email.toString();
         }
+
+        if(response.data!.user!.address!=null){
+          state.addressController.text = response.data!.user!.address!.address.toString();
+        }
        /* if(response.data!.user!.address!=null){
           state.addressController.text = response.data!.user!.address.toString();
         }*/

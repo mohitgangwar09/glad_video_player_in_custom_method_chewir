@@ -69,6 +69,7 @@ class User {
   String? name;
   dynamic profilePic;
   List<Roles>? roles;
+  Address? address;
 
   User(
       {this.id,
@@ -97,7 +98,8 @@ class User {
         this.isFirst,
         this.name,
         this.profilePic,
-        this.roles});
+        this.roles,
+        this.address});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -132,6 +134,7 @@ class User {
         roles!.add(Roles.fromJson(v));
       });
     }
+    address = json['address'] != null ? Address.fromJson(json['address']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -243,6 +246,96 @@ class Pivot {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['user_id'] = userId;
     data['role_id'] = roleId;
+    return data;
+  }
+}
+
+
+class Address {
+  int? id;
+  int? addressableId;
+  String? addressableType;
+  String? name;
+  String? mobile;
+  String? email;
+  Null? gstNumber;
+  String? line1;
+  Null? line2;
+  Null? landmark;
+  int? cityId;
+  Null? district;
+  int? stateId;
+  int? countryId;
+  String? postalCode;
+  String? address;
+  Null? type;
+  String? createdAt;
+  String? updatedAt;
+
+  Address(
+      {this.id,
+        this.addressableId,
+        this.addressableType,
+        this.name,
+        this.mobile,
+        this.email,
+        this.gstNumber,
+        this.line1,
+        this.line2,
+        this.landmark,
+        this.cityId,
+        this.district,
+        this.stateId,
+        this.countryId,
+        this.postalCode,
+        this.address,
+        this.type,
+        this.createdAt,
+        this.updatedAt});
+
+  Address.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    addressableId = json['addressable_id'];
+    addressableType = json['addressable_type'];
+    name = json['name'];
+    mobile = json['mobile'];
+    email = json['email'];
+    gstNumber = json['gst_number'];
+    line1 = json['line_1'];
+    line2 = json['line_2'];
+    landmark = json['landmark'];
+    cityId = json['city_id'];
+    district = json['district'];
+    stateId = json['state_id'];
+    countryId = json['country_id'];
+    postalCode = json['postal_code'];
+    address = json['address'];
+    type = json['type'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['addressable_id'] = this.addressableId;
+    data['addressable_type'] = this.addressableType;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['email'] = this.email;
+    data['gst_number'] = this.gstNumber;
+    data['line_1'] = this.line1;
+    data['line_2'] = this.line2;
+    data['landmark'] = this.landmark;
+    data['city_id'] = this.cityId;
+    data['district'] = this.district;
+    data['state_id'] = this.stateId;
+    data['country_id'] = this.countryId;
+    data['postal_code'] = this.postalCode;
+    data['address'] = this.address;
+    data['type'] = this.type;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

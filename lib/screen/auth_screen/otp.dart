@@ -154,7 +154,10 @@ class _OtpScreenState extends State<OtpScreen> {
 
               Padding(
                 padding: const EdgeInsets.only(left: 35.0),
-                child: SvgPicture.asset(Images.loginLogo,width: 162,height: 50,),
+                child: SvgPicture.asset(
+                  Images.onboardingLogo,
+                  height: 60,
+                ),
               ),
 
               Padding(

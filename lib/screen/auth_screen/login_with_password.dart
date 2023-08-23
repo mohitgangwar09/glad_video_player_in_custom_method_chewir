@@ -56,7 +56,10 @@ Widget smallDevice(BuildContext context){
           top: screenHeight()*0.092,
           left: 0,
           right: 0,
-          child: SvgPicture.asset(Images.loginLogo,width: 162,height: 46,)),
+          child: SvgPicture.asset(
+            Images.onboardingLogo,
+            height: 60,
+          ),),
 
       Positioned(
         bottom: screenHeight()*0.04,
@@ -93,7 +96,10 @@ Widget largeDevice(BuildContext context){
           top: screenHeight()*0.12,
           left: 0,
           right: 0,
-          child: SvgPicture.asset(Images.loginLogo,width: 162,height: 46,)),
+          child: SvgPicture.asset(
+            Images.onboardingLogo,
+            height: 60,
+          ),),
 
       Positioned(
         bottom: screenHeight()*0.068,
@@ -252,7 +258,6 @@ Widget loginButton(BuildContext context){
               children: [
                 InkWell(
                   onTap: (){
-
                     context.read<AuthCubit>().loginWithPasswordAPi(context);
                     // const Navigation().navigate();
 

@@ -83,8 +83,6 @@ class _CowsAndYieldState extends State<CowsAndYield> {
     );
   }
 
-
-
 //////////AddMoreButton////////////////
   Widget addMore() {
     return Column(
@@ -101,6 +99,8 @@ class _CowsAndYieldState extends State<CowsAndYield> {
     );
   }
 
+
+///////////AddMoreCard////////////
   Widget addMoreCard() {
     return customList(
       child: (index) => InkWell(
