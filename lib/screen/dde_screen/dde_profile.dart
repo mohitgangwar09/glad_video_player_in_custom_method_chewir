@@ -277,10 +277,14 @@ class _DDEProfileState extends State<DDEProfile> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${state.responseProfile!.data!.user!.name}',
-                style: figtreeSemiBold.copyWith(fontSize: 22),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Text(
+                  '${state.responseProfile!.data!.user!.name}',
+                  style: figtreeSemiBold.copyWith(fontSize: 22),
+                ),
               ),
               RatingBar.builder(
                   initialRating: 0,

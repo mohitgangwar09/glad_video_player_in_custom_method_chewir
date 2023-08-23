@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/auth_screen/introslider.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -20,11 +21,10 @@ class LanguagePermission extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(30),
-            child: Image.asset(
+            padding: const EdgeInsets.fromLTRB(30, 30, 30, 20),
+            child: SvgPicture.asset(
               Images.onboardingLogo,
-              width: 108,
-              height: 32,
+              height: 60,
             ),
           ),
           Padding(

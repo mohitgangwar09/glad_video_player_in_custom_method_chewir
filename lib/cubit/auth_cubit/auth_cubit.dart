@@ -285,24 +285,24 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
       disposeProgress();
       if(response.status == 200){
-        if(tagForgot == ""){
-          apiRepository.saveUserToken(response.data!.accessToken.toString());
-          if(response.data.toString() == "mcc"){
-            const DashboardMCC().navigate(isInfinity: true);
-          }else if(response.data.toString() == "farmer"){
-            const DashboardFarmer().navigate(isInfinity: true);
-          }else if(response.data.toString() == "supplier"){
-            const DashboardSupplier().navigate(isInfinity: true);
-          }else if(response.data.toString() == "dde"){
-            const DashboardDDE().navigate(isInfinity: true);
-          }else{
-
-          }
-        }else{
+        // if(tagForgot == ""){
+        //   apiRepository.saveUserToken(response.data!.accessToken.toString());
+        //   if(response.data.toString() == "mcc"){
+        //     const DashboardMCC().navigate(isInfinity: true);
+        //   }else if(response.data.toString() == "farmer"){
+        //     const DashboardFarmer().navigate(isInfinity: true);
+        //   }else if(response.data.toString() == "supplier"){
+        //     const DashboardSupplier().navigate(isInfinity: true);
+        //   }else if(response.data.toString() == "dde"){
+        //     const DashboardDDE().navigate(isInfinity: true);
+        //   }else{
+        //
+        //   }
+        // }else{
           BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
           const LoginWithPassword().navigate(isInfinity: true);
           showCustomToast(context, response.message.toString());
-        }
+        // }
         emit(state.copyWith(status: AuthStatus.success));
       }else{
         emit(state.copyWith(status: AuthStatus.error));
