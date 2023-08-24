@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -132,9 +133,13 @@ class _MCCInAreaState extends State<MCCInArea> {
                       right: 10,
                       child: Row(
                         children: [
-                          SvgPicture.asset(Images.callPrimary),
+                          InkWell(
+                              onTap: ()async{
+                                await callOnMobile(256758711344);
+                                },child: SvgPicture.asset(Images.callPrimary)),
                           6.horizontalSpace(),
-                          SvgPicture.asset(Images.whatsapp),
+                          // SvgPicture.asset(Images.whatsapp),
+                          whatsapp(256758711344),
                           6.horizontalSpace(),
                           SvgPicture.asset(Images.redirectLocation),
                           4.horizontalSpace(),

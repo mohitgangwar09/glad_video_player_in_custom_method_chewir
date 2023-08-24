@@ -41,7 +41,9 @@ class GuestLandingPage extends StatelessWidget {
                     child: SvgPicture.asset(Images.drawer)),
                 action: Row(
                   children: [
-                    InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+                    InkWell(onTap: () async{
+                      await callOnMobile(256758711344);
+                    }, child: SvgPicture.asset(Images.call)),
                     7.horizontalSpace(),
                     InkWell(
                         onTap: () {

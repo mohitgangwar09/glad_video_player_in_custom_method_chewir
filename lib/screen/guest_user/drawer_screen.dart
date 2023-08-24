@@ -93,11 +93,7 @@ class GuestSideDrawer extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  SvgPicture.asset(
-                    Images.call,
-                    width: 45,
-                    height: 45,
-                  ),
+                  phoneCall(256758711344),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -114,11 +110,7 @@ class GuestSideDrawer extends StatelessWidget {
                       )
                     ],
                   ),
-                  SvgPicture.asset(
-                    Images.whatsapp,
-                    width: 40,
-                    height: 40,
-                  ),
+                  whatsapp(256758711344),
                 ]),
           ),
           const SizedBox(
