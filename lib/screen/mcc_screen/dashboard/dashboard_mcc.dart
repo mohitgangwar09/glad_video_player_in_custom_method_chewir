@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/landing_page.dart';
@@ -21,7 +22,7 @@ class DashboardMCC extends StatelessWidget {
     final widgetOptions = [
       const MCCLandingPage(),
       const ApplicationScreen(),
-      const Text("Stories"),
+      const CommunityPost(),
       const Text("Orders"),
       const Text("Earnings"),
     ];

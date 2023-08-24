@@ -116,7 +116,7 @@ class Projects extends StatelessWidget {
                 margin: 20.marginHorizontal(),
                 width: screenWidth(),
                 decoration: boxDecoration(
-                    borderRadius: 62, borderColor: const Color(0xffDCDCDC)),
+                    borderRadius: 62, borderColor: const Color(0xffDCDCDC), backgroundColor: Colors.white),
                 child: Row(
                   children: [
                     Expanded(
@@ -132,7 +132,7 @@ class Projects extends StatelessWidget {
                             "Active"
                                 .textMedium(color: Colors.white, fontSize: 14),
                             5.horizontalSpace(),
-                            SvgPicture.asset(Images.suggestedProject)
+                            SvgPicture.asset(Images.activeSelected)
                           ],
                         ),
                       ),
@@ -142,17 +142,15 @@ class Projects extends StatelessWidget {
                         height: screenHeight(),
                         margin: const EdgeInsets.all(6),
                         decoration: boxDecoration(
-                            backgroundColor: const Color(0xff6A0030),
+                            backgroundColor: Colors.white,
                             borderRadius: 62),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             "Completed"
-                                .textMedium(color: Colors.white, fontSize: 14),
+                                .textMedium(color: Colors.black, fontSize: 14),
                             5.horizontalSpace(),
-                            SvgPicture.asset(
-                              Images.activeProject,
-                            )
+                            SvgPicture.asset(Images.completed)
                           ],
                         ),
                       ),

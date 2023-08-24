@@ -73,8 +73,6 @@ class Images {
   static const String myEarning = 'assets/images/myearning.svg';
   static const String notification = 'assets/images/notification.svg';
   static const String drawerLogout = 'assets/images/drawerlogout.svg';
-  static const String activeProject = 'assets/images/activeproject.svg';
-  static const String suggestedProject = 'assets/images/suggestedproject.svg';
   static const String farmerFilter = 'assets/images/farmerfilter.svg';
   static const String facilities = 'assets/images/facilities.png';
   static const String camera = 'assets/images/camera.svg';
@@ -102,6 +100,18 @@ class Images {
   static const String less1 = 'assets/images/less1.svg';
   static const String placeHolder = 'assets/images/profileplaceholder.jpeg';
   static const String deleteField = 'assets/images/deleteField.svg';
+  static const String chat = 'assets/images/chat.svg';
+
+  static const String active = 'assets/images/active.svg';
+  static const String activeSelected = 'assets/images/active_selected.svg';
+
+  static const String pending = 'assets/images/pending.svg';
+  static const String pendingSelected = 'assets/images/pending_selected.svg';
+
+  static const String completed = 'assets/images/completed.svg';
+  static const String completedSelected = 'assets/images/completed_selected.svg';
+
+  static const String doneTimelineIcon = 'assets/images/done_timeline_icon.svg';
 
 
 

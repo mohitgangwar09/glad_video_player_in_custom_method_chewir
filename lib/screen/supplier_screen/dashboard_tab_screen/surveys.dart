@@ -103,7 +103,8 @@ class SurveysScreen extends StatelessWidget {
                 width: screenWidth(),
                 decoration: boxDecoration(
                     borderRadius: 62,
-                    borderColor: const Color(0xffDCDCDC)
+                    borderColor: const Color(0xffDCDCDC),
+                  backgroundColor: Colors.white
                 ),
                 child: Row(
                   children: [
@@ -114,7 +115,7 @@ class SurveysScreen extends StatelessWidget {
                         margin: const EdgeInsets.all(6),
                         decoration: boxDecoration(
                             backgroundColor: const Color(0xff6A0030),
-                            borderRadius: 62
+                            borderRadius: 62,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +125,7 @@ class SurveysScreen extends StatelessWidget {
 
                             5.horizontalSpace(),
 
-                            SvgPicture.asset(Images.suggestedProject)
+                            SvgPicture.asset(Images.pendingSelected)
 
                           ],
                         ),
@@ -136,18 +137,18 @@ class SurveysScreen extends StatelessWidget {
                         height: screenHeight(),
                         margin: const EdgeInsets.all(6),
                         decoration: boxDecoration(
-                            backgroundColor: const Color(0xff6A0030),
+                            backgroundColor: Colors.white,
                             borderRadius: 62
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
 
-                            "Completed".textMedium(color: Colors.white,fontSize: 14),
+                            "Completed".textMedium(color: Colors.black,fontSize: 14),
 
                             5.horizontalSpace(),
 
-                            SvgPicture.asset(Images.activeProject,)
+                            SvgPicture.asset(Images.completed,)
 
                           ],
                         ),

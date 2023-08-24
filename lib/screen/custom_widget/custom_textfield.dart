@@ -45,6 +45,7 @@ class CustomTextField extends StatelessWidget {
   final Icon? suffixIcon;
   final Color? suffixIconColor;
   final bool? readOnly;
+  final bool? hintOnly;
 
   const CustomTextField(
       {Key? key,
@@ -87,7 +88,8 @@ class CustomTextField extends StatelessWidget {
       this.image2Height,
       this.image2,
       this.image2Colors,
-        this.readOnly})
+        this.readOnly,
+      this.hintOnly = false})
       : super(key: key);
 
   @override
@@ -196,7 +198,8 @@ class CustomTextField extends StatelessWidget {
                                     fontSize: 16, color: Colors.black),
                             onEditingComplete: onEditingComplete,
                             decoration: InputDecoration(
-                              labelText: hint,
+                              labelText: hintOnly! ? null : hint,
+                              hintText: hintOnly! ? hint : null,
                               enabledBorder: const UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.transparent),

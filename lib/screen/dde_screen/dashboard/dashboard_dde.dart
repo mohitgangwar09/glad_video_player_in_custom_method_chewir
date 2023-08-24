@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dde_drawer.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/farmer_dde_tab_screen.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/landing_page.dart';
+import 'package:glad/screen/dde_screen/dashboard_tab_screen/project_screen.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/extension.dart';
@@ -23,10 +25,9 @@ class DashboardDDE extends StatelessWidget {
     final widgetOptions = [
       const DDELandingPage(),
       const FarmerDdeTabScreen(),
-      // const Text("Tours"),
-      const Text("Stories"),
+      const ProjectScreen(),
       const Text("Orders"),
-      const Text("Earnings"),
+      const CommunityPost()
     ];
 
     return BlocBuilder<DashboardCubit, DashboardState>(

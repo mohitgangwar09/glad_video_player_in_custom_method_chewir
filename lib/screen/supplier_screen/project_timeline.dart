@@ -16,22 +16,99 @@ class ProjectTimeline extends StatefulWidget {
 }
 
 class _ProjectTimelineState extends State<ProjectTimeline> {
-
-  final _stepperData = List.generate(10, (index) => StepperItemData(
-    id: '$index',
-    content: ({
-      'name': 'Subhash Chandra Shukla',
-      'occupation': 'Flutter Development',
-      'mobileNumber': '7318459902',
-      'email': 'subhashchandras7318@gmail.com',
-      'born_date': '12\nAug',
-      "contact_list": {
-        "LinkedIn": "https://www.linkedin.com/in/subhashcs/",
-        "Portfolio": "https://subhashdev121.github.io/subhash/#/",
-      }
-    }),
-    avatar: 'https://avatars.githubusercontent.com/u/70679949?v=4',
-  )).toList();
+  final _stepperData = [
+    StepperItemData(
+      id: '1',
+      content: {
+        'title': 'Applied',
+        'description': 'Loan application submitted by the farmer.',
+        'date': '21 Feb, 2023',
+        'check': true,
+        'status': '',
+        'remarks':
+            'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock'
+      },
+      avatar: '',
+    ),
+    StepperItemData(
+      id: '2',
+      content: {
+        'title': 'Pre-approved',
+        'description':
+            'Application pre-approved by the Credit Committee and survey is in progress.',
+        'date': '21 Feb, 2023',
+        'check': true,
+        'status': '',
+        'remarks':
+            'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock'
+      },
+      avatar: '',
+    ),
+    StepperItemData(
+      id: '3',
+      content: {
+        'title': 'Survey Completed',
+        'description': 'Survey of the site completed by the service provider.',
+        'date': '21 Feb, 2023',
+        'check': true,
+        'status': '',
+        'remarks':
+            'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock'
+      },
+      avatar: '',
+    ),
+    StepperItemData(
+      id: '4',
+      content: {
+        'title': 'Verified',
+        'description': 'Details verified and accepted by the farmer.',
+        'date': '21 Feb, 2023',
+        'check': true,
+        'status': '',
+        'remarks':
+            'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock'
+      },
+      avatar: '',
+    ),
+    StepperItemData(
+      id: '5',
+      content: {
+        'title': 'Approved',
+        'description': 'Loan approved by the Credit Committee.',
+        'date': '21 Feb, 2023',
+        'check': true,
+        'status': '',
+        'remarks':
+            'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock'
+      },
+      avatar: '',
+    ),
+    StepperItemData(
+      id: '6',
+      content: {
+        'title': 'Accepted',
+        'description': 'Project is active and work is in progress.',
+        'date': '21 Feb, 2023',
+        'check': true,
+        'status': '',
+        'remarks':
+            'Construct a water tank and water trough in night paddock plus water pump Construct a water tank and water trough in night Construct a water tank and water trough in night paddock'
+      },
+      avatar: '',
+    ),
+    StepperItemData(
+      id: '7',
+      content: <String, dynamic>{
+        'title': 'Completed',
+        'description': 'Project is completed.',
+        'date': '',
+        'check': false,
+        'status': 'Pending',
+        'remarks': '',
+      },
+      avatar: '',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,90 +129,135 @@ class _ProjectTimelineState extends State<ProjectTimeline> {
               ),
               Expanded(
                   child: SingleChildScrollView(
-                child:  StepperListView(
-                  shrinkWrap: true,
-                  showStepperInLast: true,
-                  stepperData: _stepperData,
-                  stepAvatar: (_, data) {
-                    return PreferredSize(
-                      preferredSize: const Size.fromRadius(30),
-                      child: SvgPicture.asset(Images.timelineApplied),
-                    );
-                  },
-                  stepContentWidget: (_, data) {
-                    return  Container(
-                      height: 100,
-                      width: screenWidth(),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: ColorResources.grey)),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(15.0, 20, 0, 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(Images.sampleUser),
-                                15.horizontalSpace(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 10, bottom: 20),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: StepperListView(
+                          shrinkWrap: true,
+                          showStepperInLast: true,
+                          stepperData: _stepperData,
+                          stepAvatar: (_, data) {
+                            return const PreferredSize(
+                              preferredSize: Size.fromRadius(0),
+                              child: SizedBox.shrink(),
+                            );
+                          },
+                          stepContentWidget: (_, data) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 30, bottom: 10),
+                              child: Container(
+                                height: 110,
+                                width: screenWidth(),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border:
+                                        Border.all(color: ColorResources.grey)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Begumanya Charles',
-                                        style: figtreeMedium.copyWith(
-                                            fontSize: 16, color: Colors.black)),
-                                    10.verticalSpace(),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        const Icon(
-                                          Icons.call,
-                                          color: Colors.black,
-                                          size: 16,
-                                        ),
-                                        Text('+256 758711344',
-                                            style: figtreeRegular.copyWith(
-                                                fontSize: 12, color: Colors.black)),
-                                      ],
-                                    ),
-                                    4.verticalSpace(),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        const Icon(
-                                          Icons.location_on,
-                                          color: Colors.black,
-                                          size: 16,
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width *
-                                              0.5,
-                                          child: Text(
-                                            'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
-                                            style: figtreeRegular.copyWith(
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(data.content["title"],
+                                                  style: figtreeMedium.copyWith(
+                                                      fontSize: 18,
+                                                      color: ColorResources
+                                                          .black)),
+                                              5.verticalSpace(),
+                                              Text(data.content["description"],
+                                                  style:
+                                                      figtreeRegular.copyWith(
+                                                          fontSize: 12,
+                                                          color: ColorResources
+                                                              .black)),
+                                            ],
                                           ),
-                                        ),
+                                          data.content['check']
+                                              ? Text(data.content["date"],
+                                                  style:
+                                                      figtreeRegular.copyWith(
+                                                          fontSize: 12,
+                                                          color: ColorResources
+                                                              .black))
+                                              : Text(data.content["status"],
+                                                  style:
+                                                      figtreeRegular.copyWith(
+                                                          fontSize: 12,
+                                                          color: const Color(
+                                                              0xFFFC5E60))),
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        data.content['check']
+                                            ? Container(
+                                                height: 30,
+                                                width: 30,
+                                                decoration: boxDecoration(
+                                                    borderRadius: 8,
+                                                    borderColor:
+                                                        ColorResources.maroon,
+                                                    borderWidth: 2),
+                                                child: SvgPicture.asset(
+                                                  Images.doneTimelineIcon,
+                                                  fit: BoxFit.none,
+                                                ),
+                                              )
+                                            : Container(
+                                                height: 30,
+                                                width: 30,
+                                                decoration: boxDecoration(
+                                                    borderRadius: 8,
+                                                    borderColor: ColorResources
+                                                        .fieldGrey,
+                                                    borderWidth: 2),
+                                              ),
+                                        data.content["check"]
+                                            ? 'Remarks'.textRegular(
+                                                fontSize: 12,
+                                                underLine:
+                                                    TextDecoration.underline,
+                                                color: ColorResources.maroon)
+                                            : SizedBox.shrink(),
                                       ],
                                     )
                                   ],
-                                )
-                              ],
-                            ),
-                          ],
+                                ),
+                              ),
+                            );
+                          },
+                          stepperThemeData: const StepperThemeData(
+                              lineWidth: 1, lineColor: Color(0xFFDCDCDC)),
+                          physics: const BouncingScrollPhysics(),
                         ),
                       ),
-                    );
-                  },
-                  stepperThemeData: StepperThemeData(
-                    // lineColor: theme.primaryColor,
-                    lineWidth: 5,
+                      for (int count = 0; count < 7; count++)
+                        Positioned(
+                            top: 120 * count + 65,
+                            child: SvgPicture.asset(Images.timelineApplied)),
+                    ],
                   ),
-                  physics: const BouncingScrollPhysics(),
                 ),
               )),
             ],

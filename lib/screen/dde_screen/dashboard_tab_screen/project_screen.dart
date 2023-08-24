@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
+import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
+import 'package:glad/screen/dde_screen/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -33,6 +34,64 @@ class ProjectScreen extends StatelessWidget {
                     farmerLandingKey.currentState?.openDrawer();
                   },
                   child: SvgPicture.asset(Images.drawer)),
+              action: Row(
+                children: [
+                  InkWell(
+                      onTap: () {
+                        modalBottomSheetMenu(
+                            context, child:
+                        SizedBox(
+                          height: screenHeight()*0.65,
+                          child: Column(
+                            children: [
+
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0,right: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+
+                                    TextButton(onPressed: (){
+                                      pressBack();
+                                    }, child: "Cancel".textMedium(color: const Color(0xff6A0030),fontSize: 14)),
+
+                                    "Sort By".textMedium(fontSize: 22),
+
+                                    TextButton(onPressed: (){},child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
+
+                                  ],
+                                ),
+                              ),
+
+                              const Padding(
+                                padding: EdgeInsets.only(left: 20.0,right: 20),
+                                child: Divider(),
+                              ),
+
+                              Expanded(
+                                child: customList(list: [1,2,22,2,22,2,2,22,2],child: (index){
+                                  return Padding(padding: const EdgeInsets.only(left: 30,right: 30,top:30,bottom: 10),
+                                      child: "ROI Highest to Lowest".textRegular(fontSize: 16));
+                                }),
+                              ),
+
+                              10.verticalSpace(),
+
+                              Container(margin: 20.marginAll(),height: 55,width: screenWidth(),child: customButton("Apply",fontColor: 0xffffffff, onTap: (){}))
+
+
+                            ],
+                          ),
+                        ));
+                      }, child: SvgPicture.asset(Images.filter2)),
+                  13.horizontalSpace(),
+                  InkWell(
+                      onTap: () {
+                        const FilterDDEFarmer().navigate();
+                      }, child: SvgPicture.asset(Images.filter1)),
+                  18.horizontalSpace(),
+                ],
+              ),
             ),
 
             10.verticalSpace(),
@@ -84,11 +143,34 @@ class ProjectScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
 
-                          "Suggested".textMedium(color: ColorResources.black,fontSize: 14),
+                          "Pending".textMedium(color: ColorResources.black,fontSize: 14),
 
                           5.horizontalSpace(),
 
-                          SvgPicture.asset(Images.completed,)
+                          SvgPicture.asset(Images.pending)
+
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Expanded(
+                    child: Container(
+                      height: screenHeight(),
+                      margin: const EdgeInsets.all(6),
+                      decoration: boxDecoration(
+                          backgroundColor: Colors.white,
+                          borderRadius: 62
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          "Suggested".textMedium(color: Colors.black,fontSize: 14),
+
+                          5.horizontalSpace(),
+
+                          SvgPicture.asset(Images.completed)
 
                         ],
                       ),

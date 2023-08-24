@@ -5,6 +5,7 @@ import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/dispute_screen.dart';
+import 'package:glad/screen/supplier_screen/project_timeline.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -41,222 +42,91 @@ class ProjectDetails extends StatelessWidget {
                         30.verticalSpace(),
                         farmer(context),
                         dde(context),
+                        20.verticalSpace(),
+                        kpi(context),
                         projectMilestones(context),
                         20.verticalSpace(),
-                        customShadowContainer(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 12),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Payment Terms',
-                                          style:
-                                          figtreeMedium.copyWith(fontSize: 18),
-                                        ),
-                                        SvgPicture.asset(Images.drop)
-                                      ],
-                                    ),
+                        Container(
+
+                          decoration: boxDecoration(backgroundColor: Colors.white,borderRadius: 10, borderColor: Color(0xFF999999)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 12),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Loan documents',
+                                        style:
+                                        figtreeMedium.copyWith(fontSize: 18),
+                                      ),
+                                      SvgPicture.asset(Images.drop)
+                                    ],
                                   ),
-                                  20.verticalSpace(),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 14),
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xFFE4FFE3),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Advance',
-                                          style:
-                                          figtreeMedium.copyWith(fontSize: 16),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                              BorderRadius.circular(14),
-                                              border:
-                                              Border.all(color: Colors.grey)),
-                                          child: Text(
-                                            '20%',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  10.verticalSpace(),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 14),
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xFFE4FFE3),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Advance',
-                                          style:
-                                          figtreeMedium.copyWith(fontSize: 16),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                              BorderRadius.circular(14),
-                                              border:
-                                              Border.all(color: Colors.grey)),
-                                          child: Text(
-                                            '20%',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  10.verticalSpace(),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 14),
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xFFE4FFE3),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Advance',
-                                          style:
-                                          figtreeMedium.copyWith(fontSize: 16),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                              BorderRadius.circular(14),
-                                              border:
-                                              Border.all(color: Colors.grey)),
-                                          child: Text(
-                                            '20%',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  10.verticalSpace(),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 14),
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xFFE4FFE3),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Advance',
-                                          style:
-                                          figtreeMedium.copyWith(fontSize: 16),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                              BorderRadius.circular(14),
-                                              border:
-                                              Border.all(color: Colors.grey)),
-                                          child: Text(
-                                            '20%',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         40.verticalSpace(),
                         Center(
                           child: customButton("Raise dispute",
                               fontColor: 0xffffffff, color: 0xFFFC5E60, width: screenWidth(), height: 60,
-                             onTap: () {
-                               modalBottomSheetMenu(context,
-                                   radius: 40,
-                                   child: SizedBox(
-                                     height: 320,
-                                     child: Padding(
-                                       padding: const EdgeInsets.fromLTRB(23, 30, 25, 10),
-                                       child: Column(
-                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                           children: [
-                                             Center(
-                                               child: Text(
-                                                 'Raise dispute',
-                                                 style: figtreeMedium.copyWith(fontSize: 22),
-                                               ),
-                                             ),
-                                             30.verticalSpace(),
-                                             'Reason of dispute'.textMedium(color: Colors.black, fontSize: 12),
-                                             TextField(
-                                               maxLines: 4,
-                                               minLines: 4,
-                                               decoration: InputDecoration(
-                                                   hintText: 'Write...',
-                                                   hintStyle:
-                                                   figtreeMedium.copyWith(fontSize: 18),
-                                                   border: OutlineInputBorder(
-                                                       borderRadius: BorderRadius.circular(12),
-                                                       borderSide: const BorderSide(
-                                                         width: 1,
-                                                         color: Color(0xff999999),
-                                                       ))),
-                                             ),
-                                             30.verticalSpace(),
-                                             Padding(
-                                               padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                               child: customButton(
-                                                 'Submit',
-                                                 fontColor: 0xffFFFFFF,
-                                                 onTap: () {
-                                                   const DisputeScreen().navigate();
-                                                 },
-                                                 height: 60,
-                                                 width: screenWidth(),
-                                               ),
-                                             )
-                                           ]),
-                                     ),
-                                   ));
-                             }),
+                              onTap: () {
+                                modalBottomSheetMenu(context,
+                                    radius: 40,
+                                    child: SizedBox(
+                                      height: 320,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(23, 30, 25, 10),
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  'Raise dispute',
+                                                  style: figtreeMedium.copyWith(fontSize: 22),
+                                                ),
+                                              ),
+                                              30.verticalSpace(),
+                                              'Reason of dispute'.textMedium(color: Colors.black, fontSize: 12),
+                                              TextField(
+                                                maxLines: 4,
+                                                minLines: 4,
+                                                decoration: InputDecoration(
+                                                    hintText: 'Write...',
+                                                    hintStyle:
+                                                    figtreeMedium.copyWith(fontSize: 18),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(12),
+                                                        borderSide: const BorderSide(
+                                                          width: 1,
+                                                          color: Color(0xff999999),
+                                                        ))),
+                                              ),
+                                              30.verticalSpace(),
+                                              Padding(
+                                                padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                child: customButton(
+                                                  'Submit',
+                                                  fontColor: 0xffFFFFFF,
+                                                  onTap: () {
+                                                    const DisputeScreen().navigate();
+                                                  },
+                                                  height: 60,
+                                                  width: screenWidth(),
+                                                ),
+                                              )
+                                            ]),
+                                      ),
+                                    ));
+                              }),
                         ),
                         10.verticalSpace(),
                         Padding(
@@ -355,35 +225,11 @@ class ProjectDetails extends StatelessWidget {
           style: figtreeMedium.copyWith(fontSize: 14),
           collapseText: 'Show Less',
         ),
-        10.verticalSpace(),
-        customProjectContainer(
-            width: screenWidth(),
-            marginTop: 10,
-            marginLeft: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Project Value: ',
-                            style: figtreeRegular.copyWith(
-                                color: ColorResources.fieldGrey, fontSize: 18)),
-                        TextSpan(
-                            text: 'UGX 2.2M',
-                            style: figtreeBold.copyWith(
-                                color: ColorResources.black, fontSize: 18)),
-                      ])),
-                ],
-              ),
-            ))
       ],
     );
   }
 
-///////////DDEContainerTimeline/////////////
+  ///////////DDEContainerTimeline/////////////
   Widget dde(context) {
     return Column(
       children: [
@@ -484,7 +330,7 @@ class ProjectDetails extends StatelessWidget {
                     bottom: -2,
                     child: InkWell(
                       onTap: () {
-                        // const ProjectTimeline().navigate();
+                        const ProjectTimeline().navigate();
                       },
                       child: Text(
                         'View Timeline',
@@ -603,6 +449,69 @@ class ProjectDetails extends StatelessWidget {
     );
   }
 
+  /////////KPI///////////////////////
+  Widget kpi(context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "KPI's",
+          style: figtreeMedium.copyWith(
+            fontSize: 18,
+          ),
+        ),
+        10.verticalSpace(),
+        customGrid(context,
+            list: [1, 2, 3, 4, 5, 6, 7],
+            crossAxisCount: 3,
+            mainAxisSpacing: 10,
+            mainAxisExtent: 135, child: (int index) {
+              return customShadowContainer(
+                  backColor: ColorResources.grey,
+                  margin: 2,
+                  radius: 14,
+                  width: screenWidth(),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 30,
+                              height: 30,
+                            ),
+                            SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX 800K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 16),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Farmer Participation',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(fontSize: 14,),
+                        )
+                      ],
+                    ),
+                  ));
+            })
+      ],
+    );
+  }
+
+
   ///////////ProjectMilestones///////////
   Widget projectMilestones(context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -667,7 +576,7 @@ class ProjectDetails extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              40.horizontalSpace(),
+                              25.horizontalSpace(),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -679,6 +588,24 @@ class ProjectDetails extends StatelessWidget {
                                   ),
                                   Text(
                                     '12 Days',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 16,
+                                        color: ColorResources.black),
+                                  )
+                                ],
+                              ),
+                              25.horizontalSpace(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Due date',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.fieldGrey),
+                                  ),
+                                  Text(
+                                    '28 Apr, 2023',
                                     style: figtreeSemiBold.copyWith(
                                         fontSize: 16,
                                         color: ColorResources.black),

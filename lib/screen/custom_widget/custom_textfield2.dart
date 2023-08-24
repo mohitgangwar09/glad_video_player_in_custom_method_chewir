@@ -79,7 +79,7 @@ class CustomTextField2 extends StatelessWidget {
       this.leadingImage,
       this.imageColors = Colors.white,
       this.enabled,
-      this.maxLine = 2,
+      this.maxLine = 1,
       this.minLine = 1,
       this.error,
       this.obscureText = false,

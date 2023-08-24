@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/farmer_screen/dashboard_tab_screen/project_screen.dart';
 import 'package:glad/screen/farmer_screen/dashboard/farmer_drawer.dart';
 import 'package:glad/screen/farmer_screen/dashboard_tab_screen/statement.dart';
@@ -29,7 +30,7 @@ class DashboardFarmer extends StatelessWidget {
       const ProjectScreen(),
       const FarmerStatement(),
       const Text("Orders"),
-      const Text("Earnings"),
+      const CommunityPost(),
     ];
 
     return BlocBuilder<DashboardCubit, DashboardState>(

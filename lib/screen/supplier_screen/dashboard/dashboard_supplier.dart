@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/dashboard/service_provider_drawer.dart';
 import 'package:glad/screen/supplier_screen/dashboard_tab_screen/landing_page.dart';
@@ -24,7 +25,7 @@ class DashboardSupplier extends StatelessWidget {
       const SurveysScreen(),
       const Projects(),
       const Text("Orders"),
-      const Text("Earnings"),
+      const CommunityPost()
     ];
 
     return BlocBuilder<DashboardCubit, DashboardState>(
