@@ -94,6 +94,7 @@ class Images {
   static const String done = 'assets/images/done.svg';
   static const String timer = 'assets/images/timer.svg';
   static const String waterDrop = 'assets/images/water_drop.svg';
+  static const String newsI = 'assets/images/newsshare.svg';
 
   static const String timelineApplied = 'assets/images/timelineApplied.svg';
   static const String lessCows = 'assets/images/lessCows.svg';
@@ -102,7 +103,6 @@ class Images {
   static const String less1 = 'assets/images/less1.svg';
   static const String placeHolder = 'assets/images/profileplaceholder.jpeg';
   static const String deleteField = 'assets/images/deleteField.svg';
-
 
 
   // bottom navigation item//
@@ -140,6 +140,5 @@ class Images {
   static const String selectedFarmer = 'assets/images/selectedfarmer.svg';
   static const String enquiry = 'assets/images/enquiry.svg';
   static const String selectedEnquiry = 'assets/images/selectedenquiry.svg';
-
 
 }

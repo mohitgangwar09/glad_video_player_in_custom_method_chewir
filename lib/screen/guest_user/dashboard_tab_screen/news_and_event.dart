@@ -34,7 +34,7 @@ class NewsAndEvent extends StatelessWidget {
                   children: [
                     InkWell(
                         onTap: () {
-                          /*modalBottomSheetMenu(
+                          modalBottomSheetMenu(
                               context, child:
                           SizedBox(
                             height: screenHeight()*0.65,
@@ -78,12 +78,31 @@ class NewsAndEvent extends StatelessWidget {
 
                               ],
                             ),
-                          ));*/
+                          ));
                         }, child: SvgPicture.asset(Images.filter2)),
                     18.horizontalSpace(),
                   ],
                 ),
               ),
+
+              SizedBox(
+                height: 45,
+                child: customList(
+                  list: [1,2,3],
+                  axis: Axis.horizontal,
+                  child:(index) {
+                    return Container(
+                        margin: 5.marginAll(),
+                        padding: const EdgeInsets.only(
+                            left: 14, right: 14, bottom: 10, top: 10),
+                        decoration: boxDecoration(
+                            borderColor: const Color(0xffDCDCDC),
+                            borderRadius: 30),
+                        child: const Text("Trending"));
+                  }
+                ),
+              ),
+
               landingPage(context),
             ],
           ),
@@ -94,61 +113,72 @@ class NewsAndEvent extends StatelessWidget {
 
   Widget landingPage(BuildContext context){
     return Expanded(
-      child: customList(
-          padding: const EdgeInsets.fromLTRB(13,13,13,120),
-          list: [1, 2, 3, 4, 5, 6, 7],
-          child: (index){
-            return customShadowContainer(
-              margin: 0,
-              backColor: Colors.grey.withOpacity(0.4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+      child: SingleChildScrollView(
+        child: customList(
+            padding: const EdgeInsets.fromLTRB(13,13,13,120),
+            list: [1, 2, 3, 4, 5, 6, 7],
+            child: (index){
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: customShadowContainer(
+                  margin: 0,
+                  backColor: Colors.grey.withOpacity(0.4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
 
-                  Container(
-                      padding: 2.marginAll(),
-                      width: 130,
-                      height:120,child: ClipRRect(borderRadius: BorderRadius.circular(15),child: Image.asset(Images.sampleLivestock,fit: BoxFit.cover,))),
+                      Container(
+                          padding: 9.marginAll(),
+                          width: 130,
+                          height:120,child: ClipRRect(borderRadius: BorderRadius.circular(15),child: Image.asset(Images.sampleLivestock,fit: BoxFit.cover,))),
 
-                  Expanded(
-                    flex: 6,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0,top: 15),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              '"Identification of gaps in farmers businesses and fixing them"',
-                              maxLines: 4,
-                              overflow: TextOverflow.ellipsis,
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 16, color: Colors.black),
-                              softWrap: true),
-                          16.verticalSpace(),
-                          Text('18 Apr, 2023',
-                              style: figtreeRegular.copyWith(
-                                  fontSize: 12, color: const Color(0xff727272))),
-                        ],
+                      Expanded(
+                        flex: 6,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 7.0,top: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  '"Identification of gaps in farmers businesses and fixing them"',
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 16, color: Colors.black),
+                                  softWrap: true),
+                              16.verticalSpace(),
+                              Text('18 Apr, 2023',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: const Color(0xff727272))),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 95,
+                          padding:const EdgeInsets.only(right: 4,top: 3),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+
+                              SvgPicture.asset(Images.newsI),
+
+                              SvgPicture.asset(Images.menuIcon)
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-
-                  const Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-
-
-
-                      ],
-                    ),
-                  )
-
-                ],
-              ),
-            );
-      }),
+                ),
+              );
+            }),
+      ),
     );
   }
 
