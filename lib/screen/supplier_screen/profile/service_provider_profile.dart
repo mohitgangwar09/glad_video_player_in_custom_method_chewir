@@ -348,11 +348,15 @@ class _SupplierProfileState extends State<SupplierProfile> {
               child: InkWell(
                 onTap: (){
                   showPicker(context, cameraFunction: () async{
-                    var image = await imgFromCamera();
-                    await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                    var image =  imgFromCamera();
+                    image.then((value) async{
+                      context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                    });
                   }, galleryFunction: () async{
-                    var image = await imgFromGallery();
-                    await context.read<ProfileCubit>().updateProfilePicImage(context,image);
+                    var image = imgFromGallery();
+                    image.then((value) async{
+                      context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                    });
                   });
                 },
                 child: const CircleAvatar(

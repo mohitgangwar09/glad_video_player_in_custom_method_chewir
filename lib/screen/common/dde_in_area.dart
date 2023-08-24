@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/invite_our_friend.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -121,9 +122,14 @@ class _DDEInAreaState extends State<DDEInArea> {
                 right: 10,
                 child: Row(
                   children: [
-                    SvgPicture.asset(Images.callPrimary),
+                    InkWell(
+                      onTap: ()async{
+                        await callOnMobile(234567890);
+                      }, child: SvgPicture.asset(Images.callPrimary)),
                     6.horizontalSpace(),
-                    SvgPicture.asset(Images.whatsapp),
+                    InkWell(onTap: ()async{
+                      await launchWhatsApp(234567890);
+                    },child: SvgPicture.asset(Images.whatsapp)),
                     16.horizontalSpace(),
                   ],
                 )),

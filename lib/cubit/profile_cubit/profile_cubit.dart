@@ -35,9 +35,7 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
         if(response.data!.user!.address!=null){
           state.addressController.text = response.data!.user!.address!.address.toString();
         }
-       /* if(response.data!.user!.address!=null){
-          state.addressController.text = response.data!.user!.address.toString();
-        }*/
+
         emit(state.copyWith(status: ProfileStatus.success,responseProfile: response));
 
       }
@@ -53,13 +51,14 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
     var response = await apiRepository.updateProfileImageAPi(File(image));
     disposeProgress();
     if (response.status == 200) {
+
       await profileApi(context);
       disposeProgress();
       showCustomToast(context, response.message.toString());
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.toString());
+      showCustomToast(context, response.message.toString());
     }
   }
 

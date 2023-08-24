@@ -7,6 +7,7 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
+import 'dart:io' show Platform;
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
@@ -1070,7 +1071,8 @@ Future<void> launchWhatsApp(var mobile) async {
   Uri url = Uri.parse('https://api.whatsapp.com/send?phone=${mobile.toString()}&text=Hi! Glad');
   if (!await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication)) {
     throw Exception('Could not launch $url');
-  } }
+  }
+}
 
 Future<void> callOnMobile(var mobile)async{
 

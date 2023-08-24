@@ -13,8 +13,12 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>NSCameraUsageDescription</key>
     <string>Please grant camera access</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Please grant microphone access</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Please grant photo gallery access</string>
 	<key>CFBundleDisplayName</key>
-	<string>Glad</string>
+	<string>GLAD</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
