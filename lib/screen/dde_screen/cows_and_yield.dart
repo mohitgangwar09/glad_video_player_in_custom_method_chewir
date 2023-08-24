@@ -8,7 +8,6 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
-
 class IconDataItem {
   SvgPicture image;
   bool isVisible;
@@ -28,9 +27,10 @@ class _CowsAndYieldState extends State<CowsAndYield> {
   bool tag = false;
   List viewList = [];
 
-  final List<IconDataItem> iconDataList = [
-    IconDataItem(image: SvgPicture.asset(Images.less1))
-  ];
+
+  // final List<IconDataItem> iconDataList = [
+  //   IconDataItem(image: SvgPicture.asset(Images.less1))
+  // ];
 
   bool isVisible = false;
 
@@ -39,6 +39,20 @@ class _CowsAndYieldState extends State<CowsAndYield> {
       isVisible = !isVisible;
     });
   }
+
+
+  List<String> items = ['Item 1', 'Item 2', 'Item 3'];
+
+
+
+  void addItemToList() {
+
+    setState(() {
+      items.add("");
+      print(items.length);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +105,9 @@ class _CowsAndYieldState extends State<CowsAndYield> {
         customButton('+ Add More',
             height: 60,
             width: 200,
-            onTap: () {},
+            onTap: () {
+              addItemToList();
+            },
             color: 0xffFFFFFF,
             borderColor: 0xff6A0030,
             fontColor: 0xff6A0030),
@@ -99,10 +115,10 @@ class _CowsAndYieldState extends State<CowsAndYield> {
     );
   }
 
-
 ///////////AddMoreCard////////////
   Widget addMoreCard() {
     return customList(
+      list: items,
       child: (index) => InkWell(
         onTap: () {},
         child: Column(
@@ -127,16 +143,16 @@ class _CowsAndYieldState extends State<CowsAndYield> {
                                     blurRadius: 15),
                               ]),
                               child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    defaultIndex = index;
-                                    if (viewList.contains(index)) {
-                                      viewList.remove(index);
-                                    } else {
-                                      viewList.add(index);
-                                    }
-                                  });
-                                },
+                                // onTap: () {
+                                //   setState(() {
+                                //     defaultIndex = index;
+                                //     if (viewList.contains(index)) {
+                                //       viewList.remove(index);
+                                //     } else {
+                                //       viewList.add(index);
+                                //     }
+                                //   });
+                                // },
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
@@ -169,21 +185,48 @@ class _CowsAndYieldState extends State<CowsAndYield> {
                                               viewList.contains(index)
                                                   ? InkWell(
                                                       onTap: () {
-                                                        // toggleVisibility();
-                                                        // viewList.contains(index);
+                                                        setState(() {
+                                                          defaultIndex = index;
+                                                          if (viewList.contains(
+                                                              index)) {
+                                                            viewList
+                                                                .remove(index);
+                                                          } else {
+                                                            viewList.add(index);
+                                                          }
+                                                        });
                                                       },
                                                       child: SvgPicture.asset(
                                                         Images.less1,
-                                                        height: 40,
+                                                        height:40,
                                                         width: 40,
                                                       ),
                                                     )
-                                                  : const Icon(Icons.add),
+                                                  : InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  defaultIndex = index;
+                                                  if (viewList.contains(
+                                                      index)) {
+                                                    viewList
+                                                        .remove(index);
+                                                  } else {
+                                                    viewList.add(index);
+                                                  }
+                                                });
+                                              },
+                                                  child: const Icon(Icons.add)),
                                               10.horizontalSpace(),
-                                              SvgPicture.asset(
-                                                Images.deleteCows,
-                                                height: 40,
-                                                width: 40,
+                                              InkWell(
+                                                onTap: (){
+                                                  print(index);
+                                                  removeItem(index);
+                                                },
+                                                child: SvgPicture.asset(
+                                                  Images.deleteCows,
+                                                  height: 40,
+                                                  width: 40,
+                                                ),
                                               )
                                             ],
                                           )
@@ -286,257 +329,485 @@ class _CowsAndYieldState extends State<CowsAndYield> {
                                       ),
                                     ),
                                     viewList.contains(index)
-                                        ? Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        bottomLeft:
-                                                            Radius.circular(20),
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                20)),
-                                                border: Border.all(
-                                                    width: 1,
-                                                    color:
-                                                        ColorResources.mustard),
-                                                color: Colors.white),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      20, 30, 20, 0),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      const Expanded(
-                                                          child: SizedBox(
-                                                              height: 60,
-                                                              child:
-                                                                  CustomTextField(
-                                                                hint: 'Jersey',
-                                                              ))),
-                                                      10.horizontalSpace(),
-                                                      SvgPicture.asset(
-                                                          Images.addCows),
-                                                      10.horizontalSpace(),
-                                                      SvgPicture.asset(
-                                                          Images.deleteField)
-                                                    ],
-                                                  ),
-                                                  10.verticalSpace(),
-                                                  const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 5, right: 5),
-                                                    child: Divider(
+                                        ? InkWell(
+                                            onTap: () {},
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  20),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  20)),
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: ColorResources
+                                                          .mustard),
+                                                  color: Colors.white),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        20, 30, 20, 0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const Expanded(
+                                                            child: SizedBox(
+                                                                height: 60,
+                                                                child:
+                                                                    CustomTextField(
+                                                                  hint:
+                                                                      'Jersey',
+                                                                ))),
+                                                        10.horizontalSpace(),
+                                                        SvgPicture.asset(
+                                                            Images.addCows),
+                                                        10.horizontalSpace(),
+                                                        SvgPicture.asset(
+                                                            Images.deleteField)
+                                                      ],
+                                                    ),
+                                                    10.verticalSpace(),
+                                                    const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 5, right: 5),
+                                                      child: Divider(
+                                                        thickness: 1,
+                                                        color:
+                                                            ColorResources.grey,
+                                                      ),
+                                                    ),
+                                                    10.verticalSpace(),
+                                                    Row(
+                                                      children: [
+                                                        const Expanded(
+                                                            child: SizedBox(
+                                                                height: 60,
+                                                                child:
+                                                                    CustomTextField(
+                                                                  hint:
+                                                                      'Ankole',
+                                                                ))),
+                                                        10.horizontalSpace(),
+                                                        SvgPicture.asset(
+                                                            Images.addCows),
+                                                        10.horizontalSpace(),
+                                                        SvgPicture.asset(
+                                                            Images.deleteField)
+                                                      ],
+                                                    ),
+                                                    20.verticalSpace(),
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                            child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'Herd',
+                                                              style: figtreeSemiBold
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12),
+                                                            ),
+                                                            05.verticalSpace(),
+                                                            const CustomTextField(
+                                                              hint: '',
+                                                              paddingTop: 5,
+                                                              inputType: TextInputType.phone,
+                                                              paddingBottom: 21,
+                                                              maxLine: 1,
+                                                              width: 1,
+                                                              borderColor:
+                                                              0xff999999,
+                                                            ),
+                                                          ],
+                                                        )),
+                                                        15.horizontalSpace(),
+                                                         Expanded(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Milking Cow',
+                                                                  style: figtreeSemiBold
+                                                                      .copyWith(
+                                                                      fontSize:
+                                                                      12),
+                                                                ),
+                                                                05.verticalSpace(),
+                                                                const CustomTextField(
+                                                                  hint: '',
+                                                                  paddingTop: 5,
+                                                                  inputType: TextInputType.phone,
+                                                                  paddingBottom: 21,
+                                                                  maxLine: 1,
+                                                                  width: 1,
+                                                                  borderColor:
+                                                                  0xff999999,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                      ],
+                                                    ),
+                                                    20.verticalSpace(),
+                                                    Row(
+                                                      children: [
+                                                         Expanded(
+                                                            child:
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Yield (Ltr./Day)',
+                                                                  style: figtreeSemiBold
+                                                                      .copyWith(
+                                                                      fontSize:
+                                                                      12),
+                                                                ),
+                                                                05.verticalSpace(),
+                                                                const CustomTextField(
+                                                                  hint: '',
+                                                                  paddingTop: 5,
+                                                                  inputType: TextInputType.phone,
+                                                                  paddingBottom: 21,
+                                                                  maxLine: 1,
+                                                                  width: 1,
+                                                                  borderColor:
+                                                                  0xff999999,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                        15.horizontalSpace(),
+                                                         Expanded(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Dry',
+                                                                  style: figtreeSemiBold
+                                                                      .copyWith(
+                                                                      fontSize:
+                                                                      12),
+                                                                ),
+                                                                05.verticalSpace(),
+                                                                const CustomTextField(
+                                                                  hint: '',
+                                                                  paddingTop: 5,
+                                                                  inputType: TextInputType.phone,
+                                                                  paddingBottom: 21,
+                                                                  maxLine: 1,
+                                                                  width: 1,
+                                                                  borderColor:
+                                                                  0xff999999,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                        15.horizontalSpace(),
+                                                         Expanded(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Heifer',
+                                                                  style: figtreeSemiBold
+                                                                      .copyWith(
+                                                                      fontSize:
+                                                                      12),
+                                                                ),
+                                                                05.verticalSpace(),
+                                                                const CustomTextField(
+                                                                  hint: '',
+                                                                  paddingTop: 5,
+                                                                  inputType: TextInputType.phone,
+                                                                  paddingBottom: 21,
+                                                                  maxLine: 1,
+                                                                  width: 1,
+                                                                  borderColor:
+                                                                  0xff999999,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                      ],
+                                                    ),
+                                                    20.verticalSpace(),
+                                                    Row(
+                                                      children: [
+                                                         Expanded(
+                                                            child:
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  '7-12 mo',
+                                                                  style: figtreeSemiBold
+                                                                      .copyWith(
+                                                                      fontSize:
+                                                                      12),
+                                                                ),
+                                                                05.verticalSpace(),
+                                                                const CustomTextField(
+                                                                  hint: '',
+                                                                  paddingTop: 5,
+                                                                  inputType: TextInputType.phone,
+                                                                  paddingBottom: 21,
+                                                                  maxLine: 1,
+                                                                  width: 1,
+                                                                  borderColor:
+                                                                  0xff999999,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                        15.horizontalSpace(),
+                                                         Expanded(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  '<6 mo',
+                                                                  style: figtreeSemiBold
+                                                                      .copyWith(
+                                                                      fontSize:
+                                                                      12),
+                                                                ),
+                                                                05.verticalSpace(),
+                                                                const CustomTextField(
+                                                                  hint: '',
+                                                                  paddingTop: 5,
+                                                                  inputType: TextInputType.phone,
+                                                                  paddingBottom: 21,
+                                                                  maxLine: 1,
+                                                                  width: 1,
+                                                                  borderColor:
+                                                                  0xff999999,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                        15.horizontalSpace(),
+                                                         Expanded(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Bull Calf',
+                                                                  style: figtreeSemiBold
+                                                                      .copyWith(
+                                                                      fontSize:
+                                                                      12),
+                                                                ),
+                                                                05.verticalSpace(),
+                                                                const CustomTextField(
+                                                                  hint: '',
+                                                                  paddingTop: 5,
+                                                                  inputType: TextInputType.phone,
+                                                                  paddingBottom: 21,
+                                                                  maxLine: 1,
+                                                                  width: 1,
+                                                                  borderColor:
+                                                                  0xff999999,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                      ],
+                                                    ),
+                                                    10.verticalSpace(),
+                                                    const Divider(
                                                       thickness: 1,
                                                       color:
                                                           ColorResources.grey,
                                                     ),
-                                                  ),
-                                                  10.verticalSpace(),
-                                                  Row(
-                                                    children: [
-                                                      const Expanded(
-                                                          child: SizedBox(
-                                                              height: 60,
-                                                              child:
-                                                                  CustomTextField(
-                                                                hint: 'Ankole',
-                                                              ))),
-                                                      10.horizontalSpace(),
-                                                      SvgPicture.asset(
-                                                          Images.addCows),
-                                                      10.horizontalSpace(),
-                                                      SvgPicture.asset(
-                                                          Images.deleteField)
-                                                    ],
-                                                  ),
-                                                  20.verticalSpace(),
-                                                  Row(
-                                                    children: [
-                                                      const Expanded(
-                                                          child:
-                                                              CustomTextField2(
-                                                        title: 'Herd Size',
-                                                        borderColor: 0xff999999,
-                                                      )),
-                                                      15.horizontalSpace(),
-                                                      const Expanded(
-                                                          child: CustomTextField2(
-                                                              title:
-                                                                  'Milking Cow',
-                                                              borderColor:
-                                                                  0xff999999)),
-                                                    ],
-                                                  ),
-                                                  20.verticalSpace(),
-                                                  Row(
-                                                    children: [
-                                                      const Expanded(
-                                                          child:
-                                                              CustomTextField2(
-                                                        title:
-                                                            'Yield(Ltr./Day)',
-                                                        borderColor: 0xff999999,
-                                                      )),
-                                                      15.horizontalSpace(),
-                                                      const Expanded(
-                                                          child: CustomTextField2(
-                                                              title: 'Dry',
-                                                              borderColor:
-                                                                  0xff999999)),
-                                                      15.horizontalSpace(),
-                                                      const Expanded(
-                                                          child: CustomTextField2(
-                                                              title: 'Heifer',
-                                                              borderColor:
-                                                                  0xff999999)),
-                                                    ],
-                                                  ),
-                                                  20.verticalSpace(),
-                                                  Row(
-                                                    children: [
-                                                      const Expanded(
-                                                          child:
-                                                              CustomTextField2(
-                                                        title: '7-12 MO',
-                                                        borderColor: 0xff999999,
-                                                      )),
-                                                      15.horizontalSpace(),
-                                                      const Expanded(
-                                                          child: CustomTextField2(
-                                                              title: '<6 mo',
-                                                              borderColor:
-                                                                  0xff999999)),
-                                                      15.horizontalSpace(),
-                                                      const Expanded(
-                                                          child: CustomTextField2(
-                                                              title:
-                                                                  'Bull Calf',
-                                                              borderColor:
-                                                                  0xff999999)),
-                                                    ],
-                                                  ),
-                                                  10.verticalSpace(),
-                                                  const Divider(
-                                                    thickness: 1,
-                                                    color: ColorResources.grey,
-                                                  ),
-                                                  10.verticalSpace(),
-                                                  customButton('+ Add More',
-                                                      height: 50,
-                                                      width: 130,
-                                                      onTap: () {},
-                                                      color: 0xffFFFFFF,
-                                                      borderColor: 0xff6A0030,
-                                                      fontColor: 0xff6A0030),
-                                                  20.verticalSpace(),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      color: const Color(
-                                                          0xffFFF3F4),
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          16, 20, 16, 20),
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              const Expanded(
-                                                                  child:
-                                                                      CustomTextField2(
-                                                                title:
-                                                                    'Supplied to\nPDFL (Ltr.)',
-                                                                borderColor:
-                                                                    0xff999999,
-                                                              )),
-                                                              15.horizontalSpace(),
-                                                              const Expanded(
-                                                                  child: CustomTextField2(
-                                                                      title:
-                                                                          'Supplied to \n Others (Ltr.)',
-                                                                      borderColor:
-                                                                          0xff999999)),
-                                                              15.horizontalSpace(),
-                                                              const Expanded(
-                                                                  child:
-                                                                      Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            13),
-                                                                child: CustomTextField2(
-                                                                    title:
-                                                                        'Self use',
-                                                                    borderColor:
-                                                                        0xff999999),
-                                                              )),
-                                                            ],
-                                                          ),
-                                                          20.verticalSpace(),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                'Total milk production (Ltr.)',
-                                                                style: figtreeRegular
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            16),
-                                                              ),
-                                                              Text(
-                                                                '3800',
-                                                                style: figtreeBold
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            16),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          05.verticalSpace(),
-                                                          const Divider(
-                                                            thickness: 1,
-                                                            color:
-                                                                ColorResources
-                                                                    .grey,
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                'Yield (Ltr.) /Cow /Day',
-                                                                style: figtreeRegular
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            16),
-                                                              ),
-                                                              Text(
-                                                                '7.9',
-                                                                style: figtreeBold
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            16),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
+                                                    10.verticalSpace(),
+                                                    customButton('+ Add More',
+                                                        height: 50,
+                                                        width: 130,
+                                                        onTap: () {},
+                                                        color: 0xffFFFFFF,
+                                                        borderColor: 0xff6A0030,
+                                                        fontColor: 0xff6A0030),
+                                                    20.verticalSpace(),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        color: const Color(
+                                                            0xffFFF3F4),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                16, 20, 10, 20),
+                                                        child: Column(
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                 Expanded(
+                                                                    child:
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          'Supplied to PDFL (Ltr.)',
+                                                                          style: figtreeSemiBold
+                                                                              .copyWith(
+                                                                              fontSize:
+                                                                              12),
+                                                                        ),
+                                                                        08.verticalSpace(),
+                                                                         const CustomTextField(
+                                                                          hint: '',
+                                                                          paddingTop: 5,
+                                                                          inputType: TextInputType.phone,
+                                                                          paddingBottom: 21,
+                                                                          maxLine: 1,
+                                                                          width: 1,
+                                                                          borderColor:
+                                                                          0xff999999,
+                                                                        ),
+                                                                      ],
+                                                                    )),
+                                                                15.horizontalSpace(),
+                                                                 Expanded(
+                                                                    child: Column(
+                                                                      crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          'Supplied to Others (Ltr.)',
+                                                                          style: figtreeSemiBold
+                                                                              .copyWith(
+                                                                              fontSize:
+                                                                              12),
+                                                                        ),
+                                                                        08.verticalSpace(),
+                                                                        const CustomTextField(
+                                                                          hint: '',
+                                                                          paddingTop: 5,
+                                                                          inputType: TextInputType.phone,
+                                                                          paddingBottom: 21,
+                                                                          maxLine: 1,
+                                                                          width: 1,
+                                                                          borderColor:
+                                                                          0xff999999,
+                                                                        ),
+                                                                      ],
+                                                                    )),
+                                                                15.horizontalSpace(),
+                                                                 Expanded(
+                                                                    child:
+                                                                        Column(
+                                                                          crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(top:15.0),
+                                                                              child: Text(
+                                                                                'Self use',
+                                                                                style: figtreeSemiBold
+                                                                                    .copyWith(
+                                                                                    fontSize:
+                                                                                    12),
+                                                                              ),
+                                                                            ),
+                                                                            08.verticalSpace(),
+                                                                            const CustomTextField(
+                                                                              hint: '',
+                                                                              paddingTop: 5,
+                                                                              inputType: TextInputType.phone,
+                                                                              paddingBottom: 21,
+                                                                              maxLine: 1,
+                                                                              width: 1,
+                                                                              borderColor:
+                                                                              0xff999999,
+                                                                            ),
+                                                                          ],
+                                                                        )),
+                                                              ],
+                                                            ),
+                                                            20.verticalSpace(),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  'Total milk production (Ltr.)',
+                                                                  style: figtreeRegular
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              16),
+                                                                ),
+                                                                Text(
+                                                                  '3800',
+                                                                  style: figtreeBold
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              16),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            05.verticalSpace(),
+                                                            const Divider(
+                                                              thickness: 1,
+                                                              color:
+                                                                  ColorResources
+                                                                      .grey,
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  'Yield (Ltr.) /Cow /Day',
+                                                                  style: figtreeRegular
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              16),
+                                                                ),
+                                                                Text(
+                                                                  '7.9',
+                                                                  style: figtreeBold
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              16),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  20.verticalSpace(),
-                                                ],
+                                                    20.verticalSpace(),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           )
@@ -551,12 +822,13 @@ class _CowsAndYieldState extends State<CowsAndYield> {
                           ],
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        right: 25,
-                        left: 25,
-                        child: SvgPicture.asset(Images.cardImage),
-                      )
+                      //////////Bottom Design///////
+                      // Positioned(
+                      //   bottom: 0,
+                      //   right: 25,
+                      //   left: 25,
+                      //   child: SvgPicture.asset(Images.cardImage),
+                      // )
                     ],
                   ),
                 ],
@@ -568,20 +840,40 @@ class _CowsAndYieldState extends State<CowsAndYield> {
     );
   }
 
-
 ///////////SaveCancelButton////////////////////
   Widget saveCancelButton() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(29,40,29,0),
+      padding: const EdgeInsets.fromLTRB(29, 40, 29, 0),
       child: Column(
         children: [
           // 40.verticalSpace(),
-          customButton('Save',style: figtreeMedium.copyWith(color: Colors.white,fontSize: 16), onTap: () {}, width: screenWidth(),height:60,),
+          customButton(
+            'Save',
+            style: figtreeMedium.copyWith(color: Colors.white, fontSize: 16),
+            onTap: () {},
+            width: screenWidth(),
+            height: 60,
+          ),
           15.verticalSpace(),
-          customButton('Cancel',style: figtreeMedium.copyWith(fontSize: 16) ,onTap: () {}, width: screenWidth(),height: 60,color:0xffDCDCDC),
+          customButton('Cancel',
+              style: figtreeMedium.copyWith(fontSize: 16),
+              onTap: () {},
+              width: screenWidth(),
+              height: 60,
+              color: 0xffDCDCDC),
           20.verticalSpace(),
         ],
       ),
     );
   }
+
+  void removeItem (int index){
+    setState(() {
+      items.removeAt(index);
+    });
+  }
+
+
+
+
 }
