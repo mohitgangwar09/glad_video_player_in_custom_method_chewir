@@ -258,17 +258,17 @@ class Address {
   String? name;
   String? mobile;
   String? email;
-  Null? gstNumber;
+  dynamic gstNumber;
   String? line1;
-  Null? line2;
-  Null? landmark;
+  dynamic line2;
+  dynamic landmark;
   int? cityId;
-  Null? district;
-  int? stateId;
-  int? countryId;
+  dynamic district;
+  dynamic stateId;
+  dynamic countryId;
   String? postalCode;
   String? address;
-  Null? type;
+  dynamic type;
   String? createdAt;
   String? updatedAt;
 
@@ -316,26 +316,26 @@ class Address {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['addressable_id'] = this.addressableId;
-    data['addressable_type'] = this.addressableType;
-    data['name'] = this.name;
-    data['mobile'] = this.mobile;
-    data['email'] = this.email;
-    data['gst_number'] = this.gstNumber;
-    data['line_1'] = this.line1;
-    data['line_2'] = this.line2;
-    data['landmark'] = this.landmark;
-    data['city_id'] = this.cityId;
-    data['district'] = this.district;
-    data['state_id'] = this.stateId;
-    data['country_id'] = this.countryId;
-    data['postal_code'] = this.postalCode;
-    data['address'] = this.address;
-    data['type'] = this.type;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['addressable_id'] = addressableId;
+    data['addressable_type'] = addressableType;
+    data['name'] = name;
+    data['mobile'] = mobile;
+    data['email'] = email;
+    data['gst_number'] = gstNumber;
+    data['line_1'] = line1;
+    data['line_2'] = line2;
+    data['landmark'] = landmark;
+    data['city_id'] = cityId;
+    data['district'] = district;
+    data['state_id'] = stateId;
+    data['country_id'] = countryId;
+    data['postal_code'] = postalCode;
+    data['address'] = address;
+    data['type'] = type;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

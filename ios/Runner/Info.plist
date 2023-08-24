@@ -14,7 +14,7 @@
 	<key>NSCameraUsageDescription</key>
     <string>Please grant camera access</string>
 	<key>CFBundleDisplayName</key>
-	<string>Glad</string>
+	<string>GLAD</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
