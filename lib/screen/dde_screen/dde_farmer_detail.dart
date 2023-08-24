@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
+import 'package:glad/screen/dde_screen/farmer_personal_detail.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
@@ -20,6 +21,7 @@ class DdeFarmerDetail extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          landingBackground(),
           Column(
             children: [
 
@@ -30,7 +32,7 @@ class DdeFarmerDetail extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: InkWell(
                       onTap: () {
-                        // const EditAddress().navigate();
+                        const PersonalDetail().navigate();
                       },
                       child: SvgPicture.asset(Images.profileEdit)),
                 ),
@@ -723,57 +725,76 @@ class DdeFarmerDetail extends StatelessWidget {
                 ),
                 20.verticalSpace(),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: '7-12 month: ',
-                              style: figtreeRegular.copyWith(
-                                  fontSize: 14, color: const Color(0xFF727272))),
-                          TextSpan(
-                              text: '08',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 14, color: Colors.black)),
-                        ])),
-                    10.horizontalSpace(),
+                    Expanded(
+                      child: Row(children: [
+                        RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: '7-12 month: ',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: const Color(0xFF727272))),
+                              TextSpan(
+                                  text: '08',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ])),
+                      ],),
+                    ),
                     Container(
-                      height: 5,
-                      width: 5,
+                      height: 4.5,
+                      width: 4.5,
                       decoration: const BoxDecoration(
                           color: Colors.black, shape: BoxShape.circle),
                     ),
-                    10.horizontalSpace(),
-                    RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: '<6 month: ',
-                              style: figtreeRegular.copyWith(
-                                  fontSize: 14, color: const Color(0xFF727272))),
-                          TextSpan(
-                              text: '02',
-                              style: figtreeRegular.copyWith(
-                                  fontSize: 14, color: Colors.black)),
-                        ])),
-                    10.horizontalSpace(),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                        RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: '<6 month: ',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: const Color(0xFF727272))),
+                              TextSpan(
+                                  text: '02',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ])),
+                        /*Container(
+                          height: 4.5,
+                          width: 4.5,
+                          decoration: const BoxDecoration(
+                              color: Colors.black, shape: BoxShape.circle),
+                        ),*/
+                      ],),
+                    ),
                     Container(
-                      height: 5,
-                      width: 5,
+                      height: 4.5,
+                      width: 4.5,
                       decoration: const BoxDecoration(
                           color: Colors.black, shape: BoxShape.circle),
                     ),
-                    10.horizontalSpace(),
-                    RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: 'Bull calf: ',
-                              style: figtreeRegular.copyWith(
-                                  fontSize: 14, color: const Color(0xFF727272))),
-                          TextSpan(
-                              text: '01',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 14, color: Colors.black)),
-                        ])),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                        RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: 'Bull calf: ',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: const Color(0xFF727272))),
+                              TextSpan(
+                                  text: '01',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ])),
+                      ],),
+                    ),
+
                   ],
                 ),
               ],

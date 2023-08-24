@@ -36,6 +36,7 @@ class CustomTextField extends StatelessWidget {
   final bool visibleNumber;
   final double? width;
   final int? borderColor;
+  final double? paddingTop,paddingBottom;
   final Color? underLineBorderColor;
   final Color? imageColors;
   final Color? image2Colors;
@@ -52,6 +53,8 @@ class CustomTextField extends StatelessWidget {
       required this.hint,
       this.controller,
       this.radius = 10,
+      this.paddingTop = 15,
+      this.paddingBottom = 15,
       this.visibleNumber = false,
       this.onChanged,
       this.length,
@@ -163,7 +166,7 @@ class CustomTextField extends StatelessWidget {
             children: [
               ContainerBorder(
                 margin: 0.marginVertical(),
-                padding: 10.paddingOnly(top: 15, bottom: 15),
+                padding: 10.paddingOnly(top: paddingTop!, bottom: paddingBottom!),
                 borderColor: borderColor,
                 backColor: backgroundColor,
                 radius: radius!,
