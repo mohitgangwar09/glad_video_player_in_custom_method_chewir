@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -19,13 +20,12 @@ class PersonalDetails extends StatelessWidget {
           20.verticalSpace(),
           const CustomTextField2(title: 'Email'),
           20.verticalSpace(),
-          CustomTextField2(
+          CustomDropdown(
             title: 'Gender',
-            isDropdown: true,
             itemList: const ['Male', 'Female'],
             dropdownValue: null,
             icon: Images.arrowDropdown,
-            iconColors: Colors.black,
+            iconColor: Colors.black,
             onChanged: (String? value) {},
           ),
           20.verticalSpace(),

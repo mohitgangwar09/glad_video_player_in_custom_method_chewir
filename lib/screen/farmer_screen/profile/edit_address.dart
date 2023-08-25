@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
@@ -70,33 +71,30 @@ class EditAddress extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            CustomTextField2(
+                            CustomDropdown(
                               title: 'Country',
-                              isDropdown: true,
                               itemList: const ['Male', 'Female'],
                               dropdownValue: null,
                               icon: Images.arrowDropdown,
-                              iconColors: Colors.black,
-                              onChanged: (String? value) {},
+                              iconColor: Colors.black,
+                              onChanged: (String? value) {}, hint: '',
                             ),
                             20.verticalSpace(),
-                            CustomTextField2(
+                            CustomDropdown(
                               title: 'District',
-                              isDropdown: true,
                               itemList: const ['Male', 'Female'],
                               dropdownValue: null,
                               icon: Images.arrowDropdown,
-                              iconColors: Colors.black,
+                              iconColor: Colors.black,
                               onChanged: (String? value) {},
                             ),
                             20.verticalSpace(),
-                            CustomTextField2(
+                            CustomDropdown(
                               title: 'City',
-                              isDropdown: true,
                               itemList: const ['Male', 'Female'],
                               dropdownValue: null,
                               icon: Images.arrowDropdown,
-                              iconColors: Colors.black,
+                              iconColor: Colors.black,
                               onChanged: (String? value) {},
                             ),
                             20.verticalSpace(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -47,13 +48,12 @@ class _EditMilestoneState extends State<EditMilestone> {
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          const CustomTextField2(
+                          CustomDropdown(
                             title: 'Title of  the milestone',
-                            isDropdown: true,
-                            iconColors: Colors.black,
+                            iconColor: Colors.black,
                             icon: Images.arrowDropdown,
                             dropdownValue: null,
-                            itemList: [' ', ' '],
+                            itemList: [' ', ' '], onChanged: (String ) {  },
                           ),
                           20.verticalSpace(),
                           const CustomTextField2(
@@ -75,25 +75,23 @@ class _EditMilestoneState extends State<EditMilestone> {
                           Row(
                             children: [
                               Expanded(
-                                child: CustomTextField2(
+                                child: CustomDropdown(
                                   title: 'Size/Capacity',
-                                  isDropdown: true,
                                   itemList: const ['Male', 'Female'],
                                   dropdownValue: null,
                                   icon: Images.arrowDropdown,
-                                  iconColors: Colors.black,
+                                  iconColor: Colors.black,
                                   onChanged: (String? value) {},
                                 ),
                               ),
                               20.horizontalSpace(),
                               Expanded(
-                                child: CustomTextField2(
+                                child: CustomDropdown(
                                   title: '',
-                                  isDropdown: true,
                                   itemList: const ['Male', 'Female'],
                                   dropdownValue: null,
                                   icon: Images.arrowDropdown,
-                                  iconColors: Colors.black,
+                                  iconColor: Colors.black,
                                   onChanged: (String? value) {},
                                 ),
                               ),
@@ -109,13 +107,12 @@ class _EditMilestoneState extends State<EditMilestone> {
                               ),
                               20.horizontalSpace(),
                               Expanded(
-                                child: CustomTextField2(
+                                child: CustomDropdown(
                                   title: '',
-                                  isDropdown: true,
                                   itemList: const ['Male', 'Female'],
                                   dropdownValue: null,
                                   icon: Images.arrowDropdown,
-                                  iconColors: Colors.black,
+                                  iconColor: Colors.black,
                                   onChanged: (String? value) {},
                                 ),
                               ),

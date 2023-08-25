@@ -12,15 +12,16 @@ class CustomDropdown extends StatelessWidget {
   final int? borderColor;
   final int? backgroundColor;
   final String? dropdownValue;
-  final String hint;
+  final String? hint;
   final List<String> itemList;
   final TextStyle? itemStyle;
   final TextStyle? hintStyle;
   final void Function(String?) onChanged;
   final String icon;
-  final Color? iconColor;
+  final Color iconColor;
   final double? iconHeight;
   final double? iconWidth;
+  final String? title;
 
   const CustomDropdown(
       {Key? key,
@@ -32,91 +33,82 @@ class CustomDropdown extends StatelessWidget {
       required this.itemList,
       this.itemStyle,
       required this.onChanged,
-      required this.hint,
+      this.hint = '',
       this.hintStyle,
       required this.icon,
-      this.iconColor,
+      required this.iconColor,
       this.iconHeight,
-      this.iconWidth})
+      this.iconWidth,
+      this.title = ''})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        ContainerBorder(
-          margin: 0.marginVertical(),
-          padding: 10.paddingOnly(top: 15, bottom: 15),
-          borderColor: borderColor,
-          backColor: backgroundColor,
-          radius: 10,
-          widget: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              5.horizontalSpace(),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: SizedBox(
-                    width: width,
-                    child: DropdownButton<String>(
-                      value: dropdownValue,
-                      hint: Text(hint,
-                          style: hintStyle ??
-                              figtreeSemiBold.copyWith(
-                                  fontSize: 16, color: Colors.black)),
-                      isExpanded: true,
-                      padding: const EdgeInsets.symmetric(vertical: 7.0),
-                      underline: const SizedBox.shrink(),
-                      icon: Padding(
-                        padding: const EdgeInsets.only(right: 5.0),
-                        child: SvgPicture.asset(
-                          icon,
-                          colorFilter:
-                              ColorFilter.mode(iconColor!, BlendMode.srcIn),
-                          width: iconWidth,
-                          height: iconHeight,
-                        ),
-                      ),
-                      isDense: true,
-                      items: itemList
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value,
-                              style: itemStyle ??
-                                  figtreeMedium.copyWith(
-                                      fontSize: 16, color: Colors.black)),
-                        );
-                      }).toList(),
-                      onChanged: onChanged,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (error != null)
-          Visibility(
-            visible: error == '' ? false : true,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 5.0, top: 7),
-              child: Row(
+        title != null
+            ? Column(
                 children: [
-                  SvgPicture.asset(
-                    Images.errorIcon,
-                    width: 20,
-                    height: 20,
+                  Row(
+                    children: [
+                      5.horizontalSpace(),
+                      title!.textMedium(color: Colors.black, fontSize: 12),
+                    ],
                   ),
+                  5.verticalSpace(),
+                ],
+              )
+            : const SizedBox.shrink(),
+        Stack(
+          children: [
+            ContainerBorder(
+              margin: 0.marginVertical(),
+              height: 60,
+              padding: 10.paddingOnly(top: 15, bottom: 15),
+              borderColor: borderColor,
+              backColor: backgroundColor,
+              radius: 10,
+              widget: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  5.horizontalSpace(),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 7.0),
-                      child: Text(
-                        error.toString(),
-                        style: figtreeRegular.copyWith(
-                          color: const Color(0xff929292),
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: SizedBox(
+                        width: width,
+                        child: DropdownButton<String>(
+                          value: dropdownValue,
+                          hint: Text(hint!,
+                              style: hintStyle ??
+                                  figtreeSemiBold.copyWith(
+                                      fontSize: 16, color: Colors.black)),
+                          isExpanded: true,
+                          padding: const EdgeInsets.symmetric(vertical: 7),
+                          underline: const SizedBox.shrink(),
+                          icon: Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: SvgPicture.asset(
+                              icon,
+                              colorFilter:
+                                  ColorFilter.mode(iconColor, BlendMode.srcIn),
+                              width: iconWidth,
+                              height: iconHeight,
+                            ),
+                          ),
+                          isDense: true,
+                          items: itemList
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                  style: itemStyle ??
+                                      figtreeMedium.copyWith(
+                                          fontSize: 16, color: Colors.black)),
+                            );
+                          }).toList(),
+                          onChanged: onChanged,
                         ),
                       ),
                     ),
@@ -124,7 +116,35 @@ class CustomDropdown extends StatelessWidget {
                 ],
               ),
             ),
-          ),
+            if (error != null)
+              Visibility(
+                visible: error == '' ? false : true,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5.0, top: 7),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        Images.errorIcon,
+                        width: 20,
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 7.0),
+                          child: Text(
+                            error.toString(),
+                            style: figtreeRegular.copyWith(
+                              color: const Color(0xff929292),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
       ],
     );
   }

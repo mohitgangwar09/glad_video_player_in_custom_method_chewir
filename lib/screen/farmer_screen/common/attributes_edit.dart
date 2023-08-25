@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
@@ -56,24 +57,24 @@ class AttributesEdit extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           30.verticalSpace(),
-          CustomTextField2(
-            title: 'Type',
-            isDropdown: true,
+          CustomDropdown(
+            hint: '',
             itemList: const ['Male', 'Female'],
             dropdownValue: null,
             icon: Images.arrowDropdown,
-            iconColors: Colors.black,
+            iconColor: Colors.black,
             onChanged: (String? value) {},
+            title: 'Type',
           ),
           20.verticalSpace(),
-          CustomTextField2(
+          CustomDropdown(
             title: 'Size/Capacity',
-            isDropdown: true,
             itemList: const ['Male', 'Female'],
             dropdownValue: null,
             icon: Images.arrowDropdown,
-            iconColors: Colors.black,
+            iconColor: Colors.black,
             onChanged: (String? value) {},
+            hint: '',
           ),
           20.verticalSpace(),
           SizedBox(
@@ -100,9 +101,9 @@ class AttributesEdit extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.white),
                       height: 55,
-                      child: Padding(
-                        padding:  EdgeInsets.only(left:10),
-                        child:  TextField(
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: TextField(
                           decoration: InputDecoration(border: InputBorder.none),
                         ),
                       ),
@@ -111,14 +112,13 @@ class AttributesEdit extends StatelessWidget {
                 )),
                 10.horizontalSpace(),
                 Expanded(
-                  child: CustomTextField2(
-                    title: '',
-                    isDropdown: true,
+                  child: CustomDropdown(
                     itemList: const ['Male', 'Female'],
                     dropdownValue: null,
                     icon: Images.arrowDropdown,
-                    iconColors: Colors.black,
+                    iconColor: Colors.black,
                     onChanged: (String? value) {},
+                    hint: '',
                   ),
                 ),
               ],
@@ -139,7 +139,7 @@ class AttributesEdit extends StatelessWidget {
                 borderRadius: BorderRadius.circular(08),
                 color: Colors.white,
                 border: Border.all(width: 1, color: ColorResources.grey)),
-            child:  const Padding(
+            child: const Padding(
               padding: EdgeInsets.only(left: 10),
               child: TextField(
                 decoration: InputDecoration(
@@ -154,7 +154,7 @@ class AttributesEdit extends StatelessWidget {
             child: customButton('Save',
                 style: figtreeMedium.copyWith(color: Colors.white),
                 width: screenWidth(),
-                height:60,
+                height: 60,
                 onTap: () {}),
           )
         ],

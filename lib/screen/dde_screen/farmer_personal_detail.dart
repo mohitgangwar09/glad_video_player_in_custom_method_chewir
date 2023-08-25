@@ -69,11 +69,8 @@ class PersonalDetail extends StatelessWidget {
           borderColor: 0xff999999,
         ),
         25.verticalSpace(),
-        Text(
-          'Mobile',
-          style: figtreeSemiBold.copyWith(fontSize: 12),
-        ),
         CustomDropdown(
+          title: 'Mobile',
           dropdownValue: null,
           itemList: ['', '', ''],
           onChanged: (value) {},
