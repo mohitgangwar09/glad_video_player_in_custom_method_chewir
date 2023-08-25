@@ -119,14 +119,19 @@ class AuthCubit extends Cubit<AuthCubitState>{
         }else{
           apiRepository.saveUserToken(state.token);
           await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
-          if(response.data!.userType == "mcc"){
-            const DashboardMCC().navigate(isInfinity: true);
-          }else if(response.data!.userType == "farmer"){
-            const DashboardFarmer().navigate(isInfinity: true);
-          }else if(response.data!.userType == "supplier"){
-            const DashboardSupplier().navigate(isInfinity: true);
-          }else if(response.data!.userType == "dde"){
-            const DashboardDDE().navigate(isInfinity: true);
+
+          if(response.data!.profilePic.toString() == "false"){
+            const UploadProfilePicture().navigate(isInfinity: true);
+          }else{
+            if(response.data!.userType == "mcc"){
+              const DashboardMCC().navigate(isInfinity: true);
+            }else if(response.data!.userType == "farmer"){
+              const DashboardFarmer().navigate(isInfinity: true);
+            }else if(response.data!.userType == "supplier"){
+              const DashboardSupplier().navigate(isInfinity: true);
+            }else if(response.data!.userType == "dde"){
+              const DashboardDDE().navigate(isInfinity: true);
+            }
           }
         }
 
@@ -245,14 +250,19 @@ class AuthCubit extends Cubit<AuthCubitState>{
         emit(state.copyWith(status: AuthStatus.success));
         apiRepository.saveUserToken(response.data!.accessToken.toString());
         await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
-        if(response.data!.userType == "mcc"){
-          const DashboardMCC().navigate(isInfinity: true);
-        }else if(response.data!.userType == "farmer"){
-          const DashboardFarmer().navigate(isInfinity: true);
-        }else if(response.data!.userType == "supplier"){
-          const DashboardSupplier().navigate(isInfinity: true);
-        }else if(response.data!.userType == "dde"){
-          const DashboardDDE().navigate(isInfinity: true);
+
+        if(response.data!.profilePic.toString() == "false"){
+          const UploadProfilePicture().navigate(isInfinity: true);
+        }else{
+          if(response.data!.userType == "mcc"){
+            const DashboardMCC().navigate(isInfinity: true);
+          }else if(response.data!.userType == "farmer"){
+            const DashboardFarmer().navigate(isInfinity: true);
+          }else if(response.data!.userType == "supplier"){
+            const DashboardSupplier().navigate(isInfinity: true);
+          }else if(response.data!.userType == "dde"){
+            const DashboardDDE().navigate(isInfinity: true);
+          }
         }
       }
       else
