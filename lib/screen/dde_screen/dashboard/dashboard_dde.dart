@@ -4,6 +4,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dde_drawer.dart';
+import 'package:glad/screen/dde_screen/dashboard_tab_screen/enquiry_screen.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/farmer_dde_tab_screen.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/landing_page.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/project_screen.dart';
@@ -26,7 +27,7 @@ class DashboardDDE extends StatelessWidget {
       const DDELandingPage(),
       const FarmerDdeTabScreen(),
       const ProjectScreen(),
-      const Text("Orders"),
+      const EnquiryScreen(),
       const CommunityPost()
     ];
 

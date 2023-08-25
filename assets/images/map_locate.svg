@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+  <g id="Group_11951" data-name="Group 11951" transform="translate(-368 -428)">
+    <g id="Group_11813" data-name="Group 11813" transform="translate(-5 328)">
+      <g id="Rectangle_1453" data-name="Rectangle 1453" transform="translate(373 100)" fill="#fff" stroke="#ececff" stroke-width="1">
+        <rect width="34" height="34" rx="8" stroke="none"/>
+        <rect x="0.5" y="0.5" width="33" height="33" rx="7.5" fill="none"/>
+      </g>
+    </g>
+    <path id="Icon_feather-navigation" data-name="Icon feather-navigation" d="M4.5,8.518,16.15,3,10.632,14.65,9.405,9.745Z" transform="translate(375 436.5)" fill="none" stroke="#6a0030" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  </g>
+</svg>

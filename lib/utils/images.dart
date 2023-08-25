@@ -114,6 +114,8 @@ class Images {
 
   static const String doneTimelineIcon = 'assets/images/done_timeline_icon.svg';
 
+  static const String mapLocate = 'assets/images/map_locate.svg';
+
 
   // bottom navigation item//
   static const String home = 'assets/images/lighthome.svg';
