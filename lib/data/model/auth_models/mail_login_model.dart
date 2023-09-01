@@ -49,6 +49,7 @@ class Data {
   int? isFirst;
   String? accessToken;
   String? name;
+  dynamic profilePic;
   List<dynamic>? roles;
 
   Data(
@@ -78,6 +79,7 @@ class Data {
         this.isFirst,
         this.accessToken,
         this.name,
+        this.profilePic,
         this.roles});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -89,6 +91,7 @@ class Data {
     userCode = json['user_code'];
     hasPassword = json['has_password'];
     mobile = json['mobile'];
+    profilePic = json['profile_pic'];
     isMobileVerified = json['is_mobile_verified'];
     dateOfBirth = json['date_of_birth'];
     gender = json['gender'];
@@ -137,6 +140,7 @@ class Data {
     data['is_first'] = isFirst;
     data['access_token'] = accessToken;
     data['name'] = name;
+    data['profile_pic'] = profilePic;
     return data;
   }
 }

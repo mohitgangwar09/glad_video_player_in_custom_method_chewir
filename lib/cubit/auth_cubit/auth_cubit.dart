@@ -117,18 +117,21 @@ class AuthCubit extends Cubit<AuthCubitState>{
         if(response.data!.isFirst == 0){
           const OtpScreen(tag: "email",).navigate(isInfinity: true);
         }else{
-          print('token----------${response.data!.accessToken.toString()}');
-          apiRepository.saveUserToken(response.data!.accessToken.toString());
+          apiRepository.saveUserToken(state.token);
           await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
           await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
-          if(response.data!.userType == "mcc"){
-            const DashboardMCC().navigate(isInfinity: true);
-          }else if(response.data!.userType == "farmer"){
-            const DashboardFarmer().navigate(isInfinity: true);
-          }else if(response.data!.userType == "supplier"){
-            const DashboardSupplier().navigate(isInfinity: true);
-          }else if(response.data!.userType == "dde"){
-            const DashboardDDE().navigate(isInfinity: true);
+          if(response.data!.profilePic.toString() == "false"){
+            const UploadProfilePicture().navigate(isInfinity: true);
+          }else{
+            if(response.data!.userType == "mcc"){
+              const DashboardMCC().navigate(isInfinity: true);
+            }else if(response.data!.userType == "farmer"){
+              const DashboardFarmer().navigate(isInfinity: true);
+            }else if(response.data!.userType == "supplier"){
+              const DashboardSupplier().navigate(isInfinity: true);
+            }else if(response.data!.userType == "dde"){
+              const DashboardDDE().navigate(isInfinity: true);
+            }
           }
         }
 
@@ -249,14 +252,18 @@ class AuthCubit extends Cubit<AuthCubitState>{
         apiRepository.saveUserToken(response.data!.accessToken.toString());
         await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
         await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
-        if(response.data!.userType == "mcc"){
-          const DashboardMCC().navigate(isInfinity: true);
-        }else if(response.data!.userType == "farmer"){
-          const DashboardFarmer().navigate(isInfinity: true);
-        }else if(response.data!.userType == "supplier"){
-          const DashboardSupplier().navigate(isInfinity: true);
-        }else if(response.data!.userType == "dde"){
-          const DashboardDDE().navigate(isInfinity: true);
+        if(response.data!.profilePic.toString() == "false"){
+          const UploadProfilePicture().navigate(isInfinity: true);
+        }else{
+          if(response.data!.userType == "mcc"){
+            const DashboardMCC().navigate(isInfinity: true);
+          }else if(response.data!.userType == "farmer"){
+            const DashboardFarmer().navigate(isInfinity: true);
+          }else if(response.data!.userType == "supplier"){
+            const DashboardSupplier().navigate(isInfinity: true);
+          }else if(response.data!.userType == "dde"){
+            const DashboardDDE().navigate(isInfinity: true);
+          }
         }
       }
       else
