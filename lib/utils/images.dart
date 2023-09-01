@@ -1,6 +1,7 @@
 class Images {
   static const String errorIcon = 'assets/images/error_icon.png';
   static const String backArrow = 'assets/images/back_icon.png';
+  static const String cowBig = 'assets/images/cowbig.png';
 
   static const String splash = 'assets/images/splash.png';
   static const String onboardingLogo = 'assets/images/onboarding_logo.svg';
@@ -9,6 +10,7 @@ class Images {
   static const String sliderTwo = 'assets/images/onboarding_main2.png';
   static const String sliderNext = 'assets/images/onboarding_next.svg';
   static const String ppBg = 'assets/images/profile_picture_bg.svg';
+  static const String farmerNotification = 'assets/images/farmernotification.svg';
   static const String uploadPP = 'assets/images/upload_profile_picture.svg';
 
   static const String loginBack_1 = 'assets/images/loginback_1.svg';
@@ -113,6 +115,7 @@ class Images {
   static const String completedSelected = 'assets/images/completed_selected.svg';
 
   static const String doneTimelineIcon = 'assets/images/done_timeline_icon.svg';
+  static const String commentSend = 'assets/images/commentsend.svg';
 
   static const String mapLocate = 'assets/images/map_locate.svg';
 

@@ -6,6 +6,8 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/add_testimonial.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
+import 'package:glad/screen/farmer_screen/farmer_notification.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
 
 import '../../../utils/color_resources.dart';
 import '../../../utils/extension.dart';
@@ -70,7 +72,9 @@ class FarmerDrawer extends StatelessWidget {
               visible: false),
           30.verticalSpace(),
           navigationBarItem(
-              image: Images.drawerTraining, onTap: () {}, text: 'Training'),
+              image: Images.drawerTraining, onTap: () {
+                const OnlineTraining().navigate();
+          }, text: 'Training'),
           30.verticalSpace(),
           navigationBarItem(
             image: Images.faq,
@@ -80,7 +84,9 @@ class FarmerDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
               image: Images.notification,
-              onTap: () {},
+              onTap: () {
+                FarmerNotification().navigate();
+              },
               text: 'Notification',
               visible: false),
           30.verticalSpace(),
