@@ -23,164 +23,81 @@ class FarmerDashboard {
 }
 
 class Data {
+  FarmerMaster? farmerMaster;
+  List<CowBreedDetails>? cowBreedDetails;
+  Dde? dde;
+  List<Testimonials>? testimonials;
+  Mcc? mcc;
   List<FarmerProject>? farmerProject;
-  List<FarmerMaster>? farmerMaster;
+  List<FarmerMilkProduction>? farmerMilkProduction;
 
-  Data({this.farmerProject, this.farmerMaster});
+  Data(
+      {this.farmerMaster,
+        this.cowBreedDetails,
+        this.dde,
+        this.testimonials,
+        this.mcc,
+        this.farmerProject,
+        this.farmerMilkProduction});
 
   Data.fromJson(Map<String, dynamic> json) {
+    farmerMaster = json['farmerMaster'] != null
+        ? new FarmerMaster.fromJson(json['farmerMaster'])
+        : null;
+    if (json['cowBreedDetails'] != null) {
+      cowBreedDetails = <CowBreedDetails>[];
+      json['cowBreedDetails'].forEach((v) {
+        cowBreedDetails!.add(new CowBreedDetails.fromJson(v));
+      });
+    }
+    dde = json['dde'] != null ? new Dde.fromJson(json['dde']) : null;
+    if (json['testimonials'] != null) {
+      testimonials = <Testimonials>[];
+      json['testimonials'].forEach((v) {
+        testimonials!.add(new Testimonials.fromJson(v));
+      });
+    }
+    mcc = json['mcc'] != null ? new Mcc.fromJson(json['mcc']) : null;
     if (json['farmerProject'] != null) {
       farmerProject = <FarmerProject>[];
       json['farmerProject'].forEach((v) {
         farmerProject!.add(new FarmerProject.fromJson(v));
       });
     }
-    if (json['farmerMaster'] != null) {
-      farmerMaster = <FarmerMaster>[];
-      json['farmerMaster'].forEach((v) {
-        farmerMaster!.add(new FarmerMaster.fromJson(v));
+    if (json['farmerMilkProduction'] != null) {
+      farmerMilkProduction = <FarmerMilkProduction>[];
+      json['farmerMilkProduction'].forEach((v) {
+        farmerMilkProduction!.add(new FarmerMilkProduction.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.farmerMaster != null) {
+      data['farmerMaster'] = this.farmerMaster!.toJson();
+    }
+    if (this.cowBreedDetails != null) {
+      data['cowBreedDetails'] =
+          this.cowBreedDetails!.map((v) => v.toJson()).toList();
+    }
+    if (this.dde != null) {
+      data['dde'] = this.dde!.toJson();
+    }
+    if (this.testimonials != null) {
+      data['testimonials'] = this.testimonials!.map((v) => v.toJson()).toList();
+    }
+    if (this.mcc != null) {
+      data['mcc'] = this.mcc!.toJson();
+    }
     if (this.farmerProject != null) {
       data['farmerProject'] =
           this.farmerProject!.map((v) => v.toJson()).toList();
     }
-    if (this.farmerMaster != null) {
-      data['farmerMaster'] = this.farmerMaster!.map((v) => v.toJson()).toList();
+    if (this.farmerMilkProduction != null) {
+      data['farmerMilkProduction'] =
+          this.farmerMilkProduction!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class FarmerProject {
-  int? id;
-  int? farmerId;
-  int? projectId;
-  String? name;
-  int? category;
-  String? description;
-  String? projectStatus;
-  int? suggestionRank;
-  int? initialYield;
-  int? targetYield;
-  int? investmentAmount;
-  int? creditRatio;
-  int? revenuePerYear;
-  int? roiPerYear;
-  Null? farmerParticipation;
-  Null? gladCommisionPercentage;
-  Null? gladCommisionAmount;
-  Null? ddeCommisionPercentage;
-  Null? ddeCommisionAmount;
-  int? loanAmount;
-  int? repaymentMonths;
-  int? emiAmount;
-  String? repaymentStartDate;
-  String? status;
-  int? createdBy;
-  Null? updatedBy;
-  Null? deletedBy;
-  String? createdAt;
-  String? updatedAt;
-
-  FarmerProject(
-      {this.id,
-        this.farmerId,
-        this.projectId,
-        this.name,
-        this.category,
-        this.description,
-        this.projectStatus,
-        this.suggestionRank,
-        this.initialYield,
-        this.targetYield,
-        this.investmentAmount,
-        this.creditRatio,
-        this.revenuePerYear,
-        this.roiPerYear,
-        this.farmerParticipation,
-        this.gladCommisionPercentage,
-        this.gladCommisionAmount,
-        this.ddeCommisionPercentage,
-        this.ddeCommisionAmount,
-        this.loanAmount,
-        this.repaymentMonths,
-        this.emiAmount,
-        this.repaymentStartDate,
-        this.status,
-        this.createdBy,
-        this.updatedBy,
-        this.deletedBy,
-        this.createdAt,
-        this.updatedAt});
-
-  FarmerProject.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    farmerId = json['farmer_id'];
-    projectId = json['project_id'];
-    name = json['name'];
-    category = json['category'];
-    description = json['description'];
-    projectStatus = json['project_status'];
-    suggestionRank = json['suggestion_rank'];
-    initialYield = json['initial_yield'];
-    targetYield = json['target_yield'];
-    investmentAmount = json['investment_amount'];
-    creditRatio = json['credit_ratio'];
-    revenuePerYear = json['revenue_per_year'];
-    roiPerYear = json['roi_per_year'];
-    farmerParticipation = json['farmer_participation'];
-    gladCommisionPercentage = json['glad_commision_percentage'];
-    gladCommisionAmount = json['glad_commision_amount'];
-    ddeCommisionPercentage = json['dde_commision_percentage'];
-    ddeCommisionAmount = json['dde_commision_amount'];
-    loanAmount = json['loan_amount'];
-    repaymentMonths = json['repayment_months'];
-    emiAmount = json['emi_amount'];
-    repaymentStartDate = json['repayment_start_date'];
-    status = json['status'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    deletedBy = json['deleted_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['farmer_id'] = this.farmerId;
-    data['project_id'] = this.projectId;
-    data['name'] = this.name;
-    data['category'] = this.category;
-    data['description'] = this.description;
-    data['project_status'] = this.projectStatus;
-    data['suggestion_rank'] = this.suggestionRank;
-    data['initial_yield'] = this.initialYield;
-    data['target_yield'] = this.targetYield;
-    data['investment_amount'] = this.investmentAmount;
-    data['credit_ratio'] = this.creditRatio;
-    data['revenue_per_year'] = this.revenuePerYear;
-    data['roi_per_year'] = this.roiPerYear;
-    data['farmer_participation'] = this.farmerParticipation;
-    data['glad_commision_percentage'] = this.gladCommisionPercentage;
-    data['glad_commision_amount'] = this.gladCommisionAmount;
-    data['dde_commision_percentage'] = this.ddeCommisionPercentage;
-    data['dde_commision_amount'] = this.ddeCommisionAmount;
-    data['loan_amount'] = this.loanAmount;
-    data['repayment_months'] = this.repaymentMonths;
-    data['emi_amount'] = this.emiAmount;
-    data['repayment_start_date'] = this.repaymentStartDate;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
@@ -193,7 +110,7 @@ class FarmerMaster {
   String? phone;
   int? mccId;
   int? ddeId;
-  dynamic? photo;
+  String? photo;
   String? kycStatus;
   String? landlineNo;
   String? dateOfBirth;
@@ -212,9 +129,6 @@ class FarmerMaster {
   String? status;
   int? createdBy;
   int? updatedBy;
-  Null? deletedBy;
-  String? createdAt;
-  String? updatedAt;
 
   FarmerMaster(
       {this.id,
@@ -242,10 +156,7 @@ class FarmerMaster {
         this.currentYield,
         this.status,
         this.createdBy,
-        this.updatedBy,
-        this.deletedBy,
-        this.createdAt,
-        this.updatedAt});
+        this.updatedBy});
 
   FarmerMaster.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -274,9 +185,6 @@ class FarmerMaster {
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
-    deletedBy = json['deleted_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -304,6 +212,264 @@ class FarmerMaster {
     data['lead_type'] = this.leadType;
     data['ideal_yield'] = this.idealYield;
     data['current_yield'] = this.currentYield;
+    data['status'] = this.status;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    return data;
+  }
+}
+
+class CowBreedDetails {
+  int? id;
+  String? breedName;
+  int? heardSize;
+  int? milkingCows;
+  int? dryCows;
+  double? yieldPerCow;
+  int? bullCalfs;
+
+  CowBreedDetails(
+      {this.id,
+        this.breedName,
+        this.heardSize,
+        this.milkingCows,
+        this.dryCows,
+        this.yieldPerCow,
+        this.bullCalfs});
+
+  CowBreedDetails.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    breedName = json['breed_name'];
+    heardSize = json['heard_size'];
+    milkingCows = json['milking_cows'];
+    dryCows = json['dry_cows'];
+    yieldPerCow = json['yield_per_cow'];
+    bullCalfs = json['bull_calfs'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['breed_name'] = this.breedName;
+    data['heard_size'] = this.heardSize;
+    data['milking_cows'] = this.milkingCows;
+    data['dry_cows'] = this.dryCows;
+    data['yield_per_cow'] = this.yieldPerCow;
+    data['bull_calfs'] = this.bullCalfs;
+    return data;
+  }
+}
+
+class Dde {
+  String? name;
+  Null? phone;
+  Null? image;
+
+  Dde({this.name, this.phone, this.image});
+
+  Dde.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    phone = json['phone'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['phone'] = this.phone;
+    data['image'] = this.image;
+    return data;
+  }
+}
+
+class Testimonials {
+  int? id;
+  String? name;
+  String? description;
+  String? attachment;
+  String? type;
+  String? status;
+
+  Testimonials(
+      {this.id,
+        this.name,
+        this.description,
+        this.attachment,
+        this.type,
+        this.status});
+
+  Testimonials.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    attachment = json['attachment'];
+    type = json['type'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['attachment'] = this.attachment;
+    data['type'] = this.type;
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class Mcc {
+  int? id;
+  String? name;
+  String? email;
+  Null? phone;
+  Null? address;
+  Null? image;
+
+  Mcc({this.id, this.name, this.email, this.phone, this.address, this.image});
+
+  Mcc.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    address = json['address'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['address'] = this.address;
+    data['image'] = this.image;
+    return data;
+  }
+}
+
+class FarmerProject {
+  int? id;
+  String? name;
+  String? description;
+  String? projectStatus;
+  int? initialYield;
+  int? targetYield;
+  int? investmentAmount;
+  int? revenuePerYear;
+  int? roiPerYear;
+  int? category;
+  Null? incrementalProduction;
+  Null? photo;
+
+  FarmerProject(
+      {this.id,
+        this.name,
+        this.description,
+        this.projectStatus,
+        this.initialYield,
+        this.targetYield,
+        this.investmentAmount,
+        this.revenuePerYear,
+        this.roiPerYear,
+        this.category,
+        this.incrementalProduction,
+        this.photo});
+
+  FarmerProject.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    projectStatus = json['project_status'];
+    initialYield = json['initial_yield'];
+    targetYield = json['target_yield'];
+    investmentAmount = json['investment_amount'];
+    revenuePerYear = json['revenue_per_year'];
+    roiPerYear = json['roi_per_year'];
+    category = json['category'];
+    incrementalProduction = json['incremental_production'];
+    photo = json['photo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['project_status'] = this.projectStatus;
+    data['initial_yield'] = this.initialYield;
+    data['target_yield'] = this.targetYield;
+    data['investment_amount'] = this.investmentAmount;
+    data['revenue_per_year'] = this.revenuePerYear;
+    data['roi_per_year'] = this.roiPerYear;
+    data['category'] = this.category;
+    data['incremental_production'] = this.incrementalProduction;
+    data['photo'] = this.photo;
+    return data;
+  }
+}
+
+class FarmerMilkProduction {
+  int? id;
+  int? farmerId;
+  String? date;
+  int? totalMilkProduction;
+  int? suppliedToPdfl;
+  int? suppliedToOthers;
+  int? selfUse;
+  int? yieldPerCow;
+  String? status;
+  int? createdBy;
+  Null? updatedBy;
+  Null? deletedBy;
+  String? createdAt;
+  String? updatedAt;
+
+  FarmerMilkProduction(
+      {this.id,
+        this.farmerId,
+        this.date,
+        this.totalMilkProduction,
+        this.suppliedToPdfl,
+        this.suppliedToOthers,
+        this.selfUse,
+        this.yieldPerCow,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  FarmerMilkProduction.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    date = json['date'];
+    totalMilkProduction = json['total_milk_production'];
+    suppliedToPdfl = json['supplied_to_pdfl'];
+    suppliedToOthers = json['supplied_to_others'];
+    selfUse = json['self_use'];
+    yieldPerCow = json['yield_per_cow'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['farmer_id'] = this.farmerId;
+    data['date'] = this.date;
+    data['total_milk_production'] = this.totalMilkProduction;
+    data['supplied_to_pdfl'] = this.suppliedToPdfl;
+    data['supplied_to_others'] = this.suppliedToOthers;
+    data['self_use'] = this.selfUse;
+    data['yield_per_cow'] = this.yieldPerCow;
     data['status'] = this.status;
     data['created_by'] = this.createdBy;
     data['updated_by'] = this.updatedBy;

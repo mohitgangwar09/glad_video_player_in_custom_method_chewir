@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glad/screen/common/dde_in_area.dart';
-import 'package:glad/screen/common/mcc_in_area.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
@@ -14,64 +15,85 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'edit_profile.dart';
 
-class FarmerProfile extends StatelessWidget {
+class FarmerProfile extends StatefulWidget {
   const FarmerProfile({super.key});
+
+  @override
+  State<FarmerProfile> createState() => _FarmerProfileState();
+}
+
+class _FarmerProfileState extends State<FarmerProfile> {
+  @override
+  void initState() {
+    super.initState();
+
+    BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          farmerBackground(),
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'My Profile',
-                titleText1Style: figtreeMedium.copyWith(
-                    fontSize: 20, color: Colors.black),
-                centerTitle: true,
-                leading: arrowBackButton(),
-                action: Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: InkWell(
-                      onTap: () {
-                        const EditProfile(
-                          section: 'personal',
-                        ).navigate();
-                      },
-                      child: SvgPicture.asset(Images.profileEdit)),
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      10.verticalSpace(),
-                      profileData(),
-                      40.verticalSpace(),
-                      farmDetails(),
-                      30.verticalSpace(),
-                      dde(context),
-                      20.verticalSpace(),
-                      cowsInTheFarm(),
-                      30.verticalSpace(),
-                      address(context),
-                      facilitiesInTheFarm(),
-                      20.verticalSpace(),
-                    ],
+      body: BlocBuilder<ProfileCubit, ProfileCubitState>(
+          builder: (context, state) {
+        if (state.status == ProfileStatus.submit) {
+          return const Center(
+              child: CircularProgressIndicator(
+            color: ColorResources.maroon,
+          ));
+        }
+        return Stack(
+          children: [
+            farmerBackground(),
+            Column(
+              children: [
+                CustomAppBar(
+                  context: context,
+                  titleText1: 'My Profile',
+                  titleText1Style:
+                      figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                  centerTitle: true,
+                  leading: arrowBackButton(),
+                  action: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: InkWell(
+                        onTap: () {
+                          const EditProfile(
+                            section: 'personal',
+                          ).navigate();
+                        },
+                        child: SvgPicture.asset(Images.profileEdit)),
                   ),
                 ),
-              )
-            ],
-          ),
-        ],
-      ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        10.verticalSpace(),
+                        profileData(state),
+                        40.verticalSpace(),
+                        farmDetails(state),
+                        30.verticalSpace(),
+                        dde(context, state),
+                        20.verticalSpace(),
+                        cowsInTheFarm(state),
+                        30.verticalSpace(),
+                        address(context),
+                        facilitiesInTheFarm(),
+                        20.verticalSpace(),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        );
+      }),
     );
   }
 
-  Widget profileData() {
+  Widget profileData(ProfileCubitState state) {
     return Column(
       children: [
         InkWell(
@@ -84,10 +106,13 @@ class FarmerProfile extends StatelessWidget {
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(25),
-                    child: Image.asset(
-                      Images.profileDemo,
-                      height: 130,
-                      width: 130,
+                    child: Image.network(
+                      state.responseFarmerProfile!.farmer!.photo!,
+                      errorBuilder: (_, __, ___) => Image.asset(
+                        Images.profileDemo,
+                        height: 130,
+                        width: 130,
+                      ),
                     )),
                 Positioned.fill(
                     child: Align(
@@ -105,7 +130,7 @@ class FarmerProfile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Matts Francesca',
+              Text(state.responseFarmerProfile!.farmer!.name!,
                   style: figtreeMedium.copyWith(fontSize: 24)),
               4.horizontalSpace(),
               SvgPicture.asset(Images.kycUnverified)
@@ -116,7 +141,7 @@ class FarmerProfile extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('FrancescaMetts@gmail.com',
+            Text(state.responseFarmerProfile!.farmer!.email!,
                 style: figtreeRegular.copyWith(
                     fontSize: 14, decoration: TextDecoration.underline)),
             8.horizontalSpace(),
@@ -127,7 +152,7 @@ class FarmerProfile extends StatelessWidget {
                   color: Colors.black, shape: BoxShape.circle),
             ),
             8.horizontalSpace(),
-            Text('+256 758711344',
+            Text(state.responseFarmerProfile!.farmer!.phone!,
                 style: figtreeSemiBold.copyWith(fontSize: 14)),
           ],
         ),
@@ -137,7 +162,10 @@ class FarmerProfile extends StatelessWidget {
           children: [
             Column(
               children: [
-                Text('25', style: figtreeSemiBold.copyWith(fontSize: 22)),
+                Text(
+                    state.responseFarmerProfile!.farmer!.farmingExperience!
+                        .split(' years')[0],
+                    style: figtreeSemiBold.copyWith(fontSize: 22)),
                 Text('Years exp.',
                     style: figtreeRegular.copyWith(
                       fontSize: 12,
@@ -152,7 +180,11 @@ class FarmerProfile extends StatelessWidget {
             7.horizontalSpace(),
             Column(
               children: [
-                Text('62', style: figtreeSemiBold.copyWith(fontSize: 22)),
+                Text(
+                    calculateAge(DateTime.parse(
+                            state.responseFarmerProfile!.farmer!.dateOfBirth!))
+                        .toString(),
+                    style: figtreeSemiBold.copyWith(fontSize: 22)),
                 Text('Years old',
                     style: figtreeRegular.copyWith(
                       fontSize: 12,
@@ -301,7 +333,7 @@ class FarmerProfile extends StatelessWidget {
     );
   }
 
-  Widget cowsInTheFarm() {
+  Widget cowsInTheFarm(ProfileCubitState state) {
     return Column(
       children: [
         Padding(
@@ -325,9 +357,6 @@ class FarmerProfile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Wrap(
-                  spacing: 6,
-                  children: [
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -335,46 +364,12 @@ class FarmerProfile extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        'Overall',
+                        state.responseFarmerProfile!.cowBreedDetails![0].breedName!,
                         style: figtreeRegular.copyWith(
                             fontSize: 12, color: Colors.white),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(0xFFF9F9F9)),
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        'Friesian',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(0xFFF9F9F9)),
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        'Guernsey',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(0xFFF9F9F9)),
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        'Guernsey',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: Colors.black),
-                      ),
-                    )
-                  ],
-                ),
+
                 20.verticalSpace(),
                 Container(
                   decoration: BoxDecoration(
@@ -393,7 +388,7 @@ class FarmerProfile extends StatelessWidget {
                             style: figtreeRegular.copyWith(
                                 fontSize: 14, color: const Color(0xFF727272))),
                         TextSpan(
-                            text: '20',
+                            text: state.responseFarmerProfile!.cowBreedDetails![0].milkingCows!.toString(),
                             style: figtreeSemiBold.copyWith(
                                 fontSize: 14, color: Colors.black)),
                       ])),
@@ -408,7 +403,7 @@ class FarmerProfile extends StatelessWidget {
                             style: figtreeRegular.copyWith(
                                 fontSize: 14, color: const Color(0xFF727272))),
                         TextSpan(
-                            text: '10 Ltr/Day',
+                            text: '${state.responseFarmerProfile!.cowBreedDetails![0].yieldPerCow!.toString()} Ltr/Day',
                             style: figtreeSemiBold.copyWith(
                                 fontSize: 14, color: Colors.black)),
                       ])),
@@ -425,7 +420,7 @@ class FarmerProfile extends StatelessWidget {
                         SvgPicture.asset(Images.herdSize),
                         Text('Herd Size',
                             style: figtreeMedium.copyWith(fontSize: 14)),
-                        Text('30',
+                        Text(state.responseFarmerProfile!.cowBreedDetails![0].heardSize!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -436,7 +431,7 @@ class FarmerProfile extends StatelessWidget {
                         SvgPicture.asset(Images.dryCows),
                         Text('Dry Cows',
                             style: figtreeMedium.copyWith(fontSize: 14)),
-                        Text('07',
+                        Text(state.responseFarmerProfile!.cowBreedDetails![0].dryCows!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -501,7 +496,7 @@ class FarmerProfile extends StatelessWidget {
                           style: figtreeRegular.copyWith(
                               fontSize: 14, color: const Color(0xFF727272))),
                       TextSpan(
-                          text: '01',
+                          text: state.responseFarmerProfile!.cowBreedDetails![0].bullCalfs!.toString(),
                           style: figtreeMedium.copyWith(
                               fontSize: 14, color: Colors.black)),
                     ])),
@@ -515,7 +510,7 @@ class FarmerProfile extends StatelessWidget {
     );
   }
 
-  Widget dde(BuildContext context) {
+  Widget dde(BuildContext context, ProfileCubitState state) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Stack(
@@ -536,12 +531,16 @@ class FarmerProfile extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset(Images.sampleUser),
+                      Image.network(
+                        state.responseFarmerProfile!.dde!.image ?? '',
+                        errorBuilder: (_, __, ___) =>
+                            Image.asset(Images.sampleUser),
+                      ),
                       15.horizontalSpace(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Begumanya Charles',
+                          Text(state.responseFarmerProfile!.dde!.name!,
                               style: figtreeMedium.copyWith(
                                   fontSize: 16, color: Colors.black)),
                           4.verticalSpace(),
@@ -553,7 +552,9 @@ class FarmerProfile extends StatelessWidget {
                                 color: Colors.black,
                                 size: 16,
                               ),
-                              Text('+256 758711344',
+                              Text(
+                                  state.responseFarmerProfile!.dde!.phone ??
+                                      '+256 758711344',
                                   style: figtreeRegular.copyWith(
                                       fontSize: 12, color: Colors.black)),
                             ],
@@ -618,7 +619,7 @@ class FarmerProfile extends StatelessWidget {
     );
   }
 
-  Widget farmDetails() {
+  Widget farmDetails(ProfileCubitState state) {
     return Column(
       children: [
         Padding(
@@ -654,7 +655,7 @@ class FarmerProfile extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('150 Acres',
+                        Text('${state.responseFarmerProfile!.farmer!.farmSize} Acres',
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                         Text('Farm Area',
                             style: figtreeRegular.copyWith(fontSize: 12)),
@@ -664,7 +665,7 @@ class FarmerProfile extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('80 Acres',
+                        Text('${state.responseFarmerProfile!.farmer!.dairyArea} Acres',
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                         Text('Dairy area',
                             style: figtreeRegular.copyWith(fontSize: 12)),
@@ -674,7 +675,7 @@ class FarmerProfile extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('05',
+                        Text('${state.responseFarmerProfile!.farmer!.staffQuantity}',
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                         Text('Members',
                             style: figtreeRegular.copyWith(fontSize: 12)),
@@ -693,7 +694,7 @@ class FarmerProfile extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Managed by: Moses Emanuel',
+                      Text('Managed by: ${state.responseFarmerProfile!.farmer!.managerName}',
                           style: figtreeMedium.copyWith(fontSize: 12)),
                       4.horizontalSpace(),
                       Container(
@@ -703,7 +704,7 @@ class FarmerProfile extends StatelessWidget {
                             color: Colors.black, shape: BoxShape.circle),
                       ),
                       4.horizontalSpace(),
-                      Text('+256 758711344',
+                      Text('${state.responseFarmerProfile!.farmer!.managerPhone}',
                           style: figtreeMedium.copyWith(fontSize: 12)),
                     ],
                   ),
@@ -718,7 +719,8 @@ class FarmerProfile extends StatelessWidget {
 }
 
 class CustomIndicator extends StatelessWidget {
-  const CustomIndicator({super.key, required this.percentage,required this.width});
+  const CustomIndicator(
+      {super.key, required this.percentage, required this.width});
   final int percentage;
   final double width;
 

@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/response_profile_model.dart';
+import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
@@ -57,6 +58,19 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
       showCustomToast(context, response.message.toString());
     }
     else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void getFarmerProfile(context) async{
+    emit(state.copyWith(status: ProfileStatus.submit));
+    var response = await apiRepository.getFarmerProfileApi();
+    if(response.status == 200){
+
+      emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data));
+    }
+    else{
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
     }

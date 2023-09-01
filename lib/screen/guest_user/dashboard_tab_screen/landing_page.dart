@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -13,14 +14,23 @@ import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/utils/styles.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class GuestLandingPage extends StatelessWidget {
+class GuestLandingPage extends StatefulWidget {
   const GuestLandingPage({super.key});
 
+  @override
+  State<GuestLandingPage> createState() => _GuestLandingPageState();
+}
+
+class _GuestLandingPageState extends State<GuestLandingPage> {
+  int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,9 +51,11 @@ class GuestLandingPage extends StatelessWidget {
                     child: SvgPicture.asset(Images.drawer)),
                 action: Row(
                   children: [
-                    InkWell(onTap: () async{
-                      await callOnMobile(256758711344);
-                    }, child: SvgPicture.asset(Images.call)),
+                    InkWell(
+                        onTap: () async {
+                          await callOnMobile(256758711344);
+                        },
+                        child: SvgPicture.asset(Images.call)),
                     7.horizontalSpace(),
                     InkWell(
                         onTap: () {
@@ -100,7 +112,57 @@ class GuestLandingPage extends StatelessWidget {
             10.verticalSpace(),
             const TrendingNewsAndEvents(),
             10.verticalSpace(),
-            const GladReview(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),
+              child: Text('GLAD makes you Happier!',
+                  style: figtreeMedium.copyWith(
+                      fontSize: 18, color: Colors.black)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: CarouselSlider(
+                  items: ['', '', '']
+                      .map<Widget>(
+                        (e) => const GladReview(
+                          review:
+                              'Lorem is simply dummy of the printing and industry. Lorem Ipsum has industry\'s standard dummy.',
+                          name: 'John Smith',
+                          userType: 'Farmer',
+                          location: 'Kampala, Uganda',
+                          attachment: '',
+                          attachmentType: 'image',
+                        ),
+                      )
+                      .toList(),
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 1,
+                    clipBehavior: Clip.none,
+                    enlargeCenterPage: true,
+                    height: screenHeight() < 750
+                        ? screenHeight() * 0.285
+                        : screenHeight() * 0.22,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        activeIndex = index;
+                      });
+                    },
+                  )),
+            ),
+            Center(
+                child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: AnimatedSmoothIndicator(
+                activeIndex: activeIndex,
+                count: 3,
+                effect: const WormEffect(
+                    activeDotColor: ColorResources.maroon,
+                    dotHeight: 7,
+                    dotWidth: 7,
+                    dotColor: ColorResources.grey),
+              ),
+            )),
             100.verticalSpace(),
           ],
         ),

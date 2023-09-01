@@ -1,8 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glad/cubit/farmer_cubit/farmer_cubit.dart';
-import 'package:glad/data/repository/auth_repo.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
@@ -20,19 +21,38 @@ import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class FarmerLandingPage extends StatelessWidget {
+class FarmerLandingPage extends StatefulWidget {
   const FarmerLandingPage({Key? key}) : super(key: key);
 
   @override
+  State<FarmerLandingPage> createState() => _FarmerLandingPageState();
+}
+
+class _FarmerLandingPageState extends State<FarmerLandingPage> {
+  int activeIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
+    // });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    BlocProvider.of<FarmerCubit>(context).getFarmerDashboard(context);
-    return BlocBuilder<FarmerCubit, FarmerState>(builder: (context, state) {
-      if (state.status == FarmerStatus.loading) {
-        return const Center(child: CircularProgressIndicator(color: ColorResources.maroon,));
+    return BlocBuilder<LandingPageCubit, LandingPageState>(
+        builder: (context, state) {
+      if (state.status == LandingPageStatus.loading) {
+        return const Center(
+            child: CircularProgressIndicator(
+          color: ColorResources.maroon,
+        ));
       }
       return Container(
         color: Colors.white,
@@ -44,7 +64,7 @@ class FarmerLandingPage extends StatelessWidget {
                 CustomAppBar(
                   context: context,
                   titleText1: 'Hello ',
-                  titleText2: '',
+                  titleText2: state.response!.farmerMaster!.name!.split(' ')[0],
                   leading: openDrawer(
                       onTap: () {
                         farmerLandingKey.currentState?.openDrawer();
@@ -59,7 +79,11 @@ class FarmerLandingPage extends StatelessWidget {
                           onTap: () {
                             const FarmerProfile().navigate();
                           },
-                          child: SvgPicture.asset(Images.person)),
+                          child: Image.network(
+                            state.response!.farmerMaster!.photo!,
+                            errorBuilder: (_, __, ___) =>
+                                SvgPicture.asset(Images.person),
+                          )),
                       8.horizontalSpace(),
                     ],
                   ),
@@ -73,7 +97,7 @@ class FarmerLandingPage extends StatelessWidget {
     });
   }
 
-  Widget landingPage(context, FarmerState state) {
+  Widget landingPage(context, LandingPageState state) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -83,64 +107,58 @@ class FarmerLandingPage extends StatelessWidget {
             10.verticalSpace(),
             Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 10, bottom: 25),
-              child: customGrid(context,
-                  mainAxisExtent: 185, crossAxisSpacing: 0, child: (int index) {
-                return InkWell(
-                  onTap: () {
-                    const MilkProductionYield().navigate();
-                  },
-                  child: customProjectContainer(
-                      width: screenWidth(),
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                "18 K ltr.".textMedium(fontSize: 22),
-                                Container(
-                                  width: 70,
-                                  margin: 10.marginAll(),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 7),
-                                  decoration: boxDecoration(
-                                    borderRadius: 30,
-                                    backgroundColor: const Color(0xffE4FFE3),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      "30%".textSemiBold(
-                                          color: const Color(0xff4BC56F)),
-                                      const Icon(
-                                        Icons.trending_up,
-                                        color: Color(0xff4BC56F),
-                                        size: 20,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                12.verticalSpace(),
-                                "Milking cows".textMedium(fontSize: 16),
-                                7.verticalSpace(),
-                                "05 Breeds".textMedium(
-                                    fontSize: 12,
-                                    color: const Color(0xff727272))
-                              ],
-                            ),
-                          ),
-                          Align(
-                              alignment: Alignment.topRight,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 14.0, top: 9),
-                                child: SvgPicture.asset(Images.menuIcon),
-                              )),
-                        ],
-                      )),
-                );
-              }),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            const MilkProductionYield().navigate();
+                          },
+                          child: customProjectContainer(
+                              width: screenWidth(),
+                              child: graphCard('${state.response!
+                                  .farmerMilkProduction![0].totalMilkProduction}K ltr.', 'Milk produced', 'Last 6 months')),
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            const MilkProductionYield().navigate();
+                          },
+                          child: customProjectContainer(
+                              width: screenWidth(), child: graphCard('UGX ${state.response!
+                              .farmerMilkProduction![0].suppliedToPdfl}M', 'Supplied to PDFL', 'Last 6 months')),
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            const MilkProductionYield().navigate();
+                          },
+                          child: customProjectContainer(
+                              width: screenWidth(), child: graphCard('40 cows', 'Milking cows', '05 breeds')),
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            const MilkProductionYield().navigate();
+                          },
+                          child: customProjectContainer(
+                              width: screenWidth(), child: graphCard('${state.response!
+                              .farmerMilkProduction![0].yieldPerCow} ltr.', 'Yield per cow', 'Each day')),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -164,27 +182,32 @@ class FarmerLandingPage extends StatelessWidget {
                         child: ProjectWidget(
                           showStatus: false,
                           name: state.response!.farmerProject![i].name!,
-                          targetYield: state.response!.farmerProject![i].targetYield!,
-                          investment: state.response!.farmerProject![i].investmentAmount!,
-                          revenue: state.response!.farmerProject![i].revenuePerYear!,
-                          index:  i + 1,
+                          targetYield:
+                              state.response!.farmerProject![i].targetYield!,
+                          investment: state
+                              .response!.farmerProject![i].investmentAmount!,
+                          revenue:
+                              state.response!.farmerProject![i].revenuePerYear!,
+                          index: i + 1,
+                          incrementalProduction: state.response!.farmerProject![i].incrementalProduction ?? 180,
+                          roi: state.response!.farmerProject![i].roiPerYear!,
                         ),
                         width: screenWidth() - 53);
                   }),
             ),
             10.verticalSpace(),
-            const MCCInArea(
-              name: 'Begumanya Charles',
-              phone: '+256 758711344',
-              address:
+            MCCInArea(
+              name: state.response!.mcc!.name ?? '',
+              phone: state.response!.mcc!.phone ?? '+256 758711344',
+              address: state.response!.mcc!.address ??
                   'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
-              image: '',
+              image: state.response!.mcc!.image ?? '',
             ),
             35.verticalSpace(),
-            const DDEInArea(
-              name: 'Begumanya Charles',
-              phone: '+256 758711344',
-              image: '',
+            DDEInArea(
+              name: state.response!.dde!.name ?? 'Begumanya Charles',
+              phone: state.response!.dde!.phone ?? '+256 758711344',
+              image: state.response!.dde!.image ?? '',
             ),
             topPerformingFarmer(),
             35.verticalSpace(),
@@ -204,11 +227,115 @@ class FarmerLandingPage extends StatelessWidget {
             10.verticalSpace(),
             const TrendingNewsAndEvents(),
             10.verticalSpace(),
-            const GladReview(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),
+              child: Text('GLAD makes you Happier!',
+                  style: figtreeMedium.copyWith(
+                      fontSize: 18, color: Colors.black)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: CarouselSlider(
+                  items: [
+                    for (int index = 0; index < 3; index++)
+                      GladReview(
+                        review:
+                            state.response!.testimonials![index].description!,
+                        name: state.response!.testimonials![index].name == ''
+                            ? 'John Smith'
+                            : state.response!.testimonials![index].name!,
+                        userType: 'Farmer',
+                        location: 'Kampala, Uganda',
+                        attachment:
+                            state.response!.testimonials![index].attachment ??
+                                '',
+                        attachmentType:
+                            state.response!.testimonials![index].type!,
+                      ),
+                  ],
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 1,
+                    clipBehavior: Clip.none,
+                    enlargeCenterPage: true,
+                    height: screenHeight() < 750
+                        ? screenHeight() * 0.285
+                        : screenHeight() * 0.22,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        activeIndex = index;
+                      });
+                    },
+                  )),
+            ),
+            Center(
+                child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: AnimatedSmoothIndicator(
+                activeIndex: activeIndex,
+                count: 3,
+                effect: const WormEffect(
+                    activeDotColor: ColorResources.maroon,
+                    dotHeight: 7,
+                    dotWidth: 7,
+                    dotColor: ColorResources.grey),
+              ),
+            )),
             100.verticalSpace()
           ],
         ),
       ),
+    );
+  }
+
+  Stack graphCard(String value, String type, String desc) {
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                value.textMedium(fontSize: 22),
+                Container(
+                  width: 70,
+                  margin: 10.marginAll(),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+                  decoration: boxDecoration(
+                    borderRadius: 30,
+                    backgroundColor: const Color(0xffE4FFE3),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      "30%".textSemiBold(color: const Color(0xff4BC56F)),
+                      const Icon(
+                        Icons.trending_up,
+                        color: Color(0xff4BC56F),
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+                12.verticalSpace(),
+                type.textMedium(fontSize: 16),
+                7.verticalSpace(),
+                desc.textMedium(fontSize: 12, color: const Color(0xff727272))
+              ],
+            ),
+          ),
+        ),
+        Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 14.0, top: 9),
+              child: SvgPicture.asset(Images.menuIcon),
+            )),
+      ],
     );
   }
 
