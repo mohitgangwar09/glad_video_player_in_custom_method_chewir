@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/add_testimonial.dart';
+import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 
 import '../../../utils/color_resources.dart';
@@ -30,13 +33,14 @@ class FarmerDrawer extends StatelessWidget {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(children: [
-                    navigationItem(),
-                    helpLineItem(),
-                  ],),
+                  child: Column(
+                    children: [
+                      navigationItem(context),
+                      helpLineItem(),
+                    ],
+                  ),
                 ),
               )
-
             ],
           ),
           sideBackground(),
@@ -45,13 +49,17 @@ class FarmerDrawer extends StatelessWidget {
     );
   }
 
-  Widget navigationItem() {
+  Widget navigationItem(context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
       child: Column(
         children: [
           navigationBarItem(
-              image: Images.myEarning, onTap: () {}, text: 'My earnings'),
+              image: Images.myEarning,
+              onTap: () {
+                const Earnings().navigate();
+              },
+              text: 'My earnings'),
           30.verticalSpace(),
           navigationBarItem(
               image: Images.aboutus,
@@ -89,7 +97,10 @@ class FarmerDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
             image: Images.drawerLogout,
-            onTap: () {},
+            onTap: () {
+              BlocProvider.of<AuthCubit>(context).clearSharedData();
+              BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+            },
             text: 'Logout',
           ),
           30.verticalSpace(),
@@ -111,22 +122,22 @@ class FarmerDrawer extends StatelessWidget {
               width: 45,
               height: 45,
             ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'GLAD Helpline Number',
-                      style: figtreeMedium.copyWith(
-                          fontSize: 12, color: Colors.white),
-                    ),
-                    5.verticalSpace(),
-                    Text(
-                      '+234567890',
-                      style: figtreeSemiBold.copyWith(
-                          fontSize: 20, color: Colors.white),
-                    )
-                  ],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'GLAD Helpline Number',
+                  style:
+                      figtreeMedium.copyWith(fontSize: 12, color: Colors.white),
                 ),
+                5.verticalSpace(),
+                Text(
+                  '+234567890',
+                  style: figtreeSemiBold.copyWith(
+                      fontSize: 20, color: Colors.white),
+                )
+              ],
+            ),
             SvgPicture.asset(
               Images.whatsapp,
               width: 40,
@@ -168,17 +179,22 @@ class FarmerDrawer extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 15.0),
-          child: CustomAppBar(context: context, titleText1: '', leading: closeDrawer(
-            child: SvgPicture.asset(
-              Images.close,
+          child: CustomAppBar(
+            context: context,
+            titleText1: '',
+            leading: closeDrawer(
+              child: SvgPicture.asset(
+                Images.close,
+                width: 30,
+                height: 30,
+              ),
+            ),
+            action: SvgPicture.asset(
+              Images.onboardingnew,
               width: 30,
               height: 30,
             ),
-          ), action: SvgPicture.asset(
-            Images.onboardingnew,
-            width: 30,
-            height: 30,
-          ),),
+          ),
         ),
         50.verticalSpace(),
         Padding(
@@ -189,7 +205,6 @@ class FarmerDrawer extends StatelessWidget {
           ),
         ),
         20.verticalSpace(),
-
       ],
     );
   }

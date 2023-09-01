@@ -166,6 +166,7 @@ class AuthRepository {
   Future<bool> clearSharedData() async {
     await sharedPreferences?.remove(AppConstants.token);
     await sharedPreferences?.remove(AppConstants.userId);
+    await sharedPreferences?.remove(AppConstants.userType);
     return true;
   }
 }

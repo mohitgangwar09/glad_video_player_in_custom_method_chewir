@@ -6,8 +6,13 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class ProjectWidget extends StatelessWidget {
-  final bool status;
-  const ProjectWidget({Key? key,required this.status}) : super(key: key);
+  final bool showStatus;
+  final String name;
+  final int targetYield;
+  final int investment;
+  final int revenue;
+  final int index;
+  const ProjectWidget({Key? key,required this.showStatus, required this.name, required this.targetYield, required this.investment, required this.revenue, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +44,7 @@ class ProjectWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          "Dam Construction".textMedium(fontSize: 18,),
+                          name.textMedium(fontSize: 18, maxLines: 1, overflow: TextOverflow.ellipsis),
 
                           5.verticalSpace(),
 
@@ -69,7 +74,7 @@ class ProjectWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
 
-                        "18 Ltr./day".textSemiBold(color: Colors.black, fontSize: 16),
+                        "$targetYield Ltr./day".textSemiBold(color: Colors.black, fontSize: 16),
 
                         3.verticalSpace(),
 
@@ -118,7 +123,7 @@ class ProjectWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
 
-                        "UGX 3.2M".textSemiBold(color: Colors.black, fontSize: 16),
+                        "UGX ${investment/1000}M".textSemiBold(color: Colors.black, fontSize: 16),
 
                         "Investment".textMedium(fontSize: 12),
 
@@ -132,7 +137,7 @@ class ProjectWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
 
-                        "UGX 4.5M".textSemiBold(color: Colors.black, fontSize: 16),
+                        "UGX ${revenue/1000}M".textSemiBold(color: Colors.black, fontSize: 16),
 
                         "Revenue".textMedium(fontSize: 12,color: Colors.black),
 
@@ -170,7 +175,7 @@ class ProjectWidget extends StatelessWidget {
 
 
         Visibility(
-          visible: status,
+          visible: showStatus,
           child: Align(
             alignment: Alignment.topRight,
             child: Container(
@@ -185,6 +190,27 @@ class ProjectWidget extends StatelessWidget {
                 style: figtreeMedium.copyWith(
                     color: const Color(0xff6A0030),
                     fontSize: 10
+
+                ),),
+            ),
+          ),
+        ),
+
+        Visibility(
+          visible: !showStatus,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: boxDecoration(
+                borderRadius: 30,
+                backgroundColor: const Color(0xFFE4FFE3)
+              ),
+              child: Text(index.toString(),
+                textAlign: TextAlign.center,
+                style: figtreeMedium.copyWith(
+                    color: const Color(0xff6A0030),
+                    fontSize: 16
 
                 ),),
             ),

@@ -117,8 +117,10 @@ class AuthCubit extends Cubit<AuthCubitState>{
         if(response.data!.isFirst == 0){
           const OtpScreen(tag: "email",).navigate(isInfinity: true);
         }else{
-          apiRepository.saveUserToken(state.token);
+          print('token----------${response.data!.accessToken.toString()}');
+          apiRepository.saveUserToken(response.data!.accessToken.toString());
           await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
+          await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
           if(response.data!.userType == "mcc"){
             const DashboardMCC().navigate(isInfinity: true);
           }else if(response.data!.userType == "farmer"){
@@ -151,7 +153,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
       disposeProgress();
       // print(response);
       if(response.status == 200){
-        emit(state.copyWith(status: AuthStatus.success,id: response.data!.id.toString(),validatorString: response.data!.email.toString()));
+        emit(state.copyWith(status: AuthStatus.success,id: response.data!.id.toString(),validatorString: response.data!.email.toString(), userType: response.data!.userType.toString()));
            const OtpScreen(tag:"phone").navigate(isInfinity: true);
       }
       else{
@@ -216,6 +218,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
       if(response.status == 200){
         emit(state.copyWith(status: AuthStatus.success));
         await sharedPreferences.setString(AppConstants.userId, state.id.toString());
+        await sharedPreferences.setString(AppConstants.userType, state.userType.toString());
         if(state.passwordController.text.isEmpty){
           showCustomToast(context, response.message.toString());
           CreatePassword(id:state.id,"forgotPassword").navigate(isInfinity: true);
@@ -245,6 +248,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
         emit(state.copyWith(status: AuthStatus.success));
         apiRepository.saveUserToken(response.data!.accessToken.toString());
         await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
+        await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
         if(response.data!.userType == "mcc"){
           const DashboardMCC().navigate(isInfinity: true);
         }else if(response.data!.userType == "farmer"){

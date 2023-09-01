@@ -4,7 +4,7 @@ enum AuthStatus{initial,submit,success,error}
 
 class AuthCubitState extends Equatable{
   final AuthStatus status;
-  final String token, validator,validatorString,id;
+  final String token, validator,validatorString,id, userType;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController otpController;
@@ -23,6 +23,7 @@ class AuthCubitState extends Equatable{
       required this.passwordController,
       required this.passwordVisible,
       required this.confirmVisible,
+      required this.userType,
   });
 
   factory AuthCubitState.initial() {
@@ -38,6 +39,7 @@ class AuthCubitState extends Equatable{
       passwordController: TextEditingController(),
       passwordVisible: true,
       confirmVisible: true,
+      userType: '',
     );
   }
 
@@ -47,7 +49,7 @@ class AuthCubitState extends Equatable{
     TextEditingController? otpController,
     TextEditingController? confirmPasswordController,
     TextEditingController? passwordController,
-    String? token,validator,validatorString,id,
+    String? token,validator,validatorString,id, userType,
     bool? passwordVisible,confirmVisible
   }) {
     return AuthCubitState(
@@ -62,6 +64,7 @@ class AuthCubitState extends Equatable{
         confirmVisible: confirmVisible ?? this.confirmVisible,
         validator: validator ?? this.validator,
         validatorString: validatorString ?? this.validatorString,
+        userType: userType ?? this.userType,
     );
   }
 

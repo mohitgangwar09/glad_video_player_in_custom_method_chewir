@@ -104,7 +104,7 @@ class ProjectScreen extends StatelessWidget {
                 child: customList(child: (int i) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 20.0),
-                    child: customProjectContainer(child: const ProjectWidget(status: true,),width: screenWidth()),
+                    child: customProjectContainer(child: ProjectWidget(showStatus: true, name: 'Dam', targetYield: 10, investment: 10000, revenue: 10000, index: i+1,),width: screenWidth()),
                   );
                 }),
               ),

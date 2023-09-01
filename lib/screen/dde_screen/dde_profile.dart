@@ -108,7 +108,7 @@ class _DDEProfileState extends State<DDEProfile> {
             leadingImage: Images.textEdit,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: true,
+            enabled: false,
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
           ),

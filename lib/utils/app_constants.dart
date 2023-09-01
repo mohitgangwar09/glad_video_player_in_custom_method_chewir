@@ -12,11 +12,13 @@ class AppConstants {
   static const String forgotPasswordApi = '/api/password/reset';
   static const String updateProfileImageAPi = '/api/profile-pic';
   static const String profileApi = '/api/profile';
+  static const String farmerDashboardApi = '/api/landing/dashboard';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
   static const String token = 'token';
   static const String userId = 'userId';
+  static const String userType = 'userType';
 
   static const Map languages = {'Swahili': 'Hujambo\nMimi Sam', 'English': 'Hi\nI\'m Sam'};
 }

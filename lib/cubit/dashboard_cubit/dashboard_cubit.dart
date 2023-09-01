@@ -6,9 +6,9 @@ class DashboardCubit extends Cubit<DashboardState>{
 
   DashboardCubit() : super(DashboardState.initial());
 
+
   void selectedIndex(int index) {
     emit(state.copyWith(selectedIndex: index));
   }
-
 
 }

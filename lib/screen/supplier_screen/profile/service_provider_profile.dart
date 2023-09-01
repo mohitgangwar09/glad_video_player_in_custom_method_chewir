@@ -106,7 +106,7 @@ class _SupplierProfileState extends State<SupplierProfile> {
             leadingImage: Images.textEdit,
             imageColors: ColorResources.fieldGrey,
             style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
-            enabled: true,
+            enabled: false,
 
             withoutBorder: true,
             underLineBorderColor: ColorResources.grey,
