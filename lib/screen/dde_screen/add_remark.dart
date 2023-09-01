@@ -7,6 +7,7 @@ import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -96,14 +97,8 @@ class _AddRemarkState extends State<AddRemark> {
             SvgPicture.asset(Images.addRemark),
           ],
         ),
-        Row(
-          children: [
-            5.horizontalSpace(),
-            'Select option'.textMedium(color: Colors.black, fontSize: 12),
-          ],
-        ),
-        5.verticalSpace(),
         CustomDropdown(
+          title: 'Select option',
           dropdownValue: null,
           itemList: ['', '', ''],
           onChanged: (value) {},

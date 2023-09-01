@@ -10,6 +10,7 @@ class Images {
   static const String sliderTwo = 'assets/images/onboarding_main2.png';
   static const String sliderNext = 'assets/images/onboarding_next.svg';
   static const String ppBg = 'assets/images/profile_picture_bg.svg';
+  static const String farmerNotification = 'assets/images/farmernotification.svg';
   static const String uploadPP = 'assets/images/upload_profile_picture.svg';
 
   static const String loginBack_1 = 'assets/images/loginback_1.svg';
@@ -114,6 +115,7 @@ class Images {
   static const String completedSelected = 'assets/images/completed_selected.svg';
 
   static const String doneTimelineIcon = 'assets/images/done_timeline_icon.svg';
+  static const String commentSend = 'assets/images/commentsend.svg';
 
 
   // bottom navigation item//

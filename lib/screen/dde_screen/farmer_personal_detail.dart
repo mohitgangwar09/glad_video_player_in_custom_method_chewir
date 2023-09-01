@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
@@ -41,11 +40,10 @@ class PersonalDetail extends StatelessWidget {
               Expanded(
                   child: SingleChildScrollView(
                       child: Column(
-                        children: [
+                children: [
                   personalDetails(context),
-                          saveCancelButton(),
-                        ]
-                        ,
+                  saveCancelButton(),
+                ],
               )))
             ],
           )
@@ -56,87 +54,50 @@ class PersonalDetail extends StatelessWidget {
 
   Widget personalDetails(context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24,20,24,0),
+      padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Name',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
-          const CustomTextField(
-            hint: '',
-            paddingTop: 5,
-            inputType: TextInputType.phone,
-            paddingBottom: 21,
-            maxLine: 1,
-            width: 1,
-            borderColor: 0xff999999,
-          ),
+          const CustomTextField2(title: 'Name',width: 1,borderColor: 0xff727272,hint: '',),
           25.verticalSpace(),
-          Text(
-            'Mobile',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
           Row(
             children: [
               SizedBox(
-                width:118,
+                width: 100,
                 child: CustomDropdown(
-                  dropdownValue: null,
-                  itemList: ['', '', ''],
-                  onChanged: (value) {},
                   hint: '',
-                  icon: Images.arrowDropdown,
-                  iconColor: Colors.black,
-                ),
+                  width: 1,
+                  borderColor: 0xff727272 ,
+                  title: 'Mobile',
+                    dropdownValue: null,
+                    itemList: const ['', ''],
+                    onChanged: (String) {},
+                    icon: Images.arrowDropdown,
+                    iconColor: Colors.black),
               ),
               10.horizontalSpace(),
-              const Expanded(child: CustomTextField(
-                hint: '',
-                paddingTop: 5,
-                inputType: TextInputType.phone,
-                paddingBottom: 21,
-                maxLine: 1,
-                width: 1,
-                borderColor: 0xff999999,
-              ))
+              const Expanded(child: CustomTextField2(title:'',width: 1,borderColor: 0xff727272,hint: '',),)
             ],
           ),
           25.verticalSpace(),
-          Text(
-            'Email',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
-          const CustomTextField(
-            hint: '',
-            paddingTop: 5,
-            inputType: TextInputType.phone,
-            paddingBottom: 21,
-            maxLine: 1,
-            width: 1,
-            borderColor: 0xff999999,
-          ),
+          const CustomTextField2(title: 'Email',width: 1,borderColor: 0xff727272,hint: '',),
           25.verticalSpace(),
-          Text(
-            'Gender',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
           CustomDropdown(
-            dropdownValue: null,
-            itemList: ['', '', ''],
-            onChanged: (value) {},
-            hint: '',
-            icon: Images.arrowDropdown,
-            iconColor: Colors.black,
-          ),
+              width: 1,
+              borderColor: 0xff727272 ,
+              title: 'Gender',
+              hint: '',
+              dropdownValue: null,
+              itemList: const ['', ''],
+              onChanged: (String) {},
+              icon: Images.arrowDropdown,
+              iconColor: Colors.black),
           25.verticalSpace(),
           CustomTextField2(
+            width: 1,
+            borderColor: 0xff727272,
             title: 'DOB',
+            hint: '',
             image2: Images.calender,
             image2Colors: ColorResources.maroon,
             readOnly: true,
@@ -150,39 +111,31 @@ class PersonalDetail extends StatelessWidget {
             focusNode: FocusNode(),
           ),
           25.verticalSpace(),
-          Text(
-            'Mobile',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
           Row(
             children: [
               SizedBox(
-                width:118,
+                width: 100,
                 child: CustomDropdown(
-                  dropdownValue: null,
-                  itemList: ['', '', ''],
-                  onChanged: (value) {},
-                  hint: '',
-                  icon: Images.arrowDropdown,
-                  iconColor: Colors.black,
-                ),
+                    width: 1,
+                    borderColor: 0xff727272 ,
+                    title: 'Landline No',
+                    hint: '',
+                    dropdownValue: null,
+                    itemList: const ['', ''],
+                    onChanged: (String) {},
+                    icon: Images.arrowDropdown,
+                    iconColor: Colors.black),
               ),
               10.horizontalSpace(),
-              const Expanded(child: CustomTextField(
-                hint: '',
-                paddingTop: 5,
-                inputType: TextInputType.phone,
-                paddingBottom: 21,
-                maxLine: 1,
-                width: 1,
-                borderColor: 0xff999999,
-              ))
+              const Expanded(child: CustomTextField2(title:'',width: 1,borderColor: 0xff727272,hint: '',),)
             ],
           ),
           25.verticalSpace(),
           CustomTextField2(
+            width: 1,
+            borderColor: 0xff727272 ,
             title: 'Farming Since',
+            hint: '',
             image2: Images.calender,
             image2Colors: ColorResources.maroon,
             readOnly: true,
@@ -196,104 +149,79 @@ class PersonalDetail extends StatelessWidget {
             focusNode: FocusNode(),
           ),
           25.verticalSpace(),
-          Text(
-            'Farm Size',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
-          const CustomTextField(
-            hint: '',
-            paddingTop: 5,
-            inputType: TextInputType.phone,
-            paddingBottom: 21,
-            maxLine: 1,
+          CustomTextField2(
             width: 1,
-            borderColor: 0xff999999,
+            borderColor: 0xff727272 ,
+            title: 'Farm Size',
+            hint: '',
+            image2Colors: ColorResources.maroon,
+            readOnly: true,
+            onTap: () {
+            },
+            focusNode: FocusNode(),
           ),
           25.verticalSpace(),
-          Text(
-            'Dairy Area',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
-          const CustomTextField(
-            hint: '',
-            paddingTop: 5,
-            inputType: TextInputType.phone,
-            paddingBottom: 21,
-            maxLine: 1,
+          CustomTextField2(
             width: 1,
-            borderColor: 0xff999999,
+            borderColor: 0xff727272 ,
+            title: 'Dairy Area',
+            hint: '',
+            image2Colors: ColorResources.maroon,
+            readOnly: true,
+            onTap: () {
+
+            },
+            focusNode: FocusNode(),
           ),
           25.verticalSpace(),
-          Text(
-            'No. of people working in the farm',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
-          const CustomTextField(
-            hint: '',
-            paddingTop: 5,
-            inputType: TextInputType.phone,
-            paddingBottom: 21,
-            maxLine: 1,
+          CustomTextField2(
             width: 1,
-            borderColor: 0xff999999,
+            borderColor: 0xff727272 ,
+            title: 'No. of people working in the farm',
+            hint: '',
+            image2Colors: ColorResources.maroon,
+            readOnly: true,
+            onTap: () {
+            },
+            focusNode: FocusNode(),
           ),
           25.verticalSpace(),
-          Text(
-            'Manager Name',
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
-          const CustomTextField(
-            hint: '',
-            paddingTop: 5,
-            inputType: TextInputType.phone,
-            paddingBottom: 21,
-            maxLine: 1,
+          CustomTextField2(
             width: 1,
-            borderColor: 0xff999999,
+            borderColor: 0xff727272 ,
+            title: 'Manger Name',
+            hint: '',
+            image2Colors: ColorResources.maroon,
+            readOnly: true,
+            onTap: () {
+            },
+            focusNode: FocusNode(),
           ),
           25.verticalSpace(),
-          Text(
-            "Manager's Mobile",
-            style: figtreeSemiBold.copyWith(fontSize: 12),
-          ),
-          05.verticalSpace(),
           Row(
             children: [
               SizedBox(
-                width:118,
+                width: 110,
                 child: CustomDropdown(
-                  dropdownValue: null,
-                  itemList: ['', '', ''],
-                  onChanged: (value) {},
-                  hint: '',
-                  icon: Images.arrowDropdown,
-                  iconColor: Colors.black,
-                ),
+                    width: 1,
+                    borderColor: 0xff727272 ,
+                    title: "Manager's mobile",
+                    hint: '',
+                    dropdownValue: null,
+                    itemList: const ['', ''],
+                    onChanged: (String) {},
+                    icon: Images.arrowDropdown,
+                    iconColor: Colors.black),
               ),
               10.horizontalSpace(),
-              const Expanded(child: CustomTextField(
-                hint: '',
-                paddingTop: 5,
-                inputType: TextInputType.phone,
-                paddingBottom: 21,
-                maxLine: 1,
-                width: 1,
-                borderColor: 0xff999999,
-              ))
+              const Expanded(child: CustomTextField2(title:'',width: 1,borderColor: 0xff727272,hint: '',),)
             ],
           ),
-
-
-
-
         ],
       ),
     );
   }
+
   Widget saveCancelButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(29, 40, 29, 0),
