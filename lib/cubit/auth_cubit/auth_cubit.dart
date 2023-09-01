@@ -120,7 +120,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
           apiRepository.saveUserToken(response.data!.accessToken.toString());
           await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
           await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
-          if(response.data!.profilePic.toString() == "false"){
+          if(response.data!.profilePic == null){
             const UploadProfilePicture().navigate(isInfinity: true);
           }else{
             if(response.data!.userType == "mcc"){
@@ -252,7 +252,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
         apiRepository.saveUserToken(response.data!.accessToken.toString());
         await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
         await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
-        if(response.data!.profilePic.toString() == "false"){
+        if(response.data!.profilePic == null){
           const UploadProfilePicture().navigate(isInfinity: true);
         }else{
           if(response.data!.userType == "mcc"){

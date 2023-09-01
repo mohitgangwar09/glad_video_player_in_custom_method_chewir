@@ -322,7 +322,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                   ),
                 ),
                 12.verticalSpace(),
-                type.textMedium(fontSize: 16),
+                type.textMedium(fontSize: 14),
                 7.verticalSpace(),
                 desc.textMedium(fontSize: 12, color: const Color(0xff727272))
               ],
