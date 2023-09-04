@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/data/repository/drawer_repo.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,12 +22,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AuthRepository(sharedPreferences: sl()));
   sl.registerLazySingleton(() => ProfileRepository(sharedPreferences: sl()));
   sl.registerLazySingleton(() => LandingPageRepository(sharedPreferences: sl()));
+  sl.registerLazySingleton(() => DrawerRepository(sharedPreferences: sl()));
 
   ////////////////////bloc_provider///////////////
   sl.registerFactory(() => AuthCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => ProfileCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DashboardCubit());
   sl.registerFactory(() => LandingPageCubit(apiRepository: sl(),sharedPreferences: sl()));
+  sl.registerFactory(() => DrawerCubit(apiRepository: sl(),sharedPreferences: sl()));
 
   // External
   var sharedPreferences = await SharedPreferences.getInstance();

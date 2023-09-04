@@ -14,6 +14,7 @@ class AppConstants {
   static const String profileApi = '/api/profile';
   static const String farmerDashboardApi = '/api/landing/dashboard';
   static const String farmerDetailsApi = '/api/farmer';
+  static const String addTestimonialApi = '/api/testimonials';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

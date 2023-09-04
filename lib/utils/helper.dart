@@ -49,6 +49,13 @@ Future<String> imgFromGallery() async {
   return image!.path;
 }
 
+// video Picker from Gallery
+Future<String> videoFromGallery() async {
+  XFile? image = await ImagePicker()
+      .pickVideo(source: ImageSource.gallery);
+  return image!.path;
+}
+
 // check Internet Connection
 Future<bool> checkInternetConnection() async {
   try {

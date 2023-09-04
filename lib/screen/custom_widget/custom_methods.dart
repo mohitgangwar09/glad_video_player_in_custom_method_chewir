@@ -274,6 +274,42 @@ void showPicker(
   );
 }
 
+void showTestimonialPicker(
+    context, {
+      required Function videoFunction,
+      required Function photoFunction,
+    }) {
+  showModalBottomSheet(
+    backgroundColor: Colors.transparent,
+    context: context,
+    builder: (BuildContext bc) {
+      return Container(
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        child: Wrap(
+          children: <Widget>[
+            ListTile(
+                leading: const Icon(Icons.video_library),
+                title: const Text('Video Library'),
+                onTap: () {
+                  videoFunction();
+                }),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Photo Library'),
+              onTap: () async {
+                photoFunction();
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 conditionWidget({bool value = false, ValueChanged<bool?>? onChanged}) {
   return Container(
     color: const Color(0xffF5F7F9),
