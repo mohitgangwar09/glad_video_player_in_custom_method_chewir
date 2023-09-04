@@ -30,7 +30,7 @@ class FarmerLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<FarmerCubit>(context).getFarmerDashboard(context);
-    return BlocBuilder<FarmerCubit, FarmerState>(builder: (context, state) {
+    return BlocBuilder<FarmerCubit, FarmerState> (builder: (context, state) {
       if (state.status == FarmerStatus.loading) {
         return const Center(child: CircularProgressIndicator(color: ColorResources.maroon,));
       }

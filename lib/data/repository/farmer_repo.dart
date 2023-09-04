@@ -1,5 +1,4 @@
 import 'package:glad/data/model/farmer_dashboard_model.dart';
-import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
