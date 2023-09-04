@@ -115,33 +115,33 @@ class Data {
 }
 
 class FarmerMaster {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   String? name;
   String? email;
-  Null? address;
+  dynamic address;
   String? phone;
-  int? mccId;
-  int? ddeId;
+  dynamic mccId;
+  dynamic ddeId;
   String? photo;
   String? kycStatus;
   String? landlineNo;
   String? dateOfBirth;
   String? gender;
   String? registrationDate;
-  int? farmSize;
-  int? dairyArea;
-  int? staffQuantity;
+  dynamic farmSize;
+  dynamic dairyArea;
+  dynamic staffQuantity;
   String? farmingExperience;
   String? managerName;
   String? managerPhone;
-  Null? ragRating;
+  dynamic ragRating;
   String? leadType;
-  int? idealYield;
-  int? currentYield;
+  dynamic idealYield;
+  dynamic currentYield;
   String? status;
-  int? createdBy;
-  int? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
 
   FarmerMaster(
       {this.id,
@@ -236,13 +236,13 @@ class FarmerMaster {
 }
 
 class CowBreedDetails {
-  int? id;
+  dynamic id;
   String? breedName;
-  int? heardSize;
-  int? milkingCows;
-  int? dryCows;
+  dynamic heardSize;
+  dynamic milkingCows;
+  dynamic dryCows;
   double? yieldPerCow;
-  int? bullCalfs;
+  dynamic bullCalfs;
 
   CowBreedDetails(
       {this.id,
@@ -278,8 +278,8 @@ class CowBreedDetails {
 
 class Dde {
   String? name;
-  Null? phone;
-  Null? image;
+  dynamic phone;
+  dynamic image;
 
   Dde({this.name, this.phone, this.image});
 
@@ -299,12 +299,12 @@ class Dde {
 }
 
 class Mcc {
-  int? id;
+  dynamic id;
   String? name;
   String? email;
-  Null? phone;
-  Null? address;
-  Null? image;
+  dynamic phone;
+  dynamic address;
+  dynamic image;
 
   Mcc({this.id, this.name, this.email, this.phone, this.address, this.image});
 
@@ -330,18 +330,18 @@ class Mcc {
 }
 
 class FarmerProject {
-  int? id;
+  dynamic id;
   String? name;
   String? description;
   String? projectStatus;
-  int? initialYield;
-  int? targetYield;
-  int? investmentAmount;
-  int? revenuePerYear;
-  int? roiPerYear;
-  int? category;
-  Null? incrementalProduction;
-  Null? photo;
+  dynamic initialYield;
+  dynamic targetYield;
+  dynamic investmentAmount;
+  dynamic revenuePerYear;
+  dynamic roiPerYear;
+  dynamic category;
+  dynamic incrementalProduction;
+  dynamic photo;
 
   FarmerProject(
       {this.id,
@@ -391,51 +391,51 @@ class FarmerProject {
 }
 
 class FarmerMilkProduction {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   String? name;
   String? email;
-  Null? address;
+  dynamic address;
   String? phone;
-  int? mccId;
-  int? ddeId;
+  dynamic mccId;
+  dynamic ddeId;
   String? photo;
   String? kycStatus;
   String? landlineNo;
   String? dateOfBirth;
   String? gender;
   String? registrationDate;
-  int? farmSize;
-  int? dairyArea;
-  int? staffQuantity;
+  dynamic farmSize;
+  dynamic dairyArea;
+  dynamic staffQuantity;
   String? farmingExperience;
   String? managerName;
   String? managerPhone;
-  Null? ragRating;
+  dynamic ragRating;
   String? leadType;
-  int? idealYield;
-  int? currentYield;
+  dynamic idealYield;
+  dynamic currentYield;
   String? status;
-  int? createdBy;
-  Null? updatedBy;
-  int? farmerId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic farmerId;
   String? date;
-  int? totalMilkProduction;
-  Null? milkingCow;
-  int? suppliedToPdfl;
-  int? suppliedToOthers;
-  int? selfUse;
+  dynamic totalMilkProduction;
+  dynamic milkingCow;
+  dynamic suppliedToPdfl;
+  dynamic suppliedToOthers;
+  dynamic selfUse;
   double? yieldPerCow;
-  int? cowBreedId;
+  dynamic cowBreedId;
   String? month;
   String? breedName;
-  int? heardSize;
-  int? milkingCows;
-  int? dryCows;
-  int? heiferCows;
-  Null? n7to12mCows;
-  Null? n6mCows;
-  int? bullCalfs;
+  dynamic heardSize;
+  dynamic milkingCows;
+  dynamic dryCows;
+  dynamic heiferCows;
+  dynamic n7to12mCows;
+  dynamic n6mCows;
+  dynamic bullCalfs;
 
   FarmerMilkProduction(
       {this.id,
@@ -584,11 +584,11 @@ class FarmerMilkProduction {
 }
 
 class TopPerformerFarmer {
-  int? id;
+  dynamic id;
   String? name;
-  Null? address;
-  int? milkingCows;
-  Null? photo;
+  dynamic address;
+  dynamic milkingCows;
+  dynamic photo;
 
   TopPerformerFarmer(
       {this.id, this.name, this.address, this.milkingCows, this.photo});
