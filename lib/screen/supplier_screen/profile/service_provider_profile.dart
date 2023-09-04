@@ -336,7 +336,7 @@ class _SupplierProfileState extends State<SupplierProfile> {
             child: SizedBox(
               height: 180,
               width: 190,
-              child: state.responseProfile!.data!.user!.profilePic == "false" ?Image.asset(
+              child: state.responseProfile!.data!.user!.profilePic == null ?Image.asset(
                 Images.profileDemo,
                 fit: BoxFit.fill,
               ):networkImage(text: state.responseProfile!.data!.user!.profilePic.toString()),

@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
@@ -238,7 +237,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               padding: const EdgeInsets.only(top: 20),
               child: CarouselSlider(
                   items: [
-                    for (int index = 0; index < 3; index++)
+                    for (int index = 0; index < (state.response!.testimonials!.isNotEmpty ?3 : 0); index++)
                       GladReview(
                         review:
                             state.response!.testimonials![index].description!,

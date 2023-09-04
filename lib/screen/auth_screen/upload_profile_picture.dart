@@ -84,7 +84,7 @@ class UploadProfilePicture extends StatelessWidget {
                     backColor: Colors.grey,
                     elevation: 0,
                     child: state.responseProfile!=null ?
-                    state.responseProfile!.data!.user!.profilePic.toString() == "false"?
+                    state.responseProfile!.data!.user!.profilePic == null?
                     Padding(
                       padding: const EdgeInsets.all(45.0),
                       child: SvgPicture.asset(Images.camera,width: 22,height: 22,),
@@ -136,16 +136,20 @@ class UploadProfilePicture extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: customButton('Submit', onTap: () {
-            if(state.responseProfile!.data!.user!.userType == "mcc"){
-              const DashboardMCC().navigate(isInfinity: true);
-            }else if(BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.userType == "dde"){
-              const DashboardDDE().navigate(isInfinity: true);
-            }else if(state.responseProfile!.data!.user!.userType == "supplier"){
-              const DashboardSupplier().navigate(isInfinity: true);
-            }else if(state.responseProfile!.data!.user!.userType == "farmer"){
-              const DashboardFarmer().navigate(isInfinity: true);
+            if(state.responseProfile!.data!.user!.profilePic == null){
+              showCustomToast(context, 'Please upload Profile Picture');
             }else{
+              if(state.responseProfile!.data!.user!.userType == "mcc"){
+                const DashboardMCC().navigate(isInfinity: true);
+              }else if(BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.userType == "dde"){
+                const DashboardDDE().navigate(isInfinity: true);
+              }else if(state.responseProfile!.data!.user!.userType == "supplier"){
+                const DashboardSupplier().navigate(isInfinity: true);
+              }else if(state.responseProfile!.data!.user!.userType == "farmer"){
+                const DashboardFarmer().navigate(isInfinity: true);
+              }else{
 
+              }
             }
             // const Navigation().navigate();
           },

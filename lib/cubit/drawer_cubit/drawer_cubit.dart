@@ -1,32 +1,37 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
-import 'package:glad/data/repository/landing_page_repo.dart';
+import 'package:glad/data/repository/drawer_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-part 'landing_page_state.dart';
+part 'drawer_state.dart';
 
-class LandingPageCubit extends Cubit<LandingPageState> {
+class DrawerCubit extends Cubit<DrawerState> {
   final SharedPreferences sharedPreferences;
-  final LandingPageRepository apiRepository;
+  final DrawerRepository apiRepository;
 
-  LandingPageCubit(
+  DrawerCubit(
       {required this.apiRepository, required this.sharedPreferences})
-      : super(LandingPageState.initial());
+      : super(DrawerState.initial());
 
-  void getFarmerDashboard(context) async {
-    emit(state.copyWith(status: LandingPageStatus.loading));
+  ////// addTestimonials
+  Future<void> addTestimonials(context,String image, String description, fileType) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.getFarmerDashboardApi();
+    var response = await apiRepository.addTestimonialApi(File(image), fileType, description);
     if (response.status == 200) {
-      emit(state.copyWith(
-          status: LandingPageStatus.success, response: response.data));
+
       disposeProgress();
-    } else {
-      emit(state.copyWith(status: LandingPageStatus.error));
+      pressBack();
+      showCustomToast(context, response.message.toString());
+    }
+    else {
+      emit(state.copyWith(status: DrawerStatus.error));
       showCustomToast(context, response.message.toString());
     }
   }
+
 }
