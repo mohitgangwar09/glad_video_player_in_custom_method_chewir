@@ -60,9 +60,15 @@ class _EditProfileState extends State<EditProfile> {
                           splashColor: Colors.transparent,
                           onTap: () {
                             showPicker(context, cameraFunction: () {
-                              imgFromCamera();
+                              var image = imgFromCamera();
+                              image.then((value) async{
+                                // context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                              });
                             }, galleryFunction: () {
-                              imgFromGallery();
+                              var image =  imgFromGallery();
+                              image.then((value) async{
+                                // context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                              });
                             });
                           },
                           child: Padding(

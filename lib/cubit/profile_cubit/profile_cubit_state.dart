@@ -4,10 +4,11 @@ enum ProfileStatus{initial,submit,success,error}
 
 class ProfileCubitState extends Equatable{
   final ProfileStatus status;
-  final String validator,validatorString,id;
+  final String validator,validatorString,id,gender;
   final TextEditingController emailController;
   final TextEditingController phoneController;
   final TextEditingController addressController;
+  final TextEditingController nameController;
   final TextEditingController profilePic;
   final bool passwordVisible,confirmVisible;
   final ResponseProfile? responseProfile;
@@ -16,12 +17,14 @@ class ProfileCubitState extends Equatable{
   const ProfileCubitState({
     required this.status,
     required this.id,
+    required this.gender,
     required this.responseProfile,
     required this.emailController,
     required this.validator,
     required this.validatorString,
     required this.phoneController,
     required this.addressController,
+    required this.nameController,
     required this.passwordVisible,
     required this.confirmVisible,
     required this.profilePic,
@@ -32,7 +35,9 @@ class ProfileCubitState extends Equatable{
     return ProfileCubitState(
       status: ProfileStatus.initial,
       emailController: TextEditingController(),
+      nameController: TextEditingController(),
       validator: '',
+      gender: 'Male',
       responseProfile: null,
       id: '',
       validatorString: '',
@@ -48,11 +53,12 @@ class ProfileCubitState extends Equatable{
   ProfileCubitState copyWith({
     ProfileStatus? status,
     TextEditingController? emailController,
+    TextEditingController? nameController,
     ResponseProfile? responseProfile,
     TextEditingController? passwordController,
     TextEditingController? phoneController,
     TextEditingController? addressController,
-    String? token,validator,validatorString,id,
+    String? token,validator,validatorString,id,gender,
     bool? passwordVisible,confirmVisible,
     TextEditingController? profilePic,
     farmer_profile.Data? responseFarmerProfile,
@@ -60,7 +66,9 @@ class ProfileCubitState extends Equatable{
     return ProfileCubitState(
       status: status ?? this.status,
       id: id ?? this.id,
+      gender: gender ?? this.gender,
       responseProfile: responseProfile ?? this.responseProfile,
+      nameController: nameController ?? this.nameController,
       emailController: emailController ?? this.emailController,
       phoneController: phoneController ?? this.phoneController,
       addressController: addressController ?? this.addressController,
@@ -77,6 +85,7 @@ class ProfileCubitState extends Equatable{
   List<Object?> get props => [
     status,
     emailController,
+    nameController,
     responseProfile,
     addressController,
     phoneController,
@@ -86,6 +95,7 @@ class ProfileCubitState extends Equatable{
     validatorString,
     profilePic,
     responseFarmerProfile,
+    gender,
   ];
 
 }

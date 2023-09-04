@@ -243,9 +243,6 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       borderRadius: BorderRadius.circular(16.0),
                       child: Image.asset(
                         Images.facilities,
-                        // width: 150,
-                        // height: 200,
-                        // fit: BoxFit.cover,
                       ),
                     ),
                     7.verticalSpace(),
