@@ -19,6 +19,10 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
 
   ProfileCubit({required this.apiRepository,required this.sharedPreferences}) : super(ProfileCubitState.initial());
 
+  void selectGender(String gender){
+    emit(state.copyWith(gender: gender));
+  }
+
   // profileApi
   Future<void> profileApi(context) async{
 
@@ -67,10 +71,41 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
     emit(state.copyWith(status: ProfileStatus.submit));
     var response = await apiRepository.getFarmerProfileApi();
     if(response.status == 200){
-
       emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data));
     }
     else{
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // updatePersonalDetailApi or updaterFarmerDetailApi
+  Future<void> updatePersonalDetailApi(context,String gender,
+      String landlineNumber,File file,String dob,String managerPhone) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.updateFarmerDetailApi(state.gender,
+        landlineNumber, file, dob, managerPhone);
+    if (response.status == 200) {
+      showCustomToast(context, response.message.toString());
+    }
+    else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+
+  // updateFarmDetailApi
+  Future<void> updateFarmDetailApi(context,String farmSize,String dairyArea,
+      String staffQuantity, String managerName,String managerPhone) async{
+    var response = await apiRepository.updateFarmApi(farmSize, dairyArea, staffQuantity, managerName, managerPhone);
+    if (response.status == 200) {
+
+      await profileApi(context);
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+    }
+    else {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
     }

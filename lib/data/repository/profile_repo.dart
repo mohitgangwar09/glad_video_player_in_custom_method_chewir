@@ -83,6 +83,59 @@ class ProfileRepository {
     }
   }
 
+  Future<FarmerProfileModel> updateFarmerDetailApi(String gender,
+      String landlineNumber,File file,String dob,String managerPhone) async {
+    var userId = sharedPreferences?.getString(AppConstants.userId);
+
+    FormData formData = FormData.fromMap({
+      "id": userId,
+      "gender": gender,
+      "landline_no": landlineNumber,
+      "photo": await MultipartFile.fromFile(file.path),
+      "date_of_birth": dob
+    });
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
+        AppConstants.updateFarmerApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: formData
+    );
+
+    if (apiResponse.status) {
+      return FarmerProfileModel.fromJson(apiResponse.response!.data);
+    } else {
+      return FarmerProfileModel(
+          status: 422,
+          message: apiResponse.msg);}
+  }
+
+  Future<FarmerProfileModel> updateFarmApi(String farmSize,String dairyArea,
+      String staffQuantity, String managerName,String managerPhone) async {
+
+    var userId = sharedPreferences?.getString(AppConstants.userId);
+    FormData formData = FormData.fromMap({
+      "id": userId,
+      "farm_size": farmSize,
+      "dairy_area": dairyArea,
+      "staff_quantity": staffQuantity,
+      "manager_name": managerName,
+      "manager_phone": managerPhone,
+    });
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
+        AppConstants.updateFarmApi,
+        data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return FarmerProfileModel.fromJson(apiResponse.response!.data);
+    } else {
+      return FarmerProfileModel(
+          status: 422,
+          message: apiResponse.msg);
+    }
+  }
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

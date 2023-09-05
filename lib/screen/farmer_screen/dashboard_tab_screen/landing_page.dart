@@ -53,47 +53,50 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
             child: CircularProgressIndicator(
           color: ColorResources.maroon,
         ));
-      }
-      return Container(
-        color: Colors.white,
-        child: Stack(
-          children: [
-            landingBackground(),
-            Column(
-              children: [
-                CustomAppBar(
-                  context: context,
-                  titleText1: 'Hello ',
-                  titleText2: state.response!.farmerMaster!.name!.split(' ')[0],
-                  leading: openDrawer(
-                      onTap: () {
-                        farmerLandingKey.currentState?.openDrawer();
-                      },
-                      child: SvgPicture.asset(Images.drawer)),
-                  action: Row(
-                    children: [
-                      InkWell(
-                          onTap: () {}, child: SvgPicture.asset(Images.call)),
-                      7.horizontalSpace(),
-                      InkWell(
-                          onTap: () {
-                            const FarmerProfile().navigate();
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: state.response!.farmerMaster!.photo!,
-                            errorWidget: (_, __, ___) =>
-                                SvgPicture.asset(Images.person),
-                          )),
-                      8.horizontalSpace(),
-                    ],
+      }else if(state.response==null){
+        return Center(child: Text("${state.response} Api Error"));
+      }else{
+        return Container(
+          color: Colors.white,
+          child: Stack(
+            children: [
+              landingBackground(),
+              Column(
+                children: [
+                  CustomAppBar(
+                    context: context,
+                    titleText1: 'Hello ',
+                    titleText2: state.response!=null? state.response!.farmerMaster!.name!.split(' ')[0]:"",
+                    leading: openDrawer(
+                        onTap: () {
+                          farmerLandingKey.currentState?.openDrawer();
+                        },
+                        child: SvgPicture.asset(Images.drawer)),
+                    action: Row(
+                      children: [
+                        InkWell(
+                            onTap: () {}, child: SvgPicture.asset(Images.call)),
+                        7.horizontalSpace(),
+                        InkWell(
+                            onTap: () {
+                              const FarmerProfile().navigate();
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: state.response!.farmerMaster!.photo!,
+                              errorWidget: (_, __, ___) =>
+                                  SvgPicture.asset(Images.person),
+                            )),
+                        8.horizontalSpace(),
+                      ],
+                    ),
                   ),
-                ),
-                landingPage(context, state),
-              ],
-            ),
-          ],
-        ),
-      );
+                  landingPage(context, state),
+                ],
+              ),
+            ],
+          ),
+        );
+      }
     });
   }
 
