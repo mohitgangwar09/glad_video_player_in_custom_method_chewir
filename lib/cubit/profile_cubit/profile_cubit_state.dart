@@ -11,6 +11,7 @@ class ProfileCubitState extends Equatable{
   final TextEditingController profilePic;
   final bool passwordVisible,confirmVisible;
   final ResponseProfile? responseProfile;
+  final farmer_profile.Data? responseFarmerProfile;
 
   const ProfileCubitState({
     required this.status,
@@ -24,6 +25,7 @@ class ProfileCubitState extends Equatable{
     required this.passwordVisible,
     required this.confirmVisible,
     required this.profilePic,
+    required this.responseFarmerProfile,
   });
 
   factory ProfileCubitState.initial() {
@@ -39,6 +41,7 @@ class ProfileCubitState extends Equatable{
       addressController: TextEditingController(),
       passwordVisible: true,
       confirmVisible: true,
+      responseFarmerProfile: null,
     );
   }
 
@@ -51,7 +54,8 @@ class ProfileCubitState extends Equatable{
     TextEditingController? addressController,
     String? token,validator,validatorString,id,
     bool? passwordVisible,confirmVisible,
-    TextEditingController? profilePic
+    TextEditingController? profilePic,
+    farmer_profile.Data? responseFarmerProfile,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -65,6 +69,7 @@ class ProfileCubitState extends Equatable{
       validator: validator ?? this.validator,
       profilePic: profilePic ?? this.profilePic,
       validatorString: validatorString ?? this.validatorString,
+      responseFarmerProfile: responseFarmerProfile ?? this.responseFarmerProfile,
     );
   }
 
@@ -80,6 +85,7 @@ class ProfileCubitState extends Equatable{
     validator,
     validatorString,
     profilePic,
+    responseFarmerProfile,
   ];
 
 }

@@ -14,7 +14,6 @@ class DdeRepository {
   Future<FarmersList> getFarmersList() async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
         AppConstants.farmerList, headers: {'Authorization': 'Bearer ${getUserToken()}'});
-
     if (apiResponse.status) {
       return FarmersList.fromJson(apiResponse.response!.data);
     } {

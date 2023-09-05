@@ -112,15 +112,15 @@ class AuthCubit extends Cubit<AuthCubitState>{
       disposeProgress();
       // print(response);
       if(response.status == 200){
-        emit(state.copyWith(status: AuthStatus.success,id: response.data!.id.toString()));
+        emit(state.copyWith(status: AuthStatus.success,id: response.data!.id.toString(),passwordController: TextEditingController()));
 
         if(response.data!.isFirst == 0){
           const OtpScreen(tag: "email",).navigate(isInfinity: true);
         }else{
-          apiRepository.saveUserToken(state.token);
+          apiRepository.saveUserToken(response.data!.accessToken.toString());
           await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
           await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
-          if(response.data!.profilePic.toString() == "false"){
+          if(response.data!.profilePic == null){
             const UploadProfilePicture().navigate(isInfinity: true);
           }else{
             if(response.data!.userType == "mcc"){
@@ -252,7 +252,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
         apiRepository.saveUserToken(response.data!.accessToken.toString());
         await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
         await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
-        if(response.data!.profilePic.toString() == "false"){
+        if(response.data!.profilePic == null){
           const UploadProfilePicture().navigate(isInfinity: true);
         }else{
           if(response.data!.userType == "mcc"){

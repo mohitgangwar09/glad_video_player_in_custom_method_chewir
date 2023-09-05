@@ -1,34 +1,34 @@
-part of 'farmer_cubit.dart';
+part of 'landing_page_cubit.dart';
 
-enum FarmerStatus {initial,loading,success,error}
+enum LandingPageStatus {initial,loading,success,error}
 
-class FarmerState extends Equatable{
+class LandingPageState extends Equatable{
 
   final String focusTag;
-  final FarmerStatus status;
+  final LandingPageStatus status;
   final Data? response;
 
-  const FarmerState({
+  const LandingPageState({
     required this.focusTag,
     required this.status,
     required this.response
   });
 
-  factory FarmerState.initial() {
-    return const FarmerState(
+  factory LandingPageState.initial() {
+    return const LandingPageState(
       focusTag: "",
-      status: FarmerStatus.initial,
+      status: LandingPageStatus.initial,
       response: null,
     );
   }
 
-  FarmerState copyWith({
+  LandingPageState copyWith({
     String? focusTag,
     int? selectedIndex,
-    FarmerStatus? status,
+    LandingPageStatus? status,
     Data? response,
   }) {
-    return FarmerState(
+    return LandingPageState(
       focusTag: focusTag ?? this.focusTag,
       status: status ?? this.status,
       response: response ?? this.response,

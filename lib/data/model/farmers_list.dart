@@ -8,13 +8,13 @@ class FarmersList {
   FarmersList.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -31,15 +31,15 @@ class Data {
     if (json['farmerMAster'] != null) {
       farmerMAster = <FarmerMAster>[];
       json['farmerMAster'].forEach((v) {
-        farmerMAster!.add(new FarmerMAster.fromJson(v));
+        farmerMAster!.add(FarmerMAster.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.farmerMAster != null) {
-      data['farmerMAster'] = this.farmerMAster!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (farmerMAster != null) {
+      data['farmerMAster'] = farmerMAster!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -60,16 +60,16 @@ class FarmerMAster {
   String? dateOfBirth;
   String? gender;
   String? registrationDate;
-  int? farmSize;
-  int? dairyArea;
-  int? staffQuantity;
+  dynamic farmSize;
+  dynamic dairyArea;
+  dynamic staffQuantity;
   String? farmingExperience;
   String? managerName;
   String? managerPhone;
-  Null? ragRating;
+  dynamic ragRating;
   String? leadType;
-  int? idealYield;
-  int? currentYield;
+  dynamic idealYield;
+  dynamic currentYield;
   String? status;
   int? createdBy;
   int? updatedBy;
@@ -80,12 +80,12 @@ class FarmerMAster {
   int? revenuePerYear;
   int? roiPerYear;
   String? breedName;
-  int? heardSize;
-  int? milkingCows;
-  int? dryCows;
-  int? heiferCows;
-  int? bullCalfs;
-  double? yieldPerCow;
+  dynamic heardSize;
+  dynamic milkingCows;
+  dynamic dryCows;
+  dynamic heiferCows;
+  dynamic bullCalfs;
+  dynamic yieldPerCow;
 
   FarmerMAster(
       {this.id,
@@ -169,51 +169,51 @@ class FarmerMAster {
     dryCows = json['dry_cows'];
     heiferCows = json['heifer_cows'];
     bullCalfs = json['bull_calfs'];
-    yieldPerCow = json['yield_per_cow'];
+    yieldPerCow = double.parse(json['yield_per_cow'].toString());
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
-    data['mcc_id'] = this.mccId;
-    data['dde_id'] = this.ddeId;
-    data['photo'] = this.photo;
-    data['kyc_status'] = this.kycStatus;
-    data['landline_no'] = this.landlineNo;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['gender'] = this.gender;
-    data['registration_date'] = this.registrationDate;
-    data['farm_size'] = this.farmSize;
-    data['dairy_area'] = this.dairyArea;
-    data['staff_quantity'] = this.staffQuantity;
-    data['farming_experience'] = this.farmingExperience;
-    data['manager_name'] = this.managerName;
-    data['manager_phone'] = this.managerPhone;
-    data['rag_rating'] = this.ragRating;
-    data['lead_type'] = this.leadType;
-    data['ideal_yield'] = this.idealYield;
-    data['current_yield'] = this.currentYield;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['project_name'] = this.projectName;
-    data['description'] = this.description;
-    data['project_status'] = this.projectStatus;
-    data['investment_amount'] = this.investmentAmount;
-    data['revenue_per_year'] = this.revenuePerYear;
-    data['roi_per_year'] = this.roiPerYear;
-    data['breed_name'] = this.breedName;
-    data['heard_size'] = this.heardSize;
-    data['milking_cows'] = this.milkingCows;
-    data['dry_cows'] = this.dryCows;
-    data['heifer_cows'] = this.heiferCows;
-    data['bull_calfs'] = this.bullCalfs;
-    data['yield_per_cow'] = this.yieldPerCow;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['email'] = email;
+    data['address'] = address;
+    data['phone'] = phone;
+    data['mcc_id'] = mccId;
+    data['dde_id'] = ddeId;
+    data['photo'] = photo;
+    data['kyc_status'] = kycStatus;
+    data['landline_no'] = landlineNo;
+    data['date_of_birth'] = dateOfBirth;
+    data['gender'] = gender;
+    data['registration_date'] = registrationDate;
+    data['farm_size'] = farmSize;
+    data['dairy_area'] = dairyArea;
+    data['staff_quantity'] = staffQuantity;
+    data['farming_experience'] = farmingExperience;
+    data['manager_name'] = managerName;
+    data['manager_phone'] = managerPhone;
+    data['rag_rating'] = ragRating;
+    data['lead_type'] = leadType;
+    data['ideal_yield'] = idealYield;
+    data['current_yield'] = currentYield;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['project_name'] = projectName;
+    data['description'] = description;
+    data['project_status'] = projectStatus;
+    data['investment_amount'] = investmentAmount;
+    data['revenue_per_year'] = revenuePerYear;
+    data['roi_per_year'] = roiPerYear;
+    data['breed_name'] = breedName;
+    data['heard_size'] = heardSize;
+    data['milking_cows'] = milkingCows;
+    data['dry_cows'] = dryCows;
+    data['heifer_cows'] = heiferCows;
+    data['bull_calfs'] = bullCalfs;
+    data['yield_per_cow'] = yieldPerCow;
     return data;
   }
 }

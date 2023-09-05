@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
-import 'package:glad/cubit/farmer_cubit/farmer_cubit.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/utils/extension.dart';
@@ -19,7 +19,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<AuthCubit>()),
       BlocProvider(create: (context) => di.sl<ProfileCubit>()),
       BlocProvider(create: (context) => di.sl<DashboardCubit>()),
-      BlocProvider(create: (context) => di.sl<FarmerCubit>()),
+      BlocProvider(create: (context) => di.sl<LandingPageCubit>()),
       BlocProvider(create: (context) => di.sl<DdeFarmerCubit>()),
     ],
     child: const GetMaterialApp(

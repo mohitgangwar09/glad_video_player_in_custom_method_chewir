@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,10 +24,19 @@ class FarmerDdeTabScreen extends StatefulWidget {
 }
 
 class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
+
+
+  void initState(){
+    super.initState();
+    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context);
     return BlocBuilder<DdeFarmerCubit,DdeState>(builder: (context,state){
+      if(state.response == null){
+       return "${state.response} Api Error".textMedium();
+      }
       return Stack(
         children: [
           landingBackground(),
@@ -177,31 +187,37 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
-                                          Image.asset(Images.sampleUser),
+                                          state.response!.farmerMAster![i].photo == null ?Image.asset(Images.sampleUser):
+                                          CachedNetworkImage(imageUrl: state.response!.farmerMAster![i].photo!),
                                           15.horizontalSpace(),
                                           Column(
                                             crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                             children: [
-                                              Text("Matts Francesca",
+                                              Text(state.response!.farmerMAster![i].name!,
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 16,
                                                       color: Colors.black)),
                                               4.verticalSpace(),
                                               Row(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.end,
                                                 children: [
-                                                  const Icon(
-                                                    Icons.call,
-                                                    color: Colors.black,
-                                                    size: 16,
-                                                  ),
-                                                  Text("+22112 3232 3223",
+                                                  Text(state.response!.farmerMAster![i].phone.toString(),
                                                       style:
                                                       figtreeRegular.copyWith(
                                                           fontSize: 12,
                                                           color: Colors.black)),
+                                                  10.horizontalSpace(),
+                                                  Container(
+                                                    height: 5,
+                                                    width: 5,
+                                                    decoration: const BoxDecoration(
+                                                        color: Colors.black, shape: BoxShape.circle),
+                                                  ),
+                                                  10.horizontalSpace(),
+                                                  Text(
+                                                      state.response!.farmerMAster![i].farmingExperience?? "10" + ' yrs exp',
+                                                      style: figtreeMedium.copyWith(fontSize: 12,)),
+
                                                 ],
                                               ),
                                               4.verticalSpace(),
@@ -209,18 +225,13 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                 crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                                 children: [
-                                                  const Icon(
-                                                    Icons.location_on,
-                                                    color: Colors.black,
-                                                    size: 16,
-                                                  ),
                                                   SizedBox(
                                                     width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                         0.5,
                                                     child: Text(
-                                                      "Luwum St. Rwoozi, Kampala...",
+                                                      state.response!.farmerMAster![i].address ?? "Luwum St. Rwoozi, Kampala...",
                                                       style:
                                                       figtreeRegular.copyWith(
                                                         fontSize: 12,
@@ -254,7 +265,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: '50 Acres',
+                                                    text: '${state.response!.farmerMAster![i].farmSize}Acres',
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12),
                                                   ),
@@ -272,7 +283,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: '50',
+                                                    text: state.response!.farmerMAster![i].milkingCows.toString(),
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12),
                                                   ),
@@ -290,7 +301,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: '50 ltr',
+                                                    text: state.response!.farmerMAster![i].yieldPerCow.toString(),
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12),
                                                   ),
@@ -348,10 +359,10 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      "UGX 3.2M".textSemiBold(
+                                                      'UGX ${state.response!.farmerMAster![i].investmentAmount!/1000}M'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
-                                                      "Investment".textMedium(
+                                                     'Investment'.textMedium(
                                                           fontSize: 12,
                                                           color: const Color(
                                                               0xff808080)),
@@ -363,10 +374,10 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      "UGX 4.5M".textSemiBold(
+                                                      'UGX ${state.response!.farmerMAster![i].revenuePerYear!/1000}M'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
-                                                      "Revenue".textMedium(
+                                                      'Revenue'.textMedium(
                                                           fontSize: 12,
                                                           color: const Color(
                                                               0xff808080)),
@@ -378,10 +389,10 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      "40%".textSemiBold(
+                                                      ' ${state.response!.farmerMAster![i].roiPerYear}%'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
-                                                      "ROI".textMedium(
+                                                      'ROI'.textMedium(
                                                           fontSize: 12,
                                                           color: const Color(
                                                               0xff808080)),

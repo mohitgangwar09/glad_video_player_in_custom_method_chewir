@@ -6,6 +6,7 @@ import 'package:glad/data/model/api_response.dart';
 import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/errors_model.dart';
+import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
@@ -67,4 +68,22 @@ class ProfileRepository {
     }
   }
 
+  Future<FarmerProfileModel> getFarmerProfileApi() async {
+    var userId = sharedPreferences?.getString(AppConstants.userId);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
+        '${AppConstants.farmerDetailsApi}/$userId', headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return FarmerProfileModel.fromJson(apiResponse.response!.data);
+    } else {
+      return FarmerProfileModel(
+          status: 422,
+          message: apiResponse.msg);
+    }
+  }
+
+  getUserToken() {
+    return sharedPreferences?.getString(AppConstants.token);
+  }
 }

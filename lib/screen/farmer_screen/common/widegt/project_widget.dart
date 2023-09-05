@@ -12,48 +12,58 @@ class ProjectWidget extends StatelessWidget {
   final int investment;
   final int revenue;
   final int index;
-  const ProjectWidget({Key? key,required this.showStatus, required this.name, required this.targetYield, required this.investment, required this.revenue, required this.index}) : super(key: key);
+  final int incrementalProduction;
+  final int roi;
+
+  const ProjectWidget(
+      {Key? key,
+      required this.showStatus,
+      required this.name,
+      required this.targetYield,
+      required this.investment,
+      required this.revenue,
+      required this.index, required this.incrementalProduction, required this.roi})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: InkWell(
-            onTap: (){
+            onTap: () {
               const ProjectDetails().navigate();
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Row(
                   children: [
-
                     CircleAvatar(
                         radius: 30,
-                        child: Image.asset(Images.sampleUser,
-                          fit: BoxFit.cover,width: 80,height: 80,)),
-
+                        child: Image.asset(
+                          Images.sampleUser,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        )),
                     12.horizontalSpace(),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
-                          name.textMedium(fontSize: 18, maxLines: 1, overflow: TextOverflow.ellipsis),
-
+                          name.textMedium(
+                              fontSize: 18,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis),
                           5.verticalSpace(),
-
-                          "Water Management".textMedium(fontSize: 12, ),
-
+                          "Water Management".textMedium(
+                            fontSize: 12,
+                          ),
                         ],
                       ),
                     ),
-
                   ],
                 ),
 
@@ -64,159 +74,128 @@ class ProjectWidget extends StatelessWidget {
                   padding: 20.paddingHorizontal(),
                   decoration: boxDecoration(
                       backgroundColor: const Color(0xffFFF3F4),
-                      borderRadius: 10
-                  ),child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "$targetYield Ltr./day".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        3.verticalSpace(),
-
-                        "Target yield /cow".textRegular(fontSize: 12,color: Colors.black),
-
-
-
-                      ],
-                    ),
-
-                    SizedBox(
-                      height: 45,
-                      child: customPaint(Colors.grey),
-                    ),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "180 Ltr./day".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        3.verticalSpace(),
-
-                        "Incremental production".textRegular(fontSize: 12,color: Colors.black)
-
-                      ],
-                    ),
-
-                  ],
-                ),),
+                      borderRadius: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          "$targetYield Ltr./day"
+                              .textSemiBold(color: Colors.black, fontSize: 16),
+                          3.verticalSpace(),
+                          "Target yield /cow"
+                              .textRegular(fontSize: 12, color: Colors.black),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 45,
+                        child: customPaint(Colors.grey),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          "$incrementalProduction Ltr./day"
+                              .textSemiBold(color: Colors.black, fontSize: 16),
+                          3.verticalSpace(),
+                          "Incremental production"
+                              .textRegular(fontSize: 12, color: Colors.black)
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
 
                 10.verticalSpace(),
 
                 Container(
                   margin: 4.marginTop(),
                   padding: 20.paddingHorizontal(),
-                  decoration: boxDecoration(
-                      borderRadius: 10
-                  ),child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "UGX ${investment/1000}M".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        "Investment".textMedium(fontSize: 12),
-
-
-
-                      ],
-                    ),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "UGX ${revenue/1000}M".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        "Revenue".textMedium(fontSize: 12,color: Colors.black),
-
-
-
-                      ],
-                    ),
-
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        "40%".textSemiBold(color: Colors.black, fontSize: 16),
-
-                        "ROI".textMedium(fontSize: 12,),
-
-
-
-                      ],
-                    ),
-
-
-                  ],
-                ),
+                  decoration: boxDecoration(borderRadius: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          "UGX ${investment / 1000}M"
+                              .textSemiBold(color: Colors.black, fontSize: 16),
+                          "Investment".textMedium(fontSize: 12),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          "UGX ${revenue / 1000}M"
+                              .textSemiBold(color: Colors.black, fontSize: 16),
+                          "Revenue"
+                              .textMedium(fontSize: 12, color: Colors.black),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          "$roi%".textSemiBold(color: Colors.black, fontSize: 16),
+                          "ROI".textMedium(
+                            fontSize: 12,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 // 30.verticalSpace()
-
               ],
             ),
           ),
         ),
-
-
         Visibility(
           visible: showStatus,
           child: Align(
             alignment: Alignment.topRight,
             child: Container(
               margin: 10.marginAll(),
-              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 7),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
               decoration: boxDecoration(
                 borderRadius: 30,
                 borderColor: const Color(0xff6A0030),
               ),
-              child: Text("Active",
+              child: Text(
+                "Active",
                 textAlign: TextAlign.center,
                 style: figtreeMedium.copyWith(
-                    color: const Color(0xff6A0030),
-                    fontSize: 10
-
-                ),),
+                    color: const Color(0xff6A0030), fontSize: 10),
+              ),
             ),
           ),
         ),
-
         Visibility(
           visible: !showStatus,
           child: Align(
             alignment: Alignment.topRight,
             child: Container(
               padding: const EdgeInsets.all(16),
-              decoration: boxDecoration(
-                borderRadius: 30,
-                backgroundColor: const Color(0xFFE4FFE3)
-              ),
-              child: Text(index.toString(),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      bottomLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                  color: Color(0xFFE4FFE3)),
+              child: Text(
+                index.toString(),
                 textAlign: TextAlign.center,
                 style: figtreeMedium.copyWith(
-                    color: const Color(0xff6A0030),
-                    fontSize: 16
-
-                ),),
+                    color: const Color(0xff6A0030), fontSize: 16),
+              ),
             ),
           ),
         )
-
       ],
     );
   }

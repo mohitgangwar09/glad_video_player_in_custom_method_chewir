@@ -13,7 +13,8 @@ class AppConstants {
   static const String updateProfileImageAPi = '/api/profile-pic';
   static const String profileApi = '/api/profile';
   static const String farmerDashboardApi = '/api/landing/dashboard';
-  static const String farmerList = '/api/farmerslist';
+  static const String farmerList = '/api/farmerlist';
+  static const String farmerDetailsApi = '/api/farmer';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
