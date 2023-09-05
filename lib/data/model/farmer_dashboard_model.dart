@@ -8,13 +8,13 @@ class FarmerDashboard {
   FarmerDashboard.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -23,93 +23,145 @@ class FarmerDashboard {
 }
 
 class Data {
-  FarmerMaster? farmerMaster;
-  List<CowBreedDetails>? cowBreedDetails;
   Dde? dde;
-  List<Testimonials>? testimonials;
   Mcc? mcc;
+  FarmerMaster? farmerMaster;
+  List<Testimonials>? testimonials;
   List<FarmerProject>? farmerProject;
+  CowBreedDetails? cowBreedDetails;
   List<FarmerMilkProduction>? farmerMilkProduction;
   List<TopPerformerFarmer>? topPerformerFarmer;
 
   Data(
-      {this.farmerMaster,
-        this.cowBreedDetails,
-        this.dde,
-        this.testimonials,
+      {this.dde,
         this.mcc,
+        this.farmerMaster,
+        this.testimonials,
         this.farmerProject,
+        this.cowBreedDetails,
         this.farmerMilkProduction,
         this.topPerformerFarmer});
 
   Data.fromJson(Map<String, dynamic> json) {
+    dde = json['dde'] != null ? Dde.fromJson(json['dde']) : null;
+    mcc = json['mcc'] != null ? Mcc.fromJson(json['mcc']) : null;
     farmerMaster = json['farmerMaster'] != null
-        ? new FarmerMaster.fromJson(json['farmerMaster'])
+        ? FarmerMaster.fromJson(json['farmerMaster'])
         : null;
-    if (json['cowBreedDetails'] != null) {
-      cowBreedDetails = <CowBreedDetails>[];
-      json['cowBreedDetails'].forEach((v) {
-        cowBreedDetails!.add(new CowBreedDetails.fromJson(v));
-      });
-    }
-    dde = json['dde'] != null ? new Dde.fromJson(json['dde']) : null;
     if (json['testimonials'] != null) {
       testimonials = <Testimonials>[];
       json['testimonials'].forEach((v) {
-        testimonials!.add(new Testimonials.fromJson(v));
+        testimonials!.add(Testimonials.fromJson(v));
       });
     }
-    mcc = json['mcc'] != null ? new Mcc.fromJson(json['mcc']) : null;
     if (json['farmerProject'] != null) {
       farmerProject = <FarmerProject>[];
       json['farmerProject'].forEach((v) {
-        farmerProject!.add(new FarmerProject.fromJson(v));
+        farmerProject!.add(FarmerProject.fromJson(v));
       });
     }
+    cowBreedDetails = json['cowBreedDetails'] != null
+        ? CowBreedDetails.fromJson(json['cowBreedDetails'])
+        : null;
     if (json['farmerMilkProduction'] != null) {
       farmerMilkProduction = <FarmerMilkProduction>[];
       json['farmerMilkProduction'].forEach((v) {
-        farmerMilkProduction!.add(new FarmerMilkProduction.fromJson(v));
+        farmerMilkProduction!.add(FarmerMilkProduction.fromJson(v));
       });
     }
     if (json['topPerformerFarmer'] != null) {
       topPerformerFarmer = <TopPerformerFarmer>[];
       json['topPerformerFarmer'].forEach((v) {
-        topPerformerFarmer!.add(new TopPerformerFarmer.fromJson(v));
+        topPerformerFarmer!.add(TopPerformerFarmer.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.farmerMaster != null) {
-      data['farmerMaster'] = this.farmerMaster!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (dde != null) {
+      data['dde'] = dde!.toJson();
     }
-    if (this.cowBreedDetails != null) {
-      data['cowBreedDetails'] =
-          this.cowBreedDetails!.map((v) => v.toJson()).toList();
+    if (mcc != null) {
+      data['mcc'] = mcc!.toJson();
     }
-    if (this.dde != null) {
-      data['dde'] = this.dde!.toJson();
+    if (farmerMaster != null) {
+      data['farmerMaster'] = farmerMaster!.toJson();
     }
-    if (this.testimonials != null) {
-      data['testimonials'] = this.testimonials!.map((v) => v.toJson()).toList();
+    if (testimonials != null) {
+      data['testimonials'] = testimonials!.map((v) => v.toJson()).toList();
     }
-    if (this.mcc != null) {
-      data['mcc'] = this.mcc!.toJson();
-    }
-    if (this.farmerProject != null) {
+    if (farmerProject != null) {
       data['farmerProject'] =
-          this.farmerProject!.map((v) => v.toJson()).toList();
+          farmerProject!.map((v) => v.toJson()).toList();
     }
-    if (this.farmerMilkProduction != null) {
+    if (cowBreedDetails != null) {
+      data['cowBreedDetails'] = cowBreedDetails!.toJson();
+    }
+    if (farmerMilkProduction != null) {
       data['farmerMilkProduction'] =
-          this.farmerMilkProduction!.map((v) => v.toJson()).toList();
+          farmerMilkProduction!.map((v) => v.toJson()).toList();
     }
-    if (this.topPerformerFarmer != null) {
+    if (topPerformerFarmer != null) {
       data['topPerformerFarmer'] =
-          this.topPerformerFarmer!.map((v) => v.toJson()).toList();
+          topPerformerFarmer!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Dde {
+  dynamic id;
+  String? name;
+  dynamic phone;
+  dynamic image;
+
+  Dde({this.id, this.name, this.phone, this.image});
+
+  Dde.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    phone = json['phone'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['phone'] = phone;
+    data['image'] = image;
+    return data;
+  }
+}
+
+class Mcc {
+  dynamic id;
+  String? name;
+  String? email;
+  dynamic phone;
+  dynamic address;
+  dynamic image;
+
+  Mcc({this.id, this.name, this.email, this.phone, this.address, this.image});
+
+  Mcc.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    address = json['address'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['address'] = address;
+    data['image'] = image;
     return data;
   }
 }
@@ -203,128 +255,63 @@ class FarmerMaster {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
-    data['mcc_id'] = this.mccId;
-    data['dde_id'] = this.ddeId;
-    data['photo'] = this.photo;
-    data['kyc_status'] = this.kycStatus;
-    data['landline_no'] = this.landlineNo;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['gender'] = this.gender;
-    data['registration_date'] = this.registrationDate;
-    data['farm_size'] = this.farmSize;
-    data['dairy_area'] = this.dairyArea;
-    data['staff_quantity'] = this.staffQuantity;
-    data['farming_experience'] = this.farmingExperience;
-    data['manager_name'] = this.managerName;
-    data['manager_phone'] = this.managerPhone;
-    data['rag_rating'] = this.ragRating;
-    data['lead_type'] = this.leadType;
-    data['ideal_yield'] = this.idealYield;
-    data['current_yield'] = this.currentYield;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['email'] = email;
+    data['address'] = address;
+    data['phone'] = phone;
+    data['mcc_id'] = mccId;
+    data['dde_id'] = ddeId;
+    data['photo'] = photo;
+    data['kyc_status'] = kycStatus;
+    data['landline_no'] = landlineNo;
+    data['date_of_birth'] = dateOfBirth;
+    data['gender'] = gender;
+    data['registration_date'] = registrationDate;
+    data['farm_size'] = farmSize;
+    data['dairy_area'] = dairyArea;
+    data['staff_quantity'] = staffQuantity;
+    data['farming_experience'] = farmingExperience;
+    data['manager_name'] = managerName;
+    data['manager_phone'] = managerPhone;
+    data['rag_rating'] = ragRating;
+    data['lead_type'] = leadType;
+    data['ideal_yield'] = idealYield;
+    data['current_yield'] = currentYield;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
     return data;
   }
 }
 
-class CowBreedDetails {
+class Testimonials {
   dynamic id;
-  String? breedName;
-  dynamic heardSize;
-  dynamic milkingCows;
-  dynamic dryCows;
-  double? yieldPerCow;
-  dynamic bullCalfs;
+  String? description;
+  String? attachment;
+  String? type;
+  String? status;
 
-  CowBreedDetails(
-      {this.id,
-        this.breedName,
-        this.heardSize,
-        this.milkingCows,
-        this.dryCows,
-        this.yieldPerCow,
-        this.bullCalfs});
+  Testimonials(
+      {this.id, this.description, this.attachment, this.type, this.status});
 
-  CowBreedDetails.fromJson(Map<String, dynamic> json) {
+  Testimonials.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    breedName = json['breed_name'];
-    heardSize = json['heard_size'];
-    milkingCows = json['milking_cows'];
-    dryCows = json['dry_cows'];
-    yieldPerCow = json['yield_per_cow'];
-    bullCalfs = json['bull_calfs'];
+    description = json['description'];
+    attachment = json['attachment'];
+    type = json['type'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['breed_name'] = this.breedName;
-    data['heard_size'] = this.heardSize;
-    data['milking_cows'] = this.milkingCows;
-    data['dry_cows'] = this.dryCows;
-    data['yield_per_cow'] = this.yieldPerCow;
-    data['bull_calfs'] = this.bullCalfs;
-    return data;
-  }
-}
-
-class Dde {
-  String? name;
-  dynamic phone;
-  dynamic image;
-
-  Dde({this.name, this.phone, this.image});
-
-  Dde.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    phone = json['phone'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['phone'] = this.phone;
-    data['image'] = this.image;
-    return data;
-  }
-}
-
-class Mcc {
-  dynamic id;
-  String? name;
-  String? email;
-  dynamic phone;
-  dynamic address;
-  dynamic image;
-
-  Mcc({this.id, this.name, this.email, this.phone, this.address, this.image});
-
-  Mcc.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    email = json['email'];
-    phone = json['phone'];
-    address = json['address'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['address'] = this.address;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['description'] = description;
+    data['attachment'] = attachment;
+    data['type'] = type;
+    data['status'] = status;
     return data;
   }
 }
@@ -373,19 +360,72 @@ class FarmerProject {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['project_status'] = this.projectStatus;
-    data['initial_yield'] = this.initialYield;
-    data['target_yield'] = this.targetYield;
-    data['investment_amount'] = this.investmentAmount;
-    data['revenue_per_year'] = this.revenuePerYear;
-    data['roi_per_year'] = this.roiPerYear;
-    data['category'] = this.category;
-    data['incremental_production'] = this.incrementalProduction;
-    data['photo'] = this.photo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['project_status'] = projectStatus;
+    data['initial_yield'] = initialYield;
+    data['target_yield'] = targetYield;
+    data['investment_amount'] = investmentAmount;
+    data['revenue_per_year'] = revenuePerYear;
+    data['roi_per_year'] = roiPerYear;
+    data['category'] = category;
+    data['incremental_production'] = incrementalProduction;
+    data['photo'] = photo;
+    return data;
+  }
+}
+
+class CowBreedDetails {
+  dynamic id;
+  String? breedName;
+  dynamic heardSize;
+  dynamic milkingCows;
+  dynamic dryCows;
+  dynamic yieldPerCow;
+  dynamic bullCalfs;
+  dynamic heiferCows;
+  dynamic i7to12mCows;
+  dynamic i6mCows;
+
+  CowBreedDetails(
+      {this.id,
+        this.breedName,
+        this.heardSize,
+        this.milkingCows,
+        this.dryCows,
+        this.yieldPerCow,
+        this.bullCalfs,
+        this.heiferCows,
+        this.i7to12mCows,
+        this.i6mCows});
+
+  CowBreedDetails.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    breedName = json['breed_name'];
+    heardSize = json['heard_size'];
+    milkingCows = json['milking_cows'];
+    dryCows = json['dry_cows'];
+    yieldPerCow = json['yield_per_cow'];
+    bullCalfs = json['bull_calfs'];
+    heiferCows = json['heifer_cows'];
+    i7to12mCows = json['7to12m_cows'];
+    i6mCows = json['6m_cows'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['breed_name'] = breedName;
+    data['heard_size'] = heardSize;
+    data['milking_cows'] = milkingCows;
+    data['dry_cows'] = dryCows;
+    data['yield_per_cow'] = yieldPerCow;
+    data['bull_calfs'] = bullCalfs;
+    data['heifer_cows'] = heiferCows;
+    data['7to12m_cows'] = i7to12mCows;
+    data['6m_cows'] = i6mCows;
     return data;
   }
 }
@@ -425,7 +465,7 @@ class FarmerMilkProduction {
   dynamic suppliedToPdfl;
   dynamic suppliedToOthers;
   dynamic selfUse;
-  double? yieldPerCow;
+  dynamic yieldPerCow;
   dynamic cowBreedId;
   String? month;
   String? breedName;
@@ -433,8 +473,8 @@ class FarmerMilkProduction {
   dynamic milkingCows;
   dynamic dryCows;
   dynamic heiferCows;
-  dynamic n7to12mCows;
-  dynamic n6mCows;
+  dynamic i7to12mCows;
+  dynamic i6mCows;
   dynamic bullCalfs;
 
   FarmerMilkProduction(
@@ -480,8 +520,8 @@ class FarmerMilkProduction {
         this.milkingCows,
         this.dryCows,
         this.heiferCows,
-        this.n7to12mCows,
-        this.n6mCows,
+        this.i7to12mCows,
+        this.i6mCows,
         this.bullCalfs});
 
   FarmerMilkProduction.fromJson(Map<String, dynamic> json) {
@@ -527,58 +567,58 @@ class FarmerMilkProduction {
     milkingCows = json['milking_cows'];
     dryCows = json['dry_cows'];
     heiferCows = json['heifer_cows'];
-    n7to12mCows = json['7to12m_cows'];
-    n6mCows = json['6m_cows'];
+    i7to12mCows = json['7to12m_cows'];
+    i6mCows = json['6m_cows'];
     bullCalfs = json['bull_calfs'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
-    data['mcc_id'] = this.mccId;
-    data['dde_id'] = this.ddeId;
-    data['photo'] = this.photo;
-    data['kyc_status'] = this.kycStatus;
-    data['landline_no'] = this.landlineNo;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['gender'] = this.gender;
-    data['registration_date'] = this.registrationDate;
-    data['farm_size'] = this.farmSize;
-    data['dairy_area'] = this.dairyArea;
-    data['staff_quantity'] = this.staffQuantity;
-    data['farming_experience'] = this.farmingExperience;
-    data['manager_name'] = this.managerName;
-    data['manager_phone'] = this.managerPhone;
-    data['rag_rating'] = this.ragRating;
-    data['lead_type'] = this.leadType;
-    data['ideal_yield'] = this.idealYield;
-    data['current_yield'] = this.currentYield;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['farmer_id'] = this.farmerId;
-    data['date'] = this.date;
-    data['total_milk_production'] = this.totalMilkProduction;
-    data['milking_cow'] = this.milkingCow;
-    data['supplied_to_pdfl'] = this.suppliedToPdfl;
-    data['supplied_to_others'] = this.suppliedToOthers;
-    data['self_use'] = this.selfUse;
-    data['yield_per_cow'] = this.yieldPerCow;
-    data['cow_breed_id'] = this.cowBreedId;
-    data['month'] = this.month;
-    data['breed_name'] = this.breedName;
-    data['heard_size'] = this.heardSize;
-    data['milking_cows'] = this.milkingCows;
-    data['dry_cows'] = this.dryCows;
-    data['heifer_cows'] = this.heiferCows;
-    data['7to12m_cows'] = this.n7to12mCows;
-    data['6m_cows'] = this.n6mCows;
-    data['bull_calfs'] = this.bullCalfs;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['email'] = email;
+    data['address'] = address;
+    data['phone'] = phone;
+    data['mcc_id'] = mccId;
+    data['dde_id'] = ddeId;
+    data['photo'] = photo;
+    data['kyc_status'] = kycStatus;
+    data['landline_no'] = landlineNo;
+    data['date_of_birth'] = dateOfBirth;
+    data['gender'] = gender;
+    data['registration_date'] = registrationDate;
+    data['farm_size'] = farmSize;
+    data['dairy_area'] = dairyArea;
+    data['staff_quantity'] = staffQuantity;
+    data['farming_experience'] = farmingExperience;
+    data['manager_name'] = managerName;
+    data['manager_phone'] = managerPhone;
+    data['rag_rating'] = ragRating;
+    data['lead_type'] = leadType;
+    data['ideal_yield'] = idealYield;
+    data['current_yield'] = currentYield;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['farmer_id'] = farmerId;
+    data['date'] = date;
+    data['total_milk_production'] = totalMilkProduction;
+    data['milking_cow'] = milkingCow;
+    data['supplied_to_pdfl'] = suppliedToPdfl;
+    data['supplied_to_others'] = suppliedToOthers;
+    data['self_use'] = selfUse;
+    data['yield_per_cow'] = yieldPerCow;
+    data['cow_breed_id'] = cowBreedId;
+    data['month'] = month;
+    data['breed_name'] = breedName;
+    data['heard_size'] = heardSize;
+    data['milking_cows'] = milkingCows;
+    data['dry_cows'] = dryCows;
+    data['heifer_cows'] = heiferCows;
+    data['7to12m_cows'] = i7to12mCows;
+    data['6m_cows'] = i6mCows;
+    data['bull_calfs'] = bullCalfs;
     return data;
   }
 }
@@ -589,9 +629,15 @@ class TopPerformerFarmer {
   dynamic address;
   dynamic milkingCows;
   dynamic photo;
+  dynamic yieldPerCow;
 
   TopPerformerFarmer(
-      {this.id, this.name, this.address, this.milkingCows, this.photo});
+      {this.id,
+        this.name,
+        this.address,
+        this.milkingCows,
+        this.photo,
+        this.yieldPerCow});
 
   TopPerformerFarmer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -599,52 +645,17 @@ class TopPerformerFarmer {
     address = json['address'];
     milkingCows = json['milking_cows'];
     photo = json['photo'];
+    yieldPerCow = json['yield_per_cow'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['address'] = this.address;
-    data['milking_cows'] = this.milkingCows;
-    data['photo'] = this.photo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['address'] = address;
+    data['milking_cows'] = milkingCows;
+    data['photo'] = photo;
+    data['yield_per_cow'] = yieldPerCow;
     return data;
   }
 }
-class Testimonials {
-  dynamic id;
-  String? name;
-  String? description;
-  String? attachment;
-  String? type;
-  String? status;
-
-  Testimonials(
-      {this.id,
-        this.name,
-        this.description,
-        this.attachment,
-        this.type,
-        this.status});
-
-  Testimonials.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    attachment = json['attachment'];
-    type = json['type'];
-    status = json['status'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['attachment'] = this.attachment;
-    data['type'] = this.type;
-    data['status'] = this.status;
-    return data;
-  }
-}
-

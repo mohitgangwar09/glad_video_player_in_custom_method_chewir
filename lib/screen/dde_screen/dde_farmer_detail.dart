@@ -610,7 +610,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                   ),
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    state.responseFarmerProfile!.cowBreedDetails![0].breedName!,
+                    state.responseFarmerProfile!.farmer!.cowBreedDetails!.breedName!,
                     style: figtreeRegular.copyWith(
                         fontSize: 12, color: Colors.white),
                   ),
@@ -633,7 +633,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
                             TextSpan(
-                                text: state.responseFarmerProfile!.cowBreedDetails![0].milkingCows!.toString(),
+                                text: state.responseFarmerProfile!.farmer!.cowBreedDetails!.milkingCows!.toString(),
                                 style: figtreeSemiBold.copyWith(
                                     fontSize: 14, color: Colors.black)),
                           ])),
@@ -648,7 +648,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
                             TextSpan(
-                                text: '${state.responseFarmerProfile!.cowBreedDetails![0].yieldPerCow!.toString()} Ltr/Day',
+                                text: '${state.responseFarmerProfile!.farmer!.cowBreedDetails!.yieldPerCow!.toString()} Ltr/Day',
                                 style: figtreeSemiBold.copyWith(
                                     fontSize: 14, color: Colors.black)),
                           ])),
@@ -667,7 +667,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Herd Size',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text(state.responseFarmerProfile!.cowBreedDetails![0].heardSize!.toString(),
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails!.heardSize!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -680,7 +680,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Dry Cows',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text(state.responseFarmerProfile!.cowBreedDetails![0].dryCows!.toString(),
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails!.dryCows!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -770,7 +770,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         fontSize: 12,
                                         color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseFarmerProfile!.cowBreedDetails![0].bullCalfs.toString() ?? '01',
+                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails!.bullCalfs.toString() ?? '01',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),

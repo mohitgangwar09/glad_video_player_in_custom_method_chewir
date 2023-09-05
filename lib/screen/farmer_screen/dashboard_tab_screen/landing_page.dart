@@ -244,9 +244,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                       GladReview(
                         review:
                             state.response!.testimonials![index].description!,
-                        name: state.response!.testimonials![index].name == null
-                            ? 'John Smith'
-                            : state.response!.testimonials![index].name!,
+                        name: 'John Smith',
                         userType: 'Farmer',
                         location: 'Kampala, Uganda',
                         attachment:
