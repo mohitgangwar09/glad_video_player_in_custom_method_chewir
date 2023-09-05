@@ -23,6 +23,14 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
     emit(state.copyWith(gender: gender));
   }
 
+  void changeDistrict(String districtName){
+    emit(state.copyWith(gender: districtName));
+  }
+
+  void changeSearchDistrictController(TextEditingController addressController){
+    emit(state.copyWith(addressSearchController: addressController));
+  }
+
   // profileApi
   Future<void> profileApi(context) async{
 
@@ -110,5 +118,19 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
       showCustomToast(context, response.message.toString());
     }
   }
+
+
+ /* Future<void> addressUpdateApi(context) async{
+    var response = await apiRepository.addressUpdateApi(state.addressController.text,);
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    }
+    else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }*/
 
 }

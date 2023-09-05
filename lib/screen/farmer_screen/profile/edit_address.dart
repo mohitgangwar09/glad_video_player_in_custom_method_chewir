@@ -71,14 +71,7 @@ class EditAddress extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            CustomDropdown(
-                              title: 'Country',
-                              itemList: const ['Male', 'Female'],
-                              dropdownValue: null,
-                              icon: Images.arrowDropdown,
-                              iconColor: Colors.black,
-                              onChanged: (String? value) {}, hint: '',
-                            ),
+                            const CustomTextField2(title: 'Country'),
                             20.verticalSpace(),
                             CustomDropdown(
                               title: 'District',
@@ -89,18 +82,13 @@ class EditAddress extends StatelessWidget {
                               onChanged: (String? value) {},
                             ),
                             20.verticalSpace(),
-                            CustomDropdown(
-                              title: 'City',
-                              itemList: const ['Male', 'Female'],
-                              dropdownValue: null,
-                              icon: Images.arrowDropdown,
-                              iconColor: Colors.black,
-                              onChanged: (String? value) {},
-                            ),
+                            const CustomTextField2(title: 'County'),
                             20.verticalSpace(),
-                            const CustomTextField2(title: 'Zip Code'),
+                            const CustomTextField2(title: 'Parish'),
                             20.verticalSpace(),
-                            const CustomTextField2(title: 'Address', maxLine: 3, minLine: 3,),
+                            const CustomTextField2(title: 'Village'),
+                            20.verticalSpace(),
+                            const CustomTextField2(title: 'Centre Name'),
                             40.verticalSpace(),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20.0),

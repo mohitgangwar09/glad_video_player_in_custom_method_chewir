@@ -1141,4 +1141,76 @@ Widget whatsapp(mobile){
     ),
   );
 }
+/////////////Seprator////////////
+Widget seprator({int color = 0xffD9D9D9}) {
+  return Container(
+    width: screenWidth(),
+    height: 1,
+    color: Color(color),
+  );
+}
+
+/////////////SearchBox//////////
+
+Widget searchBox({bool enabled=true,
+  double? width,
+  bool enabledBack=false, String hintText='Search', Function ? onTap,Function ? backOnTap,ValueChanged<String>? onChanged,bool enabledSearch=false,bool enableLoc=false,bool showCross=true,required TextEditingController controller}) {
+  return Container(
+    margin: 15.marginOnly(top: 0, bottom: 15),
+    padding:!showCross?const EdgeInsets.only(left: 15,right: 10,top: 13,bottom: 13):
+    const EdgeInsets.only(left: 15,right: 10,top: 10,bottom: 10),
+    //  padding:const EdgeInsets.only(left: 15,right: 10,top: 15,bottom: 15),
+    decoration:     BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child:Row(
+      children: [
+        Visibility(
+            visible: enabledSearch,
+            child: SvgPicture.asset(Images.search)),
+        Visibility(
+          visible: enabledBack,
+          child: InkResponse(
+              onTap: (){
+                backOnTap!();
+              },
+              child: const Icon(Icons.arrow_back_outlined,color: Color(0xff2A303A),)),
+        ),
+
+        13.horizontalSpace(),
+        Expanded(
+          child: TextField(
+            controller: controller,
+            enabled: enabled,
+            onChanged: (value){
+              onChanged!(value);
+            },
+            style: figtreeRegular.copyWith(
+                color:  const Color(0xff929292),
+                fontSize: 16
+            ),cursorColor:const Color(0xff2A303A),
+
+            decoration: InputDecoration(
+
+                hintText:hintText ,
+                border: InputBorder.none,
+                hintStyle : figtreeRegular.copyWith(
+                    color:  const Color(0xff929292),
+                    fontSize: 16
+                )),
+          ),
+        ),
+        Visibility(
+            visible: showCross,
+            child: InkResponse(
+                onTap: () {
+                  onTap!();
+                },
+                child: SvgPicture.asset(Images.cross))),
+
+      ],
+    ),
+  );
+}
 

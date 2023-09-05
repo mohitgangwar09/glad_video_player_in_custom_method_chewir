@@ -16,75 +16,61 @@ import 'package:glad/data/network/api_hitter.dart' as api_hitter;
 class ProfileRepository {
   final SharedPreferences? sharedPreferences;
 
-
   ProfileRepository({this.sharedPreferences});
 
   ///////////////// userProfileApi //////////
 
   Future<ResponseProfile> getUserProfileApi() async {
-
     var userId = sharedPreferences?.getString(AppConstants.userId);
 
-    var data = {
-      "id": userId
-    };
+    var data = {"id": userId};
 
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
-        AppConstants.profileApi,
-        queryParameters: data);
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.profileApi, queryParameters: data);
 
     if (apiResponse.status) {
       return ResponseProfile.fromJson(apiResponse.response!.data);
-    } {
-      return ResponseProfile(
-          status: 422,
-          message: apiResponse.msg);
+    }
+    {
+      return ResponseProfile(status: 422, message: apiResponse.msg);
     }
   }
 
-
   ///////////////// updateProfileApi //////////
   Future<ResponseOtpModel> updateProfileImageAPi(File file) async {
-
     var userId = sharedPreferences!.getString(AppConstants.userId);
 
-    FormData formData = FormData.fromMap({
-      "id": userId,
-      "profile_pic": await MultipartFile.fromFile(file.path)
-    });
+    FormData formData = FormData.fromMap(
+        {"id": userId, "profile_pic": await MultipartFile.fromFile(file.path)});
 
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.updateProfileImageAPi,
-        data: formData);
+        .getPostApiResponse(AppConstants.updateProfileImageAPi, data: formData);
 
     if (apiResponse.status) {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
-      return ResponseOtpModel(
-          status: 422,
-          message: apiResponse.msg);
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
   }
 
   Future<FarmerProfileModel> getFarmerProfileApi() async {
     var userId = sharedPreferences?.getString(AppConstants.userId);
-
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
-        '${AppConstants.farmerDetailsApi}/$userId', headers: {'Authorization': 'Bearer ${getUserToken()}'});
+    print(userId);
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse('${AppConstants.farmerDetailsApi}/$userId',
+            headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return FarmerProfileModel.fromJson(apiResponse.response!.data);
     } else {
-      return FarmerProfileModel(
-          status: 422,
-          message: apiResponse.msg);
+      return FarmerProfileModel(status: 422, message: apiResponse.msg);
     }
   }
 
   Future<FarmerProfileModel> updateFarmerDetailApi(String gender,
-      String landlineNumber,File file,String dob,String managerPhone) async {
+      String landlineNumber, File file, String dob, String managerPhone) async {
     var userId = sharedPreferences?.getString(AppConstants.userId);
 
     FormData formData = FormData.fromMap({
@@ -95,23 +81,51 @@ class ProfileRepository {
       "date_of_birth": dob
     });
 
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
-        AppConstants.updateFarmerApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'},
-        data: formData
-    );
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateFarmerApi,
+            headers: {'Authorization': 'Bearer ${getUserToken()}'},
+            data: formData);
 
     if (apiResponse.status) {
       return FarmerProfileModel.fromJson(apiResponse.response!.data);
     } else {
-      return FarmerProfileModel(
-          status: 422,
-          message: apiResponse.msg);}
+      return FarmerProfileModel(status: 422, message: apiResponse.msg);
+    }
   }
 
-  Future<FarmerProfileModel> updateFarmApi(String farmSize,String dairyArea,
-      String staffQuantity, String managerName,String managerPhone) async {
+  ////////////////////address UpdateApi////////////////
+  Future<ResponseOtpModel> addressUpdateApi(
+      String district,
+      String county,
+      String parish,
+      String village,
+      String centreName) async {
+    var userId = sharedPreferences?.getString(AppConstants.userId);
 
+    FormData formData = FormData.fromMap({
+      "id": userId,
+      "country": '227',
+      "district": district,
+      "county": county,
+      "parish": parish,
+      "village": village,
+      "centreName": centreName,
+    });
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateFarmerApi,
+            headers: {'Authorization': 'Bearer ${getUserToken()}'},
+            data: formData);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<FarmerProfileModel> updateFarmApi(String farmSize, String dairyArea,
+      String staffQuantity, String managerName, String managerPhone) async {
     var userId = sharedPreferences?.getString(AppConstants.userId);
     FormData formData = FormData.fromMap({
       "id": userId,
@@ -122,17 +136,15 @@ class ProfileRepository {
       "manager_phone": managerPhone,
     });
 
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
-        AppConstants.updateFarmApi,
-        data: formData,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateFarmApi,
+            data: formData,
+            headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return FarmerProfileModel.fromJson(apiResponse.response!.data);
     } else {
-      return FarmerProfileModel(
-          status: 422,
-          message: apiResponse.msg);
+      return FarmerProfileModel(status: 422, message: apiResponse.msg);
     }
   }
 

@@ -8,6 +8,7 @@ class ProfileCubitState extends Equatable{
   final TextEditingController emailController;
   final TextEditingController phoneController;
   final TextEditingController addressController;
+  final TextEditingController addressSearchController;
   final TextEditingController nameController;
   final TextEditingController profilePic;
   final bool passwordVisible,confirmVisible;
@@ -23,6 +24,7 @@ class ProfileCubitState extends Equatable{
     required this.validator,
     required this.validatorString,
     required this.phoneController,
+    required this.addressSearchController,
     required this.addressController,
     required this.nameController,
     required this.passwordVisible,
@@ -36,6 +38,7 @@ class ProfileCubitState extends Equatable{
       status: ProfileStatus.initial,
       emailController: TextEditingController(),
       nameController: TextEditingController(),
+      addressSearchController: TextEditingController(),
       validator: '',
       gender: 'Male',
       responseProfile: null,
@@ -54,6 +57,7 @@ class ProfileCubitState extends Equatable{
     ProfileStatus? status,
     TextEditingController? emailController,
     TextEditingController? nameController,
+    TextEditingController? addressSearchController,
     ResponseProfile? responseProfile,
     TextEditingController? passwordController,
     TextEditingController? phoneController,
@@ -69,6 +73,7 @@ class ProfileCubitState extends Equatable{
       gender: gender ?? this.gender,
       responseProfile: responseProfile ?? this.responseProfile,
       nameController: nameController ?? this.nameController,
+      addressSearchController: addressSearchController ?? this.addressSearchController,
       emailController: emailController ?? this.emailController,
       phoneController: phoneController ?? this.phoneController,
       addressController: addressController ?? this.addressController,
@@ -96,6 +101,7 @@ class ProfileCubitState extends Equatable{
     profilePic,
     responseFarmerProfile,
     gender,
+    addressSearchController,
   ];
 
 }
