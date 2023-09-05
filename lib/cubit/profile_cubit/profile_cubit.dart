@@ -7,6 +7,7 @@ import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -67,9 +68,10 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
     }
   }
 
-  void getFarmerProfile(context) async{
+  void getFarmerProfile(context, {String? userId}) async{
     emit(state.copyWith(status: ProfileStatus.submit));
-    var response = await apiRepository.getFarmerProfileApi();
+
+    var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
       emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data));
     }

@@ -373,8 +373,8 @@ class _FarmerProfileState extends State<FarmerProfile> {
                     borderRadius: BorderRadius.circular(10),
                     color: const Color(0xFFFFF3F4),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16.5, horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -415,8 +415,10 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SvgPicture.asset(Images.herdSize),
+                        10.verticalSpace(),
                         Text('Herd Size',
                             style: figtreeMedium.copyWith(fontSize: 14)),
+                        4.verticalSpace(),
                         Text(state.responseFarmerProfile!.cowBreedDetails![0].heardSize!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
@@ -426,8 +428,10 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SvgPicture.asset(Images.dryCows),
+                        10.verticalSpace(),
                         Text('Dry Cows',
                             style: figtreeMedium.copyWith(fontSize: 14)),
+                        4.verticalSpace(),
                         Text(state.responseFarmerProfile!.cowBreedDetails![0].dryCows!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
@@ -437,8 +441,10 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SvgPicture.asset(Images.heifer),
+                        10.verticalSpace(),
                         Text('Heifer',
                             style: figtreeMedium.copyWith(fontSize: 14)),
+                        4.verticalSpace(),
                         Text('03',
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
@@ -447,56 +453,82 @@ class _FarmerProfileState extends State<FarmerProfile> {
                 ),
                 20.verticalSpace(),
                 Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: '7-12 month: ',
-                          style: figtreeRegular.copyWith(
-                              fontSize: 14, color: const Color(0xFF727272))),
-                      TextSpan(
-                          text: '08',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 14, color: Colors.black)),
-                    ])),
-                    4.horizontalSpace(),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: '7-12 month: ',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12,
+                                        color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: '08',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
+                        ],
+                      ),
+                    ),
                     Container(
-                      height: 5,
-                      width: 5,
+                      height: 4.5,
+                      width: 4.5,
                       decoration: const BoxDecoration(
                           color: Colors.black, shape: BoxShape.circle),
                     ),
-                    4.horizontalSpace(),
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: '<6 month: ',
-                          style: figtreeRegular.copyWith(
-                              fontSize: 14, color: const Color(0xFF727272))),
-                      TextSpan(
-                          text: '02',
-                          style: figtreeRegular.copyWith(
-                              fontSize: 14, color: Colors.black)),
-                    ])),
-                    4.horizontalSpace(),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: '<6 month: ',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12,
+                                        color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: '02',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
+                          /*Container(
+                          height: 4.5,
+                          width: 4.5,
+                          decoration: const BoxDecoration(
+                              color: Colors.black, shape: BoxShape.circle),
+                        ),*/
+                        ],
+                      ),
+                    ),
                     Container(
-                      height: 5,
-                      width: 5,
+                      height: 4.5,
+                      width: 4.5,
                       decoration: const BoxDecoration(
                           color: Colors.black, shape: BoxShape.circle),
                     ),
-                    4.horizontalSpace(),
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Bull calf: ',
-                          style: figtreeRegular.copyWith(
-                              fontSize: 14, color: const Color(0xFF727272))),
-                      TextSpan(
-                          text: state.responseFarmerProfile!.cowBreedDetails![0].bullCalfs!.toString(),
-                          style: figtreeMedium.copyWith(
-                              fontSize: 14, color: Colors.black)),
-                    ])),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: 'Bull calf: ',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12,
+                                        color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: state.responseFarmerProfile!.cowBreedDetails![0].bullCalfs.toString() ?? '01',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],

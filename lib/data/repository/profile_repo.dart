@@ -68,8 +68,7 @@ class ProfileRepository {
     }
   }
 
-  Future<FarmerProfileModel> getFarmerProfileApi() async {
-    var userId = sharedPreferences?.getString(AppConstants.userId);
+  Future<FarmerProfileModel> getFarmerProfileApi(String userId) async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
         '${AppConstants.farmerDetailsApi}/$userId', headers: {'Authorization': 'Bearer ${getUserToken()}'});

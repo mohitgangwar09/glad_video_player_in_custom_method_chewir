@@ -212,7 +212,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               phone: state.response!.dde!.phone ?? '+256 758711344',
               image: state.response!.dde!.image ?? '',
             ),
-            topPerformingFarmer(),
+            topPerformingFarmer(state),
             35.verticalSpace(),
             const LiveStockMarketplace(),
             10.verticalSpace(),
@@ -342,7 +342,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
     );
   }
 
-  Widget topPerformingFarmer() {
+  Widget topPerformingFarmer(LandingPageState state) {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, top: 30, right: 20),
       child: Column(
