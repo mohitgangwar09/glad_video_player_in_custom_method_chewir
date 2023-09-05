@@ -34,6 +34,7 @@ class CustomTextField2 extends StatelessWidget {
   final Color? suffixIconColor;
   final bool? readOnly;
   final String title;
+  final double? height;
 
   const CustomTextField2(
       {Key? key,
@@ -41,6 +42,7 @@ class CustomTextField2 extends StatelessWidget {
       this.controller,
       this.onChanged,
       this.length,
+        this.height = 60,
       this.borderColor = 0xffD9D9D9,
       this.backgroundColor = 0xffFFFFFF,
       this.onEditingComplete,
@@ -85,7 +87,7 @@ class CustomTextField2 extends StatelessWidget {
           children: [
             ContainerBorder(
               margin: 0.marginVertical(),
-              height: 60,
+              height: height,
               padding: 10.paddingOnly(top: 15, bottom: 15),
               borderColor: borderColor,
               backColor: backgroundColor,

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,6 +26,7 @@ class _AddTestimonialState extends State<AddTestimonial> {
 
   String? type;
   String? path;
+  TextEditingController description = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +59,13 @@ class _AddTestimonialState extends State<AddTestimonial> {
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            const CustomTextField2(
+                            CustomTextField2(
                               title: 'Describe your feelings',
                               hint: 'Write..',
                               maxLine: 7,
                               minLine: 7,
+                              height: null,
+                              controller: description,
                             ),
                             20.verticalSpace(),
                             Visibility(
@@ -69,9 +75,13 @@ class _AddTestimonialState extends State<AddTestimonial> {
                                   showTestimonialPicker(context, videoFunction: () async {
                                     path = await videoFromGallery();
                                     type = 'video';
+                                    setState(() {});
+                                    pressBack();
                                   }, photoFunction: () async {
                                     path = await imgFromGallery();
                                     type = 'image';
+                                    setState(() {});
+                                    pressBack();
                                   });
                                 },
                                 child: Stack(
@@ -178,16 +188,22 @@ class _AddTestimonialState extends State<AddTestimonial> {
                               ),
                             ),
                             20.verticalSpace(),
+                            path!= null ?
                             Stack(
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                    child: Image.asset(Images.sampleVideo, fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
+                                    child: Image.file(File(path!), fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
                                 Positioned(
                                   right: 5,
                                   top: 5,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      setState(() {
+                                        path = null;
+                                        type = null;
+                                      });
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(200),
@@ -199,14 +215,22 @@ class _AddTestimonialState extends State<AddTestimonial> {
                                   ),
                                 ),
                               ],
-                            ),
+                            ) : const SizedBox.shrink(),
                             40.verticalSpace(),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20.0),
                               child: customButton(
                                 'Save',
                                 onTap: () {
-                                  BlocProvider.of<DrawerCubit>(context).addTestimonials(context, path!, '', type);
+                                  if(description.text.isEmpty) {
+                                    showCustomToast(context, 'Description is required');
+                                  }else if(path == null) {
+                                    showCustomToast(context, 'Video/Image is required');
+                                  }else {
+                                    BlocProvider.of<DrawerCubit>(context)
+                                        .addTestimonials(
+                                        context, path!, description.text, type);
+                                  }
                                 },
                                 radius: 40,
                                 width: double.infinity,

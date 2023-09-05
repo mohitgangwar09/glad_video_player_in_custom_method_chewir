@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,9 +79,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                           onTap: () {
                             const FarmerProfile().navigate();
                           },
-                          child: Image.network(
-                            state.response!.farmerMaster!.photo!,
-                            errorBuilder: (_, __, ___) =>
+                          child: CachedNetworkImage(
+                            imageUrl: state.response!.farmerMaster!.photo!,
+                            errorWidget: (_, __, ___) =>
                                 SvgPicture.asset(Images.person),
                           )),
                       8.horizontalSpace(),
