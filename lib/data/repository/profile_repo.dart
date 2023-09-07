@@ -83,16 +83,46 @@ class ProfileRepository {
   }
 
   Future<FarmerProfileModel> updateFarmerDetailApi(String gender,
-      String landlineNumber,File file,String dob,String managerPhone) async {
+      String landlineNumber,String file,String dob) async {
+
+    FormData formData;
     var userId = sharedPreferences?.getString(AppConstants.userId);
 
-    FormData formData = FormData.fromMap({
-      "id": userId,
-      "gender": gender,
-      "landline_no": landlineNumber,
-      "photo": await MultipartFile.fromFile(file.path),
-      "date_of_birth": dob
-    });
+    if(file == ""){
+      if(dob == ""){
+        formData = FormData.fromMap({
+          "id": userId,
+          "gender": gender,
+          "phone": landlineNumber,
+        });
+      }else{
+        formData = FormData.fromMap({
+          "id": userId,
+          "gender": gender,
+          "phone": landlineNumber,
+          "date_of_birth": dob,
+        });
+      }
+
+    }else{
+      File files = File(file);
+      if(dob == ""){
+        formData = FormData.fromMap({
+          "id": userId,
+          "gender": gender,
+          "phone": landlineNumber,
+          "photo": await MultipartFile.fromFile(files.path),
+        });
+      }else{
+        formData = FormData.fromMap({
+          "id": userId,
+          "gender": gender,
+          "phone": landlineNumber,
+          "date_of_birth": dob,
+          "photo": await MultipartFile.fromFile(files.path),
+        });
+      }
+    }
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
         AppConstants.updateFarmerApi,
@@ -109,9 +139,8 @@ class ProfileRepository {
   }
 
   Future<FarmerProfileModel> updateFarmApi(String farmSize,String dairyArea,
-      String staffQuantity, String managerName,String managerPhone) async {
+      String staffQuantity, String managerName,String managerPhone,String userId) async {
 
-    var userId = sharedPreferences?.getString(AppConstants.userId);
     FormData formData = FormData.fromMap({
       "id": userId,
       "farm_size": farmSize,
@@ -120,6 +149,7 @@ class ProfileRepository {
       "manager_name": managerName,
       "manager_phone": managerPhone,
     });
+    print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
         AppConstants.updateFarmApi,
