@@ -26,6 +26,7 @@ class FarmerDdeTabScreen extends StatefulWidget {
 class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
 
+  @override
   void initState(){
     super.initState();
     BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context);
@@ -172,7 +173,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 120, left: 0),
-                    child: customList(child: (int i) {
+                    child: customList(list: state.response!.farmerMAster!,child: (int i) {
                       return Padding(
                         padding: const EdgeInsets.only(
                             left: 10, right: 20, bottom: 12),

@@ -143,8 +143,7 @@ class ProfileCubit extends Cubit<ProfileCubitState>{
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response .message.toString());
     }
   }
-
 }
