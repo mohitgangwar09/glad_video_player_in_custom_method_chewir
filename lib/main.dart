@@ -10,6 +10,7 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
 import 'package:glad/screen/extra_screen/add_item_list.dart';
+import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/utils/extension.dart';
 import 'di_container.dart' as di;
 
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // return const CowsAndYields();
-    return const SplashScreen();
+    return const CowsAndYieldsDDEFarmer();
+    return const CowsAndYieldsDDEFarmer();
+    // return const SplashScreen();
   }
 }

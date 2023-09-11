@@ -7,18 +7,21 @@ class DdeState extends Equatable {
   final String focusTag;
   final DdeFarmerStatus status;
   final Data? response;
+  final List<MonthWiseData>? responseMonthlyWiseData;
 
-  DdeState({
+  const DdeState({
     required this.focusTag,
     required this.status,
     required this.response,
+    required this.responseMonthlyWiseData,
   });
 
   factory DdeState.initial(){
-    return DdeState(
+    return const DdeState(
       focusTag: "focusTag",
       status: DdeFarmerStatus.initial,
       response: null,
+      responseMonthlyWiseData: [],
     );
   }
 
@@ -27,12 +30,14 @@ class DdeState extends Equatable {
     int? selectedIndex,
     DdeFarmerStatus? status,
     Data? response,
+    List<MonthWiseData>? responseMonthlyWiseData
 
   }) {
     return DdeState(
       focusTag: focusTag ?? this.focusTag,
       status: status ?? this.status,
       response: response ?? this.response,
+      responseMonthlyWiseData: responseMonthlyWiseData ?? this.responseMonthlyWiseData,
     );
   }
 
@@ -41,6 +46,7 @@ class DdeState extends Equatable {
     focusTag,
     status,
     response,
+    responseMonthlyWiseData
   ];
 
 }

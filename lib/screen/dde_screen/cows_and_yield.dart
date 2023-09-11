@@ -27,11 +27,6 @@ class _CowsAndYieldState extends State<CowsAndYield> {
   bool tag = false;
   List viewList = [];
 
-
-  // final List<IconDataItem> iconDataList = [
-  //   IconDataItem(image: SvgPicture.asset(Images.less1))
-  // ];
-
   bool isVisible = false;
 
   void toggleVisibility() {
@@ -49,7 +44,6 @@ class _CowsAndYieldState extends State<CowsAndYield> {
 
     setState(() {
       items.add("");
-      print(items.length);
     });
   }
 
