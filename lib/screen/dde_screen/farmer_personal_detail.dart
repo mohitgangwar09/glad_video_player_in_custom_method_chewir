@@ -19,225 +19,307 @@ class PersonalDetail extends StatefulWidget {
 }
 
 class _PersonalDetailState extends State<PersonalDetail> {
-
   @override
   void initState() {
-    BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+    // BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ProfileCubit,ProfileCubitState>(
-        builder: (context ,state) {
-          return Stack(
-            children: [
-              landingBackground(),
-              Column(
-                children: [
-                  CustomAppBar(
-                    context: context,
-                    titleText1: 'Personal Details',
-                    leading: arrowBackButton(),
-                    centerTitle: true,
-                    description: 'Provide the following details',
-                    action: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Save',
-                        style: figtreeMedium.copyWith(
-                            fontSize: 14, color: ColorResources.maroon),
+      body: BlocBuilder<ProfileCubit, ProfileCubitState>(
+          builder: (context, state) {
+            return Stack(
+              children: [
+                landingBackground(),
+                Column(
+                  children: [
+                    CustomAppBar(
+                      context: context,
+                      titleText1: 'Personal Details',
+                      leading: arrowBackButton(),
+                      centerTitle: true,
+                      description: 'Provide the following details',
+                      action: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Save',
+                          style: figtreeMedium.copyWith(
+                              fontSize: 14, color: ColorResources.maroon),
+                        ),
                       ),
+                      titleText1Style:
+                      figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                     ),
-                    titleText1Style:
-                        figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-                  ),
-                  Expanded(
-                      child: SingleChildScrollView(
-                          child: Column(
-                    children: [
-                      personalDetails(context),
-                      saveCancelButton(),
-                    ],
-                  )))
-                ],
-              )
-            ],
-          );
-        }
-      ),
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                personalDetails(context),
+                                saveCancelButton(),
+                              ],
+                            )))
+                  ],
+                )
+              ],
+            );
+          }),
     );
   }
 
   Widget personalDetails(context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CustomTextField2(title: 'Name',width: 1,borderColor: 0xff727272,hint: '',),
-          25.verticalSpace(),
-          Row(
-            children: [
-              SizedBox(
-                width: 100,
-                child: CustomDropdown(
-                  hint: '',
+    return BlocBuilder<ProfileCubit, ProfileCubitState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField2(
+                  title: 'Name',
                   width: 1,
-                  borderColor: 0xff727272 ,
-                  title: 'Mobile',
-                    dropdownValue: null,
-                    itemList: const ['', ''],
-                    onChanged: (String) {},
-                    icon: Images.arrowDropdown,
-                    iconColor: Colors.black),
-              ),
-              10.horizontalSpace(),
-              const Expanded(child: CustomTextField2(title:'',width: 1,borderColor: 0xff727272,hint: '',),)
-            ],
-          ),
-          25.verticalSpace(),
-          const CustomTextField2(title: 'Email',width: 1,borderColor: 0xff727272,),
-          25.verticalSpace(),
-          CustomDropdown(
-              width: 1,
-              borderColor: 0xff727272 ,
-              title: 'Gender',
-              hint: '',
-              dropdownValue: null,
-              itemList: const ['', ''],
-              onChanged: (String) {},
-              icon: Images.arrowDropdown,
-              iconColor: Colors.black),
-          25.verticalSpace(),
-          CustomTextField2(
-            width: 1,
-            borderColor: 0xff727272,
-            title: 'DOB',
-            hint: '',
-            image2: Images.calender,
-            image2Colors: ColorResources.maroon,
-            readOnly: true,
-            onTap: () {
-              showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now());
-            },
-            focusNode: FocusNode(),
-          ),
-          25.verticalSpace(),
-          Row(
-            children: [
-              SizedBox(
-                width: 100,
-                child: CustomDropdown(
+                  borderColor: 0xff727272,
+                  controller: state.nameController
+                    ..text = state.responseFarmerProfile!.farmer!.name
+                        .toString(),
+                ),
+                25.verticalSpace(),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: CustomDropdown(
+                          hint: '',
+                          width: 1,
+                          borderColor: 0xff727272,
+                          title: 'Mobile',
+                          dropdownValue: null,
+                          itemList: const ['', ''],
+                          onChanged: (String) {},
+                          icon: Images.arrowDropdown,
+                          iconColor: Colors.black),
+                    ),
+                    10.horizontalSpace(),
+                    Expanded(
+                      child: CustomTextField2(
+                        title: '',
+                        width: 1,
+                        borderColor: 0xff727272,
+                        controller: state.phoneController
+                          ..text =
+                          state.responseFarmerProfile!.farmer!.phone == null
+                              ? ''
+                              : state.responseFarmerProfile!.farmer!.phone
+                              .toString(),
+                      ),
+                    )
+                  ],
+                ),
+                25.verticalSpace(),
+                CustomTextField2(
+                  title: 'Email',
+                  width: 1,
+                  controller: state.emailController
+                    ..text = state.responseFarmerProfile!.farmer!.email
+                        .toString(),
+                  borderColor: 0xff727272,
+                ),
+                25.verticalSpace(),
+                CustomDropdown(
                     width: 1,
-                    borderColor: 0xff727272 ,
-                    title: 'Landline No',
+                    borderColor: 0xff727272,
+                    title: 'Gender',
                     hint: '',
-                    dropdownValue: null,
-                    itemList: const ['', ''],
+                    dropdownValue: state.gender,
+                    itemList: const ['Male', 'Female'],
                     onChanged: (String) {},
                     icon: Images.arrowDropdown,
-                    iconColor: Colors.black),
-              ),
-              10.horizontalSpace(),
-              const Expanded(child: CustomTextField2(title:'',width: 1,borderColor: 0xff727272,hint: '',),)
-            ],
-          ),
-          25.verticalSpace(),
-          CustomTextField2(
-            width: 1,
-            borderColor: 0xff727272 ,
-            title: 'Farming Since',
-            hint: '',
-            image2: Images.calender,
-            image2Colors: ColorResources.maroon,
-            readOnly: true,
-            onTap: () {
-              showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now());
-            },
-            focusNode: FocusNode(),
-          ),
-          25.verticalSpace(),
-          CustomTextField2(
-            width: 1,
-            borderColor: 0xff727272 ,
-            title: 'Farm Size',
-            hint: '',
-            image2Colors: ColorResources.maroon,
-            readOnly: true,
-            onTap: () {
-            },
-            focusNode: FocusNode(),
-          ),
-          25.verticalSpace(),
-          CustomTextField2(
-            width: 1,
-            borderColor: 0xff727272 ,
-            title: 'Dairy Area',
-            hint: '',
-            image2Colors: ColorResources.maroon,
-            readOnly: true,
-            onTap: () {
 
-            },
-            focusNode: FocusNode(),
-          ),
-          25.verticalSpace(),
-          CustomTextField2(
-            width: 1,
-            borderColor: 0xff727272 ,
-            title: 'No. of people working in the farm',
-            hint: '',
-            image2Colors: ColorResources.maroon,
-            readOnly: true,
-            onTap: () {
-            },
-            focusNode: FocusNode(),
-          ),
-          25.verticalSpace(),
-          CustomTextField2(
-            width: 1,
-            borderColor: 0xff727272 ,
-            title: 'Manger Name',
-            hint: '',
-            image2Colors: ColorResources.maroon,
-            readOnly: true,
-            onTap: () {
-            },
-            focusNode: FocusNode(),
-          ),
-          25.verticalSpace(),
-          Row(
-            children: [
-              SizedBox(
-                width: 110,
-                child: CustomDropdown(
-                    width: 1,
-                    borderColor: 0xff727272 ,
-                    title: "Manager's mobile",
-                    hint: '',
-                    dropdownValue: null,
-                    itemList: const ['', ''],
-                    onChanged: (String) {},
-                    icon: Images.arrowDropdown,
                     iconColor: Colors.black),
-              ),
-              10.horizontalSpace(),
-              const Expanded(child: CustomTextField2(title:'',width: 1,borderColor: 0xff727272,hint: '',),)
-            ],
-          ),
-        ],
-      ),
-    );
+                25.verticalSpace(),
+                CustomTextField2(
+                  width: 1,
+                  borderColor: 0xff727272,
+                  title: 'DOB',
+                  controller: TextEditingController(
+                      text: state.responseFarmerProfile!.farmer!.dateOfBirth ==
+                          null
+                          ? ''
+                          : state.responseFarmerProfile!.farmer!.dateOfBirth
+                          .toString()),
+                  image2: Images.calender,
+                  image2Colors: ColorResources.maroon,
+                  readOnly: true,
+                  onTap: () {
+                    showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime.now());
+                  },
+                  focusNode: FocusNode(),
+                ),
+                25.verticalSpace(),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: CustomDropdown(
+                          width: 1,
+                          borderColor: 0xff727272,
+                          title: 'Landline No',
+                          hint: '',
+                          dropdownValue: null,
+                          itemList: const ['', ''],
+                          onChanged: (String) {},
+                          icon: Images.arrowDropdown,
+                          iconColor: Colors.black),
+                    ),
+                    10.horizontalSpace(),
+                    Expanded(
+                      child: CustomTextField2(
+                          title: '',
+                          width: 1,
+                          borderColor: 0xff727272,
+                          hint: '',
+                          controller: state.landlineController
+                            ..text =
+                                state.responseFarmerProfile!.farmer!
+                                    .landlineNo ??
+                                    123456789.toString()),
+                    )
+                  ],
+                ),
+                25.verticalSpace(),
+                CustomTextField2(
+                  width: 1,
+                  borderColor: 0xff727272,
+                  controller: TextEditingController(
+                      text: state.responseFarmerProfile!.farmer!
+                          .farmingExperience ==
+                          null
+                          ? ''
+                          : state.responseFarmerProfile!.farmer!
+                          .farmingExperience
+                          .toString()),
+                  title: 'Farming Since',
+                  image2: Images.calender,
+                  image2Colors: ColorResources.maroon,
+                  readOnly: true,
+                  onTap: () {
+                    showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime.now());
+                  },
+                  focusNode: FocusNode(),
+                ),
+                25.verticalSpace(),
+                CustomTextField2(
+                  width: 1,
+                  borderColor: 0xff727272,
+                  title: 'Farm Size',
+                  controller: state.farmSize
+                    ..text = state.responseFarmerProfile!.farmer!.farmSize ==
+                        null
+                        ? ''
+                        : state.responseFarmerProfile!.farmer!.farmSize
+                        .toString(),
+                  image2Colors: ColorResources.maroon,
+                  readOnly: true,
+                  onTap: () {},
+                  focusNode: FocusNode(),
+                ),
+                25.verticalSpace(),
+                CustomTextField2(
+                  width: 1,
+                  borderColor: 0xff727272,
+                  title: 'Dairy Area',
+                  controller: state.dairyArea
+                    ..text = state.responseFarmerProfile!.farmer!.dairyArea ==
+                        null
+                        ? ''
+                        : state.responseFarmerProfile!.farmer!.dairyArea
+                        .toString(),
+                  image2Colors: ColorResources.maroon,
+                  readOnly: true,
+                  onTap: () {},
+                  focusNode: FocusNode(),
+                ),
+                25.verticalSpace(),
+                CustomTextField2(
+                  width: 1,
+                  borderColor: 0xff727272,
+                  title: 'No. of people working in the farm',
+                  controller: state.staffQuantity
+                    ..text =
+                    state.responseFarmerProfile!.farmer!.staffQuantity == null
+                        ? ''
+                        : state.responseFarmerProfile!.farmer!.staffQuantity
+                        .toString() ??
+                        '2',
+                  image2Colors: ColorResources.maroon,
+                  readOnly: true,
+                  onTap: () {},
+                  focusNode: FocusNode(),
+                ),
+                25.verticalSpace(),
+                CustomTextField2(
+                  width: 1,
+                  borderColor: 0xff727272,
+                  title: 'Manger Name',
+                  controller: state.managerName
+                    ..text =
+                    state.responseFarmerProfile!.farmer!.managerName == null
+                        ? ''
+                        : state.responseFarmerProfile!.farmer!.managerName
+                        .toString(),
+                  image2Colors: ColorResources.maroon,
+                  readOnly: true,
+                  onTap: () {},
+                  focusNode: FocusNode(),
+                ),
+                25.verticalSpace(),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 110,
+                      child: CustomDropdown(
+                          width: 1,
+                          borderColor: 0xff727272,
+                          title: "Manager's mobile",
+                          hint: '',
+                          dropdownValue: null,
+                          itemList: const ['', ''],
+                          onChanged: (String) {},
+                          icon: Images.arrowDropdown,
+                          iconColor: Colors.black),
+                    ),
+                    10.horizontalSpace(),
+                    Expanded(
+                      child: CustomTextField2(
+                        title: '',
+                        width: 1,
+                        borderColor: 0xff727272,
+                        controller: state.managerPhone
+                          ..text = state.responseFarmerProfile!.farmer!
+                              .managerPhone ==
+                              null
+                              ? ''
+                              : state.responseFarmerProfile!.farmer!
+                              .managerPhone
+                              .toString() ??
+                              '9876543111'.toString(),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   Widget saveCancelButton() {
