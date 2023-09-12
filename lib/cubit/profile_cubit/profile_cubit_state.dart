@@ -4,12 +4,19 @@ enum ProfileStatus{initial,submit,success,error, loading}
 
 class ProfileCubitState extends Equatable{
   final ProfileStatus status;
-  final String validator,validatorString,id,gender,selectDistrict,districtId;
+  final String validator,validatorString,id,gender,selectDistrict,districtId, selectDob,farmerSince;
+  final String? profileImage;
   final TextEditingController emailController;
+  final TextEditingController farmSize;
+  final TextEditingController dairyArea;
+  final TextEditingController staffQuantity;
+  final TextEditingController managerName;
+  final TextEditingController managerPhone;
   final TextEditingController phoneController;
   final TextEditingController addressController;
   final TextEditingController addressSearchController;
   final TextEditingController nameController;
+  final TextEditingController landlineController;
   final TextEditingController profilePic;
   final TextEditingController countryController;
   final TextEditingController countyController;
@@ -26,9 +33,17 @@ class ProfileCubitState extends Equatable{
   const ProfileCubitState({
     required this.status,
     required this.id,
+    required this.profileImage,
+    required this.selectDob,
+    required this.farmerSince,
     required this.gender,
     required this.selectDistrict,
     required this.districtId,
+    required this.farmSize,
+    required this.dairyArea,
+    required this.staffQuantity,
+    required this.managerName,
+    required this.managerPhone,
     required this.responseProfile,
     required this.emailController,
     required this.validator,
@@ -50,6 +65,7 @@ class ProfileCubitState extends Equatable{
     required this.countyController,
     required this.districtController,
 
+    required this.landlineController,
   });
 
   factory ProfileCubitState.initial() {
@@ -58,11 +74,20 @@ class ProfileCubitState extends Equatable{
       emailController: TextEditingController(),
       nameController: TextEditingController(),
       addressSearchController: TextEditingController(),
+      landlineController: TextEditingController(),
+      managerName: TextEditingController(),
+      managerPhone: TextEditingController(),
+      farmSize: TextEditingController(),
+      dairyArea: TextEditingController(),
+      staffQuantity: TextEditingController(),
       validator: '',
+      profileImage: "",
       gender: 'Male',
         selectDistrict: '',
       responseProfile: null,
       id: '',
+      selectDob: '',
+      farmerSince: '',
       validatorString: '',
       profilePic: TextEditingController(),
       phoneController: TextEditingController(),
@@ -86,6 +111,7 @@ class ProfileCubitState extends Equatable{
   ProfileCubitState copyWith({
     ProfileStatus? status,
     TextEditingController? emailController,
+    TextEditingController? landlineController,
     TextEditingController? nameController,
     TextEditingController? addressSearchController,
     ResponseProfile? responseProfile,
@@ -98,9 +124,9 @@ class ProfileCubitState extends Equatable{
     TextEditingController? countyController,
     TextEditingController? centreNameController,
     TextEditingController? districtController,
-    String? token,validator,validatorString,id,gender,selectDistrict,districtId,
+    String? token,validator,validatorString,id,gender,selectDistrict,districtId, selectDob,farmerSince,profileImage,
     bool? passwordVisible,confirmVisible,
-    TextEditingController? profilePic,
+    TextEditingController? profilePic,farmSize,dairyArea,staffQuantity,managerName,managerPhone,
     farmer_profile.Data? responseFarmerProfile,
     List<DistrictData> ? districtResponse,
     List<DistrictData> ? searchDistrictList,
@@ -108,13 +134,22 @@ class ProfileCubitState extends Equatable{
     return ProfileCubitState(
       status: status ?? this.status,
       id: id ?? this.id,
+      profileImage: profileImage ?? this.profileImage,
+      selectDob: selectDob ?? this.selectDob,
+      farmerSince: farmerSince ?? this.farmerSince,
       gender: gender ?? this.gender,
         selectDistrict: selectDistrict ?? this.selectDistrict,
         districtId: districtId ?? this.districtId,
+      managerName: managerName ?? this.managerName,
+      managerPhone: managerPhone ?? this.managerPhone,
+      staffQuantity: staffQuantity ?? this.staffQuantity,
+      dairyArea: dairyArea ?? this.dairyArea,
+      farmSize: farmSize ?? this.farmSize,
       responseProfile: responseProfile ?? this.responseProfile,
       nameController: nameController ?? this.nameController,
       addressSearchController: addressSearchController ?? this.addressSearchController,
       emailController: emailController ?? this.emailController,
+      landlineController: landlineController ?? this.landlineController,
       phoneController: phoneController ?? this.phoneController,
       addressController: addressController ?? this.addressController,
       passwordVisible: passwordVisible ?? this.passwordVisible,
@@ -140,6 +175,12 @@ class ProfileCubitState extends Equatable{
     emailController,
     nameController,
     responseProfile,
+    profileImage,
+    farmSize,
+    dairyArea,
+    staffQuantity,
+    managerName,
+    managerPhone,
     addressController,
     phoneController,
     passwordVisible,
@@ -159,7 +200,10 @@ class ProfileCubitState extends Equatable{
     parishController,
     centreNameController,
     districtController,
-    districtId
+    districtId,
+    landlineController,
+    farmerSince,
+    selectDob
   ];
 
 }

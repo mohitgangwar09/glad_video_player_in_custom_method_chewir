@@ -105,3 +105,10 @@ calculateAge(DateTime birthDate) {
   }
   return age;
 }
+
+bool checkDate(DateTime dateTime){
+  final now = DateTime.now();
+  final expirationDate = DateTime(dateTime.year, 10);
+  final bool isExpired = expirationDate.isBefore(now);
+  return isExpired;
+}

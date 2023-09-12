@@ -195,7 +195,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         CrossAxisAlignment.start,
                                         children: [
                                           state.response!.farmerMAster![i].photo == null ?Image.asset(Images.sampleUser):
-                                          CachedNetworkImage(imageUrl: state.response!.farmerMAster![i].photo!, errorWidget: (_,__,___)=> Image.asset(Images.sampleUser),),
+                                          networkImage(text: state.response!.farmerMAster![i].photo!,height: 46,width: 46,radius: 40),
                                           15.horizontalSpace(),
                                           Column(
                                             crossAxisAlignment:

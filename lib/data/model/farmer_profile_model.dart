@@ -115,7 +115,7 @@ class Farmer {
     ddeId = json['dde_id'];
     photo = json['photo'];
     kycStatus = json['kyc_status'];
-    landlineNo = json['landline_no'];
+    phone = json['phone'];
     dateOfBirth = json['date_of_birth'];
     gender = json['gender'];
     registrationDate = json['registration_date'];
