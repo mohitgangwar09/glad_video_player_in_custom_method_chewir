@@ -22,13 +22,15 @@ class CommunityForum extends StatefulWidget {
       required this.image,
       required this.caption,
       required this.video,
-      required this.timeAgo});
+      required this.timeAgo,
+        required this.onTapShowAll});
   final String name;
   final String location;
   final String image;
   final String caption;
   final String video;
   final String timeAgo;
+  final Function() onTapShowAll;
 
   @override
   State<CommunityForum> createState() => _CommunityForumState();
@@ -77,11 +79,11 @@ class _CommunityForumState extends State<CommunityForum> {
               Text('Community Forum',
                   style: figtreeMedium.copyWith(
                       fontSize: 18, color: Colors.black)),
-              ShowAllButton(onTap: () {})
+              ShowAllButton(onTap: widget.onTapShowAll)
             ],
           ),
         ),
-        20.verticalSpace(),
+        10.verticalSpace(),
         CarouselSlider(
             items: ['', '', '']
                 .map<Widget>((e) => CommunityWidget(

@@ -10,14 +10,14 @@ class UpdateRecordMonthBreedModel {
     required this.requestData,
   });
 
-/*  factory UpdateRecordMonthBreedModel.fromJson(dynamic json) {
-    return UpdateRecordMonthBreedModel(json['month_id'] as int);
-  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['month_id'] = monthId;
+    data['farmer_id'] = farmerId;
+    data['requestData'] = requestData.map((v) => v).toList();
 
-  @override
-  String toString() {
-    return '{ ${this.monthId}, ${this.description}, ${this.author} }';
-  }*/
+    return data;
+  }
 
 }
 
@@ -30,19 +30,35 @@ class RequestData {
   dynamic sevenToTwelveMonthCows;
   dynamic sixMonthCow;
   dynamic bullCalfs;
-  dynamic yieldPeCow;
+  dynamic yieldPerCow;
   dynamic cowBreedId;
 
-  RequestData(
-  this.id,
-  this.heardSize,
-  this.milkingCows,
-  this.dryCows,
-  this.heiferCows,
-  this.sevenToTwelveMonthCows,
-  this.sixMonthCow,
-  this.bullCalfs,
-  this.yieldPeCow,
-  this.cowBreedId);
+  RequestData({
+    required this.id,
+    this.heardSize,
+    this.milkingCows,
+    this.dryCows,
+    this.heiferCows,
+    this.sevenToTwelveMonthCows,
+    this.sixMonthCow,
+    this.bullCalfs,
+    this.yieldPerCow,
+    this.cowBreedId
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['cow_breed_id'] = cowBreedId;
+    data['heard_size'] = heardSize;
+    data['milking_cows'] = milkingCows;
+    data['dry_cows'] = dryCows;
+    data['bull_calfs'] = bullCalfs;
+    data['heifer_cows'] = heiferCows;
+    data['seven_to_twelve_month_cows'] = sevenToTwelveMonthCows;
+    data['six_month_cow'] = sixMonthCow;
+    data['yield_per_cow'] = yieldPerCow;
+    return data;
+  }
 }
 

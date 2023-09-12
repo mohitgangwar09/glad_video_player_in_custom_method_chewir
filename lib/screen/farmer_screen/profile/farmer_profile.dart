@@ -342,7 +342,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
           ),
         ),
         10.verticalSpace(),
-        Padding(
+        state.responseFarmerProfile!.farmer!.cowBreedDetails != null ?Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Container(
             width: screenWidth(),
@@ -534,7 +534,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
               ],
             ),
           ),
-        ),
+        ) : SizedBox.shrink(),
       ],
     );
   }

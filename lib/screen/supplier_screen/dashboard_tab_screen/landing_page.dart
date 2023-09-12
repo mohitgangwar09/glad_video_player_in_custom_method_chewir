@@ -398,7 +398,7 @@ class SupplierLandingPage extends StatelessWidget {
               ),
             ),
             10.verticalSpace(),
-            const CommunityForum(
+            CommunityForum(
               name: 'Begumanya Charles',
               location: 'Kampala, Uganda',
               image: '',
@@ -406,6 +406,7 @@ class SupplierLandingPage extends StatelessWidget {
                   'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
+              onTapShowAll: () {},
             ),
             10.verticalSpace(),
             const FeaturedTrainings(),

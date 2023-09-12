@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
@@ -18,6 +20,7 @@ import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
+import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -39,9 +42,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
   void initState() {
     super.initState();
 
-    // SchedulerBinding.instance.addPostFrameCallback((_) {
-    BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
-    // });
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
+    });
   }
 
   @override
@@ -53,9 +56,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
             child: CircularProgressIndicator(
           color: ColorResources.maroon,
         ));
-      }else if(state.response==null){
+      } else if (state.response == null) {
         return Center(child: Text("${state.response} Api Error"));
-      }else{
+      } else {
         return Container(
           color: Colors.white,
           child: Stack(
@@ -81,10 +84,21 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             onTap: () {
                               const FarmerProfile().navigate();
                             },
-                            child: CachedNetworkImage(
-                              imageUrl: state.response!.farmerMaster!.photo!,
-                              errorWidget: (_, __, ___) =>
-                                  SvgPicture.asset(Images.person),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(1000),
+                              child: Container(
+                                height: AppBar().preferredSize.height * 0.8,
+                                width: AppBar().preferredSize.height * 0.8,
+                                decoration:
+                                    const BoxDecoration(shape: BoxShape.circle),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      state.response!.farmerMaster!.photo!,
+                                  errorWidget: (_, __, ___) =>
+                                      SvgPicture.asset(Images.person),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             )),
                         8.horizontalSpace(),
                       ],
@@ -108,68 +122,83 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0, left: 10, bottom: 25),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            const MilkProductionYield().navigate();
-                          },
-                          child: customProjectContainer(
-                              width: screenWidth(),
-                              child: graphCard('${state.response!
-                                  .farmerMilkProduction![0].totalMilkProduction}K ltr.', 'Milk produced', 'Last 6 months')),
+            state.response!.farmerMilkProduction!.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(
+                        right: 20.0, left: 10, bottom: 25),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  const MilkProductionYield(type: 'milk_production',).navigate();
+                                },
+                                child: customProjectContainer(
+                                    width: screenWidth(),
+                                    child: graphCard(
+                                        '${state.response!.farmerMilkProduction![0].totalMilkProduction}K ltr.',
+                                        'Milk produced',
+                                        'Last 6 months')),
+                              ),
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  const SuppliedToPDFL().navigate();
+                                },
+                                child: customProjectContainer(
+                                    width: screenWidth(),
+                                    child: graphCard(
+                                        'UGX ${state.response!.farmerMilkProduction![0].suppliedToPdfl}M',
+                                        'Supplied to PDFL',
+                                        'Last 6 months')),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            const MilkProductionYield().navigate();
-                          },
-                          child: customProjectContainer(
-                              width: screenWidth(), child: graphCard('UGX ${state.response!
-                              .farmerMilkProduction![0].suppliedToPdfl}M', 'Supplied to PDFL', 'Last 6 months')),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            const MilkProductionYield().navigate();
-                          },
-                          child: customProjectContainer(
-                              width: screenWidth(), child: graphCard('40 cows', 'Milking cows', '05 breeds')),
-                        ),
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            const MilkProductionYield().navigate();
-                          },
-                          child: customProjectContainer(
-                              width: screenWidth(), child: graphCard('${state.response!
-                              .farmerMilkProduction![0].yieldPerCow} ltr.', 'Yield per cow', 'Each day')),
-                        ),
-                      )
-                    ],
+                        Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  const MilkProductionYield(type: 'milking_cows',).navigate();
+                                },
+                                child: customProjectContainer(
+                                    width: screenWidth(),
+                                    child: graphCard('40 cows', 'Milking cows',
+                                        '05 breeds')),
+                              ),
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  const MilkProductionYield(type: 'yield',).navigate();
+                                },
+                                child: customProjectContainer(
+                                    width: screenWidth(),
+                                    child: graphCard(
+                                        '${state.response!.farmerMilkProduction![0].yieldPerCow} ltr.',
+                                        'Yield per cow',
+                                        'Each day')),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   )
-                ],
-              ),
-            ),
+                : SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   'Suggested Investment'.textMedium(fontSize: 18),
-                  ShowAllButton(onTap: () {})
+                  ShowAllButton(onTap: () {
+                    BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                  })
                 ],
               ),
             ),
@@ -184,16 +213,22 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                     return customProjectContainer(
                         child: ProjectWidget(
                           showStatus: false,
-                          name: state.response!.farmerProject![i].name!,
+                          name: state.response!.farmerProject![i].name ?? '',
                           targetYield:
-                              state.response!.farmerProject![i].targetYield!,
-                          investment: state
-                              .response!.farmerProject![i].investmentAmount!,
-                          revenue:
-                              state.response!.farmerProject![i].revenuePerYear!,
+                              state.response!.farmerProject![i].targetYield ??
+                                  0,
+                          investment: state.response!.farmerProject![i]
+                                  .investmentAmount ??
+                              0,
+                          revenue: state
+                                  .response!.farmerProject![i].revenuePerYear ??
+                              0,
                           index: i + 1,
-                          incrementalProduction: state.response!.farmerProject![i].incrementalProduction ?? 180,
-                          roi: state.response!.farmerProject![i].roiPerYear!,
+                          incrementalProduction: state.response!
+                                  .farmerProject![i].incrementalProduction ??
+                              180,
+                          roi:
+                              state.response!.farmerProject![i].roiPerYear ?? 0,
                         ),
                         width: screenWidth() - 53);
                   }),
@@ -213,10 +248,14 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               image: state.response!.dde!.image ?? '',
             ),
             topPerformingFarmer(state),
-            35.verticalSpace(),
-            const LiveStockMarketplace(),
-            10.verticalSpace(),
-            const CommunityForum(
+            30.verticalSpace(),
+            LiveStockMarketplace(
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+              },
+            ),
+            30.verticalSpace(),
+            CommunityForum(
               name: 'Begumanya Charles',
               location: '+256 758711344',
               image: '',
@@ -224,6 +263,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                   'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(4);
+              },
             ),
             10.verticalSpace(),
             const FeaturedTrainings(),
@@ -240,10 +282,14 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               padding: const EdgeInsets.only(top: 20),
               child: CarouselSlider(
                   items: [
-                    for (int index = 0; index < (state.response!.testimonials!.isNotEmpty ?3 : 0); index++)
+                    for (int index = 0;
+                        index <
+                            (state.response!.testimonials!.isNotEmpty ? 3 : 0);
+                        index++)
                       GladReview(
                         review:
-                            state.response!.testimonials![index].description!,
+                            state.response!.testimonials![index].description ??
+                                '',
                         name: 'John Smith',
                         userType: 'Farmer',
                         location: 'Kampala, Uganda',
@@ -251,7 +297,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             state.response!.testimonials![index].attachment ??
                                 '',
                         attachmentType:
-                            state.response!.testimonials![index].type!,
+                            state.response!.testimonials![index].type ?? '',
                       ),
                   ],
                   options: CarouselOptions(
@@ -351,6 +397,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
           SizedBox(
             height: 350,
             child: customList(
+                list: List.generate(state.response!.topPerformerFarmer!.length,
+                    (index) => null),
                 axis: Axis.horizontal,
                 child: (int index) {
                   return Padding(
@@ -378,11 +426,18 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                         width: 70,
                                         height: 70)),
                                 20.verticalSpace(),
-                                "Hurton Elizabeth".textMedium(
-                                    color: Colors.black, fontSize: 16),
+                                (state.response!.topPerformerFarmer![index]
+                                            .name ??
+                                        '')
+                                    .textMedium(
+                                        color: Colors.black, fontSize: 16),
                                 4.verticalSpace(),
-                                "1234 NW Bobcat Lane, St".textRegular(
-                                    color: const Color(0xff727272)),
+                                Text(
+                                    state.response!.topPerformerFarmer![index]
+                                            .fAddress ??
+                                        "1234 NW Bobcat Lane, St",
+                                    style: figtreeRegular.copyWith(
+                                        color: const Color(0xff727272))),
                                 22.verticalSpace(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -394,7 +449,13 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                             color: const Color(0xff727272)),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: '30',
+                                              text: state
+                                                      .response!
+                                                      .topPerformerFarmer![
+                                                          index]
+                                                      .milkingCows
+                                                      .toString() ??
+                                                  '30',
                                               style: figtreeSemiBold.copyWith(
                                                   color:
                                                       const Color(0xff23262A))),
@@ -414,7 +475,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                             color: const Color(0xff727272)),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: '15 LTR',
+                                              text:
+                                                  '${state.response!.topPerformerFarmer![index].yieldPerCow ?? 15} LTR',
                                               style: figtreeSemiBold.copyWith(
                                                   color:
                                                       const Color(0xff23262A))),

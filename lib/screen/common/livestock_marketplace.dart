@@ -9,7 +9,8 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class LiveStockMarketplace extends StatelessWidget {
-  const LiveStockMarketplace({super.key});
+  const LiveStockMarketplace({super.key, required this.onTapShowAll});
+  final void Function() onTapShowAll;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +24,11 @@ class LiveStockMarketplace extends StatelessWidget {
             children: [
               Text('Livestock Marketplace',
                   style: figtreeMedium.copyWith(fontSize: 18, color: Colors.black)),
-              ShowAllButton(onTap: () {})
+              ShowAllButton(onTap: onTapShowAll)
             ],
           ),
         ),
-
+10.verticalSpace(),
         SizedBox(
           height: 318,
           child: customList(

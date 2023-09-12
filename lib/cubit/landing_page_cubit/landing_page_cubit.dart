@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:glad/data/model/farmer_dashboard_model.dart';
+import 'package:glad/data/model/farmer_dashboard_model.dart' as dashboard;
+import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
@@ -24,6 +25,20 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       emit(state.copyWith(
           status: LandingPageStatus.success, response: response.data));
       disposeProgress();
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void getMilkProductionChart(context) async {
+    emit(state.copyWith(status: LandingPageStatus.loading));
+    // customDialog(widget: launchProgress());
+    var response = await apiRepository.getMilkProductionChartApi();
+    if (response.status == 200) {
+      emit(state.copyWith(
+          status: LandingPageStatus.success, milkProductionChartResponse: response));
+      // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString());

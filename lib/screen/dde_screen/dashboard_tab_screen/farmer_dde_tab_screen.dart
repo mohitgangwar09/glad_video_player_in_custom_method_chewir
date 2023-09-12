@@ -145,6 +145,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                       left: 18, right: 7, bottom: 20, top: 10),
                   height: 36,
                   child: customList(
+
                       axis: Axis.horizontal,
                       child: (int index) {
                         return InkWell(

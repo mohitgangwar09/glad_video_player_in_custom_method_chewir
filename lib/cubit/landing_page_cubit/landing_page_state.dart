@@ -6,12 +6,14 @@ class LandingPageState extends Equatable{
 
   final String focusTag;
   final LandingPageStatus status;
-  final Data? response;
+  final dashboard.Data? response;
+  final MilkProductionChart? milkProductionChartResponse;
 
   const LandingPageState({
     required this.focusTag,
     required this.status,
-    required this.response
+    required this.response,
+    required this.milkProductionChartResponse,
   });
 
   factory LandingPageState.initial() {
@@ -19,6 +21,7 @@ class LandingPageState extends Equatable{
       focusTag: "",
       status: LandingPageStatus.initial,
       response: null,
+      milkProductionChartResponse: null,
     );
   }
 
@@ -26,12 +29,14 @@ class LandingPageState extends Equatable{
     String? focusTag,
     int? selectedIndex,
     LandingPageStatus? status,
-    Data? response,
+    dashboard.Data? response,
+    MilkProductionChart? milkProductionChartResponse,
   }) {
     return LandingPageState(
       focusTag: focusTag ?? this.focusTag,
       status: status ?? this.status,
       response: response ?? this.response,
+      milkProductionChartResponse:  milkProductionChartResponse ?? this.milkProductionChartResponse
     );
   }
 
@@ -39,6 +44,7 @@ class LandingPageState extends Equatable{
   List<Object?> get props => [
     focusTag,
     status,
-    response
+    response,
+    milkProductionChartResponse,
   ];
 }
