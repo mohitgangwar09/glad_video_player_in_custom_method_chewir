@@ -12,6 +12,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -34,12 +35,12 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<DdeFarmerCubit>(context).getCowBreedDetailsApi(context);
     });
-    _nameController = TextEditingController();
+    // _nameController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
+    // _nameController.dispose();
     super.dispose();
   }
 
@@ -67,7 +68,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                         _formKey.currentState?.save();
                         print(productionList);
 
-                        fetchFood();
+                        addCowAndYield();
                       },
                       child: const Text('Submit'),
                       // color: Colors.green,
@@ -82,7 +83,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     );
   }
 
-  Future fetchFood() async {
+  Future addCowAndYield() async {
 
     Map<String,dynamic> jsonData = HashMap();
 
@@ -159,6 +160,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
 
 ///////////AddMoreCard////////////
   Widget addMoreCard(MonthWiseData responseMonthWise,List<MonthWiseData> monthWise,int i) {
+
     return InkWell(
       onTap: () {
       },
@@ -338,7 +340,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                                   ),
 
 
-                                  ...getDateWiseData(responseMonthWise.dateWiseData != null ?responseMonthWise.dateWiseData!:[DateWiseData()],),
+                                  ...getDateWiseData(responseMonthWise.dateWiseData != null ?responseMonthWise.dateWiseData!:[DateWiseData()],responseMonthWise),
 
                                   addMoreDateWiseData(false,0,responseMonthWise.dateWiseData!=null?responseMonthWise.dateWiseData!:[]),
                                   20.verticalSpace(),
@@ -529,12 +531,12 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
   }
 
   ///////////AddMoreCard////////////
-  Widget addDateWiseData(DateWiseData responseDateWise,List<dynamic> dateWise,int i) {
+  Widget addDateWiseData(DateWiseData responseDateWise,List<DateWiseData> dateWise,int i,MonthWiseData dataMonth) {
     return InkWell(
       onTap: () {
 
       },
-      child: ProductionTextField(i),
+      child: ProductionTextField(i,responseDateWise,dateWise,dataMonth),
     );
   }
 
@@ -599,18 +601,6 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
 
               addMoreCard(responseMonthWiseData[i],responseMonthWiseData,i),
 
-              /*Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  children: [
-                    Expanded(child: ProductionTextField(i)),
-                    // addMoreCard(),
-                    const SizedBox(width: 16,),
-                    // we need add button at last friends row only
-                    _addRemoveButton(i == productionList.length-1, i),
-                  ],
-                ),
-              ),*/
             ],
           )
       );
@@ -618,12 +608,12 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     return friendsTextFieldsList;
   }
 
-  List<Widget> getDateWiseData(List<DateWiseData> responseDateWise){
+  List<Widget> getDateWiseData(List<DateWiseData> responseDateWise,MonthWiseData dataMonth){
     List<Widget> friendsTextFieldsList = [];
     productionList.clear();
     for(int i=0; i<responseDateWise.length; i++){
-      // productionList.clear();
-      productionList.add(responseDateWise[i].year.toString());
+      productionList.clear();
+      // productionList.add(responseDateWise.toString());
       friendsTextFieldsList.add(
           Column(
             children: [
@@ -649,34 +639,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                     padding:
                     const EdgeInsets.fromLTRB(
                         20, 15, 20, 0),
-                    child: Column(
-                      children: [
-
-                        10.verticalSpace(),
-                        Row(
-                          children: [
-                            const Expanded(
-                                child: SizedBox(
-                                    height: 60,
-                                    child:
-                                    CustomTextField(
-                                      hint:
-                                      'Ankole',
-                                    ))),
-                            10.horizontalSpace(),
-                            SvgPicture.asset(
-                                Images.addCows),
-                            10.horizontalSpace(),
-                            SvgPicture.asset(
-                                Images.deleteField)
-                          ],
-                        ),
-                        20.verticalSpace(),
-
-                        addDateWiseData(responseDateWise[i],responseDateWise,i),
-
-                      ],
-                    ),
+                    child: addDateWiseData(responseDateWise[i],responseDateWise,i,dataMonth),
                   ),
                 ),
               ),
@@ -691,23 +654,52 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
 
 class ProductionTextField extends StatefulWidget {
   final int index;
-  const ProductionTextField(this.index, {super.key});
+  final DateWiseData responseDateWise;
+  final MonthWiseData dataMonth;
+  final List<DateWiseData> dataDateWise;
+  const ProductionTextField(this.index,this.responseDateWise,this.dataDateWise,this.dataMonth, {super.key});
 
   @override
   State<ProductionTextField> createState() => _ProductionTextFieldState();
 }
 
 class _ProductionTextFieldState extends State<ProductionTextField> {
-
-  late TextEditingController _nameController;
+  bool? checkCurrentMonth;
+  late TextEditingController _breedController;
+  late TextEditingController _herdController;
+  late TextEditingController _milkingCowController;
+  late TextEditingController _yieldPerDayController;
+  late TextEditingController _dryController;
+  late TextEditingController _heiferController;
+  late TextEditingController _sevenTwelveController;
+  late TextEditingController _lessThanSixController;
+  late TextEditingController _bullCalfController;
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
+    checkCurrentMonth = checkDate(DateTime(int.parse(widget.dataMonth.year.toString()),int.parse(widget.dataMonth.month.toString())));
+    print(checkCurrentMonth);
+    _breedController = TextEditingController(text: widget.responseDateWise.breedName.toString());
+    _herdController = TextEditingController(text: widget.responseDateWise.heardSize.toString());
+    _milkingCowController = TextEditingController(text: widget.responseDateWise.milkingCows.toString());
+    _yieldPerDayController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
+    _dryController = TextEditingController(text: widget.responseDateWise.dryCows.toString());
+    _heiferController = TextEditingController(text: widget.responseDateWise.heiferCows.toString());
+    _sevenTwelveController = TextEditingController(text: widget.responseDateWise.sevenToTwelveMonthCows.toString());
+    _lessThanSixController = TextEditingController(text: widget.responseDateWise.sixMonthCow.toString());
+    _bullCalfController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
   }
   @override
   void dispose() {
-    _nameController.dispose();
+    _herdController.dispose();
+    _breedController.dispose();
+    _milkingCowController.dispose();
+    _yieldPerDayController.dispose();
+    _dryController.dispose();
+    _heiferController.dispose();
+    _sevenTwelveController.dispose();
+    _lessThanSixController.dispose();
+    _bullCalfController.dispose();
     super.dispose();
   }
 
@@ -715,12 +707,36 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   Widget build(BuildContext context) {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text = CowsAndYieldsDDEFarmerState.productionList[widget.index]
-          ?? "";
+      // _herdController.text = CowsAndYieldsDDEFarmerState.productionList[widget.index]
+      //     ?? "";
+      // _milkingCowController.text = CowsAndYieldsDDEFarmerState.productionList[widget.index]
+      //     ?? "";
     });
 
     return Column(
       children: [
+
+        10.verticalSpace(),
+        Row(
+          children: [
+            Expanded(
+                child: SizedBox(
+                    height: 65,
+                    child: CustomTextField(
+                      controller: _breedController,
+                      onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                      hint:'Breed Name',
+                    ))),
+            10.horizontalSpace(),
+            SvgPicture.asset(
+                Images.addCows),
+            10.horizontalSpace(),
+            SvgPicture.asset(
+                Images.deleteField)
+          ],
+        ),
+        20.verticalSpace(),
+
         Column(
 
           children: [
@@ -740,8 +756,11 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
+                          controller: _herdController,
+                          // enabled: checkCurrentMonth == true? false:true,
+                          // onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -767,8 +786,10 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
+                          controller: _milkingCowController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -799,8 +820,10 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
+                          controller: _yieldPerDayController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -826,9 +849,11 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
                           paddingTop: 5,
+                          controller: _dryController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
                           maxLine: 1,
@@ -853,9 +878,11 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
                           paddingTop: 5,
+                          controller: _heiferController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
                           maxLine: 1,
@@ -885,8 +912,10 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
+                          controller: _sevenTwelveController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -912,9 +941,11 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
                           paddingTop: 5,
+                          controller: _lessThanSixController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
                           maxLine: 1,
@@ -939,8 +970,10 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               12),
                         ),
                         05.verticalSpace(),
-                        const CustomTextField(
+                        CustomTextField(
                           hint: '',
+                          controller: _bullCalfController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -961,14 +994,6 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
             ),
             10.verticalSpace(),
           ],
-        ),
-        TextFormField(
-          controller: _nameController,
-          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
-          decoration: const InputDecoration(
-              hintText: 'Enter your Milk Production Details'
-          ),
-
         ),
       ],
     );

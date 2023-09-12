@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return const CowsAndYieldsDDEFarmer();
-    return const CowsAndYieldsDDEFarmer();
+    // return const CowsAndYieldsDDEFarmer();
     // return const SplashScreen();
   }
 }

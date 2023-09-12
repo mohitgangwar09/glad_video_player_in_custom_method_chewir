@@ -1,14 +1,14 @@
 class ResponseCowBreedDetails {
   String? message;
   int? status;
-  DataCowBreedDetails? data;
+  DataCowBreedDetail? data;
 
   ResponseCowBreedDetails({this.message, this.status, this.data});
 
   ResponseCowBreedDetails.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? DataCowBreedDetails.fromJson(json['data']) : null;
+    data = json['data'] != null ? DataCowBreedDetail.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,12 +22,12 @@ class ResponseCowBreedDetails {
   }
 }
 
-class DataCowBreedDetails {
+class DataCowBreedDetail {
   List<MonthWiseData>? monthWiseData;
 
-  DataCowBreedDetails({this.monthWiseData});
+  DataCowBreedDetail({this.monthWiseData});
 
-  DataCowBreedDetails.fromJson(Map<String, dynamic> json) {
+  DataCowBreedDetail.fromJson(Map<String, dynamic> json) {
     if (json['month_wise_data'] != null) {
       monthWiseData = <MonthWiseData>[];
       json['month_wise_data'].forEach((v) {
@@ -47,8 +47,9 @@ class DataCowBreedDetails {
 }
 
 class MonthWiseData {
+  dynamic id;
+  dynamic farmerId;
   String? monthname;
-  int? id;
   dynamic totalMilkProduction;
   dynamic milkingCow;
   dynamic yieldPerCow;
@@ -60,9 +61,10 @@ class MonthWiseData {
   List<DateWiseData>? dateWiseData;
 
   MonthWiseData(
-      {this.monthname,
+      {this.id,
+        this.farmerId,
+        this.monthname,
         this.totalMilkProduction,
-        this.id,
         this.milkingCow,
         this.yieldPerCow,
         this.suppliedToPdfl,
@@ -73,8 +75,9 @@ class MonthWiseData {
         this.dateWiseData});
 
   MonthWiseData.fromJson(Map<String, dynamic> json) {
-    monthname = json['monthname'];
     id = json['id'];
+    farmerId = json['farmer_id'];
+    monthname = json['monthname'];
     totalMilkProduction = json['total_milk_production'];
     milkingCow = json['milking_cow'];
     yieldPerCow = json['yield_per_cow'];
@@ -93,8 +96,9 @@ class MonthWiseData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['monthname'] = monthname;
     data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['monthname'] = monthname;
     data['total_milk_production'] = totalMilkProduction;
     data['milking_cow'] = milkingCow;
     data['yield_per_cow'] = yieldPerCow;
@@ -114,68 +118,47 @@ class MonthWiseData {
 class DateWiseData {
   dynamic id;
   dynamic farmerId;
-  int? cowBreedId;
-  String? year;
+  dynamic cowBreedId;
   String? month;
+  String? year;
   String? breedName;
   dynamic heardSize;
   dynamic milkingCows;
   dynamic dryCows;
   dynamic heiferCows;
-  dynamic i7to12mCows;
-  dynamic i6mCows;
-  dynamic bullCalfs;
+  dynamic sevenToTwelveMonthCows;
+  dynamic sixMonthCow;
   dynamic yieldPerCow;
-  String? status;
-  dynamic createdBy;
-  dynamic updatedBy;
-  dynamic deletedBy;
-  String? createdAt;
-  String? updatedAt;
 
   DateWiseData(
       {this.id,
         this.farmerId,
         this.cowBreedId,
-        this.year,
         this.month,
+        this.year,
         this.breedName,
         this.heardSize,
         this.milkingCows,
         this.dryCows,
         this.heiferCows,
-        this.i7to12mCows,
-        this.i6mCows,
-        this.bullCalfs,
-        this.yieldPerCow,
-        this.status,
-        this.createdBy,
-        this.updatedBy,
-        this.deletedBy,
-        this.createdAt,
-        this.updatedAt});
+        this.sevenToTwelveMonthCows,
+        this.sixMonthCow,
+        this.yieldPerCow});
 
   DateWiseData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     farmerId = json['farmer_id'];
     cowBreedId = json['cow_breed_id'];
-    year = json['year'];
     month = json['month'];
+    year = json['year'];
     breedName = json['breed_name'];
     heardSize = json['heard_size'];
     milkingCows = json['milking_cows'];
     dryCows = json['dry_cows'];
     heiferCows = json['heifer_cows'];
-    i7to12mCows = json['7to12m_cows'];
-    i6mCows = json['6m_cows'];
-    bullCalfs = json['bull_calfs'];
+    sevenToTwelveMonthCows = json['seven_to_twelve_month_cows'];
+    sixMonthCow = json['six_month_cow'];
     yieldPerCow = json['yield_per_cow'];
-    status = json['status'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    deletedBy = json['deleted_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -183,23 +166,16 @@ class DateWiseData {
     data['id'] = id;
     data['farmer_id'] = farmerId;
     data['cow_breed_id'] = cowBreedId;
-    data['year'] = year;
     data['month'] = month;
+    data['year'] = year;
     data['breed_name'] = breedName;
     data['heard_size'] = heardSize;
     data['milking_cows'] = milkingCows;
     data['dry_cows'] = dryCows;
     data['heifer_cows'] = heiferCows;
-    data['7to12m_cows'] = i7to12mCows;
-    data['6m_cows'] = i6mCows;
-    data['bull_calfs'] = bullCalfs;
+    data['seven_to_twelve_month_cows'] = sevenToTwelveMonthCows;
+    data['six_month_cow'] = sixMonthCow;
     data['yield_per_cow'] = yieldPerCow;
-    data['status'] = status;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['deleted_by'] = deletedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
     return data;
   }
 }
