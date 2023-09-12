@@ -129,7 +129,7 @@ class MCCLandingPage extends StatelessWidget {
 
             ddeProfileSlider(context),
 
-            const CommunityForum(
+            CommunityForum(
               name: 'Begumanya Charles',
               location: 'Kampala, Uganda',
               image: '',
@@ -137,6 +137,7 @@ class MCCLandingPage extends StatelessWidget {
                   'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
+              onTapShowAll: () {},
             ),
             10.verticalSpace(),
             const FeaturedTrainings(),
