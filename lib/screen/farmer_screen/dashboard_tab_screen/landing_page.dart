@@ -108,7 +108,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
-            Padding(
+            state.response!.farmerMilkProduction!.isNotEmpty ? Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 10, bottom: 25),
               child: Column(
                 children: [
@@ -162,7 +162,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                   )
                 ],
               ),
-            ),
+            ) : SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Row(
@@ -212,7 +212,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               phone: state.response!.dde!.phone ?? '+256 758711344',
               image: state.response!.dde!.image ?? '',
             ),
-            topPerformingFarmer(),
+            topPerformingFarmer(state),
             35.verticalSpace(),
             const LiveStockMarketplace(),
             10.verticalSpace(),
@@ -244,9 +244,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                       GladReview(
                         review:
                             state.response!.testimonials![index].description!,
-                        name: state.response!.testimonials![index].name == null
-                            ? 'John Smith'
-                            : state.response!.testimonials![index].name!,
+                        name: 'John Smith',
                         userType: 'Farmer',
                         location: 'Kampala, Uganda',
                         attachment:
@@ -342,7 +340,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
     );
   }
 
-  Widget topPerformingFarmer() {
+  Widget topPerformingFarmer(LandingPageState state) {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, top: 30, right: 20),
       child: Column(

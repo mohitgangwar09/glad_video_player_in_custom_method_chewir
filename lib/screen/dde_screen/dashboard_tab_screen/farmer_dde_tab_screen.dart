@@ -35,7 +35,12 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DdeFarmerCubit,DdeState>(builder: (context,state){
-      if(state.response == null){
+      if (state.status == DdeFarmerStatus.loading) {
+        return const Center(
+            child: CircularProgressIndicator(
+              color: ColorResources.maroon,
+            ));
+      }else if(state.response == null){
        return "${state.response} Api Error".textMedium();
       }
       return Stack(
@@ -177,7 +182,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                           children: [
                             InkWell(
                               onTap: (){
-                                const DdeFarmerDetail().navigate();
+                                DdeFarmerDetail(userId: state.response!.farmerMAster![i].userId!,).navigate();
                               },
                               child: customProjectContainer(
                                 child: Padding(

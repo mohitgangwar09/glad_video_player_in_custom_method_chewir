@@ -207,6 +207,7 @@ customDialog({
   bool barrierDismissible = false,
   var isLoader = false,
   Widget widget = const Text('Pass sub widgets'),
+
 }) async {
   var result = await Get.dialog(
       isLoader
