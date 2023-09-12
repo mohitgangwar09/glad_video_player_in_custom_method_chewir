@@ -189,154 +189,161 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                color: const Color(0xffFFB300),
+                                color: Colors.white,
+                                // color: const Color(0xffFFB300),
                                 child: Column(children: [
-                                  Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 15, 15, 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  '${responseMonthWise.monthname??"0"}, ${responseMonthWise.year??"0"}',
-                                                  style: figtreeBold.copyWith(
-                                                      fontSize: 18),
-                                                ),
-                                                05.horizontalSpace(),
-                                                const Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  size: 30,
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                // viewList.contains(index)?"dd".textBold():"PP".textMedium(),
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
+                                      color: Color(0xffFFB300),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              20, 15, 15, 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${responseMonthWise.monthname??"0"}, ${responseMonthWise.year??"0"}',
+                                                    style: figtreeBold.copyWith(
+                                                        fontSize: 18),
+                                                  ),
+                                                  05.horizontalSpace(),
+                                                  const Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    size: 30,
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  // viewList.contains(index)?"dd".textBold():"PP".textMedium(),
 
-                                                SvgPicture.asset(
-                                                  Images.less1,
-                                                  height:40,
-                                                  width: 40,
-                                                ),
-
-                                                10.horizontalSpace(),
-
-                                                InkWell(
-                                                  onTap: (){
-
-                                                  },
-                                                  child: SvgPicture.asset(
-                                                    Images.deleteCows,
-                                                    height: 40,
+                                                  SvgPicture.asset(
+                                                    Images.less1,
+                                                    height:40,
                                                     width: 40,
                                                   ),
-                                                )
-                                              ],
-                                            )
-                                          ],
+
+                                                  10.horizontalSpace(),
+
+                                                  InkWell(
+                                                    onTap: (){
+
+                                                    },
+                                                    child: SvgPicture.asset(
+                                                      Images.deleteCows,
+                                                      height: 40,
+                                                      width: 40,
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      10.verticalSpace(),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 0, 10, 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "23",
-                                                      style: figtreeSemiBold
-                                                          .copyWith(fontSize: 18),
-                                                    ),
-                                                    Text(
-                                                      'Herd Size',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
-                                                  ],
-                                                ),
-                                                05.horizontalSpace(),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '${responseMonthWise.totalMilkProduction??"0"} Ltr.',
-                                                      style: figtreeSemiBold
-                                                          .copyWith(fontSize: 18),
-                                                    ),
-                                                    Text(
-                                                      'Production',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
-                                                  ],
-                                                ),
-                                                05.horizontalSpace(),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      responseMonthWise.milkingCow ?? "0",
-                                                      style: figtreeSemiBold
-                                                          .copyWith(fontSize: 18),
-                                                    ),
-                                                    Text(
-                                                      'Milking Cows',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
-                                                  ],
-                                                ),
-                                                05.horizontalSpace(),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '${responseMonthWise.yieldPerCow ?? "0"} Ltr.',
-                                                      style: figtreeSemiBold
-                                                          .copyWith(fontSize: 18),
-                                                    ),
-                                                    Text(
-                                                      'Yield/day',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
-                                                  ],
-                                                ),
-                                                05.horizontalSpace(),
-                                              ],
-                                            ),
-                                          ],
+                                        10.verticalSpace(),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              20, 0, 10, 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "23",
+                                                        style: figtreeSemiBold
+                                                            .copyWith(fontSize: 18),
+                                                      ),
+                                                      Text(
+                                                        'Herd Size',
+                                                        style: figtreeMedium
+                                                            .copyWith(fontSize: 12),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  05.horizontalSpace(),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        '${responseMonthWise.totalMilkProduction??"0"} Ltr.',
+                                                        style: figtreeSemiBold
+                                                            .copyWith(fontSize: 18),
+                                                      ),
+                                                      Text(
+                                                        'Production',
+                                                        style: figtreeMedium
+                                                            .copyWith(fontSize: 12),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  05.horizontalSpace(),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        responseMonthWise.milkingCow ?? "0",
+                                                        style: figtreeSemiBold
+                                                            .copyWith(fontSize: 18),
+                                                      ),
+                                                      Text(
+                                                        'Milking Cows',
+                                                        style: figtreeMedium
+                                                            .copyWith(fontSize: 12),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  05.horizontalSpace(),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        '${responseMonthWise.yieldPerCow ?? "0"} Ltr.',
+                                                        style: figtreeSemiBold
+                                                            .copyWith(fontSize: 18),
+                                                      ),
+                                                      Text(
+                                                        'Yield/day',
+                                                        style: figtreeMedium
+                                                            .copyWith(fontSize: 12),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  05.horizontalSpace(),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
 
 
@@ -632,8 +639,9 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                               20)),
                       border: Border.all(
                           width: 1,
-                          color: ColorResources
-                              .mustard),
+                          // color: ColorResources
+                          //     .mustard
+                      ),
                       color: Colors.white),
                   child: Padding(
                     padding:
@@ -717,6 +725,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
       children: [
 
         10.verticalSpace(),
+
         Row(
           children: [
             Expanded(
