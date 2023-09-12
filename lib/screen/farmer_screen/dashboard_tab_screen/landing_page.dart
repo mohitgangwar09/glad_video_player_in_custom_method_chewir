@@ -69,9 +69,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                   CustomAppBar(
                     context: context,
                     titleText1: 'Hello ',
-                    titleText2: state.response != null
-                        ? state.response!.farmerMaster!.name!.split(' ')[0]
-                        : "",
+                    titleText2: state.response!=null? state.response!.farmerMaster!.name!.split(' ')[0]:"",
                     leading: openDrawer(
                         onTap: () {
                           farmerLandingKey.currentState?.openDrawer();

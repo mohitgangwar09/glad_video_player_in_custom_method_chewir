@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -9,45 +11,61 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class PersonalDetail extends StatelessWidget {
+class PersonalDetail extends StatefulWidget {
   const PersonalDetail({super.key});
+
+  @override
+  State<PersonalDetail> createState() => _PersonalDetailState();
+}
+
+class _PersonalDetailState extends State<PersonalDetail> {
+
+  @override
+  void initState() {
+    BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          landingBackground(),
-          Column(
+      body: BlocBuilder<ProfileCubit,ProfileCubitState>(
+        builder: (context ,state) {
+          return Stack(
             children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Personal Details',
-                leading: arrowBackButton(),
-                centerTitle: true,
-                description: 'Provide the following details',
-                action: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Save',
-                    style: figtreeMedium.copyWith(
-                        fontSize: 14, color: ColorResources.maroon),
-                  ),
-                ),
-                titleText1Style:
-                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
+              landingBackground(),
+              Column(
                 children: [
-                  personalDetails(context),
-                  saveCancelButton(),
+                  CustomAppBar(
+                    context: context,
+                    titleText1: 'Personal Details',
+                    leading: arrowBackButton(),
+                    centerTitle: true,
+                    description: 'Provide the following details',
+                    action: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Save',
+                        style: figtreeMedium.copyWith(
+                            fontSize: 14, color: ColorResources.maroon),
+                      ),
+                    ),
+                    titleText1Style:
+                        figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                  ),
+                  Expanded(
+                      child: SingleChildScrollView(
+                          child: Column(
+                    children: [
+                      personalDetails(context),
+                      saveCancelButton(),
+                    ],
+                  )))
                 ],
-              )))
+              )
             ],
-          )
-        ],
+          );
+        }
       ),
     );
   }
@@ -80,7 +98,7 @@ class PersonalDetail extends StatelessWidget {
             ],
           ),
           25.verticalSpace(),
-          const CustomTextField2(title: 'Email',width: 1,borderColor: 0xff727272,hint: '',),
+          const CustomTextField2(title: 'Email',width: 1,borderColor: 0xff727272,),
           25.verticalSpace(),
           CustomDropdown(
               width: 1,

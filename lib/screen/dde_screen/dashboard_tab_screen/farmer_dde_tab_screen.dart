@@ -26,6 +26,7 @@ class FarmerDdeTabScreen extends StatefulWidget {
 class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
 
+  @override
   void initState(){
     super.initState();
     BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context);
@@ -144,6 +145,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                       left: 18, right: 7, bottom: 20, top: 10),
                   height: 36,
                   child: customList(
+
                       axis: Axis.horizontal,
                       child: (int index) {
                         return InkWell(
@@ -172,7 +174,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 120, left: 0),
-                    child: customList(child: (int i) {
+                    child: customList(list: state.response!.farmerMAster!,child: (int i) {
                       return Padding(
                         padding: const EdgeInsets.only(
                             left: 10, right: 20, bottom: 12),
@@ -193,7 +195,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         CrossAxisAlignment.start,
                                         children: [
                                           state.response!.farmerMAster![i].photo == null ?Image.asset(Images.sampleUser):
-                                          CachedNetworkImage(imageUrl: state.response!.farmerMAster![i].photo!),
+                                          CachedNetworkImage(imageUrl: state.response!.farmerMAster![i].photo!, errorWidget: (_,__,___)=> Image.asset(Images.sampleUser),),
                                           15.horizontalSpace(),
                                           Column(
                                             crossAxisAlignment:

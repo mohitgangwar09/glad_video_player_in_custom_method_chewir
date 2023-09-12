@@ -19,6 +19,7 @@ class AppConstants {
   static const String updateFarmApi = '/api/farm/update';
   static const String addTestimonialApi = '/api/testimonials';
   static const String milkProductionChart = '/api/last_six_month_data';
+  static const String getDistrict = '/api/district/227';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
