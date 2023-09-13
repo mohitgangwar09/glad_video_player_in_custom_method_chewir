@@ -22,7 +22,7 @@ class UpdateRecordMonthBreedModel {
 }
 
 class RequestData {
-  int id;
+  dynamic id;
   dynamic heardSize;
   dynamic milkingCows;
   dynamic dryCows;

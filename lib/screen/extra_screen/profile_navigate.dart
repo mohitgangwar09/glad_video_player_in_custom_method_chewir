@@ -10,6 +10,7 @@ import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/data/model/update_record_breed_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
+import 'package:glad/screen/dialog/breed_picker.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -17,7 +18,8 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 List<bool> showQty=[true];
-// List<RequestData> requestData= [];
+List<DateWiseData> addBreedLength = [];
+bool checkAddMore = false;
 
 class CowsAndYieldsDDEFarmer extends StatefulWidget {
   const CowsAndYieldsDDEFarmer({super.key});
@@ -41,6 +43,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<DdeFarmerCubit>(context).getCowBreedDetailsApi(context);
+      BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context);
     });
     // _nameController = TextEditingController();
   }
@@ -76,7 +79,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                     TextButton(
                       onPressed: (){
                         _formKey.currentState?.save();
-                        print(productionList);
+                        // print(productionList);
 
                         addCowAndYield();
                       },
@@ -118,10 +121,10 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
   Future addCowAndYield() async {
 
     UpdateRecordMonthBreedModel response =
-    UpdateRecordMonthBreedModel(monthId: 1,farmerId: 2,
+    UpdateRecordMonthBreedModel(monthId: 5,farmerId: 5,
         requestData: requestData);
-    String jsonUser = jsonEncode(response);
-    print(jsonUser);
+    String jsonRequestData = jsonEncode(response);
+    context.read<DdeFarmerCubit>().updateCowBreedRecordApi(context, jsonRequestData);
 
     /*Map<String,dynamic> jsonData = HashMap();
 
@@ -187,6 +190,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
             width: 130,
             onTap: () {
               responseDateWiseData.insert(0, DateWiseData());
+              checkAddMore = true;
               setState((){});
             },
             color: 0xffFFFFFF,
@@ -391,7 +395,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                                       ],
                                     ),
                                   ),
-
+                                  addMoreDateWiseData(false,0,responseMonthWise.dateWiseData!=null?responseMonthWise.dateWiseData!:[]),
                                   ...getDateWiseData(responseMonthWise.dateWiseData != null ?responseMonthWise.dateWiseData!:[DateWiseData()],responseMonthWise),
 
                                   addMoreDateWiseData(false,0,responseMonthWise.dateWiseData!=null?responseMonthWise.dateWiseData!:[]),
@@ -651,6 +655,12 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
   List<Widget> _getProduction(List<MonthWiseData> responseMonthWiseData){
     List<Widget> friendsTextFieldsList = [];
     for(int i=0; i<responseMonthWiseData.length; i++){
+      if(checkAddMore == false){
+        print("checkAddMore");
+        addBreedLength.clear();
+        addBreedLength.addAll(responseMonthWiseData[i].dateWiseData!);
+      }
+      print("sss${responseMonthWiseData[i].dateWiseData!.length}dd ${addBreedLength.length}");
       friendsTextFieldsList.add(
           Column(
             children: [
@@ -727,6 +737,10 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   late TextEditingController _lessThanSixController;
   late TextEditingController _bullCalfController;
 
+  void breedController(String addressController) {
+    BlocProvider.of<DdeFarmerCubit>(context).emit(BlocProvider.of<DdeFarmerCubit>(context).state.copyWith(breedController: TextEditingController(text: addressController)));
+  }
+
   void showHide(int i){
     setState((){
       showQty[i]=!showQty[i];
@@ -737,6 +751,10 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   void initState() {
     super.initState();
 
+    // BlocProvider.of<DdeFarmerCubit>(context).state.breedController!.text = widget.responseDateWise.breedName.toString();
+    // context.read<DdeFarmerCubit>().breedController(widget.responseDateWise.breedName.toString());
+    // BlocProvider.of<DdeFarmerCubit>(context).state.copyWith(breedController: TextEditingController(text: widget.responseDateWise.breedName.toString()));
+    // breedController(widget.responseDateWise.breedName.toString());
     checkCurrentMonth = checkDate(DateTime(int.parse(widget.dataMonth.year.toString()),int.parse(widget.dataMonth.month.toString())));
     _breedController = TextEditingController(text: widget.responseDateWise.breedName.toString());
     _herdController = TextEditingController(text: widget.responseDateWise.heardSize.toString());
@@ -747,13 +765,14 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
     _sevenTwelveController = TextEditingController(text: widget.responseDateWise.sevenToTwelveMonthCows.toString());
     _lessThanSixController = TextEditingController(text: widget.responseDateWise.sixMonthCow.toString());
     _bullCalfController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
+
     CowsAndYieldsDDEFarmerState.requestData.addAll({RequestData(
-        id: widget.responseDateWise.id,
+        id: addBreedLength.length >=widget.index?widget.responseDateWise.id.toString():null,
         cowBreedId: widget.responseDateWise.cowBreedId,
         milkingCows: widget.responseDateWise.milkingCows,
         yieldPerCow: widget.responseDateWise.yieldPerCow,
         dryCows: widget.responseDateWise.dryCows,
-        heardSize: widget.responseDateWise.heardSize,
+        heardSize: widget.responseDateWise.heardSize.toString(),
         heiferCows: widget.responseDateWise.heiferCows,
         sevenToTwelveMonthCows: widget.responseDateWise.sevenToTwelveMonthCows,
         sixMonthCow: widget.responseDateWise.sixMonthCow,
@@ -778,9 +797,15 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   Widget build(BuildContext context) {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _herdController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize.toString();
-      // _milkingCowController.text = CowsAndYieldsDDEFarmerState.productionList[widget.index]
-      //     ?? "";
+      // BlocProvider.of<DdeFarmerCubit>(context).state.breedController!.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize.toString()??"";
+      _herdController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize.toString()??"";
+      _yieldPerDayController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow.toString() ?? "";
+      _milkingCowController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows.toString() ?? "";
+      _dryController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows.toString() ?? "";
+      _heiferController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows.toString() ?? "";
+      _sevenTwelveController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows.toString() ?? "";
+      _lessThanSixController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow.toString() ?? "";
+      _bullCalfController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs.toString() ?? "";
     });
 
     return Column(
@@ -790,14 +815,33 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
 
         Row(
           children: [
-            Expanded(
-                child: SizedBox(
-                    height: 65,
-                    child: CustomTextField(
-                      controller: _breedController,
-                      onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
-                      hint:'Breed Name',
-                    ))),
+            BlocBuilder<DdeFarmerCubit,DdeState>(
+              builder: (context,state) {
+                return Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        print('${addBreedLength.length} hhh ${widget.index}');
+                        if(addBreedLength.length-1 >=widget.index){
+
+                        }else{
+                          customDialog(
+                              widget: const BreedPicker());
+                        }
+                      },
+                      child: SizedBox(
+                          height: 65,
+                          child: CustomTextField(
+                            enabled: false,
+                            image: addBreedLength.length-1 >=widget.index? null:Images.arrowDown,
+                            imageColors: Colors.black,
+                            controller: _breedController,
+                            // controller: state.breedController,
+                            // onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                            hint:'Breed Name',
+                          )),
+                    ));
+              }
+            ),
             10.horizontalSpace(),
             InkWell(
               onTap: (){
@@ -844,7 +888,6 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                         CustomTextField(
                           hint: '',
                           controller: _herdController,
-                          // enabled: checkCurrentMonth == true? false:true,
                           onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
@@ -874,7 +917,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                         CustomTextField(
                           hint: '',
                           controller: _milkingCowController,
-                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -908,7 +951,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                         CustomTextField(
                           hint: '',
                           controller: _yieldPerDayController,
-                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -938,7 +981,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                           hint: '',
                           paddingTop: 5,
                           controller: _dryController,
-                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows = v,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
                           maxLine: 1,
@@ -967,7 +1010,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                           hint: '',
                           paddingTop: 5,
                           controller: _heiferController,
-                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows = v,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
                           maxLine: 1,
@@ -1000,7 +1043,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                         CustomTextField(
                           hint: '',
                           controller: _sevenTwelveController,
-                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
@@ -1030,7 +1073,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                           hint: '',
                           paddingTop: 5,
                           controller: _lessThanSixController,
-                          onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow = v,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,
                           maxLine: 1,
@@ -1058,6 +1101,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                         CustomTextField(
                           hint: '',
                           controller: _bullCalfController,
+                          onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs = v,
                           paddingTop: 5,
                           inputType: TextInputType.phone,
                           paddingBottom: 21,

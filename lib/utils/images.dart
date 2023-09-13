@@ -118,6 +118,7 @@ class Images {
   static const String commentSend = 'assets/images/commentsend.svg';
 
   static const String mapLocate = 'assets/images/map_locate.svg';
+  static const String arrowDown = 'assets/images/arrow_down.svg';
 
 
   // bottom navigation item//

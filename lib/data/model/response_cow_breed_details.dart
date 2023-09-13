@@ -152,7 +152,7 @@ class DateWiseData {
     month = json['month'];
     year = json['year'];
     breedName = json['breed_name'];
-    heardSize = json['heard_size'];
+    heardSize = json['herd_size'];
     milkingCows = json['milking_cows'];
     dryCows = json['dry_cows'];
     heiferCows = json['heifer_cows'];
@@ -169,7 +169,7 @@ class DateWiseData {
     data['month'] = month;
     data['year'] = year;
     data['breed_name'] = breedName;
-    data['heard_size'] = heardSize;
+    data['herd_size'] = heardSize;
     data['milking_cows'] = milkingCows;
     data['dry_cows'] = dryCows;
     data['heifer_cows'] = heiferCows;
