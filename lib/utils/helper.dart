@@ -106,9 +106,16 @@ calculateAge(DateTime birthDate) {
   return age;
 }
 
+bool checkDateMonth(int year,int month){
+  final now = DateTime.now();
+  final expirationDate = DateTime(year, month);
+  final bool isExpired = expirationDate.isBefore(now);
+  return isExpired;
+}
+
 bool checkDate(DateTime dateTime){
   final now = DateTime.now();
-  final expirationDate = DateTime(dateTime.year, 10);
+  final expirationDate = DateTime(dateTime.year, dateTime.month);
   final bool isExpired = expirationDate.isBefore(now);
   return isExpired;
 }

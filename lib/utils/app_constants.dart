@@ -20,9 +20,11 @@ class AppConstants {
   static const String addTestimonialApi = '/api/testimonials';
   static const String milkProductionChart = '/api/last_six_month_data';
   static const String getDistrict = '/api/district/227';
-  static const String getBreedList = '/api/breed';
+  static const String getBreedListApi = '/api/breed';
   static const String getCowBreedDetailApi = '/api/cow_breed_details';
-  static const String updateCowBreedDetail = '/api/cow_breed_details_update';
+  static const String updateCowBreedDetailApi = '/api/cow_breed_details_update';
+  static const String addMonthApi = '/api/farmer/add-month';
+  static const String deleteMonthApi = '/api/farmer/delete-month';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

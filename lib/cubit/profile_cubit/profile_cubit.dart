@@ -183,14 +183,6 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(
         status: ProfileStatus.success,
         districtResponse: response.data,
-        // countyController: TextEditingController(
-        //     text: state.responseFarmerProfile!.farmer!.address!.county!),
-        // parishController: TextEditingController(
-        //     text: state.responseFarmerProfile!.farmer!.address!.parish!),
-        // villageController: TextEditingController(
-        //     text: state.responseFarmerProfile!.farmer!.address!.village!),
-        // centreNameController: TextEditingController(
-        //     text: state.responseFarmerProfile!.farmer!.address!.centerName!),
       ));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));

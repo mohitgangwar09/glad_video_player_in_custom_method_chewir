@@ -123,6 +123,7 @@ class Images {
   static const String satisfactory = 'assets/images/satisfactory.svg';
 
   static const String playVideo = 'assets/images/play_video.svg';
+  static const String arrowDown = 'assets/images/arrow_down.svg';
 
 
   // bottom navigation item//
