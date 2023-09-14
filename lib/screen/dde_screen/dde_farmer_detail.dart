@@ -102,40 +102,53 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         ),
                                       )),
                                   10.horizontalSpace(),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                            Images.kycUnverified,
-                                            width: 30,
-                                            height: 30,
-                                          ),
-                                          4.horizontalSpace(),
-                                          Text('KYC Verified',
-                                              style: figtreeMedium.copyWith(
-                                                  fontSize: 12)),
-                                        ],
-                                      ),
-                                      10.verticalSpace(),
-                                      Text(state.responseFarmerProfile!.farmer!.name ?? 'Matts Francesca',
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 18)),
-                                      5.verticalSpace(),
-                                      Text(state.responseFarmerProfile!.farmer!.phone ?? '+256 758711344',
-                                          style: figtreeRegular.copyWith(
-                                            fontSize: 12,
-                                          )),
-                                      5.verticalSpace(),
-                                      Text(state.responseFarmerProfile!.farmer!.email ?? 'FrancescaMetts@gmail.com',
-                                          style: figtreeRegular.copyWith(
-                                            fontSize: 12,
-                                          )),
-                                    ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SvgPicture.asset(
+                                              Images.kycUnverified,
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                            4.horizontalSpace(),
+                                            Text('KYC Verified',
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 12)),
+                                          ],
+                                        ),
+                                        10.verticalSpace(),
+                                        Text(
+                                            state.responseFarmerProfile!.farmer!
+                                                    .name ??
+                                                '',
+                                            style: figtreeMedium.copyWith(
+                                                fontSize: 17)),
+                                        5.verticalSpace(),
+                                        Text(
+                                            state.responseFarmerProfile!.farmer!
+                                                    .phone ??
+                                                '',
+                                            style: figtreeRegular.copyWith(
+                                              fontSize: 12,
+                                            )),
+                                        5.verticalSpace(),
+                                        Text(
+                                            state.responseFarmerProfile!.farmer!
+                                                    .email ??
+                                                '',
+                                            style: figtreeRegular.copyWith(
+                                              fontSize: 12,
+                                            )),
+                                      ],
+                                    ),
                                   ),
+                                  10.horizontalSpace(),
                                   Column(
                                     children: [
                                       SvgPicture.asset(
