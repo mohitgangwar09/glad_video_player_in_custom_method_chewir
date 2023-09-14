@@ -579,24 +579,14 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Cows in the farm',
-                    style: figtreeMedium.copyWith(fontSize: 18)),
-              ),
-              InkWell(
-                  onTap: () {
-                    CowsAndYield().navigate();
-                  },
-                  child: SvgPicture.asset(Images.profileEdit))
-            ],
+          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Cows in the farm',
+                style: figtreeMedium.copyWith(fontSize: 18)),
           ),
         ),
-        14.verticalSpace(),
+        10.verticalSpace(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Container(
@@ -609,26 +599,28 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Wrap(children: [
-                  for(int index = 0; index < state.responseFarmerProfile!.farmer!.cowBreedDetails!.length; index++)
-                    InkWell(
-                      onTap: () {
-                        BlocProvider.of<ProfileCubit>(context).changeSelectedBreedIndex(index);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: state.selectedBreedIndex == index ? ColorResources.maroon : const Color(0xFFF9F9F9),
-                        ),
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          state.responseFarmerProfile!.farmer!.cowBreedDetails![index].breedName!,
-                          style: figtreeRegular.copyWith(
-                              fontSize: 12, color: state.selectedBreedIndex == index ? Colors.white: Colors.black),
+                Wrap(
+                  spacing: 10,
+                  children: [
+                    for(int index = 0; index < state.responseFarmerProfile!.farmer!.cowBreedDetails!.length; index++)
+                      InkWell(
+                        onTap: () {
+                          BlocProvider.of<ProfileCubit>(context).changeSelectedBreedIndex(index);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: state.selectedBreedIndex == index ? ColorResources.maroon : const Color(0xFFF9F9F9),
+                          ),
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            state.responseFarmerProfile!.farmer!.cowBreedDetails![index].breedName!,
+                            style: figtreeRegular.copyWith(
+                                fontSize: 12, color: state.selectedBreedIndex == index ? Colors.white: Colors.black),
+                          ),
                         ),
                       ),
-                    ),
-                ],),
+                  ],),
                 20.verticalSpace(),
                 Container(
                   decoration: BoxDecoration(
@@ -707,7 +699,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Heifer',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text('03',
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].heiferCows.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -727,7 +719,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         fontSize: 12,
                                         color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: '08',
+                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].sevenToTwelveMonthCows.toString(),
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -795,7 +787,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
               ],
             ),
           ),
-        ),
+        ) ,
       ],
     );
   }
