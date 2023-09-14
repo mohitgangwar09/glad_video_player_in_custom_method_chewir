@@ -169,7 +169,7 @@ class ApiHitter {
     }
   }
 
-  deleteApiResponse(
+  Future<ApiResponse> deleteApiResponse(
     String endPoint, {
     Map<String, dynamic>? headers,
     Map<String, dynamic>? data,

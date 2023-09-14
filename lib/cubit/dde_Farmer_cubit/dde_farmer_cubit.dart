@@ -5,6 +5,7 @@ import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/data/repository/dde_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,38 @@ class DdeFarmerCubit extends Cubit<DdeState>{
 
   void breedController(String addressController) {
     emit(state.copyWith(breedController: TextEditingController(text: addressController)));
+  }
+
+  void totalFirstProduction(double totalProduction,int index) {
+
+    state.suppliedToPdfController.addListener(() {
+      print(state.suppliedToPdfController.text);
+      if(state.suppliedToPdfController.text.isNotEmpty){
+      CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl = state.suppliedToPdfController.text;
+      CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther ?? "0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl??"0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
+      emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));
+      }else{
+        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl = state.suppliedToPdfController.text;
+        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther ?? "0")+double.parse("0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
+        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));
+      }
+    });
+
+    state.suppliedToOtherPdfController.addListener(() {
+
+      if(state.suppliedToOtherPdfController.text.isNotEmpty){
+        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther = state.suppliedToOtherPdfController.text;
+        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
+        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}
+    });
+
+    state.selfUseController.addListener(() {
+
+      if(state.selfUseController.text.isNotEmpty){
+        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController = state.selfUseController.text;
+        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
+        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}
+    });
   }
 
   void searchBreedFilter(String query, List<DataBreed> searchList) {
@@ -85,6 +118,42 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     customDialog(widget: launchProgress());
     emit(state.copyWith(status: DdeFarmerStatus.loading));
     var response = await apiRepository.updateCowBreedRecordApi(requestData);
+    if(response.status == 200){
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      getCowBreedDetailsApi(context);
+      emit(state.copyWith(status: DdeFarmerStatus.success));
+    }
+    else{
+      emit(state.copyWith(status: DdeFarmerStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+    emit(state.copyWith(status: DdeFarmerStatus.success));
+  }
+
+  // updateCowBreedRecordApi
+  void addMonthApi(context,String farmerId) async{
+    customDialog(widget: launchProgress());
+    emit(state.copyWith(status: DdeFarmerStatus.loading));
+    var response = await apiRepository.addMonthApi(farmerId.toString());
+    if(response.status == 200){
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      getCowBreedDetailsApi(context);
+      emit(state.copyWith(status: DdeFarmerStatus.success));
+    }
+    else{
+      emit(state.copyWith(status: DdeFarmerStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+    emit(state.copyWith(status: DdeFarmerStatus.success));
+  }
+
+  // updateCowBreedRecordApi
+  void deleteMonthId(context,String monthName,String farmerId) async{
+    customDialog(widget: launchProgress());
+    emit(state.copyWith(status: DdeFarmerStatus.loading));
+    var response = await apiRepository.deleteMonthApi(monthName,farmerId);
     if(response.status == 200){
       disposeProgress();
       showCustomToast(context, response.message.toString());

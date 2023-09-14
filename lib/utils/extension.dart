@@ -211,3 +211,7 @@ extension Integer on int {
         right: toDouble(), left: toDouble(), top: top, bottom: bottom);
   }
 }
+
+extension Capitalized on String {
+  String capitalized() => substring(0, 1).toUpperCase() + substring(1).toLowerCase();
+}
