@@ -9,6 +9,7 @@ import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/dde_screen/farmer_personal_detail.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
+import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -45,7 +46,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
           ));
         } else if (state.responseFarmerProfile == null) {
           return "${state.responseFarmerProfile} Api Error".textMedium();
-        } else {
+        }
+        else{
           return Stack(
             children: [
               landingBackground(),
@@ -80,8 +82,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                           children: [
                             Container(
                               margin: const EdgeInsets.only(top: 31),
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 10),
+                              padding: const EdgeInsets.only(left: 20, right: 20),
                               height: 171,
                               child: Row(
                                 children: [
@@ -89,13 +90,11 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                       borderRadius: BorderRadius.circular(15),
                                       child: CachedNetworkImage(
                                         imageUrl: state.responseFarmerProfile!
-                                                .farmer!.photo ??
-                                            '',
+                                            .farmer!.photo ?? '',
                                         width: 117,
                                         height: 150,
                                         fit: BoxFit.cover,
-                                        errorWidget: (_, __, ___) =>
-                                            Image.asset(
+                                        errorWidget: (_, __, ___) => Image.asset(
                                           Images.profileDemo,
                                           width: 117,
                                           height: 150,
@@ -172,21 +171,18 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                               padding: const EdgeInsets.only(
                                   left: 20.0, right: 25, top: 22),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      "${calculateAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '2001-08-19'))} years old"
-                                          .textRegular(),
+                                      "${calculateAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '2001-08-19'))} years old".textRegular(),
                                       10.horizontalSpace(),
                                       const CircleAvatar(
                                         radius: 4,
                                         backgroundColor: Colors.black,
                                       ),
                                       10.horizontalSpace(),
-                                      "${state.responseFarmerProfile!.farmer!.farmingExperience ?? 25} years experience"
-                                          .textRegular(),
+                                      "${state.responseFarmerProfile!.farmer!.farmingExperience ?? 25} years experience".textRegular(),
                                     ],
                                   ),
                                   const CustomIndicator(
@@ -198,7 +194,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.only(left: 20.0, right: 25),
+                              const EdgeInsets.only(left: 20.0, right: 25),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -222,22 +218,20 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         blurRadius: 16.0,
                                         offset: const Offset(0, 5)),
                                   ],
-                                  border:
-                                      Border.all(color: ColorResources.grey)),
+                                  border: Border.all(color: ColorResources.grey)),
                               padding:
-                                  const EdgeInsets.fromLTRB(18.0, 18, 18, 10),
+                              const EdgeInsets.fromLTRB(18.0, 18, 18, 10),
                               child: Column(
                                 children: [
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                              '${state.responseFarmerProfile!.farmer!.farmSize ?? 150} Acres',
+                                          Text('${state.responseFarmerProfile!.farmer!.farmSize ?? 150} Acres',
                                               style: figtreeSemiBold.copyWith(
                                                   fontSize: 18)),
                                           Text('Farm Area',
@@ -248,10 +242,9 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                       10.horizontalSpace(),
                                       Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                              '${state.responseFarmerProfile!.farmer!.dairyArea ?? 150} Acres',
+                                          Text('${state.responseFarmerProfile!.farmer!.dairyArea ?? 150} Acres',
                                               style: figtreeSemiBold.copyWith(
                                                   fontSize: 18)),
                                           Text('Dairy area',
@@ -262,10 +255,9 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                       10.horizontalSpace(),
                                       Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                              '${state.responseFarmerProfile!.farmer!.staffQuantity ?? 5}',
+                                          Text('${state.responseFarmerProfile!.farmer!.staffQuantity ?? 5}',
                                               style: figtreeSemiBold.copyWith(
                                                   fontSize: 18)),
                                           Text('Members',
@@ -279,8 +271,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                          'Managed by: ${state.responseFarmerProfile!.farmer!.managerName ?? 'Moses Emanuel'}',
+                                      Text('Managed by: ${state.responseFarmerProfile!.farmer!.managerName ?? 'Moses Emanuel'}',
                                           style: figtreeMedium.copyWith(
                                               fontSize: 12,
                                               color: const Color(0xff727272))),
@@ -293,10 +284,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                             shape: BoxShape.circle),
                                       ),
                                       10.horizontalSpace(),
-                                      Text(
-                                          state.responseFarmerProfile!.farmer!
-                                                  .managerPhone ??
-                                              '+256 758711344',
+                                      Text(state.responseFarmerProfile!.farmer!.managerPhone ?? '+256 758711344',
                                           style: figtreeMedium.copyWith(
                                               fontSize: 12,
                                               color: const Color(0xff727272))),
@@ -346,7 +334,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                     fontSize: 19, color: Colors.white),
                                 "Based on the survey done by our experts!"
                                     .textRegular(
-                                        fontSize: 12, color: Colors.white)
+                                    fontSize: 12, color: Colors.white)
                               ],
                             ),
                           ),
@@ -382,147 +370,152 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
           ),
         ),
         10.verticalSpace(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 0, 24, 0),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    height: 210,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 200,
-                          decoration: BoxDecoration(boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(.100),
-                                blurRadius: 15),
-                          ]),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            color: const Color(0xffFFB300),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 24.0, right: 20),
-                              child: Column(children: [
-                                28.verticalSpace(),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '2000 Ltr',
-                                        style:
-                                            figtreeBold.copyWith(fontSize: 24),
+        InkWell(
+          onTap: () {
+            const SuppliedToPDFL().navigate();
+          },
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 0, 24, 0),
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      height: 210,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 200,
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(.100),
+                                  blurRadius: 15),
+                            ]),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              color: const Color(0xffFFB300),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 24.0, right: 20),
+                                child: Column(children: [
+                                  28.verticalSpace(),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          '2000 Ltr',
+                                          style:
+                                              figtreeBold.copyWith(fontSize: 24),
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        'UGX 75M',
-                                        style:
-                                            figtreeBold.copyWith(fontSize: 24),
+                                      Expanded(
+                                        child: Text(
+                                          'UGX 75M',
+                                          style:
+                                              figtreeBold.copyWith(fontSize: 24),
+                                        ),
                                       ),
-                                    ),
-                                    SvgPicture.asset(
-                                      Images.menuIcon,
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                        child: "Total supply"
-                                            .textMedium(fontSize: 16)),
-                                    Expanded(
-                                        child:
-                                            "Worth".textMedium(fontSize: 16)),
-                                    0.verticalSpace()
-                                  ],
-                                ),
-                                28.verticalSpace(),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Matts Francesca",
-                                              style: figtreeMedium.copyWith(
-                                                  fontSize: 16,
-                                                  color: Colors.black)),
-                                          4.verticalSpace(),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              const Icon(
-                                                Icons.call,
-                                                color: Colors.black,
-                                                size: 16,
-                                              ),
-                                              Text("+22112 3232 3223",
-                                                  style:
-                                                      figtreeRegular.copyWith(
-                                                          fontSize: 12,
-                                                          color: Colors.black)),
-                                            ],
-                                          ),
-                                          4.verticalSpace(),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              const Icon(
-                                                Icons.location_on,
-                                                color: Colors.black,
-                                                size: 16,
-                                              ),
-                                              SizedBox(
-                                                width: screenWidth() * 0.5,
-                                                child: Text(
-                                                  "Luwum St. Rwoozi, Kampala...",
-                                                  style:
-                                                      figtreeRegular.copyWith(
-                                                    fontSize: 12,
-                                                    color: Colors.black,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                      SvgPicture.asset(
+                                        Images.menuIcon,
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          child: "Total supply"
+                                              .textMedium(fontSize: 16)),
+                                      Expanded(
+                                          child:
+                                              "Worth".textMedium(fontSize: 16)),
+                                      0.verticalSpace()
+                                    ],
+                                  ),
+                                  28.verticalSpace(),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Matts Francesca",
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 16,
+                                                    color: Colors.black)),
+                                            4.verticalSpace(),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                const Icon(
+                                                  Icons.call,
+                                                  color: Colors.black,
+                                                  size: 16,
+                                                ),
+                                                Text("+22112 3232 3223",
+                                                    style:
+                                                        figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: Colors.black)),
+                                              ],
+                                            ),
+                                            4.verticalSpace(),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                const Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.black,
+                                                  size: 16,
+                                                ),
+                                                SizedBox(
+                                                  width: screenWidth() * 0.5,
+                                                  child: Text(
+                                                    "Luwum St. Rwoozi, Kampala...",
+                                                    style:
+                                                        figtreeRegular.copyWith(
+                                                      fontSize: 12,
+                                                      color: Colors.black,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    CircleAvatar(
-                                        radius: 27,
-                                        backgroundColor: ColorResources.primary,
-                                        child: "MCC".textBold(
-                                            color: Colors.white, fontSize: 13)),
-                                  ],
-                                ),
-                                28.verticalSpace(),
-                              ]),
+                                      CircleAvatar(
+                                          radius: 27,
+                                          backgroundColor: ColorResources.primary,
+                                          child: "MCC".textBold(
+                                              color: Colors.white, fontSize: 13)),
+                                    ],
+                                  ),
+                                  28.verticalSpace(),
+                                ]),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 10,
-                    left: 10,
-                    child: SvgPicture.asset(Images.cardImage),
-                  )
-                ],
-              ),
-            ],
+                    Positioned(
+                      bottom: 0,
+                      right: 10,
+                      left: 10,
+                      child: SvgPicture.asset(Images.cardImage),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -629,19 +622,26 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: ColorResources.maroon,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    state.responseFarmerProfile!.farmer!.cowBreedDetails!
-                        .breedName!,
-                    style: figtreeRegular.copyWith(
-                        fontSize: 12, color: Colors.white),
-                  ),
-                ),
+                Wrap(children: [
+                  for(int index = 0; index < state.responseFarmerProfile!.farmer!.cowBreedDetails!.length; index++)
+                    InkWell(
+                      onTap: () {
+                        BlocProvider.of<ProfileCubit>(context).changeSelectedBreedIndex(index);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: state.selectedBreedIndex == index ? ColorResources.maroon : const Color(0xFFF9F9F9),
+                        ),
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          state.responseFarmerProfile!.farmer!.cowBreedDetails![index].breedName!,
+                          style: figtreeRegular.copyWith(
+                              fontSize: 12, color: state.selectedBreedIndex == index ? Colors.white: Colors.black),
+                        ),
+                      ),
+                    ),
+                ],),
                 20.verticalSpace(),
                 Container(
                   decoration: BoxDecoration(
@@ -655,33 +655,30 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                     children: [
                       RichText(
                           text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Milking Cows  ',
-                            style: figtreeRegular.copyWith(
-                                fontSize: 14, color: const Color(0xFF727272))),
-                        TextSpan(
-                            text: state.responseFarmerProfile!.farmer!
-                                .cowBreedDetails!.milkingCows!
-                                .toString(),
-                            style: figtreeSemiBold.copyWith(
-                                fontSize: 14, color: Colors.black)),
-                      ])),
+                            TextSpan(
+                                text: 'Milking Cows  ',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 14, color: const Color(0xFF727272))),
+                            TextSpan(
+                                text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].milkingCows!.toString(),
+                                style: figtreeSemiBold.copyWith(
+                                    fontSize: 14, color: Colors.black)),
+                          ])),
                       SizedBox(
                         height: 20,
                         child: customPaint(const Color(0xFF999999)),
                       ),
                       RichText(
                           text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Yield  ',
-                            style: figtreeRegular.copyWith(
-                                fontSize: 14, color: const Color(0xFF727272))),
-                        TextSpan(
-                            text:
-                                '${state.responseFarmerProfile!.farmer!.cowBreedDetails!.yieldPerCow!.toString()} Ltr/Day',
-                            style: figtreeSemiBold.copyWith(
-                                fontSize: 14, color: Colors.black)),
-                      ])),
+                            TextSpan(
+                                text: 'Yield  ',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 14, color: const Color(0xFF727272))),
+                            TextSpan(
+                                text: '${state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].yieldPerCow!.toString()} Ltr/Day',
+                                style: figtreeSemiBold.copyWith(
+                                    fontSize: 14, color: Colors.black)),
+                          ])),
                     ],
                   ),
                 ),
@@ -697,10 +694,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Herd Size',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text(
-                            state.responseFarmerProfile!.farmer!
-                                .cowBreedDetails!.heardSize!
-                                .toString(),
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].herdSize!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -713,10 +707,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Dry Cows',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text(
-                            state.responseFarmerProfile!.farmer!
-                                .cowBreedDetails!.dryCows!
-                                .toString(),
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].dryCows!.toString(),
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -737,23 +728,22 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                 ),
                 20.verticalSpace(),
                 Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Row(
                         children: [
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                text: '7-12 month: ',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12,
-                                    color: const Color(0xFF727272))),
-                            TextSpan(
-                                text: '08',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                          ])),
+                                TextSpan(
+                                    text: '7-12 month: ',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12,
+                                        color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: '08',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
                         ],
                       ),
                     ),
@@ -769,16 +759,16 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         children: [
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                text: '<6 month: ',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12,
-                                    color: const Color(0xFF727272))),
-                            TextSpan(
-                                text: '02',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                          ])),
+                                TextSpan(
+                                    text: '<6 month: ',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12,
+                                        color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].sixMonthCow.toString(),
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
                           /*Container(
                           height: 4.5,
                           width: 4.5,
@@ -800,19 +790,16 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         children: [
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                text: 'Bull calf: ',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12,
-                                    color: const Color(0xFF727272))),
-                            TextSpan(
-                                text: state.responseFarmerProfile!.farmer!
-                                        .cowBreedDetails!.bullCalfs
-                                        .toString() ??
-                                    '01',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                          ])),
+                                TextSpan(
+                                    text: 'Bull calf: ',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12,
+                                        color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].bullCalfs.toString() ?? '01',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
                         ],
                       ),
                     ),

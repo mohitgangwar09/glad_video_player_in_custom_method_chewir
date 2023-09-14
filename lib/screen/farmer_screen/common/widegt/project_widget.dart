@@ -14,6 +14,7 @@ class ProjectWidget extends StatelessWidget {
   final int index;
   final int incrementalProduction;
   final int roi;
+  final String category;
 
   const ProjectWidget(
       {Key? key,
@@ -22,7 +23,7 @@ class ProjectWidget extends StatelessWidget {
       required this.targetYield,
       required this.investment,
       required this.revenue,
-      required this.index, required this.incrementalProduction, required this.roi})
+      required this.index, required this.incrementalProduction, required this.roi, required this.category})
       : super(key: key);
 
   @override
@@ -58,7 +59,7 @@ class ProjectWidget extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis),
                           5.verticalSpace(),
-                          "Water Management".textMedium(
+                          category.textMedium(
                             fontSize: 12,
                           ),
                         ],

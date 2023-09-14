@@ -192,11 +192,11 @@ class _DDEProfileState extends State<DDEProfile> {
                                             child: Row(
                                               children: [
                                                 const Icon(Icons.trending_up,
-                                                    size: 25),
+                                                    size: 25, color: Colors.white),
                                                 Text(
                                                   '+5.0%',
                                                   style: figtreeBold.copyWith(
-                                                      fontSize: 13),
+                                                      fontSize: 13, color: Colors.white),
                                                 )
                                               ],
                                             ),

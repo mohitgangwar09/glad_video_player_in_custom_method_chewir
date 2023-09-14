@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
-import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -58,7 +56,7 @@ class _SuppliedToPDFLState extends State<SuppliedToPDFL> {
           (index) => SalesData(
               DateTime(
                   data![index].year ?? DateTime.now().year, data![index].month),
-              double.parse(data![index].suppliedToPdfl.toString())),
+              double.parse((data![index].suppliedToPdfl ?? 0).toString())),
         );
       case 'lastmonth':
         dynamic data = state.milkProductionChartResponse!.data!.lastMonth!;
@@ -401,6 +399,90 @@ class _SuppliedToPDFLState extends State<SuppliedToPDFL> {
                           ),
                         ),
                       ),
+                      20.verticalSpace(),
+                      duration == '6months'
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: ListView.separated(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) => Container(
+                                        color: index % 2 != 0
+                                            ? const Color(0xFFFFF3F4)
+                                            : Colors.transparent,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 25, horizontal: 20),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            '${state.milkProductionChartResponse!.data!.monthWiseData![index].suppliedToPdfl} Litre'
+                                                .textMedium(
+                                                    color: Colors.black,
+                                                    fontSize: 18),
+                                            '${state.milkProductionChartResponse!.data!.monthWiseData![index].monthname}, ${state.milkProductionChartResponse!.data!.monthWiseData![index].year}'
+                                                .toString()
+                                                .textMedium(
+                                                    color: Colors.black,
+                                                    fontSize: 14),
+                                          ],
+                                        ),
+                                      ),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                          height: 0,
+                                          width: screenWidth(),
+                                          child: horizontalPaint()),
+                                  itemCount: state.milkProductionChartResponse!
+                                      .data!.monthWiseData!.length),
+                            )
+                          : duration == 'lastmonth'
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: ListView.separated(
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) =>
+                                          Container(
+                                            color: index % 2 != 0
+                                                ? const Color(0xFFFFF3F4)
+                                                : Colors.transparent,
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 25, horizontal: 20),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                '${state.milkProductionChartResponse!.data!.lastMonth![index].suppliedToPdfl} Litre'
+                                                    .textMedium(
+                                                        color: Colors.black,
+                                                        fontSize: 18),
+                                                DateFormat('dd MMMM, yyyy')
+                                                    .format(DateTime.parse(state
+                                                        .milkProductionChartResponse!
+                                                        .data!
+                                                        .lastMonth![index]
+                                                        .date!))
+                                                    .toString()
+                                                    .textMedium(
+                                                        color: Colors.black,
+                                                        fontSize: 14),
+                                              ],
+                                            ),
+                                          ),
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
+                                              height: 0,
+                                              width: screenWidth(),
+                                              child: horizontalPaint()),
+                                      itemCount: state
+                                          .milkProductionChartResponse!
+                                          .data!
+                                          .lastMonth!
+                                          .length),
+                                )
+                              : const SizedBox.shrink(),
                     ],
                   ),
                 ),

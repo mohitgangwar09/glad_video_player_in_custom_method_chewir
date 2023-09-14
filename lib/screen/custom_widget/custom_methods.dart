@@ -948,7 +948,7 @@ Widget customPaint(Color color) {
 
 Widget horizontalPaint() {
   return CustomPaint(
-    size: Size(1.1, double.infinity),
+    size: const Size(1.1, double.infinity),
     painter: DashLinePainter(),
   );
 }
@@ -979,7 +979,7 @@ Widget documentImage(String image, Function() onTapCancel) {
     children: [
       Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xFF819891)),
+          border: Border.all(color: const Color(0xFF819891)),
           borderRadius: BorderRadius.circular(200),
         ),
         child: Padding(
@@ -1054,12 +1054,15 @@ Widget arrowBackButton({Color? color}) {
       onTap: () {
         pressBack();
       },
-      child: color != null
+      child: Container(
+        height: AppBar().preferredSize.height,
+        margin: const EdgeInsets.symmetric(horizontal: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 3),
+        child: color != null
           ? SvgPicture.asset(
-              Images.arrowBack,
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            )
-          : SvgPicture.asset(Images.arrowBack));
+        Images.arrowBack,
+        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      ) : SvgPicture.asset(Images.arrowBack),));
 }
 
 Widget customShadowContainer({bool enabled=true,
