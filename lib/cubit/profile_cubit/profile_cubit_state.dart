@@ -29,6 +29,7 @@ class ProfileCubitState extends Equatable{
   final farmer_profile.Data? responseFarmerProfile;
   final List<DistrictData> ? districtResponse;
   final List<DistrictData> ? searchDistrictList;
+  final int? selectedBreedIndex;
 
   const ProfileCubitState({
     required this.status,
@@ -64,7 +65,7 @@ class ProfileCubitState extends Equatable{
     required this.parishController,
     required this.countyController,
     required this.districtController,
-
+    required this.selectedBreedIndex,
     required this.landlineController,
   });
 
@@ -104,6 +105,7 @@ class ProfileCubitState extends Equatable{
       districtResponse: null,
       searchDistrictList: null,
       districtId: '',
+      selectedBreedIndex: 0,
     );
   }
 
@@ -130,6 +132,7 @@ class ProfileCubitState extends Equatable{
     farmer_profile.Data? responseFarmerProfile,
     List<DistrictData> ? districtResponse,
     List<DistrictData> ? searchDistrictList,
+    int? selectedBreedIndex,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -166,6 +169,7 @@ class ProfileCubitState extends Equatable{
         parishController:parishController ?? this.parishController,
         villageController:villageController ?? this.villageController,
       districtController:districtController ?? this.districtController,
+        selectedBreedIndex: selectedBreedIndex?? this.selectedBreedIndex,
     );
   }
 
@@ -203,7 +207,8 @@ class ProfileCubitState extends Equatable{
     districtId,
     landlineController,
     farmerSince,
-    selectDob
+    selectDob,
+    selectedBreedIndex,
   ];
 
 }

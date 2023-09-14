@@ -30,6 +30,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     emit(state.copyWith(selectDistrict: districtName, districtId: districtId));
   }
 
+  void changeSelectedBreedIndex(int index) {
+    emit(state.copyWith(selectedBreedIndex: index));
+  }
+
   void changeSearchDistrictController(TextEditingController addressController) {
     emit(state.copyWith(addressSearchController: addressController));
   }

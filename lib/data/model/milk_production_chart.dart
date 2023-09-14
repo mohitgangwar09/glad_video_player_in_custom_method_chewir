@@ -19,7 +19,7 @@ class Data {
   dynamic totalLastWeekMilkProduction;
   List<MonthWiseData>? monthWiseData;
   List<LastMonth>? lastMonth;
-  List<dynamic>? previousDay;
+  List<LastWeekData>? previousDay;
   List<LastWeekData>? lastWeekData;
 
   Data(
@@ -49,12 +49,12 @@ class Data {
         lastMonth!.add(new LastMonth.fromJson(v));
       });
     }
-    // if (json['previous_day'] != null) {
-    //   previousDay = <Null>[];
-    //   json['previous_day'].forEach((v) {
-    //     previousDay!.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['previous_day'] != null) {
+      previousDay = <LastWeekData>[];
+      json['previous_day'].forEach((v) {
+        previousDay!.add(new LastWeekData.fromJson(v));
+      });
+    }
     if (json['last_week_data'] != null) {
       lastWeekData = <LastWeekData>[];
       json['last_week_data'].forEach((v) {

@@ -69,7 +69,7 @@ class Farmer {
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
-  CowBreedDetails? cowBreedDetails;
+  List<CowBreedDetails>? cowBreedDetails;
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
 
   Farmer(
@@ -132,9 +132,12 @@ class Farmer {
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
-    cowBreedDetails = json['cow_breed_details'] != null
-        ? CowBreedDetails.fromJson(json['cow_breed_details'])
-        : null;
+    if (json['cow_breed_details'] != null) {
+      cowBreedDetails = <CowBreedDetails>[];
+      json['cow_breed_details'].forEach((v) {
+        cowBreedDetails!.add(CowBreedDetails.fromJson(v));
+      });
+    }
     dairyDevelopMentExecutive = json['dairy_develop_ment_executive'] != null
         ? DairyDevelopMentExecutive.fromJson(
         json['dairy_develop_ment_executive'])
@@ -173,7 +176,8 @@ class Farmer {
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     if (cowBreedDetails != null) {
-      data['cow_breed_details'] = cowBreedDetails!.toJson();
+      data['cow_breed_details'] =
+          cowBreedDetails!.map((v) => v.toJson()).toList();
     }
     if (dairyDevelopMentExecutive != null) {
       data['dairy_develop_ment_executive'] =
@@ -305,54 +309,58 @@ class Address {
 }
 
 class CowBreedDetails {
-  dynamic id;
+  int? id;
+  int? cowBreedId;
   String? breedName;
-  dynamic heardSize;
-  dynamic milkingCows;
-  dynamic dryCows;
-  dynamic yieldPerCow;
-  dynamic bullCalfs;
-  dynamic heiferCows;
-  dynamic i7to12mCows;
-  dynamic i6mCows;
+  int? herdSize;
+  int? milkingCows;
+  int? dryCows;
+  int? yieldPerCow;
+  int? bullCalfs;
+  int? heiferCows;
+  int? sixMonthCow;
+  int? sevenToTwelveMonthCows;
 
   CowBreedDetails(
       {this.id,
+        this.cowBreedId,
         this.breedName,
-        this.heardSize,
+        this.herdSize,
         this.milkingCows,
         this.dryCows,
         this.yieldPerCow,
         this.bullCalfs,
         this.heiferCows,
-        this.i7to12mCows,
-        this.i6mCows});
+        this.sixMonthCow,
+        this.sevenToTwelveMonthCows});
 
   CowBreedDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    cowBreedId = json['cow_breed_id'];
     breedName = json['breed_name'];
-    heardSize = json['heard_size'];
+    herdSize = json['herd_size'];
     milkingCows = json['milking_cows'];
     dryCows = json['dry_cows'];
     yieldPerCow = json['yield_per_cow'];
     bullCalfs = json['bull_calfs'];
     heiferCows = json['heifer_cows'];
-    i7to12mCows = json['7to12m_cows'];
-    i6mCows = json['6m_cows'];
+    sixMonthCow = json['six_month_cow'];
+    sevenToTwelveMonthCows = json['seven_to_twelve_month_cows'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
+    data['cow_breed_id'] = cowBreedId;
     data['breed_name'] = breedName;
-    data['heard_size'] = heardSize;
+    data['herd_size'] = herdSize;
     data['milking_cows'] = milkingCows;
     data['dry_cows'] = dryCows;
     data['yield_per_cow'] = yieldPerCow;
     data['bull_calfs'] = bullCalfs;
     data['heifer_cows'] = heiferCows;
-    data['7to12m_cows'] = i7to12mCows;
-    data['6m_cows'] = i6mCows;
+    data['six_month_cow'] = sixMonthCow;
+    data['seven_to_twelve_month_cows'] = sevenToTwelveMonthCows;
     return data;
   }
 }

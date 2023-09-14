@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 
 import '../../../utils/color_resources.dart';
@@ -47,7 +48,9 @@ class DdeDrawer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
       child: Column(
         children: [
-          navigationBarItem(image: Images.myEarning, onTap: (){},text: 'My earnings'),
+          navigationBarItem(image: Images.myEarning, onTap: (){
+            const Earnings().navigate();
+          },text: 'My earnings'),
           20.verticalSpace(),
           navigationBarItem(
               image: Images.aboutus,

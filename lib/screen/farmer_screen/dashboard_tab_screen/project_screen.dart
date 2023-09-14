@@ -100,6 +100,7 @@ class ProjectScreen extends StatelessWidget {
                           index: i + 1,
                           incrementalProduction: 180,
                           roi: 40,
+                          category: 'Water Management',
                         ),
                         width: screenWidth()),
                   );

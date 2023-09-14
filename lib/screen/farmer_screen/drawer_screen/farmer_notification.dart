@@ -29,12 +29,7 @@ class FarmerNotification extends StatelessWidget {
                         fontSize: 14, color: ColorResources.maroon),
                   ),
                 ),
-                leading: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: InkWell(
-                      onTap: () {}, child: SvgPicture.asset(Images.arrowBack)),
-                ),
-                centerTitle: false,
+                leading: arrowBackButton(),
               ),
               notification()
             ],

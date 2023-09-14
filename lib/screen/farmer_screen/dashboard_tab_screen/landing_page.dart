@@ -56,7 +56,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
             child: CircularProgressIndicator(
           color: ColorResources.maroon,
         ));
-      } else if (state.response == null) {
+      } else
+        if (state.response == null) {
         return Center(child: Text("${state.response} Api Error"));
       } else {
         return Container(
@@ -87,8 +88,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(1000),
                               child: Container(
-                                height: AppBar().preferredSize.height * 0.8,
-                                width: AppBar().preferredSize.height * 0.8,
+                                height: AppBar().preferredSize.height * 0.7,
+                                width: AppBar().preferredSize.height * 0.7,
                                 decoration:
                                     const BoxDecoration(shape: BoxShape.circle),
                                 child: CachedNetworkImage(
@@ -189,7 +190,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                       ],
                     ),
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Row(
@@ -229,6 +230,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                               180,
                           roi:
                               state.response!.farmerProject![i].roiPerYear ?? 0,
+                          category: state.response!.farmerProject![i].categoeryName ?? '',
                         ),
                         width: screenWidth() - 53);
                   }),

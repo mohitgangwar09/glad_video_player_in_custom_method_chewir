@@ -118,6 +118,9 @@ class Images {
   static const String commentSend = 'assets/images/commentsend.svg';
 
   static const String mapLocate = 'assets/images/map_locate.svg';
+  static const String critical = 'assets/images/critical.svg';
+  static const String average = 'assets/images/average.svg';
+  static const String satisfactory = 'assets/images/satisfactory.svg';
 
 
   // bottom navigation item//

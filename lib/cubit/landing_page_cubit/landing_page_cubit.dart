@@ -19,12 +19,12 @@ class LandingPageCubit extends Cubit<LandingPageState> {
 
   void getFarmerDashboard(context) async {
     emit(state.copyWith(status: LandingPageStatus.loading));
-    customDialog(widget: launchProgress());
+    // customDialog(widget: launchProgress());
     var response = await apiRepository.getFarmerDashboardApi();
     if (response.status == 200) {
       emit(state.copyWith(
           status: LandingPageStatus.success, response: response.data));
-      disposeProgress();
+      // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString());

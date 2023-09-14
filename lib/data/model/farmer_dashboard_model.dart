@@ -28,7 +28,7 @@ class Data {
   FarmerMaster? farmerMaster;
   List<Testimonials>? testimonials;
   List<FarmerProject>? farmerProject;
-  CowBreedDetails? cowBreedDetails;
+  List<CowBreedDetails>? cowBreedDetails;
   List<FarmerMilkProduction>? farmerMilkProduction;
   List<TopPerformerFarmer>? topPerformerFarmer;
 
@@ -60,9 +60,12 @@ class Data {
         farmerProject!.add(FarmerProject.fromJson(v));
       });
     }
-    cowBreedDetails = json['cowBreedDetails'] != null
-        ? CowBreedDetails.fromJson(json['cowBreedDetails'])
-        : null;
+    if (json['cow_breed_details'] != null) {
+      cowBreedDetails = <CowBreedDetails>[];
+      json['cow_breed_details'].forEach((v) {
+        cowBreedDetails!.add(CowBreedDetails.fromJson(v));
+      });
+    }
     if (json['farmerMilkProduction'] != null) {
       farmerMilkProduction = <FarmerMilkProduction>[];
       json['farmerMilkProduction'].forEach((v) {
@@ -94,9 +97,6 @@ class Data {
     if (farmerProject != null) {
       data['farmerProject'] =
           farmerProject!.map((v) => v.toJson()).toList();
-    }
-    if (cowBreedDetails != null) {
-      data['cowBreedDetails'] = cowBreedDetails!.toJson();
     }
     if (farmerMilkProduction != null) {
       data['farmerMilkProduction'] =
@@ -421,21 +421,23 @@ class FarmerProject {
 }
 
 class CowBreedDetails {
-  dynamic id;
+  int? id;
+  int? cowBreedId;
   String? breedName;
-  dynamic heardSize;
-  dynamic milkingCows;
-  dynamic dryCows;
-  dynamic yieldPerCow;
-  dynamic bullCalfs;
-  dynamic heiferCows;
-  dynamic sixMonthCow;
-  dynamic sevenToTwelveMonthCows;
+  int? herdSize;
+  int? milkingCows;
+  int? dryCows;
+  int? yieldPerCow;
+  int? bullCalfs;
+  int? heiferCows;
+  int? sixMonthCow;
+  int? sevenToTwelveMonthCows;
 
   CowBreedDetails(
       {this.id,
+        this.cowBreedId,
         this.breedName,
-        this.heardSize,
+        this.herdSize,
         this.milkingCows,
         this.dryCows,
         this.yieldPerCow,
@@ -446,8 +448,9 @@ class CowBreedDetails {
 
   CowBreedDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    cowBreedId = json['cow_breed_id'];
     breedName = json['breed_name'];
-    heardSize = json['heard_size'];
+    herdSize = json['herd_size'];
     milkingCows = json['milking_cows'];
     dryCows = json['dry_cows'];
     yieldPerCow = json['yield_per_cow'];
@@ -458,10 +461,11 @@ class CowBreedDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
+    data['cow_breed_id'] = cowBreedId;
     data['breed_name'] = breedName;
-    data['heard_size'] = heardSize;
+    data['herd_size'] = herdSize;
     data['milking_cows'] = milkingCows;
     data['dry_cows'] = dryCows;
     data['yield_per_cow'] = yieldPerCow;
