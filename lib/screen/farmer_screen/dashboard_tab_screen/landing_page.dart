@@ -528,7 +528,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                       color: 0xFFffffff,
                                       fontColor: 0xFF6A0030,
                                       onTap: () {
-                                    // const FarmerComparison().navigate();
+                                    const FarmerComparison().navigate();
                                       }),
                                 )
                               ],

@@ -20,6 +20,8 @@ class FarmerComparison extends StatelessWidget {
             leading: arrowBackButton(),
           ),
           farmerSummary(),
+          30.verticalSpace(),
+          categorySummary(),
         ],
       ),
     );
@@ -104,113 +106,233 @@ class FarmerComparison extends StatelessWidget {
           ),
         ),
         10.horizontalSpace(),
-        Container(
-          height: 400,
-          width: 150,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(width: 1, color: ColorResources.grey)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              30.verticalSpace(),
-              SizedBox(
-                height: 100,
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Hurton Elizabeth',
-                        style: figtreeMedium.copyWith(fontSize: 16),
-                      ),
-                      5.verticalSpace(),
-                      Text(
-                        'Kampala,Kampala',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: ColorResources.fieldGrey),
-                      ),
-                      Text(
-                        'Exp. 2.5 yrs',
-                        style: figtreeSemiBold.copyWith(
-                            fontSize: 12, color: ColorResources.maroon),
-                      ),
-                      10.verticalSpace(),
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Milking Cows:',
-                            style: figtreeRegular.copyWith(
-                                color: ColorResources.fieldGrey, fontSize: 12)),
-                        TextSpan(
-                            text: ' 30',
-                            style: figtreeSemiBold.copyWith(
-                                color: Colors.black, fontSize: 12))
-                      ])),
-                      5.verticalSpace(),
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Yield:',
-                            style: figtreeRegular.copyWith(
-                                color: ColorResources.fieldGrey, fontSize: 12)),
-                        TextSpan(
-                            text: ' 08 Ltr.',
-                            style: figtreeSemiBold.copyWith(
-                                color: Colors.black, fontSize: 12))
-                      ])),
-                    ],
-                  ),
-                ),
+        farmerData(),
+
+        Flexible(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              height: 400,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index)=> farmerData(), separatorBuilder: (context, index) => 10.horizontalSpace(), itemCount: 4),
               ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.only(left:10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  20.verticalSpace(),
-                  SizedBox(
-                    height:50,
-                    child: Text(
-                      "150 Acres",
-                      style: figtreeSemiBold.copyWith(fontSize: 14),
-                    ),
-                  ),
-                  SizedBox(
-                    height:40,
-                    child: Text(
-                      "80 Acres",
-                      style: figtreeSemiBold.copyWith(fontSize: 14),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: Text(
-                      "Ankole, Friesian,\nJersey",
-                      style: figtreeSemiBold.copyWith(fontSize: 14),
-                    ),
-                  ),
-                  SizedBox(
-                    height:50,
-                    child: Text(
-                      "30",
-                      style: figtreeSemiBold.copyWith(fontSize: 14),
-                    ),
-                  ),
-                  SizedBox(
-                    child: Text(
-                      "2000 Ltr/day",
-                      style: figtreeSemiBold.copyWith(fontSize: 14),
-                    ),
-                  ),
-                ],),
-              )
-
-
-            ],
+            ),
           ),
         )
       ],
     );
+  }
+
+  Widget categorySummary() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 100,
+          height: 400,
+          decoration: const BoxDecoration(
+              color: ColorResources.mustard,
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20))),
+          child: Column(
+            children: [
+              20.verticalSpace(),
+              SizedBox(
+                width: 60,
+                height: 80,
+                child: Center(
+                  child: Text(
+                    "Source of Water",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+              ),
+              40.verticalSpace(),
+              SizedBox(
+                width: 60,
+                height: 70,
+                child: Center(
+                  child: Text(
+                    "Distance to the Source",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 60,
+                height:30,
+                child: Center(
+                  child: Text(
+                    "Frequency of rounds",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+              ),
+              20.verticalSpace(),
+              SizedBox(
+                width: 60,
+                height:30,
+                child: Text(
+                  "Nature of pasture land",
+                  style: figtreeSemiBold.copyWith(fontSize: 14),
+                ),
+              ),
+              10.verticalSpace(),
+              SizedBox(
+                width: 60,
+                height:30,
+                child: Text(
+                  "Total Distance Travelled",
+                  style: figtreeSemiBold.copyWith(fontSize: 14),
+                ),
+              ),
+              20.verticalSpace(),
+              SizedBox(
+                width: 80,
+                height:30,
+                child: Center(
+                  child: Text(
+                    "Milk\nProduction",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        10.horizontalSpace(),
+        farmerData(),
+
+        Flexible(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              height: 400,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index)=> farmerData(), separatorBuilder: (context, index) => 10.horizontalSpace(), itemCount: 4),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Container farmerData() {
+    return Container(
+        height: 400,
+        width: 140,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(width: 1, color: ColorResources.grey)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            30.verticalSpace(),
+            SizedBox(
+              height: 100,
+              child: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Hurton Elizabeth',
+                      style: figtreeMedium.copyWith(fontSize: 16),
+                    ),
+                    5.verticalSpace(),
+                    Text(
+                      'Kampala,Kampala',
+                      style: figtreeRegular.copyWith(
+                          fontSize: 12, color: ColorResources.fieldGrey),
+                    ),
+                    Text(
+                      'Exp. 2.5 yrs',
+                      style: figtreeSemiBold.copyWith(
+                          fontSize: 12, color: ColorResources.maroon),
+                    ),
+                    10.verticalSpace(),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          text: 'Milking Cows:',
+                          style: figtreeRegular.copyWith(
+                              color: ColorResources.fieldGrey, fontSize: 12)),
+                      TextSpan(
+                          text: ' 30',
+                          style: figtreeSemiBold.copyWith(
+                              color: Colors.black, fontSize: 12))
+                    ])),
+                    5.verticalSpace(),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          text: 'Yield:',
+                          style: figtreeRegular.copyWith(
+                              color: ColorResources.fieldGrey, fontSize: 12)),
+                      TextSpan(
+                          text: ' 08 Ltr.',
+                          style: figtreeSemiBold.copyWith(
+                              color: Colors.black, fontSize: 12))
+                    ])),
+                  ],
+                ),
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.only(left:10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                20.verticalSpace(),
+                SizedBox(
+                  height:50,
+                  child: Text(
+                    "150 Acres",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  height:40,
+                  child: Text(
+                    "80 Acres",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                  child: Text(
+                    "Ankole, Friesian,\nJersey",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  height:50,
+                  child: Text(
+                    "30",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+                SizedBox(
+                  child: Text(
+                    "2000 Ltr/day",
+                    style: figtreeSemiBold.copyWith(fontSize: 14),
+                  ),
+                ),
+              ],),
+            )
+
+
+          ],
+        ),
+      );
   }
 }
