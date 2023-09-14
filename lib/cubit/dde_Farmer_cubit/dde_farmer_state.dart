@@ -10,17 +10,20 @@ class DdeState extends Equatable {
   final Data? response;
   final List<MonthWiseData>? responseMonthlyWiseData;
   final TextEditingController breedSearchController;
+  final List<TextEditingController> milkingCowController;
   final TextEditingController breedController;
   final TextEditingController suppliedToOtherPdfController;
   final TextEditingController suppliedToPdfController;
   final TextEditingController selfUseController;
   final List<DataBreed> ? breedResponse;
   final List<DataBreed> ? searchBreedList;
+  final List<bool>? showQties;
 
   const DdeState({
     required this.focusTag,
     required this.status,
     required this.response,
+    required this.milkingCowController,
     required this.responseMonthlyWiseData,
     required this.breedSearchController,
     required this.breedController,
@@ -31,6 +34,7 @@ class DdeState extends Equatable {
     required this.breedResponse,
     required this.breedId,
     required this.totalProduction,
+    required this.showQties,
   });
 
   factory DdeState.initial(){
@@ -38,8 +42,10 @@ class DdeState extends Equatable {
       focusTag: "focusTag",
       status: DdeFarmerStatus.initial,
       response: null,
+      showQties: const [true],
       responseMonthlyWiseData: const [],
       breedSearchController: TextEditingController(),
+      milkingCowController: [TextEditingController()],
       breedController: TextEditingController(),
       suppliedToPdfController: TextEditingController(),
       suppliedToOtherPdfController: TextEditingController(),
@@ -59,9 +65,11 @@ class DdeState extends Equatable {
     Data? response,
     List<MonthWiseData>? responseMonthlyWiseData,
     TextEditingController? breedSearchController,
+    List<TextEditingController>? milkingCowController,
     TextEditingController? breedController,suppliedToPdfController,suppliedToOtherPdfController,selfUseController,
     List<DataBreed> ? breedResponse,
     List<DataBreed> ? searchBreedList,
+    List<bool>? showQties,
   }) {
     return DdeState(
       focusTag: focusTag ?? this.focusTag,
@@ -71,12 +79,14 @@ class DdeState extends Equatable {
       response: response ?? this.response,
       responseMonthlyWiseData: responseMonthlyWiseData ?? this.responseMonthlyWiseData,
       breedSearchController: breedSearchController??this.breedSearchController,
+      milkingCowController: milkingCowController??this.milkingCowController,
       suppliedToPdfController: suppliedToPdfController??this.suppliedToPdfController,
       suppliedToOtherPdfController: suppliedToOtherPdfController??this.suppliedToOtherPdfController,
       selfUseController: selfUseController??this.selfUseController,
       breedController: breedController??this.breedController,
       breedResponse: breedResponse ?? this.breedResponse,
       searchBreedList: searchBreedList ?? this.searchBreedList,
+      showQties: showQties ?? this.showQties,
     );
   }
 
@@ -95,6 +105,8 @@ class DdeState extends Equatable {
     selfUseController,
     suppliedToOtherPdfController,
     suppliedToPdfController,
+    showQties,
+    milkingCowController
   ];
 
 }

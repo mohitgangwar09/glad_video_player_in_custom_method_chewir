@@ -215,3 +215,5 @@ extension Integer on int {
 extension Capitalized on String {
   String capitalized() => substring(0, 1).toUpperCase() + substring(1).toLowerCase();
 }
+
+double sum<T extends double>(T lhs, T rhs) => lhs + rhs;
