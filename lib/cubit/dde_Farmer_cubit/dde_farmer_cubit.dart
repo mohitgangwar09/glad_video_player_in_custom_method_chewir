@@ -32,6 +32,31 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     emit(state.copyWith(breedController: TextEditingController(text: addressController)));
   }
 
+  void showHide(int i){
+      emit(state.copyWith(showQties: []));
+  }
+
+  void totalMilkingCow(int i){
+    double sums = 0 ;
+    state.milkingCowController.add(TextEditingController());
+    state.milkingCowController[i].text = CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString() ?? "";
+    state.milkingCowController[i].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        // for (var data in CowsAndYieldsDDEFarmerState.requestData){
+        for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          if(state.milkingCowController[i].text.isNotEmpty){
+            sums = sums+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString());
+            print(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows);
+          }
+
+        }
+        print(sums);
+        emit(state.copyWith(totalProduction: sums));
+        sums = 0;
+      }) ;
+    });
+  }
+
   void totalFirstProduction(double totalProduction,int index) {
 
     state.suppliedToPdfController.addListener(() {

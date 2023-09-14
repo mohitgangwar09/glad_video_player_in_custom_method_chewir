@@ -23,6 +23,7 @@ class UpdateRecordMonthBreedModel {
 
 class RequestData {
   dynamic id;
+  double? cowSum;
   dynamic heardSize;
   dynamic milkingCows;
   dynamic dryCows;
@@ -36,6 +37,7 @@ class RequestData {
   RequestData({
     required this.id,
     this.heardSize,
+    this.cowSum,
     this.milkingCows,
     this.dryCows,
     this.heiferCows,
