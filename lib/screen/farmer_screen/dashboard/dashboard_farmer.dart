@@ -8,6 +8,7 @@ import 'package:glad/screen/farmer_screen/dashboard_tab_screen/project_screen.da
 import 'package:glad/screen/farmer_screen/dashboard/farmer_drawer.dart';
 import 'package:glad/screen/farmer_screen/dashboard_tab_screen/statement.dart';
 import 'package:glad/screen/farmer_screen/dashboard_tab_screen/landing_page.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/livestock_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -27,7 +28,7 @@ class DashboardFarmer extends StatelessWidget {
       const FarmerLandingPage(),
       const ProjectScreen(),
       const FarmerStatement(),
-      const Text("Orders"),
+      const LiveStockScreen(),
       const CommunityPost(),
     ];
 
