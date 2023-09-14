@@ -21,6 +21,7 @@ import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
+import 'package:glad/screen/farmer_screen/farmer_comparison.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -526,7 +527,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                       borderColor: 0xFF6A0030,
                                       color: 0xFFffffff,
                                       fontColor: 0xFF6A0030,
-                                      onTap: () {}),
+                                      onTap: () {
+                                    const FarmerComparison().navigate();
+                                      }),
                                 )
                               ],
                             )),
