@@ -122,6 +122,8 @@ class Images {
   static const String average = 'assets/images/average.svg';
   static const String satisfactory = 'assets/images/satisfactory.svg';
 
+  static const String playVideo = 'assets/images/play_video.svg';
+
 
   // bottom navigation item//
   static const String home = 'assets/images/lighthome.svg';

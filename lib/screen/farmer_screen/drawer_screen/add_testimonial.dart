@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +12,8 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class AddTestimonial extends StatefulWidget {
   const AddTestimonial({super.key});
@@ -26,7 +26,20 @@ class _AddTestimonialState extends State<AddTestimonial> {
 
   String? type;
   String? path;
+  String? videoThumbnail;
   TextEditingController description = TextEditingController();
+
+  getThumbnail(String path) async {
+    final x = await VideoThumbnail.thumbnailFile(
+        video: path,
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.JPEG,
+        quality: 100);
+    setState(() {
+      videoThumbnail = x!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,8 +86,9 @@ class _AddTestimonialState extends State<AddTestimonial> {
                               child: InkWell(
                                 onTap: () async{
                                   showTestimonialPicker(context, videoFunction: () async {
-                                    path = await videoFromGallery();
                                     type = 'video';
+                                    path = await videoFromGallery();
+                                    await getThumbnail(path!);
                                     setState(() {});
                                     pressBack();
                                   }, photoFunction: () async {
@@ -188,12 +202,12 @@ class _AddTestimonialState extends State<AddTestimonial> {
                               ),
                             ),
                             20.verticalSpace(),
-                            path!= null ?
+                            path != null || videoThumbnail != null ?
                             Stack(
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                    child: Image.file(File(path!), fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
+                                    child: Image.file(File(type == 'image' ?path! : videoThumbnail!), fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
                                 Positioned(
                                   right: 5,
                                   top: 5,
@@ -202,6 +216,7 @@ class _AddTestimonialState extends State<AddTestimonial> {
                                       setState(() {
                                         path = null;
                                         type = null;
+                                        videoThumbnail = null;
                                       });
                                     },
                                     child: Container(

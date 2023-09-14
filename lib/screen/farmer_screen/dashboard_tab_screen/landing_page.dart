@@ -292,7 +292,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                         review:
                             state.response!.testimonials![index].description ??
                                 '',
-                        name: 'John Smith',
+                        name: state.response!.testimonials![index].name ?? '',
                         userType: 'Farmer',
                         location: 'Kampala, Uganda',
                         attachment:
