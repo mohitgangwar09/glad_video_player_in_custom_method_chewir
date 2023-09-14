@@ -83,7 +83,7 @@ class ProfileCubitState extends Equatable{
       validator: '',
       profileImage: "",
       gender: 'Male',
-        selectDistrict: '',
+      selectDistrict: '',
       responseProfile: null,
       id: '',
       selectDob: '',
