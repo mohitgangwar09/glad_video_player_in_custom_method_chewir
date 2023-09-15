@@ -36,32 +36,229 @@ class DdeFarmerCubit extends Cubit<DdeState>{
       emit(state.copyWith(showQties: []));
   }
 
+  void totalAll(int i){
+    double sums = 0 ,totalMilk=0,totalProduction = 0,sumOfHerd = 0,newSum = 0;
+    for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+        sums = sums+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heardSize.toString());
+        totalMilk = totalMilk+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString());
+        sumOfHerd = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+        newSum = newSum+sumOfHerd;
+        // totalProduction = sums+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].p.toString());
+    }
+    state.herdSizeController[i] = TextEditingController(text: sumOfHerd.toString());
+    emit(state.copyWith(totalHerdSize: newSum,totalMilkingCow: totalMilk,
+        totalProduction: totalProduction));
+    sums=0;
+    newSum=0;
+    totalMilk=0;
+    totalProduction=0;
+    sumOfHerd=0;
+  }
+
+  void totalHerdSize(int i){
+    double sums = 0, sumOfHerd = 0,newSum = 0;
+    state.herdSizeController.add(TextEditingController());
+    state.herdSizeController[i].text = CowsAndYieldsDDEFarmerState.requestData[i].heardSize.toString() ?? "";
+    state.herdSizeController[i].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          if(state.herdSizeController[i].text.isNotEmpty){
+            sums = sums+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heardSize.toString());
+            sumOfHerd = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+            newSum = newSum+sumOfHerd;
+          }
+        }
+        emit(state.copyWith(totalHerdSize: sums));
+        sums = 0;
+        sumOfHerd = 0;
+        newSum = 0;
+      }) ;
+
+    });
+  }
+
   void totalMilkingCow(int i){
-    double sums = 0 ;
+    double sums = 0,totalHerd = 0;
     state.milkingCowController.add(TextEditingController());
     state.milkingCowController[i].text = CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString() ?? "";
     state.milkingCowController[i].addListener(() {
       Future.delayed(const Duration(milliseconds: 20),(){
-        // for (var data in CowsAndYieldsDDEFarmerState.requestData){
+        double sumNew = 0;
         for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
           if(state.milkingCowController[i].text.isNotEmpty){
             sums = sums+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString());
-            print(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows);
+            // totalHerd = sums+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heardSize.toString());
           }
-
         }
-        print(sums);
-        emit(state.copyWith(totalProduction: sums));
+        sumNew = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+        state.herdSizeController[i] = TextEditingController(text: sumNew.toString());
+        for(int i =0 ;i <CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          totalHerd = totalHerd+double.parse(state.herdSizeController[i].text);
+        }
+
+        double divideByMilking = 0,totalYield =0;
+        divideByMilking = state.totalProduction/state.totalMilkingCow;
+        print("days $divideByMilking");
+        print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
+        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double divideByDays = divideByMilking/numberOfDays;
+        // emit(state.copyWith(yieldPerDay: divideByDays));
+        print(totalYield/state.totalMilkingCow);
+        print(divideByDays);
+        totalYield = 0 ;
+
+        emit(state.copyWith(totalMilkingCow: sums,sumOfHerd: sumNew,totalHerdSize: totalHerd,yieldPerDay: divideByDays));
+        sums = 0;
+        totalHerd = 0;
+      }) ;
+
+
+    });
+  }
+
+  void totalSumOfHerdSize(int index,int i) {
+    double sums = 0;
+    List<double> sumIndexWise = [];
+    state.yieldPerDayController.add(TextEditingController());
+    state.dryController.add(TextEditingController());
+    state.heiferController.add(TextEditingController());
+    state.sevenTwelveMonthController.add(TextEditingController());
+    state.lessthanSixMonthController.add(TextEditingController());
+    state.bullCalfController.add(TextEditingController());
+    state.yieldPerDayController[index].text = CowsAndYieldsDDEFarmerState.requestData[index].yieldPerCow.toString() ?? "";
+    state.dryController[index].text = CowsAndYieldsDDEFarmerState.requestData[index].dryCows.toString() ?? "";
+    state.heiferController[index].text = CowsAndYieldsDDEFarmerState.requestData[index].heiferCows.toString() ?? "";
+    state.sevenTwelveMonthController[index].text = CowsAndYieldsDDEFarmerState.requestData[index].sevenToTwelveMonthCows.toString() ?? "";
+    state.lessthanSixMonthController[index].text = CowsAndYieldsDDEFarmerState.requestData[index].sixMonthCow.toString() ?? "";
+    state.bullCalfController[index].text = CowsAndYieldsDDEFarmerState.requestData[index].bullCalfs.toString() ?? "";
+
+    state.yieldPerDayController[index].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+
+        double totalYield = 0;
+          for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+            if(state.yieldPerDayController[i].text.isNotEmpty){
+              totalYield = totalYield+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].yieldPerCow.toString());
+              // totalHerd = sums+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heardSize.toString());
+            }
+        }
+          double divideByMilking = 0;
+          divideByMilking = state.totalProduction/state.totalMilkingCow;
+          print("days $divideByMilking");
+          print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
+          double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+          double divideByDays = divideByMilking/numberOfDays;
+          emit(state.copyWith(yieldPerDay: divideByDays));
+          print(totalYield/state.totalMilkingCow);
+          print(divideByDays);
+          totalYield = 0 ;
+
+      }) ;
+    });
+
+
+    state.dryController[index].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        double sumOfHerd = 0,totalHerd = 0;
+        if(state.dryController[i].text.isNotEmpty){
+          sumOfHerd = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+        }
+        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        for(int i =0 ;i <CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          totalHerd = totalHerd+double.parse(state.herdSizeController[i].text);
+        }
+        emit(state.copyWith(sumOfHerd: sumOfHerd,totalHerdSize: totalHerd));
         sums = 0;
       }) ;
     });
+
+    state.heiferController[index].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        double sumOfHerd = 0,totalHerd = 0 ;
+        if(state.heiferController[i].text.isNotEmpty){
+          sumOfHerd = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+        }
+        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        for(int i =0 ;i <CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          totalHerd = totalHerd+double.parse(state.herdSizeController[i].text);
+        }
+        emit(state.copyWith(sumOfHerd: sumOfHerd,totalHerdSize: totalHerd));
+        sums = 0;
+      }) ;
+    });
+
+    state.sevenTwelveMonthController[index].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        double sumOfHerd = 0,totalHerd = 0;
+        if(state.sevenTwelveMonthController[i].text.isNotEmpty){
+          sumOfHerd = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+        }
+        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        for(int i =0 ;i <CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          totalHerd = totalHerd+double.parse(state.herdSizeController[i].text);
+        }
+        emit(state.copyWith(sumOfHerd: sumOfHerd,totalHerdSize: totalHerd));
+        sums = 0;
+      }) ;
+    });
+
+    state.lessthanSixMonthController[index].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        double sumOfHerd = 0,totalHerd = 0;
+        if(state.lessthanSixMonthController[i].text.isNotEmpty){
+          sumOfHerd = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+        }
+        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        for(int i =0 ;i <CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          totalHerd = totalHerd+double.parse(state.herdSizeController[i].text);
+        }
+        emit(state.copyWith(sumOfHerd: sumOfHerd,totalHerdSize: totalHerd));
+        sums = 0;
+        totalHerd  = 0;
+      }) ;
+    });
+
+    state.bullCalfController[index].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        double sumOfHerd = 0,totalHerd = 0;
+        if(state.bullCalfController[i].text.isNotEmpty){
+          sumOfHerd = double.parse(CowsAndYieldsDDEFarmerState.requestData[i].milkingCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].dryCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].heiferCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sevenToTwelveMonthCows.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].sixMonthCow.toString())+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].bullCalfs.toString());
+        }
+        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        for(int i =0 ;i <CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          totalHerd = totalHerd+double.parse(state.herdSizeController[i].text);
+        }
+        emit(state.copyWith(sumOfHerd: sumOfHerd,totalHerdSize: totalHerd));
+        sums = 0;
+        totalHerd = 0;
+      }) ;
+    });
+
   }
 
   void totalFirstProduction(double totalProduction,int index) {
 
+    double sums = 0;
+
     state.suppliedToPdfController.addListener(() {
       print(state.suppliedToPdfController.text);
-      if(state.suppliedToPdfController.text.isNotEmpty){
+      Future.delayed(const Duration(milliseconds: 20),(){
+        if(state.suppliedToPdfController.text.isNotEmpty){
+          sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
+          double divideByMilking = 0,totalYield =0;
+          divideByMilking = state.totalProduction/state.totalMilkingCow;
+          print("days $divideByMilking");
+          print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
+          double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+          double divideByDays = divideByMilking/numberOfDays;
+          // emit(state.copyWith(yieldPerDay: divideByDays));
+          print(totalYield/state.totalMilkingCow);
+          print(divideByDays);
+          totalYield = 0 ;
+          emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
+        }
+      }) ;
+      /*if(state.suppliedToPdfController.text.isNotEmpty){
       CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl = state.suppliedToPdfController.text;
       CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther ?? "0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl??"0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
       emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));
@@ -69,23 +266,48 @@ class DdeFarmerCubit extends Cubit<DdeState>{
         CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl = state.suppliedToPdfController.text;
         CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther ?? "0")+double.parse("0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
         emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));
-      }
+      }*/
     });
 
     state.suppliedToOtherPdfController.addListener(() {
-
       if(state.suppliedToOtherPdfController.text.isNotEmpty){
+      sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
+      double divideByMilking = 0,totalYield =0;
+      divideByMilking = state.totalProduction/state.totalMilkingCow;
+      print("days $divideByMilking");
+      print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
+      double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+      double divideByDays = divideByMilking/numberOfDays;
+      // emit(state.copyWith(yieldPerDay: divideByDays));
+      print(totalYield/state.totalMilkingCow);
+      print(divideByDays);
+      totalYield = 0 ;
+      emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
+      }
+     /* if(state.suppliedToOtherPdfController.text.isNotEmpty){
         CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther = state.suppliedToOtherPdfController.text;
         CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
-        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}
+        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}*/
     });
 
     state.selfUseController.addListener(() {
-
       if(state.selfUseController.text.isNotEmpty){
+      sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
+      double divideByMilking = 0,totalYield =0;
+      divideByMilking = state.totalProduction/state.totalMilkingCow;
+      print("days $divideByMilking");
+      print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
+      double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+      double divideByDays = divideByMilking/numberOfDays;
+      // emit(state.copyWith(yieldPerDay: divideByDays));
+      print(totalYield/state.totalMilkingCow);
+      print(divideByDays);
+      totalYield = 0 ;
+      emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));}
+      /*if(state.selfUseController.text.isNotEmpty){
         CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController = state.selfUseController.text;
         CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
-        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}
+        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}*/
     });
   }
 

@@ -51,6 +51,7 @@ class MonthWiseData {
   dynamic farmerId;
   String? monthname;
   dynamic totalMilkProduction;
+  dynamic totalHerdSize;
   dynamic milkingCow;
   dynamic yieldPerCow;
   dynamic suppliedToPdfl;
@@ -72,6 +73,7 @@ class MonthWiseData {
         this.selfUse,
         this.year,
         this.month,
+        this.totalHerdSize,
         this.dateWiseData});
 
   MonthWiseData.fromJson(Map<String, dynamic> json) {
@@ -85,6 +87,7 @@ class MonthWiseData {
     suppliedToOthers = json['supplied_to_others'];
     selfUse = json['self_use'];
     year = json['year'];
+    totalHerdSize = json['total_herd_size'];
     month = json['month'];
     if (json['date_wise_data'] != null) {
       dateWiseData = <DateWiseData>[];
@@ -97,6 +100,7 @@ class MonthWiseData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['total_herd_size'] = totalHerdSize;
     data['farmer_id'] = farmerId;
     data['monthname'] = monthname;
     data['total_milk_production'] = totalMilkProduction;
