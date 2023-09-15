@@ -23,6 +23,7 @@ class AppConstants {
   static const String getBreedList = '/api/breed';
   static const String getCowBreedDetailApi = '/api/cow_breed_details';
   static const String updateCowBreedDetail = '/api/cow_breed_details_update';
+  static const String inviteExpertDetails= '/api/farmer/add-enquiry';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

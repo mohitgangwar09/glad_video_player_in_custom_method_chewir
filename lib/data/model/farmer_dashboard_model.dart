@@ -197,6 +197,7 @@ class FarmerMaster {
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
+  dynamic supplierCode;
 
   FarmerMaster(
       {this.id,
@@ -225,7 +226,8 @@ class FarmerMaster {
         this.currentYield,
         this.status,
         this.createdBy,
-        this.updatedBy});
+        this.updatedBy,
+      this.supplierCode});
 
   FarmerMaster.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -255,6 +257,7 @@ class FarmerMaster {
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
+    supplierCode = json['supplier_code'];
   }
 
   Map<String, dynamic> toJson() {

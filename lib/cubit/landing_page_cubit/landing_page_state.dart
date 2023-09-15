@@ -9,6 +9,7 @@ class LandingPageState extends Equatable{
   final dashboard.Data? response;
   final MilkProductionChart? milkProductionChartResponse;
 
+
   const LandingPageState({
     required this.focusTag,
     required this.status,

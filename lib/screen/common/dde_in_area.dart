@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/invite_our_friend.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -12,16 +15,22 @@ class DDEInArea extends StatefulWidget {
       {super.key,
       required this.name,
       required this.phone,
-      required this.image});
+      required this.image,
+      required this.expertVisivility,
+      required this.supplierId, required this.farmerId});
   final String name;
   final String phone;
   final String image;
+  final String supplierId;
+  final int farmerId;
+  final bool expertVisivility;
 
   @override
   State<DDEInArea> createState() => _DDEInAreaState();
 }
 
 class _DDEInAreaState extends State<DDEInArea> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,35 +90,38 @@ class _DDEInAreaState extends State<DDEInArea> {
                       ],
                     ),
                     20.verticalSpace(),
-                    InkWell(
-                      onTap: (){
-                        const InviteAnExpert().navigate();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(180),
-                            border: Border.all(color: ColorResources.yellow),
-                            color: const Color(0xFFFFF3F4),
-                        ),
+                    Visibility(
+                      visible: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userId) == null,
+                      child: InkWell(
+                        onTap: (){
+                          InviteAnExpert(supplierId: widget.supplierId, farmerId: widget.farmerId,).navigate();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(180),
+                              border: Border.all(color: ColorResources.yellow),
+                              color: const Color(0xFFFFF3F4),
+                          ),
 
-                        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Invite our expert',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 22, color: Colors.black)),
-                                Text('to survey your farm',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 14, color: Colors.black)),
-                              ],
-                            ),
-                            Image.asset(Images.loginButton, height: 40, width: 40,),
-                          ],
+                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Invite our expert',
+                                      style: figtreeSemiBold.copyWith(
+                                          fontSize: 22, color: Colors.black)),
+                                  Text('to survey your farm',
+                                      style: figtreeRegular.copyWith(
+                                          fontSize: 14, color: Colors.black)),
+                                ],
+                              ),
+                              Image.asset(Images.loginButton, height: 40, width: 40,),
+                            ],
+                          ),
                         ),
                       ),
                     )
