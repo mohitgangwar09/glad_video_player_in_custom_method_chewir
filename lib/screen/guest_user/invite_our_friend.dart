@@ -7,6 +7,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
+import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/screen/supplier_screen/survey_finished.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
