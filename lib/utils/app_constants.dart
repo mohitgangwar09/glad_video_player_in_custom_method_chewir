@@ -1,5 +1,6 @@
 class AppConstants {
   static const String baseUrl = 'https://develop-glad.staqo.com';
+  static const String gMapsApiKey = 'AIzaSyAJg4PGbl1XfwJFKo-vQWlUVtH1Zzg3FEQ';
 
 
   // api End Point
@@ -25,6 +26,8 @@ class AppConstants {
   static const String updateCowBreedDetailApi = '/api/cow_breed_details_update';
   static const String addMonthApi = '/api/farmer/add-month';
   static const String deleteMonthApi = '/api/farmer/delete-month';
+  static const String updateCowBreedDetail = '/api/cow_breed_details_update';
+  static const String inviteExpertDetails= '/api/farmer/add-enquiry';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

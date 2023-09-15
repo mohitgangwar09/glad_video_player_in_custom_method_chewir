@@ -1,12 +1,16 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart' as dashboard;
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/supplier_screen/reject_screen.dart';
+import 'package:glad/screen/supplier_screen/survey_finished.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 part 'landing_page_state.dart';
 
 class LandingPageCubit extends Cubit<LandingPageState> {
@@ -37,8 +41,25 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     var response = await apiRepository.getMilkProductionChartApi();
     if (response.status == 200) {
       emit(state.copyWith(
-          status: LandingPageStatus.success, milkProductionChartResponse: response));
+          status: LandingPageStatus.success,
+          milkProductionChartResponse: response));
       // disposeProgress();
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> inviteExpertDetails(context, int farmerId, String name,
+      String mobile, String address, String comment, String supplierId) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.inviteExpertDetails(farmerId, name, mobile, address, comment, supplierId);
+
+    disposeProgress();
+
+    if (response.status == 200) {
+      RejectScreen().navigate();
+
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString());
