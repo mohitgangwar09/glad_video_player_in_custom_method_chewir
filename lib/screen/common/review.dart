@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -44,6 +45,12 @@ class _GladReviewState extends State<GladReview> {
     setState(() {
       videoThumbnail = x!;
     });
+  }
+
+  @override
+  void initState() {
+    getThumbnail();
+    super.initState();
   }
 
   @override
@@ -116,7 +123,7 @@ class _GladReviewState extends State<GladReview> {
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     bottomLeft: Radius.circular(20)),
-                child: widget.attachmentType != "image"
+                child: widget.attachmentType == "image"
                     ? Image.network(
                         widget.attachment,
                         width: 120,
@@ -139,8 +146,8 @@ class _GladReviewState extends State<GladReview> {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Image.network(
-                                  videoThumbnail!,
+                                Image.file(
+                                  File(videoThumbnail!),
                                   width: 120,
                                   height: screenHeight(),
                                   fit: BoxFit.cover,

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +15,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_search_place/google_search_place.dart';
 import 'package:google_search_place/model/prediction.dart';
 
@@ -33,6 +36,8 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
   TextEditingController? addressController = TextEditingController();
   TextEditingController? commentController = TextEditingController();
   final TextEditingController _searchPlaceController = TextEditingController();
+  double? lat;
+  double? long;
 
   @override
   Widget build(BuildContext context) {
@@ -102,24 +107,17 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
       children: [
         Stack(
           children: [
-            const GMap(
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              lat: 28.4986,
-              lng: 77.3999,
+            GMap(
+              lat: lat ?? 28.4986,
+              lng: long ?? 77.3999,
               height: 350,
-              zoomGesturesEnabled: true,
+              onMapCreated: (controller) async{
+                // await controller.moveCamera(CameraUpdate.newLatLng(LatLng(lat!, long!)));
+                controller.animateCamera(CameraUpdate.newCameraPosition(
+                    CameraPosition(target: LatLng(lat!, long!), zoom: 11)));
+              },
+              onCameraIdle: () {},
             ),
-            // const Positioned(
-            //     child: Padding(
-            //       padding: EdgeInsets.fromLTRB(19, 20, 59, 0),
-            //       child: CustomTextField(
-            //         hint: 'Type your address...',
-            //         radius: 60,
-            //         image: Images.search,
-            //         imageColors: ColorResources.maroon,
-            //       ),
-            //     ))
             Positioned(
                 child: Padding(
               padding: const EdgeInsets.fromLTRB(19, 20, 19, 0),
@@ -147,10 +145,14 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                                 },
                                 getPlaceDetailWithLatLng: (Prediction prediction) {
                                   _searchPlaceController.text = prediction.description ?? "";
-
+                                  addressController!.text = prediction.description!;
                                   _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
+                                  lat = double.parse(prediction.lat!);
+                                  long = double.parse(prediction.lng!);
+                                  setState(() {
 
-                                  debugPrint("${prediction.lat} ${prediction.lng}");
+                                  });
+                                  debugPrint("${lat} ${long}");
                                 },
                               inputDecoration: InputDecoration(
                                 labelText: 'Type your address...',
@@ -186,8 +188,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                       children: [
                           SvgPicture.asset(
                             Images.search,
-                            colorFilter:
-                            ColorFilter.mode(ColorResources.maroon, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(ColorResources.maroon, BlendMode.srcIn),
                           ),
                           10.horizontalSpace(),
                       ],

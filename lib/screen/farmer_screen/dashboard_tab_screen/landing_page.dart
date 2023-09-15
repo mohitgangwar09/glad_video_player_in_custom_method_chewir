@@ -278,63 +278,68 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
             10.verticalSpace(),
             const TrendingNewsAndEvents(),
             10.verticalSpace(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),
-              child: Text('GLAD makes you Happier!',
-                  style: figtreeMedium.copyWith(
-                      fontSize: 18, color: Colors.black)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: CarouselSlider(
-                  items: [
-                    for (int index = 0;
-                        index <
-                            (state.response!.testimonials!.isNotEmpty ? 3 : 0);
-                        index++)
-                      GladReview(
-                        review:
-                            state.response!.testimonials![index].description ??
-                                '',
-                        name: state.response!.testimonials![index].name ?? '',
-                        userType: 'Farmer',
-                        location: 'Kampala, Uganda',
-                        attachment:
-                            state.response!.testimonials![index].attachment ??
-                                '',
-                        attachmentType:
-                            state.response!.testimonials![index].type ?? '',
-                      ),
-                  ],
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    enableInfiniteScroll: false,
-                    viewportFraction: 1,
-                    clipBehavior: Clip.none,
-                    enlargeCenterPage: true,
-                    height: screenHeight() < 750
-                        ? screenHeight() * 0.285
-                        : screenHeight() * 0.22,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        activeIndex = index;
-                      });
-                    },
-                  )),
-            ),
-            Center(
-                child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: AnimatedSmoothIndicator(
-                activeIndex: activeIndex,
-                count: 3,
-                effect: const WormEffect(
-                    activeDotColor: ColorResources.maroon,
-                    dotHeight: 7,
-                    dotWidth: 7,
-                    dotColor: ColorResources.grey),
+            state.response!.testimonials!.isNotEmpty ?Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),
+                child: Text('GLAD makes you Happier!',
+                    style: figtreeMedium.copyWith(
+                        fontSize: 18, color: Colors.black)),
               ),
-            )),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: CarouselSlider(
+                    items: [
+                      for (int index = 0;
+                      index <
+                          (state.response!.testimonials!.length.toInt() > 3 ? 3 : state.response!.testimonials!.length);
+                      index++)
+                        GladReview(
+                          review:
+                          state.response!.testimonials![index].description ??
+                              '',
+                          name: state.response!.testimonials![index].name ?? '',
+                          userType: 'Farmer',
+                          location: 'Kampala, Uganda',
+                          attachment:
+                          state.response!.testimonials![index].attachment ??
+                              '',
+                          attachmentType:
+                          state.response!.testimonials![index].type ?? '',
+                        ),
+                    ],
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      enableInfiniteScroll: false,
+                      viewportFraction: 1,
+                      clipBehavior: Clip.none,
+                      enlargeCenterPage: true,
+                      height: screenHeight() < 750
+                          ? screenHeight() * 0.285
+                          : screenHeight() * 0.22,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          activeIndex = index;
+                        });
+                      },
+                    )),
+              ),
+              Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: AnimatedSmoothIndicator(
+                      activeIndex: activeIndex,
+                      count: state.response!.testimonials!.length.toInt() > 3 ? 3 : state.response!.testimonials!.length,
+                      effect: const WormEffect(
+                          activeDotColor: ColorResources.maroon,
+                          dotHeight: 7,
+                          dotWidth: 7,
+                          dotColor: ColorResources.grey),
+                    ),
+                  )),
+            ],) : SizedBox.shrink(),
+
             100.verticalSpace()
           ],
         ),

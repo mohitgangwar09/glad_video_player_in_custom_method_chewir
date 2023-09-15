@@ -1,3 +1,4 @@
+import 'package:device_information/device_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/auth_screen/introslider.dart';
@@ -8,10 +9,26 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LanguagePermission extends StatelessWidget {
+class LanguagePermission extends StatefulWidget {
   const LanguagePermission({super.key});
 
+  @override
+  State<LanguagePermission> createState() => _LanguagePermissionState();
+}
+
+class _LanguagePermissionState extends State<LanguagePermission> {
+  imei() async{
+    await Permission.phone.request();
+    (await SharedPreferences.getInstance()).setString(AppConstants.deviceImeiId, await DeviceInformation.deviceIMEINumber);
+  }
+  @override
+  void initState() {
+    imei();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
