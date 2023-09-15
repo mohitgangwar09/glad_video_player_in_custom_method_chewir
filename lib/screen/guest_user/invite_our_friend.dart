@@ -76,6 +76,16 @@ class InviteAnExpert extends StatelessWidget {
               height: 350,
               zoomGesturesEnabled: true,
             ),
+            // Positioned(
+            //     child: Padding(
+            //       padding: EdgeInsets.fromLTRB(19, 20, 59, 0),
+            //       child: CustomTextField(
+            //         hint: 'Type your address...',
+            //         radius: 60,
+            //         image: Images.search,
+            //         imageColors: ColorResources.maroon,
+            //       ),
+            //     ))
             Positioned(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(19, 20, 59, 0),

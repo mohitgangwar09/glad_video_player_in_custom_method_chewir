@@ -448,6 +448,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  google_search_place:
+    dependency: "direct main"
+    description:
+      name: google_search_place
+      sha256: "645dd6bbc6e0a668da387d37a1ee7aaff8e1a97e4d0ac6da14867be753d83dab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   html:
     dependency: transitive
     description:

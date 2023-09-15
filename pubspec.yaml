@@ -38,6 +38,7 @@ dependencies:
   video_player: ^2.5.2
   video_thumbnail: ^0.5.3
   path_provider: ^2.0.11
+  google_search_place: ^0.0.4
 
 dev_dependencies:
   flutter_test:
