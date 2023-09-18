@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/auth_models/invite_expert_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
+import 'package:glad/data/model/followup_remark_list_model.dart';
+import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,7 +60,7 @@ class LandingPageRepository {
       "comment": comment,
       'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
       'lat': lat,
-      'long': long,
+      'lang': long,
     });
     print(formData.fields);
 
@@ -72,7 +75,7 @@ class LandingPageRepository {
   }
 
   ////////////////////followupRemarkList///////////////////////////
-  Future<InviteExpert> followupRemarkListApi() async {
+  Future<FollowupRemarkListModel> followupRemarkListApi() async {
     Map<String, dynamic> data = {
       'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
     };
@@ -81,14 +84,33 @@ class LandingPageRepository {
         .getApiResponse(AppConstants.followupRemarkList, queryParameters: data);
 
     if (apiResponse.status) {
-      return InviteExpert.fromJson(apiResponse.response!.data);
+      return FollowupRemarkListModel.fromJson(apiResponse.response!.data);
     } else {
-      return InviteExpert(status: 422, message: apiResponse.msg);
+      return FollowupRemarkListModel(status: 422, message: apiResponse.msg);
     }
   }
 
+  ////////////////////getGuestDashboardApi///////////////////////////
+  Future<GuestDashboardModel> getGuestDashboardApi(String lat, String long) async {
+    Map<String, dynamic> data = {
+      'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
+      'lat': lat,
+      'longitude': long,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.getGuestDashboard, queryParameters: data);
+
+    if (apiResponse.status) {
+      return GuestDashboardModel.fromJson(apiResponse.response!.data);
+    } else {
+      return GuestDashboardModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
   ////////////////////InviteExpert///////////////////////////
-  Future<InviteExpert> addFollowupRemarkApi(
+  Future<AddFollowupRemarkModel> addFollowupRemarkApi(
       String enquiryId, String comments) async {
     FormData formData = FormData.fromMap({
       'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
@@ -101,9 +123,9 @@ class LandingPageRepository {
         .getPostApiResponse(AppConstants.addFollowupRemark, data: formData);
 
     if (apiResponse.status) {
-      return InviteExpert.fromJson(apiResponse.response!.data);
+      return AddFollowupRemarkModel.fromJson(apiResponse.response!.data);
     } else {
-      return InviteExpert(status: 422, message: apiResponse.msg);
+      return AddFollowupRemarkModel(status: 422, message: apiResponse.msg);
     }
   }
 

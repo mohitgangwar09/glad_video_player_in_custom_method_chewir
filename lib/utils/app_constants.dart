@@ -30,6 +30,7 @@ class AppConstants {
   static const String inviteExpertDetails= '/api/add-enquiry';
   static const String followupRemarkList = '/api/followup-remark-list';
   static const String addFollowupRemark = '/api/add-followup-remark';
+  static const String getGuestDashboard = '/api/guest-user-dashboard';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
