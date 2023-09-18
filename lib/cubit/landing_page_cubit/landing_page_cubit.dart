@@ -1,13 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart' as dashboard;
+import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
+import 'package:glad/screen/guest_user/thankyou_screen.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'landing_page_state.dart';
@@ -57,7 +61,7 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     disposeProgress();
 
     if (response.status == 200) {
-      const ThankYou().navigate();
+      ThankYou(expert: response).navigate(isRemove: true);
 
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
@@ -65,34 +69,54 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     }
   }
 
-  Future<void> getFollowUpDetails(context, String name,
-      String mobile, String address, String comment, String lat, String long) async {
-    customDialog(widget: launchProgress());
-    var response = await apiRepository.inviteExpertDetails(name, mobile, address, comment, lat, long);
-
-    disposeProgress();
+  Future<void> getFollowUpDetails(context, bool isOnScreen) async {
+    if(!isOnScreen){
+      emit(state.copyWith(status: LandingPageStatus.loading));
+    }
+    var response = await apiRepository.followupRemarkListApi(int.parse(state.guestDashboardResponse!.data!.enquiry!.id!.toString()));
 
     if (response.status == 200) {
-      const ThankYou().navigate();
 
+      emit(state.copyWith(status: LandingPageStatus.success, followupRemarkListResponse: response));
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString());
     }
   }
 
+  Future<void> addFollowUpRemark(context, isDDE, String comment,{String? enquiryId}) async {
+    var response = await apiRepository.addFollowupRemarkApi(enquiryId==null?state.guestDashboardResponse!.data!.enquiry!.id!.toString():enquiryId.toString(), comment, isDDE);
 
-  // Future<void> getGuestDashboard(context) async {
-  //   // customDialog(widget: launchProgress());
-  //   // var response = await apiRepository.getGuestDashboardApi(lat, long);
-  //   if (response.status == 200) {
-  //     emit(state.copyWith(
-  //         status: LandingPageStatus.success, guestDashboardResponse: response));
-  //     // disposeProgress();
-  //   } else {
-  //     emit(state.copyWith(status: LandingPageStatus.error));
-  //     showCustomToast(context, response.message.toString());
-  //   }
-  // }
+    if (response.status == 200) {
+      if(isDDE){
+        await BlocProvider.of<DdeEnquiryCubit>(context).enquiryDetailApi(context, enquiryId.toString());
+      }else{
+        await getFollowUpDetails(context, true);
+      }
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> getGuestDashboard(context) async {
+    emit(state.copyWith(status: LandingPageStatus.loading));
+    // customDialog(widget: launchProgress());
+    var response = await apiRepository.getGuestDashboardApi(state.currentPosition!.latitude, state.currentPosition!.longitude);
+    if (response.status == 200) {
+      emit(state.copyWith(
+          status: LandingPageStatus.success, guestDashboardResponse: response));
+      // disposeProgress();
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> getCurrentLocation() async{
+    await Permission.location.request();
+    Position position = await apiRepository.getCurrentPosition();
+    emit(state.copyWith(currentPosition: position));
+  }
 
 }

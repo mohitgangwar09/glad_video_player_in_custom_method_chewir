@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/auth_models/invite_expert_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -24,7 +27,7 @@ class LandingPageRepository {
 
     if (apiResponse.status) {
       return FarmerDashboard.fromJson(apiResponse.response!.data);
-    }
+    }else
     {
       return FarmerDashboard(status: 422, message: apiResponse.msg);
     }
@@ -67,7 +70,7 @@ class LandingPageRepository {
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.inviteExpertDetails, data: formData);
+        .getPostApiResponse(AppConstants.followupRemarkList, data: formData);
 
     if (apiResponse.status) {
       return InviteExpert.fromJson(apiResponse.response!.data);
@@ -77,9 +80,9 @@ class LandingPageRepository {
   }
 
   ////////////////////followupRemarkList///////////////////////////
-  Future<FollowupRemarkListModel> followupRemarkListApi() async {
+  Future<FollowupRemarkListModel> followupRemarkListApi(int enquiryId) async {
     Map<String, dynamic> data = {
-      'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
+      'enquiry_id': enquiryId,
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
@@ -93,7 +96,7 @@ class LandingPageRepository {
   }
 
   ////////////////////getGuestDashboardApi///////////////////////////
-  Future<GuestDashboardModel> getGuestDashboardApi(String lat, String long) async {
+  Future<GuestDashboardModel> getGuestDashboardApi(double lat, double long) async {
     Map<String, dynamic> data = {
       'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
       'lat': lat,
@@ -113,12 +116,16 @@ class LandingPageRepository {
 
   ////////////////////InviteExpert///////////////////////////
   Future<AddFollowupRemarkModel> addFollowupRemarkApi(
-      String enquiryId, String comments) async {
+      String enquiryId, String comments, bool isDDE) async {
     FormData formData = FormData.fromMap({
       'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
       'enquiry_id': enquiryId,
       'comments': comments,
     });
+    if(isDDE) {
+      formData.fields.add(MapEntry('dde_id',
+          sharedPreferences!.getString(AppConstants.userId).toString()));
+    }
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
@@ -131,6 +138,10 @@ class LandingPageRepository {
     }
   }
 
+  Future<Position> getCurrentPosition() async{
+    return await getCurrentLocation();
+  }
+
   ////////////////////enquiryListApi///////////////////////////
   Future<ResponseEnquiryModel> enquiryListApi(String type) async {
 
@@ -138,9 +149,11 @@ class LandingPageRepository {
       "type": type
     };
 
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.enquiryListApi,
-        queryParameters: data);
+        queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return ResponseEnquiryModel.fromJson(apiResponse.response!.data);
@@ -151,15 +164,15 @@ class LandingPageRepository {
 
 
   ////////////////////enquiryDetailApi///////////////////////////
-  Future<ResponseEnquiryDetail> enquiryDetailApi(String type) async {
+  Future<ResponseEnquiryDetail> enquiryDetailApi(String id) async {
 
     var data = {
-      "id": type
+      "id": id
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.enquiryDetailsApi,
-        queryParameters: data);
+        queryParameters: data,headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return ResponseEnquiryDetail.fromJson(apiResponse.response!.data);

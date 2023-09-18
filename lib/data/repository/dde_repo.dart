@@ -120,7 +120,6 @@ class DdeRepository {
   }
 
   getUserToken() {
-    print(sharedPreferences?.getString(AppConstants.token));
     return sharedPreferences?.getString(AppConstants.token);
   }
 }

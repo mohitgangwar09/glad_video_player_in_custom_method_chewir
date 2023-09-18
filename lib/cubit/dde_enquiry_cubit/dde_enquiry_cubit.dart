@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
@@ -18,13 +19,17 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
   DdeEnquiryCubit(
       {required this.apiRepository, required this.sharedPreferences}) : super(DdeEnquiryState.initial());
 
+  void filterStatus(String status){
+    emit(state.copyWith(enquiryStatus: status));
+  }
+
   // enquiryListApi
-  void enquiryListApi(context) async {
+  void enquiryListApi(context,String enquiryStatus) async {
     emit(state.copyWith(status: DdeEnquiryStatus.loading));
-    customDialog(widget: launchProgress());
-    var response = await apiRepository.enquiryListApi(state.enquiryStatus.toString());
+    // customDialog(widget: launchProgress());
+    var response = await apiRepository.enquiryListApi(enquiryStatus.toString());
     if (response.status == 200) {
-      disposeProgress();
+      // disposeProgress();
       emit(state.copyWith(status: DdeEnquiryStatus.success, responseEnquiryModel: response));
     } else {
       emit(state.copyWith(status: DdeEnquiryStatus.error));
@@ -33,9 +38,11 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
   }
 
   // enquiryDetailApi
-  void enquiryDetailApi(context) async {
+  Future<void> enquiryDetailApi(context,String id) async {
     emit(state.copyWith(status: DdeEnquiryStatus.loading));
-    var response = await apiRepository.enquiryDetailApi(state.enquiryStatus.toString());
+    // customDialog(widget: const CircularProgressIndicator());
+    var response = await apiRepository.enquiryDetailApi(id);
+    // disposeProgress();
     if (response.status == 200) {
       emit(state.copyWith(status: DdeEnquiryStatus.success, responseEnquiryDetail: response));
     } else {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
@@ -12,280 +15,316 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
 
-class EnquiryDetailsScreen extends StatelessWidget {
-  const EnquiryDetailsScreen({Key? key}) : super(key: key);
+class EnquiryDetailsScreen extends StatefulWidget {
+  final String id;
+  const EnquiryDetailsScreen(this.id,{Key? key,}) : super(key: key);
+
+  @override
+  State<EnquiryDetailsScreen> createState() => _EnquiryDetailsScreenState();
+}
+
+class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
+
+  TextEditingController commentController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<DdeEnquiryCubit>(context).enquiryDetailApi(context,widget.id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: Stack(
-        children: [
-          landingBackground(),
-          Column(
+      body: BlocBuilder<DdeEnquiryCubit,DdeEnquiryState>(
+        builder: (context,state) {
+          return Stack(
             children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Enquiry details',
-                titleText1Style:
-                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-                centerTitle: true,
-                leading: arrowBackButton(),
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Stack(
+              landingBackground(),
+              Column(
+                children: [
+                  CustomAppBar(
+                    context: context,
+                    titleText1: 'Enquiry details',
+                    titleText1Style:
+                        figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                    centerTitle: true,
+                    leading: arrowBackButton(),
+                  ),
+                  state.responseEnquiryDetail!=null&&state.responseEnquiryDetail!.data!=null?
+                  Expanded(
+                      child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        Column(
+                        Stack(
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: SizedBox(
-                                height: 20,
-                                width: screenWidth(),
-                              ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  child: SizedBox(
+                                    height: 20,
+                                    width: screenWidth(),
+                                  ),
+                                ),
+                                Container(
+                                  width: screenWidth(),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 30, horizontal: 20),
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xFFE4FFE3),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(50),
+                                          topRight: Radius.circular(20),
+                                          bottomRight: Radius.circular(50),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(state.responseEnquiryDetail!.data!.enquiry!.name.toString(),
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 18,
+                                                  color: Colors.black)),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 7, horizontal: 13),
+                                            decoration: boxDecoration(
+                                              backgroundColor:
+                                                  const Color(0xFFFFF3F4),
+                                              borderRadius: 30,
+                                              borderColor: ColorResources.maroon,
+                                            ),
+                                            child: Text(
+                                              state.responseEnquiryDetail!.data!.enquiry!.status.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: figtreeRegular.copyWith(
+                                                  color: ColorResources.maroon,
+                                                  fontSize: 14),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      10.verticalSpace(),
+                                      Text(state.responseEnquiryDetail!.data!.enquiry!.mobile.toString(),
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14, color: Colors.black)),
+                                      10.verticalSpace(),
+                                      Text(
+                                        "Enquiry date: ${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryDetail!.data!.enquiry!.createdAt.toString()))}",
+                                        style: figtreeRegular.copyWith(
+                                            color: ColorResources.black,
+                                            fontSize: 14),
+                                      ),
+                                      30.verticalSpace(),
+                                      Stack(
+                                        children: [
+                                          const GMap(
+                                            lat: 28.4986,
+                                            lng: 77.3999,
+                                            height: 350,
+                                            zoomGesturesEnabled: false,
+                                            zoomControlsEnabled: false,
+                                            myLocationEnabled: true,
+                                            myLocationButtonEnabled: false,
+                                          ),
+                                          Positioned(
+                                            bottom: 20,
+                                            left: 30,
+                                            right: 30,
+                                            child: Container(
+                                              height: 105,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16)),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(15),
+                                                child: Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        Images.sampleLivestock),
+                                                    15.horizontalSpace(),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.center,
+                                                      children: [
+                                                        Text('Address',
+                                                            style: figtreeMedium
+                                                                .copyWith(
+                                                                    fontSize: 16,
+                                                                    color: Colors
+                                                                        .black)),
+                                                        4.verticalSpace(),
+                                                        SizedBox(
+                                                          width:
+                                                              MediaQuery.of(context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.38,
+                                                          child: Text(
+                                                            state.responseEnquiryDetail!.data!.enquiry!.address!=null?state.responseEnquiryDetail!.data!.enquiry!.address!.toString():"",
+                                                            style: figtreeRegular
+                                                                .copyWith(
+                                                              fontSize: 14,
+                                                              color: Colors.black,
+                                                              overflow: TextOverflow
+                                                                  .ellipsis,
+                                                            ),
+                                                            maxLines: 2,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 10,
+                                            top: 10,
+                                            child: InkWell(
+                                                onTap: () {},
+                                                child: SvgPicture.asset(
+                                                    Images.mapLocate)),
+                                          ),
+                                        ],
+                                      ),
+                                      30.verticalSpace(),
+                                      'Farmer remarks'.textMedium(
+                                          fontSize: 18,
+                                          color: ColorResources.fieldGrey),
+                                      10.verticalSpace(),
+                                      state.responseEnquiryDetail!.data!.enquiry!.comment!=null?state.responseEnquiryDetail!.data!.enquiry!.comment.toString().textMedium(
+                                              fontSize: 16,
+                                              color: ColorResources.black):"".textMedium()
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
+                            Positioned(
+                                top: 0,
+                                right: 10,
+                                child: Row(
+                                  children: [
+                                    InkWell(
+                                        onTap: () async {
+                                          await callOnMobile(state.responseEnquiryDetail!.data!.enquiry!.mobile.toString());
+                                        },
+                                        child:
+                                            SvgPicture.asset(Images.callPrimary)),
+                                    6.horizontalSpace(),
+                                    InkWell(
+                                        onTap: () async {
+                                          await launchWhatsApp(state.responseEnquiryDetail!.data!.enquiry!.mobile.toString());
+                                        },
+                                        child: SvgPicture.asset(Images.whatsapp)),
+                                    16.horizontalSpace(),
+                                  ],
+                                )),
+                          ],
+                        ),
+                        20.verticalSpace(),
+
+                        state.responseEnquiryDetail!.data!.enquiry!.enquiryLog!=null&&state.responseEnquiryDetail!.data!.enquiry!.enquiryLog!.isNotEmpty?
+                        customList(scrollPhysics: const NeverScrollableScrollPhysics(),list: state.responseEnquiryDetail!.data!.enquiry!.enquiryLog!,child: (index){
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                            child: Container(
                               width: screenWidth(),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 30, horizontal: 20),
-                              decoration: const BoxDecoration(
-                                  color: Color(0xFFE4FFE3),
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(50),
-                                      topRight: Radius.circular(20),
-                                      bottomRight: Radius.circular(50),
-                                      bottomLeft: Radius.circular(20))),
+                              padding: const EdgeInsets.all(30),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFFFF3F4),
+                                  border: Border.all(color: const Color(0xFFC788A5)),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30),
+                                      bottomRight: Radius.circular(30),
+                                      bottomLeft: Radius.circular(0))),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Begumanya Charles',
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 18,
-                                              color: Colors.black)),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 7, horizontal: 13),
-                                        decoration: boxDecoration(
-                                          backgroundColor:
-                                              const Color(0xFFFFF3F4),
-                                          borderRadius: 30,
-                                          borderColor: ColorResources.maroon,
-                                        ),
-                                        child: Text(
-                                          "Pending",
-                                          textAlign: TextAlign.center,
-                                          style: figtreeRegular.copyWith(
-                                              color: ColorResources.maroon,
-                                              fontSize: 14),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  10.verticalSpace(),
-                                  Text('+256 758711344',
-                                      style: figtreeRegular.copyWith(
-                                          fontSize: 14, color: Colors.black)),
+                                  Text(state.responseEnquiryDetail!.data!.enquiry!.enquiryLog![index].commentedBy!=null?state.responseEnquiryDetail!.data!.enquiry!.enquiryLog![index].commentedBy!:"",
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 20, color: Colors.black)),
                                   10.verticalSpace(),
                                   Text(
-                                    "Enquiry date: 15 Jan, 2023",
-                                    style: figtreeRegular.copyWith(
-                                        color: ColorResources.black,
-                                        fontSize: 14),
-                                  ),
-                                  30.verticalSpace(),
-                                  Stack(
-                                    children: [
-                                      const GMap(
-                                        lat: 28.4986,
-                                        lng: 77.3999,
-                                        height: 350,
-                                        zoomGesturesEnabled: false,
-                                        zoomControlsEnabled: false,
-                                        myLocationEnabled: true,
-                                        myLocationButtonEnabled: false,
-                                      ),
-                                      Positioned(
-                                        bottom: 20,
-                                        left: 30,
-                                        right: 30,
-                                        child: Container(
-                                          height: 105,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(16)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(15),
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                    Images.sampleLivestock),
-                                                15.horizontalSpace(),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text('Address',
-                                                        style: figtreeMedium
-                                                            .copyWith(
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .black)),
-                                                    4.verticalSpace(),
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.38,
-                                                      child: Text(
-                                                        'Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489 Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489',
-                                                        style: figtreeRegular
-                                                            .copyWith(
-                                                          fontSize: 14,
-                                                          color: Colors.black,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                        maxLines: 2,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 10,
-                                        top: 10,
-                                        child: InkWell(
-                                            onTap: () {},
-                                            child: SvgPicture.asset(
-                                                Images.mapLocate)),
-                                      ),
-                                    ],
-                                  ),
-                                  30.verticalSpace(),
-                                  'Farmer remarks'.textMedium(
-                                      fontSize: 18,
-                                      color: ColorResources.fieldGrey),
+                                      state.responseEnquiryDetail!.data!.enquiry!.enquiryLog![index].comments!=null?state.responseEnquiryDetail!.data!.enquiry!.enquiryLog![index].comments!:"",
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 16, color: Colors.black)),
                                   10.verticalSpace(),
-                                  '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'''
-                                      .textMedium(
-                                          fontSize: 16,
-                                          color: ColorResources.black),
+                                  DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryDetail!.data!.enquiry!.createdAt.toString())).textRegular(
+                                      color: ColorResources.fieldGrey, fontSize: 14)
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                        Positioned(
-                            top: 0,
-                            right: 10,
-                            child: Row(
-                              children: [
-                                InkWell(
-                                    onTap: () async {
-                                      await callOnMobile(234567890);
-                                    },
-                                    child:
-                                        SvgPicture.asset(Images.callPrimary)),
-                                6.horizontalSpace(),
-                                InkWell(
-                                    onTap: () async {
-                                      await launchWhatsApp(234567890);
-                                    },
-                                    child: SvgPicture.asset(Images.whatsapp)),
-                                16.horizontalSpace(),
-                              ],
-                            )),
+                          );
+                        }):const SizedBox(width: 0,height: 0,),
+                        20.verticalSpace()
                       ],
                     ),
-                    20.verticalSpace(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        width: screenWidth(),
-                        padding: const EdgeInsets.all(30),
-                        decoration: BoxDecoration(
-                            color: Color(0xFFFFF3F4),
-                            border: Border.all(color: Color(0xFFC788A5)),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30),
-                                bottomRight: Radius.circular(30),
-                                bottomLeft: Radius.circular(0))),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Charles (Farmer)',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 20, color: Colors.black)),
-                            10.verticalSpace(),
-                            Text(
-                                '''Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.''',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 16, color: Colors.black)),
-                            10.verticalSpace(),
-                            '15 Jan, 2023 09:00 AM'.textRegular(
-                                color: ColorResources.fieldGrey, fontSize: 14)
-                          ],
+                  )):const Expanded(child: SizedBox(width: 0,height: 0,)),
+
+                  state.responseEnquiryDetail!.data!=null&&state.responseEnquiryDetail!.data!.enquiry!.status.toString() == "pending"?
+                  Container(
+                    height: AppBar().preferredSize.height * 1.5,
+                    width: screenWidth(),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24)),
+                        border: Border.all(color: ColorResources.grey)),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: commentController,
+                            decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                hintText: 'Followup remarks...'),
+                            onSubmitted: (value) {
+                              context.read<LandingPageCubit>().addFollowUpRemark(context, true, value,enquiryId: widget.id.toString());
+                              commentController.clear();
+                            },
+                          ),
                         ),
-                      ),
+                        SvgPicture.asset(
+                          Images.attachment,
+                          colorFilter: const ColorFilter.mode(
+                              ColorResources.fieldGrey, BlendMode.srcIn),
+                        ),
+                        10.horizontalSpace(),
+                        SvgPicture.asset(
+                          Images.camera,
+                          colorFilter: const ColorFilter.mode(
+                              ColorResources.fieldGrey, BlendMode.srcIn),
+                        )
+                      ],
                     ),
-                    20.verticalSpace()
-                  ],
-                ),
-              )),
-              Container(
-                height: AppBar().preferredSize.height * 1.5,
-                width: screenWidth(),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24)),
-                    border: Border.all(color: ColorResources.grey)),
-                child: Row(
-                  children: [
-                    const Expanded(
-                        child: TextField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          hintText: 'Followup remarks...'),
-                    )),
-                    SvgPicture.asset(
-                      Images.attachment,
-                      colorFilter: ColorFilter.mode(
-                          ColorResources.fieldGrey, BlendMode.srcIn),
-                    ),
-                    10.horizontalSpace(),
-                    SvgPicture.asset(
-                      Images.camera,
-                      colorFilter: ColorFilter.mode(
-                          ColorResources.fieldGrey, BlendMode.srcIn),
-                    )
-                  ],
-                ),
-              )
+                  ):const SizedBox(width: 0,height: 0,)
+                ],
+              ),
             ],
-          ),
-        ],
+          );
+        }
       ),
     );
   }

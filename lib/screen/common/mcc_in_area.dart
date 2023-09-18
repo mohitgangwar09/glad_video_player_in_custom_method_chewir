@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,7 +18,7 @@ class MCCInArea extends StatefulWidget {
   final String name;
   final String phone;
   final String address;
-  final String image;
+  final String? image;
 
   @override
   State<MCCInArea> createState() => _MCCInAreaState();
@@ -77,7 +78,21 @@ class _MCCInAreaState extends State<MCCInArea> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset(Images.sampleUser),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(1000),
+                            child: Container(
+                              height: AppBar().preferredSize.height * 0.7,
+                              width: AppBar().preferredSize.height * 0.7,
+                              decoration:
+                              const BoxDecoration(shape: BoxShape.circle),
+                              child: CachedNetworkImage(
+                                imageUrl: widget.image!,
+                                errorWidget: (_, __, ___) =>
+                                    Image.asset(Images.sampleUser),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           15.horizontalSpace(),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

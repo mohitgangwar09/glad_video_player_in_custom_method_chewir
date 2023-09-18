@@ -28,10 +28,11 @@ class LiveStockMarketplace extends StatelessWidget {
             ],
           ),
         ),
-10.verticalSpace(),
+        10.verticalSpace(),
         SizedBox(
           height: 318,
           child: customList(
+            list: List.generate(4, (index) => ''),
               padding: 10.marginLeft(),
               axis: Axis.horizontal,
               child: (index){

@@ -51,12 +51,12 @@ class Data {
 }
 
 class DairyDevelopmentExecutive {
-  int? id;
-  Null? phone;
+  dynamic id;
+  dynamic phone;
   String? name;
-  Null? createdAt;
-  Null? distance;
-  Null? image;
+  dynamic createdAt;
+  dynamic distance;
+  dynamic image;
 
   DairyDevelopmentExecutive(
       {this.id,
@@ -88,25 +88,25 @@ class DairyDevelopmentExecutive {
 }
 
 class Enquiry {
-  int? id;
-  Null? farmerId;
-  int? ddeId;
+  dynamic id;
+  dynamic farmerId;
+  dynamic ddeId;
   String? deviceId;
-  Null? supplierCode;
-  Null? userId;
+  dynamic supplierCode;
+  dynamic userId;
   String? name;
   String? mobile;
   String? address;
-  int? lat;
-  int? lang;
+  dynamic lat;
+  dynamic lang;
   String? comment;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
-  Null? deletedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
-  Null? closedAt;
+  dynamic closedAt;
 
   Enquiry(
       {this.id,

@@ -11,6 +11,14 @@
     </array>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Your location is required for Twiker benefits for you</string>
+    <key>NSLocationUsageDescription</key>
+    <string>Need location access for updating nearby friends</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location to get the current location address, location for search preferecnce, and for delivery location purpose.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Needed to access location always when the app is open.</string>
     <key>CFBundleIdentifier</key>
     <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleInfoDictionaryVersion</key>

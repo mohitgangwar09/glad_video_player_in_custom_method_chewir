@@ -14,6 +14,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
 
 class EnquiryScreen extends StatelessWidget {
   const EnquiryScreen({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class EnquiryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    BlocProvider.of<DdeEnquiryCubit>(context).enquiryListApi(context);
+    BlocProvider.of<DdeEnquiryCubit>(context).enquiryListApi(context,"Pending");
 
     return BlocBuilder<DdeEnquiryCubit,DdeEnquiryState>(
       builder: (context,state) {
@@ -126,37 +127,51 @@ class EnquiryScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          height: screenHeight(),
-                          margin: const EdgeInsets.all(6),
-                          decoration: boxDecoration(
-                              backgroundColor: ColorResources.maroon,
-                              borderRadius: 62),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              "Pending".textMedium(
-                                  color: ColorResources.white, fontSize: 14),
-                              5.horizontalSpace(),
-                              SvgPicture.asset(Images.pendingSelected)
-                            ],
+                        child: InkWell(
+                          onTap: (){
+                            context.read<DdeEnquiryCubit>().filterStatus("Pending");
+                            context.read<DdeEnquiryCubit>().enquiryListApi(context,'Pending');
+                          },
+                          child: Container(
+                            height: screenHeight(),
+                            margin: const EdgeInsets.all(6),
+                            decoration: boxDecoration(
+                                backgroundColor: state.enquiryStatus == "Pending"?ColorResources.maroon:Colors.white,
+                                borderRadius: 62),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                "Pending".textMedium(
+                                    color: state.enquiryStatus == "Pending"?ColorResources.white:Colors.black, fontSize: 14),
+                                5.horizontalSpace(),
+                                SvgPicture.asset(Images.pendingSelected,
+                                color: state.enquiryStatus == "Pending"?Colors.white:ColorResources.maroon,)
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       Expanded(
-                        child: Container(
-                          height: screenHeight(),
-                          margin: const EdgeInsets.all(6),
-                          decoration: boxDecoration(
-                              backgroundColor: Colors.white, borderRadius: 62),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              "Closed"
-                                  .textMedium(color: Colors.black, fontSize: 14),
-                              5.horizontalSpace(),
-                              SvgPicture.asset(Images.completed)
-                            ],
+                        child: InkWell(
+                          onTap: (){
+                            context.read<DdeEnquiryCubit>().filterStatus("Closed");
+                            context.read<DdeEnquiryCubit>().enquiryListApi(context,'Closed');
+                          },
+                          child: Container(
+                            height: screenHeight(),
+                            margin: const EdgeInsets.all(6),
+                            decoration: boxDecoration(
+                                backgroundColor: state.enquiryStatus == "Closed"?ColorResources.maroon:Colors.white, borderRadius: 62),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                "Closed"
+                                    .textMedium(color: state.enquiryStatus == "Closed"?ColorResources.white:Colors.black, fontSize: 14),
+                                5.horizontalSpace(),
+                                SvgPicture.asset(Images.completed,
+                                  color: state.enquiryStatus == "Closed"?Colors.white:null)
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -167,11 +182,11 @@ class EnquiryScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(
                         bottom: 120, left: 20, right: 20, top: 20),
-                    child: customList(
+                    child: state.responseEnquiryModel!=null&&state.responseEnquiryModel!.data!=null&&state.responseEnquiryModel!.data!.isNotEmpty?customList(
                       list: state.responseEnquiryModel!.data!,
                         child: (index) => InkWell(
                           onTap: () {
-                            const EnquiryDetailsScreen().navigate();
+                            EnquiryDetailsScreen(state.responseEnquiryModel!.data![index].id.toString()).navigate();
                           },
                           child: Stack(
                                 alignment: Alignment.center,
@@ -192,7 +207,7 @@ class EnquiryScreen extends StatelessWidget {
                                           BoxShadow(
                                               color: Colors.grey.withOpacity(0.5),
                                               blurRadius: 16.0,
-                                              offset: const Offset(0, 5))
+                                              offset: const Offset(0, 1))
                                         ],
                                         color: Colors.white,
                                       ),
@@ -208,7 +223,7 @@ class EnquiryScreen extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text('+256 ${state.responseEnquiryModel!.data![index].mobile.toString()}',
+                                              Text(state.responseEnquiryModel!.data![index].mobile.toString(),
                                                   style: figtreeRegular.copyWith(
                                                       fontSize: 14,
                                                       color: Colors.black)),
@@ -219,7 +234,7 @@ class EnquiryScreen extends StatelessWidget {
                                                     color: Colors.black,
                                                   ),
                                                   4.horizontalSpace(),
-                                                  Text('15 Apr, 2023 - 17 Apr, 2023',
+                                                  Text('${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].createdAt.toString()))}${state.responseEnquiryModel!.data![index].closedAt!=null?"-":""}${state.responseEnquiryModel!.data![index].closedAt!=null?DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].closedAt.toString())):""}',
                                                       style: figtreeRegular.copyWith(
                                                           fontSize: 14,
                                                           color: Colors.black)),
@@ -250,14 +265,14 @@ class EnquiryScreen extends StatelessWidget {
                                         children: [
                                           InkWell(
                                               onTap: () async {
-                                                await callOnMobile(234567890);
+                                                await callOnMobile(state.responseEnquiryModel!.data![index].mobile.toString());
                                               },
                                               child: SvgPicture.asset(
                                                   Images.callPrimary)),
                                           6.horizontalSpace(),
                                           InkWell(
                                               onTap: () async {
-                                                await launchWhatsApp(234567890);
+                                                await launchWhatsApp(state.responseEnquiryModel!.data![index].mobile.toString());
                                               },
                                               child:
                                                   SvgPicture.asset(Images.whatsapp)),
@@ -271,7 +286,7 @@ class EnquiryScreen extends StatelessWidget {
                                       )),
                                 ],
                               ),
-                        )),
+                        )):Center(child: errorText('No enquiry found')),
                   ),
                 )
               ],

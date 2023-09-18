@@ -37,8 +37,8 @@ class DataEnquiryModel {
   String? name;
   String? mobile;
   String? address;
-  double? lat;
-  double? lang;
+  dynamic lat;
+  dynamic lang;
   String? comment;
   String? status;
   dynamic createdBy;
