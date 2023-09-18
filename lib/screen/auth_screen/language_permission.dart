@@ -20,15 +20,6 @@ class LanguagePermission extends StatefulWidget {
 }
 
 class _LanguagePermissionState extends State<LanguagePermission> {
-  imei() async{
-    await Permission.phone.request();
-    (await SharedPreferences.getInstance()).setString(AppConstants.deviceImeiId, await DeviceInformation.deviceIMEINumber);
-  }
-  @override
-  void initState() {
-    imei();
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

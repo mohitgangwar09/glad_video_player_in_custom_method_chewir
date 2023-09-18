@@ -15,15 +15,10 @@ class DDEInArea extends StatefulWidget {
       {super.key,
       required this.name,
       required this.phone,
-      required this.image,
-      required this.expertVisivility,
-      required this.supplierId, required this.farmerId});
+      required this.image});
   final String name;
   final String phone;
   final String image;
-  final String supplierId;
-  final int farmerId;
-  final bool expertVisivility;
 
   @override
   State<DDEInArea> createState() => _DDEInAreaState();
@@ -94,7 +89,7 @@ class _DDEInAreaState extends State<DDEInArea> {
                       visible: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userId) == null,
                       child: InkWell(
                         onTap: (){
-                          InviteAnExpert(supplierId: widget.supplierId, farmerId: widget.farmerId,).navigate();
+                          const InviteAnExpert().navigate();
                         },
                         child: Container(
                           decoration: BoxDecoration(

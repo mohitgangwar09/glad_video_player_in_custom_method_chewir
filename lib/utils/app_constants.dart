@@ -28,6 +28,8 @@ class AppConstants {
   static const String deleteMonthApi = '/api/farmer/delete-month';
   static const String updateCowBreedDetail = '/api/cow_breed_details_update';
   static const String inviteExpertDetails= '/api/add-enquiry';
+  static const String followupRemarkList = '/api/followup-remark-list';
+  static const String addFollowupRemark = '/api/add-followup-remark';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

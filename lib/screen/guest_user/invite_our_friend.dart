@@ -9,8 +9,6 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
-import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
-import 'package:glad/screen/supplier_screen/survey_finished.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -21,11 +19,7 @@ import 'package:google_search_place/google_search_place.dart';
 import 'package:google_search_place/model/prediction.dart';
 
 class InviteAnExpert extends StatefulWidget {
-  const InviteAnExpert(
-      {super.key, required this.supplierId, required this.farmerId});
-
-  final String supplierId;
-  final int farmerId;
+  const InviteAnExpert({super.key});
 
   @override
   State<InviteAnExpert> createState() => _InviteAnExpertState();
@@ -113,7 +107,6 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               lng: long ?? 77.3999,
               height: 350,
               onMapCreated: (controller) async{
-                // await controller.moveCamera(CameraUpdate.newLatLng(LatLng(lat!, long!)));
                 controller.animateCamera(CameraUpdate.newCameraPosition(
                     CameraPosition(target: LatLng(lat!, long!), zoom: 11)));
               },
@@ -153,7 +146,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                                   setState(() {
 
                                   });
-                                  debugPrint("${lat} ${long}");
+                                  debugPrint("$lat $long");
                                 },
                               inputDecoration: InputDecoration(
                                 labelText: 'Type your address...',
@@ -241,12 +234,12 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
           customButton('Submit', onTap: () {
             BlocProvider.of<LandingPageCubit>(context).inviteExpertDetails(
                 context,
-                widget.farmerId,
                 nameController!.text,
                 mobileController!.text,
                 addressController!.text,
                 commentController!.text,
-                widget.supplierId);
+                lat!.toString(),
+                long!.toString());
 
           },
               fontColor: 0xffFFFFFF,
