@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_information/device_information.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -17,6 +21,7 @@ import 'package:glad/translation/change_language.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'language_permission.dart';
@@ -29,8 +34,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
   void _route() async {
-    await imei();
+    // await imei();
+    await initPlatformState();
     Timer(const Duration(seconds: 2), () async {
       if(BlocProvider.of<AuthCubit>(context).isLoggedIn()){
         await BlocProvider.of<ProfileCubit>(context).profileApi(context);
@@ -51,6 +60,29 @@ class _SplashScreenState extends State<SplashScreen> {
         const LanguagePermission().navigate(isRemove: true);
       }
     });
+  }
+
+  Future<void> initPlatformState() async {
+    var deviceData = <String, dynamic>{};
+
+    try {
+      if (kIsWeb) {} else {
+        if (Platform.isAndroid) {
+          var build = await deviceInfoPlugin.androidInfo;
+          print("deviceId ${build.id}");
+          await SharedPrefManager.savePrefString(AppConstants.deviceImeiId, build.id.toString());
+
+        } else if (Platform.isIOS) {
+          var build = await deviceInfoPlugin.iosInfo;
+          print("deviceId ${build.identifierForVendor}");
+          await SharedPrefManager.savePrefString(AppConstants.deviceImeiId, build.identifierForVendor.toString());
+        }
+      }
+    } on PlatformException {
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
+    }
   }
 
   @override
