@@ -41,6 +41,7 @@ dependencies:
   google_search_place: ^0.0.4
   device_information: ^0.0.4
   permission_handler: ^11.0.0
+  device_info_plus: ^9.0.3
 
 dev_dependencies:
   flutter_test:

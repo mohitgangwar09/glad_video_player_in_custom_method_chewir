@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return const CowsAndYieldsSum();
+    // return const CowsAndYieldsSum();
     // return const CowsAndYieldsDDEFarmer();
-    // return const SplashScreen();
+    return const SplashScreen();
   }
 }
