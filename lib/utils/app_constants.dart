@@ -31,6 +31,8 @@ class AppConstants {
   static const String followupRemarkList = '/api/followup-remark-list';
   static const String addFollowupRemark = '/api/add-followup-remark';
   static const String getGuestDashboard = '/api/guest-user-dashboard';
+  static const String enquiryListApi = '/api/enquiry-list';
+  static const String enquiryDetailsApi = '/api/enquiry-details';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

@@ -12,6 +12,7 @@ import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/data/repository/dde_repo.dart';
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'data/repository/auth_repo.dart';
 
 
@@ -36,6 +37,7 @@ Future<void> init() async {
   sl.registerFactory(() => CowsAndYieldCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => LandingPageCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DrawerCubit(apiRepository: sl(),sharedPreferences: sl()));
+  sl.registerFactory(() => DdeEnquiryCubit(apiRepository: sl(),sharedPreferences: sl()));
 
   // External
   var sharedPreferences = await SharedPreferences.getInstance();

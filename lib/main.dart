@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<DrawerCubit>()),
       BlocProvider(create: (context) => di.sl<DdeFarmerCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubit>()),
+      BlocProvider(create: (context) => di.sl<DdeEnquiryCubit>()),
     ],
     child: const GetMaterialApp(
         debugShowCheckedModeBanner: false, home: MyApp()),

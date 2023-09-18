@@ -81,6 +81,7 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     }
   }
 
+
   // Future<void> getGuestDashboard(context) async {
   //   // customDialog(widget: launchProgress());
   //   // var response = await apiRepository.getGuestDashboardApi(lat, long);

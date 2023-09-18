@@ -5,6 +5,8 @@ import 'package:glad/data/model/farmer_dashboard_model.dart';
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
+import 'package:glad/data/model/response_enquiry_detail.dart';
+import 'package:glad/data/model/response_enquiry_model.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
@@ -126,6 +128,43 @@ class LandingPageRepository {
       return AddFollowupRemarkModel.fromJson(apiResponse.response!.data);
     } else {
       return AddFollowupRemarkModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ////////////////////enquiryListApi///////////////////////////
+  Future<ResponseEnquiryModel> enquiryListApi(String type) async {
+
+    var data = {
+      "type": type
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.enquiryListApi,
+        queryParameters: data);
+
+    if (apiResponse.status) {
+      return ResponseEnquiryModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseEnquiryModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
+  ////////////////////enquiryDetailApi///////////////////////////
+  Future<ResponseEnquiryDetail> enquiryDetailApi(String type) async {
+
+    var data = {
+      "id": type
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.enquiryDetailsApi,
+        queryParameters: data);
+
+    if (apiResponse.status) {
+      return ResponseEnquiryDetail.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseEnquiryDetail(status: 422, message: apiResponse.msg);
     }
   }
 
