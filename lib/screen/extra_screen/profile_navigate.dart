@@ -7,9 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/data/model/farmer_dashboard_model.dart';
 import 'package:glad/data/model/model_total_production.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/data/model/update_record_breed_model.dart';
+import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/dialog/breed_picker.dart';
@@ -19,12 +21,13 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-List<bool> showQty=[true];
+List<bool> showQty=[];
 List<bool> showMonth=[true];
 List<DateWiseData> addBreedLength = [];
 List<double> milkingCows = [];
 bool checkAddMore = false;
 bool? checkCurrentMonth;
+bool clickMonth = false;
 double totalMilkProduction = 0;
 double sums = 0;
 
@@ -50,14 +53,10 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<DdeFarmerCubit>(context).emit(DdeState.initial());
       BlocProvider.of<DdeFarmerCubit>(context).getCowBreedDetailsApi(context);
+      BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context);
     });
-    // _nameController = TextEditingController();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
 
   @override
@@ -65,44 +64,102 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(title: const Text('Cows And Yield'),),
-      body: BlocBuilder<DdeFarmerCubit,DdeState>(
+      // appBar: AppBar(title: const Text('Cows And Yield'),),
+      body: /*BlocBuilder<DdeFarmerCubit,DdeState>(
         builder: (BuildContext context, state) {
-          return Form(
+          return*/ Form(
             key: _formKey,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(0),
-                child: Column(
-                  children: [
-                    // addMore(newIndex == productionList.length-1, newIndex),
-                    addMore(newIndex == state.responseMonthlyWiseData!.length-1, newIndex,state.responseMonthlyWiseData!),
-                    ..._getProduction(state.responseMonthlyWiseData!),
-                    const SizedBox(height: 40,),
-                    TextButton(
-                      onPressed: (){
-                        _formKey.currentState?.save();
-                        // print(productionList);
+            child: Padding(
+              padding: const EdgeInsets.all(0),
+              child: Column(
+                children: [
 
-                        addCowAndYield();
-                      },
-                      child: const Text('Submit'),
-                      // color: Colors.green,
+                  CustomAppBar(
+                    context: context,
+                    titleText1: 'Cows and Yield',
+                    leading: arrowBackButton(),
+                    centerTitle: true,
+                    description: 'Provide the following details',
+                    action: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Save',
+                        style: figtreeMedium.copyWith(
+                            fontSize: 14, color: ColorResources.maroon),
+                      ),
                     ),
-                  ],
-                ),
+                    titleText1Style:
+                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                  ),
+                  // addMore(newIndex == productionList.length-1, newIndex),
+                  addMore(newIndex == BlocProvider.of<DdeFarmerCubit>(context).state.responseMonthlyWiseData!.length-1, newIndex,BlocProvider.of<DdeFarmerCubit>(context).state.responseMonthlyWiseData!),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: BlocBuilder<DdeFarmerCubit,DdeState>(
+                          builder: (BuildContext context, state) {
+                          return Column(
+                            children: [
+                              ..._getProduction(state.responseMonthlyWiseData!),
+                              const SizedBox(height: 40,),
+                              // TextButton(
+                              //   onPressed: (){
+                              //     _formKey.currentState?.save();
+                              //     // print(productionList);
+                              //     addCowAndYield();
+                              //   },
+                              //   child: const Text('Submit'),
+                              //   // color: Colors.green,
+                              // ),
+                              saveCancelButton()
+                            ],
+                          );
+                        }
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          );
-        }
+          )
+        // }
+      // ),
+    );
+  }
+
+
+  Widget saveCancelButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(29, 40, 29, 0),
+      child: Column(
+        children: [
+          // 40.verticalSpace(),
+          customButton(
+            'Save',
+            style: figtreeMedium.copyWith(color: Colors.white, fontSize: 16),
+            onTap: () {
+
+              addCowAndYield();
+            },
+            width: screenWidth(),
+            height: 60,
+          ),
+          15.verticalSpace(),
+          customButton('Cancel',
+              style: figtreeMedium.copyWith(fontSize: 16),
+              onTap: () {},
+              width: screenWidth(),
+              height: 60,
+              color: 0xffDCDCDC),
+          20.verticalSpace(),
+        ],
       ),
     );
   }
 
   void showHideMonth(int i){
-    setState((){
+    // setState((){
       showMonth[i]=!showMonth[i];
-    });
+    // });
   }
 
   void addYields(){
@@ -132,8 +189,10 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     UpdateRecordMonthBreedModel response =
     UpdateRecordMonthBreedModel(monthId: 5,farmerId: 5,
         requestData: requestData);
+
     String jsonRequestData = jsonEncode(response);
-    context.read<DdeFarmerCubit>().updateCowBreedRecordApi(context, jsonRequestData);
+    print(jsonRequestData);
+    // context.read<DdeFarmerCubit>().updateCowBreedRecordApi(context, jsonRequestData);
 
     /*Map<String,dynamic> jsonData = HashMap();
 
@@ -199,6 +258,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     );
   }
 
+
   //////////AddMoreBreedDateWise////////////////
   Widget addMoreDateWiseData(bool add, int index,List<dynamic> responseDateWiseData) {
     return Column(
@@ -208,10 +268,20 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
             height: 50,
             width: 130,
             onTap: () {
-              responseDateWiseData.insert(0, DateWiseData());
-              checkAddMore = true;
-              milkingCows.clear();
-              setState((){});
+
+          // if(BlocProvider.of<DdeFarmerCubit>(context).state.breedResponse!.length>responseDateWiseData.length){
+            // responseDateWiseData.insert(0, DateWiseData());
+          // BlocProvider.of<DdeFarmerCubit>(context).addDate();
+            responseDateWiseData.add(DateWiseData(id: null,milkingCows: "0",
+            yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));
+            // requestData.add(RequestData(id: null,milkingCows: "0",
+            //     yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));
+            // context.read<DdeFarmerCubit>().totalAll(index,addBreedLength);
+            checkAddMore = true;
+            setState((){});
+          // }
+              // BlocProvider.of<DdeFarmerCubit>(context).state.yieldPerDayController.clear();
+              // BlocProvider.of<DdeFarmerCubit>(context).state.yieldPerDayController.add(TextEditingController());
             },
             color: 0xffFFFFFF,
             borderColor: 0xff6A0030,
@@ -248,17 +318,19 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                                 color: Colors.grey.withOpacity(.100),
                                 blurRadius: 15),
                           ]),
-                          child: InkWell(
-                            onTap: (){
-                              showHideMonth(i);
-                            },
-                            child: Card(
-                              margin: 0.marginAll(),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              color: Colors.white,
-                              child:Column(children: [
-                                Container(
+                          child: Card(
+                            margin: 0.marginAll(),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            color: Colors.white,
+                            child:Column(children: [
+                              InkWell(
+                                onTap: (){
+
+                                  BlocProvider.of<DdeFarmerCubit>(context).showHide(i, responseMonthWise);
+
+                                },
+                                child: Container(
                                   decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
                                     color: Color(0xffFFB300),
@@ -315,120 +387,123 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                                         ),
                                       ),
                                       10.verticalSpace(),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 0, 10, 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
+                                      BlocBuilder<DdeFarmerCubit,DdeState>(
+                                          builder: (context,state) {
+                                          return Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                20, 0, 10, 20),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                Row(
                                                   children: [
-                                                    Text(
-                                                      "${responseMonthWise.totalMilkProduction??"0"}",
-                                                      style: figtreeSemiBold
-                                                          .copyWith(fontSize: 18),
-                                                    ),
-                                                    Text(
-                                                      'Herd Size',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
-                                                  ],
-                                                ),
-                                                05.horizontalSpace(),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '${responseMonthWise.totalMilkProduction??"0"} Ltr.',
-                                                      style: figtreeSemiBold
-                                                          .copyWith(fontSize: 18),
-                                                    ),
-                                                    Text(
-                                                      'Production',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
-                                                  ],
-                                                ),
-                                                05.horizontalSpace(),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    BlocBuilder<DdeFarmerCubit,DdeState>(
-                                                      builder: (context,state) {
-                                                        return Text(
-                                                          monthWise.first.id == responseMonthWise.id ? state.totalProduction.toString():responseMonthWise.milkingCow ?? "0",
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          monthWise.first.id == responseMonthWise.id ? state.totalHerdSize.toString():responseMonthWise.totalHerdSize ?? "0",
                                                           style: figtreeSemiBold
                                                               .copyWith(fontSize: 18),
-                                                        );
-                                                      }
+                                                        ),
+                                                        Text(
+                                                          'Herd Size',
+                                                          style: figtreeMedium
+                                                              .copyWith(fontSize: 12),
+                                                        )
+                                                      ],
                                                     ),
-                                                    Text(
-                                                      'Milking Cows',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
+                                                    05.horizontalSpace(),
                                                   ],
                                                 ),
-                                                05.horizontalSpace(),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                Row(
                                                   children: [
-                                                    Text(
-                                                      '${responseMonthWise.yieldPerCow ?? "0"} Ltr.',
-                                                      style: figtreeSemiBold
-                                                          .copyWith(fontSize: 18),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          monthWise.first.id == responseMonthWise.id ? state.totalProduction.toString():responseMonthWise.totalHerdSize ?? "0",
+                                                          style: figtreeSemiBold
+                                                              .copyWith(fontSize: 18),
+                                                        ),
+                                                        Text(
+                                                          'Production',
+                                                          style: figtreeMedium
+                                                              .copyWith(fontSize: 12),
+                                                        )
+                                                      ],
                                                     ),
-                                                    Text(
-                                                      'Yield/day',
-                                                      style: figtreeMedium
-                                                          .copyWith(fontSize: 12),
-                                                    )
+                                                    05.horizontalSpace(),
                                                   ],
                                                 ),
-                                                05.horizontalSpace(),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          monthWise.first.id == responseMonthWise.id ? state.totalMilkingCow.toString():responseMonthWise.milkingCow ?? "0",
+                                                          style: figtreeSemiBold
+                                                              .copyWith(fontSize: 18),
+                                                        ),
+                                                        Text(
+                                                          'Milking Cows',
+                                                          style: figtreeMedium
+                                                              .copyWith(fontSize: 12),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    05.horizontalSpace(),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          monthWise.first.id == responseMonthWise.id ? state.yieldPerDay.toStringAsFixed(2):responseMonthWise.yieldPerCow.toString() ?? "0",
+                                                          // '${responseMonthWise.yieldPerCow ?? "0"} Ltr.',
+                                                          style: figtreeSemiBold
+                                                              .copyWith(fontSize: 18),
+                                                        ),
+                                                        Text(
+                                                          'Yield/day',
+                                                          style: figtreeMedium
+                                                              .copyWith(fontSize: 12),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    05.horizontalSpace(),
+                                                  ],
+                                                ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          );
+                                        }
                                       ),
                                     ],
                                   ),
                                 ),
-                                // addMoreDateWiseData(false,0,responseMonthWise.dateWiseData!=null?responseMonthWise.dateWiseData!:[]),
-                                showMonth[i] ?Column(
-                                  children: [
-                                    ...getDateWiseData(responseMonthWise.dateWiseData != null ?responseMonthWise.dateWiseData!:[DateWiseData()],responseMonthWise,responseMonth),
-                                    monthWise.first.id == responseMonthWise.id?
-                                    addMoreDateWiseData(false,0,responseMonthWise.dateWiseData!=null?responseMonthWise.dateWiseData!:[]):const SizedBox(width: 0,height: 0,),
-                                    20.verticalSpace(),
-                                    TotalProductionTextField(i, responseMonthWise, monthWise),
-                                    20.verticalSpace(),
-                                  ],
-                                ):const SizedBox(width: 0,height: 0,),
-                              ]),
-                            ),
+                              ),
+                              // addMoreDateWiseData(false,0,responseMonthWise.dateWiseData!=null?responseMonthWise.dateWiseData!:[]),
+                              // i>0?
+                              BlocProvider.of<DdeFarmerCubit>(context).state.id == responseMonthWise.id ?Column(
+                                children: [
+                                  ...getDateWiseData(responseMonthWise.dateWiseData != null ?responseMonthWise.dateWiseData!:[DateWiseData()],responseMonthWise,responseMonth),
+                                  monthWise.first.id == responseMonthWise.id?
+                                  addMoreDateWiseData(false,0,responseMonthWise.dateWiseData!=null?responseMonthWise.dateWiseData!:[]):const SizedBox(width: 0,height: 0,),
+                                  20.verticalSpace(),
+                                  TotalProductionTextField(i, responseMonthWise, monthWise),
+                                  20.verticalSpace(),
+                                ],
+                              ):const SizedBox(width: 0,height: 0,)
+
+                            ]),
                           ),
                         ),
                       ],
@@ -456,41 +531,12 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
   }
 
 ///////////SaveCancelButton////////////////////
-  Widget saveCancelButton() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(29, 40, 29, 0),
-      child: Column(
-        children: [
-          // 40.verticalSpace(),
-          customButton(
-            'Save',
-            style: figtreeMedium.copyWith(color: Colors.white, fontSize: 16),
-            onTap: () {},
-            width: screenWidth(),
-            height: 60,
-          ),
-          15.verticalSpace(),
-          customButton('Cancel',
-              style: figtreeMedium.copyWith(fontSize: 16),
-              onTap: () {},
-              width: screenWidth(),
-              height: 60,
-              color: 0xffDCDCDC),
-          20.verticalSpace(),
-        ],
-      ),
-    );
-  }
 
   Widget _addRemoveButton(bool add, int index){
     return InkWell(
       onTap: (){
-        if(add){
-          productionList.insert(0, "");
-        }
-        else {
-          productionList.removeAt(index);
-        }
+
+        productionList.removeAt(index);
         setState((){});
       },
       child: Container(
@@ -514,11 +560,9 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
       showMonth.add(false);
       // print("ss"+responseMonthWiseData.first.totalMilkProduction);
       if(checkAddMore == false){
-        print("checkAddMore");
         addBreedLength.clear();
         addBreedLength.addAll(responseMonthWiseData[i].dateWiseData!);
       }
-      print("sss${responseMonthWiseData[i].dateWiseData!.length}dd ${addBreedLength.length}");
       friendsTextFieldsList.add(
           Column(
             children: [
@@ -536,12 +580,14 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
   List<Widget> getDateWiseData(List<DateWiseData> responseDateWise,MonthWiseData dataMonth,List<MonthWiseData> responseMonth){
     List<Widget> friendsTextFieldsList = [];
     productionList.clear();
+    print("getDateWise");
     for(int i=0; i<responseDateWise.length; i++){
       productionList.clear();
       showQty.add(false);
       // productionList.add(responseDateWise.toString());
       friendsTextFieldsList.add(
-          Column(
+          ProductionTextField(i,responseDateWise[i],responseDateWise,dataMonth,responseMonth)
+          /*Column(
             children: [
 
               Container(
@@ -564,7 +610,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                 ),
               ),
             ],
-          )
+          )*/
       );
     }
     return friendsTextFieldsList;
@@ -586,18 +632,20 @@ class ProductionTextField extends StatefulWidget {
 
 class _ProductionTextFieldState extends State<ProductionTextField> {
   bool? checkCurrentMonth;
-  late TextEditingController _breedController;
-  late TextEditingController _herdController;
-  late TextEditingController _milkingCowController;
-  late TextEditingController _yieldPerDayController;
-  late TextEditingController _dryController;
-  late TextEditingController _heiferController;
-  late TextEditingController _sevenTwelveController;
-  late TextEditingController _lessThanSixController;
-  late TextEditingController _bullCalfController;
+  late TextEditingController _breedController = TextEditingController();
+  late TextEditingController idBreedController= TextEditingController();
+  late TextEditingController _herdController= TextEditingController();
+  late TextEditingController _milkingCowController= TextEditingController();
+  late TextEditingController _yieldPerDayController= TextEditingController();
+  late TextEditingController _dryController= TextEditingController();
+  late TextEditingController _heiferController= TextEditingController();
+  late TextEditingController _sevenTwelveController= TextEditingController();
+  late TextEditingController _lessThanSixController = TextEditingController();
+  late TextEditingController _bullCalfController= TextEditingController();
 
   void breedController(String addressController) {
     BlocProvider.of<DdeFarmerCubit>(context).emit(BlocProvider.of<DdeFarmerCubit>(context).state.copyWith(breedController: TextEditingController(text: addressController)));
+    // BlocProvider.of<DdeFarmerCubit>(context).emit(BlocProvider.of<DdeFarmerCubit>(context).state.copyWith(breedController: TextEditingController(text: addressController)));
   }
 
   void showHide(int i){
@@ -611,21 +659,26 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   @override
   void initState() {
     super.initState();
-
-    checkCurrentMonth = checkDate(DateTime(int.parse(widget.dataMonth.year.toString()),int.parse(widget.dataMonth.month.toString())));
-    _breedController = TextEditingController(text: widget.responseDateWise.breedName.toString());
-    _herdController = TextEditingController(text: widget.responseDateWise.heardSize.toString());
-    _milkingCowController = TextEditingController(text: widget.responseDateWise.milkingCows.toString());
-    _yieldPerDayController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
-    _dryController = TextEditingController(text: widget.responseDateWise.dryCows.toString());
-    _heiferController = TextEditingController(text: widget.responseDateWise.heiferCows.toString());
-    _sevenTwelveController = TextEditingController(text: widget.responseDateWise.sevenToTwelveMonthCows.toString());
-    _lessThanSixController = TextEditingController(text: widget.responseDateWise.sixMonthCow.toString());
-    _bullCalfController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
-
-    CowsAndYieldsDDEFarmerState.requestData.addAll({RequestData(
-        id: addBreedLength.length >=widget.index?widget.responseDateWise.id.toString():null,
-        cowBreedId: widget.responseDateWise.cowBreedId,
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      if(widget.index==0){
+      checkCurrentMonth = checkDate(DateTime(int.parse(widget.dataMonth.year.toString()),int.parse(widget.dataMonth.month.toString())));
+      _breedController = TextEditingController(text: widget.responseDateWise.breedName.toString());
+      idBreedController = TextEditingController();
+      _herdController = TextEditingController(text: widget.responseDateWise.heardSize.toString());
+      _milkingCowController = TextEditingController(text: widget.responseDateWise.milkingCows.toString());
+      print(_milkingCowController.text.toString());
+      _yieldPerDayController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
+      _dryController = TextEditingController(text: widget.responseDateWise.dryCows.toString());
+      _heiferController = TextEditingController(text: widget.responseDateWise.heiferCows.toString());
+      _sevenTwelveController = TextEditingController(text: widget.responseDateWise.sevenToTwelveMonthCows.toString());
+      _lessThanSixController = TextEditingController(text: widget.responseDateWise.sixMonthCow.toString());
+      _bullCalfController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
+      // print("${addBreedLength.length} indexLength${widget.index+1}");
+      CowsAndYieldsDDEFarmerState.requestData.addAll({RequestData(
+        id: addBreedLength.length >= widget.index + 1 ? widget.responseDateWise
+            .id.toString() : null,
+        cowBreedId: addBreedLength.length >= widget.index + 1 ? widget
+            .responseDateWise.cowBreedId : idBreedController.text.toString(),
         milkingCows: widget.responseDateWise.milkingCows,
         yieldPerCow: widget.responseDateWise.yieldPerCow,
         dryCows: widget.responseDateWise.dryCows,
@@ -633,11 +686,68 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
         heiferCows: widget.responseDateWise.heiferCows,
         sevenToTwelveMonthCows: widget.responseDateWise.sevenToTwelveMonthCows,
         sixMonthCow: widget.responseDateWise.sixMonthCow,
-        bullCalfs: "1",
-    )});
+        bullCalfs: "0",
+      )});
 
-    // context.read<DdeFarmerCubit>().emit(BlocProvider.of<DdeFarmerCubit>(context).state.copyWith(milkingCowController: [TextEditingController()]));
-    context.read<DdeFarmerCubit>().totalMilkingCow(widget.index);
+      context.read<DdeFarmerCubit>().totalMilkingCow(widget.index);
+      context.read<DdeFarmerCubit>().totalSumOfHerdSize(widget.index,widget.index);
+      context.read<DdeFarmerCubit>().totalHerdSize(widget.index);
+      context.read<DdeFarmerCubit>().totalAll(widget.index,addBreedLength);
+      clickMonth = true;
+
+      _herdController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize.toString()??"";
+      _yieldPerDayController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow.toString() ?? "";
+      _milkingCowController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows.toString() ?? "";
+      _dryController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows.toString() ?? "";
+      _heiferController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows.toString() ?? "";
+      _sevenTwelveController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows.toString() ?? "";
+      _lessThanSixController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow.toString() ?? "";
+      _bullCalfController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs.toString() ?? "";
+}else{
+        // checkCurrentMonth = checkDate(DateTime(int.parse(widget.dataMonth.year.toString()),int.parse(widget.dataMonth.month.toString())));
+        _breedController = TextEditingController(text: widget.responseDateWise.breedName.toString());
+        idBreedController = TextEditingController();
+        _herdController = TextEditingController(text: widget.responseDateWise.heardSize.toString());
+        _milkingCowController = TextEditingController(text: widget.responseDateWise.milkingCows.toString());
+        print(_milkingCowController.text.toString());
+        _yieldPerDayController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
+        _dryController = TextEditingController(text: widget.responseDateWise.dryCows.toString());
+        _heiferController = TextEditingController(text: widget.responseDateWise.heiferCows.toString());
+        _sevenTwelveController = TextEditingController(text: widget.responseDateWise.sevenToTwelveMonthCows.toString());
+        _lessThanSixController = TextEditingController(text: widget.responseDateWise.sixMonthCow.toString());
+        _bullCalfController = TextEditingController(text: widget.responseDateWise.yieldPerCow.toString());
+        // print("${addBreedLength.length} indexLength${widget.index+1}");
+       /* CowsAndYieldsDDEFarmerState.requestData.addAll({RequestData(
+          id: addBreedLength.length >= widget.index + 1 ? widget.responseDateWise
+              .id.toString() : null
+          cowBreedId: addBreedLength.length >= widget.index + 1 ? widget
+              .responseDateWise.cowBreedId : idBreedController.text.toString(),
+          milkingCows: widget.responseDateWise.milkingCows,
+          yieldPerCow: widget.responseDateWise.yieldPerCow,
+          dryCows: widget.responseDateWise.dryCows,
+          heardSize: widget.responseDateWise.heardSize.toString(),
+          heiferCows: widget.responseDateWise.heiferCows,
+          sevenToTwelveMonthCows: widget.responseDateWise.sevenToTwelveMonthCows,
+          sixMonthCow: widget.responseDateWise.sixMonthCow,
+          bullCalfs: "0",
+        )});*/
+
+        // context.read<DdeFarmerCubit>().totalMilkingCow(widget.index);
+        // context.read<DdeFarmerCubit>().totalSumOfHerdSize(widget.index,widget.index);
+        // context.read<DdeFarmerCubit>().totalHerdSize(widget.index);
+        // context.read<DdeFarmerCubit>().totalAll(widget.index,addBreedLength);
+
+        _herdController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize.toString()??"";
+        _yieldPerDayController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow.toString() ?? "";
+        _milkingCowController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows.toString() ?? "";
+        _dryController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows.toString() ?? "";
+        _heiferController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows.toString() ?? "";
+        _sevenTwelveController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows.toString() ?? "";
+        _lessThanSixController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow.toString() ?? "";
+        _bullCalfController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs.toString() ?? "";
+      }
+    });
+
   }
   @override
   void dispose() {
@@ -656,29 +766,21 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   @override
   Widget build(BuildContext context) {
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _herdController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize.toString()??"";
-      _yieldPerDayController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow.toString() ?? "";
-      _milkingCowController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows.toString() ?? "";
-      _dryController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows.toString() ?? "";
-      _heiferController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows.toString() ?? "";
-      _sevenTwelveController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows.toString() ?? "";
-      _lessThanSixController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow.toString() ?? "";
-      _bullCalfController.text = CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs.toString() ?? "";
-    });
+
 
     return BlocBuilder<DdeFarmerCubit,DdeState>(
       builder: (context,state) {
-        return Column(
+        return widget.dataDateWise.isNotEmpty &&  widget.index<widget.dataDateWise.length&&state.herdSizeController.isNotEmpty?
+        Column(
           children: [
 
-            10.verticalSpace(),
-
-            Row(
+            Column(
               children: [
-                BlocBuilder<DdeFarmerCubit,DdeState>(
-                  builder: (context,state) {
-                    return Expanded(
+                10.verticalSpace(),
+
+                Row(
+                  children: [
+                    Expanded(
                         child: InkWell(
                           onTap: (){
                             print('${addBreedLength.length} hhh ${widget.index}');
@@ -695,39 +797,56 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 enabled: false,
                                 image: addBreedLength.length-1 >=widget.index? null:Images.arrowDown,
                                 imageColors: Colors.black,
-                                controller: _breedController,
+                                controller: addBreedLength.length-1 >= widget.index? _breedController:state.breedController,
                                 // controller: state.breedController,
                                 // onChanged: (v) => CowsAndYieldsDDEFarmerState.productionList[widget.index] = v,
                                 hint:'Breed Name',
                               )),
-                        ));
-                  }
-                ),
-                10.horizontalSpace(),
-                InkWell(
-                  onTap: (){
-                    showHide(widget.index);
-                  },
-                  child: Container(
-                    width: 45,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: showQty[widget.index]? Colors.green : Colors.red,)
+                        )),
+                    10.horizontalSpace(),
+                    InkWell(
+                      onTap: (){
+                        showHide(widget.index);
+                      },
+                      child: Container(
+                        width: 45,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: showQty[widget.index]? Colors.green : Colors.red,)
+                        ),
+                        child: Icon(
+                          showQty[widget.index] ?  Icons.remove:Icons.add, color: Colors.black,
+                        ),
+                      ),
                     ),
-                    child: Icon(
-                      showQty[widget.index] ?  Icons.remove:Icons.add, color: Colors.black,
-                    ),
-                  ),
+                    10.horizontalSpace(),
+                    widget.responseMonth.first.id == widget.dataMonth.id ?
+                    InkWell(
+                      onTap: (){
+                        print("${widget.index} fff ${widget.dataDateWise.length}");
+                        setState((){
+
+                          if(addBreedLength.length-1 >=widget.index){
+                            print("Api");
+                          }else{
+                            widget.dataDateWise.removeAt(widget.index);
+                          }
+                          // widget.dataDateWise.remove(DateWiseData(id: null,milkingCows: "0",
+                          //     yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));
+                        });
+                      },
+                      child: SvgPicture.asset(
+                          Images.deleteField),
+                    ):const SizedBox(width: 0,height: 0,)
+                  ],
                 ),
-                10.horizontalSpace(),
-                SvgPicture.asset(
-                    Images.deleteField)
+
+                20.verticalSpace(),
               ],
             ),
-            20.verticalSpace(),
 
-            showQty[widget.index] ? Column(
+            /*Column(
 
               children: [
                 Row(
@@ -750,7 +869,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               hint: '',
                               enabled: false,
                               // enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
-                              controller: _herdController,
+                              // controller: _herdController,
+                              controller: state.herdSizeController[widget.index],
                               onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize = v,
                               paddingTop: 5,
                               inputType: TextInputType.phone,
@@ -779,12 +899,12 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                             05.verticalSpace(),
                             CustomTextField(
                               hint: '',
-                              // enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
                               controller: state.milkingCowController[widget.index],
                               // controller: _milkingCowController,
                               onChanged: (v) {
                                 CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows = v;
-                                print("222${CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows}");
+                                // print("222${CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows}");
                               },
                               paddingTop: 5,
                               inputType: TextInputType.phone,
@@ -819,8 +939,11 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                             CustomTextField(
                               hint: '',
                               enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
-                              controller: _yieldPerDayController,
-                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow = v,
+                              // controller: _yieldPerDayController,
+                              controller: state.yieldPerDayController[widget.index],
+                              onChanged: (v){
+                                CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow = v;
+                              },
                               paddingTop: 5,
                               inputType: TextInputType.phone,
                               paddingBottom: 21,
@@ -850,7 +973,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               hint: '',
                               enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
                               paddingTop: 5,
-                              controller: _dryController,
+                              // controller: _dryController,
+                              controller: state.dryController[widget.index],
                               onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows = v,
                               inputType: TextInputType.phone,
                               paddingBottom: 21,
@@ -880,7 +1004,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               hint: '',
                               enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
                               paddingTop: 5,
-                              controller: _heiferController,
+                              controller: state.heiferController[widget.index],
+                              // controller: _heiferController,
                               onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows = v,
                               inputType: TextInputType.phone,
                               paddingBottom: 21,
@@ -914,7 +1039,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                             CustomTextField(
                               hint: '',
                               enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
-                              controller: _sevenTwelveController,
+                              controller: state.sevenTwelveMonthController[widget.index],
+                              // controller: _sevenTwelveController,
                               onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows = v,
                               paddingTop: 5,
                               inputType: TextInputType.phone,
@@ -945,7 +1071,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               hint: '',
                               paddingTop: 5,
                               enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
-                              controller: _lessThanSixController,
+                              controller: state.lessthanSixMonthController[widget.index],
+                              // controller: _lessThanSixController,
                               onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow = v,
                               inputType: TextInputType.phone,
                               paddingBottom: 21,
@@ -973,7 +1100,556 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                             05.verticalSpace(),
                             CustomTextField(
                               hint: '',
-                              controller: _bullCalfController,
+                              // controller: _bullCalfController,
+                              controller: state.bullCalfController[widget.index],
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs = v,
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+                10.verticalSpace(),
+              ],
+            ),*/
+
+            widget.responseDateWise.id == widget.dataDateWise.last.id ?showQty[widget.index] ?
+            Visibility(visible: false,child: Container(width: 35,height: 35,color: Colors.black,)):Column(
+
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Herd',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: false,
+                              // enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              // controller: _herdController,
+                              controller: widget.index == 0 ?state.herdSizeController[widget.index]:_herdController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize = v,
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Milking Cow',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              controller: widget.index == 0 ?state.milkingCowController[widget.index]:_milkingCowController,
+                              // controller: _milkingCowController,
+                              onChanged: (v) {
+                                CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows = v;
+                                // print("222${CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows}");
+                              },
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+                20.verticalSpace(),
+                Row(
+                  children: [
+                    Expanded(
+                        child:
+                        Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Yield (Ltr./Day)',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              // controller: _yieldPerDayController,
+                              controller: widget.index == 0 ?state.yieldPerDayController[widget.index]:_yieldPerDayController,
+                              onChanged: (v){
+                                CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow = v;
+                              },
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Dry',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              paddingTop: 5,
+                              // controller: _dryController,
+                              controller:widget.index == 0 ?state.dryController[widget.index]:_dryController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows = v,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Heifer',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              paddingTop: 5,
+                              controller: widget.index == 0 ?state.heiferController[widget.index]:_milkingCowController,
+                              // controller: _heiferController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows = v,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+                20.verticalSpace(),
+                Row(
+                  children: [
+                    Expanded(
+                        child:
+                        Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              '7-12 mo',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              controller: widget.index == 0 ?state.sevenTwelveMonthController[widget.index]:_sevenTwelveController,
+                              // controller: _sevenTwelveController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows = v,
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              '<6 mo',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              paddingTop: 5,
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              controller: widget.index == 0 ?state.lessthanSixMonthController[widget.index]:_lessThanSixController,
+                              // controller: _lessThanSixController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow = v,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Bull Calf',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              // controller: _bullCalfController,
+                              controller: widget.index == 0 ?state.bullCalfController[widget.index]:_bullCalfController,
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs = v,
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+                10.verticalSpace(),
+              ],
+            ):showQty[widget.index] ?
+            Column(
+
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Herd',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: false,
+                              // enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              // controller: _herdController,
+                              controller: widget.index == 0 ?state.herdSizeController[widget.index]:_milkingCowController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heardSize = v,
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Milking Cow',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              controller: widget.index == 0 ?state.milkingCowController[widget.index]:_milkingCowController,
+                              // controller: _milkingCowController,
+                              onChanged: (v) {
+                                CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows = v;
+                                // print("222${CowsAndYieldsDDEFarmerState.requestData[widget.index].milkingCows}");
+                              },
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+                20.verticalSpace(),
+                Row(
+                  children: [
+                    Expanded(
+                        child:
+                        Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Yield (Ltr./Day)',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              // controller: _yieldPerDayController,
+                              controller: widget.index == 0 ?state.yieldPerDayController[widget.index]:_yieldPerDayController,
+                              onChanged: (v){
+                                CowsAndYieldsDDEFarmerState.requestData[widget.index].yieldPerCow = v;
+                              },
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Dry',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              paddingTop: 5,
+                              // controller: _dryController,
+                              controller: widget.index == 0 ?state.dryController[widget.index]:_dryController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].dryCows = v,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Heifer',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              paddingTop: 5,
+                              controller: widget.index == 0 ?state.heiferController[widget.index]:_heiferController,
+                              // controller: _heiferController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].heiferCows = v,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+                20.verticalSpace(),
+                Row(
+                  children: [
+                    Expanded(
+                        child:
+                        Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              '7-12 mo',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              controller: widget.index == 0 ?state.sevenTwelveMonthController[widget.index]:_sevenTwelveController,
+                              // controller: _sevenTwelveController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sevenToTwelveMonthCows = v,
+                              paddingTop: 5,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              '<6 mo',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              paddingTop: 5,
+                              enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
+                              controller:widget.index == 0 ?state.lessthanSixMonthController[widget.index]:_lessThanSixController,
+                              // controller: _lessThanSixController,
+                              onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].sixMonthCow = v,
+                              inputType: TextInputType.phone,
+                              paddingBottom: 21,
+                              maxLine: 1,
+                              width: 1,
+                              borderColor:
+                              0xff999999,
+                            ),
+                          ],
+                        )),
+                    15.horizontalSpace(),
+                    Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Text(
+                              'Bull Calf',
+                              style: figtreeSemiBold
+                                  .copyWith(
+                                  fontSize:
+                                  12),
+                            ),
+                            05.verticalSpace(),
+                            CustomTextField(
+                              hint: '',
+                              // controller: _bullCalfController,
+                              controller: widget.index == 0 ?state.bullCalfController[widget.index]:_bullCalfController,
                               enabled: widget.responseMonth.first.id == widget.dataMonth.id ? true:false,
                               onChanged: (v) => CowsAndYieldsDDEFarmerState.requestData[widget.index].bullCalfs = v,
                               paddingTop: 5,
@@ -991,13 +1667,16 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                 10.verticalSpace(),
               ],
             ) : Visibility(visible: false,child: Container(width: 35,height: 35,color: Colors.black,)),
+
+            // showQty[widget.index] ?
             widget.index == widget.dataDateWise.length-1 ? 15.verticalSpace() :const Divider(
               thickness: 1,
               color:
               ColorResources.grey,
             )
           ],
-        );
+        ):
+        const SizedBox(width: 0,height: 0,);
       }
     );
   }
@@ -1068,10 +1747,10 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
   Widget build(BuildContext context) {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      selfUseController.text = CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].selfUseController.toString()??"";
-      suppliedToPdfController.text = CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].suppliedToPdfl.toString() ?? "";
-      suppliedToOtherPdfController.text = CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].suppliedToOther.toString() ?? "";
-      print(suppliedToPdfController.text);
+      // selfUseController.text = CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].selfUseController.toString()??"";
+      // suppliedToPdfController.text = CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].suppliedToPdfl.toString() ?? "";
+      // suppliedToOtherPdfController.text = CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].suppliedToOther.toString() ?? "";
+      // print(suppliedToPdfController.text);
     });
 
 
@@ -1218,7 +1897,8 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                                               16),
                                                         ),
                                                         Text(
-                                                          CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].totalMilkProduction.toString(),
+                                                          widget.dataMonthWise.first.id == widget.responseMonthWise.id ? state.totalProduction.toStringAsFixed(2):widget.responseMonthWise.yieldPerCow.toString() ?? "0",
+                                                          // CowsAndYieldsDDEFarmerState.modelTotalProduction[widget.index].totalMilkProduction.toString(),
                                                           // state.totalProduction.toString(),
                                                           style: figtreeBold
                                                               .copyWith(
@@ -1247,7 +1927,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                                               16),
                                                         ),
                                                         Text(
-                                                          widget.responseMonthWise.yieldPerCow.toString(),
+                                                          widget.dataMonthWise.first.id == widget.responseMonthWise.id ? state.yieldPerDay.toStringAsFixed(2):widget.responseMonthWise.yieldPerCow.toString() ?? "0",
                                                           style: figtreeBold
                                                               .copyWith(
                                                               fontSize:

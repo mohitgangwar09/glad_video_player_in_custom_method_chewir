@@ -5,6 +5,7 @@ import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_district.dart';
+import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/utils/extension.dart';
 import '../../utils/helper.dart';
 import '../../utils/styles.dart';
@@ -128,6 +129,13 @@ class BreedPicker extends StatelessWidget {
           var country = listDistrictData[i];
           return InkWell(
             onTap: () {
+              for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+                // print(CowsAndYieldsDDEFarmerState.requestData[i].cowBreedId);
+                if(CowsAndYieldsDDEFarmerState.requestData[i].cowBreedId.toString() == country.id.toString()){
+                  showCustomToast(context, "Breed Already exist");
+                  return;
+                }
+              }
               BlocProvider.of<DdeFarmerCubit>(context)
                   .changeBreed(country.name.toString(),country.id.toString());
               BlocProvider.of<DdeFarmerCubit>(context)
