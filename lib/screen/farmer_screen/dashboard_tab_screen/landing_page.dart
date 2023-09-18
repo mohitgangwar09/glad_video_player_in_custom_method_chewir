@@ -338,7 +338,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                           dotColor: ColorResources.grey),
                     ),
                   )),
-            ],) : SizedBox.shrink(),
+            ],) : const SizedBox.shrink(),
 
             100.verticalSpace()
           ],
