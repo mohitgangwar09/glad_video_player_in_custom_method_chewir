@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
@@ -149,7 +150,7 @@ Widget customList<T>(
     clipBehavior: Clip.none,
     shrinkWrap: true,
     itemBuilder: (context, index) => Container(child: child(index)),
-    itemCount: list.isNotEmpty ? list.length : 4,
+    itemCount: list.length,
   );
 }
 
@@ -1229,3 +1230,8 @@ Future<DateTime> selectedDate(BuildContext context) async {
   return picked!;
 }
 
+Future<Position> getCurrentLocation() async{
+  return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high
+  );
+}

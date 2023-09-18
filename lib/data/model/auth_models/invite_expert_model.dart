@@ -8,13 +8,13 @@ class InviteExpert {
   InviteExpert.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -24,11 +24,11 @@ class InviteExpert {
 
 class Data {
   int? id;
-  Null? farmerId;
+  dynamic farmerId;
   int? ddeId;
   String? deviceId;
-  Null? supplierCode;
-  Null? userId;
+  dynamic supplierCode;
+  dynamic userId;
   String? name;
   String? mobile;
   String? address;
@@ -36,12 +36,12 @@ class Data {
   double? lang;
   String? comment;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
-  Null? deletedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
-  Null? closedAt;
+  dynamic closedAt;
   DairyDevelopmentExecutive? dairyDevelopmentExecutive;
 
   Data(
@@ -87,35 +87,35 @@ class Data {
     updatedAt = json['updated_at'];
     closedAt = json['closed_at'];
     dairyDevelopmentExecutive = json['dairy_development_executive'] != null
-        ? new DairyDevelopmentExecutive.fromJson(
+        ? DairyDevelopmentExecutive.fromJson(
         json['dairy_development_executive'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['farmer_id'] = this.farmerId;
-    data['dde_id'] = this.ddeId;
-    data['device_id'] = this.deviceId;
-    data['supplier_code'] = this.supplierCode;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['mobile'] = this.mobile;
-    data['address'] = this.address;
-    data['lat'] = this.lat;
-    data['lang'] = this.lang;
-    data['comment'] = this.comment;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['closed_at'] = this.closedAt;
-    if (this.dairyDevelopmentExecutive != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['dde_id'] = ddeId;
+    data['device_id'] = deviceId;
+    data['supplier_code'] = supplierCode;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['mobile'] = mobile;
+    data['address'] = address;
+    data['lat'] = lat;
+    data['lang'] = lang;
+    data['comment'] = comment;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['closed_at'] = closedAt;
+    if (dairyDevelopmentExecutive != null) {
       data['dairy_development_executive'] =
-          this.dairyDevelopmentExecutive!.toJson();
+          dairyDevelopmentExecutive!.toJson();
     }
     return data;
   }
@@ -126,20 +126,20 @@ class DairyDevelopmentExecutive {
   String? name;
   int? userId;
   int? mccId;
-  Null? latitude;
-  Null? longitude;
-  Null? phone;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic phone;
   String? email;
   String? gender;
-  Null? dob;
-  Null? memberSince;
+  dynamic dob;
+  dynamic memberSince;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
-  Null? deletedBy;
-  Null? createdAt;
-  Null? updatedAt;
-  Null? image;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic image;
 
   DairyDevelopmentExecutive(
       {this.id,
@@ -183,25 +183,25 @@ class DairyDevelopmentExecutive {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['user_id'] = this.userId;
-    data['mcc_id'] = this.mccId;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['gender'] = this.gender;
-    data['dob'] = this.dob;
-    data['member_since'] = this.memberSince;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['user_id'] = userId;
+    data['mcc_id'] = mccId;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['member_since'] = memberSince;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['image'] = image;
     return data;
   }
 }

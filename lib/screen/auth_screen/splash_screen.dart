@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/create_password.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
@@ -40,7 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void _route() async {
     // await imei();
     await initPlatformState();
-    Timer(const Duration(seconds: 2), () async {
+    await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+    Timer(const Duration(seconds: 1), () async {
+
       if(BlocProvider.of<AuthCubit>(context).isLoggedIn()){
         await BlocProvider.of<ProfileCubit>(context).profileApi(context);
         if(!mounted)return;

@@ -107,8 +107,8 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               lng: long ?? 77.3999,
               height: 350,
               onMapCreated: (controller) async{
-                controller.animateCamera(CameraUpdate.newCameraPosition(
-                    CameraPosition(target: LatLng(lat!, long!), zoom: 11)));
+                // controller.animateCamera(CameraUpdate.newCameraPosition(
+                //     CameraPosition(target: LatLng(lat!, long!), zoom: 11)));
               },
               onCameraIdle: () {},
             ),

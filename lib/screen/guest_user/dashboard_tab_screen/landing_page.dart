@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_information/device_information.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
@@ -21,7 +24,6 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class GuestLandingPage extends StatefulWidget {
@@ -33,50 +35,72 @@ class GuestLandingPage extends StatefulWidget {
 
 class _GuestLandingPageState extends State<GuestLandingPage> {
   int activeIndex = 0;
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Stack(
-        children: [
-          landingBackground(),
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Welcome to ',
-                titleText2: 'GLAD',
-                leading: openDrawer(
-                    onTap: () {
-                      landingKey.currentState?.openDrawer();
-                    },
-                    child: SvgPicture.asset(Images.drawer)),
-                action: Row(
-                  children: [
-                    InkWell(
-                        onTap: () async {
-                          await callOnMobile(256758711344);
-                        },
-                        child: SvgPicture.asset(Images.call)),
-                    7.horizontalSpace(),
-                    InkWell(
-                        onTap: () {
-                          const LoginWithPassword().navigate();
-                        },
-                        child: SvgPicture.asset(Images.person)),
-                    8.horizontalSpace(),
-                  ],
-                ),
-              ),
-              landingPage(),
-            ],
-          ),
-        ],
-      ),
-    );
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<LandingPageCubit>(context).getGuestDashboard(context);
+    });
   }
 
-  Widget landingPage() {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LandingPageCubit, LandingPageState>(
+        builder: (context, state) {
+      if (state.status == LandingPageStatus.loading) {
+        return const Center(
+            child: CircularProgressIndicator(
+          color: ColorResources.maroon,
+        ));
+      } else if (state.guestDashboardResponse == null) {
+        return Center(child: Text("${state.guestDashboardResponse} Api Error"));
+      } else {
+        return Container(
+          color: Colors.white,
+          child: Stack(
+            children: [
+              landingBackground(),
+              Column(
+                children: [
+                  CustomAppBar(
+                    context: context,
+                    titleText1: 'Welcome to ',
+                    titleText2: 'GLAD',
+                    leading: openDrawer(
+                        onTap: () {
+                          landingKey.currentState?.openDrawer();
+                        },
+                        child: SvgPicture.asset(Images.drawer)),
+                    action: Row(
+                      children: [
+                        InkWell(
+                            onTap: () async {
+                              await callOnMobile(256758711344);
+                            },
+                            child: SvgPicture.asset(Images.call)),
+                        7.horizontalSpace(),
+                        InkWell(
+                            onTap: () {
+                              const LoginWithPassword().navigate();
+                            },
+                            child: SvgPicture.asset(Images.person)),
+                        8.horizontalSpace(),
+                      ],
+                    ),
+                  ),
+                  landingPage(state),
+                ],
+              ),
+            ],
+          ),
+        );
+      }
+    });
+  }
+
+  Widget landingPage(LandingPageState state) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -92,13 +116,16 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
               image: '',
             ),
             10.verticalSpace(),
-            const DDEInArea(
-              name: 'Begumanya Charles',
-              phone: '+256 758711344',
-              image: '',
+            DDEInArea(
+              name: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.name ?? '',
+              phone: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.phone ?? '',
+              image: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.image ?? '',
+              state: state,
             ),
             10.verticalSpace(),
-            LiveStockMarketplace(onTapShowAll: () {},),
+            LiveStockMarketplace(
+              onTapShowAll: () {},
+            ),
             10.verticalSpace(),
             CommunityForum(
               name: 'Begumanya Charles',
