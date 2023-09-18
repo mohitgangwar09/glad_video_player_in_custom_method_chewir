@@ -5,11 +5,13 @@ enum DdeFarmerStatus { initial, loading, success, error }
 
 class DdeState extends Equatable {
   final String focusTag,breedId;
+  final int id;
   final double totalProduction,totalHerdSize,sumOfHerd,totalMilkingCow,yieldPerDay;
   final List<double> sumOfMilkingSize;
   final DdeFarmerStatus status;
   final Data? response;
   final List<MonthWiseData>? responseMonthlyWiseData;
+  final List<DateWiseData>? dateWise;
   final TextEditingController breedSearchController;
   final List<TextEditingController> milkingCowController;
   final List<TextEditingController> herdSizeController;
@@ -31,6 +33,8 @@ class DdeState extends Equatable {
     required this.focusTag,
     required this.status,
     required this.response,
+    required this.id,
+    required this.dateWise,
     required this.yieldPerDay,
     required this.milkingCowController,
     required this.sumOfMilkingSize,
@@ -65,17 +69,19 @@ class DdeState extends Equatable {
       sumOfHerd: 0,
       yieldPerDay: 0,
       totalMilkingCow: 0,
+      id: 0,
       showQties: const [true],
       responseMonthlyWiseData: const [],
+      dateWise: const [],
       breedSearchController: TextEditingController(),
-      milkingCowController: [TextEditingController()],
-      herdSizeController: [TextEditingController()],
+      milkingCowController: [],
+      herdSizeController: [],
       yieldPerDayController: [],
-      dryController: [TextEditingController()],
-      heiferController: [TextEditingController()],
-      sevenTwelveMonthController: [TextEditingController()],
-      lessthanSixMonthController: [TextEditingController()],
-      bullCalfController: [TextEditingController()],
+      dryController: [],
+      heiferController: [],
+      sevenTwelveMonthController: [],
+      lessthanSixMonthController: [],
+      bullCalfController: [],
       breedController: TextEditingController(),
       suppliedToPdfController: TextEditingController(),
       suppliedToOtherPdfController: TextEditingController(),
@@ -96,6 +102,7 @@ class DdeState extends Equatable {
     List<double>? sumOfMilkingSize,
     DdeFarmerStatus? status,
     Data? response,
+    int? id,
     List<MonthWiseData>? responseMonthlyWiseData,
     TextEditingController? breedSearchController,
     List<TextEditingController>? milkingCowController,
@@ -104,14 +111,17 @@ class DdeState extends Equatable {
     List<TextEditingController>? dryController,heiferController,sevenTwelveMonthController,lessthanSixMonthController,bullCalfController,
     TextEditingController? breedController,suppliedToPdfController,suppliedToOtherPdfController,selfUseController,
     List<DataBreed> ? breedResponse,
+    List<DateWiseData> ? dateWise,
     List<DataBreed> ? searchBreedList,
     List<bool>? showQties,
   }) {
     return DdeState(
       focusTag: focusTag ?? this.focusTag,
       breedId: breedId ?? this.breedId,
+      dateWise: dateWise ?? this.dateWise,
       totalProduction: totalProduction ?? this.totalProduction,
       status: status ?? this.status,
+      id: id ?? this.id,
       yieldPerDay: yieldPerDay ?? this.yieldPerDay,
       totalMilkingCow: totalMilkingCow ?? this.totalMilkingCow,
       sumOfHerd: sumOfHerd ?? this.sumOfHerd,
@@ -142,6 +152,8 @@ class DdeState extends Equatable {
   List<Object?> get props =>[
     focusTag,
     status,
+    dateWise,
+    id,
     yieldPerDay,
     response,
     responseMonthlyWiseData,
