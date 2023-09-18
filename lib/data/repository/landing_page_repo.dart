@@ -61,7 +61,7 @@ class LandingPageRepository {
       "mobile": mobile,
       "address": address,
       "comment": comment,
-      "supplier_id": supplier_id,
+      "supplier_code": supplier_id,
 
     });
     print(formData.fields);

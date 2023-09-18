@@ -5,6 +5,7 @@ import 'package:glad/data/model/farmer_dashboard_model.dart' as dashboard;
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/screen/supplier_screen/reject_screen.dart';
 import 'package:glad/screen/supplier_screen/survey_finished.dart';
 import 'package:glad/utils/extension.dart';
@@ -58,7 +59,7 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     disposeProgress();
 
     if (response.status == 200) {
-      RejectScreen().navigate();
+      const ThankYou().navigate();
 
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));

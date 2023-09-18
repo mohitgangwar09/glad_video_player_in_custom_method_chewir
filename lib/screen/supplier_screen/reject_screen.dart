@@ -29,7 +29,7 @@ class RejectScreen extends StatelessWidget {
                   ],
                 ),
                 SvgPicture.asset(
-                  Images.cancelImage,
+                  Images.done,
                   height: 78,
                   width: 78,
                 ),
