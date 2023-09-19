@@ -24,13 +24,12 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
 
 
   void showMonth(int i,MonthWiseData monthWise){
+    print("CowBreeDetail $i lengthClick ${CowsAndYieldsSumState.requestData.length}");
     emit(state.copyWith(monthId: int.parse(state.responseMonthlyWiseData![i].id.toString())));
   }
 
 
   void allController(String milk){
-    // List<TextEditingController> controller = [];
-    // controller.add(TextEditingController());
     state.milkingCowController.add(TextEditingController());
     state.herdSizeController.add(TextEditingController());
     state.yieldPerDayController.add(TextEditingController());
@@ -41,8 +40,47 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     state.bullCalfController.add(TextEditingController());
   }
 
+  void totalFirstProduction(double totalProduction,int index) {
+
+    double sums = 0;
+
+    state.suppliedToPdfController.addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+          sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
+          double divideByMilking = 0,totalYield =0;
+          divideByMilking = state.totalProduction/state.totalMilkingCow;
+          double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+          double divideByDays = divideByMilking/numberOfDays;
+          totalYield = 0 ;
+          emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
+      }) ;
+    });
+
+    state.suppliedToOtherPdfController.addListener(() {
+
+        sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
+        double divideByMilking = 0,totalYield =0;
+        divideByMilking = state.totalProduction/state.totalMilkingCow;
+        debugPrint(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double divideByDays = divideByMilking/numberOfDays;
+        totalYield = 0 ;
+        emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
+      // }
+    });
+
+    state.selfUseController.addListener(() {
+        sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
+        double divideByMilking = 0,totalYield =0;
+        divideByMilking = state.totalProduction/state.totalMilkingCow;
+        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double divideByDays = divideByMilking/numberOfDays;
+        totalYield = 0 ;
+        emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
+    });
+  }
+
   void getDataController(int childIndex,List<DateWiseData> responseDateWise){
-    // for(int childIndex=0;childIndex<CowsAndYieldsSumState.responseDateWiseData.length;childIndex++){
     state.milkingCowController[childIndex].text = responseDateWise[childIndex].milkingCows.toString();
     state.herdSizeController[childIndex].text = responseDateWise[childIndex].heardSize.toString();
     state.yieldPerDayController[childIndex].text = responseDateWise[childIndex].yieldPerCow.toString();
@@ -51,14 +89,14 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     state.sevenTwelveMonthController[childIndex].text = responseDateWise[childIndex].sevenToTwelveMonthCows.toString();
     state.lessthanSixMonthController[childIndex].text = responseDateWise[childIndex].sixMonthCow.toString();
     state.bullCalfController[childIndex].text = "0";
-    // }
   }
 
   void totalMilkingCow(int index){
+    print("Total Milking Cow ${CowsAndYieldsSumState.requestData.length}");
     int sums = 0,sumOfHerd = 0,totalHerdSize = 0,addTotalHerd;
     state.milkingCowController[index].addListener(() {
       Future.delayed(const Duration(milliseconds: 20),(){
-
+        print("TotalCount ${CowsAndYieldsSumState.requestData.length}");
         for (int i = 0; i < CowsAndYieldsSumState.requestData.length; i++) {
             sums = sums + int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString());
             addTotalHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
@@ -235,6 +273,23 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
       });
     }) ;
 
+    ///// yieldController
+
+    state.yieldPerDayController[index].addListener(() {
+      Future.delayed(const Duration(milliseconds: 20),(){
+        double totalYield = 0;
+        for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+          totalYield = totalYield+double.parse(CowsAndYieldsDDEFarmerState.requestData[i].yieldPerCow.toString().isEmpty?"0":CowsAndYieldsDDEFarmerState.requestData[i].yieldPerCow.toString());
+        }
+        double divideByMilking = 0;
+        divideByMilking = state.totalProduction/state.totalMilkingCow;
+        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double divideByDays = divideByMilking/numberOfDays;
+        emit(state.copyWith(yieldPerDay: divideByDays));
+        totalYield = 0;
+      }) ;
+    });
+
   }
 
 
@@ -276,6 +331,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     var response = await apiRepository.cowBreedDetailsApi();
     if(response.status == 200){
       disposeProgress();
+      print("CowBreeDetail");
       emit(state.copyWith(status: CowsAndCubitStatus.success, responseMonthlyWiseData: response.data!.monthWiseData!));
       for(int i=0 ;i<response.data!.monthWiseData![0].dateWiseData!.length;i++){
         allController("0");

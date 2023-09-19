@@ -39,9 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   void _route() async {
-    // await imei();
     await initPlatformState();
-    // await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+    if (!mounted) return;
+    await BlocProvider.of<AuthCubit>(context).getLocation(context);
+    if (!mounted) return;
+    await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
     Timer(const Duration(seconds: 1), () async {
 
       if(BlocProvider.of<AuthCubit>(context).isLoggedIn()){

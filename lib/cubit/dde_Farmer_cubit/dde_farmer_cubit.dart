@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
@@ -306,32 +307,17 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     double sums = 0;
 
     state.suppliedToPdfController.addListener(() {
-      print(state.suppliedToPdfController.text);
       Future.delayed(const Duration(milliseconds: 20),(){
         if(state.suppliedToPdfController.text.isNotEmpty){
           sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
           double divideByMilking = 0,totalYield =0;
           divideByMilking = state.totalProduction/state.totalMilkingCow;
-          print("days $divideByMilking");
-          print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
           double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
           double divideByDays = divideByMilking/numberOfDays;
-          // emit(state.copyWith(yieldPerDay: divideByDays));
-          print(totalYield/state.totalMilkingCow);
-          print(divideByDays);
           totalYield = 0 ;
           emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
         }
       }) ;
-      /*if(state.suppliedToPdfController.text.isNotEmpty){
-      CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl = state.suppliedToPdfController.text;
-      CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther ?? "0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl??"0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
-      emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));
-      }else{
-        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl = state.suppliedToPdfController.text;
-        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther ?? "0")+double.parse("0")+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
-        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));
-      }*/
     });
 
     state.suppliedToOtherPdfController.addListener(() {
@@ -339,20 +325,12 @@ class DdeFarmerCubit extends Cubit<DdeState>{
       sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
       double divideByMilking = 0,totalYield =0;
       divideByMilking = state.totalProduction/state.totalMilkingCow;
-      print("days $divideByMilking");
-      print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
+      debugPrint(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
       double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
       double divideByDays = divideByMilking/numberOfDays;
-      // emit(state.copyWith(yieldPerDay: divideByDays));
-      print(totalYield/state.totalMilkingCow);
-      print(divideByDays);
       totalYield = 0 ;
       emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
       }
-     /* if(state.suppliedToOtherPdfController.text.isNotEmpty){
-        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther = state.suppliedToOtherPdfController.text;
-        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
-        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}*/
     });
 
     state.selfUseController.addListener(() {
@@ -360,19 +338,10 @@ class DdeFarmerCubit extends Cubit<DdeState>{
       sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
       double divideByMilking = 0,totalYield =0;
       divideByMilking = state.totalProduction/state.totalMilkingCow;
-      print("days $divideByMilking");
-      print(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day);
       double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
       double divideByDays = divideByMilking/numberOfDays;
-      // emit(state.copyWith(yieldPerDay: divideByDays));
-      print(totalYield/state.totalMilkingCow);
-      print(divideByDays);
       totalYield = 0 ;
       emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));}
-      /*if(state.selfUseController.text.isNotEmpty){
-        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController = state.selfUseController.text;
-        CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction = double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToOther)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].suppliedToPdfl)+double.parse(CowsAndYieldsDDEFarmerState.modelTotalProduction[index].selfUseController);
-        emit(state.copyWith(totalProduction: CowsAndYieldsDDEFarmerState.modelTotalProduction[index].totalMilkProduction));}*/
     });
   }
 
