@@ -471,6 +471,37 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                     width: 0,
                                     height: 0,
                                   ),
+
+                            state.responseEnquiryDetail!.data!.enquiry!.status == "pending"?
+                            state.markAsClosed == ""?
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: InkWell(
+                                onTap: (){
+
+                                  BlocProvider.of<DdeEnquiryCubit>(context).enquiryClosedApi(context, widget.id.toString());
+                                },
+                                child: Row(
+                                  children: [
+                                    checkBox(onChanged: (v){
+                                      BlocProvider.of<DdeEnquiryCubit>(context).enquiryClosedApi(context, widget.id.toString());
+                                    }),
+                                    Text("Mark as Closed",style: figtreeBold.copyWith(
+                                    ),)
+                                  ],
+                                ),
+                              ),
+                            ):const SizedBox(width: 0,height: 0,):Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Row(
+                                children: [
+                                  checkBox(value: true),
+                                  Text("Closed",style: figtreeBold.copyWith(
+                                  ),)
+                                ],
+                              ),
+                            ),
+
                             20.verticalSpace()
                           ],
                         ),
@@ -484,7 +515,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                         state.responseEnquiryDetail!.data!.enquiry!.status
                                 .toString() ==
                             "pending"
-                    ? Container(
+                    ? state.markAsClosed == ""?Container(
                         height: AppBar().preferredSize.height * 1.5,
                         width: screenWidth(),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -528,7 +559,10 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                             )
                           ],
                         ),
-                      )
+                      ):
+                const SizedBox(
+                  width: 0,
+                  height: 0,)
                     : const SizedBox(
                         width: 0,
                         height: 0,

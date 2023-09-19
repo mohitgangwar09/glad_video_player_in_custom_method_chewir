@@ -33,6 +33,7 @@ class AppConstants {
   static const String getGuestDashboard = '/api/guest-user-dashboard';
   static const String enquiryListApi = '/api/enquiry-list';
   static const String enquiryDetailsApi = '/api/enquiry-details';
+  static const String enquiryClosedApi = '/api/dde/enquiry-closed';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

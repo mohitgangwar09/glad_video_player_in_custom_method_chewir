@@ -51,5 +51,18 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
     }
   }
 
+  // enquiryClosedApi
+  Future<void> enquiryClosedApi(context,String id) async {
+    emit(state.copyWith(status: DdeEnquiryStatus.loading));
+    var response = await apiRepository.enquiryClosedApi(id);
+    if (response.status == 200) {
+      showCustomToast(context, response.message.toString());
+      enquiryListApi(context, "closed");
+      emit(state.copyWith(status: DdeEnquiryStatus.success,markAsClosed: "closed",enquiryStatus: "Closed"));
+    } else {
+      emit(state.copyWith(status: DdeEnquiryStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
 
 }

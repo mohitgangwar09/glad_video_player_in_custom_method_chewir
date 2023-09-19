@@ -366,13 +366,13 @@ Widget checkBox({bool value = false, ValueChanged<bool?>? onChanged}) {
       scale: 1.2,
       child: Checkbox(
           focusColor: const Color(0xffAEADAD),
-          activeColor: const Color(0xff30A8B7),
+          activeColor: ColorResources.maroon,
           value: value,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.0),
           ),
           onChanged: (newValue) {
-            onChanged!(newValue);
+            // onChanged!(newValue);
             //   setState(() => rememberMe = newValue);
           }),
     ),
