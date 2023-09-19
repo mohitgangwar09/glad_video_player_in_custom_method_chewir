@@ -177,8 +177,13 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                                       enabledBorder: InputBorder.none,
                                       hintText: 'Followup remarks...'),
                                   onSubmitted: (value) {
-                                    context.read<LandingPageCubit>().addFollowUpRemark(context, false, value,enquiryId: null);
-                                    commentController.clear();
+                                    if(value.isNotEmpty) {
+                                      context.read<LandingPageCubit>()
+                                          .addFollowUpRemark(
+                                          context, false, value,
+                                          enquiryId: null);
+                                      commentController.clear();
+                                    }
                                   },
                                 ),
                             ),

@@ -232,14 +232,24 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
       child: Column(
         children: [
           customButton('Submit', onTap: () {
-            BlocProvider.of<LandingPageCubit>(context).inviteExpertDetails(
-                context,
-                nameController!.text,
-                mobileController!.text,
-                addressController!.text,
-                commentController!.text,
-                lat!.toString(),
-                long!.toString());
+            if(nameController!.text.isEmpty) {
+              showCustomToast(context, 'Name is required');
+            } else if(mobileController!.text.isEmpty) {
+              showCustomToast(context, 'Mobile no is required');
+            } else if(addressController!.text.isEmpty) {
+              showCustomToast(context, 'Address is required');
+            }else if(commentController!.text.isEmpty) {
+              showCustomToast(context, 'Comment is required');
+            } else {
+              BlocProvider.of<LandingPageCubit>(context).inviteExpertDetails(
+                  context,
+                  nameController!.text,
+                  mobileController!.text,
+                  addressController!.text,
+                  commentController!.text,
+                  lat!.toString(),
+                  long!.toString());
+            }
 
           },
               fontColor: 0xffFFFFFF,
