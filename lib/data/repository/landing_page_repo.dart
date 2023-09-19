@@ -70,7 +70,7 @@ class LandingPageRepository {
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.followupRemarkList, data: formData);
+        .getPostApiResponse(AppConstants.inviteExpertDetails, data: formData);
 
     if (apiResponse.status) {
       return InviteExpert.fromJson(apiResponse.response!.data);
