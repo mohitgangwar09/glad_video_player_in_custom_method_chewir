@@ -61,7 +61,7 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     disposeProgress();
 
     if (response.status == 200) {
-      ThankYou(expert: response).navigate(isRemove: true);
+      ThankYou(expert: response).navigate(isInfinity: true);
 
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
