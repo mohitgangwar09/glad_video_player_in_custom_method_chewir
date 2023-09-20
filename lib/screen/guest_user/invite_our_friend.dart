@@ -16,6 +16,7 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_search_place/google_search_place.dart';
+import 'package:google_search_place/model/place_details.dart';
 import 'package:google_search_place/model/prediction.dart';
 
 class InviteAnExpert extends StatefulWidget {
@@ -33,6 +34,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
   final TextEditingController _searchPlaceController = TextEditingController();
   double? lat;
   double? long;
+  String? district;
 
   @override
   Widget build(BuildContext context) {
@@ -143,10 +145,17 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                                   _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
                                   lat = double.parse(prediction.lat!);
                                   long = double.parse(prediction.lng!);
+                                  setState(() {});
+                                  debugPrint("$lat $long");
+                                  for( AddressComponents data in prediction.placeDetails!.result!.addressComponents!) {
+                                    if(data.types!.contains('administrative_area_level_3')){
+                                      district = data.longName;
+                                      break;
+                                    }
+                                  }
                                   setState(() {
 
                                   });
-                                  debugPrint("$lat $long");
                                 },
                               inputDecoration: InputDecoration(
                                 labelText: 'Type your address...',
@@ -248,7 +257,8 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                   addressController!.text,
                   commentController!.text,
                   lat!.toString(),
-                  long!.toString());
+                  long!.toString(),
+                  district ?? '');
             }
 
           },

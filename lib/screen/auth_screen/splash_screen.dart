@@ -42,6 +42,22 @@ class _SplashScreenState extends State<SplashScreen> {
     // await imei();
     await initPlatformState();
     await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+    // GeocoderResponse geocoderResponse = await BlocProvider.of<LandingPageCubit>(context).getAddressFromLatLngDescription(BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude);
+
+    // GeocoderResponse geocoderResponse = await BlocProvider.of<LandingPageCubit>(context).getAddressFromLatLngDescription(0.3152, 32.5816);
+    // GeocoderResponse geocoderResponse = await BlocProvider.of<LandingPageCubit>(context).getAddressFromLatLngDescription(26.466743, 74.635708);
+    // GeocoderResponse geocoderResponse = await BlocProvider.of<LandingPageCubit>(context).getAddressFromLatLngDescription(0.938401, 32.566728);
+    // print('-----------');
+    // print(geocoderResponse.administrativeAreas1);
+    // print(geocoderResponse.administrativeAreas2);
+    // print(geocoderResponse.countries);
+    // print(geocoderResponse.establishment);
+    // print('locality' + geocoderResponse.locality.toString());
+    // print(geocoderResponse.subLocality);
+    // print(geocoderResponse.premise);
+    // print(geocoderResponse.subLocalityLevel1);
+    // print(geocoderResponse.subLocalityLevel2);
+    // print('-----------');
     Timer(const Duration(seconds: 1), () async {
 
       if(BlocProvider.of<AuthCubit>(context).isLoggedIn()){

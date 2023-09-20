@@ -28,34 +28,13 @@ class PersonalDetails extends StatelessWidget {
               Row(
                 children: [
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      Padding(padding: const EdgeInsets.only(left: 3),
-                        child: "Mobile No".textMedium(fontSize: 12),),
-
-                      Container(
-                        height: 60,
-                        width: 95,
-                        margin: const EdgeInsets.only(top: 3.5),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xffD9D9D9),width: 1.5),
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-
-                            "+227".textMedium(
-                                color:const Color(0xff727272)),
-
-                            const Icon(Icons.keyboard_arrow_down),
-
-                          ],
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 100,
+                    child: CustomTextField2(
+                      title: 'Mobile',
+                      controller: TextEditingController(text: '+256'),
+                      enabled: false,
+                    ),
                   ),
 
                   10.horizontalSpace(),
@@ -100,34 +79,13 @@ class PersonalDetails extends StatelessWidget {
               Row(
                 children: [
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      Padding(padding: const EdgeInsets.only(left: 3),
-                        child: "Landline No".textMedium(fontSize: 12),),
-
-                      Container(
-                        height: 60,
-                        width: 95,
-                        margin: const EdgeInsets.only(top: 3.5),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xffD9D9D9),width: 1.5),
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-
-                            "+227".textMedium(
-                                color:const Color(0xff727272)),
-
-                            const Icon(Icons.keyboard_arrow_down),
-
-                          ],
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 100,
+                    child: CustomTextField2(
+                      title: 'Landline No',
+                      controller: TextEditingController(text: '+256'),
+                      enabled: false,
+                    ),
                   ),
 
                   10.horizontalSpace(),

@@ -167,8 +167,8 @@ class _FarmerProfileState extends State<FarmerProfile> {
             Column(
               children: [
                 Text(
-                    state.responseFarmerProfile!.farmer!.farmingExperience!
-                        .split(' years')[0],
+                state.responseFarmerProfile!.farmer!.farmingExperience != null ? state.responseFarmerProfile!.farmer!.farmingExperience!
+                        .split(' years')[0] : '',
                     style: figtreeSemiBold.copyWith(fontSize: 22)),
                 Text('Years exp.',
                     style: figtreeRegular.copyWith(
@@ -184,10 +184,10 @@ class _FarmerProfileState extends State<FarmerProfile> {
             7.horizontalSpace(),
             Column(
               children: [
-                Text(
-                    calculateAge(DateTime.parse(
+                Text(state.responseFarmerProfile!.farmer!.dateOfBirth != null ?
+                calculateAge(DateTime.parse(
                             state.responseFarmerProfile!.farmer!.dateOfBirth!))
-                        .toString(),
+                        .toString() : '',
                     style: figtreeSemiBold.copyWith(fontSize: 22)),
                 Text('Years old',
                     style: figtreeRegular.copyWith(
@@ -595,7 +595,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                               ),
                               Text(
                                   state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone ??
-                                      '+256 758711344',
+                                      '',
                                   style: figtreeRegular.copyWith(
                                       fontSize: 12, color: Colors.black)),
                             ],
@@ -612,7 +612,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.6,
                                 child: Text(
-                                  'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
+                                  '',
                                   style: figtreeRegular.copyWith(
                                     fontSize: 12,
                                     color: Colors.black,
@@ -644,9 +644,18 @@ class _FarmerProfileState extends State<FarmerProfile> {
               right: 10,
               child: Row(
                 children: [
-                  SvgPicture.asset(Images.callPrimary),
+                  InkWell(
+                    onTap: () {
+                      callOnMobile(state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone ??
+                          '');
+                    },
+                      child: SvgPicture.asset(Images.callPrimary)),
                   6.horizontalSpace(),
-                  SvgPicture.asset(Images.whatsapp),
+                  InkWell(
+                      onTap: () {
+                        whatsapp(state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone ??
+                            '');
+                      },child: SvgPicture.asset(Images.whatsapp)),
                   6.horizontalSpace(),
                 ],
               )),

@@ -105,111 +105,108 @@ class _DDEInAreaState extends State<DDEInArea> {
                       ],
                     ),
                     15.verticalSpace(),
-                    Visibility(
-                      visible: BlocProvider.of<LandingPageCubit>(context)
-                              .sharedPreferences
-                              .getString(AppConstants.userId) ==
-                          null,
-                      child: BlocProvider.of<LandingPageCubit>(context)
-                                  .state
-                                  .guestDashboardResponse!
-                                  .data!
-                                  .enquiry ==
-                              null
-                          ? InkWell(
-                              onTap: () {
-                                const InviteAnExpert().navigate();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(180),
-                                  border:
-                                      Border.all(color: ColorResources.yellow),
-                                  color: const Color(0xFFFFF3F4),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 26),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Invite our expert',
-                                            style: figtreeSemiBold.copyWith(
-                                                fontSize: 22,
-                                                color: Colors.black)),
-                                        Text('to survey your farm',
-                                            style: figtreeRegular.copyWith(
-                                                fontSize: 14,
-                                                color: Colors.black)),
-                                      ],
-                                    ),
-                                    Image.asset(
-                                      Images.loginButton,
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                  ],
-                                ),
+                    BlocProvider.of<LandingPageCubit>(context)
+                        .sharedPreferences
+                        .getString(AppConstants.userId) ==
+                        null ? BlocProvider.of<LandingPageCubit>(context)
+                                .state
+                                .guestDashboardResponse!
+                                .data!
+                                .enquiry ==
+                            null
+                        ? InkWell(
+                            onTap: () {
+                              const InviteAnExpert().navigate();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(180),
+                                border:
+                                    Border.all(color: ColorResources.yellow),
+                                color: const Color(0xFFFFF3F4),
                               ),
-                            )
-                          : InkWell(
-                              onTap: () {
-                                const ExpertFollowUpScreen().navigate();
-                              },
-                              child: Column(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12.0, horizontal: 26),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  'Invited on ${DateFormat('dd, MMMM, yyyy').format(DateTime.parse(widget.state!.guestDashboardResponse!.data!.enquiry!.createdAt!))} for survey'
-                                      .textRegular(
-                                          color: ColorResources.fieldGrey,
-                                          fontSize: 14),
-                                  5.verticalSpace(),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(180),
-                                      border: Border.all(
-                                          color: ColorResources.yellow),
-                                      color: const Color(0xFFFFF3F4),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12.0, horizontal: 26),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text('Followup',
-                                                style: figtreeSemiBold.copyWith(
-                                                    fontSize: 22,
-                                                    color: Colors.black)),
-                                            Text(
-                                                'If the expert didn\'t turn up',
-                                                style: figtreeRegular.copyWith(
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
-                                          ],
-                                        ),
-                                        Image.asset(
-                                          Images.loginButton,
-                                          height: 40,
-                                          width: 40,
-                                        ),
-                                      ],
-                                    ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Invite our expert',
+                                          style: figtreeSemiBold.copyWith(
+                                              fontSize: 22,
+                                              color: Colors.black)),
+                                      Text('to survey your farm',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14,
+                                              color: Colors.black)),
+                                    ],
+                                  ),
+                                  Image.asset(
+                                    Images.loginButton,
+                                    height: 40,
+                                    width: 40,
                                   ),
                                 ],
                               ),
                             ),
-                    )
+                          )
+                        : InkWell(
+                            onTap: () {
+                              const ExpertFollowUpScreen().navigate();
+                            },
+                            child: Column(
+                              children: [
+                                'Invited on ${DateFormat('dd, MMMM, yyyy').format(DateTime.parse(widget.state!.guestDashboardResponse!.data!.enquiry!.createdAt!))} for survey'
+                                    .textRegular(
+                                        color: ColorResources.fieldGrey,
+                                        fontSize: 14),
+                                5.verticalSpace(),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(180),
+                                    border: Border.all(
+                                        color: ColorResources.yellow),
+                                    color: const Color(0xFFFFF3F4),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12.0, horizontal: 26),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Followup',
+                                              style: figtreeSemiBold.copyWith(
+                                                  fontSize: 22,
+                                                  color: Colors.black)),
+                                          Text(
+                                              'If the expert didn\'t turn up',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 14,
+                                                  color: Colors.black)),
+                                        ],
+                                      ),
+                                      Image.asset(
+                                        Images.loginButton,
+                                        height: 40,
+                                        width: 40,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ) : SizedBox.shrink()
                   ],
                 ),
               ),

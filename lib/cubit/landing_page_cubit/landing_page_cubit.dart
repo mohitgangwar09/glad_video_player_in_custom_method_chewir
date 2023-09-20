@@ -9,6 +9,7 @@ import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/thankyou_screen.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -54,9 +55,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   }
 
   Future<void> inviteExpertDetails(context, String name,
-      String mobile, String address, String comment, String lat, String long) async {
+      String mobile, String address, String comment, String lat, String long, String district) async {
     customDialog(widget: launchProgress());
-    var response = await apiRepository.inviteExpertDetails(name, mobile, address, comment, lat, long);
+    var response = await apiRepository.inviteExpertDetails(name, mobile, address, comment, lat, long, district);
 
     disposeProgress();
 
@@ -118,5 +119,13 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     Position position = await apiRepository.getCurrentPosition();
     emit(state.copyWith(currentPosition: position));
   }
+
+  // Future<GeocoderResponse> getAddressFromLatLngDescription(latitude,longitude) async{
+  //   var response = await GoogleGeocoderKrutus.reverseGeoCode(apiKey: AppConstants.gMapsApiKey,
+  //       coordinates: Coordinates(latitude: latitude, longitude: longitude));
+  //
+  //   print(response!.locality.toString());
+  //   return response;
+  // }
 
 }

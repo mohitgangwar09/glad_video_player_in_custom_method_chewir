@@ -57,7 +57,8 @@ class LandingPageRepository {
       String address,
       String comment,
       String lat,
-      String long) async {
+      String long,
+      String district) async {
     FormData formData = FormData.fromMap({
       "name": name,
       "mobile": mobile,
@@ -66,6 +67,7 @@ class LandingPageRepository {
       'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
       'lat': lat,
       'lang': long,
+      'district': district,
     });
     print(formData.fields);
 

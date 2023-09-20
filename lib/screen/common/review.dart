@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -37,10 +39,10 @@ class _GladReviewState extends State<GladReview> {
 
   getThumbnail() async {
     if (widget.attachment == '') return;
+    if (widget.attachmentType == 'image') return;
     final x = await VideoThumbnail.thumbnailFile(
         video: widget.attachment,
         thumbnailPath: (await getTemporaryDirectory()).path,
-        imageFormat: ImageFormat.JPEG,
         quality: 100);
     setState(() {
       videoThumbnail = x!;
@@ -83,36 +85,165 @@ class _GladReviewState extends State<GladReview> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10.0, 20, 10, 0),
-                        child: Text(
-                          maxLines: 4,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.fromLTRB(20.0, 30, 20, 30),
+                        child: ExpandableText(
                           widget.review,
+                          expandText: 'Read More',
+                          linkColor: ColorResources.maroon,
                           style: figtreeMedium.copyWith(
                               overflow: TextOverflow.ellipsis,
                               fontSize: 16,
                               color: Colors.black),
+                          expandOnTextTap: false,
+                          maxLines: 5,
+                          onLinkTap: () {
+                            showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                                context: context,
+                                builder: (context) => Stack(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)), color: Colors.white),
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  widget.review,
+                                                  style: figtreeMedium.copyWith(
+                                                      fontSize: 16, color: Colors.black),
+                                                ),
+                                                40.verticalSpace(),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                        decoration: const BoxDecoration(
+                                                            shape: BoxShape.circle, color: ColorResources.mustard),
+                                                        padding: const EdgeInsets.fromLTRB(7, 0, 7, 20),
+                                                        child: Image.asset(
+                                                          Images.comma,
+                                                          height: 64,
+                                                        )),
+                                                    10.horizontalSpace(),
+                                                    Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                            '${widget.name.split(' ')[0]}, ${widget.userType} ',
+                                                            maxLines: 1,
+                                                            style: figtreeMedium.copyWith(
+                                                                overflow: TextOverflow.ellipsis,
+                                                                fontSize: 14,
+                                                                color: Colors.black)),
+                                                        4.verticalSpace(),
+                                                        Text(widget.location,
+                                                            maxLines: 1,
+                                                            style: figtreeMedium.copyWith(
+                                                                overflow: TextOverflow.ellipsis,
+                                                                fontSize: 12,
+                                                                color: Colors.black)),
+                                                      ],),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          20.horizontalSpace(),
+                                          ClipRRect(
+                                            borderRadius: const BorderRadius.only(
+                                                topLeft: Radius.circular(20),
+                                                bottomLeft: Radius.circular(20)),
+                                            child: widget.attachmentType == "image"
+                                                ? CachedNetworkImage(
+                                              imageUrl: widget.attachment,
+                                              width: 120,
+                                              height: screenHeight(),
+                                              fit: BoxFit.cover,
+                                              errorWidget: (_, __, ___) => Image.asset(
+                                                  Images.sampleVideo,
+                                                  width: 120,
+                                                  height: screenHeight(),
+                                                  fit: BoxFit.cover),
+                                            )
+                                                : videoThumbnail != null
+                                                ? InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) => OverlayVideoPlayer(
+                                                        url: widget.attachment));
+                                              },
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Image.file(
+                                                    File(videoThumbnail!),
+                                                    width: 120,
+                                                    height: screenHeight(),
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (_, __, ___) => Image.asset(
+                                                        Images.sampleVideo,
+                                                        width: 120,
+                                                        height: screenHeight(),
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                  SvgPicture.asset(Images.playVideo),
+                                                ],
+                                              ),
+                                            )
+                                                : Image.asset(Images.sampleVideo,
+                                                width: 120,
+                                                height: screenHeight(),
+                                                fit: BoxFit.cover),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Positioned(
+                                        right: 10,
+                                        top: 10,
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                              onTap: () {
+                                                pressBack();
+                                              },
+                                              child: Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              )),
+                                        )),
+                                  ],
+                                ));
+                          },
+                          collapseText: 'Show Less',
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(45.0, 0, 35, 20),
+                      padding: const EdgeInsets.fromLTRB(45.0, 0, 35, 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${widget.name}, ${widget.userType} ',
+                          Text(
+                              '${widget.name.split(' ')[0]}, ${widget.userType} ',
                               maxLines: 1,
                               style: figtreeMedium.copyWith(
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 14,
                                   color: Colors.black)),
-                          // 4.verticalSpace(),
-                          // Text(widget.location,
-                          //     maxLines: 1,
-                          //     style: figtreeMedium.copyWith(
-                          //         overflow: TextOverflow.ellipsis,
-                          //         fontSize: 12,
-                          //         color: Colors.black)),
+                          4.verticalSpace(),
+                          Text(widget.location,
+                              maxLines: 1,
+                              style: figtreeMedium.copyWith(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 12,
+                                  color: Colors.black)),
                         ],
                       ),
                     ),
@@ -124,12 +255,12 @@ class _GladReviewState extends State<GladReview> {
                     topLeft: Radius.circular(20),
                     bottomLeft: Radius.circular(20)),
                 child: widget.attachmentType == "image"
-                    ? Image.network(
-                        widget.attachment,
+                    ? CachedNetworkImage(
+                        imageUrl: widget.attachment,
                         width: 120,
                         height: screenHeight(),
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Image.asset(
+                        errorWidget: (_, __, ___) => Image.asset(
                             Images.sampleVideo,
                             width: 120,
                             height: screenHeight(),
@@ -170,7 +301,7 @@ class _GladReviewState extends State<GladReview> {
           ),
         ),
         Positioned(
-            bottom: -5,
+            bottom: -10,
             left: 15,
             child: Container(
                 decoration: const BoxDecoration(

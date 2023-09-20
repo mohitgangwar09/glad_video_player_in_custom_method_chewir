@@ -89,16 +89,13 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   children: [
                     SizedBox(
                       width: 100,
-                      child: CustomDropdown(
-                          hint: '',
-                          width: 1,
-                          borderColor: 0xff727272,
-                          title: 'Mobile',
-                          dropdownValue: null,
-                          itemList: const ['', ''],
-                          onChanged: (String) {},
-                          icon: Images.arrowDropdown,
-                          iconColor: Colors.black),
+                      child: CustomTextField2(
+                        title: 'Mobile',
+                        width: 1,
+                        borderColor: 0xff727272,
+                        controller: TextEditingController(text: '+256'),
+                        enabled: false,
+                      ),
                     ),
                     10.horizontalSpace(),
                     Expanded(
@@ -165,16 +162,13 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   children: [
                     SizedBox(
                       width: 100,
-                      child: CustomDropdown(
-                          width: 1,
-                          borderColor: 0xff727272,
-                          title: 'Landline No',
-                          hint: '',
-                          dropdownValue: null,
-                          itemList: const ['', ''],
-                          onChanged: (String) {},
-                          icon: Images.arrowDropdown,
-                          iconColor: Colors.black),
+                      child: CustomTextField2(
+                        title: 'Landline No',
+                        width: 1,
+                        borderColor: 0xff727272,
+                        controller: TextEditingController(text: '+256'),
+                        enabled: false,
+                      ),
                     ),
                     10.horizontalSpace(),
                     Expanded(
@@ -286,16 +280,13 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   children: [
                     SizedBox(
                       width: 110,
-                      child: CustomDropdown(
-                          width: 1,
-                          borderColor: 0xff727272,
-                          title: "Manager's mobile",
-                          hint: '',
-                          dropdownValue: null,
-                          itemList: const ['', ''],
-                          onChanged: (String) {},
-                          icon: Images.arrowDropdown,
-                          iconColor: Colors.black),
+                      child: CustomTextField2(
+                        title: 'Manager\'s mobile',
+                        width: 1,
+                        borderColor: 0xff727272,
+                        controller: TextEditingController(text: '+256'),
+                        enabled: false,
+                      ),
                     ),
                     10.horizontalSpace(),
                     Expanded(
