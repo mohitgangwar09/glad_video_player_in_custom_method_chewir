@@ -15,6 +15,8 @@ import 'package:glad/screen/dde_screen/cows_and_yield.dart';
 import 'package:glad/screen/extra_screen/add_item_list.dart';
 import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
 import 'package:glad/screen/extra_screen/profile_navigate.dart';
+import 'package:glad/screen/extra_screen/test_cows_and_yield.dart';
+import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
 import 'package:glad/utils/extension.dart';
 import 'di_container.dart' as di;
 
@@ -33,6 +35,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<DdeFarmerCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubit>()),
       BlocProvider(create: (context) => di.sl<DdeEnquiryCubit>()),
+      BlocProvider(create: (context) => di.sl<CowsAndYieldCubitTest>()),
     ],
     child: const GetMaterialApp(
         debugShowCheckedModeBanner: false, home: MyApp()),
@@ -45,7 +48,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return const CowsAndYieldsSum();
+    return const TestCowAndYield();
+    // return const CowsAndYieldsSum();
     // return const CowsAndYieldsDDEFarmer();
     return const SplashScreen();
   }

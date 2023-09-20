@@ -470,6 +470,8 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                   String jsonRequestData = jsonEncode(response);
                   print(jsonRequestData);
 
+                  print(response.requestData[response.requestData.length-1].milkingCows);
+
                 },
                 child: const Text('Submit'),
                 // color: Colors.green,
@@ -540,13 +542,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
               setState(() {
                 responseDateWiseData.add(DateWiseData(id: null,milkingCows: "0",
                     yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));
-                // requestData.add(value);
-                /*requestData.add(RequestData(id: null,milkingCows: "0",
-                    yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));*/
-                print("${responseDateWiseData.length} addLength ${requestData.length}");
               });
-
-              BlocProvider.of<CowsAndYieldCubit>(context).allController("0");
 
             },
             color: 0xffFFFFFF,
@@ -592,7 +588,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
       onTap: () {
         setState(() {
           responseDateWiseData.removeAt(index);
-          requestData.removeAt(index);
+          // requestData.removeAt(index);
           print("${responseDateWiseData.length}length${requestData.length}");
         });
       },
@@ -728,6 +724,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                             }else{
                               widget.dateWiseDate.removeAt(widget.index);
                               CowsAndYieldsSumState.responseDateWiseData.removeAt(widget.index);
+                              CowsAndYieldsSumState.requestData.removeAt(widget.index);
                             }
                           });
                         },
@@ -792,7 +789,10 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               05.verticalSpace(),
                               CustomTextField(
                                 hint: '',
-                                onChanged: (v) => CowsAndYieldsSumState.requestData[widget.index].milkingCows = v,
+                                onChanged: (v){
+                                  CowsAndYieldsSumState.requestData[widget.index].milkingCows = v;
+                                  context.read<CowsAndYieldCubit>().totalMilkingCow(widget.index);
+                                  },
                                 controller: state.milkingCowController[widget.index],
                                 paddingTop: 5,
                                 inputType: TextInputType.phone,
