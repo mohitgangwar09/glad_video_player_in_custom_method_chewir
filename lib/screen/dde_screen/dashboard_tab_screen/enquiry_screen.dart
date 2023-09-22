@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -189,7 +191,7 @@ class EnquiryScreen extends StatelessWidget {
                             if(state.responseEnquiryModel!.data![index].status.toString() == "pending"){
                               BlocProvider.of<DdeEnquiryCubit>(context).emit(state.copyWith(markAsClosed: ""));
                             }
-                            EnquiryDetailsScreen(state.responseEnquiryModel!.data![index].id.toString()).navigate();
+                            EnquiryDetailsScreen(state.responseEnquiryModel!.data![index].id.toString(),state.enquiryStatus.toString()).navigate();
                           },
                           child: Stack(
                                 alignment: Alignment.center,
@@ -261,6 +263,7 @@ class EnquiryScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
+                                  state.enquiryStatus == "Pending"?
                                   Positioned(
                                       top: 0,
                                       right: 10,
@@ -281,12 +284,14 @@ class EnquiryScreen extends StatelessWidget {
                                                   SvgPicture.asset(Images.whatsapp)),
                                           6.horizontalSpace(),
                                           InkWell(
-                                              onTap: () async {},
+                                              onTap: () async {
+                                                context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryModel!.data![index].lat.toString(),state.responseEnquiryModel!.data![index].lang.toString());
+                                              },
                                               child:
                                               SvgPicture.asset(Images.redirectLocation)),
                                           16.horizontalSpace(),
                                         ],
-                                      )),
+                                      )):Visibility(visible: false,child: "".textMedium()),
                                 ],
                               ),
                         )):Center(child: errorText('No enquiry found')),

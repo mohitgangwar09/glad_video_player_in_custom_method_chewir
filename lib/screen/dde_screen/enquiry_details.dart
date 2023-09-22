@@ -15,12 +15,14 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 class EnquiryDetailsScreen extends StatefulWidget {
   final String id;
+  final String enquiryStatue;
   const EnquiryDetailsScreen(
-    this.id, {
+    this.id, this.enquiryStatue,{
     Key? key,
   }) : super(key: key);
 
@@ -31,14 +33,23 @@ class EnquiryDetailsScreen extends StatefulWidget {
 class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
   TextEditingController commentController = TextEditingController();
 
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
       BlocProvider.of<DdeEnquiryCubit>(context)
           .enquiryDetailApi(context, widget.id);
-    });
+    // });
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -57,7 +68,11 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                   titleText1Style:
                       figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                   centerTitle: true,
-                  leading: arrowBackButton(),
+                  leading: InkWell(onTap: ()async{
+                    pressBack();
+                    context.read<DdeEnquiryCubit>().enquiryListApi(context, widget.enquiryStatue);
+                    context.read<DdeEnquiryCubit>().emit(DdeEnquiryState.initial());
+                  },child: const SizedBox(child: Icon(Icons.arrow_back))),
                 ),
                 state.responseEnquiryDetail != null &&
                         state.responseEnquiryDetail!.data != null
@@ -147,14 +162,22 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                           30.verticalSpace(),
                                           Stack(
                                             children: [
-                                              const GMap(
-                                                lat: 28.4986,
-                                                lng: 77.3999,
+                                              GMap(
+                                                lat: double.parse(state.responseEnquiryDetail!.data!.enquiry!.lat!.toString()),
+                                                lng: double.parse(state.responseEnquiryDetail!.data!.enquiry!.lang!.toString()),
                                                 height: 350,
+                                                onMapCreated: (GoogleMapController controller){
+                                                  context.read<DdeEnquiryCubit>().onMapCreated(controller, context,state.responseEnquiryDetail!.data!.enquiry!.lat!.toString(),state.responseEnquiryDetail!.data!.enquiry!.lang!.toString());
+                                                },
+                                                  onCameraIdle: (){
+                                                  print("CameraIdle");
+                                                      // context.read<DdeEnquiryCubit>().updateMarker(context,state.responseEnquiryDetail!.data!.enquiry!.lat!.toString(),state.responseEnquiryDetail!.data!.enquiry!.lang!.toString());
+                                                  },
                                                 zoomGesturesEnabled: false,
                                                 zoomControlsEnabled: false,
                                                 myLocationEnabled: true,
                                                 myLocationButtonEnabled: false,
+                                                markers:  state.markers!
                                               ),
                                               Positioned(
                                                 bottom: 20,
@@ -232,14 +255,17 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                   ),
                                                 ),
                                               ),
+                                              state.enquiryStatus.toString() == "Pending"?
                                               Positioned(
                                                 right: 10,
                                                 top: 10,
                                                 child: InkWell(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryDetail!.data!.enquiry!.lat.toString(),state.responseEnquiryDetail!.data!.enquiry!.lat.toString());
+                                                    },
                                                     child: SvgPicture.asset(
                                                         Images.mapLocate)),
-                                              ),
+                                              ):const Visibility(visible: false,child: Text("")),
                                             ],
                                           ),
                                           30.verticalSpace(),
@@ -263,6 +289,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                     ),
                                   ],
                                 ),
+                                state.enquiryStatus == "Pending"?
                                 Positioned(
                                     top: 0,
                                     right: 10,
@@ -293,7 +320,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                 Images.whatsapp)),
                                         16.horizontalSpace(),
                                       ],
-                                    )),
+                                    )):Visibility(visible: false,child: "".textMedium()),
                               ],
                             ),
                             20.verticalSpace(),
@@ -478,8 +505,59 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                               padding: const EdgeInsets.all(15.0),
                               child: InkWell(
                                 onTap: (){
+                                  customDialog(
+                                    widget: Center(
+                                      child: Material(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Container(
+                                          height: 135,
+                                          width: screenWidth()-30,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
 
-                                  BlocProvider.of<DdeEnquiryCubit>(context).enquiryClosedApi(context, widget.id.toString());
+                                              "Are you you want to close?".textMedium(
+                                                fontSize: 19,
+                                                color: Colors.black
+                                              ),
+
+                                              20.verticalSpace(),
+
+                                              Row(
+                                                children: [
+
+                                                  20.horizontalSpace(),
+
+                                                  Expanded(
+                                                    child: customButton("No",
+                                                        borderColor: 0xFF6A0030,
+                                                        color: 0xFFffffff,onTap: (){
+                                                      pressBack();
+                                                    }),
+                                                  ),
+
+                                                  20.horizontalSpace(),
+
+                                                  Expanded(
+                                                    child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
+                                                      BlocProvider.of<DdeEnquiryCubit>(context).enquiryClosedApi(context, widget.id.toString());
+                                                    }),
+                                                  ),
+
+                                                  20.horizontalSpace(),
+
+                                                ],
+                                              ),
+
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  );
                                 },
                                 child: Row(
                                   children: [

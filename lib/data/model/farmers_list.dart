@@ -24,8 +24,9 @@ class FarmersList {
 
 class Data {
   List<FarmerMAster>? farmerMAster;
+  RagRatingCount? ragRatingCount;
 
-  Data({this.farmerMAster});
+  Data({this.farmerMAster, this.ragRatingCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['farmerMAster'] != null) {
@@ -34,12 +35,18 @@ class Data {
         farmerMAster!.add(FarmerMAster.fromJson(v));
       });
     }
+    ragRatingCount = json['rag_rating_count'] != null
+        ? RagRatingCount.fromJson(json['rag_rating_count'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (farmerMAster != null) {
       data['farmerMAster'] = farmerMAster!.map((v) => v.toJson()).toList();
+    }
+    if (ragRatingCount != null) {
+      data['rag_rating_count'] = ragRatingCount!.toJson();
     }
     return data;
   }
@@ -50,7 +57,7 @@ class FarmerMAster {
   int? userId;
   String? name;
   String? email;
-  String? address;
+  dynamic fAddress;
   String? phone;
   int? mccId;
   int? ddeId;
@@ -60,16 +67,17 @@ class FarmerMAster {
   String? dateOfBirth;
   String? gender;
   String? registrationDate;
-  dynamic farmSize;
-  dynamic dairyArea;
-  dynamic staffQuantity;
-  String? farmingExperience;
+  String? supplierCode;
+  int? farmSize;
+  int? dairyArea;
+  int? staffQuantity;
+  dynamic farmingExperience;
   String? managerName;
   String? managerPhone;
-  dynamic ragRating;
+  String? ragRating;
   String? leadType;
-  dynamic idealYield;
-  dynamic currentYield;
+  int? idealYield;
+  int? currentYield;
   String? status;
   int? createdBy;
   int? updatedBy;
@@ -80,19 +88,21 @@ class FarmerMAster {
   int? revenuePerYear;
   int? roiPerYear;
   String? breedName;
-  dynamic heardSize;
-  dynamic milkingCows;
-  dynamic dryCows;
-  dynamic heiferCows;
-  dynamic bullCalfs;
-  dynamic yieldPerCow;
+  int? herdSize;
+  int? milkingCows;
+  int? dryCows;
+  int? heiferCows;
+  int? bullCalfs;
+  int? yieldPerCow;
+  int? achievement;
+  FarmerRagRating? farmerRagRating;
 
   FarmerMAster(
       {this.id,
         this.userId,
         this.name,
         this.email,
-        this.address,
+        this.fAddress,
         this.phone,
         this.mccId,
         this.ddeId,
@@ -102,6 +112,7 @@ class FarmerMAster {
         this.dateOfBirth,
         this.gender,
         this.registrationDate,
+        this.supplierCode,
         this.farmSize,
         this.dairyArea,
         this.staffQuantity,
@@ -122,19 +133,21 @@ class FarmerMAster {
         this.revenuePerYear,
         this.roiPerYear,
         this.breedName,
-        this.heardSize,
+        this.herdSize,
         this.milkingCows,
         this.dryCows,
         this.heiferCows,
         this.bullCalfs,
-        this.yieldPerCow});
+        this.yieldPerCow,
+        this.achievement,
+        this.farmerRagRating});
 
   FarmerMAster.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     name = json['name'];
     email = json['email'];
-    address = json['address'];
+    fAddress = json['f_address'];
     phone = json['phone'];
     mccId = json['mcc_id'];
     ddeId = json['dde_id'];
@@ -144,6 +157,7 @@ class FarmerMAster {
     dateOfBirth = json['date_of_birth'];
     gender = json['gender'];
     registrationDate = json['registration_date'];
+    supplierCode = json['supplier_code'];
     farmSize = json['farm_size'];
     dairyArea = json['dairy_area'];
     staffQuantity = json['staff_quantity'];
@@ -164,12 +178,16 @@ class FarmerMAster {
     revenuePerYear = json['revenue_per_year'];
     roiPerYear = json['roi_per_year'];
     breedName = json['breed_name'];
-    heardSize = json['heard_size'];
+    herdSize = json['herd_size'];
     milkingCows = json['milking_cows'];
     dryCows = json['dry_cows'];
     heiferCows = json['heifer_cows'];
     bullCalfs = json['bull_calfs'];
-    yieldPerCow = double.parse(json['yield_per_cow'].toString());
+    yieldPerCow = json['yield_per_cow'];
+    achievement = json['achievement'];
+    farmerRagRating = json['farmer_rag_rating'] != null
+        ? FarmerRagRating.fromJson(json['farmer_rag_rating'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -178,7 +196,7 @@ class FarmerMAster {
     data['user_id'] = userId;
     data['name'] = name;
     data['email'] = email;
-    data['address'] = address;
+    data['f_address'] = fAddress;
     data['phone'] = phone;
     data['mcc_id'] = mccId;
     data['dde_id'] = ddeId;
@@ -188,6 +206,7 @@ class FarmerMAster {
     data['date_of_birth'] = dateOfBirth;
     data['gender'] = gender;
     data['registration_date'] = registrationDate;
+    data['supplier_code'] = supplierCode;
     data['farm_size'] = farmSize;
     data['dairy_area'] = dairyArea;
     data['staff_quantity'] = staffQuantity;
@@ -208,12 +227,98 @@ class FarmerMAster {
     data['revenue_per_year'] = revenuePerYear;
     data['roi_per_year'] = roiPerYear;
     data['breed_name'] = breedName;
-    data['heard_size'] = heardSize;
+    data['herd_size'] = herdSize;
     data['milking_cows'] = milkingCows;
     data['dry_cows'] = dryCows;
     data['heifer_cows'] = heiferCows;
     data['bull_calfs'] = bullCalfs;
     data['yield_per_cow'] = yieldPerCow;
+    data['achievement'] = achievement;
+    if (farmerRagRating != null) {
+      data['farmer_rag_rating'] = farmerRagRating!.toJson();
+    }
+    return data;
+  }
+}
+
+class FarmerRagRating {
+  int? id;
+  int? farmerMasterId;
+  String? ragRating;
+  String? ratio;
+  String? achievement;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  dynamic updatedAt;
+
+  FarmerRagRating(
+      {this.id,
+        this.farmerMasterId,
+        this.ragRating,
+        this.ratio,
+        this.achievement,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  FarmerRagRating.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerMasterId = json['farmer_master_id'];
+    ragRating = json['rag_rating'];
+    ratio = json['ratio'];
+    achievement = json['achievement'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_master_id'] = farmerMasterId;
+    data['rag_rating'] = ragRating;
+    data['ratio'] = ratio;
+    data['achievement'] = achievement;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class RagRatingCount {
+  int? critical;
+  int? average;
+  int? satisfactory;
+  int? mature;
+
+  RagRatingCount({this.critical, this.average, this.satisfactory, this.mature});
+
+  RagRatingCount.fromJson(Map<String, dynamic> json) {
+    critical = json['critical'];
+    average = json['average'];
+    satisfactory = json['satisfactory'];
+    mature = json['mature'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['critical'] = critical;
+    data['average'] = average;
+    data['satisfactory'] = satisfactory;
+    data['mature'] = mature;
     return data;
   }
 }

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
@@ -363,13 +362,13 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
   }
 
-  void getFarmer(context) async{
-    customDialog(widget: launchProgress());
+  void getFarmer(context, String ragRatingType) async{
+    // customDialog(widget: launchProgress());
     emit(state.copyWith(status: DdeFarmerStatus.loading));
-    var response = await apiRepository.getFarmersList();
+    var response = await apiRepository.getFarmersList(ragRatingType);
     if(response.status == 200){
-      disposeProgress();
-      emit(state.copyWith(status: DdeFarmerStatus.success, response: response.data));
+      // disposeProgress();
+      emit(state.copyWith(status: DdeFarmerStatus.success, response: response.data, selectedRagRatingType: ragRatingType));
     }
     else{
       emit(state.copyWith(status: DdeFarmerStatus.error));

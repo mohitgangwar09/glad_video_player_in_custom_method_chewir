@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/edit_improvement_area.dart';
 import 'package:glad/screen/dde_screen/suggested_investment.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -23,6 +24,7 @@ class ImprovementAreas extends StatefulWidget {
 }
 
 class _ImprovementAreasState extends State<ImprovementAreas> {
+  int pageIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -53,11 +55,6 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                   CustomAppBar(
                     context: context,
                     titleText1: "Improvement areas",
-                    action: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: InkWell(
-                            onTap: () {},
-                            child: SvgPicture.asset(Images.profileEdit))),
                     description: 'See the details of 06 improvement areas.',
                     leading: arrowBackButton(),
                     centerTitle: true,
@@ -68,79 +65,92 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           30.verticalSpace(),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: CarouselSlider(
-                                items: [
-                                  for (int index = 0;
-                                      index <
-                                          state.response!.data!
-                                              .improvementAreaList!.length
-                                              .toInt();
-                                      index++)
-                                    Stack(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16.0),
-                                          child: CachedNetworkImage(
-                                            width: screenWidth(),
-                                            height: screenHeight(),
-                                            imageUrl: state
-                                                    .response!
-                                                    .data!
-                                                    .improvementAreaList![
-                                                        index]
-                                                    .image ??
-                                                '',
-                                            errorWidget: (_, __, ___) =>
-                                                Image.asset(
-                                              Images.facilities,
-                                              // height: screenWidth() * 0.6,
-                                              fit: BoxFit.cover,
-                                            ),
+                          CarouselSlider(
+                              items: [
+                                for (int index = 0;
+                                    index <
+                                        state.response!.data!
+                                            .improvementAreaList!.length
+                                            .toInt();
+                                    index++)
+                                  Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        child: CachedNetworkImage(
+                                          imageUrl: state
+                                                  .response!
+                                                  .data!
+                                                  .improvementAreaList![
+                                                      index]
+                                                  .image ??
+                                              '',
+                                          errorWidget: (_, __, ___) =>
+                                              Image.asset(
+                                            Images.facilities,
+                                            width: screenWidth() * (pageIndex == index ? 0.75 : 0.68),
+                                            height: screenWidth() * (pageIndex == index ? 0.65 : 0.58),
+                                            fit: BoxFit.cover,
+                                                alignment: Alignment.center,
                                           ),
+                                          width: screenWidth() * (pageIndex == index ? 0.75 : 0.68),
+                                          height: screenWidth() * (pageIndex == index ? 0.65 : 0.58),
+                                          fit: BoxFit.cover,
+                                          alignment: Alignment.center,
                                         ),
-                                        Positioned(
-                                          bottom: 20,
-                                          right: 10,
-                                          left: 10,
-                                          child: Text(
-                                            state
-                                                    .response!
-                                                    .data!
-                                                    .improvementAreaList![
-                                                        index]
-                                                    .name ??
-                                                '',
-                                            style: figtreeMedium.copyWith(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                ],
-                                options: CarouselOptions(
-                                  autoPlay: false,
-                                  enableInfiniteScroll: false,
-                                  // viewportFraction: 1,
-                                  clipBehavior: Clip.none,
-                                  // enlargeCenterPage: true,
-                                  // height: screenHeight() < 750
-                                  //     ? screenHeight() * 0.275
-                                  //     : screenHeight() * 0.26,
-                                  onPageChanged: (index, reason) {
-                                    context.read<ImprovementAreaCubit>().getStepperData(index);
-                                  },
-                                )),
-                          ),
+                                      ),
+                                      Positioned(
+                                        bottom: pageIndex == index ? 20 : 40,
+                                        right: 10,
+                                        left: 10,
+                                        child: Text(
+                                          state
+                                                  .response!
+                                                  .data!
+                                                  .improvementAreaList![
+                                                      index]
+                                                  .name ??
+                                              '',
+                                          style: figtreeMedium.copyWith(
+                                              color: Colors.white,
+                                              fontSize: 18),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                              ],
+                              options: CarouselOptions(
+                                autoPlay: false,
+                                enableInfiniteScroll: false,
+                                // viewportFraction: 1,
+                                clipBehavior: Clip.none,
+                                // enlargeCenterPage: true,
+                                height: screenWidth() * 0.65,
+                                onPageChanged: (index, reason) {
+                                  context.read<ImprovementAreaCubit>().getStepperData(index);
+                                  pageIndex = index;
+                                  setState(() {
+
+                                  });
+                                },
+                              )),
                           30.verticalSpace(),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: 'Survey details'
-                                .textMedium(color: Colors.black, fontSize: 18),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                'Survey details'
+                                    .textMedium(color: Colors.black, fontSize: 18),
+                                InkWell(
+                                    onTap: () {
+                                      EditImprovementArea(improvementIndex: pageIndex).navigate();
+                                    },
+                                    child: SvgPicture.asset(Images.profileEdit)),
+                              ],
+                            ),
                           ),
                           10.verticalSpace(),
                           Padding(
@@ -156,18 +166,20 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                             child: Stack(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
+                                  padding: const EdgeInsets.only(left: 30),
                                   child: StepperListView(
                                     shrinkWrap: true,
                                     showStepperInLast: true,
                                     stepperData: state.stepperData,
                                     stepAvatar: (_, data) {
-                                      return data.id == '0'
-                                          ? const PreferredSize(
-                                              preferredSize: Size.fromRadius(3),
-                                              child: SizedBox(),
-                                            )
-                                          : PreferredSize(
+                                      return
+                                        // data.id == '0'
+                                        //   ? const PreferredSize(
+                                        //       preferredSize: Size.fromRadius(3),
+                                        //       child: SizedBox(),
+                                        //     )
+                                        //   :
+                                        PreferredSize(
                                               preferredSize:
                                                   const Size.fromRadius(3),
                                               child: Container(
@@ -194,10 +206,28 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                     color: ColorResources
                                                         .fieldGrey)),
                                             10.verticalSpace(),
-                                            Text(data.content["description"],
-                                                style: figtreeMedium.copyWith(
-                                                    fontSize: 16,
-                                                    color: Colors.black)),
+                                            Row(
+                                              children: [
+                                                Visibility(
+                                                  visible: data.content["uom"] == 'ugx',
+                                                  child: Text("UGX ",
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 16,
+                                                          color: Colors.black)),
+                                                ),
+                                                Text(data.content["description"],
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                                Visibility(
+                                                  visible: data.content["uom"] != 'ugx' && data.content["uom"] != null,
+                                                  child: Text(" ${data.content["uom"]}" ,
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 16,
+                                                          color: Colors.black)),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       );
@@ -208,11 +238,161 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                     physics: const BouncingScrollPhysics(),
                                   ),
                                 ),
-                                Positioned(
-                                    top: 30,
-                                    child: SvgPicture.asset(Images.waterDrop)),
+                                // Positioned(
+                                //     top: 30,
+                                //     child: SvgPicture.asset(Images.waterDrop)),
                               ],
                             ),
+                          ),
+                          20.verticalSpace(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: customProjectContainer(
+                                marginLeft: 0,
+                                marginTop: 0,
+                                width: screenWidth(),
+                                child: Container(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Loss of Milk Yield /cow /day',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          5.verticalSpace(),
+                                          Text('${state.resultData!.lossOfMilkPerCow} Ltr.',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                        ],
+                                      ),
+                                      10.verticalSpace(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Expected Yield /cow /day',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          5.verticalSpace(),
+                                          Text('${state.resultData!.expectedYieldPerCow} Ltr.',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                        ],
+                                      ),
+                                      20.verticalSpace(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Expected incremental production',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          15.verticalSpace(),
+                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per day',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${state.resultData!.incrementalProduction} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 18,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per month',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${state.resultData!.incrementalProduction *30} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 18,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per year',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${state.resultData!.incrementalProduction *365} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 18,
+                                                        color: Colors.black)),
+                                              ],)
+                                            ],)
+                                        ],
+                                      ),
+                                      20.verticalSpace(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Expected incremental earning',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          15.verticalSpace(),
+                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per day',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('UGX ${state.resultData!.incrementalEarning}',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 18,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per month',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('UGX ${(state.resultData!.incrementalEarning *30)  /1000}',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 18,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per year',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('UGX ${(state.resultData!.incrementalEarning *365) /1000}',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 18,
+                                                        color: Colors.black)),
+                                              ],)
+                                            ],)
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )),
                           ),
                           30.verticalSpace(),
                           Padding(

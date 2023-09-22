@@ -7,11 +7,13 @@ class ImprovementAreaState extends Equatable {
   final ImprovementAreaStatus status;
   final ImprovementAreaListModel? response;
   final List<StepperItemData> stepperData;
+  final Results? resultData;
 
   const ImprovementAreaState({
     required this.status,
     required this.stepperData,
     required this.response,
+    required this.resultData,
   });
 
   factory ImprovementAreaState.initial(){
@@ -19,6 +21,7 @@ class ImprovementAreaState extends Equatable {
       status: ImprovementAreaStatus.initial,
       response: null,
       stepperData: [],
+      resultData: null,
     );
   }
 
@@ -26,11 +29,13 @@ class ImprovementAreaState extends Equatable {
     ImprovementAreaStatus? status,
     ImprovementAreaListModel? response,
     List<StepperItemData>? stepperData,
+    Results? resultData,
   }) {
     return ImprovementAreaState(
       status: status ?? this.status,
       response: response ?? this.response,
       stepperData: stepperData ?? this.stepperData,
+      resultData: resultData,
     );
   }
 
@@ -38,6 +43,8 @@ class ImprovementAreaState extends Equatable {
   List<Object?> get props =>[
     status,
     response,
+    stepperData,
+    resultData,
   ];
 
 }

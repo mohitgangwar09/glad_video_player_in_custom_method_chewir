@@ -11,7 +11,7 @@ class GMap extends StatelessWidget {
   final Function()? onCameraIdle;
   final Function(GoogleMapController googleMapController)? onMapCreated;
   final Function(CameraPosition position)? onCameraMove;
-  final List<Marker>? markers;
+  final Set<Marker>? markers;
   // final List<Polyline>? polyline;
   final double? height;
 //  final Function ? onTap;
@@ -48,15 +48,10 @@ class GMap extends StatelessWidget {
         myLocationEnabled: myLocationEnabled!,
         onCameraIdle: onCameraIdle,
         onCameraMove: onCameraMove,
-        markers: markers != null ? markers!.toSet() : <Marker>{},
-        // polylines: Set<Polyline>.of(polyline!),
-        /* initialCameraPosition:const CameraPosition(
-          target: LatLng(0, 0),
-          zoom: 12.0,
-        ),*/
+        markers: markers??{},
         initialCameraPosition: CameraPosition(
           target: LatLng(lat, lng),
-          zoom: 11.0,
+          zoom: 15.5,
         ),
         onMapCreated: onMapCreated,
       ),

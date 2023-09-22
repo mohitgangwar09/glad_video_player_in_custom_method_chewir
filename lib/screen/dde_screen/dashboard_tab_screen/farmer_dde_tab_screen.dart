@@ -1,18 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
-import 'package:glad/screen/farmer_screen/common/widegt/project_widget.dart';
-import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -29,7 +24,17 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
   @override
   void initState(){
     super.initState();
-    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context);
+    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '');
+  }
+
+  Color ragColor(String ragRating) {
+    switch (ragRating) {
+      case 'critical' : return const Color(0xffFC5E60);
+      case 'average' : return const Color(0xffF6B51D);
+      case 'satisfactory' : return const Color(0xff12CE57);
+      case 'mature' : return ColorResources.maroon;
+      default: return Colors.white;
+    }
   }
 
   @override
@@ -140,41 +145,25 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 18, right: 7, bottom: 20, top: 10),
-                  height: 36,
-                  child: customList(
-                    list: List.generate(4, (index) => ''),
-                      axis: Axis.horizontal,
-                      child: (int index) {
-                        return InkWell(
-                          onTap: (){
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 12, left: 0),
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            decoration: boxDecoration(
-                                borderColor: const Color(0xffDCDCDC),
-                                borderWidth: 1.1,
-                                borderRadius: 62,
-                                backgroundColor: Colors.white),
-                            child: Row(
-                              children: [
-                                "Critical".textMedium(fontSize: 14),
-                                6.horizontalSpace(),
-                                "04".textSemiBold(
-                                    fontSize: 12, color: const Color(0xffFC5E60)),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        left: 18, right: 7, bottom: 20, top: 10),
+                    child: Row(
+                      children: [
+                        ragRatingButton(context, 'Critical', state.response!.ragRatingCount!.critical.toString(), state.selectedRagRatingType == 'critical', const Color(0xffFC5E60)),
+                        ragRatingButton(context, 'Average', state.response!.ragRatingCount!.average.toString(), state.selectedRagRatingType == 'average', const Color(0xffF6B51D)),
+                        ragRatingButton(context, 'Satisfactory', state.response!.ragRatingCount!.satisfactory.toString(), state.selectedRagRatingType == 'satisfactory', const Color(0xff12CE57)),
+                        ragRatingButton(context, 'Mature', state.response!.ragRatingCount!.mature.toString(), state.selectedRagRatingType == 'mature', ColorResources.maroon),
+                      ],
+                    ),
+                  ),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 120, left: 0),
-                    child: customList(list: state.response!.farmerMAster!,child: (int i) {
+                    child: state.response!.farmerMAster!.isNotEmpty ? customList(list: state.response!.farmerMAster!,child: (int i) {
                       return Padding(
                         padding: const EdgeInsets.only(
                             left: 10, right: 20, bottom: 12),
@@ -238,7 +227,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                         .width *
                                                         0.5,
                                                     child: Text(
-                                                      state.response!.farmerMAster![i].address ?? "",
+                                                      state.response!.farmerMAster![i].fAddress ?? "",
                                                       style:
                                                       figtreeRegular.copyWith(
                                                         fontSize: 12,
@@ -417,7 +406,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         height: 3,
                                         decoration: boxDecoration(
                                             borderRadius: 10,
-                                            backgroundColor: Colors.green),
+                                            backgroundColor: ragColor(state.response!.farmerMAster![i].farmerRagRating!.ragRating!.toLowerCase())),
                                       )
                                     ],
                                   ),
@@ -449,7 +438,8 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                           ],
                         ),
                       );
-                    }),
+                    }) : Center(child: Text('No Farmers')
+                  ),
                   ),
                 )
               ],
@@ -461,5 +451,30 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
     });
 
+  }
+
+  InkWell ragRatingButton(BuildContext context, String ragRating, String ragRatingCount, bool isSelected, Color ragColor) {
+    return InkWell(
+                        onTap: (){
+                          BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, ragRating.toLowerCase());
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 12, left: 0),
+                          padding: const EdgeInsets.all(10),
+                          decoration: boxDecoration(
+                              borderColor: const Color(0xffDCDCDC),
+                              borderWidth: 1,
+                              borderRadius: 62,
+                              backgroundColor: isSelected ? ColorResources.maroon :Colors.white),
+                          child: Row(
+                            children: [
+                              ragRating.textMedium(fontSize: 14, color: isSelected ? Colors.white : Colors.black),
+                              6.horizontalSpace(),
+                             ragRatingCount.toString().textSemiBold(
+                                  fontSize: 12, color: isSelected ? Colors.white : ragColor),
+                            ],
+                          ),
+                        ),
+                      );
   }
 }

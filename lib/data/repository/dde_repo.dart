@@ -1,9 +1,7 @@
-import 'dart:convert';
-
-import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/farmers_list.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
+import 'package:glad/data/model/improvement_area_update_response.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -18,9 +16,10 @@ class DdeRepository {
   ///////////////// farmersList //////////
 
 
-  Future<FarmersList> getFarmersList() async {
+  Future<FarmersList> getFarmersList(String ragRatingType) async {
+    Map<String,dynamic> param = {'rag_rating_type': ragRatingType};
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
-        AppConstants.farmerList, headers: {'Authorization': 'Bearer ${getUserToken()}'});
+        AppConstants.farmerList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: ragRatingType != '' ? param : {});
     if (apiResponse.status) {
       return FarmersList.fromJson(apiResponse.response!.data);
     } {
@@ -132,6 +131,17 @@ class DdeRepository {
     }
   }
 
+  Future<ImprovementAreaUpdateResponse> updateImprovementArea(Map<String, dynamic> data) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
+        AppConstants.improvementAreaList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, data :data);
+    if (apiResponse.status) {
+      return ImprovementAreaUpdateResponse.fromJson(apiResponse.response!.data);
+    } {
+      return ImprovementAreaUpdateResponse(
+          status: 422,
+          message: apiResponse.msg);
+    }
+  }
 
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
