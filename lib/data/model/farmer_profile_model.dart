@@ -42,33 +42,37 @@ class Data {
 }
 
 class Farmer {
-  dynamic id;
-  dynamic userId;
+  int? id;
+  int? userId;
   String? name;
   String? email;
-  Address? address;
+  dynamic fAddress;
   String? phone;
-  dynamic mccId;
-  dynamic ddeId;
+  int? mccId;
+  int? ddeId;
   String? photo;
   String? kycStatus;
   String? landlineNo;
   String? dateOfBirth;
   String? gender;
   String? registrationDate;
+  String? supplierCode;
   dynamic farmSize;
   dynamic dairyArea;
-  dynamic staffQuantity;
-  String? farmingExperience;
+  int? staffQuantity;
+  dynamic farmingExperience;
   String? managerName;
   String? managerPhone;
-  dynamic ragRating;
+  String? ragRating;
   String? leadType;
   dynamic idealYield;
   dynamic currentYield;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
+  dynamic achievement;
+  Address? address;
+  FarmerRagRating? farmerRagRating;
   List<CowBreedDetails>? cowBreedDetails;
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
 
@@ -77,7 +81,7 @@ class Farmer {
         this.userId,
         this.name,
         this.email,
-        this.address,
+        this.fAddress,
         this.phone,
         this.mccId,
         this.ddeId,
@@ -87,6 +91,7 @@ class Farmer {
         this.dateOfBirth,
         this.gender,
         this.registrationDate,
+        this.supplierCode,
         this.farmSize,
         this.dairyArea,
         this.staffQuantity,
@@ -100,6 +105,9 @@ class Farmer {
         this.status,
         this.createdBy,
         this.updatedBy,
+        this.achievement,
+        this.address,
+        this.farmerRagRating,
         this.cowBreedDetails,
         this.dairyDevelopMentExecutive});
 
@@ -108,17 +116,17 @@ class Farmer {
     userId = json['user_id'];
     name = json['name'];
     email = json['email'];
-    address =
-    json['address'] != null ? Address.fromJson(json['address']) : null;
+    fAddress = json['f_address'];
     phone = json['phone'];
     mccId = json['mcc_id'];
     ddeId = json['dde_id'];
     photo = json['photo'];
     kycStatus = json['kyc_status'];
-    phone = json['phone'];
+    landlineNo = json['landline_no'];
     dateOfBirth = json['date_of_birth'];
     gender = json['gender'];
     registrationDate = json['registration_date'];
+    supplierCode = json['supplier_code'];
     farmSize = json['farm_size'];
     dairyArea = json['dairy_area'];
     staffQuantity = json['staff_quantity'];
@@ -132,6 +140,12 @@ class Farmer {
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
+    achievement = json['achievement'];
+    address =
+    json['address'] != null ? Address.fromJson(json['address']) : null;
+    farmerRagRating = json['farmer_rag_rating'] != null
+        ? FarmerRagRating.fromJson(json['farmer_rag_rating'])
+        : null;
     if (json['cow_breed_details'] != null) {
       cowBreedDetails = <CowBreedDetails>[];
       json['cow_breed_details'].forEach((v) {
@@ -150,9 +164,7 @@ class Farmer {
     data['user_id'] = userId;
     data['name'] = name;
     data['email'] = email;
-    if (address != null) {
-      data['address'] = address!.toJson();
-    }
+    data['f_address'] = fAddress;
     data['phone'] = phone;
     data['mcc_id'] = mccId;
     data['dde_id'] = ddeId;
@@ -162,6 +174,7 @@ class Farmer {
     data['date_of_birth'] = dateOfBirth;
     data['gender'] = gender;
     data['registration_date'] = registrationDate;
+    data['supplier_code'] = supplierCode;
     data['farm_size'] = farmSize;
     data['dairy_area'] = dairyArea;
     data['staff_quantity'] = staffQuantity;
@@ -175,6 +188,13 @@ class Farmer {
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
+    data['achievement'] = achievement;
+    if (address != null) {
+      data['address'] = address!.toJson();
+    }
+    if (farmerRagRating != null) {
+      data['farmer_rag_rating'] = farmerRagRating!.toJson();
+    }
     if (cowBreedDetails != null) {
       data['cow_breed_details'] =
           cowBreedDetails!.map((v) => v.toJson()).toList();
@@ -188,8 +208,8 @@ class Farmer {
 }
 
 class Address {
-  dynamic id;
-  dynamic addressableId;
+  int? id;
+  int? addressableId;
   String? addressableType;
   String? name;
   String? mobile;
@@ -207,6 +227,8 @@ class Address {
   String? county;
   dynamic poBoxNumber;
   dynamic coordinates;
+  double? lattitude;
+  double? longitude;
   dynamic stateId;
   dynamic countryId;
   dynamic region;
@@ -215,6 +237,10 @@ class Address {
   dynamic type;
   dynamic createdAt;
   String? updatedAt;
+  String? fullAddress;
+  dynamic city;
+  dynamic state;
+  dynamic country;
 
   Address(
       {this.id,
@@ -236,6 +262,8 @@ class Address {
         this.county,
         this.poBoxNumber,
         this.coordinates,
+        this.lattitude,
+        this.longitude,
         this.stateId,
         this.countryId,
         this.region,
@@ -243,7 +271,11 @@ class Address {
         this.address,
         this.type,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.fullAddress,
+        this.city,
+        this.state,
+        this.country});
 
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -265,6 +297,8 @@ class Address {
     county = json['county'];
     poBoxNumber = json['po_box_number'];
     coordinates = json['coordinates'];
+    lattitude = json['lattitude'];
+    longitude = json['longitude'];
     stateId = json['state_id'];
     countryId = json['country_id'];
     region = json['region'];
@@ -273,6 +307,10 @@ class Address {
     type = json['type'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    fullAddress = json['full_address'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
   }
 
   Map<String, dynamic> toJson() {
@@ -296,6 +334,8 @@ class Address {
     data['county'] = county;
     data['po_box_number'] = poBoxNumber;
     data['coordinates'] = coordinates;
+    data['lattitude'] = lattitude;
+    data['longitude'] = longitude;
     data['state_id'] = stateId;
     data['country_id'] = countryId;
     data['region'] = region;
@@ -304,22 +344,83 @@ class Address {
     data['type'] = type;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['full_address'] = fullAddress;
+    data['city'] = city;
+    data['state'] = state;
+    data['country'] = country;
+    return data;
+  }
+}
+
+class FarmerRagRating {
+  int? id;
+  int? farmerMasterId;
+  String? ragRating;
+  String? ratio;
+  String? achievement;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  dynamic updatedAt;
+
+  FarmerRagRating(
+      {this.id,
+        this.farmerMasterId,
+        this.ragRating,
+        this.ratio,
+        this.achievement,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  FarmerRagRating.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerMasterId = json['farmer_master_id'];
+    ragRating = json['rag_rating'];
+    ratio = json['ratio'];
+    achievement = json['achievement'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_master_id'] = farmerMasterId;
+    data['rag_rating'] = ragRating;
+    data['ratio'] = ratio;
+    data['achievement'] = achievement;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
 
 class CowBreedDetails {
   int? id;
-  int? cowBreedId;
+  dynamic cowBreedId;
   String? breedName;
-  int? herdSize;
-  int? milkingCows;
-  int? dryCows;
-  int? yieldPerCow;
-  int? bullCalfs;
-  int? heiferCows;
-  int? sixMonthCow;
-  int? sevenToTwelveMonthCows;
+  dynamic herdSize;
+  dynamic milkingCows;
+  dynamic dryCows;
+  dynamic yieldPerCow;
+  dynamic bullCalfs;
+  dynamic heiferCows;
+  dynamic sixMonthCow;
+  dynamic sevenToTwelveMonthCows;
 
   CowBreedDetails(
       {this.id,
@@ -349,7 +450,7 @@ class CowBreedDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['cow_breed_id'] = cowBreedId;
     data['breed_name'] = breedName;
@@ -366,15 +467,18 @@ class CowBreedDetails {
 }
 
 class DairyDevelopMentExecutive {
-  dynamic id;
+  int? id;
+  int? userId;
   String? name;
   dynamic phone;
   dynamic image;
 
-  DairyDevelopMentExecutive({this.id, this.name, this.phone, this.image});
+  DairyDevelopMentExecutive(
+      {this.id, this.userId, this.name, this.phone, this.image});
 
   DairyDevelopMentExecutive.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    userId = json['user_id'];
     name = json['name'];
     phone = json['phone'];
     image = json['image'];
@@ -383,6 +487,7 @@ class DairyDevelopMentExecutive {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['user_id'] = userId;
     data['name'] = name;
     data['phone'] = phone;
     data['image'] = image;

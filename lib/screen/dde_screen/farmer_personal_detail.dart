@@ -42,7 +42,9 @@ class _PersonalDetailState extends State<PersonalDetail> {
                       centerTitle: true,
                       description: 'Provide the following details',
                       action: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<ProfileCubit>().updateDdeFarmDetailApi(context,);
+                        },
                         child: Text(
                           'Save',
                           style: figtreeMedium.copyWith(
@@ -79,6 +81,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                 CustomTextField2(
                   title: 'Name',
                   width: 1,
+                  enabled: false,
                   borderColor: 0xff727272,
                   controller: state.nameController
                     ..text = state.responseFarmerProfile!.farmer!.name
@@ -101,6 +104,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                     Expanded(
                       child: CustomTextField2(
                         title: '',
+                        enabled: false,
                         width: 1,
                         borderColor: 0xff727272,
                         controller: state.phoneController
@@ -117,6 +121,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                 CustomTextField2(
                   title: 'Email',
                   width: 1,
+                  enabled: false,
                   controller: state.emailController
                     ..text = state.responseFarmerProfile!.farmer!.email
                         .toString(),
@@ -130,9 +135,8 @@ class _PersonalDetailState extends State<PersonalDetail> {
                     hint: '',
                     dropdownValue: state.gender,
                     itemList: const ['Male', 'Female'],
-                    onChanged: (String) {},
+                    onChanged: (value) {},
                     icon: Images.arrowDropdown,
-
                     iconColor: Colors.black),
                 25.verticalSpace(),
                 CustomTextField2(
@@ -149,11 +153,11 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   image2Colors: ColorResources.maroon,
                   readOnly: true,
                   onTap: () {
-                    showDatePicker(
+                    /*showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime.now(),
-                        lastDate: DateTime.now());
+                        lastDate: DateTime.now());*/
                   },
                   focusNode: FocusNode(),
                 ),
@@ -177,6 +181,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                           width: 1,
                           borderColor: 0xff727272,
                           hint: '',
+                          enabled: false,
                           controller: state.landlineController
                             ..text =
                                 state.responseFarmerProfile!.farmer!
@@ -222,7 +227,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                         : state.responseFarmerProfile!.farmer!.farmSize
                         .toString(),
                   image2Colors: ColorResources.maroon,
-                  readOnly: true,
+                  // readOnly: true,
                   onTap: () {},
                   focusNode: FocusNode(),
                 ),
@@ -238,7 +243,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                         : state.responseFarmerProfile!.farmer!.dairyArea
                         .toString(),
                   image2Colors: ColorResources.maroon,
-                  readOnly: true,
+                  // readOnly: true,
                   onTap: () {},
                   focusNode: FocusNode(),
                 ),
@@ -255,7 +260,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                         .toString() ??
                         '2',
                   image2Colors: ColorResources.maroon,
-                  readOnly: true,
+                  // readOnly: true,
                   onTap: () {},
                   focusNode: FocusNode(),
                 ),
@@ -271,7 +276,6 @@ class _PersonalDetailState extends State<PersonalDetail> {
                         : state.responseFarmerProfile!.farmer!.managerName
                         .toString(),
                   image2Colors: ColorResources.maroon,
-                  readOnly: true,
                   onTap: () {},
                   focusNode: FocusNode(),
                 ),
@@ -285,7 +289,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                         width: 1,
                         borderColor: 0xff727272,
                         controller: TextEditingController(text: '+256'),
-                        enabled: false,
+                        enabled: true,
                       ),
                     ),
                     10.horizontalSpace(),
@@ -322,14 +326,18 @@ class _PersonalDetailState extends State<PersonalDetail> {
           customButton(
             'Save',
             style: figtreeMedium.copyWith(color: Colors.white, fontSize: 16),
-            onTap: () {},
+            onTap: () {
+              context.read<ProfileCubit>().updateFarmDetailApi(context);
+            },
             width: screenWidth(),
             height: 60,
           ),
           15.verticalSpace(),
           customButton('Cancel',
               style: figtreeMedium.copyWith(fontSize: 16),
-              onTap: () {},
+              onTap: () {
+                pressBack();
+              },
               width: screenWidth(),
               height: 60,
               color: 0xffDCDCDC),

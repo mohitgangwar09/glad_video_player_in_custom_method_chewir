@@ -112,7 +112,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
   Future<void> getFarmerProfile(context, {String? userId}) async{
     emit(state.copyWith(status: ProfileStatus.submit));
-
+    print("farmerId$userId");
     var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
       if(response.data!.farmer!.phone != null){
@@ -150,6 +150,25 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     if (response.status == 200) {
       showCustomToast(context, response.message.toString());
       await getFarmerProfile(context);
+    }
+    else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // updateDdeFarmDetailApi
+  Future<void> updateDdeFarmDetailApi(context) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.updateFarmApi(state.farmSize.text, state.dairyArea.text,
+        state.staffQuantity.text, state.managerName.text, state.managerPhone.text, state.responseFarmerProfile!.farmer!.id.toString());
+
+    disposeProgress();
+
+    if (response.status == 200) {
+      pressBack();
+      showCustomToast(context, response.message.toString());
+      await getFarmerProfile(context,userId: state.responseFarmerProfile!.farmer!.userId.toString());
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
