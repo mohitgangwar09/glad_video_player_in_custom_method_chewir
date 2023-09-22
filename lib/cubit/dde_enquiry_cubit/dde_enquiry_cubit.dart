@@ -63,7 +63,7 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
     var response = await apiRepository.enquiryListApi(enquiryStatus.toString());
     if (response.status == 200) {
       // disposeProgress();
-      emit(state.copyWith(status: DdeEnquiryStatus.success, responseEnquiryModel: response));
+      emit(state.copyWith(status: DdeEnquiryStatus.success, responseEnquiryModel: response,enquiryStatus: enquiryStatus));
     } else {
       emit(state.copyWith(status: DdeEnquiryStatus.error));
       showCustomToast(context, response.message.toString());
