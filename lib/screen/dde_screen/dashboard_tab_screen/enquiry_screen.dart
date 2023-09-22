@@ -285,7 +285,7 @@ class EnquiryScreen extends StatelessWidget {
                                           6.horizontalSpace(),
                                           InkWell(
                                               onTap: () async {
-                                                context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryModel!.data![index].lat.toString(),state.responseEnquiryModel!.data![index].lang.toString());
+                                                context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryModel!.data![index].lat.toString(),state.responseEnquiryModel!.data![index].lang.toString(),context);
                                               },
                                               child:
                                               SvgPicture.asset(Images.redirectLocation)),
