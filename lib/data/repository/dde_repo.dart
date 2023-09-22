@@ -133,7 +133,7 @@ class DdeRepository {
 
   Future<ImprovementAreaUpdateResponse> updateImprovementArea(Map<String, dynamic> data) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
-        AppConstants.improvementAreaList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, data :data);
+        AppConstants.improvementAreaUpdate, headers: {'Authorization': 'Bearer ${getUserToken()}'}, data :data);
     if (apiResponse.status) {
       return ImprovementAreaUpdateResponse.fromJson(apiResponse.response!.data);
     } {

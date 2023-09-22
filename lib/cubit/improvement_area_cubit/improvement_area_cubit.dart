@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
@@ -21,14 +22,16 @@ class ImprovementAreaCubit extends Cubit<ImprovementAreaState> {
       : super(ImprovementAreaState.initial());
 
   // improvementAreaListApi
-  void improvementAreaListApi(context, int farmerId) async {
-    emit(state.copyWith(status: ImprovementAreaStatus.loading));
+  void improvementAreaListApi(context, int farmerId, showLoader, int improvementIndex) async {
+    if (showLoader) {
+      emit(state.copyWith(status: ImprovementAreaStatus.loading));
+    }
     // customDialog(widget: launchProgress());
     var response = await apiRepository.getImprovementArea(farmerId);
     if (response.status == 200) {
       // disposeProgress();
       emit(state.copyWith(response: response));
-      getStepperData(0);
+      getStepperData(improvementIndex);
     } else {
       emit(state.copyWith(status: ImprovementAreaStatus.error));
       showCustomToast(context, response.message.toString());
@@ -36,16 +39,12 @@ class ImprovementAreaCubit extends Cubit<ImprovementAreaState> {
   }
 
   getStepperData(index) {
-    List<FarmerImprovementArea> areaList =
-        (state.response!)
-            .data!
-            .improvementAreaList![index]
-            .farmerImprovementArea!;
-    Results resultData =
-    (state.response!)
+    List<FarmerImprovementArea> areaList = (state.response!)
         .data!
         .improvementAreaList![index]
-        .results!;
+        .farmerImprovementArea!;
+    Results resultData =
+        (state.response!).data!.improvementAreaList![index].results!;
     emit(state.copyWith(
         status: ImprovementAreaStatus.success,
         stepperData: List.generate(
@@ -64,17 +63,42 @@ class ImprovementAreaCubit extends Cubit<ImprovementAreaState> {
   }
 
   // updateImprovementAreaApi
-  void updateImprovementAreaApi(context, Map<String, dynamic> data) async {
+  void updateImprovementAreaApi(
+      context, int farmerId, int improvementIndex) async {
     // emit(state.copyWith(status: ImprovementAreaStatus.loading));
+    List<Map<String, dynamic>> updatedData = [];
+    for (int index = 0; index < state.areaControllers!.length; index++) {
+      updatedData.add({
+        'id': state.response!.data!.improvementAreaList![improvementIndex]
+            .farmerImprovementArea![index].id,
+        'value': state.areaControllers![index].text
+      });
+    }
     customDialog(widget: launchProgress());
-    var response = await apiRepository.updateImprovementArea(data);
+    var response = await apiRepository.updateImprovementArea({
+      'farmer_id': farmerId,
+      'improvementAreaData': updatedData,
+    });
     if (response.status == 200) {
       disposeProgress();
-      getStepperData(0);
+      showCustomToast(context, 'Improvement Area updated');
+      pressBack();
+      improvementAreaListApi(context, farmerId, false, improvementIndex);
     } else {
       emit(state.copyWith(status: ImprovementAreaStatus.error));
       showCustomToast(context, response.message.toString());
     }
   }
 
+  void generateController(int improvementIndex) {
+    List<TextEditingController> con = [];
+    emit(state.copyWith(areaControllers: []));
+
+    for (FarmerImprovementArea area in state.response!.data!
+        .improvementAreaList![improvementIndex].farmerImprovementArea!) {
+      con.add(TextEditingController(text: area.value));
+      print(area.value);
+    }
+    emit(state.copyWith(areaControllers: [...con]));
+  }
 }

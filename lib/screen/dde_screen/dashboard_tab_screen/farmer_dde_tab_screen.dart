@@ -24,7 +24,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
   @override
   void initState(){
     super.initState();
-    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '');
+    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '', true);
   }
 
   Color ragColor(String ragRating) {
@@ -160,10 +160,10 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                     ),
                   ),
                 ),
-                Expanded(
+                state.response!.farmerMAster!.isNotEmpty ? Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 120, left: 0),
-                    child: state.response!.farmerMAster!.isNotEmpty ? customList(list: state.response!.farmerMAster!,child: (int i) {
+                    child: customList(list: state.response!.farmerMAster!,child: (int i) {
                       return Padding(
                         padding: const EdgeInsets.only(
                             left: 10, right: 20, bottom: 12),
@@ -438,10 +438,18 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                           ],
                         ),
                       );
-                    }) : Center(child: Text('No Farmers')
+                    }),
                   ),
+                )  : Padding(
+                  padding: EdgeInsets.only(top: screenWidth() / 2),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('No data found'),
+                    ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -456,7 +464,13 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
   InkWell ragRatingButton(BuildContext context, String ragRating, String ragRatingCount, bool isSelected, Color ragColor) {
     return InkWell(
                         onTap: (){
-                          BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, ragRating.toLowerCase());
+                          if(BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType == ragRating.toLowerCase()) {
+                            BlocProvider.of<DdeFarmerCubit>(context).getFarmer(
+                                context, '', false);
+                          } else {
+                            BlocProvider.of<DdeFarmerCubit>(context).getFarmer(
+                                context, ragRating.toLowerCase(), false);
+                          }
                         },
                         child: Container(
                           margin: const EdgeInsets.only(right: 12, left: 0),
