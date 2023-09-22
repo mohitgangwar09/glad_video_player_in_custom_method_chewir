@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // return const TestCowAndYield();
     // return const CowsAndYieldsSum();
     // return const CowsAndYieldsDDEFarmer();
     return const SplashScreen();

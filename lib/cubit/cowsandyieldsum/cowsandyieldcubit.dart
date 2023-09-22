@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
+import 'package:glad/data/model/update_record_breed_model.dart';
 import 'package:glad/data/repository/dde_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
@@ -26,6 +27,36 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   void showMonth(int i,MonthWiseData monthWise){
     print("CowBreeDetail $i lengthClick ${CowsAndYieldsSumState.requestData.length}");
     emit(state.copyWith(monthId: int.parse(state.responseMonthlyWiseData![i].id.toString())));
+  }
+
+  void addRequestData(int index,addMore){
+    if(addMore == "addMore"){
+      CowsAndYieldsSumState.requestData.addAll({RequestData(
+        id: 'null',
+        cowBreedId: '0',
+        milkingCows: '0',
+        yieldPerCow: '0',
+        dryCows: '0',
+        heardSize: '0',
+        heiferCows: '0',
+        sevenToTwelveMonthCows: '0',
+        sixMonthCow: '0',
+        bullCalfs: "0",
+      )});
+    }else{
+      CowsAndYieldsSumState.requestData.addAll({RequestData(
+        id: state.responseMonthlyWiseData![0].dateWiseData![index].id.toString(),
+        cowBreedId: state.responseMonthlyWiseData![0].dateWiseData![index].cowBreedId.toString(),
+        milkingCows: state.responseMonthlyWiseData![0].dateWiseData![index].milkingCows.toString(),
+        yieldPerCow: state.responseMonthlyWiseData![0].dateWiseData![index].yieldPerCow.toString(),
+        dryCows: state.responseMonthlyWiseData![0].dateWiseData![index].dryCows.toString(),
+        heardSize: state.responseMonthlyWiseData![0].dateWiseData![index].heardSize.toString(),
+        heiferCows: state.responseMonthlyWiseData![0].dateWiseData![index].heiferCows.toString(),
+        sevenToTwelveMonthCows: state.responseMonthlyWiseData![0].dateWiseData![index].sevenToTwelveMonthCows.toString(),
+        sixMonthCow: state.responseMonthlyWiseData![0].dateWiseData![index].sixMonthCow.toString(),
+        bullCalfs: "0",
+      )});
+    }
   }
 
 
@@ -93,6 +124,12 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
 
   void totalMilkingCow(int index){
     print("Total Milking Cow ${CowsAndYieldsSumState.requestData.length}");
+    print("Total ResponseDate Cow ${CowsAndYieldsSumState.responseDateWiseData.length}");
+    if(CowsAndYieldsSumState.responseDateWiseData.length <= CowsAndYieldsSumState.requestData.length){
+      print("equal");
+    }else{
+      print("not equal");
+    }
     int sums = 0,sumOfHerd = 0,totalHerdSize = 0,addTotalHerd;
     state.milkingCowController[index].addListener(() {
       Future.delayed(const Duration(milliseconds: 20),(){
@@ -333,15 +370,18 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
       disposeProgress();
       print("CowBreeDetail");
       emit(state.copyWith(status: CowsAndCubitStatus.success, responseMonthlyWiseData: response.data!.monthWiseData!));
-      for(int i=0 ;i<response.data!.monthWiseData![0].dateWiseData!.length;i++){
-        allController("0");
-        CowsAndYieldsSumState.responseDateWiseData.add(response.data!.monthWiseData![0].dateWiseData![i]);
-        getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
-        totalMilkingCow(i);
-        sumAllBreed(i);
-        totalAll(i);
+      if(response.data!.monthWiseData!.isNotEmpty){
+        for(int i=0 ;i<response.data!.monthWiseData![0].dateWiseData!.length;i++){
+          allController("0");
+          CowsAndYieldsSumState.responseDateWiseData.add(response.data!.monthWiseData![0].dateWiseData![i]);
+          getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
+          totalMilkingCow(i);
+          sumAllBreed(i);
+          totalAll(i);
+          addRequestData(i,"ist");
+        }
+        showMonth(0,MonthWiseData());
       }
-      showMonth(0,MonthWiseData());
     }
     else{
       emit(state.copyWith(status: CowsAndCubitStatus.error));

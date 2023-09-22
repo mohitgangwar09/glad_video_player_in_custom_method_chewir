@@ -36,6 +36,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
   static List<DateWiseData> responseDateWiseData = [];
   static List<ModelTotalProduction> modelTotalProduction = [];
   static bool addMonth = false;
+  static bool checkClickMonth = false;
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<CowsAndYieldCubit>(context).emit(CowsAndCubitState.initial());
       BlocProvider.of<CowsAndYieldCubit>(context).getCowBreedDetailsApi(context,"");
-
+      // context.read<CowsAndYieldCubit>().addRequestData();
       // BlocProvider.of<CowsAndYieldCubit>(context).showMonth(0,MonthWiseData());
     });
   }
@@ -103,7 +104,9 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
 
                                                     InkWell(
                                                       onTap: (){
+
                                                         context.read<CowsAndYieldCubit>().showMonth(index,state.responseMonthlyWiseData![index]);
+
                                                       },
                                                       child: Container(
                                                         decoration: const BoxDecoration(
@@ -423,11 +426,11 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                                                       }
                                                     ):const SizedBox(width: 0,height: 0,):
                                                     state.responseMonthlyWiseData![index].id == state.monthId?
-                                                    Column(
+                                                    checkClickMonth == false ?Column(
                                                       children: [
                                                         ...getDateWiseData(state.responseMonthlyWiseData![0].dateWiseData!)
                                                       ],
-                                                    ):const Text("monthId"),
+                                                    ):Text("Other"):const Text("monthId"),
 
                                                     index > 0 ? const SizedBox(width: 0,height: 0,) :
                                                     addMoreDateWiseData(false,0,state.responseMonthlyWiseData![index].dateWiseData!),
@@ -542,6 +545,9 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
               setState(() {
                 responseDateWiseData.add(DateWiseData(id: null,milkingCows: "0",
                     yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));
+                context.read<CowsAndYieldCubit>().addRequestData(index,"addMore");
+                BlocProvider.of<CowsAndYieldCubit>(context).allController("0");
+
               });
 
             },
@@ -587,8 +593,8 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
     return InkWell(
       onTap: () {
         setState(() {
+          requestData.removeAt(index);
           responseDateWiseData.removeAt(index);
-          // requestData.removeAt(index);
           print("${responseDateWiseData.length}length${requestData.length}");
         });
       },
@@ -607,8 +613,8 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
   }
 
   List<Widget> getDateWiseData(List<DateWiseData> responseDateWis,){
-    print("DateWiselength ${responseDateWis.length}");
     List<Widget> friendsTextFieldsList = [];
+    print("llllll${responseDateWiseData.length}");
     for(int i=0; i<responseDateWiseData.length; i++){
       friendsTextFieldsList.add(
           Column(
@@ -643,18 +649,34 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   void initState() {
     super.initState();
 
-    CowsAndYieldsSumState.requestData.addAll({RequestData(
-      id: widget.responseDateWise.id.toString(),
-      cowBreedId: widget.responseDateWise.cowBreedId,
-      milkingCows: widget.responseDateWise.milkingCows,
-      yieldPerCow: widget.responseDateWise.yieldPerCow,
-      dryCows: widget.responseDateWise.dryCows,
-      heardSize: widget.responseDateWise.heardSize.toString(),
-      heiferCows: widget.responseDateWise.heiferCows,
-      sevenToTwelveMonthCows: widget.responseDateWise.sevenToTwelveMonthCows,
-      sixMonthCow: widget.responseDateWise.sixMonthCow,
-      bullCalfs: "0",
-    )});
+    // if(CowsAndYieldsSumState.checkClickMonth == false){
+      /*CowsAndYieldsSumState.requestData.add(RequestData(
+        id: widget.responseDateWise.id.toString(),
+        cowBreedId: widget.responseDateWise.cowBreedId,
+        milkingCows: widget.responseDateWise.milkingCows,
+        yieldPerCow: widget.responseDateWise.yieldPerCow,
+        dryCows: widget.responseDateWise.dryCows,
+        heardSize: widget.responseDateWise.heardSize.toString(),
+        heiferCows: widget.responseDateWise.heiferCows,
+        sevenToTwelveMonthCows: widget.responseDateWise.sevenToTwelveMonthCows,
+        sixMonthCow: widget.responseDateWise.sixMonthCow,
+        bullCalfs: "0",
+      ));*/
+
+     /* CowsAndYieldsSumState.requestData.addAll({RequestData(
+        id: widget.responseDateWise.id.toString(),
+        cowBreedId: widget.responseDateWise.cowBreedId,
+        milkingCows: widget.responseDateWise.milkingCows,
+        yieldPerCow: widget.responseDateWise.yieldPerCow,
+        dryCows: widget.responseDateWise.dryCows,
+        heardSize: widget.responseDateWise.heardSize.toString(),
+        heiferCows: widget.responseDateWise.heiferCows,
+        sevenToTwelveMonthCows: widget.responseDateWise.sevenToTwelveMonthCows,
+        sixMonthCow: widget.responseDateWise.sixMonthCow,
+        bullCalfs: "0",
+      )});*/
+
+    print("totalAdd ${CowsAndYieldsSumState.requestData.length} index${widget.index} responseDate ${CowsAndYieldsSumState.responseDateWiseData.length}");
 
     // BlocProvider.of<CowsAndYieldCubit>(context).getDataController(widget.index,widget.dateWiseDate);
 
