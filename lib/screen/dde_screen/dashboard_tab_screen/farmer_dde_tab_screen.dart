@@ -356,7 +356,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      'UGX ${state.response!.farmerMAster![i].investmentAmount!/1000}M'.textSemiBold(
+                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].investmentAmount ?? 0)/1000}M'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                      'Investment'.textMedium(
@@ -371,7 +371,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      'UGX ${state.response!.farmerMAster![i].revenuePerYear!/1000}M'.textSemiBold(
+                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].revenuePerYear ?? 0)/1000}M'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                       'Revenue'.textMedium(
@@ -386,7 +386,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      ' ${state.response!.farmerMAster![i].roiPerYear}%'.textSemiBold(
+                                                      ' ${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                       'ROI'.textMedium(

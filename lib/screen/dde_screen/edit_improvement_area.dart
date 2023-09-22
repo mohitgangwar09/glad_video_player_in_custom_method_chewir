@@ -9,7 +9,6 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class EditImprovementArea extends StatefulWidget {
   const EditImprovementArea({super.key, required this.improvementIndex, required this.farmerId});
@@ -21,36 +20,117 @@ class EditImprovementArea extends StatefulWidget {
 }
 
 class _EditImprovementAreaState extends State<EditImprovementArea> {
-  WebViewController? controller;
   @override
   void initState() {
     BlocProvider.of<ImprovementAreaCubit>(context).generateController(widget.improvementIndex);
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-          },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse("https://jubilantanimalnutrition.com/paymentGatewayForm/id='WT-1266'/msg='XT38ouMc+AVVH1IOOyd4+yB7PhAJJhrKDyH0qAHmlKLiyWu6rkSilQ2qua6Y4bjsD5IEdcSFK2kp2BINYj80rL31yz9xPPTr/eGmKJoArV7UW1V9vPUAzsdmN6HZpYKQed2QKkfK0Bqn/HYfDgilrJZYe+JmK9Ndoz4b7QUXtkBRlsNuur/MvEe5DOA3cXg6GHyJcdpbnD5v2CoOcgifLGoDWCThiITEGXggU8EixncXC4emBfsOFDk67R8J+nEkPZDq7gfS9uejtspqwAxoa+zSnHV0br9my72PRclzCxG3DBv61lhwkA3T1AvQN9jxPqbnVFeHGd0iB0ubBdFWcIDXNFu0b/SS8LGhrWlFZfDxIflDvbPRMyDv0Y8YWYiNA1HOdp5bD4x/yMJqYmnHEp8V1Xh/7gohfo2BKCFFwodsmrFFlL317MliLhF6r0P9zYW8NcUg3zuRqxVCUwmkbKuIkUO+y68y/BShBs7T/nxks/Ebfu5BjR0g/NqW5l7Tdc0QgrpVG369UNz+Bd6GXzy1i8q8G42+Oz2Z+Ke2Q/XmrSNQE9uCZoRrXwFtlGW9Z+OcmMgHG/LxpU9SqtAwrN69Xl+u9bhvB9u5QpRK0r/FgYVHeOPL45Gq0CaAd494dtpu+V9s/hBI6JWFxtijIzXWwAuxVNPpl+ODLuLfQf7Xo+PAqKlzo3Ya8Jy9xUmsSVgIc7Vru99IY9Wix5MWSy636xUQy8/gyU6oh1iszIrBAS72x/JhVqOZ66Sa+PdzzEuTPXpZMclJ2iluQU14Cw=='"));
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebViewWidget(controller: controller!)
+      body: BlocBuilder<ImprovementAreaCubit, ImprovementAreaState>(
+          builder: (context, state) {
+        if (state.status == ImprovementAreaStatus.loading) {
+          return const Center(
+              child: CircularProgressIndicator(
+            color: ColorResources.maroon,
+          ));
+        } else if (state.response == null) {
+          return Center(child: Text("${state.response} Api Error"));
+        } else {
+          return Stack(
+            children: [
+              landingBackground(),
+              Column(
+                children: [
+                  CustomAppBar(
+                    context: context,
+                    titleText1: "Improvement areas",
+                    description: 'Provide the following details',
+                    leading: arrowBackButton(),
+                    centerTitle: true,
+                    action: TextButton(
+                        onPressed: () {
+                          context.read<ImprovementAreaCubit>().updateImprovementAreaApi(context, widget.farmerId, widget.improvementIndex);
+                        },
+                        child: Text(
+                          'Save',
+                          style: figtreeMedium.copyWith(
+                              color: ColorResources.maroon, fontSize: 14),
+                        )),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius:
+                                    BorderRadius.circular(16.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: state
+                                          .response!
+                                          .data!
+                                          .improvementAreaList![widget.improvementIndex]
+                                          .image ??
+                                          '',
+                                      errorWidget: (_, __, ___) =>
+                                          Image.asset(
+                                            Images.facilities,
+                                            width: screenWidth() * 0.75,
+                                            height: screenWidth() * 0.65 ,
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.center,
+                                          ),
+                                      width: screenWidth() * 0.75,
+                                      height: screenWidth() * 0.65,
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 20,
+                                    right: 10,
+                                    left: 10,
+                                    child: Text(
+                                      state
+                                          .response!
+                                          .data!
+                                          .improvementAreaList![widget.improvementIndex]
+                                          .name ??
+                                          '',
+                                      style: figtreeMedium.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 18),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            20.verticalSpace(),
+                            customList(
+                              list: List.generate(state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea!.length, (index) => ''),
+                                child: (index) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: CustomTextField2(title: state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].parameter!, controller: state.areaControllers![index],),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          );
+        }
+      }),
     );
   }
 }
