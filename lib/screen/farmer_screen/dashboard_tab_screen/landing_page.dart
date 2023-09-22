@@ -290,7 +290,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                     items: [
                       for (int index = 0;
                       index <
-                          (state.response!.testimonials!.length.toInt() > 3 ? 3 : state.response!.testimonials!.length);
+                          (state.response!.testimonials!.length.toInt() > 5 ? 5 : state.response!.testimonials!.length);
                       index++)
                         GladReview(
                           review:
@@ -298,7 +298,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                               '',
                           name: state.response!.testimonials![index].name ?? '',
                           userType: 'Farmer',
-                          location: 'Kampala, Uganda',
+                          location: '',
                           attachment:
                           state.response!.testimonials![index].attachment ??
                               '',
@@ -307,14 +307,14 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                         ),
                     ],
                     options: CarouselOptions(
-                      autoPlay: true,
+                      autoPlay: false,
                       enableInfiniteScroll: false,
                       viewportFraction: 1,
                       clipBehavior: Clip.none,
                       enlargeCenterPage: true,
                       height: screenHeight() < 750
-                          ? screenHeight() * 0.285
-                          : screenHeight() * 0.22,
+                          ? screenHeight() * 0.275
+                          : screenHeight() * 0.26,
                       onPageChanged: (index, reason) {
                         setState(() {
                           activeIndex = index;

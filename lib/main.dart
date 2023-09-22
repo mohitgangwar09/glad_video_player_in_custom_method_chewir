@@ -8,6 +8,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
@@ -35,6 +36,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<DdeFarmerCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubit>()),
       BlocProvider(create: (context) => di.sl<DdeEnquiryCubit>()),
+      BlocProvider(create: (context) => di.sl<ImprovementAreaCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubitTest>()),
     ],
     child: const GetMaterialApp(
@@ -48,7 +50,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return const TestCowAndYield();
     // return const CowsAndYieldsSum();
     // return const CowsAndYieldsDDEFarmer();
     return const SplashScreen();

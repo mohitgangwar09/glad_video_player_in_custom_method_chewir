@@ -145,7 +145,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                       left: 18, right: 7, bottom: 20, top: 10),
                   height: 36,
                   child: customList(
-
+                    list: List.generate(4, (index) => ''),
                       axis: Axis.horizontal,
                       child: (int index) {
                         return InkWell(
@@ -238,7 +238,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                         .width *
                                                         0.5,
                                                     child: Text(
-                                                      state.response!.farmerMAster![i].address ?? "Luwum St. Rwoozi, Kampala...",
+                                                      state.response!.farmerMAster![i].address ?? "",
                                                       style:
                                                       figtreeRegular.copyWith(
                                                         fontSize: 12,
@@ -429,9 +429,18 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                 right: 0,
                                 child: Row(
                                   children: [
-                                    SvgPicture.asset(Images.callPrimary),
+                                    InkWell(
+                                        onTap: () {
+                                          callOnMobile(state.response!.farmerMAster![i].phone ??
+                                              '');
+                                        },
+                                        child: SvgPicture.asset(Images.callPrimary)),
                                     6.horizontalSpace(),
-                                    SvgPicture.asset(Images.whatsapp),
+                                    InkWell(
+                                        onTap: () {
+                                          whatsapp(state.response!.farmerMAster![i].phone ??
+                                              '');
+                                        },child: SvgPicture.asset(Images.whatsapp)),
                                     6.horizontalSpace(),
                                     SvgPicture.asset(Images.redirectLocation),
                                     4.horizontalSpace(),

@@ -151,16 +151,29 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                   10.horizontalSpace(),
                                   Column(
                                     children: [
-                                      SvgPicture.asset(
-                                        Images.callPrimary,
-                                        width: 37,
-                                        height: 37,
+
+                                      InkWell(
+                                        onTap: () {
+                                          callOnMobile(state.responseFarmerProfile!.farmer!.phone ??
+                                              '');
+                                        },
+                                        child: SvgPicture.asset(
+                                          Images.callPrimary,
+                                          width: 37,
+                                          height: 37,
+                                        ),
                                       ),
                                       10.verticalSpace(),
-                                      SvgPicture.asset(
-                                        Images.whatsapp,
-                                        width: 37,
-                                        height: 37,
+                                      InkWell(
+                                        onTap: () {
+                                          whatsapp(state.responseFarmerProfile!.farmer!.phone ??
+                                              '');
+                                        },
+                                        child: SvgPicture.asset(
+                                          Images.whatsapp,
+                                          width: 37,
+                                          height: 37,
+                                        ),
                                       ),
                                     ],
                                   )
@@ -324,7 +337,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              const ImprovementAreas().navigate();
+                              ImprovementAreas(farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString())).navigate();
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -816,6 +829,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
           SizedBox(
             height: 350,
             child: customList(
+              list: List.generate(4, (index) => ''),
                 axis: Axis.horizontal,
                 child: (int index) {
                   return Padding(

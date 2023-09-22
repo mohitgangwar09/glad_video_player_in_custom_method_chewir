@@ -5,6 +5,7 @@ import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/repository/drawer_repo.dart';
@@ -39,6 +40,8 @@ Future<void> init() async {
   sl.registerFactory(() => LandingPageCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DrawerCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DdeEnquiryCubit(apiRepository: sl(),sharedPreferences: sl()));
+  sl.registerFactory(() => ImprovementAreaCubit(apiRepository: sl(),sharedPreferences: sl()));
+
   sl.registerFactory(() => CowsAndYieldCubitTest(apiRepository: sl(),sharedPreferences: sl()));
 
   // External

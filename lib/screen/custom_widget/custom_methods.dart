@@ -1117,7 +1117,7 @@ Future<void> launchWhatsApp(var mobile) async {
 
 Future<void> callOnMobile(var mobile)async{
 
-  launchUrlString("tel://${mobile.toString()}");
+  launchUrlString("tel:${mobile.toString()}");
 }
 
 
