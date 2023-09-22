@@ -30,7 +30,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<ImprovementAreaCubit>(context)
-          .improvementAreaListApi(context, widget.farmerId);
+          .improvementAreaListApi(context, widget.farmerId, true, 0);
     });
   }
 
@@ -146,7 +146,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                     .textMedium(color: Colors.black, fontSize: 18),
                                 InkWell(
                                     onTap: () {
-                                      EditImprovementArea(improvementIndex: pageIndex).navigate();
+                                      EditImprovementArea(improvementIndex: pageIndex, farmerId: widget.farmerId).navigate();
                                     },
                                     child: SvgPicture.asset(Images.profileEdit)),
                               ],

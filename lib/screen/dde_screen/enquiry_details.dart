@@ -268,7 +268,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                   top: 10,
                                                   child: InkWell(
                                                       onTap: () {
-                                                        context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryDetail!.data!.enquiry!.lat.toString(),state.responseEnquiryDetail!.data!.enquiry!.lat.toString());
+                                                        context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryDetail!.data!.enquiry!.lat.toString(),state.responseEnquiryDetail!.data!.enquiry!.lat.toString(),context);
                                                       },
                                                       child: SvgPicture.asset(
                                                           Images.mapLocate)),

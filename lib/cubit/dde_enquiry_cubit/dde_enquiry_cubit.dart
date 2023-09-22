@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
@@ -28,9 +29,9 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
     emit(state.copyWith(enquiryStatus: status));
   }
 
-  launchURL(String latitude,String longitude) async {
+  launchURL(String latitude,String longitude,context) async {
 
-    String launchMap = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+    String launchMap = "https://www.google.com/maps/dir/?api=1&origin=${BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude},${BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude}&destination=$latitude,$longitude";
 
     if (await canLaunchUrl(Uri.parse(launchMap))) {
       if(Platform.isIOS) {

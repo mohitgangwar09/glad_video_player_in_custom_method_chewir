@@ -362,9 +362,11 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
   }
 
-  void getFarmer(context, String ragRatingType) async{
+  void getFarmer(context, String ragRatingType, bool showLoader) async{
     // customDialog(widget: launchProgress());
-    emit(state.copyWith(status: DdeFarmerStatus.loading));
+    if (showLoader){
+      emit(state.copyWith(status: DdeFarmerStatus.loading));
+    }
     var response = await apiRepository.getFarmersList(ragRatingType);
     if(response.status == 200){
       // disposeProgress();

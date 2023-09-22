@@ -63,23 +63,23 @@ class _SuppliedToPDFLState extends State<SuppliedToPDFL> {
         return List.generate(
           data!.length,
           (index) => SalesData(DateTime.parse(data[index].date),
-              double.parse(data![index].suppliedToPdfl.toString())),
+              double.parse((data![index].suppliedToPdfl ?? 0).toString())),
         );
       case 'lastweek':
         dynamic data = state.milkProductionChartResponse!.data!.lastWeekData;
         return List.generate(
           data!.length,
           (index) => SalesData(
-              DateTime(DateTime.now().year, data![index].month),
-              double.parse(data![index].suppliedToPdfl.toString())),
+              DateTime.parse(data![index].date),
+              double.parse((data![index].suppliedToPdfl ?? 0).toString())),
         );
       case 'yesterday':
         dynamic data = state.milkProductionChartResponse!.data!.previousDay;
         return List.generate(
           data!.length,
           (index) => SalesData(
-              DateTime(DateTime.now().year, data![index].month),
-              double.parse(data![index].suppliedToPdfl.toString())),
+              DateTime.parse(data![index].date),
+              double.parse((data![index].suppliedToPdfl ?? 0).toString())),
         );
       default:
         return null;
@@ -416,7 +416,7 @@ class _SuppliedToPDFLState extends State<SuppliedToPDFL> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            '${state.milkProductionChartResponse!.data!.monthWiseData![index].suppliedToPdfl} Litre'
+                                            '${state.milkProductionChartResponse!.data!.monthWiseData![index].suppliedToPdfl ?? 0} Litre'
                                                 .textMedium(
                                                     color: Colors.black,
                                                     fontSize: 18),
@@ -454,7 +454,7 @@ class _SuppliedToPDFLState extends State<SuppliedToPDFL> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                '${state.milkProductionChartResponse!.data!.lastMonth![index].suppliedToPdfl} Litre'
+                                                '${state.milkProductionChartResponse!.data!.lastMonth![index].suppliedToPdfl ?? 0} Litre'
                                                     .textMedium(
                                                         color: Colors.black,
                                                         fontSize: 18),

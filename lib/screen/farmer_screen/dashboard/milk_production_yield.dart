@@ -74,7 +74,7 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
                   (index) =>
                   SalesData(DateTime(
                       detailedData[index].year, detailedData[index].month),
-                      double.parse(detailedData[index].totalMilkProduction.toString())),
+                      double.parse((detailedData[index].totalMilkProduction ?? 0).toString())),
             );
             labelFormat = '{value}Ltr.';
           }
@@ -232,13 +232,13 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
                             itemBuilder: (context, index) => monthData(
                                 month:
                                     '${detailedData[index].monthname}, ${detailedData[index].year}',
-                                milkingCows: detailedData[index].milkingCow.toString(),
+                                milkingCows: (detailedData[index].milkingCow ?? 0).toString(),
                                 production:
-                                    detailedData[index].totalMilkProduction.toString(),
-                                yield: detailedData[index].yieldPerCow.toString(),
-                              selfUse: detailedData[index].selfUse.toString(),
-                              supplyToPDFL: detailedData[index].suppliedToPdfl.toString(),
-                              supplyToOthers: detailedData[index].suppliedToOthers.toString(),
+                                (detailedData[index].totalMilkProduction ?? 0).toString(),
+                                yield: (detailedData[index].yieldPerCow ?? 0).toString(),
+                              selfUse: (detailedData[index].selfUse ?? 0).toString(),
+                              supplyToPDFL: (detailedData[index].suppliedToPdfl ?? 0).toString(),
+                              supplyToOthers: (detailedData[index].suppliedToOthers ?? 0).toString(),
                             ),
                             separatorBuilder: (context, index) => SizedBox(
                                 height: 0,
@@ -277,36 +277,42 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
                 borderRadius: BorderRadius.circular(14)),
             padding: const EdgeInsets.all(20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(milkingCows, style: figtreeSemiBold.copyWith(fontSize: 18)),
-                    Text('Milking cows',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: ColorResources.fieldGrey)),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(milkingCows, style: figtreeSemiBold.copyWith(fontSize: 18)),
+                      Text('Milking cows',
+                          style: figtreeRegular.copyWith(
+                              fontSize: 12, color: ColorResources.fieldGrey)),
+                    ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('$production Ltr.',
-                        style: figtreeSemiBold.copyWith(fontSize: 18)),
-                    Text('Production',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: ColorResources.fieldGrey)),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('$production Ltr.',
+                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                      Text('Production',
+                          style: figtreeRegular.copyWith(
+                              fontSize: 12, color: ColorResources.fieldGrey)),
+                    ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('$yield Ltr.',
-                        style: figtreeSemiBold.copyWith(fontSize: 18)),
-                    Text('Yield /day',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: ColorResources.fieldGrey)),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('$yield Ltr.',
+                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                      Text('Yield /day',
+                          style: figtreeRegular.copyWith(
+                              fontSize: 12, color: ColorResources.fieldGrey)),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -314,37 +320,43 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
           Container(
             padding: const EdgeInsets.all(20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('$selfUse Ltr.',
-                        style: figtreeSemiBold.copyWith(fontSize: 18)),
-                    Text('Self use',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: ColorResources.fieldGrey)),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('$selfUse Ltr.',
+                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                      Text('Self use',
+                          style: figtreeRegular.copyWith(
+                              fontSize: 12, color: ColorResources.fieldGrey)),
+                    ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('$supplyToPDFL Ltr.',
-                        style: figtreeSemiBold.copyWith(fontSize: 18)),
-                    Text('Supply to PDFL',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: ColorResources.fieldGrey)),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('$supplyToPDFL Ltr.',
+                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                      Text('Supply to PDFL',
+                          style: figtreeRegular.copyWith(
+                              fontSize: 12, color: ColorResources.fieldGrey)),
+                    ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('$supplyToOthers Ltr.',
-                        style: figtreeSemiBold.copyWith(fontSize: 18)),
-                    Text('Supply to others',
-                        style: figtreeRegular.copyWith(
-                            fontSize: 12, color: ColorResources.fieldGrey)),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('$supplyToOthers Ltr.',
+                          style: figtreeSemiBold.copyWith(fontSize: 18)),
+                      Text('Supply to others',
+                          style: figtreeRegular.copyWith(
+                              fontSize: 12, color: ColorResources.fieldGrey)),
+                    ],
+                  ),
                 ),
               ],
             ),

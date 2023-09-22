@@ -117,7 +117,6 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   Future<void> getCurrentLocation() async{
     await Permission.location.request();
     Position position = await apiRepository.getCurrentPosition();
-    print(position.latitude);
     emit(state.copyWith(currentPosition: position));
   }
 

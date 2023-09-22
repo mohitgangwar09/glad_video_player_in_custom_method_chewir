@@ -1,6 +1,6 @@
 class MilkProductionChart {
   String? message;
-  dynamic status;
+  int? status;
   Data? data;
 
   MilkProductionChart({this.message, this.status, this.data});
@@ -19,7 +19,7 @@ class Data {
   dynamic totalLastWeekMilkProduction;
   List<MonthWiseData>? monthWiseData;
   List<LastMonth>? lastMonth;
-  List<LastWeekData>? previousDay;
+  List<PreviousDay>? previousDay;
   List<LastWeekData>? lastWeekData;
 
   Data(
@@ -40,25 +40,25 @@ class Data {
     if (json['month_wise_data'] != null) {
       monthWiseData = <MonthWiseData>[];
       json['month_wise_data'].forEach((v) {
-        monthWiseData!.add(new MonthWiseData.fromJson(v));
+        monthWiseData!.add(MonthWiseData.fromJson(v));
       });
     }
     if (json['last_month'] != null) {
       lastMonth = <LastMonth>[];
       json['last_month'].forEach((v) {
-        lastMonth!.add(new LastMonth.fromJson(v));
+        lastMonth!.add(LastMonth.fromJson(v));
       });
     }
     if (json['previous_day'] != null) {
-      previousDay = <LastWeekData>[];
+      previousDay = <PreviousDay>[];
       json['previous_day'].forEach((v) {
-        previousDay!.add(new LastWeekData.fromJson(v));
+        previousDay!.add(PreviousDay.fromJson(v));
       });
     }
     if (json['last_week_data'] != null) {
       lastWeekData = <LastWeekData>[];
       json['last_week_data'].forEach((v) {
-        lastWeekData!.add(new LastWeekData.fromJson(v));
+        lastWeekData!.add(LastWeekData.fromJson(v));
       });
     }
   }
@@ -259,6 +259,83 @@ class LastWeekData {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class PreviousDay {
+  dynamic id;
+  dynamic farmerId;
+  String? date;
+  String? month;
+  dynamic totalMilkProduction;
+  dynamic milkingCow;
+  dynamic suppliedToPdfl;
+  dynamic suppliedToOthers;
+  dynamic selfUse;
+  dynamic yieldPerCow;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+
+  PreviousDay(
+      {this.id,
+        this.farmerId,
+        this.date,
+        this.month,
+        this.totalMilkProduction,
+        this.milkingCow,
+        this.suppliedToPdfl,
+        this.suppliedToOthers,
+        this.selfUse,
+        this.yieldPerCow,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  PreviousDay.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    date = json['date'];
+    month = json['month'];
+    totalMilkProduction = json['total_milk_production'];
+    milkingCow = json['milking_cow'];
+    suppliedToPdfl = json['supplied_to_pdfl'];
+    suppliedToOthers = json['supplied_to_others'];
+    selfUse = json['self_use'];
+    yieldPerCow = json['yield_per_cow'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = this.id;
+    data['farmer_id'] = this.farmerId;
+    data['date'] = this.date;
+    data['month'] = this.month;
+    data['total_milk_production'] = this.totalMilkProduction;
+    data['milking_cow'] = this.milkingCow;
+    data['supplied_to_pdfl'] = this.suppliedToPdfl;
+    data['supplied_to_others'] = this.suppliedToOthers;
+    data['self_use'] = this.selfUse;
+    data['yield_per_cow'] = this.yieldPerCow;
+    data['status'] = this.status;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
