@@ -30,7 +30,7 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
 
   launchURL(String latitude,String longitude) async {
 
-    String launchMap = "https://www.google.com/maps/search/?api=1&origin=$latitude,$longitude&destination=$latitude,$longitude";
+    String launchMap = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
 
     if (await canLaunchUrl(Uri.parse(launchMap))) {
       if(Platform.isIOS) {
