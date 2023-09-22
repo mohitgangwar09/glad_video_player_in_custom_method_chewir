@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -431,7 +432,9 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                               '');
                                         },child: SvgPicture.asset(Images.whatsapp)),
                                     6.horizontalSpace(),
-                                    SvgPicture.asset(Images.redirectLocation),
+                                    InkWell(onTap: (){
+                                      // BlocProvider.of<DdeEnquiryCubit>(context).launchURL(state.response!.farmerMAster![i].landlineNo.toString(),state.responseEnquiryModel!.data![index].lang.toString(),context);
+                                    },child: SvgPicture.asset(Images.redirectLocation)),
                                     4.horizontalSpace(),
                                   ],
                                 )),
