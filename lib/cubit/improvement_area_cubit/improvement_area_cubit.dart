@@ -4,7 +4,9 @@ import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
 import 'package:glad/data/repository/dde_repo.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stepper_list_view/stepper_list_view.dart';
 
@@ -39,6 +41,11 @@ class ImprovementAreaCubit extends Cubit<ImprovementAreaState> {
             .data!
             .improvementAreaList![index]
             .farmerImprovementArea!;
+    Results resultData =
+    (state.response!)
+        .data!
+        .improvementAreaList![index]
+        .results!;
     emit(state.copyWith(
         status: ImprovementAreaStatus.success,
         stepperData: List.generate(
@@ -47,10 +54,27 @@ class ImprovementAreaCubit extends Cubit<ImprovementAreaState> {
             id: '$index',
             content: {
               'title': areaList[index].parameter,
-              'description': areaList[index].value
+              'description': areaList[index].value,
+              'uom': areaList[index].uom,
             },
             avatar: "dot",
           ),
-        )));
+        ),
+        resultData: resultData));
   }
+
+  // updateImprovementAreaApi
+  void updateImprovementAreaApi(context, Map<String, dynamic> data) async {
+    // emit(state.copyWith(status: ImprovementAreaStatus.loading));
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.updateImprovementArea(data);
+    if (response.status == 200) {
+      disposeProgress();
+      getStepperData(0);
+    } else {
+      emit(state.copyWith(status: ImprovementAreaStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 }

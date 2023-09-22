@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
 import 'package:glad/data/model/model_total_production.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';

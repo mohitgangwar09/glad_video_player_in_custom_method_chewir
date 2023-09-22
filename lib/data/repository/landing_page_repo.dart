@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/auth_models/invite_expert_model.dart';
+import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
@@ -180,6 +181,25 @@ class LandingPageRepository {
       return ResponseEnquiryDetail.fromJson(apiResponse.response!.data);
     } else {
       return ResponseEnquiryDetail(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ////////////////////enquiryClosedApi///////////////////////////
+  Future<ResponseOtpModel> enquiryClosedApi(String id) async {
+
+    var data = {
+      "enquiry_id": id,
+      "status": "Closed"
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.enquiryClosedApi,
+        queryParameters: data,headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
   }
 

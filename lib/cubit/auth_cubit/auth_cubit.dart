@@ -21,6 +21,7 @@ import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dar
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
+import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 part 'auth_cubit_state.dart';
 
@@ -28,6 +29,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
   final AuthRepository apiRepository;
   final SharedPreferences sharedPreferences;
+  Location location = Location();
 
   bool isEmail(String em) {
     String p =
@@ -306,6 +308,28 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
       }
     }
+  }
+
+  Future<void> getLocation(contexts) async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
   }
 
 

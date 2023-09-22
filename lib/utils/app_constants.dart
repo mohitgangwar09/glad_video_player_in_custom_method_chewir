@@ -34,6 +34,7 @@ class AppConstants {
   static const String enquiryListApi = '/api/enquiry-list';
   static const String enquiryDetailsApi = '/api/enquiry-details';
   static const String improvementAreaList = '/api/improvement/list';
+  static const String enquiryClosedApi = '/api/dde/enquiry-closed';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

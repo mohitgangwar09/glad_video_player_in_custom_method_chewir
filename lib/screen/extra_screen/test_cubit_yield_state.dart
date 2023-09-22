@@ -1,11 +1,11 @@
 
-part of 'cowsandyieldcubit.dart';
+part of 'test_cubit_yield.dart';
 
-enum CowsAndCubitStatus { initial, loading, success, error }
+enum TestYieldStatus { initial, loading, success, error }
 
-class CowsAndCubitState extends Equatable {
+class TestYieldState extends Equatable {
 
-  final CowsAndCubitStatus status;
+  final TestYieldStatus status;
   final List<MonthWiseData>? responseMonthlyWiseData;
   final int? initialIndex,monthId;
   final List<String>? addMonthId;
@@ -26,7 +26,7 @@ class CowsAndCubitState extends Equatable {
   final double totalProduction,yieldPerDay;
 
 
-  const CowsAndCubitState({
+  const TestYieldState({
     required this.status,
     this.responseMonthlyWiseData,
     this.initialIndex,
@@ -52,36 +52,44 @@ class CowsAndCubitState extends Equatable {
     required this.yieldPerDay
   });
 
-  factory CowsAndCubitState.initial(){
-    return CowsAndCubitState(
-      status: CowsAndCubitStatus.initial,
-      responseMonthlyWiseData: const [],
-      initialIndex: 0,
-      monthId: 0,
-      addMonthId: const [],
-      responseDateWise: const [],
-      milkingCowController: [TextEditingController()],
-      herdSizeController:  [TextEditingController()],
-      yieldPerDayController: [TextEditingController()],
-      dryController: [TextEditingController()],
-      heiferController: [TextEditingController()],
-      sevenTwelveMonthController: [TextEditingController()],
-      lessthanSixMonthController: [TextEditingController()],
-      bullCalfController: [TextEditingController()],
-      breedController: TextEditingController(),
-      suppliedToPdfController: TextEditingController(),
-      suppliedToOtherPdfController: TextEditingController(),
-      selfUseController: TextEditingController(),
-      totalMilkingCow: 0,
-      sumOfBreed: 0,
-      totalProduction: 0,
-      totalHerdSize: 0,
-      yieldPerDay: 0
+  factory TestYieldState.initial(){
+    return TestYieldState(
+        status: TestYieldStatus.initial,
+        responseMonthlyWiseData: const [],
+        initialIndex: 0,
+        monthId: 0,
+        addMonthId: const [],
+        responseDateWise: const [],
+        milkingCowController: [],
+        herdSizeController:  [],
+        yieldPerDayController: [],
+        dryController: [],
+        heiferController: [],
+        sevenTwelveMonthController: [],
+        lessthanSixMonthController: [],
+        bullCalfController: [],
+        /*milkingCowController: [TextEditingController()],
+        herdSizeController:  [TextEditingController()],
+        yieldPerDayController: [TextEditingController()],
+        dryController: [TextEditingController()],
+        heiferController: [TextEditingController()],
+        sevenTwelveMonthController: [TextEditingController()],
+        lessthanSixMonthController: [TextEditingController()],
+        bullCalfController: [TextEditingController()],*/
+        breedController: TextEditingController(),
+        suppliedToPdfController: TextEditingController(),
+        suppliedToOtherPdfController: TextEditingController(),
+        selfUseController: TextEditingController(),
+        totalMilkingCow: 0,
+        sumOfBreed: 0,
+        totalProduction: 0,
+        totalHerdSize: 0,
+        yieldPerDay: 0
     );
   }
 
-  CowsAndCubitState copyWith({
-    CowsAndCubitStatus? status,
+  TestYieldState copyWith({
+    TestYieldStatus? status,
     List<MonthWiseData>? responseMonthlyWiseData,
     int? initialIndex,monthId,
     List<String>? addMonthId,
@@ -101,7 +109,7 @@ class CowsAndCubitState extends Equatable {
     int? totalMilkingCow,sumOfBreed,totalHerdSize,
     double? totalProduction,yieldPerDay
   }) {
-    return CowsAndCubitState(
+    return TestYieldState(
       status: status ?? this.status,
       responseMonthlyWiseData: responseMonthlyWiseData ?? this.responseMonthlyWiseData,
       initialIndex: initialIndex ?? this.initialIndex,

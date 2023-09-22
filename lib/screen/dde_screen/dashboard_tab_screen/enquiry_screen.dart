@@ -186,6 +186,9 @@ class EnquiryScreen extends StatelessWidget {
                       list: state.responseEnquiryModel!.data!,
                         child: (index) => InkWell(
                           onTap: () {
+                            if(state.responseEnquiryModel!.data![index].status.toString() == "pending"){
+                              BlocProvider.of<DdeEnquiryCubit>(context).emit(state.copyWith(markAsClosed: ""));
+                            }
                             EnquiryDetailsScreen(state.responseEnquiryModel!.data![index].id.toString()).navigate();
                           },
                           child: Stack(

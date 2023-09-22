@@ -39,8 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   void _route() async {
-    // await imei();
     await initPlatformState();
+    if (!mounted) return;
+    await BlocProvider.of<AuthCubit>(context).getLocation(context);
+    if (!mounted) return;
     await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
     // GeocoderResponse geocoderResponse = await BlocProvider.of<LandingPageCubit>(context).getAddressFromLatLngDescription(BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude);
 

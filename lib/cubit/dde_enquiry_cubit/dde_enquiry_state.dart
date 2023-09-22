@@ -7,13 +7,14 @@ class DdeEnquiryState extends Equatable {
   final DdeEnquiryStatus status;
   final ResponseEnquiryModel? responseEnquiryModel;
   final ResponseEnquiryDetail? responseEnquiryDetail;
-  final String? enquiryStatus;
+  final String? enquiryStatus,markAsClosed;
 
   const DdeEnquiryState({
     required this.status,
     this.responseEnquiryModel,
     this.enquiryStatus,
     this.responseEnquiryDetail,
+    this.markAsClosed,
   });
 
   factory DdeEnquiryState.initial(){
@@ -21,6 +22,7 @@ class DdeEnquiryState extends Equatable {
       status: DdeEnquiryStatus.initial,
       responseEnquiryModel: ResponseEnquiryModel(),
       enquiryStatus: "Pending",
+      markAsClosed: "",
       responseEnquiryDetail: ResponseEnquiryDetail(),
     );
   }
@@ -29,13 +31,14 @@ class DdeEnquiryState extends Equatable {
     DdeEnquiryStatus? status,
     ResponseEnquiryModel? responseEnquiryModel,
     ResponseEnquiryDetail? responseEnquiryDetail,
-    String? enquiryStatus,
+    String? enquiryStatus,markAsClosed,
   }) {
     return DdeEnquiryState(
       status: status ?? this.status,
       responseEnquiryModel: responseEnquiryModel ?? this.responseEnquiryModel,
       responseEnquiryDetail: responseEnquiryDetail ?? this.responseEnquiryDetail,
       enquiryStatus: enquiryStatus ?? this.enquiryStatus,
+      markAsClosed: markAsClosed ?? this.markAsClosed,
     );
   }
 
@@ -44,7 +47,8 @@ class DdeEnquiryState extends Equatable {
     status,
     responseEnquiryModel,
     responseEnquiryDetail,
-    enquiryStatus
+    enquiryStatus,
+    markAsClosed
   ];
 
 }

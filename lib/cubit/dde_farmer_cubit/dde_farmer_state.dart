@@ -28,6 +28,7 @@ class DdeState extends Equatable {
   final List<DataBreed> ? breedResponse;
   final List<DataBreed> ? searchBreedList;
   final List<bool>? showQties;
+  final String? selectedRagRatingType;
 
   const DdeState({
     required this.focusTag,
@@ -59,6 +60,7 @@ class DdeState extends Equatable {
     required this.lessthanSixMonthController,
     required this.bullCalfController,
     required this.totalMilkingCow,
+    required this.selectedRagRatingType,
   });
 
   factory DdeState.initial(){
@@ -92,6 +94,7 @@ class DdeState extends Equatable {
       totalProduction: 0,
       totalHerdSize: 0,
       sumOfMilkingSize: const [0],
+      selectedRagRatingType: '',
     );
   }
 
@@ -114,6 +117,7 @@ class DdeState extends Equatable {
     List<DateWiseData> ? dateWise,
     List<DataBreed> ? searchBreedList,
     List<bool>? showQties,
+    String? selectedRagRatingType,
   }) {
     return DdeState(
       focusTag: focusTag ?? this.focusTag,
@@ -145,6 +149,7 @@ class DdeState extends Equatable {
       showQties: showQties ?? this.showQties,
       totalHerdSize: totalHerdSize ?? this.totalHerdSize,
       sumOfMilkingSize: sumOfMilkingSize ?? this.sumOfMilkingSize,
+      selectedRagRatingType: selectedRagRatingType ?? this.selectedRagRatingType,
     );
   }
 
@@ -178,7 +183,8 @@ class DdeState extends Equatable {
     bullCalfController,
     sumOfMilkingSize,
     sumOfHerd,
-    totalMilkingCow
+    totalMilkingCow,
+    selectedRagRatingType
   ];
 
 }

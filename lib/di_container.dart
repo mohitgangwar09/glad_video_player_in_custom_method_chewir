@@ -4,7 +4,7 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
-import 'package:glad/cubit/dde_Farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -12,6 +12,7 @@ import 'package:glad/data/repository/drawer_repo.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/data/repository/dde_repo.dart';
 import 'package:glad/data/repository/profile_repo.dart';
+import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'data/repository/auth_repo.dart';
@@ -41,6 +42,7 @@ Future<void> init() async {
   sl.registerFactory(() => DdeEnquiryCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => ImprovementAreaCubit(apiRepository: sl(),sharedPreferences: sl()));
 
+  sl.registerFactory(() => CowsAndYieldCubitTest(apiRepository: sl(),sharedPreferences: sl()));
 
   // External
   var sharedPreferences = await SharedPreferences.getInstance();
