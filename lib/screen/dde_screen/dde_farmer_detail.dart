@@ -165,8 +165,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                       ),
                                       10.verticalSpace(),
                                       InkWell(
-                                        onTap: () {
-                                          whatsapp(state.responseFarmerProfile!.farmer!.phone ??
+                                        onTap: () async{
+                                          await launchWhatsApp(state.responseFarmerProfile!.farmer!.phone ??
                                               '');
                                         },
                                         child: SvgPicture.asset(

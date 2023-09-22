@@ -44,7 +44,6 @@ dependencies:
   geolocator: ^10.0.1
   intl:
   location: ^5.0.0
-  webview_flutter: ^4.2.4
 
 
 dev_dependencies:
