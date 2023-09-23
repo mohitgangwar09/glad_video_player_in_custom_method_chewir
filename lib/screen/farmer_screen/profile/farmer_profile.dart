@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -13,6 +14,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'edit_profile.dart';
 
 class FarmerProfile extends StatefulWidget {
@@ -23,11 +25,48 @@ class FarmerProfile extends StatefulWidget {
 }
 
 class _FarmerProfileState extends State<FarmerProfile> {
+
+  GoogleMapController? mapController;
+
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  void _onMapCreated(GoogleMapController controller,String latitude,String longitude) {
+    mapController = controller;
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(double.parse(latitude), double.parse(longitude)),
+          zoom: 15.5,
+        ),
+      ),
+    );
+    var marker = Marker(
+      markerId: const MarkerId(''),
+      position: LatLng(double.parse(latitude), double.parse(longitude)),
+      // icon: BitmapDescriptor.,
+      infoWindow: const InfoWindow(
+        title: '',
+        snippet: '',
+      ),
+    );
+
+    setState(() {
+      markers[const MarkerId('place_name')] = marker;
+    });
+  }
+
+
   @override
   void initState() {
     super.initState();
 
     BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    mapController!.dispose();
   }
 
   @override
@@ -78,7 +117,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         20.verticalSpace(),
                         cowsInTheFarm(state),
                         30.verticalSpace(),
-                        address(context),
+                        address(context,state),
                         facilitiesInTheFarm(),
                         20.verticalSpace(),
                       ],
@@ -211,6 +250,10 @@ class _FarmerProfileState extends State<FarmerProfile> {
                     const CustomIndicator(
                       percentage: 69,
                       width: 122,
+                      color: Color(0xFF4BC56F),
+                      color1: Color(0xFFFEEB53),
+                      color2: Color(0xFFFC5E60),
+                      barCircleColor :Color(0xFF4BC56F)
                     ),
                   ],
                 ))
@@ -268,17 +311,22 @@ class _FarmerProfileState extends State<FarmerProfile> {
     );
   }
 
-  Widget address(BuildContext context) {
+  Widget address(BuildContext context,ProfileCubitState state) {
     return Stack(
       children: [
-        const GMap(
-          lat: 28.4986,
-          lng: 77.3999,
+        GMap(
+          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.lattitude!=null ? state.responseFarmerProfile!.farmer!.address!.lattitude!.toString():BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude.toString()),
+          lng: double.parse(state.responseFarmerProfile!.farmer!.address!.longitude!=null?state.responseFarmerProfile!.farmer!.address!.longitude!.toString():BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude.toString()),
           height: 350,
+          onMapCreated: (GoogleMapController controller){
+            _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.lattitude!=null?state.responseFarmerProfile!.farmer!.address!.lattitude!.toString():BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude.toString(),
+                state.responseFarmerProfile!.farmer!.address!.longitude!=null?state.responseFarmerProfile!.farmer!.address!.longitude!.toString():BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude.toString());
+          },
           zoomGesturesEnabled: false,
           zoomControlsEnabled: false,
           myLocationEnabled: true,
           myLocationButtonEnabled: false,
+          markers: markers.values.toSet(),
         ),
         Positioned(
           bottom: 20,
@@ -305,7 +353,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          'Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489 Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489',
+                          state.responseFarmerProfile!.farmer!.address!.address!=null? state.responseFarmerProfile!.farmer!.address!.address!.toString():"",
                           style: figtreeRegular.copyWith(
                             fontSize: 14,
                             color: Colors.black,
@@ -770,9 +818,13 @@ class _FarmerProfileState extends State<FarmerProfile> {
 
 class CustomIndicator extends StatelessWidget {
   const CustomIndicator(
-      {super.key, required this.percentage, required this.width});
+      {super.key, required this.percentage, required this.width,required this.color,required this.color1,required this.color2,required this.barCircleColor});
   final int percentage;
   final double width;
+  final Color? color;
+  final Color? color1;
+  final Color? color2;
+  final Color? barCircleColor;
 
   @override
   Widget build(BuildContext context) {
@@ -787,12 +839,13 @@ class CustomIndicator extends StatelessWidget {
             height: 5,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: const LinearGradient(colors: [
-                  Color(0xFF4BC56F),
-                  Color(0xFFFEEB53),
-                  Color(0xFFFC5E60)
+                gradient: LinearGradient(colors: [
+                  color!,
+                  color1!,
+                  color2!
                 ])),
           ),
+
           Positioned(
               left: percentage.toDouble(),
               child: Material(
@@ -804,7 +857,7 @@ class CustomIndicator extends StatelessWidget {
                   height: 22,
                   width: 22,
                   decoration: BoxDecoration(
-                      color: const Color(0xFFFC5E60),
+                      color: barCircleColor!,
                       border: Border.all(color: Colors.white, width: 2),
                       shape: BoxShape.circle),
                 ),

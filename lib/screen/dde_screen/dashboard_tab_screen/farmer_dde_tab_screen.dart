@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
@@ -172,6 +173,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                           children: [
                             InkWell(
                               onTap: (){
+                                BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
                                 DdeFarmerDetail(userId: state.response!.farmerMAster![i].userId!,).navigate();
                               },
                               child: customProjectContainer(

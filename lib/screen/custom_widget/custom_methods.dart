@@ -1244,3 +1244,7 @@ Widget  errorText(String s) {
         fontSize: 20
     ),);
 }
+
+bool equalsIgnoreCase(String? string1, String? string2) {
+  return string1?.toUpperCase() == string2?.toLowerCase();
+}

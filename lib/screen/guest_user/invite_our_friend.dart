@@ -36,6 +36,42 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
   double? long;
   String? district;
 
+  GoogleMapController? mapController;
+
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+          zoom: 15.5,
+        ),
+      ),
+    );
+    var marker = Marker(
+      markerId: const MarkerId(''),
+      position: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+      // icon: BitmapDescriptor.,
+      infoWindow: const InfoWindow(
+        title: '',
+        snippet: '',
+      ),
+    );
+
+    setState(() {
+      markers[const MarkerId('place_name')] = marker;
+    });
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    mapController!.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,13 +141,13 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
         Stack(
           children: [
             GMap(
-              lat: lat ?? 28.4986,
-              lng: long ?? 77.3999,
+              lat: lat ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude,
+              lng: long ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude,
               height: 350,
               onMapCreated: (controller) async{
-                // controller.animateCamera(CameraUpdate.newCameraPosition(
-                //     CameraPosition(target: LatLng(lat!, long!), zoom: 11)));
+                _onMapCreated(controller);
               },
+              markers: markers.values.toSet(),
               onCameraIdle: () {},
             ),
             Positioned(
@@ -135,14 +171,15 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                                 googleAPIKey: AppConstants.gMapsApiKey,
                                 controller: _searchPlaceController,
                                 itmOnTap: (Prediction prediction) {
-                                  _searchPlaceController.text = prediction.description ?? "";
+                                  // _searchPlaceController.text = prediction.description ?? "";
                                   addressController!.text = prediction.description!;
-                                  _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
+                                  // _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
+                                  _searchPlaceController.clear();
                                 },
                                 getPlaceDetailWithLatLng: (Prediction prediction) {
-                                  _searchPlaceController.text = prediction.description ?? "";
+                                  // _searchPlaceController.text = prediction.description ?? "";
                                   addressController!.text = prediction.description!;
-                                  _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
+                                  // _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
                                   lat = double.parse(prediction.lat!);
                                   long = double.parse(prediction.lng!);
                                   setState(() {});
@@ -153,9 +190,27 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                                       break;
                                     }
                                   }
-                                  setState(() {
+                                  mapController?.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        target: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+                                        zoom: 15.5,
+                                      ),
+                                    ),
+                                  );
+                                  var marker = Marker(
+                                    markerId: const MarkerId(''),
+                                    position: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+                                    // icon: BitmapDescriptor.,
+                                    infoWindow: const InfoWindow(
+                                      title: '',
+                                      snippet: '',
+                                    ),
+                                  );
 
-                                  });
+                                  // setState(() {
+                                    markers[const MarkerId('place_name')] = marker;
+                                  // });
                                 },
                               inputDecoration: InputDecoration(
                                 labelText: 'Type your address...',

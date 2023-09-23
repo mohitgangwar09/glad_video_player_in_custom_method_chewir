@@ -70,13 +70,13 @@ class ImprovementAreaCubit extends Cubit<ImprovementAreaState> {
     for (int index = 0; index < state.areaControllers!.length; index++) {
       updatedData.add({
         'id': state.response!.data!.improvementAreaList![improvementIndex]
-            .farmerImprovementArea![index].id,
-        'value': state.areaControllers![index].text
+            .farmerImprovementArea![index].id.toString(),
+        'value': state.areaControllers![index].text.toString()
       });
     }
     customDialog(widget: launchProgress());
     var response = await apiRepository.updateImprovementArea({
-      'farmer_id': farmerId,
+      'farmer_id': farmerId.toString(),
       'improvementAreaData': updatedData,
     });
     if (response.status == 200) {

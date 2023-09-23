@@ -116,6 +116,7 @@ class _DDEInAreaState extends State<DDEInArea> {
                             null
                         ? InkWell(
                             onTap: () {
+                              BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
                               const InviteAnExpert().navigate();
                             },
                             child: Container(

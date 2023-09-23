@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -16,6 +18,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DdeFarmerDetail extends StatefulWidget {
   const DdeFarmerDetail({Key? key, required this.userId}) : super(key: key);
@@ -26,11 +29,49 @@ class DdeFarmerDetail extends StatefulWidget {
 }
 
 class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
+
+  GoogleMapController? mapController;
+  double? lat,long;
+
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  void _onMapCreated(GoogleMapController controller,String latitude,String longitude) {
+    mapController = controller;
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(double.parse(latitude.toString()), double.parse(longitude)),
+          zoom: 15.5,
+        ),
+      ),
+    );
+    var marker = Marker(
+      markerId: const MarkerId(''),
+      position: LatLng(double.parse(latitude), double.parse(longitude)),
+      // icon: BitmapDescriptor.,
+      infoWindow: const InfoWindow(
+        title: '',
+        snippet: '',
+      ),
+    );
+
+    setState(() {
+      markers[const MarkerId('place_name')] = marker;
+    });
+  }
+
   @override
   void initState() {
     BlocProvider.of<ProfileCubit>(context)
         .getFarmerProfile(context, userId: widget.userId.toString());
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    mapController?.dispose();
   }
 
   @override
@@ -188,20 +229,43 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 children: [
                                   Row(
                                     children: [
-                                      "${calculateAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '2001-08-19'))} years old".textRegular(),
+                                      "${calculateAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} years old".textRegular(),
                                       10.horizontalSpace(),
                                       const CircleAvatar(
                                         radius: 4,
                                         backgroundColor: Colors.black,
                                       ),
                                       10.horizontalSpace(),
-                                      "${state.responseFarmerProfile!.farmer!.farmingExperience ?? 25} years experience".textRegular(),
+                                      "${state.responseFarmerProfile!.farmer!.farmingExperience ?? 0} years experience".textRegular(),
                                     ],
                                   ),
+
+                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory" ?
                                   const CustomIndicator(
-                                    percentage: 53,
-                                    width: 75,
-                                  ),
+                                    percentage: 65,
+                                    width: 95,
+                                    color: Color(0xFFFC5E60),
+                                    color1: Colors.yellow,
+                                    color2: Color(0xFF4BC56F),
+                                    barCircleColor: Color(0xFF4BC56F),
+                                  ):
+                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
+                                  const CustomIndicator(
+                                    percentage: 10,
+                                    width: 95,
+                                    color: Color(0xFFFC5E60),
+                                    color1: Colors.yellow,
+                                    color2: Colors.green,
+                                    barCircleColor: Color(0xFFFC5E60),
+                                  ):state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
+                                  const CustomIndicator(
+                                    percentage: 38,
+                                    width: 95,
+                                    color: Color(0xFFFC5E60),
+                                    color1: Colors.yellow,
+                                    color2: Colors.green,
+                                    barCircleColor: Colors.yellow,
+                                  ):"d".textMedium()
                                 ],
                               ),
                             ),
@@ -213,7 +277,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                   Expanded(
                                       child: "Luwum St. Rwoozi, Kampala"
                                           .textRegular(fontSize: 12)),
-                                  "Critical".textMedium(fontSize: 12),
+                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory"?
+                                  "Critical".textMedium(fontSize: 12):"".textMedium(),
                                   23.horizontalSpace()
                                 ],
                               ),
@@ -312,7 +377,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                             30.verticalSpace(),
                             cowsInTheFarm(state),
                             30.verticalSpace(),
-                            address(context),
+                            address(context,state),
                             topPerformingFarmer(),
                             25.verticalSpace(),
                           ],
@@ -535,17 +600,27 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
     );
   }
 
-  Widget address(BuildContext context) {
+  Widget address(BuildContext context,ProfileCubitState state) {
     return Stack(
       children: [
-        const GMap(
-          lat: 28.4986,
-          lng: 77.3999,
+        GMap(
+          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.lattitude!.toString()),
+          lng: double.parse(state.responseFarmerProfile!.farmer!.address!.longitude!.toString()),
           height: 350,
+          onMapCreated: (GoogleMapController controller){
+            if(state.responseFarmerProfile!.farmer!.address!.lattitude!=null){
+              _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.lattitude!.toString(),
+                  state.responseFarmerProfile!.farmer!.address!.longitude!.toString());
+            }else{
+              _onMapCreated(controller,BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude.toString(),
+                  BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude.toString());
+            }
+          },
           zoomGesturesEnabled: false,
           zoomControlsEnabled: false,
           myLocationEnabled: true,
           myLocationButtonEnabled: false,
+          markers: markers.values.toSet(),
         ),
         Positioned(
           bottom: 20,
@@ -572,7 +647,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          'Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489 Plot 11,Luwum St. Rwoozi, Kampala, Uganda 23489',
+                          state.responseFarmerProfile!.farmer!.address!.address!=null? state.responseFarmerProfile!.farmer!.address!.address!.toString():"",
                           style: figtreeRegular.copyWith(
                             fontSize: 14,
                             color: Colors.black,
