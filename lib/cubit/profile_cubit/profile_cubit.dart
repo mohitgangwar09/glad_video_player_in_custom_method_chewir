@@ -26,8 +26,8 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     emit(state.copyWith(gender: gender));
   }
 
-  void changeDistrict(String districtName, String districtId) {
-    emit(state.copyWith(selectDistrict: districtName, districtId: districtId));
+  void changeDistrict(String districtName, String districtId,TextEditingController districtController) {
+    emit(state.copyWith(selectDistrict: districtName, districtId: districtId,districtController: districtController));
   }
 
   void changeSelectedBreedIndex(int index) {
@@ -133,7 +133,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       if(response.data!.farmer!.managerPhone != null){
         state.managerPhone.text = response.data!.farmer!.managerPhone.toString();
       }
-      emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data));
+      emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data,
+          selectDistrict: response.data!.farmer!.address!=null?response.data!.farmer!.address!.district!=null?
+          response.data!.farmer!.address!.district!.toString():"":""
+      ));
     }
     else{
       emit(state.copyWith(status: ProfileStatus.error));

@@ -12,6 +12,7 @@ import 'package:glad/screen/dde_screen/farmer_personal_detail.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
 import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
+import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -265,7 +266,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                     color1: Colors.yellow,
                                     color2: Colors.green,
                                     barCircleColor: Colors.yellow,
-                                  ):"d".textMedium()
+                                  ):"none".textMedium()
                                 ],
                               ),
                             ),
@@ -273,12 +274,17 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                               padding:
                               const EdgeInsets.only(left: 20.0, right: 25),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                      child: "Luwum St. Rwoozi, Kampala"
-                                          .textRegular(fontSize: 12)),
+                                  state.responseFarmerProfile!.farmer!.address!=null?Expanded(
+                                      child: state.responseFarmerProfile!.farmer!.address!.address.toString()
+                                          .textRegular(fontSize: 12)):const Expanded(child: Text('')),
                                   state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory"?
-                                  "Critical".textMedium(fontSize: 12):"".textMedium(),
+                                  "Satisfactory".textMedium(fontSize: 12):
+                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
+                                  "Critical".textMedium(fontSize: 12):
+                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
+                                  "Average".textMedium(fontSize: 12):"".textMedium(),
                                   23.horizontalSpace()
                                 ],
                               ),
@@ -668,7 +674,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
           top: 10,
           child: InkWell(
               onTap: () {
-                // const EditAddress().navigate();
+                BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+                const EditAddress().navigate();
               },
               child: SvgPicture.asset(Images.profileEdit)),
         ),

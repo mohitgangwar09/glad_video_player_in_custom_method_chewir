@@ -374,6 +374,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
           top: 10,
           child: InkWell(
               onTap: () {
+                BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
                 const EditAddress().navigate();
               },
               child: SvgPicture.asset(Images.profileEdit)),

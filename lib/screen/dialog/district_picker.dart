@@ -127,7 +127,7 @@ class DistrictPicker extends StatelessWidget {
           return InkWell(
             onTap: () {
               BlocProvider.of<ProfileCubit>(context)
-                  .changeDistrict(country.name.toString(),country.id.toString());
+                  .changeDistrict(country.name.toString(),country.id.toString(),TextEditingController(text: country.name.toString()));
               BlocProvider.of<ProfileCubit>(context)
                   .changeSearchDistrictController(TextEditingController());
               disposeProgress();
