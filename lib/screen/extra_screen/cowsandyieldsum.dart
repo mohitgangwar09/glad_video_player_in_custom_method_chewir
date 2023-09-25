@@ -475,6 +475,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                   print(jsonRequestData);
 
                   print(response.requestData[response.requestData.length-1].milkingCows);
+                  print(BlocProvider.of<CowsAndYieldCubit>(context).state.breedController.length);
 
                 },
                 child: const Text('Submit'),
@@ -679,6 +680,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
 
               Column(
                 children: [
+
                   10.verticalSpace(),
 
                   Row(
@@ -690,8 +692,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
 
                               }else{
                                 customDialog(
-                                    widget: const BreedPicker());
-                                    // widget: BreedPicker(index:widget.index));
+                                    // widget: const BreedPicker());
+                                    widget: BreedPicker(index:widget.index));
                               }
                             },
                             child: SizedBox(

@@ -24,7 +24,7 @@ class CowsAndCubitState extends Equatable {
   final TextEditingController selfUseController;
   final int totalMilkingCow,sumOfBreed,totalHerdSize;
   final double totalProduction,yieldPerDay;
-
+  final List<String>? breedId;
 
   const CowsAndCubitState({
     required this.status,
@@ -49,7 +49,8 @@ class CowsAndCubitState extends Equatable {
     required this.sumOfBreed,
     required this.totalHerdSize,
     required this.totalProduction,
-    required this.yieldPerDay
+    required this.yieldPerDay,
+    required this.breedId,
   });
 
   factory CowsAndCubitState.initial(){
@@ -69,6 +70,7 @@ class CowsAndCubitState extends Equatable {
       lessthanSixMonthController: [],
       bullCalfController: [],
       breedController: [],
+      breedId: [],
       suppliedToPdfController: TextEditingController(),
       suppliedToOtherPdfController: TextEditingController(),
       selfUseController: TextEditingController(),
@@ -95,6 +97,7 @@ class CowsAndCubitState extends Equatable {
     List<TextEditingController>? lessthanSixMonthController,
     List<TextEditingController>? bullCalfController,
     List<TextEditingController>? breedController,
+    List<String>? breedId,
     TextEditingController? suppliedToOtherPdfController,
     TextEditingController? suppliedToPdfController,
     TextEditingController? selfUseController,
@@ -125,6 +128,7 @@ class CowsAndCubitState extends Equatable {
       totalHerdSize: totalHerdSize ?? this.totalHerdSize,
       totalProduction: totalProduction ?? this.totalProduction,
       yieldPerDay: yieldPerDay ?? this.yieldPerDay,
+      breedId: breedId ?? this.breedId,
     );
   }
 
@@ -152,7 +156,8 @@ class CowsAndCubitState extends Equatable {
     totalProduction,
     sumOfBreed,
     totalHerdSize,
-    yieldPerDay
+    yieldPerDay,
+    breedId
   ];
 
 }

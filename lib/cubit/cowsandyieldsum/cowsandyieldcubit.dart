@@ -30,7 +30,8 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   }
 
   void changeBreed(String breedName, String breedId,int index) {
-    // emit(state.copyWith(breedController: , breedId: breedId));
+    state.breedController[index].text = breedName;
+    CowsAndYieldsSumState.requestData[index].cowBreedId = breedId;
   }
 
   void removeControllerValue(int index){

@@ -750,7 +750,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
 
                                     }else{
                                       customDialog(
-                                          widget: const BreedPicker());
+                                          widget: BreedPicker(index: widget.index,));
                                     }
                                   },
                                   child: SizedBox(
