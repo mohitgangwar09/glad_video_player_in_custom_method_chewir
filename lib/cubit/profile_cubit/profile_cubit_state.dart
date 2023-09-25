@@ -30,6 +30,9 @@ class ProfileCubitState extends Equatable{
   final List<DistrictData> ? districtResponse;
   final List<DistrictData> ? searchDistrictList;
   final int? selectedBreedIndex;
+  final ImprovementAreaListModel? improvementAreaListResponse;
+  final List<StepperItemData> stepperData;
+  final Results? resultData;
 
   const ProfileCubitState({
     required this.status,
@@ -67,6 +70,9 @@ class ProfileCubitState extends Equatable{
     required this.districtController,
     required this.selectedBreedIndex,
     required this.landlineController,
+    required this.improvementAreaListResponse,
+    required this.stepperData,
+    required this.resultData,
   });
 
   factory ProfileCubitState.initial() {
@@ -106,6 +112,9 @@ class ProfileCubitState extends Equatable{
       searchDistrictList: null,
       districtId: '',
       selectedBreedIndex: 0,
+        improvementAreaListResponse: null,
+      stepperData: const [],
+      resultData: null,
     );
   }
 
@@ -133,6 +142,9 @@ class ProfileCubitState extends Equatable{
     List<DistrictData> ? districtResponse,
     List<DistrictData> ? searchDistrictList,
     int? selectedBreedIndex,
+    ImprovementAreaListModel? improvementAreaListResponse,
+    List<StepperItemData>? stepperData,
+    Results? resultData,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -169,7 +181,10 @@ class ProfileCubitState extends Equatable{
         parishController:parishController ?? this.parishController,
         villageController:villageController ?? this.villageController,
       districtController:districtController ?? this.districtController,
-        selectedBreedIndex: selectedBreedIndex?? this.selectedBreedIndex,
+        selectedBreedIndex: selectedBreedIndex ?? this.selectedBreedIndex,
+        improvementAreaListResponse: improvementAreaListResponse ?? this.improvementAreaListResponse,
+        stepperData: stepperData ?? this.stepperData,
+      resultData: resultData ?? this.resultData
     );
   }
 
@@ -209,6 +224,9 @@ class ProfileCubitState extends Equatable{
     farmerSince,
     selectDob,
     selectedBreedIndex,
+    improvementAreaListResponse,
+    stepperData,
+    resultData,
   ];
 
 }

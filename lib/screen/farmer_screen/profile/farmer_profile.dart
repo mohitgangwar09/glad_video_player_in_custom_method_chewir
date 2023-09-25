@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
+import 'package:glad/screen/farmer_screen/profile/improvement_area.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -118,7 +120,11 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         cowsInTheFarm(state),
                         30.verticalSpace(),
                         address(context,state),
-                        facilitiesInTheFarm(),
+                        state.improvementAreaListResponse != null
+                            ? state.improvementAreaListResponse!.data!.improvementAreaList!.isNotEmpty
+                                ? facilitiesInTheFarm(state)
+                                : const SizedBox.shrink()
+                            : const SizedBox.shrink(),
                         20.verticalSpace(),
                       ],
                     ),
@@ -263,8 +269,9 @@ class _FarmerProfileState extends State<FarmerProfile> {
     );
   }
 
-  Widget facilitiesInTheFarm() {
+  Widget facilitiesInTheFarm(ProfileCubitState state) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 30, 0, 0),
@@ -276,29 +283,57 @@ class _FarmerProfileState extends State<FarmerProfile> {
         ),
         15.verticalSpace(),
         SizedBox(
-          height: 120,
+          height: 150,
           child: ListView.separated(
-            itemCount: 10,
+            itemCount: state.improvementAreaListResponse!.data!.improvementAreaList!.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(left: index == 0 ? 20.0 : 0),
-                child: Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: Image.asset(
-                        Images.facilities,
-                      ),
+              return InkWell(
+                onTap: () {
+                  ImprovementArea(index: index).navigate();
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: index == 0 ? 20.0 : 0),
+                  child: SizedBox(
+                    width: 120,
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(16.0),
+                          child: CachedNetworkImage(
+                            imageUrl: state
+                                .improvementAreaListResponse!
+                                .data!
+                                .improvementAreaList![
+                            index]
+                                .image ??
+                                '',
+                            errorWidget: (_, __, ___) =>
+                                Image.asset(
+                                  Images.facilities,
+                                  width: 120,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.center,
+                                ),
+                            width: 120,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                          ),
+                        ),
+                        7.verticalSpace(),
+                        Text(
+                          state.improvementAreaListResponse!.data!.improvementAreaList![index].name.toString(),
+                          style: figtreeMedium.copyWith(
+                              color: Colors.black, fontSize: 12),
+                          softWrap: true,
+                        )
+                      ],
                     ),
-                    7.verticalSpace(),
-                    Text(
-                      'Water',
-                      style: figtreeMedium.copyWith(
-                          color: Colors.black, fontSize: 14),
-                    )
-                  ],
+                  ),
                 ),
               );
             },

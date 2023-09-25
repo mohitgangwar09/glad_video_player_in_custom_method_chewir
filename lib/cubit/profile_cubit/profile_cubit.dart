@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
@@ -12,6 +13,7 @@ import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stepper_list_view/stepper_list_view.dart';
 
 part 'profile_cubit_state.dart';
 
@@ -95,6 +97,17 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
+  // improvementAreaListApi
+  Future<void> improvementAreaListApi(context, String farmerId) async {
+    var response = await apiRepository.getImprovementArea(int.parse(farmerId.toString()));
+    if (response.status == 200) {
+      emit(state.copyWith(improvementAreaListResponse: response));
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   // updateProfilePicImage
   Future<void> updateProfilePicImage(context, String image) async {
     customDialog(widget: launchProgress());
@@ -112,7 +125,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
   Future<void> getFarmerProfile(context, {String? userId}) async{
     emit(state.copyWith(status: ProfileStatus.submit));
-    print("farmerId$userId");
+
     var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
       if(response.data!.farmer!.phone != null){
@@ -133,6 +146,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       if(response.data!.farmer!.managerPhone != null){
         state.managerPhone.text = response.data!.farmer!.managerPhone.toString();
       }
+      await improvementAreaListApi(context, response.data!.farmer!.id.toString());
       emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data,
           selectDistrict: response.data!.farmer!.address!=null?response.data!.farmer!.address!.district!=null?
           response.data!.farmer!.address!.district!.toString():"":""
@@ -158,6 +172,31 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
     }
+  }
+
+  Future<void> getStepperData(index) async{
+    emit(state.copyWith(status: ProfileStatus.loading));
+    List<FarmerImprovementArea> areaList = (state.improvementAreaListResponse!)
+        .data!
+        .improvementAreaList![index]
+        .farmerImprovementArea!;
+    Results resultData =
+    (state.improvementAreaListResponse!).data!.improvementAreaList![index].results!;
+    emit(state.copyWith(
+        status: ProfileStatus.success,
+        stepperData: List.generate(
+          areaList.length,
+              (index) => StepperItemData(
+            id: '$index',
+            content: {
+              'title': areaList[index].parameter,
+              'description': areaList[index].value,
+              'uom': areaList[index].uom,
+            },
+            avatar: "dot",
+          ),
+        ),
+        resultData: resultData));
   }
 
   // updateDdeFarmDetailApi
