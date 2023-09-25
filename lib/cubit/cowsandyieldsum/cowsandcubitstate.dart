@@ -18,7 +18,7 @@ class CowsAndCubitState extends Equatable {
   final List<TextEditingController> sevenTwelveMonthController;
   final List<TextEditingController> lessthanSixMonthController;
   final List<TextEditingController> bullCalfController;
-  final TextEditingController breedController;
+  final List<TextEditingController> breedController;
   final TextEditingController suppliedToOtherPdfController;
   final TextEditingController suppliedToPdfController;
   final TextEditingController selfUseController;
@@ -68,7 +68,7 @@ class CowsAndCubitState extends Equatable {
       sevenTwelveMonthController: [],
       lessthanSixMonthController: [],
       bullCalfController: [],
-      breedController: TextEditingController(),
+      breedController: [],
       suppliedToPdfController: TextEditingController(),
       suppliedToOtherPdfController: TextEditingController(),
       selfUseController: TextEditingController(),
@@ -94,7 +94,7 @@ class CowsAndCubitState extends Equatable {
     List<TextEditingController>? sevenTwelveMonthController,
     List<TextEditingController>? lessthanSixMonthController,
     List<TextEditingController>? bullCalfController,
-    TextEditingController? breedController,
+    List<TextEditingController>? breedController,
     TextEditingController? suppliedToOtherPdfController,
     TextEditingController? suppliedToPdfController,
     TextEditingController? selfUseController,

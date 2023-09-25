@@ -13,8 +13,10 @@ import '../custom_widget/container_border.dart';
 import '../custom_widget/custom_methods.dart';
 
 class BreedPicker extends StatelessWidget {
+  // final int index;
   const BreedPicker({
     Key? key,
+    // required this.index
   }) : super(key: key);
 
   @override
@@ -129,6 +131,7 @@ class BreedPicker extends StatelessWidget {
           var country = listDistrictData[i];
           return InkWell(
             onTap: () {
+              // for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
               for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
                 // print(CowsAndYieldsDDEFarmerState.requestData[i].cowBreedId);
                 if(CowsAndYieldsDDEFarmerState.requestData[i].cowBreedId.toString() == country.id.toString()){

@@ -29,6 +29,23 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     emit(state.copyWith(monthId: int.parse(state.responseMonthlyWiseData![i].id.toString())));
   }
 
+  void changeBreed(String breedName, String breedId,int index) {
+    // emit(state.copyWith(breedController: , breedId: breedId));
+  }
+
+  void removeControllerValue(int index){
+    state.milkingCowController.removeAt(index);
+    state.herdSizeController.removeAt(index);
+    state.yieldPerDayController.removeAt(index);
+    state.dryController.removeAt(index);
+    state.heiferController.removeAt(index);
+    state.sevenTwelveMonthController.removeAt(index);
+    state.lessthanSixMonthController.removeAt(index);
+    state.bullCalfController.removeAt(index);
+    state.breedController.removeAt(index);
+    totalAll(index);
+  }
+
   void addRequestData(int index,addMore){
     if(addMore == "addMore"){
       CowsAndYieldsSumState.requestData.addAll({RequestData(
@@ -69,6 +86,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     state.sevenTwelveMonthController.add(TextEditingController());
     state.lessthanSixMonthController.add(TextEditingController());
     state.bullCalfController.add(TextEditingController());
+    state.breedController.add(TextEditingController());
   }
 
   void totalFirstProduction(double totalProduction,int index) {
@@ -112,6 +130,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   }
 
   void getDataController(int childIndex,List<DateWiseData> responseDateWise){
+    state.breedController[childIndex].text = responseDateWise[childIndex].breedName.toString();
     state.milkingCowController[childIndex].text = responseDateWise[childIndex].milkingCows.toString();
     state.herdSizeController[childIndex].text = responseDateWise[childIndex].heardSize.toString();
     state.yieldPerDayController[childIndex].text = responseDateWise[childIndex].yieldPerCow.toString();
@@ -123,13 +142,6 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   }
 
   void totalMilkingCow(int index){
-    print("Total Milking Cow ${CowsAndYieldsSumState.requestData.length}");
-    print("Total ResponseDate Cow ${CowsAndYieldsSumState.responseDateWiseData.length}");
-    if(CowsAndYieldsSumState.responseDateWiseData.length <= CowsAndYieldsSumState.requestData.length){
-      print("equal");
-    }else{
-      print("not equal");
-    }
     int sums = 0,sumOfHerd = 0,totalHerdSize = 0,addTotalHerd;
     state.milkingCowController[index].addListener(() {
       Future.delayed(const Duration(milliseconds: 20),(){
