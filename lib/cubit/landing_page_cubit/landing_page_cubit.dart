@@ -6,6 +6,7 @@ import 'package:glad/data/model/farmer_dashboard_model.dart' as dashboard;
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
+import 'package:glad/data/model/response_dde_dashboard.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/thankyou_screen.dart';
@@ -111,6 +112,18 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // ddeDashboardApi
+  Future<void> ddeDashboardApi(context) async {
+    emit(state.copyWith(status: LandingPageStatus.loading));
+    var response = await apiRepository.ddeDashboardApi();
+    if (response.status == 200) {
+      emit(state.copyWith(status: LandingPageStatus.success,responseDdeDashboard: response));
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString(),);
     }
   }
 

@@ -26,7 +26,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
   @override
   void initState(){
     super.initState();
-    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '', true);
+    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
   }
 
   Color ragColor(String ragRating) {
@@ -435,7 +435,9 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         },child: SvgPicture.asset(Images.whatsapp)),
                                     6.horizontalSpace(),
                                     InkWell(onTap: (){
-                                      // BlocProvider.of<DdeEnquiryCubit>(context).launchURL(state.response!.farmerMAster![i].landlineNo.toString(),state.responseEnquiryModel!.data![index].lang.toString(),context);
+                                      // BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                      //     state.response!.farmerMAster![i].fAddress,
+                                      //     state.responseEnquiryModel!.data![index].lang.toString(),context);
                                     },child: SvgPicture.asset(Images.redirectLocation)),
                                     4.horizontalSpace(),
                                   ],

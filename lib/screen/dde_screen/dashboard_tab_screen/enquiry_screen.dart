@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
@@ -24,6 +25,7 @@ class EnquiryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
     BlocProvider.of<DdeEnquiryCubit>(context).enquiryListApi(context,"Pending");
 
     return BlocBuilder<DdeEnquiryCubit,DdeEnquiryState>(

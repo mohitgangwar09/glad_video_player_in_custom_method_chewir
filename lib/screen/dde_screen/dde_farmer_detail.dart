@@ -266,7 +266,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                     color1: Colors.yellow,
                                     color2: Colors.green,
                                     barCircleColor: Colors.yellow,
-                                  ):"none".textMedium()
+                                  ):"".textMedium()
                                 ],
                               ),
                             ),
@@ -675,7 +675,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
           child: InkWell(
               onTap: () {
                 BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
-                const EditAddress().navigate();
+                EditAddress(userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
               },
               child: SvgPicture.asset(Images.profileEdit)),
         ),

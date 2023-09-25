@@ -132,8 +132,8 @@ class ProfileRepository {
       String county,
       String parish,
       String village,
-      String centreName) async {
-    var userId = sharedPreferences?.getString(AppConstants.userId);
+      String centreName,String userId) async {
+    // var userId = sharedPreferences?.getString(AppConstants.userId);
 
     FormData formData = FormData.fromMap({
       "id": userId,

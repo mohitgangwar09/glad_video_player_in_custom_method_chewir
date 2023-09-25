@@ -8,6 +8,7 @@ import 'package:glad/data/model/farmer_dashboard_model.dart';
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
+import 'package:glad/data/model/response_dde_dashboard.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
@@ -200,6 +201,20 @@ class LandingPageRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ////////////////////ddeDashboardApi///////////////////////////
+  Future<ResponseDdeDashboard> ddeDashboardApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.ddeDashboardApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseDdeDashboard.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseDdeDashboard(status: 422, message: apiResponse.msg);
     }
   }
 

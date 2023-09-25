@@ -23,7 +23,8 @@ import 'package:google_search_place/model/place_details.dart';
 import 'package:google_search_place/model/prediction.dart';
 
 class EditAddress extends StatefulWidget {
-  const EditAddress({super.key});
+  final String userId;
+  const EditAddress({super.key,required this.userId});
 
   @override
   State<EditAddress> createState() => _EditAddressState();
@@ -84,8 +85,6 @@ class _EditAddressState extends State<EditAddress> {
     return Scaffold(
       body: BlocBuilder<ProfileCubit, ProfileCubitState>(
         builder: (context, state) {
-          print("address"+state.responseFarmerProfile!
-              .farmer!.address!.county.toString());
           return Stack(
             children: [
               landingBackground(),
@@ -99,7 +98,10 @@ class _EditAddressState extends State<EditAddress> {
                     centerTitle: true,
                     leading: arrowBackButton(),
                     action: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          BlocProvider.of<ProfileCubit>(context)
+                              .addressUpdateApi(context,widget.userId);
+                        },
                         child: Text(
                           'Save',
                           style: figtreeMedium.copyWith(
@@ -203,7 +205,7 @@ class _EditAddressState extends State<EditAddress> {
                                     'Save',
                                     onTap: () {
                                       BlocProvider.of<ProfileCubit>(context)
-                                          .addressUpdateApi(context);
+                                          .addressUpdateApi(context,widget.userId);
                                     },
                                     radius: 40,
                                     width: double.infinity,
@@ -352,7 +354,7 @@ class _EditAddressState extends State<EditAddress> {
                             children: [
                               SvgPicture.asset(
                                 Images.search,
-                                colorFilter: ColorFilter.mode(ColorResources.maroon, BlendMode.srcIn),
+                                colorFilter: const ColorFilter.mode(ColorResources.maroon, BlendMode.srcIn),
                               ),
                               10.horizontalSpace(),
                             ],

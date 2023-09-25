@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -37,6 +39,20 @@ class _DDELandingPageState extends State<DDELandingPage> {
     _ChartData('Active', 15),
     _ChartData('Pending', 02),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getApi();
+    });
+  }
+
+
+  void getApi(){
+    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
+    BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -605,136 +621,155 @@ class _DDELandingPageState extends State<DDELandingPage> {
   }
 
   Widget farmersNearMe(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0,right: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          15.verticalSpace(),
+    return BlocBuilder<LandingPageCubit,LandingPageState>(
+      builder: (context,state) {
+        return Padding(
+          padding: const EdgeInsets.only(left: 20.0,right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              15.verticalSpace(),
 
-          "Farmers near me".textMedium(fontSize: 18),
+              "Farmers near me".textMedium(fontSize: 18),
 
-          10.verticalSpace(),
+              10.verticalSpace(),
 
-          InkWell(
-            onTap: () =>  BlocProvider.of<DashboardCubit>(context).selectedIndex(1),
-            child: Row(
-              children: [
-                Expanded(
-                  child: customShadowContainer(
-                      margin: 0,
-                      backColor: const Color(0xffFF8A8B),
-                      width: 105,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                        BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Critical'.toLowerCase());
+                      },
+                      child: customShadowContainer(
+                          margin: 0,
+                          backColor: const Color(0xffFF8A8B),
+                          width: 105,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
 
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: SvgPicture.asset(Images.critical),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: SvgPicture.asset(Images.critical),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, bottom: 8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+
+                                      "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.critical:''}".textSemiBold(fontSize: 26),
+                                      3.verticalSpace(),
+                                      "Critical".textRegular(fontSize: 12),
+
+                                    ],
+                                  ),
+                                )
+
+                              ],
                             ),
+                          )),
+                    ),
+                  ),
+                  10.horizontalSpace(),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                        BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Average'.toLowerCase());
+                      },
+                      child: customShadowContainer(
+                          margin: 0,
+                          backColor: const Color(0xffFFC640),
+                          width: 105,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
 
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: SvgPicture.asset(Images.average),
+                                ),
 
-                                  "04".textSemiBold(fontSize: 26),
-                                  3.verticalSpace(),
-                                  "Critical".textRegular(fontSize: 12),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, bottom: 8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
 
-                                ],
-                              ),
-                            )
+                                      "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.average:''}".textSemiBold(fontSize: 26),
+                                      3.verticalSpace(),
+                                      "Average".textRegular(fontSize: 12),
 
-                          ],
-                        ),
-                      )),
-                ),
-                10.horizontalSpace(),
-                Expanded(
-                  child: customShadowContainer(
-                      margin: 0,
-                      backColor: const Color(0xffFFC640),
-                      width: 105,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                                    ],
+                                  ),
+                                )
 
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: SvgPicture.asset(Images.average),
+                              ],
                             ),
+                          )),
+                    ),
+                  ),
+                  10.horizontalSpace(),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                        BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Satisfactory'.toLowerCase());
+                      },
+                      child: customShadowContainer(
+                          margin: 0,
+                          backColor: const Color(0xff4BC56F),
+                          width: 105,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
 
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: SvgPicture.asset(Images.satisfactory),
+                                ),
 
-                                  "05".textSemiBold(fontSize: 26),
-                                  3.verticalSpace(),
-                                  "Average".textRegular(fontSize: 12),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, bottom: 8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
 
-                                ],
-                              ),
-                            )
+                                      "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.satisfactory:''}".textSemiBold(fontSize: 26),
+                                      3.verticalSpace(),
+                                      "Satisfactory".textRegular(fontSize: 12),
 
-                          ],
-                        ),
-                      )),
-                ),
-                10.horizontalSpace(),
-                Expanded(
-                  child: customShadowContainer(
-                      margin: 0,
-                      backColor: const Color(0xff4BC56F),
-                      width: 105,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                                    ],
+                                  ),
+                                )
 
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: SvgPicture.asset(Images.satisfactory),
+                              ],
                             ),
+                          )),
+                    ),
+                  ),
+                ],
+              ),
 
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+              37.verticalSpace(),
 
-                                  "02".textSemiBold(fontSize: 26),
-                                  3.verticalSpace(),
-                                  "Satisfactory".textRegular(fontSize: 12),
-
-                                ],
-                              ),
-                            )
-
-                          ],
-                        ),
-                      )),
-                ),
-              ],
-            ),
+            ],
           ),
-
-          37.verticalSpace(),
-
-        ],
-      ),
+        );
+      }
     );
   }
 
