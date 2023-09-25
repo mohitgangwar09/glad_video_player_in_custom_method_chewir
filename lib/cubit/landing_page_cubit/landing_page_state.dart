@@ -10,6 +10,7 @@ class LandingPageState extends Equatable {
   final GuestDashboardModel? guestDashboardResponse;
   final FollowupRemarkListModel? followupRemarkListResponse;
   final Position? currentPosition;
+  final ResponseDdeDashboard? responseDdeDashboard;
 
   const LandingPageState({
     required this.focusTag,
@@ -19,17 +20,20 @@ class LandingPageState extends Equatable {
     required this.guestDashboardResponse,
     required this.currentPosition,
     required this.followupRemarkListResponse,
+    required this.responseDdeDashboard,
   });
 
   factory LandingPageState.initial() {
-    return const LandingPageState(
+    return LandingPageState(
         focusTag: "",
         status: LandingPageStatus.initial,
         response: null,
         milkProductionChartResponse: null,
         guestDashboardResponse: null,
         currentPosition: null,
-        followupRemarkListResponse: null);
+        followupRemarkListResponse: null,
+        responseDdeDashboard: ResponseDdeDashboard(),
+    );
   }
 
   LandingPageState copyWith({
@@ -41,6 +45,7 @@ class LandingPageState extends Equatable {
     GuestDashboardModel? guestDashboardResponse,
     Position? currentPosition,
     FollowupRemarkListModel? followupRemarkListResponse,
+    ResponseDdeDashboard? responseDdeDashboard,
   }) {
     return LandingPageState(
       focusTag: focusTag ?? this.focusTag,
@@ -53,6 +58,7 @@ class LandingPageState extends Equatable {
       currentPosition: currentPosition ?? this.currentPosition,
       followupRemarkListResponse:
           followupRemarkListResponse ?? this.followupRemarkListResponse,
+      responseDdeDashboard:responseDdeDashboard ?? this.responseDdeDashboard,
     );
   }
 
@@ -65,5 +71,6 @@ class LandingPageState extends Equatable {
         guestDashboardResponse,
         currentPosition,
         followupRemarkListResponse,
+    responseDdeDashboard
       ];
 }

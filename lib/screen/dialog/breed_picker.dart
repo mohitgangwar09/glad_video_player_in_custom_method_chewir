@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_district.dart';
+import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
 import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/utils/extension.dart';
 import '../../utils/helper.dart';
@@ -13,8 +15,10 @@ import '../custom_widget/container_border.dart';
 import '../custom_widget/custom_methods.dart';
 
 class BreedPicker extends StatelessWidget {
+  final int index;
   const BreedPicker({
     Key? key,
+    required this.index
   }) : super(key: key);
 
   @override
@@ -129,13 +133,16 @@ class BreedPicker extends StatelessWidget {
           var country = listDistrictData[i];
           return InkWell(
             onTap: () {
-              for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+              // for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+              for(int i=0;i<CowsAndYieldsSumState.requestData.length;i++){
                 // print(CowsAndYieldsDDEFarmerState.requestData[i].cowBreedId);
-                if(CowsAndYieldsDDEFarmerState.requestData[i].cowBreedId.toString() == country.id.toString()){
+                if(CowsAndYieldsSumState.requestData[i].cowBreedId.toString() == country.id.toString()){
                   showCustomToast(context, "Breed Already exist");
                   return;
                 }
               }
+              BlocProvider.of<CowsAndYieldCubit>(context)
+                  .changeBreed(country.name.toString(),country.id.toString(),index);
               BlocProvider.of<DdeFarmerCubit>(context)
                   .changeBreed(country.name.toString(),country.id.toString());
               BlocProvider.of<DdeFarmerCubit>(context)

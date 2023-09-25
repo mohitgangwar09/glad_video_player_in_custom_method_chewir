@@ -221,12 +221,12 @@ class _FarmerProfileState extends State<FarmerProfile> {
                     )),
               ],
             ),
-            7.horizontalSpace(),
+            15.horizontalSpace(),
             SizedBox(
               height: 35,
               child: customPaint(Colors.black),
             ),
-            7.horizontalSpace(),
+            15.horizontalSpace(),
             Column(
               children: [
                 Text(state.responseFarmerProfile!.farmer!.dateOfBirth != null ?
@@ -249,18 +249,48 @@ class _FarmerProfileState extends State<FarmerProfile> {
                 ),
                 child: Column(
                   children: [
-                    Text('Critical',
-                        style: figtreeSemiBold.copyWith(
-                          fontSize: 16,
-                        )),
+
+                    state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory"?
+                    "Satisfactory".textMedium(fontSize: 12):
+                    state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
+                    "Critical".textMedium(fontSize: 12):
+                    state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
+                    "Average".textMedium(fontSize: 12):"".textMedium(),
+
+                    state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory" ?
                     const CustomIndicator(
+                      percentage: 65,
+                      width: 95,
+                      color: Color(0xFFFC5E60),
+                      color1: Colors.yellow,
+                      color2: Color(0xFF4BC56F),
+                      barCircleColor: Color(0xFF4BC56F),
+                    ):
+                    state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
+                    const CustomIndicator(
+                      percentage: 10,
+                      width: 95,
+                      color: Color(0xFFFC5E60),
+                      color1: Colors.yellow,
+                      color2: Colors.green,
+                      barCircleColor: Color(0xFFFC5E60),
+                    ):state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
+                    const CustomIndicator(
+                      percentage: 38,
+                      width: 95,
+                      color: Color(0xFFFC5E60),
+                      color1: Colors.yellow,
+                      color2: Colors.green,
+                      barCircleColor: Colors.yellow,
+                    ):"".textMedium()
+                    /*const CustomIndicator(
                       percentage: 69,
                       width: 122,
                       color: Color(0xFF4BC56F),
                       color1: Color(0xFFFEEB53),
                       color2: Color(0xFFFC5E60),
                       barCircleColor :Color(0xFF4BC56F)
-                    ),
+                    ),*/
                   ],
                 ))
           ],
@@ -410,7 +440,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
           child: InkWell(
               onTap: () {
                 BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
-                const EditAddress().navigate();
+                EditAddress(userId :state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
               },
               child: SvgPicture.asset(Images.profileEdit)),
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
@@ -17,6 +19,9 @@ class ProjectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
+
     return Stack(
       children: [
         landingBackground(),
@@ -183,7 +188,10 @@ class ProjectScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 120,left: 10),
-                child: customList(child: (int i) {
+                child: customList(
+                  list: List.generate(3, (index) => null),
+                    child: (int i) {
+
                   return Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: customProjectContainer(child: const ProjectWidget(status: true,),width: screenWidth()),

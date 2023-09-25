@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/community_post_add.dart';
 import 'package:glad/screen/common/community_post_detail.dart';
@@ -18,6 +20,9 @@ class CommunityPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
+
     return Scaffold(
       body: Stack(
         children: [

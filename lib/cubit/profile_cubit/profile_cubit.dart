@@ -253,19 +253,25 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
 ////////////AddressUpdate////////////////////////
   void addressUpdateApi(
-    context,
+    context,String userId
   ) async {
     emit(state.copyWith(status: ProfileStatus.loading));
+    customDialog(widget: launchProgress());
     var response = await apiRepository.addressUpdateApi(
         state.countryController.text.toString(),
         state.districtId.toString(),
         state.countyController.text.toString(),
         state.parishController.text.toString(),
         state.villageController.text.toString(),
-        state.centreNameController.text.toString());
+        state.centreNameController.text.toString(),userId);
+
+    disposeProgress();
+
     if (response.status == 200) {
       emit(state.copyWith(
           status: ProfileStatus.success, districtResponse: response.data));
+      showCustomToast(context, 'Address had been updated successfully');
+      await getFarmerProfile(context,userId: userId);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());

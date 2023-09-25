@@ -44,6 +44,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<CowsAndYieldCubit>(context).emit(CowsAndCubitState.initial());
       BlocProvider.of<CowsAndYieldCubit>(context).getCowBreedDetailsApi(context,"");
+      BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context);
       // context.read<CowsAndYieldCubit>().addRequestData();
       // BlocProvider.of<CowsAndYieldCubit>(context).showMonth(0,MonthWiseData());
     });
@@ -474,6 +475,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                   print(jsonRequestData);
 
                   print(response.requestData[response.requestData.length-1].milkingCows);
+                  print(BlocProvider.of<CowsAndYieldCubit>(context).state.breedController.length);
 
                 },
                 child: const Text('Submit'),
@@ -547,7 +549,6 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                     yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));
                 context.read<CowsAndYieldCubit>().addRequestData(index,"addMore");
                 BlocProvider.of<CowsAndYieldCubit>(context).allController("0");
-
               });
 
             },
@@ -595,7 +596,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
         setState(() {
           requestData.removeAt(index);
           responseDateWiseData.removeAt(index);
-          print("${responseDateWiseData.length}length${requestData.length}");
+          BlocProvider.of<CowsAndYieldCubit>(context).removeControllerValue(index);
         });
       },
       child: Container(
@@ -614,7 +615,6 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
 
   List<Widget> getDateWiseData(List<DateWiseData> responseDateWis,){
     List<Widget> friendsTextFieldsList = [];
-    print("llllll${responseDateWiseData.length}");
     for(int i=0; i<responseDateWiseData.length; i++){
       friendsTextFieldsList.add(
           Column(
@@ -663,21 +663,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
         bullCalfs: "0",
       ));*/
 
-     /* CowsAndYieldsSumState.requestData.addAll({RequestData(
-        id: widget.responseDateWise.id.toString(),
-        cowBreedId: widget.responseDateWise.cowBreedId,
-        milkingCows: widget.responseDateWise.milkingCows,
-        yieldPerCow: widget.responseDateWise.yieldPerCow,
-        dryCows: widget.responseDateWise.dryCows,
-        heardSize: widget.responseDateWise.heardSize.toString(),
-        heiferCows: widget.responseDateWise.heiferCows,
-        sevenToTwelveMonthCows: widget.responseDateWise.sevenToTwelveMonthCows,
-        sixMonthCow: widget.responseDateWise.sixMonthCow,
-        bullCalfs: "0",
-      )});*/
-
-    print("totalAdd ${CowsAndYieldsSumState.requestData.length} index${widget.index} responseDate ${CowsAndYieldsSumState.responseDateWiseData.length}");
-
+    context.read<CowsAndYieldCubit>().totalMilkingCow(widget.index);
+    context.read<CowsAndYieldCubit>().sumAllBreed(widget.index);
     // BlocProvider.of<CowsAndYieldCubit>(context).getDataController(widget.index,widget.dateWiseDate);
 
   }
@@ -693,6 +680,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
 
               Column(
                 children: [
+
                   10.verticalSpace(),
 
                   Row(
@@ -704,7 +692,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
 
                               }else{
                                 customDialog(
-                                    widget: const BreedPicker());
+                                    // widget: const BreedPicker());
+                                    widget: BreedPicker(index:widget.index));
                               }
                             },
                             child: SizedBox(
@@ -713,7 +702,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                   enabled: false,
                                   image: addBreedLength.length-1 >=widget.index? null:Images.arrowDown,
                                   imageColors: Colors.black,
-                                  // controller: _breedController,
+                                  controller: state.breedController[widget.index],
                                   hint:'Breed Name',
                                 )),
                           )),
@@ -728,7 +717,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color:  Colors.green)
                           ),
-                          child: Icon(
+                          child: const Icon(
                             /*showQty[widget.index] ? */ Icons.remove/*:Icons.add*/, color: Colors.black,
                             // showQty[widget.index] ?  Icons.remove:Icons.add, color: Colors.black,
                           ),
@@ -813,7 +802,6 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 hint: '',
                                 onChanged: (v){
                                   CowsAndYieldsSumState.requestData[widget.index].milkingCows = v;
-                                  context.read<CowsAndYieldCubit>().totalMilkingCow(widget.index);
                                   },
                                 controller: state.milkingCowController[widget.index],
                                 paddingTop: 5,

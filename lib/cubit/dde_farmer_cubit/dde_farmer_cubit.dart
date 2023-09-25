@@ -20,6 +20,10 @@ class DdeFarmerCubit extends Cubit<DdeState>{
 
   DdeFarmerCubit({required this.apiRepository,required this.sharedPreferences}):super(DdeState.initial());
 
+  void selectRagRating(String ragRating) {
+    emit(state.copyWith(selectedRagRatingType: ragRating));
+  }
+
   void changeBreed(String breedName, String breedId) {
     emit(state.copyWith(breedController: TextEditingController(text: breedName), breedId: breedId));
   }
