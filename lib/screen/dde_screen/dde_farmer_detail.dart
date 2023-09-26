@@ -11,6 +11,7 @@ import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/dde_screen/farmer_personal_detail.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
+import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
 import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
@@ -687,11 +688,21 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Cows in the farm',
-                style: figtreeMedium.copyWith(fontSize: 18)),
+          padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Cows in the farm',
+                    style: figtreeMedium.copyWith(fontSize: 18)),
+              ),
+              InkWell(
+                  onTap: () {
+                    const CowsAndYieldsSum().navigate();
+                  },
+                  child: SvgPicture.asset(Images.profileEdit)),
+            ],
           ),
         ),
         10.verticalSpace(),

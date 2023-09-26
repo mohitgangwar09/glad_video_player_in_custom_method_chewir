@@ -133,14 +133,14 @@ class BreedPicker extends StatelessWidget {
           var country = listDistrictData[i];
           return InkWell(
             onTap: () {
-              // for(int i=0;i<CowsAndYieldsDDEFarmerState.requestData.length;i++){
+
               for(int i=0;i<CowsAndYieldsSumState.requestData.length;i++){
-                // print(CowsAndYieldsDDEFarmerState.requestData[i].cowBreedId);
                 if(CowsAndYieldsSumState.requestData[i].cowBreedId.toString() == country.id.toString()){
                   showCustomToast(context, "Breed Already exist");
                   return;
                 }
               }
+
               BlocProvider.of<CowsAndYieldCubit>(context)
                   .changeBreed(country.name.toString(),country.id.toString(),index);
               BlocProvider.of<DdeFarmerCubit>(context)
@@ -148,6 +148,7 @@ class BreedPicker extends StatelessWidget {
               BlocProvider.of<DdeFarmerCubit>(context)
                   .changeSearchBreedController(TextEditingController());
               disposeProgress();
+
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
