@@ -82,20 +82,31 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                           imageUrl: state
                                                   .response!
                                                   .data!
-                                                  .improvementAreaList![
-                                                      index]
+                                                  .improvementAreaList![index]
                                                   .image ??
                                               '',
                                           errorWidget: (_, __, ___) =>
                                               Image.asset(
                                             Images.facilities,
-                                            width: screenWidth() * (pageIndex == index ? 0.75 : 0.68),
-                                            height: screenWidth() * (pageIndex == index ? 0.65 : 0.58),
+                                            width: screenWidth() *
+                                                (pageIndex == index
+                                                    ? 0.75
+                                                    : 0.68),
+                                            height: screenWidth() *
+                                                (pageIndex == index
+                                                    ? 0.65
+                                                    : 0.58),
                                             fit: BoxFit.cover,
-                                                alignment: Alignment.center,
+                                            alignment: Alignment.center,
                                           ),
-                                          width: screenWidth() * (pageIndex == index ? 0.75 : 0.68),
-                                          height: screenWidth() * (pageIndex == index ? 0.65 : 0.58),
+                                          width: screenWidth() *
+                                              (pageIndex == index
+                                                  ? 0.75
+                                                  : 0.68),
+                                          height: screenWidth() *
+                                              (pageIndex == index
+                                                  ? 0.65
+                                                  : 0.58),
                                           fit: BoxFit.cover,
                                           alignment: Alignment.center,
                                         ),
@@ -108,8 +119,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                           state
                                                   .response!
                                                   .data!
-                                                  .improvementAreaList![
-                                                      index]
+                                                  .improvementAreaList![index]
                                                   .name ??
                                               '',
                                           style: figtreeMedium.copyWith(
@@ -129,11 +139,11 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                 // enlargeCenterPage: true,
                                 height: screenWidth() * 0.65,
                                 onPageChanged: (index, reason) {
-                                  context.read<ImprovementAreaCubit>().getStepperData(index);
+                                  context
+                                      .read<ImprovementAreaCubit>()
+                                      .getStepperData(index);
                                   pageIndex = index;
-                                  setState(() {
-
-                                  });
+                                  setState(() {});
                                 },
                               )),
                           30.verticalSpace(),
@@ -142,13 +152,17 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                'Survey details'
-                                    .textMedium(color: Colors.black, fontSize: 18),
+                                'Survey details'.textMedium(
+                                    color: Colors.black, fontSize: 18),
                                 InkWell(
                                     onTap: () {
-                                      EditImprovementArea(improvementIndex: pageIndex, farmerId: widget.farmerId).navigate();
+                                      EditImprovementArea(
+                                              improvementIndex: pageIndex,
+                                              farmerId: widget.farmerId)
+                                          .navigate();
                                     },
-                                    child: SvgPicture.asset(Images.profileEdit)),
+                                    child:
+                                        SvgPicture.asset(Images.profileEdit)),
                               ],
                             ),
                           ),
@@ -173,23 +187,22 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                     stepperData: state.stepperData,
                                     stepAvatar: (_, data) {
                                       return
-                                        // data.id == '0'
-                                        //   ? const PreferredSize(
-                                        //       preferredSize: Size.fromRadius(3),
-                                        //       child: SizedBox(),
-                                        //     )
-                                        //   :
-                                        PreferredSize(
-                                              preferredSize:
-                                                  const Size.fromRadius(3),
-                                              child: Container(
-                                                height: 7,
-                                                width: 7,
-                                                decoration: const BoxDecoration(
-                                                    color: Color(0xFFDCDCDC),
-                                                    shape: BoxShape.circle),
-                                              ),
-                                            );
+                                          // data.id == '0'
+                                          //   ? const PreferredSize(
+                                          //       preferredSize: Size.fromRadius(3),
+                                          //       child: SizedBox(),
+                                          //     )
+                                          //   :
+                                          PreferredSize(
+                                        preferredSize: const Size.fromRadius(3),
+                                        child: Container(
+                                          height: 7,
+                                          width: 7,
+                                          decoration: const BoxDecoration(
+                                              color: Color(0xFFDCDCDC),
+                                              shape: BoxShape.circle),
+                                        ),
+                                      );
                                     },
                                     stepContentWidget: (_, data) {
                                       return Container(
@@ -209,22 +222,36 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                             Row(
                                               children: [
                                                 Visibility(
-                                                  visible: data.content["uom"] == 'ugx',
+                                                  visible:
+                                                      data.content["uom"] ==
+                                                          'ugx',
                                                   child: Text("UGX ",
-                                                      style: figtreeMedium.copyWith(
-                                                          fontSize: 16,
-                                                          color: Colors.black)),
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .black)),
                                                 ),
-                                                Text(data.content["description"],
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 16,
-                                                        color: Colors.black)),
+                                                Text(
+                                                    data.content["description"],
+                                                    style:
+                                                        figtreeMedium.copyWith(
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.black)),
                                                 Visibility(
-                                                  visible: data.content["uom"] != 'ugx' && data.content["uom"] != null,
-                                                  child: Text(" ${data.content["uom"]}" ,
-                                                      style: figtreeMedium.copyWith(
-                                                          fontSize: 16,
-                                                          color: Colors.black)),
+                                                  visible:
+                                                      data.content["uom"] !=
+                                                              'ugx' &&
+                                                          data.content["uom"] !=
+                                                              null,
+                                                  child: Text(
+                                                      " ${data.content["uom"]}",
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .black)),
                                                 ),
                                               ],
                                             ),
@@ -255,10 +282,11 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                   padding: const EdgeInsets.all(20),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text('Loss of Milk Yield /cow /day',
                                               style: figtreeRegular.copyWith(
@@ -266,7 +294,8 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                   color: ColorResources
                                                       .fieldGrey)),
                                           5.verticalSpace(),
-                                          Text('${state.resultData!.lossOfMilkPerCow} Ltr.',
+                                          Text(
+                                              '${state.resultData!.lossOfMilkPerCow} Ltr.',
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 16,
                                                   color: Colors.black)),
@@ -274,7 +303,8 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                       ),
                                       10.verticalSpace(),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text('Expected Yield /cow /day',
                                               style: figtreeRegular.copyWith(
@@ -282,7 +312,8 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                   color: ColorResources
                                                       .fieldGrey)),
                                           5.verticalSpace(),
-                                          Text('${state.resultData!.expectedYieldPerCow} Ltr.',
+                                          Text(
+                                              '${state.resultData!.expectedYieldPerCow} Ltr.',
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 16,
                                                   color: Colors.black)),
@@ -290,148 +321,17 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                       ),
                                       20.verticalSpace(),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text('Expected incremental production',
+                                          Text(
+                                              'Expected incremental production',
                                               style: figtreeRegular.copyWith(
                                                   fontSize: 12,
                                                   color: ColorResources
                                                       .fieldGrey)),
                                           15.verticalSpace(),
-                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                                                Text('Per day',
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 12,
-                                                        color: ColorResources
-                                                            .fieldGrey)),
-                                                5.verticalSpace(),
-                                                Text('${state.resultData!.incrementalProduction} Ltr.',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
-                                              ],),
-                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                                                Text('Per month',
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 12,
-                                                        color: ColorResources
-                                                            .fieldGrey)),
-                                                5.verticalSpace(),
-                                                Text('${state.resultData!.incrementalProduction *30} Ltr.',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
-                                              ],),
-                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                                                Text('Per year',
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 12,
-                                                        color: ColorResources
-                                                            .fieldGrey)),
-                                                5.verticalSpace(),
-                                                Text('${state.resultData!.incrementalProduction *365} Ltr.',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
-                                              ],)
-                                            ],)
-                                        ],
-                                      ),
-                                      20.verticalSpace(),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Expected incremental earning',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12,
-                                                  color: ColorResources
-                                                      .fieldGrey)),
-                                          15.verticalSpace(),
-                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                                                Text('Per day',
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 12,
-                                                        color: ColorResources
-                                                            .fieldGrey)),
-                                                5.verticalSpace(),
-                                                Text('UGX ${state.resultData!.incrementalEarning}',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
-                                              ],),
-                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                                                Text('Per month',
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 12,
-                                                        color: ColorResources
-                                                            .fieldGrey)),
-                                                5.verticalSpace(),
-                                                Text('UGX ${(state.resultData!.incrementalEarning *30)  /1000}',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
-                                              ],),
-                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-                                                Text('Per year',
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 12,
-                                                        color: ColorResources
-                                                            .fieldGrey)),
-                                                5.verticalSpace(),
-                                                Text('UGX ${(state.resultData!.incrementalEarning *365) /1000}',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
-                                              ],)
-                                            ],)
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
-                          30.verticalSpace(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: 'Suggested investment'
-                                .textMedium(color: Colors.black, fontSize: 18),
-                          ),
-                          10.verticalSpace(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: InkWell(
-                              onTap: () {
-                                const SuggestedInvestment().navigate();
-                              },
-                              child: customProjectContainer(
-                                  marginLeft: 0,
-                                  marginTop: 0,
-                                  width: screenWidth(),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        'Dam Construction'.textMedium(
-                                            color: Colors.black, fontSize: 18),
-                                        10.verticalSpace(),
-                                        'Construct a water tank and water trough in night paddock plus water pump'
-                                            .textRegular(
-                                                color: const Color(0xFF808080),
-                                                fontSize: 14),
-                                        20.verticalSpace(),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xFFFFF3F4),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          padding: const EdgeInsets.all(20),
-                                          child: Row(
+                                          Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
@@ -439,135 +339,381 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text('UGX 3.2M',
-                                                      style: figtreeSemiBold
-                                                          .copyWith(
-                                                              fontSize: 16)),
-                                                  Text('Investment',
+                                                  Text('Per day',
                                                       style: figtreeRegular
                                                           .copyWith(
                                                               fontSize: 12,
-                                                              color: const Color(
-                                                                  0xFF808080))),
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                  5.verticalSpace(),
+                                                  Text(
+                                                      '${state.resultData!.incrementalProduction} Ltr.',
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black)),
                                                 ],
                                               ),
-                                              10.horizontalSpace(),
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text('UGX 4.5M',
-                                                      style: figtreeSemiBold
-                                                          .copyWith(
-                                                              fontSize: 16)),
-                                                  Text('Revenue',
+                                                  Text('Per month',
                                                       style: figtreeRegular
                                                           .copyWith(
                                                               fontSize: 12,
-                                                              color: const Color(
-                                                                  0xFF808080))),
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                  5.verticalSpace(),
+                                                  Text(
+                                                      '${state.resultData!.incrementalProduction * 30} Ltr.',
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black)),
                                                 ],
                                               ),
-                                              10.horizontalSpace(),
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text('40%',
-                                                      style: figtreeSemiBold
-                                                          .copyWith(
-                                                              fontSize: 16)),
-                                                  Text('ROI',
+                                                  Text('Per year',
                                                       style: figtreeRegular
                                                           .copyWith(
                                                               fontSize: 12,
-                                                              color: const Color(
-                                                                  0xFF808080))),
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                  5.verticalSpace(),
+                                                  Text(
+                                                      '${state.resultData!.incrementalProduction * 365} Ltr.',
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black)),
                                                 ],
-                                              ),
+                                              )
                                             ],
-                                          ),
-                                        ),
-                                        20.verticalSpace(),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('UGX 2.5M',
-                                                    style:
-                                                        figtreeMedium.copyWith(
-                                                            fontSize: 12)),
-                                                Text('Loan',
-                                                    style:
-                                                        figtreeRegular.copyWith(
-                                                            fontSize: 12,
-                                                            color: ColorResources
-                                                                .fieldGrey)),
-                                              ],
-                                            ),
-                                            10.horizontalSpace(),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('UGX 700K',
-                                                    style:
-                                                        figtreeMedium.copyWith(
-                                                            fontSize: 12)),
-                                                Text('Farmer share',
-                                                    style:
-                                                        figtreeRegular.copyWith(
-                                                            fontSize: 12,
-                                                            color: ColorResources
-                                                                .fieldGrey)),
-                                              ],
-                                            ),
-                                            10.horizontalSpace(),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('12 Months',
-                                                    style:
-                                                        figtreeMedium.copyWith(
-                                                            fontSize: 12)),
-                                                Text('Repayment',
-                                                    style:
-                                                        figtreeRegular.copyWith(
-                                                            fontSize: 12,
-                                                            color: ColorResources
-                                                                .fieldGrey)),
-                                              ],
-                                            ),
-                                            10.horizontalSpace(),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('UGX 200K',
-                                                    style:
-                                                        figtreeMedium.copyWith(
-                                                            fontSize: 12)),
-                                                Text('EMI',
-                                                    style:
-                                                        figtreeRegular.copyWith(
-                                                            fontSize: 12,
-                                                            color: ColorResources
-                                                                .fieldGrey)),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ),
+                                          )
+                                        ],
+                                      ),
+                                      20.verticalSpace(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Expected incremental earning',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          15.verticalSpace(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('Per day',
+                                                      style: figtreeRegular
+                                                          .copyWith(
+                                                              fontSize: 12,
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                  5.verticalSpace(),
+                                                  Text(
+                                                      'UGX ${state.resultData!.incrementalEarning}',
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black)),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('Per month',
+                                                      style: figtreeRegular
+                                                          .copyWith(
+                                                              fontSize: 12,
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                  5.verticalSpace(),
+                                                  Text(
+                                                      'UGX ${(state.resultData!.incrementalEarning * 30) / 1000}',
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black)),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('Per year',
+                                                      style: figtreeRegular
+                                                          .copyWith(
+                                                              fontSize: 12,
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                  5.verticalSpace(),
+                                                  Text(
+                                                      'UGX ${(state.resultData!.incrementalEarning * 365) / 1000}',
+                                                      style: figtreeMedium
+                                                          .copyWith(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black)),
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )),
                           ),
-                          40.verticalSpace()
+                          30.verticalSpace(),
+                          state.response!.data!.improvementAreaList![pageIndex]
+                                  .projects!.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: 'Suggested investment'.textMedium(
+                                          color: Colors.black, fontSize: 18),
+                                    ),
+                                    10.verticalSpace(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: InkWell(
+                                        onTap: () {
+                                          const SuggestedInvestment()
+                                              .navigate();
+                                        },
+                                        child: customProjectContainer(
+                                            marginLeft: 0,
+                                            marginTop: 0,
+                                            width: screenWidth(),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(20),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  (state
+                                                              .response!
+                                                              .data!
+                                                              .improvementAreaList![
+                                                                  pageIndex]
+                                                              .projects![0]
+                                                              .name ??
+                                                          '')
+                                                      .textMedium(
+                                                          color: Colors.black,
+                                                          fontSize: 18),
+                                                  10.verticalSpace(),
+                                                  (state
+                                                              .response!
+                                                              .data!
+                                                              .improvementAreaList![
+                                                                  pageIndex]
+                                                              .projects![0]
+                                                              .description ??
+                                                          '')
+                                                      .textRegular(
+                                                          color: const Color(
+                                                              0xFF808080),
+                                                          fontSize: 14),
+                                                  20.verticalSpace(),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        color: const Color(
+                                                            0xFFFFF3F4),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10)),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                'UGX ${(state.response!.data!.improvementAreaList![pageIndex].projects![0].investmentAmount ?? '')}',
+                                                                style: figtreeSemiBold
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            16)),
+                                                            Text('Investment',
+                                                                style: figtreeRegular
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: const Color(
+                                                                            0xFF808080))),
+                                                          ],
+                                                        ),
+                                                        10.horizontalSpace(),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                'UGX ${(state.response!.data!.improvementAreaList![pageIndex].projects![0].revenuePerYear ?? '')}',
+                                                                style: figtreeSemiBold
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            16)),
+                                                            Text('Revenue',
+                                                                style: figtreeRegular
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: const Color(
+                                                                            0xFF808080))),
+                                                          ],
+                                                        ),
+                                                        10.horizontalSpace(),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                '${(state.response!.data!.improvementAreaList![pageIndex].projects![0].roiPerYear ?? '')}%',
+                                                                style: figtreeSemiBold
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            16)),
+                                                            Text('ROI',
+                                                                style: figtreeRegular
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: const Color(
+                                                                            0xFF808080))),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  20.verticalSpace(),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text('UGX ${state.response!.data!.improvementAreaList![pageIndex].projects![0].loanAmount ?? ''}',
+                                                              style: figtreeMedium
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12)),
+                                                          Text('Loan',
+                                                              style: figtreeRegular
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: ColorResources
+                                                                          .fieldGrey)),
+                                                        ],
+                                                      ),
+                                                      10.horizontalSpace(),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text('UGX ${state.response!.data!.improvementAreaList![pageIndex].projects![0].farmerParticipation ?? ''}',
+                                                              style: figtreeMedium
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12)),
+                                                          Text('Farmer share',
+                                                              style: figtreeRegular
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: ColorResources
+                                                                          .fieldGrey)),
+                                                        ],
+                                                      ),
+                                                      10.horizontalSpace(),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text('${state.response!.data!.improvementAreaList![pageIndex].projects![0].repaymentMonths ?? ''} Months',
+                                                              style: figtreeMedium
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12)),
+                                                          Text('Repayment',
+                                                              style: figtreeRegular
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: ColorResources
+                                                                          .fieldGrey)),
+                                                        ],
+                                                      ),
+                                                      10.horizontalSpace(),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text('UGX ${state.response!.data!.improvementAreaList![pageIndex].projects![0].emiAmount ?? ''}',
+                                                              style: figtreeMedium
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12)),
+                                                          Text('EMI',
+                                                              style: figtreeRegular
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: ColorResources
+                                                                          .fieldGrey)),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                      ),
+                                    ),
+                                    40.verticalSpace()
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
                         ],
                       ),
                     ),

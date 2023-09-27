@@ -11,6 +11,7 @@ import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
 import 'package:glad/screen/extra_screen/add_item_list.dart';
@@ -38,6 +39,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<DdeEnquiryCubit>()),
       BlocProvider(create: (context) => di.sl<ImprovementAreaCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubitTest>()),
+      BlocProvider(create: (context) => di.sl<ProjectCubit>()),
     ],
     child: const GetMaterialApp(
         debugShowCheckedModeBanner: false, home: MyApp()),

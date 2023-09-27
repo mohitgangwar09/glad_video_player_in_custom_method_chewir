@@ -1,11 +1,11 @@
-class ImprovementAreaListModel {
+class FarmerProjectModel {
   String? message;
   int? status;
   Data? data;
 
-  ImprovementAreaListModel({this.message, this.status, this.data});
+  FarmerProjectModel({this.message, this.status, this.data});
 
-  ImprovementAreaListModel.fromJson(Map<String, dynamic> json) {
+  FarmerProjectModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -23,179 +23,29 @@ class ImprovementAreaListModel {
 }
 
 class Data {
-  List<ImprovementAreaList>? improvementAreaList;
+  List<ProjectList>? projectList;
 
-  Data({this.improvementAreaList});
+  Data({this.projectList});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['improvement_area_list'] != null) {
-      improvementAreaList = <ImprovementAreaList>[];
-      json['improvement_area_list'].forEach((v) {
-        improvementAreaList!.add(ImprovementAreaList.fromJson(v));
+    if (json['project_list'] != null) {
+      projectList = <ProjectList>[];
+      json['project_list'].forEach((v) {
+        projectList!.add(ProjectList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (improvementAreaList != null) {
-      data['improvement_area_list'] =
-          improvementAreaList!.map((v) => v.toJson()).toList();
+    if (projectList != null) {
+      data['project_list'] = projectList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class ImprovementAreaList {
-  dynamic id;
-  String? name;
-  String? status;
-  dynamic createdBy;
-  dynamic updatedBy;
-  dynamic deletedBy;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic image;
-  List<FarmerImprovementArea>? farmerImprovementArea;
-  Results? results;
-  List<Projects>? projects;
-
-  ImprovementAreaList(
-      {this.id,
-        this.name,
-        this.status,
-        this.createdBy,
-        this.updatedBy,
-        this.deletedBy,
-        this.createdAt,
-        this.updatedAt,
-        this.image,
-        this.farmerImprovementArea,
-        this.results,
-        this.projects});
-
-  ImprovementAreaList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    status = json['status'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    deletedBy = json['deleted_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    image = json['image'];
-    if (json['farmer_improvement_area'] != null) {
-      farmerImprovementArea = <FarmerImprovementArea>[];
-      json['farmer_improvement_area'].forEach((v) {
-        farmerImprovementArea!.add(FarmerImprovementArea.fromJson(v));
-      });
-    }
-    results =
-    json['results'] != null ? Results.fromJson(json['results']) : null;
-    if (json['projects'] != null) {
-      projects = <Projects>[];
-      json['projects'].forEach((v) {
-        projects!.add(Projects.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['status'] = status;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['deleted_by'] = deletedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['image'] = image;
-    if (farmerImprovementArea != null) {
-      data['farmer_improvement_area'] =
-          farmerImprovementArea!.map((v) => v.toJson()).toList();
-    }
-    if (results != null) {
-      data['results'] = results!.toJson();
-    }
-    if (projects != null) {
-      data['projects'] = projects!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class FarmerImprovementArea {
-  dynamic id;
-  dynamic improvementAreaId;
-  dynamic farmerId;
-  String? parameter;
-  String? value;
-  String? uom;
-  dynamic inputType;
-
-  FarmerImprovementArea(
-      {this.id,
-        this.improvementAreaId,
-        this.farmerId,
-        this.parameter,
-        this.value,
-        this.uom,
-        this.inputType});
-
-  FarmerImprovementArea.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    improvementAreaId = json['improvement_area_id'];
-    farmerId = json['farmer_id'];
-    parameter = json['parameter'];
-    value = json['value'];
-    uom = json['uom'];
-    inputType = json['input_type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['improvement_area_id'] = improvementAreaId;
-    data['farmer_id'] = farmerId;
-    data['parameter'] = parameter;
-    data['value'] = value;
-    data['uom'] = uom;
-    data['input_type'] = inputType;
-    return data;
-  }
-}
-
-class Results {
-  dynamic lossOfMilkPerCow;
-  dynamic expectedYieldPerCow;
-  dynamic incrementalProduction;
-  dynamic incrementalEarning;
-
-  Results(
-      {this.lossOfMilkPerCow,
-        this.expectedYieldPerCow,
-        this.incrementalProduction,
-        this.incrementalEarning});
-
-  Results.fromJson(Map<String, dynamic> json) {
-    lossOfMilkPerCow = json['lossOfMilkPerCow'];
-    expectedYieldPerCow = json['expectedYieldPerCow'];
-    incrementalProduction = json['incrementalProduction'];
-    incrementalEarning = json['incrementalEarning'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['lossOfMilkPerCow'] = lossOfMilkPerCow;
-    data['expectedYieldPerCow'] = expectedYieldPerCow;
-    data['incrementalProduction'] = incrementalProduction;
-    data['incrementalEarning'] = incrementalEarning;
-    return data;
-  }
-}
-
-class Projects {
+class ProjectList {
   dynamic id;
   dynamic farmerId;
   dynamic projectId;
@@ -227,8 +77,9 @@ class Projects {
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
+  FarmerImprovementArea? farmerImprovementArea;
 
-  Projects(
+  ProjectList(
       {this.id,
         this.farmerId,
         this.projectId,
@@ -259,9 +110,10 @@ class Projects {
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.farmerImprovementArea});
 
-  Projects.fromJson(Map<String, dynamic> json) {
+  ProjectList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     farmerId = json['farmer_id'];
     projectId = json['project_id'];
@@ -293,6 +145,9 @@ class Projects {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    farmerImprovementArea = json['farmer_improvement_area'] != null
+        ? FarmerImprovementArea.fromJson(json['farmer_improvement_area'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -328,6 +183,104 @@ class Projects {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (farmerImprovementArea != null) {
+      data['farmer_improvement_area'] = farmerImprovementArea!.toJson();
+    }
+    return data;
+  }
+}
+
+class FarmerImprovementArea {
+  dynamic id;
+  dynamic improvementAreaId;
+  dynamic farmerId;
+  String? parameter;
+  String? value;
+  dynamic uom;
+  dynamic inputType;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  ImprovementArea? improvementArea;
+
+  FarmerImprovementArea(
+      {this.id,
+        this.improvementAreaId,
+        this.farmerId,
+        this.parameter,
+        this.value,
+        this.uom,
+        this.inputType,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.improvementArea});
+
+  FarmerImprovementArea.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    improvementAreaId = json['improvement_area_id'];
+    farmerId = json['farmer_id'];
+    parameter = json['parameter'];
+    value = json['value'];
+    uom = json['uom'];
+    inputType = json['input_type'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    improvementArea = json['improvement_area'] != null
+        ? ImprovementArea.fromJson(json['improvement_area'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['improvement_area_id'] = improvementAreaId;
+    data['farmer_id'] = farmerId;
+    data['parameter'] = parameter;
+    data['value'] = value;
+    data['uom'] = uom;
+    data['input_type'] = inputType;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (improvementArea != null) {
+      data['improvement_area'] = improvementArea!.toJson();
+    }
+    return data;
+  }
+}
+
+class ImprovementArea {
+  dynamic id;
+  String? name;
+  dynamic image;
+
+  ImprovementArea({this.id, this.name, this.image});
+
+  ImprovementArea.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image'] = image;
     return data;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/common/project_details.dart';
@@ -15,6 +16,8 @@ class ProjectWidget extends StatelessWidget {
   final int incrementalProduction;
   final int roi;
   final String category;
+  final String image;
+  final String status;
 
   const ProjectWidget(
       {Key? key,
@@ -23,7 +26,12 @@ class ProjectWidget extends StatelessWidget {
       required this.targetYield,
       required this.investment,
       required this.revenue,
-      required this.index, required this.incrementalProduction, required this.roi, required this.category})
+      required this.index,
+      required this.incrementalProduction,
+      required this.roi,
+      required this.category,
+      required this.image,
+      required this.status})
       : super(key: key);
 
   @override
@@ -43,8 +51,16 @@ class ProjectWidget extends StatelessWidget {
                   children: [
                     CircleAvatar(
                         radius: 30,
-                        child: Image.asset(
-                          Images.sampleUser,
+                        child: CachedNetworkImage(
+                          imageUrl: image,
+                          errorWidget: (_, __, ___) {
+                            return Image.asset(
+                              Images.sampleUser,
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            );
+                          },
                           fit: BoxFit.cover,
                           width: 80,
                           height: 80,
@@ -141,7 +157,8 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "$roi%".textSemiBold(color: Colors.black, fontSize: 16),
+                          "$roi%"
+                              .textSemiBold(color: Colors.black, fontSize: 16),
                           "ROI".textMedium(
                             fontSize: 12,
                           ),
@@ -168,7 +185,7 @@ class ProjectWidget extends StatelessWidget {
                 borderColor: const Color(0xff6A0030),
               ),
               child: Text(
-                "Active",
+                status,
                 textAlign: TextAlign.center,
                 style: figtreeMedium.copyWith(
                     color: const Color(0xff6A0030), fontSize: 10),
