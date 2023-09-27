@@ -39,6 +39,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
   static bool addMonth = false;
   static bool checkClickMonth = false;
   static List<bool> showQty=[];
+  static List<bool> showGreaterQty=[];
 
 
   void showHide(int i){
@@ -79,7 +80,17 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                 centerTitle: true,
                 description: 'Provide the following details',
                 action: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _formKey.currentState?.save();
+
+                    UpdateRecordMonthBreedModel response =
+                    UpdateRecordMonthBreedModel(monthId: 3605,farmerId: 5,
+                        requestData: requestData);
+                    String jsonRequestData = jsonEncode(response);
+
+                    BlocProvider.of<CowsAndYieldCubit>(context).updateCowBreedRecordApi(context, jsonRequestData);
+
+                  },
                   child: Text(
                     'Save',
                     style: figtreeMedium.copyWith(
