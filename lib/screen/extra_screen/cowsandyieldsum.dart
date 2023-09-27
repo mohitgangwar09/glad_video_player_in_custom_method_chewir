@@ -950,7 +950,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
     List<Widget> friendsTextFieldsList = [];
     for(int i=0; i<responseDateWiseData.length; i++){
 
-      print(showQty.length);
+      // print(showQty.length);
 
       friendsTextFieldsList.add(
           Column(
@@ -962,7 +962,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
 
               showQty[i] ?
               ProductionTextField(i,responseDateWiseData[i],responseDateWiseData):
-              const Text("yes working"),
+              const SizedBox(width: 0,height: 0,),
               // addRemoveButton(i == responseDateWiseData.length-1, i),
             ],
           )

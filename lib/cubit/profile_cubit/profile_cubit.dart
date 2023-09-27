@@ -151,7 +151,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   Future<void> updatePersonalDetailApi(context,) async{
     customDialog(widget: launchProgress());
     var response = await apiRepository.updateFarmerDetailApi(state.gender.toString(),
-        state.landlineController.text, state.profileImage.toString(), state.selectDob);
+        state.landlineController.text, state.profileImage.toString(), state.selectDob,state.farmerSince);
     disposeProgress();
     if (response.status == 200) {
       showCustomToast(context, response.message.toString());
