@@ -43,13 +43,19 @@ class PersonalDetails extends StatelessWidget {
                   Expanded(
                     child: CustomTextField2(title: '',
                       enabled: false,
-                      controller: state.phoneController,),
+                      controller: state.phoneController..text = state.responseFarmerProfile!.farmer!.phone == null
+                          ? ''
+                          : state.responseFarmerProfile!.farmer!.phone
+                          .toString(),),
                   ),
                 ],
               ),
               20.verticalSpace(),
               CustomTextField2(title: 'Email',
-                controller: state.emailController,
+                controller:  state.emailController..text = state.responseFarmerProfile!.farmer!.email == null
+                    ? ''
+                    : state.responseFarmerProfile!.farmer!.email
+                    .toString(),
               enabled: false,),
               20.verticalSpace(),
               CustomDropdown(
@@ -68,7 +74,8 @@ class PersonalDetails extends StatelessWidget {
                 image2: Images.calender,
                 image2Colors: ColorResources.maroon,
                 readOnly: true,
-                controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.dateOfBirth.toString(),
+                controller: TextEditingController()..text = state.selectDob == "0000-00-00"?"":state.selectDob,
+                // controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.dateOfBirth.toString(),
                 onTap: () async{
                   var selectDate = await selectedDate(context);
                   BlocProvider.of<ProfileCubit>(context).selectDob("${selectDate.year}/${selectDate.month}/${selectDate.day}");
@@ -97,7 +104,12 @@ class PersonalDetails extends StatelessWidget {
 
                   Expanded(
                     child: CustomTextField2(title: '',
-                      controller: state.landlineController,),
+                      controller: state.landlineController,
+                      inputType: TextInputType.phone,
+                      maxLine: 1,
+                      maxLength: 12,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
                   ),
                 ],
               ),
@@ -109,11 +121,12 @@ class PersonalDetails extends StatelessWidget {
                 image2: Images.calender,
                 image2Colors: ColorResources.maroon,
                 // hint: state.farmerSince.toString(),
-                controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.farmingExperience.toString(),
+                controller: TextEditingController()..text = state.farmerSince == "0000-00-00"?"":state.farmerSince,
+                // controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.farmingExperience.toString(),
                 readOnly: true,
                 onTap: () async{
-                  // var selectDate = await selectedDate(context);
-                  // BlocProvider.of<ProfileCubit>(context).farmerSince("${selectDate.year}/${selectDate.month}/${selectDate.day}");
+                  var selectDate = await selectedDate(context);
+                  BlocProvider.of<ProfileCubit>(context).farmerSince("${selectDate.year}/${selectDate.month}/${selectDate.day}");
                 },
                 focusNode: FocusNode(),
               ),

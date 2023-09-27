@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -18,13 +19,25 @@ class FarmDetails extends StatelessWidget {
           child: Column(
             children: [
               CustomTextField2(title: 'Farm Size',
-                controller: state.farmSize,),
+                controller: state.farmSize,
+                inputType: TextInputType.phone,
+                maxLine: 1,
+                maxLength: 8,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],),
               20.verticalSpace(),
               CustomTextField2(title: 'Dairy Area',
-                controller: state.dairyArea,),
+                controller: state.dairyArea,
+                inputType: TextInputType.phone,
+                maxLine: 1,
+                maxLength: 8,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],),
               20.verticalSpace(),
               CustomTextField2(title: 'No. of people working in the farm',
-                controller: state.staffQuantity,),
+                controller: state.staffQuantity,
+                inputType: TextInputType.phone,
+                maxLine: 1,
+                maxLength: 8,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],),
               20.verticalSpace(),
               CustomTextField2(title: 'Manager Name',
                 controller: state.managerName,),
@@ -45,7 +58,11 @@ class FarmDetails extends StatelessWidget {
 
                   Expanded(
                     child: CustomTextField2(title: '',
-                      controller: state.managerPhone,),
+                      controller: state.managerPhone,
+                      inputType: TextInputType.phone,
+                      maxLine: 1,
+                      maxLength: 12,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],),
                   ),
                 ],
               ),

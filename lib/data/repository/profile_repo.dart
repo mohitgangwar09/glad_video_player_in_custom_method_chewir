@@ -84,7 +84,7 @@ class ProfileRepository {
   }
 
   Future<FarmerProfileModel> updateFarmerDetailApi(String gender,
-      String landlineNumber,String file,String dob) async {
+      String landlineNumber,String file,String dob,String farmingExperience) async {
 
     FormData formData;
     var userId = sharedPreferences?.getString(AppConstants.userId);
@@ -95,6 +95,8 @@ class ProfileRepository {
           "id": userId,
           "gender": gender,
           "phone": landlineNumber,
+          "farming_experience": farmingExperience,
+
         });
       }else{
         formData = FormData.fromMap({
@@ -102,6 +104,7 @@ class ProfileRepository {
           "gender": gender,
           "phone": landlineNumber,
           "date_of_birth": dob,
+          "farming_experience": farmingExperience,
         });
       }
 
@@ -113,6 +116,7 @@ class ProfileRepository {
           "gender": gender,
           "phone": landlineNumber,
           "photo": await MultipartFile.fromFile(files.path),
+          "farming_experience": farmingExperience,
         });
       }else{
         formData = FormData.fromMap({
@@ -121,6 +125,7 @@ class ProfileRepository {
           "phone": landlineNumber,
           "date_of_birth": dob,
           "photo": await MultipartFile.fromFile(files.path),
+          "farming_experience": farmingExperience,
         });
       }
     }

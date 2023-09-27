@@ -146,7 +146,8 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   width: 1,
                   borderColor: 0xff727272,
                   title: 'DOB',
-                  controller: TextEditingController()..text = state.selectDob == "0000-00-00"?"":state.responseFarmerProfile!.farmer!.dateOfBirth!.toString(),
+                  controller: TextEditingController()..text = state.selectDob == "0000-00-00"?"":state.selectDob,
+                  // controller: TextEditingController()..text = state.selectDob == "0000-00-00"?"":state.responseFarmerProfile!.farmer!.dateOfBirth!.toString(),
                   // controller: state.selectDob.toString() == ""?
                   //     TextEditingController(
                   //     text: state.responseFarmerProfile!.farmer!.dateOfBirth ==
@@ -348,7 +349,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
             'Save',
             style: figtreeMedium.copyWith(color: Colors.white, fontSize: 16),
             onTap: () {
-              context.read<ProfileCubit>().updateFarmDetailApi(context);
+              context.read<ProfileCubit>().updateDdeFarmDetailApi(context,);
             },
             width: screenWidth(),
             height: 60,
