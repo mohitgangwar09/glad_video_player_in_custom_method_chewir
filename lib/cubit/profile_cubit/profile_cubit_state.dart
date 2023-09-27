@@ -4,8 +4,8 @@ enum ProfileStatus{initial,submit,success,error, loading}
 
 class ProfileCubitState extends Equatable{
   final ProfileStatus status;
-  final String validator,validatorString,id,gender,selectDistrict,districtId, selectDob,farmerSince;
-  final String? profileImage;
+  final String validator,validatorString,id,selectDistrict,districtId, selectDob,farmerSince;
+  final String? profileImage,gender;
   final TextEditingController emailController;
   final TextEditingController farmSize;
   final TextEditingController dairyArea;
@@ -89,12 +89,12 @@ class ProfileCubitState extends Equatable{
       staffQuantity: TextEditingController(),
       validator: '',
       profileImage: "",
-      gender: 'Male',
+      gender: null,
       selectDistrict: '',
       responseProfile: null,
       id: '',
-      selectDob: '',
-      farmerSince: '',
+      selectDob: '0000-00-00',
+      farmerSince: '0000-00-00',
       validatorString: '',
       profilePic: TextEditingController(),
       phoneController: TextEditingController(),

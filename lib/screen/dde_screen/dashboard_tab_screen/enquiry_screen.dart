@@ -46,7 +46,7 @@ class EnquiryScreen extends StatelessWidget {
                         farmerLandingKey.currentState?.openDrawer();
                       },
                       child: SvgPicture.asset(Images.drawer)),
-                  action: Row(
+                  /*action: Row(
                     children: [
                       InkWell(
                           onTap: () {
@@ -117,7 +117,7 @@ class EnquiryScreen extends StatelessWidget {
                           child: SvgPicture.asset(Images.filter1)),
                       18.horizontalSpace(),
                     ],
-                  ),
+                  ),*/
                 ),
                 10.verticalSpace(),
                 Container(

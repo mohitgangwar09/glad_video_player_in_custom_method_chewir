@@ -13,7 +13,7 @@ class CustomTextField2 extends StatelessWidget {
   final Function()? onEditingComplete;
   final Function()? onTap;
   final FocusNode? focusNode;
-  final int? length;
+  final int? length,maxLength;
   final String? image, leadingImage;
   final double? imageWidth, imageHeight;
   final double? image2Width, image2Height;
@@ -69,6 +69,7 @@ class CustomTextField2 extends StatelessWidget {
       this.image2,
       this.image2Colors,
       this.readOnly,
+      this.maxLength,
       required this.title})
       : super(key: key);
 
@@ -106,6 +107,7 @@ class CustomTextField2 extends StatelessWidget {
                         width: width,
                         child: TextField(
                           focusNode: focusNode,
+                          maxLength: maxLength,
                           controller: controller,
                           inputFormatters: inputFormatters ??
                               [LengthLimitingTextInputFormatter(length)],
@@ -124,6 +126,7 @@ class CustomTextField2 extends StatelessWidget {
                           onEditingComplete: onEditingComplete,
                           decoration: InputDecoration(
                             hintText: hint,
+                            counterText: '',
                             alignLabelWithHint: true,
                             enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.transparent),

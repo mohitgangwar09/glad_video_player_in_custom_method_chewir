@@ -149,7 +149,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       await improvementAreaListApi(context, response.data!.farmer!.id.toString());
       emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data,
           selectDistrict: response.data!.farmer!.address!=null?response.data!.farmer!.address!.district!=null?
-          response.data!.farmer!.address!.district!.toString():"":""
+          response.data!.farmer!.address!.district!.toString():"":"",
+        gender: response.data!.farmer!.gender!=null?response.data!.farmer!.gender.toString():null,
+        selectDob: response.data!.farmer!.dateOfBirth!=null?response.data!.farmer!.dateOfBirth.toString():null,
+        farmerSince: response.data!.farmer!.farmingExperience!=null?response.data!.farmer!.farmingExperience.toString():null
       ));
     }
     else{
@@ -161,7 +164,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   // updatePersonalDetailApi or updaterFarmerDetailApi
   Future<void> updatePersonalDetailApi(context,) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.updateFarmerDetailApi(state.gender,
+    var response = await apiRepository.updateFarmerDetailApi(state.gender.toString(),
         state.landlineController.text, state.profileImage.toString(), state.selectDob);
     disposeProgress();
     if (response.status == 200) {
@@ -202,8 +205,12 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   // updateDdeFarmDetailApi
   Future<void> updateDdeFarmDetailApi(context) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.updateFarmApi(state.farmSize.text, state.dairyArea.text,
-        state.staffQuantity.text, state.managerName.text, state.managerPhone.text, state.responseFarmerProfile!.farmer!.id.toString());
+    var response = await apiRepository.updateDdeFarmerDetail(state.farmSize.text, state.dairyArea.text,
+        state.staffQuantity.text, state.managerName.text, state.managerPhone.text,
+        state.responseFarmerProfile!.farmer!.id.toString(),
+        state.landlineController.text,
+      state.farmerSince,state.gender.toString(),state.selectDob
+    );
 
     disposeProgress();
 
@@ -228,8 +235,8 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     disposeProgress();
 
     if (response.status == 200) {
-      await getFarmerProfile(context);
       showCustomToast(context, response.message.toString());
+      await getFarmerProfile(context,userId: state.responseFarmerProfile!.farmer!.userId.toString());
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));

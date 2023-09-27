@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -135,7 +136,9 @@ class _PersonalDetailState extends State<PersonalDetail> {
                     hint: '',
                     dropdownValue: state.gender,
                     itemList: const ['Male', 'Female'],
-                    onChanged: (value) {},
+                    onChanged: (String? value) {
+                      context.read<ProfileCubit>().selectGender(value.toString());
+                    },
                     icon: Images.arrowDropdown,
                     iconColor: Colors.black),
                 25.verticalSpace(),
@@ -143,21 +146,20 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   width: 1,
                   borderColor: 0xff727272,
                   title: 'DOB',
-                  controller: TextEditingController(
-                      text: state.responseFarmerProfile!.farmer!.dateOfBirth ==
-                          null
-                          ? ''
-                          : state.responseFarmerProfile!.farmer!.dateOfBirth
-                          .toString()),
+                  controller: TextEditingController()..text = state.selectDob == "0000-00-00"?"":state.responseFarmerProfile!.farmer!.dateOfBirth!.toString(),
+                  // controller: state.selectDob.toString() == ""?
+                  //     TextEditingController(
+                  //     text: state.responseFarmerProfile!.farmer!.dateOfBirth ==
+                  //         state.selectDob.toString()
+                  //         ? ''
+                  //         : state.responseFarmerProfile!.farmer!.dateOfBirth
+                  //         .toString()):TextEditingController(text: state.selectDob.toString()),
                   image2: Images.calender,
                   image2Colors: ColorResources.maroon,
                   readOnly: true,
-                  onTap: () {
-                    /*showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime.now());*/
+                  onTap: () async{
+                    var selectDate = await selectedDate(context);
+                    BlocProvider.of<ProfileCubit>(context).selectDob("${selectDate.year}/${selectDate.month}/${selectDate.day}");
                   },
                   focusNode: FocusNode(),
                 ),
@@ -169,9 +171,13 @@ class _PersonalDetailState extends State<PersonalDetail> {
                       child: CustomTextField2(
                         title: 'Landline No',
                         width: 1,
+                        inputType: TextInputType.phone,
+                        maxLine: 1,
+                        maxLength: 12,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         borderColor: 0xff727272,
                         controller: TextEditingController(text: '+256'),
-                        enabled: false,
+                        // enabled: false,
                       ),
                     ),
                     10.horizontalSpace(),
@@ -181,7 +187,11 @@ class _PersonalDetailState extends State<PersonalDetail> {
                           width: 1,
                           borderColor: 0xff727272,
                           hint: '',
-                          enabled: false,
+                          inputType: TextInputType.phone,
+                          maxLine: 1,
+                          maxLength: 12,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          // enabled: false,
                           controller: state.landlineController
                             ..text =
                                 state.responseFarmerProfile!.farmer!
@@ -194,30 +204,24 @@ class _PersonalDetailState extends State<PersonalDetail> {
                 CustomTextField2(
                   width: 1,
                   borderColor: 0xff727272,
-                  controller: TextEditingController(
-                      text: state.responseFarmerProfile!.farmer!
-                          .farmingExperience ==
-                          null
-                          ? ''
-                          : state.responseFarmerProfile!.farmer!
-                          .farmingExperience
-                          .toString()),
+                  controller: TextEditingController()..text = state.farmerSince == "0000-00-00"?"":state.farmerSince,
                   title: 'Farming Since',
                   image2: Images.calender,
                   image2Colors: ColorResources.maroon,
                   readOnly: true,
-                  onTap: () {
-                    showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime.now());
+                  onTap: () async{
+                    var selectDate = await selectedDate(context);
+                    BlocProvider.of<ProfileCubit>(context).farmerSince("${selectDate.year}/${selectDate.month}/${selectDate.day}");
                   },
                   focusNode: FocusNode(),
                 ),
                 25.verticalSpace(),
                 CustomTextField2(
                   width: 1,
+                  inputType: TextInputType.phone,
+                  maxLine: 1,
+                  maxLength: 12,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   borderColor: 0xff727272,
                   title: 'Farm Size',
                   controller: state.farmSize
@@ -234,6 +238,10 @@ class _PersonalDetailState extends State<PersonalDetail> {
                 25.verticalSpace(),
                 CustomTextField2(
                   width: 1,
+                  inputType: TextInputType.phone,
+                  maxLine: 1,
+                  maxLength: 12,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   borderColor: 0xff727272,
                   title: 'Dairy Area',
                   controller: state.dairyArea
@@ -251,6 +259,10 @@ class _PersonalDetailState extends State<PersonalDetail> {
                 CustomTextField2(
                   width: 1,
                   borderColor: 0xff727272,
+                  inputType: TextInputType.phone,
+                  maxLine: 1,
+                  maxLength: 4,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   title: 'No. of people working in the farm',
                   controller: state.staffQuantity
                     ..text =
@@ -267,6 +279,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                 25.verticalSpace(),
                 CustomTextField2(
                   width: 1,
+                  maxLine: 1,
                   borderColor: 0xff727272,
                   title: 'Manger Name',
                   controller: state.managerName
@@ -287,6 +300,10 @@ class _PersonalDetailState extends State<PersonalDetail> {
                       child: CustomTextField2(
                         title: 'Manager\'s mobile',
                         width: 1,
+                        inputType: TextInputType.phone,
+                        maxLine: 1,
+                        maxLength: 12,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         borderColor: 0xff727272,
                         controller: TextEditingController(text: '+256'),
                         enabled: true,
@@ -297,6 +314,10 @@ class _PersonalDetailState extends State<PersonalDetail> {
                       child: CustomTextField2(
                         title: '',
                         width: 1,
+                        inputType: TextInputType.phone,
+                        maxLine: 1,
+                        maxLength: 12,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         borderColor: 0xff727272,
                         controller: state.managerPhone
                           ..text = state.responseFarmerProfile!.farmer!

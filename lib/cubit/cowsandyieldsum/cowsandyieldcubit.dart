@@ -25,7 +25,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
 
 
   void showMonth(int i,MonthWiseData monthWise){
-    print("CowBreeDetail $i lengthClick ${CowsAndYieldsSumState.requestData.length}");
+    // print("CowBreeDetail $i lengthClick ${CowsAndYieldsSumState.requestData.length}");
     emit(state.copyWith(monthId: int.parse(state.responseMonthlyWiseData![i].id.toString())));
   }
 
@@ -35,6 +35,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   }
 
   void removeControllerValue(int index){
+    print(state.milkingCowController.length);
     state.milkingCowController.removeAt(index);
     state.herdSizeController.removeAt(index);
     state.yieldPerDayController.removeAt(index);
@@ -44,6 +45,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     state.lessthanSixMonthController.removeAt(index);
     state.bullCalfController.removeAt(index);
     state.breedController.removeAt(index);
+    print(state.milkingCowController.length);
     totalAll(index);
   }
 
@@ -61,6 +63,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
         sixMonthCow: '0',
         bullCalfs: "0",
       )});
+      print("addMore ${CowsAndYieldsSumState.requestData.length}");
     }else{
       CowsAndYieldsSumState.requestData.addAll({RequestData(
         id: state.responseMonthlyWiseData![0].dateWiseData![index].id.toString(),
@@ -79,6 +82,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
 
 
   void allController(String milk){
+    print("AddFirst${state.milkingCowController.length}");
     state.milkingCowController.add(TextEditingController());
     state.herdSizeController.add(TextEditingController());
     state.yieldPerDayController.add(TextEditingController());
@@ -88,6 +92,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     state.lessthanSixMonthController.add(TextEditingController());
     state.bullCalfController.add(TextEditingController());
     state.breedController.add(TextEditingController());
+    print("After${state.milkingCowController.length}");
   }
 
   void totalFirstProduction(double totalProduction,int index) {
@@ -142,8 +147,21 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     state.bullCalfController[childIndex].text = "0";
   }
 
+  void getDataValue(int childIndex){
+    state.breedController[childIndex].text = '0';
+    state.milkingCowController[childIndex].text = '0';
+    state.herdSizeController[childIndex].text = '0';
+    state.yieldPerDayController[childIndex].text = '0';
+    state.dryController[childIndex].text = '0';
+    state.heiferController[childIndex].text = '0';
+    state.sevenTwelveMonthController[childIndex].text = '0';
+    state.lessthanSixMonthController[childIndex].text = '0';
+    state.bullCalfController[childIndex].text = "0";
+  }
+
   void totalMilkingCow(int index){
     int sums = 0,sumOfHerd = 0,totalHerdSize = 0,addTotalHerd;
+    print("newCount ${CowsAndYieldsSumState.requestData.length}");
     state.milkingCowController[index].addListener(() {
       Future.delayed(const Duration(milliseconds: 20),(){
         print("TotalCount ${CowsAndYieldsSumState.requestData.length}");
@@ -156,16 +174,23 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
                 int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
                 int.parse("0");
             totalHerdSize = totalHerdSize+addTotalHerd;
+            sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
+                int.parse(CowsAndYieldsSumState.requestData[i].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].dryCows.toString())+
+                int.parse(CowsAndYieldsSumState.requestData[i].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].heiferCows.toString())+
+                int.parse(CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString())+
+                int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
+                int.parse("0");
+
+            state.herdSizeController[i] = TextEditingController(text: sumOfHerd.toString());
         }
 
-        sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
+       /* sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
             int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
             int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
             int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
             int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
-            int.parse("0");
-
-        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+            int.parse("0");*/
+        // state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
 
         emit(state.copyWith(totalMilkingCow: sums,totalHerdSize: totalHerdSize));
         sums = 0;
@@ -189,16 +214,17 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
               int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
               int.parse("0");
           totalHerdSize = totalHerdSize+addTotalHerd;
+
+          sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].dryCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].heiferCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
+              int.parse("0");
+
+          state.herdSizeController[i] = TextEditingController(text: sumOfHerd.toString());
+
         }
-
-        sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
-            int.parse("0");
-
-        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
 
         emit(state.copyWith(totalHerdSize: totalHerdSize));
         totalHerdSize = 0;
@@ -218,16 +244,25 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
               int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
               int.parse("0");
           totalHerdSize = totalHerdSize+addTotalHerd;
+          sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].dryCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].heiferCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
+              int.parse("0");
+
+          state.herdSizeController[i] = TextEditingController(text: sumOfHerd.toString());
+
         }
 
-        sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
-            int.parse("0");
-
-        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        // sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
+        //     int.parse("0");
+        //
+        // state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
 
         emit(state.copyWith(totalHerdSize: totalHerdSize));
         totalHerdSize = 0;
@@ -247,16 +282,25 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
               int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
               int.parse("0");
           totalHerdSize = totalHerdSize+addTotalHerd;
+          sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].dryCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].heiferCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
+              int.parse("0");
+
+          state.herdSizeController[i] = TextEditingController(text: sumOfHerd.toString());
+
         }
 
-        sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
-            int.parse("0");
-
-        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        // sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
+        //     int.parse("0");
+        //
+        // state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
 
         emit(state.copyWith(totalHerdSize: totalHerdSize));
         totalHerdSize = 0;
@@ -276,16 +320,25 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
               int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
               int.parse(CowsAndYieldsSumState.requestData[index].bullCalfs.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].bullCalfs.toString());
           totalHerdSize = totalHerdSize+addTotalHerd;
+          sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].dryCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].heiferCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
+              int.parse("0");
+
+          state.herdSizeController[i] = TextEditingController(text: sumOfHerd.toString());
+
         }
 
-        sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].bullCalfs.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].bullCalfs.toString());
-
-        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        // sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].bullCalfs.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].bullCalfs.toString());
+        //
+        // state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
 
         emit(state.copyWith(totalHerdSize: totalHerdSize));
         totalHerdSize = 0;
@@ -305,16 +358,25 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
               int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
               int.parse(CowsAndYieldsSumState.requestData[index].bullCalfs.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].bullCalfs.toString());
           totalHerdSize = totalHerdSize+addTotalHerd;
+          sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].dryCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].heiferCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString())+
+              int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
+              int.parse("0");
+
+          state.herdSizeController[i] = TextEditingController(text: sumOfHerd.toString());
+
         }
 
-        sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
-            int.parse(CowsAndYieldsSumState.requestData[index].bullCalfs.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].bullCalfs.toString());
-
-        state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        // sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[index].milkingCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].milkingCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].dryCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].dryCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].heiferCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].heiferCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sevenToTwelveMonthCows.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
+        //     int.parse(CowsAndYieldsSumState.requestData[index].bullCalfs.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].bullCalfs.toString());
+        //
+        // state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
 
         emit(state.copyWith(totalHerdSize: totalHerdSize));
         totalHerdSize = 0;
@@ -345,6 +407,16 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
 
   void totalAll(int i){
     int sums = 0 ,totalMilk=0,totalProduction = 0,sumOfHerd = 0,totalHerdSize = 0;
+   /* for(int i=0;i<CowsAndYieldsSumState.requestData.length;i++){
+      totalMilk = totalMilk+int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString());
+      sumOfHerd = int.parse(CowsAndYieldsSumState.requestData[i].milkingCows.toString())+
+          int.parse(CowsAndYieldsSumState.requestData[i].dryCows.toString())+
+          int.parse(CowsAndYieldsSumState.requestData[i].heiferCows.toString())+
+          int.parse(CowsAndYieldsSumState.requestData[i].sevenToTwelveMonthCows.toString())+
+          int.parse(CowsAndYieldsSumState.requestData[i].sixMonthCow.toString())+
+          int.parse("0");
+      totalHerdSize = totalHerdSize+sumOfHerd;
+    }*/
     for(int i=0;i<CowsAndYieldsSumState.responseDateWiseData.length;i++){
       totalMilk = totalMilk+int.parse(CowsAndYieldsSumState.responseDateWiseData[i].milkingCows.toString());
       sumOfHerd = int.parse(CowsAndYieldsSumState.responseDateWiseData[i].milkingCows.toString())+
@@ -374,17 +446,37 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     sums = 0;
   }
 
-
-  void getCowBreedDetailsApi(context,String tagMonth) async{
+  // updateCowBreedRecordApi
+  void updateCowBreedRecordApi(context,String requestData) async{
     customDialog(widget: launchProgress());
     emit(state.copyWith(status: CowsAndCubitStatus.loading));
-    var response = await apiRepository.cowBreedDetailsApi();
+    var response = await apiRepository.updateCowBreedRecordApi(requestData);
+    disposeProgress();
+    if(response.status == 200){
+      showCustomToast(context, response.message.toString());
+      getCowBreedDetailsApi(context,"update");
+      emit(state.copyWith(status: CowsAndCubitStatus.success));
+    }
+    else{
+      emit(state.copyWith(status: CowsAndCubitStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void getCowBreedDetailsApi(context,String tagMonth,{String? id}) async{
+    CowsAndYieldsSumState.addBreedLength.clear();
+    CowsAndYieldsSumState.showQty.clear();
+    customDialog(widget: launchProgress());
+    emit(state.copyWith(status: CowsAndCubitStatus.loading));
+    var response = await apiRepository.cowBreedDetailsApi(id: id);
     if(response.status == 200){
       disposeProgress();
-      print("CowBreeDetail");
       emit(state.copyWith(status: CowsAndCubitStatus.success, responseMonthlyWiseData: response.data!.monthWiseData!));
+      if(tagMonth == "update"){}else{
       if(response.data!.monthWiseData!.isNotEmpty){
         for(int i=0 ;i<response.data!.monthWiseData![0].dateWiseData!.length;i++){
+          CowsAndYieldsSumState.addBreedLength.add(true);
+          CowsAndYieldsSumState.showQty.insert(response.data!.monthWiseData![0].dateWiseData!.length-1,true);
           allController("0");
           CowsAndYieldsSumState.responseDateWiseData.add(response.data!.monthWiseData![0].dateWiseData![i]);
           getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
@@ -394,7 +486,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
           addRequestData(i,"ist");
         }
         showMonth(0,MonthWiseData());
-      }
+      }}
     }
     else{
       emit(state.copyWith(status: CowsAndCubitStatus.error));

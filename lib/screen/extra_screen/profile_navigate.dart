@@ -558,7 +558,6 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     for(int i=0; i<responseMonthWiseData.length; i++){
       checkCurrentMonth = checkDate(DateTime(int.parse(responseMonthWiseData[i].month.toString()),int.parse(responseMonthWiseData[i].year.toString())));
       showMonth.add(false);
-      // print("ss"+responseMonthWiseData.first.totalMilkProduction);
       if(checkAddMore == false){
         addBreedLength.clear();
         addBreedLength.addAll(responseMonthWiseData[i].dateWiseData!);
@@ -1393,7 +1392,8 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                 ),
                 10.verticalSpace(),
               ],
-            ):showQty[widget.index] ?
+            ):
+            showQty[widget.index] ?
             Column(
 
               children: [

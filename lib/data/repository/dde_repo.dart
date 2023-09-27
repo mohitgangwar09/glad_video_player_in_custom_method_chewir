@@ -30,7 +30,7 @@ class DdeRepository {
   }
 
   // cowBreedDetailsApi
-  Future<ResponseCowBreedDetails> cowBreedDetailsApi() async {
+  Future<ResponseCowBreedDetails> cowBreedDetailsApi({String? id}) async {
     var data = {
       "id": "1847"
     };

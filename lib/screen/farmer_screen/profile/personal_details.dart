@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -83,8 +84,12 @@ class PersonalDetails extends StatelessWidget {
                     width: 100,
                     child: CustomTextField2(
                       title: 'Landline No',
+                      inputType: TextInputType.phone,
+                      maxLine: 1,
+                      maxLength: 12,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       controller: TextEditingController(text: '+256'),
-                      enabled: false,
+                      // enabled: false,
                     ),
                   ),
 
