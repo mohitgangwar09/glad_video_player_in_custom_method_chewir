@@ -183,6 +183,36 @@ class ProfileRepository {
     }
   }
 
+  Future<FarmerProfileModel> updateDdeFarmerDetail(String farmSize,String dairyArea,
+      String staffQuantity, String managerName,String managerPhone,String userId,String landlineNumber,
+      String farmingExperience,String gender,String dateOfBirth) async {
+
+    FormData formData = FormData.fromMap({
+      "id": userId,
+      "farm_size": farmSize,
+      "dairy_area": dairyArea,
+      "staff_quantity": staffQuantity,
+      "manager_name": managerName,
+      "manager_phone": managerPhone,
+      "landline_no": landlineNumber,
+      "farming_experience": farmingExperience,
+      "gender": gender,
+      "date_of_birth": dateOfBirth,
+    });
+    print(formData.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateFarmApi,
+        data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return FarmerProfileModel.fromJson(apiResponse.response!.data);
+    } else {
+      return FarmerProfileModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
 
   ///////////////GetDistrict/////////////
 

@@ -413,7 +413,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                                   color: Colors
                                                                       .black)),
                                                       10.verticalSpace(),
-                                                      DateFormat('dd MMM, yyyy')
+                                                      DateFormat('dd MMM, yyyy hh:mm a')
                                                           .format(DateTime.parse(state
                                                               .responseEnquiryDetail!
                                                               .data!
@@ -484,7 +484,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                                   color: Colors
                                                                       .black)),
                                                       10.verticalSpace(),
-                                                      DateFormat('dd MMM, yyyy')
+                                                      DateFormat('dd MMM, yyyy hh:mm a')
                                                           .format(DateTime.parse(state
                                                               .responseEnquiryDetail!
                                                               .data!

@@ -38,7 +38,7 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
   static List<ModelTotalProduction> modelTotalProduction = [];
   static bool addMonth = false;
   static bool checkClickMonth = false;
-  List<bool> showQty=[];
+  static List<bool> showQty=[];
 
 
   void showHide(int i){
@@ -804,13 +804,12 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                   responseDateWiseData.add(DateWiseData(id: null,milkingCows: "0",
                       yieldPerCow: "0",dryCows: "0",heiferCows: "0",sevenToTwelveMonthCows: "0",sixMonthCow: "0"));
                   addBreedLength.add(false);
-                  showQty.add(true);
+                  showQty.insert(responseDateWiseDatas.length-1,true);
                   BlocProvider.of<CowsAndYieldCubit>(context).addRequestData(index,"addMore");
                   BlocProvider.of<CowsAndYieldCubit>(context).allController("0");
                   // context.read<CowsAndYieldCubit>().addRequestData(index,"addMore");
                 });
               }
-
             },
             color: 0xffFFFFFF,
             borderColor: 0xff6A0030,
@@ -950,14 +949,8 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
   List<Widget> getDateWiseData(List<DateWiseData> responseDateWis,){
     List<Widget> friendsTextFieldsList = [];
     for(int i=0; i<responseDateWiseData.length; i++){
-      if(responseDateWiseData.length-1 == i){
-        print("last");
-        showQty.add(true);
-      }else
-        {
-          print("first");
-          showQty.add(false);
-        }
+
+      print(showQty.length);
 
       friendsTextFieldsList.add(
           Column(
