@@ -148,8 +148,7 @@ class EnquiryScreen extends StatelessWidget {
                                 "Pending".textMedium(
                                     color: state.enquiryStatus == "Pending"?ColorResources.white:Colors.black, fontSize: 14),
                                 5.horizontalSpace(),
-                                SvgPicture.asset(Images.pendingSelected,
-                                color: state.enquiryStatus == "Pending"?Colors.white:ColorResources.maroon,)
+                                SvgPicture.asset(state.enquiryStatus == "Pending"? Images.pendingSelected : Images.pending)
                               ],
                             ),
                           ),
@@ -170,10 +169,9 @@ class EnquiryScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 "Closed"
-                                    .textMedium(color: state.enquiryStatus == "Closed"?ColorResources.white:Colors.black, fontSize: 14),
+                                    .textMedium(color: state.enquiryStatus == "Closed"? ColorResources.white : Colors.black, fontSize: 14),
                                 5.horizontalSpace(),
-                                SvgPicture.asset(Images.completed,
-                                  color: state.enquiryStatus == "Closed"?Colors.white:null)
+                                SvgPicture.asset(state.enquiryStatus == "Closed"? Images.completedSelected : Images.completed)
                               ],
                             ),
                           ),

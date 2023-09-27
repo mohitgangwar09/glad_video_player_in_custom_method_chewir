@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -89,21 +90,35 @@ double ascadf(){
   return screenHeight()>750?40.0:20;
 }
 
-calculateAge(DateTime birthDate) {
-  DateTime currentDate = DateTime.now();
-  int age = currentDate.year - birthDate.year;
-  int month1 = currentDate.month;
-  int month2 = birthDate.month;
-  if (month2 > month1) {
-    age--;
-  } else if (month1 == month2) {
-    int day1 = currentDate.day;
-    int day2 = birthDate.day;
-    if (day2 > day1) {
-      age--;
-    }
+// calculateAge(DateTime birthDate) {
+//   DateTime currentDate = DateTime.now();
+//   int age = currentDate.year - birthDate.year;
+//   int month1 = currentDate.month;
+//   int month2 = birthDate.month;
+//   if (month2 > month1) {
+//     age--;
+//   } else if (month1 == month2) {
+//     int day1 = currentDate.day;
+//     int day2 = birthDate.day;
+//     if (day2 > day1) {
+//       age--;
+//     }
+//   }
+//   return age;
+// }
+String getAge(DateTime date) {
+  DateDuration duration = AgeCalculator.age(date);
+  if(duration.years > 0) {
+    return '${duration.years} years';
+  } else if(duration.months > 0) {
+    return '${duration.months} months';
+  } else if(duration.days > 0) {
+    return '${duration.days} days';
+  } else if(duration.days == 0) {
+    return '1 day';
+  } else{
+    return '';
   }
-  return age;
 }
 
 bool checkDateMonth(int year,int month){

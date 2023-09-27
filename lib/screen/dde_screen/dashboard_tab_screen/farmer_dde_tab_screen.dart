@@ -10,6 +10,7 @@ import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -214,7 +215,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                   ),
                                                   10.horizontalSpace(),
                                                   Text(
-                                                      state.response!.farmerMAster![i].farmingExperience?? "10" + ' yrs exp',
+                                                      "${state.response!.farmerMAster![i].farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.response!.farmerMAster![i].farmingExperience.toString()))} exp",
                                                       style: figtreeMedium.copyWith(fontSize: 12,)),
 
                                                 ],
@@ -388,7 +389,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      ' ${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
+                                                      '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                       'ROI'.textMedium(

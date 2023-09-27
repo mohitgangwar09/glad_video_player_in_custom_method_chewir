@@ -212,10 +212,9 @@ class _FarmerProfileState extends State<FarmerProfile> {
             Column(
               children: [
                 Text(
-                state.responseFarmerProfile!.farmer!.farmingExperience != null ? state.responseFarmerProfile!.farmer!.farmingExperience!
-                        .split(' years')[0] : '',
+                    (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '')).split(' ')[0]),
                     style: figtreeSemiBold.copyWith(fontSize: 22)),
-                Text('Years exp.',
+                Text('${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '')).split(' ')[1]} exp.',
                     style: figtreeRegular.copyWith(
                       fontSize: 12,
                     )),
@@ -229,12 +228,9 @@ class _FarmerProfileState extends State<FarmerProfile> {
             15.horizontalSpace(),
             Column(
               children: [
-                Text(state.responseFarmerProfile!.farmer!.dateOfBirth != null ?
-                calculateAge(DateTime.parse(
-                            state.responseFarmerProfile!.farmer!.dateOfBirth!))
-                        .toString() : '',
+                Text((state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '')).split(' ')[0]),
                     style: figtreeSemiBold.copyWith(fontSize: 22)),
-                Text('Years old',
+                Text('${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '')).split(' ')[1]} old',
                     style: figtreeRegular.copyWith(
                       fontSize: 12,
                     )),
