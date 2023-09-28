@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -8,7 +9,23 @@ import 'package:glad/utils/styles.dart';
 
 class ProjectWidget extends StatelessWidget {
   final bool status;
-  const ProjectWidget({Key? key, required this.status}) : super(key: key);
+  final String name;
+  final String category;
+  final String projectStatus;
+  final String description;
+  final int investment;
+  final int revenue;
+  final int roi;
+  final int loan;
+  final int emi;
+  final int balance;
+  final String farmerName;
+  final String farmerImage;
+  final String farmerPhone;
+  final String farmerAddress;
+  final int projectPercent;
+
+  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +40,13 @@ class ProjectWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                "Dam Construction".textMedium(
+                name.textMedium(
                   fontSize: 18,
                 ),
                 5.verticalSpace(),
-                "Water Management"
-                    .textMedium(fontSize: 12, color: const Color(0xFF808080)),
+                category.textMedium(fontSize: 12, color: const Color(0xFF808080)),
                 10.verticalSpace(),
-                "Construct a water tank and water trough in night paddock plus water pump"
-                    .textMedium(
+                description.textMedium(
                         fontSize: 14, color: const Color(0xFF808080), maxLines: 2),
                 15.verticalSpace(),
                 Container(
@@ -47,7 +62,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "UGX 3.2M"
+                          "UGX $investment"
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "Investment".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
@@ -57,7 +72,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "UGX 4.5M"
+                          "UGX $revenue"
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "Revenue".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
@@ -67,7 +82,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "40%".textSemiBold(color: Colors.black, fontSize: 16),
+                          "$roi%".textSemiBold(color: Colors.black, fontSize: 16),
                           "ROI".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
                         ],
@@ -86,7 +101,7 @@ class ProjectWidget extends StatelessWidget {
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: const Color(0xFF808080))),
                       TextSpan(
-                          text: 'UGX 3.7M',
+                          text: 'UGX $loan',
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black))
                     ])),
@@ -97,7 +112,7 @@ class ProjectWidget extends StatelessWidget {
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: const Color(0xFF808080))),
                       TextSpan(
-                          text: 'UGX 4.5K',
+                          text: 'UGX $emi',
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black))
                     ])),
@@ -108,7 +123,7 @@ class ProjectWidget extends StatelessWidget {
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: const Color(0xFF808080))),
                       TextSpan(
-                          text: '40%',
+                          text: '$balance%',
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black))
                     ])),
@@ -125,31 +140,23 @@ class ProjectWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CircleAvatar(
-                            radius: 24,
-                            child: Image.asset(
-                              Images.sampleUser,
-                              fit: BoxFit.cover,
-                              width: 53,
-                              height: 53,
-                            ),
-                          ),
+                          networkImage(text: farmerImage,height: 46,width: 46,radius: 40),
                           10.horizontalSpace(),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                "Begumanya Charles".textMedium(
+                                farmerName.textMedium(
                                     color: Colors.black,
                                     fontSize: 14,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis),
                                 1.verticalSpace(),
-                                "+256 758711344".textRegular(
+                                farmerPhone.textRegular(
                                     fontSize: 12, color: Colors.black),
                                 4.verticalSpace(),
-                                "Luwum St. Rwoozi, Kampala...".textRegular(
+                                farmerAddress.textRegular(
                                     fontSize: 12,
                                     color: Colors.black,
                                     maxLines: 1,
@@ -168,7 +175,7 @@ class ProjectWidget extends StatelessWidget {
                       center: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              text: '25',
+                              text: '$projectPercent',
                               style: figtreeBold.copyWith(
                                   color: Colors.black, fontSize: 16)),
                           TextSpan(
@@ -202,7 +209,7 @@ class ProjectWidget extends StatelessWidget {
                 borderColor: const Color(0xff6A0030),
               ),
               child: Text(
-                "Active",
+                projectStatus,
                 textAlign: TextAlign.center,
                 style: figtreeMedium.copyWith(
                     color: const Color(0xff6A0030), fontSize: 10),

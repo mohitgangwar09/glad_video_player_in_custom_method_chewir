@@ -234,6 +234,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                           roi:
                               state.response!.farmerProject![i].roiPerYear ?? 0,
                           category: state.response!.farmerProject![i].categoeryName ?? '',
+                          projectId: state.response!.farmerProject![i].id ?? 0,
                         ),
                         width: screenWidth() - 53);
                   }),

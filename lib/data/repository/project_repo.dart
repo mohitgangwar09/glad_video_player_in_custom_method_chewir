@@ -4,12 +4,14 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/auth_models/invite_expert_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
+import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/model/response_dde_dashboard.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
@@ -32,6 +34,32 @@ class ProjectRepository {
       return FarmerProjectModel.fromJson(apiResponse.response!.data);
     } else {
       return FarmerProjectModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getDdeProjectsApi //////////
+  Future<DdeProjectModel> getDdeProjectsApi(String projectStatus) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.ddeProjectListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_status': projectStatus});
+
+    if (apiResponse.status) {
+      return DdeProjectModel.fromJson(apiResponse.response!.data);
+    } else {
+      return DdeProjectModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getDdeProjectsApi //////////
+  Future<FarmerProjectDetailModel> getFarmerProjectDetailApi(int projectId) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.farmerProjectDetailApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_id': projectId});
+
+    if (apiResponse.status) {
+      return FarmerProjectDetailModel.fromJson(apiResponse.response!.data);
+    } else {
+      return FarmerProjectDetailModel(status: 422, message: apiResponse.msg);
     }
   }
 

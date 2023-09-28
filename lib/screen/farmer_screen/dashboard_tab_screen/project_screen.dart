@@ -141,7 +141,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               index: i + 1,
                               incrementalProduction: state.responseFarmerProject!.data!.projectList![i].incrementalProduction ?? 0,
                               roi: state.responseFarmerProject!.data!.projectList![i].roiPerYear ?? 0,
-                              category: state.responseFarmerProject!.data!.projectList![i].farmerImprovementArea!.improvementArea!.name ?? '',
+                              category: state.responseFarmerProject!.data!.projectList![i].farmerImprovementArea != null  ? (state.responseFarmerProject!.data!.projectList![i].farmerImprovementArea!.improvementArea!.name ?? '') : '',
+                              projectId: state.responseFarmerProject!.data!.projectList![i].id ?? 0,
                             ),
                             width: screenWidth()),
                       );
