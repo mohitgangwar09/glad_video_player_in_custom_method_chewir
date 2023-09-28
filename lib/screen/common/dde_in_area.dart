@@ -207,7 +207,7 @@ class _DDEInAreaState extends State<DDEInArea> {
                                 ),
                               ],
                             ),
-                          ) : SizedBox.shrink()
+                          ) : const SizedBox.shrink()
                   ],
                 ),
               ),

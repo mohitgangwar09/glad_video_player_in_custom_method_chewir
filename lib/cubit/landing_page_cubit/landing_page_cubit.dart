@@ -86,8 +86,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     }
   }
 
-  Future<void> addFollowUpRemark(context, isDDE, String comment,{String? enquiryId}) async {
-    var response = await apiRepository.addFollowupRemarkApi(enquiryId==null?state.guestDashboardResponse!.data!.enquiry!.id!.toString():enquiryId.toString(), comment, isDDE);
+  Future<void> addFollowUpRemark(context, isDDE, String comment,{String? enquiryId,String? type}) async {
+    var response = await apiRepository.addFollowupRemarkApi(enquiryId==null?state.guestDashboardResponse!.data!.enquiry!.id!.toString():enquiryId.toString(),
+        comment, isDDE,type.toString());
 
     if (response.status == 200) {
       if(isDDE){

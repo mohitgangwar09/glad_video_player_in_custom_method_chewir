@@ -148,8 +148,7 @@ class EnquiryScreen extends StatelessWidget {
                                 "Pending".textMedium(
                                     color: state.enquiryStatus == "Pending"?ColorResources.white:Colors.black, fontSize: 14),
                                 5.horizontalSpace(),
-                                SvgPicture.asset(Images.pendingSelected,
-                                color: state.enquiryStatus == "Pending"?Colors.white:ColorResources.maroon,)
+                                SvgPicture.asset(state.enquiryStatus == "Pending"? Images.pendingSelected : Images.pending)
                               ],
                             ),
                           ),
@@ -170,10 +169,9 @@ class EnquiryScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 "Closed"
-                                    .textMedium(color: state.enquiryStatus == "Closed"?ColorResources.white:Colors.black, fontSize: 14),
+                                    .textMedium(color: state.enquiryStatus == "Closed"? ColorResources.white : Colors.black, fontSize: 14),
                                 5.horizontalSpace(),
-                                SvgPicture.asset(Images.completed,
-                                  color: state.enquiryStatus == "Closed"?Colors.white:null)
+                                SvgPicture.asset(state.enquiryStatus == "Closed"? Images.completedSelected : Images.completed)
                               ],
                             ),
                           ),
@@ -185,90 +183,85 @@ class EnquiryScreen extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(
-                        bottom: 120, left: 20, right: 20, top: 20),
-                    child: state.responseEnquiryModel!=null&&state.responseEnquiryModel!.data!=null&&state.responseEnquiryModel!.data!.isNotEmpty?customList(
+                        bottom: 120, left: 10, right: 20, top: 20),
+                    child: state.responseEnquiryModel!=null&&state.responseEnquiryModel!.data!=null&&state.responseEnquiryModel!.data!.isNotEmpty?
+                    customList(
                       list: state.responseEnquiryModel!.data!,
                         child: (index) => InkWell(
                           onTap: () {
                             if(state.responseEnquiryModel!.data![index].status.toString() == "pending"){
                               BlocProvider.of<DdeEnquiryCubit>(context).emit(state.copyWith(markAsClosed: ""));
                             }
-                            EnquiryDetailsScreen(state.responseEnquiryModel!.data![index].id.toString(),state.enquiryStatus.toString()).navigate();
+                            EnquiryDetailsScreen(state.responseEnquiryModel!.data![index].id.toString()
+                                ,state.enquiryStatus.toString(),
+                                state.responseEnquiryModel!.data![index].lat.toString(),
+                                state.responseEnquiryModel!.data![index].lang.toString(),
+                                state.responseEnquiryModel!.data![index].closedAt.toString(),
+                            ).navigate();
                           },
                           child: Stack(
                                 alignment: Alignment.center,
                                 children: [
                                   SizedBox(
                                       height: 150,
-                                      width: MediaQuery.of(context).size.width * 0.8),
+                                      width: MediaQuery.of(context).size.width ),
                                   Padding(
                                     padding:
-                                        const EdgeInsets.only(bottom: 20, top: 20),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                            color:
-                                                ColorResources.grey.withOpacity(0.5)),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.grey.withOpacity(0.5),
-                                              blurRadius: 16.0,
-                                              offset: const Offset(0, 1))
-                                        ],
-                                        color: Colors.white,
-                                      ),
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(state.responseEnquiryModel!.data![index].name.toString(),
-                                              style: figtreeMedium.copyWith(
-                                                  fontSize: 18, color: Colors.black)),
-                                          10.verticalSpace(),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(state.responseEnquiryModel!.data![index].mobile.toString(),
-                                                  style: figtreeRegular.copyWith(
-                                                      fontSize: 14,
-                                                      color: Colors.black)),
-                                              Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    Images.calender,
-                                                    color: Colors.black,
-                                                  ),
-                                                  4.horizontalSpace(),
-                                                  Text('${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].createdAt.toString()))}${state.responseEnquiryModel!.data![index].closedAt!=null?"-":""}${state.responseEnquiryModel!.data![index].closedAt!=null?DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].closedAt.toString())):""}',
-                                                      style: figtreeRegular.copyWith(
-                                                          fontSize: 14,
-                                                          color: Colors.black)),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          10.verticalSpace(),
-                                          SizedBox(
-                                            width: MediaQuery.of(context).size.width *
-                                                0.7,
-                                            child: Text(
-                                              state.responseEnquiryModel!.data![index].comment.toString(),
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 14, color: Colors.black),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
+                                        const EdgeInsets.only(bottom: 0, top: 0),
+                                    child: customProjectContainer(
+                                      child: Container(
+                                        padding: EdgeInsets.all(state.enquiryStatus == "Pending"?15:22.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(state.responseEnquiryModel!.data![index].name.toString(),
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 18, color: Colors.black)),
+                                            10.verticalSpace(),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(state.responseEnquiryModel!.data![index].mobile.toString(),
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      Images.calender,
+                                                      color: Colors.black,
+                                                    ),
+                                                    4.horizontalSpace(),
+                                                    Text('${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].createdAt.toString()))}${state.responseEnquiryModel!.data![index].closedAt!=null?"-":""}${state.responseEnquiryModel!.data![index].closedAt!=null?DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].closedAt.toString())):""}',
+                                                        style: figtreeRegular.copyWith(
+                                                            fontSize: 14,
+                                                            color: Colors.black)),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
+                                            10.verticalSpace(),
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width *
+                                                  0.7,
+                                              child: Text(
+                                                state.responseEnquiryModel!.data![index].address.toString(),
+                                                style: figtreeRegular.copyWith(
+                                                    fontSize: 14, color: Colors.black),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
                                   state.enquiryStatus == "Pending"?
                                   Positioned(
-                                      top: 0,
-                                      right: 10,
+                                      top: 7,
+                                      right: 0,
                                       child: Row(
                                         children: [
                                           InkWell(
@@ -293,7 +286,8 @@ class EnquiryScreen extends StatelessWidget {
                                               SvgPicture.asset(Images.redirectLocation)),
                                           16.horizontalSpace(),
                                         ],
-                                      )):Visibility(visible: false,child: "".textMedium()),
+                                      ))
+                                      :const SizedBox(width: 0,height: 0,),
                                 ],
                               ),
                         )):Center(child: errorText('No enquiry found')),

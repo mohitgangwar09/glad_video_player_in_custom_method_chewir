@@ -464,29 +464,58 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   }
 
   void getCowBreedDetailsApi(context,String tagMonth,{String? id}) async{
-    CowsAndYieldsSumState.addBreedLength.clear();
-    CowsAndYieldsSumState.showQty.clear();
+    if(tagMonth == 'deleteMonth'){
+
+    }else{
+      CowsAndYieldsSumState.addBreedLength.clear();
+      CowsAndYieldsSumState.showQty.clear();
+    }
     customDialog(widget: launchProgress());
     emit(state.copyWith(status: CowsAndCubitStatus.loading));
-    var response = await apiRepository.cowBreedDetailsApi(id: id);
+    var response = await apiRepository.cowBreedDetailsApi(id: id.toString());
     if(response.status == 200){
       disposeProgress();
       emit(state.copyWith(status: CowsAndCubitStatus.success, responseMonthlyWiseData: response.data!.monthWiseData!));
-      if(tagMonth == "update"){}else{
+
       if(response.data!.monthWiseData!.isNotEmpty){
+        /*if(response.data!.monthWiseData![0].dateWiseData!.length == 1){
+          CowsAndYieldsSumState.showQty.add(true);
+        }*/
         for(int i=0 ;i<response.data!.monthWiseData![0].dateWiseData!.length;i++){
-          CowsAndYieldsSumState.addBreedLength.add(true);
-          CowsAndYieldsSumState.showQty.insert(response.data!.monthWiseData![0].dateWiseData!.length-1,true);
-          allController("0");
-          CowsAndYieldsSumState.responseDateWiseData.add(response.data!.monthWiseData![0].dateWiseData![i]);
-          getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
-          totalMilkingCow(i);
-          sumAllBreed(i);
-          totalAll(i);
-          addRequestData(i,"ist");
+          if(tagMonth == 'deleteMonth'){}else{
+          if(tagMonth == "update"){
+            CowsAndYieldsSumState.addBreedLength.add(true);
+              // if(i==response.data!.monthWiseData![0].dateWiseData!.length-1){
+              //   CowsAndYieldsSumState.showQty.add(true);
+              // }else{
+                CowsAndYieldsSumState.showQty.add(false);
+              // }
+          }
+          else{
+            CowsAndYieldsSumState.addBreedLength.add(true);
+            CowsAndYieldsSumState.showQty.add(false);
+            /*if(response.data!.monthWiseData![0].dateWiseData!.length == 1){
+              CowsAndYieldsSumState.showQty.add(true);
+            }else{
+              if(i==response.data!.monthWiseData![0].dateWiseData!.length-1){
+                CowsAndYieldsSumState.showQty.add(true);
+              }else{
+                CowsAndYieldsSumState.showQty.add(false);
+              }
+            }*/
+
+            allController("0");
+            CowsAndYieldsSumState.responseDateWiseData.add(response.data!.monthWiseData![0].dateWiseData![i]);
+            getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
+            totalMilkingCow(i);
+            sumAllBreed(i);
+            totalAll(i);
+            addRequestData(i,"ist");
+          }
+          }
         }
         showMonth(0,MonthWiseData());
-      }}
+      }
     }
     else{
       emit(state.copyWith(status: CowsAndCubitStatus.error));
@@ -495,7 +524,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   }
 
   // add Month Api
-  void addMonthApi(context,String farmerId,String month) async{
+  void addMonthApi(context,String farmerId,String month,String userId) async{
     customDialog(widget: launchProgress());
     CowsAndYieldsSumState.responseDateWiseData.clear();
     emit(state.copyWith(status: CowsAndCubitStatus.loading));
@@ -503,7 +532,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     if(response.status == 200){
       disposeProgress();
       showCustomToast(context, response.message.toString());
-      getCowBreedDetailsApi(context,month);
+      getCowBreedDetailsApi(context,month,id: userId.toString());
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
     else{
@@ -513,14 +542,15 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
   }
 
   // deleteMonthApi
-  void deleteMonthId(context,String monthName,String farmerId) async{
+  void deleteMonthId(context,String monthName,String farmerId,String userId) async{
     customDialog(widget: launchProgress());
     emit(state.copyWith(status: CowsAndCubitStatus.loading));
     var response = await apiRepository.deleteMonthApi(monthName,farmerId);
     if(response.status == 200){
       disposeProgress();
+      // CowsAndYieldsSumState.showQty.clear();
       showCustomToast(context, response.message.toString());
-      getCowBreedDetailsApi(context,"deleteMonth");
+      getCowBreedDetailsApi(context,"deleteMonth",id: userId);
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
     else{

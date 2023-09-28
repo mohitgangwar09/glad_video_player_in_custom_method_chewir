@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
@@ -127,6 +128,10 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
             controller: mobileController,
             borderColor: 0xff999999,
             radius: 12,
+            inputType: TextInputType.phone,
+            maxLine: 1,
+            maxLength: 12,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
           20.verticalSpace(),
         ],
@@ -323,7 +328,9 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               radius: 88),
           10.verticalSpace(),
           customButton('Cancel',
-              onTap: () {},
+              onTap: () {
+               pressBack();
+              },
               color: 0xffDCDCDC,
               width: screenWidth(),
               height: 60,

@@ -215,6 +215,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                     return customProjectContainer(
                         child: ProjectWidget(
                           showStatus: false,
+                          status: '',
+                          image: '',
                           name: state.response!.farmerProject![i].name ?? '',
                           targetYield:
                               state.response!.farmerProject![i].targetYield ??

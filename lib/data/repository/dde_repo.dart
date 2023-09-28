@@ -32,11 +32,11 @@ class DdeRepository {
   // cowBreedDetailsApi
   Future<ResponseCowBreedDetails> cowBreedDetailsApi({String? id}) async {
     var data = {
-      "id": "1847"
+      "id": id
     };
+    print(data);
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
-        AppConstants.getCowBreedDetailApi,queryParameters: data ,headers: {'Authorization': 'Bearer ${"144|laravel_sanctum_rsyRvi0F174XacxAdUqkqZN9zAXerLowjgQVEKRn14b390ea"}'});
-        // AppConstants.getCowBreedDetailApi,queryParameters: data ,headers: {'Authorization': 'Bearer ${getUserToken()}'});
+        AppConstants.getCowBreedDetailApi,queryParameters: data ,headers: {'Authorization': 'Bearer ${getUserToken()}'});
     if (apiResponse.status) {
       return ResponseCowBreedDetails.fromJson(apiResponse.response!.data);
     } {
@@ -50,8 +50,7 @@ class DdeRepository {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
         AppConstants.updateCowBreedDetailApi,
-        data: requestData,headers: {'Authorization': 'Bearer ${"144|laravel_sanctum_rsyRvi0F174XacxAdUqkqZN9zAXerLowjgQVEKRn14b390ea"}'});
-        // data: requestData,headers: {'Authorization': 'Bearer ${getUserToken()}'});
+        data: requestData,headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
@@ -70,7 +69,7 @@ class DdeRepository {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
         AppConstants.addMonthApi,
-        data: data,headers: {'Authorization': 'Bearer ${"144|laravel_sanctum_rsyRvi0F174XacxAdUqkqZN9zAXerLowjgQVEKRn14b390ea"}'});
+        data: data,headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
@@ -83,13 +82,13 @@ class DdeRepository {
 
   Future<ResponseOtpModel> deleteMonthApi(String monthName,String farmerId) async {
 
-    print("monthId$monthName");
+    print("monthId$monthName ffff $farmerId");
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
         AppConstants.deleteMonthApi,data: {
           "farmer_id": farmerId.toString(),
           "month": monthName,
-          },headers: {'Authorization': 'Bearer ${"144|laravel_sanctum_rsyRvi0F174XacxAdUqkqZN9zAXerLowjgQVEKRn14b390ea"}'});
+          },headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
@@ -108,7 +107,7 @@ class DdeRepository {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.getBreedListApi,queryParameters: {
           "id":"1847"
-          }, headers: {'Authorization': 'Bearer ${"144|laravel_sanctum_rsyRvi0F174XacxAdUqkqZN9zAXerLowjgQVEKRn14b390ea"}'});
+          }, headers: {'Authorization': 'Bearer ${getUserToken()}'});
       // 'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {

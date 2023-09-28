@@ -37,6 +37,7 @@ class AppConstants {
   static const String improvementAreaUpdate = '/api/improvement/area-update';
   static const String enquiryClosedApi = '/api/dde/enquiry-closed';
   static const String ddeDashboardApi = '/api/dairy-executives/dde-dashboard';
+  static const String farmerProjectListApi = '/api/farmer-project/list';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

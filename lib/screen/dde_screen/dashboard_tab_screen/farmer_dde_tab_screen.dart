@@ -10,6 +10,7 @@ import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -214,7 +215,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                   ),
                                                   10.horizontalSpace(),
                                                   Text(
-                                                      state.response!.farmerMAster![i].farmingExperience?? "10" + ' yrs exp',
+                                                      "${state.response!.farmerMAster![i].farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.response!.farmerMAster![i].farmingExperience.toString()))} exp",
                                                       style: figtreeMedium.copyWith(fontSize: 12,)),
 
                                                 ],
@@ -311,7 +312,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         ),
                                       ),
                                       20.verticalSpace(),
-                                      Padding(
+                                      state.response!.farmerMAster![i].farmerProject!.isNotEmpty ? Padding(
                                         padding: const EdgeInsets.only(right:15),
                                         child: Container(
                                           height: 80,
@@ -324,7 +325,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  "Dam Construction"
+                                                  (state.response!.farmerMAster![i].farmerProject![0].name ?? '')
                                                       .textMedium(fontSize: 12),
                                                   Container(
                                                     margin: 9.marginAll(),
@@ -338,7 +339,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                       const Color(0xff6A0030),
                                                     ),
                                                     child: Text(
-                                                      "Suggested",
+                                                      state.response!.farmerMAster![i].farmerProject![0].projectStatus ?? '',
                                                       textAlign: TextAlign.center,
                                                       style: figtreeMedium.copyWith(
                                                           color:
@@ -358,7 +359,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].investmentAmount ?? 0)/1000}M'.textSemiBold(
+                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].investmentAmount ?? 0)}'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                      'Investment'.textMedium(
@@ -373,7 +374,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].revenuePerYear ?? 0)/1000}M'.textSemiBold(
+                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].revenuePerYear ?? 0)}'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                       'Revenue'.textMedium(
@@ -388,7 +389,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      ' ${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
+                                                      '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                       'ROI'.textMedium(
@@ -402,7 +403,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                             ],
                                           ),
                                         ),
-                                      ),
+                                      ) : SizedBox.shrink(),
                                       15.verticalSpace(),
                                       Container(
                                         width: 140,

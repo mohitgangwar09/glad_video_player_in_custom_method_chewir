@@ -231,14 +231,14 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 children: [
                                   Row(
                                     children: [
-                                      "${state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0':calculateAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} years old".textRegular(),
+                                      (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':'${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} old').textRegular(),
                                       10.horizontalSpace(),
                                       const CircleAvatar(
                                         radius: 4,
                                         backgroundColor: Colors.black,
                                       ),
                                       10.horizontalSpace(),
-                                      "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':calculateAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} years experience".textRegular(),
+                                      "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} experience".textRegular(),
                                     ],
                                   ),
 
@@ -611,8 +611,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
     return Stack(
       children: [
         GMap(
-          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.lattitude!.toString()),
-          lng: double.parse(state.responseFarmerProfile!.farmer!.address!.longitude!.toString()),
+          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.lattitude!=null?state.responseFarmerProfile!.farmer!.address!.lattitude!.toString():'0'),
+          lng: double.parse(state.responseFarmerProfile!.farmer!.address!.longitude!=null?state.responseFarmerProfile!.farmer!.address!.longitude!.toString():'0'),
           height: 350,
           onMapCreated: (GoogleMapController controller){
             if(state.responseFarmerProfile!.farmer!.address!.lattitude!=null){
@@ -699,7 +699,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
               ),
               InkWell(
                   onTap: () {
-                    const CowsAndYieldsSum().navigate();
+                    CowsAndYieldsSum(userId:state.responseFarmerProfile!.farmer!.userId.toString(),farmerId:state.responseFarmerProfile!.farmer!.id.toString()).navigate();
                   },
                   child: SvgPicture.asset(Images.profileEdit)),
             ],

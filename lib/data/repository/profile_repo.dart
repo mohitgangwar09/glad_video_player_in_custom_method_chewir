@@ -7,6 +7,7 @@ import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/errors_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart';
+import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -53,6 +54,18 @@ class ProfileRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ImprovementAreaListModel> getImprovementArea(int farmerId) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
+        AppConstants.improvementAreaList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'farmer_id': farmerId});
+    if (apiResponse.status) {
+      return ImprovementAreaListModel.fromJson(apiResponse.response!.data);
+    } {
+      return ImprovementAreaListModel(
+          status: 422,
+          message: apiResponse.msg);
     }
   }
 

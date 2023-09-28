@@ -8,13 +8,13 @@ class FollowupRemarkListModel {
   FollowupRemarkListModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -31,16 +31,16 @@ class Data {
     if (json['followup_reamrk_list'] != null) {
       followupReamrkList = <FollowupReamrkList>[];
       json['followup_reamrk_list'].forEach((v) {
-        followupReamrkList!.add(new FollowupReamrkList.fromJson(v));
+        followupReamrkList!.add(FollowupReamrkList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.followupReamrkList != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (followupReamrkList != null) {
       data['followup_reamrk_list'] =
-          this.followupReamrkList!.map((v) => v.toJson()).toList();
+          followupReamrkList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -49,16 +49,18 @@ class Data {
 class FollowupReamrkList {
   int? id;
   int? enquiryId;
-  Null? deviceId;
+  dynamic deviceId;
   String? comments;
   String? commentedBy;
   String? commentedId;
   String? status;
-  Null? createdBy;
-  Null? updatedBy;
-  Null? deletedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
+  String? attachment;
+  String? type;
 
   FollowupReamrkList(
       {this.id,
@@ -72,7 +74,10 @@ class FollowupReamrkList {
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.attachment,
+        this.type,
+      });
 
   FollowupReamrkList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -87,22 +92,26 @@ class FollowupReamrkList {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    attachment = json['attachment'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['enquiry_id'] = this.enquiryId;
-    data['device_id'] = this.deviceId;
-    data['comments'] = this.comments;
-    data['commented_by'] = this.commentedBy;
-    data['commented_id'] = this.commentedId;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['enquiry_id'] = enquiryId;
+    data['device_id'] = deviceId;
+    data['comments'] = comments;
+    data['commented_by'] = commentedBy;
+    data['commented_id'] = commentedId;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['attachment'] = attachment;
+    data['type'] = type;
     return data;
   }
 }
