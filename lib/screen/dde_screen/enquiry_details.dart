@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,18 +22,26 @@ import 'package:intl/intl.dart';
 class EnquiryDetailsScreen extends StatefulWidget {
   final String id;
   final String enquiryStatue;
+  final String latitude,longitude,closedAt;
   const EnquiryDetailsScreen(
-    this.id, this.enquiryStatue,{
+    this.id,
+      this.enquiryStatue,
+      this.latitude,
+      this.longitude,this.closedAt, {
     Key? key,
   }) : super(key: key);
 
   @override
-  State<EnquiryDetailsScreen> createState() => _EnquiryDetailsScreenState();
+  State<EnquiryDetailsScreen> createState() => EnquiryDetailsScreenState();
 }
 
-class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
+class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
   TextEditingController commentController = TextEditingController();
+  String? district;
 
+  GoogleMapController? mapController;
+
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
 
   @override
@@ -46,10 +55,37 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
     // });
   }
 
+  Future<void> _onMapCreated(GoogleMapController controller,String latitude,String longitude) async{
+    // Future.delayed(const Duration(seconds: 2),(){
+
+      mapController = controller;
+      mapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(double.parse(latitude), double.parse(longitude)),
+            zoom: 15.5,
+          ),
+        ),
+      );
+      var marker = Marker(
+        markerId: const MarkerId(''),
+        position: LatLng(double.parse(latitude), double.parse(longitude)),
+        infoWindow: const InfoWindow(
+          title: '',
+          snippet: '',
+        ),
+      );
+      setState(() {
+        markers[const MarkerId('place_name')] = marker;
+      });
+    // });
+  }
+
 
   @override
   void dispose() {
     super.dispose();
+    mapController!.dispose();
   }
 
   @override
@@ -57,8 +93,6 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
     return WillPopScope(
       onWillPop: ()async{
         pressBack();
-        context.read<DdeEnquiryCubit>().enquiryListApi(context, widget.enquiryStatue);
-        context.read<DdeEnquiryCubit>().emit(DdeEnquiryState.initial());
         return true;
       },
       child: Scaffold(
@@ -77,8 +111,6 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                     centerTitle: true,
                     leading: InkWell(onTap: ()async{
                       pressBack();
-                      context.read<DdeEnquiryCubit>().enquiryListApi(context, widget.enquiryStatue);
-                      context.read<DdeEnquiryCubit>().emit(DdeEnquiryState.initial());
                     },child: const SizedBox(child: Icon(Icons.arrow_back))),
                   ),
                   state.responseEnquiryDetail != null &&
@@ -160,31 +192,42 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                     fontSize: 14,
                                                     color: Colors.black)),
                                             10.verticalSpace(),
-                                            Text(
-                                              "Enquiry date: ${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryDetail!.data!.enquiry!.createdAt.toString()))}",
-                                              style: figtreeRegular.copyWith(
-                                                  color: ColorResources.black,
-                                                  fontSize: 14),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Enquiry date: ${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryDetail!.data!.enquiry!.createdAt.toString()))}",
+                                                  style: figtreeRegular.copyWith(
+                                                      color: ColorResources.black,
+                                                      fontSize: 14),
+                                                ),
+
+                                                state.enquiryStatus == "Closed"?
+                                                widget.closedAt.isNotEmpty?
+                                                Text(
+                                                  "Closed On: ${DateFormat('dd MMM, yyyy').format(DateTime.parse(widget.closedAt))}",
+                                                  style: figtreeRegular.copyWith(
+                                                      color: ColorResources.black,
+                                                      fontSize: 14),
+                                                ):const SizedBox(width: 0,height: 0,):const SizedBox.shrink(),
+                                              ],
                                             ),
                                             30.verticalSpace(),
                                             Stack(
                                               children: [
                                                 GMap(
-                                                  lat: double.parse(state.responseEnquiryDetail!.data!.enquiry!.lat!.toString()),
-                                                  lng: double.parse(state.responseEnquiryDetail!.data!.enquiry!.lang!.toString()),
+                                                  lat: double.parse(widget.latitude),
+                                                  lng: double.parse(widget.longitude),
                                                   height: 350,
-                                                  onMapCreated: (GoogleMapController controller){
-                                                    context.read<DdeEnquiryCubit>().onMapCreated(controller, context,state.responseEnquiryDetail!.data!.enquiry!.lat!.toString(),state.responseEnquiryDetail!.data!.enquiry!.lang!.toString());
+                                                  onMapCreated: (GoogleMapController controller)async{
+                                                    await _onMapCreated(controller,widget.latitude,
+                                                        widget.longitude);
                                                   },
-                                                    onCameraIdle: (){
-                                                    print("CameraIdle");
-                                                        // context.read<DdeEnquiryCubit>().updateMarker(context,state.responseEnquiryDetail!.data!.enquiry!.lat!.toString(),state.responseEnquiryDetail!.data!.enquiry!.lang!.toString());
-                                                    },
                                                   zoomGesturesEnabled: false,
                                                   zoomControlsEnabled: false,
                                                   myLocationEnabled: true,
                                                   myLocationButtonEnabled: false,
-                                                  markers:  state.markers!
+                                                  markers:  markers.values.toSet()
                                                 ),
                                                 Positioned(
                                                   bottom: 20,
@@ -390,35 +433,47 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                                   color: Colors
                                                                       .black)),
                                                       10.verticalSpace(),
+
+                                                      state
+                                                          .responseEnquiryDetail!
+                                                          .data!
+                                                          .enquiry!
+                                                          .enquiryLog![index]
+                                                          .type == 'text'?
                                                       Text(
                                                           state
-                                                                      .responseEnquiryDetail!
-                                                                      .data!
-                                                                      .enquiry!
-                                                                      .enquiryLog![
-                                                                          index]
-                                                                      .comments !=
-                                                                  null
+                                                              .responseEnquiryDetail!
+                                                              .data!
+                                                              .enquiry!
+                                                              .enquiryLog![
+                                                          index]
+                                                              .comments !=
+                                                              null
                                                               ? state
-                                                                  .responseEnquiryDetail!
-                                                                  .data!
-                                                                  .enquiry!
-                                                                  .enquiryLog![
-                                                                      index]
-                                                                  .comments!
+                                                              .responseEnquiryDetail!
+                                                              .data!
+                                                              .enquiry!
+                                                              .enquiryLog![
+                                                          index]
+                                                              .comments!
                                                               : "",
                                                           style: figtreeMedium
                                                               .copyWith(
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                      .black)),
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .black)):
+                                                      networkImage(text: state
+                                                          .responseEnquiryDetail!
+                                                          .data!
+                                                          .enquiry!
+                                                          .enquiryLog![index]
+                                                          .attachment!,height: 220,width: screenWidth()),
                                                       10.verticalSpace(),
                                                       DateFormat('dd MMM, yyyy hh:mm a')
                                                           .format(DateTime.parse(state
                                                               .responseEnquiryDetail!
                                                               .data!
-                                                              .enquiry!
-                                                              .createdAt
+                                                              .enquiry!.enquiryLog![index].createdAt
                                                               .toString()))
                                                           .textRegular(
                                                               color:
@@ -429,7 +484,8 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                   ),
                                                 ),
                                               )
-                                            : Padding(
+                                            :
+                                        Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 20,
@@ -461,35 +517,51 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment.start,
                                                     children: [
+                                                      state
+                                                          .responseEnquiryDetail!
+                                                          .data!
+                                                          .enquiry!
+                                                          .enquiryLog![index]
+                                                          .type == 'text'?
                                                       Text(
                                                           state
-                                                                      .responseEnquiryDetail!
-                                                                      .data!
-                                                                      .enquiry!
-                                                                      .enquiryLog![
-                                                                          index]
-                                                                      .comments !=
-                                                                  null
+                                                              .responseEnquiryDetail!
+                                                              .data!
+                                                              .enquiry!
+                                                              .enquiryLog![
+                                                          index]
+                                                              .comments !=
+                                                              null
                                                               ? state
-                                                                  .responseEnquiryDetail!
-                                                                  .data!
-                                                                  .enquiry!
-                                                                  .enquiryLog![
-                                                                      index]
-                                                                  .comments!
+                                                              .responseEnquiryDetail!
+                                                              .data!
+                                                              .enquiry!
+                                                              .enquiryLog![
+                                                          index]
+                                                              .comments!
                                                               : "",
                                                           style: figtreeMedium
                                                               .copyWith(
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                      .black)),
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .black)):
+                                                      InkWell(
+                                                        onTap: (){
+
+                                                        },
+                                                        child: networkImage(text: state
+                                                            .responseEnquiryDetail!
+                                                            .data!
+                                                            .enquiry!
+                                                            .enquiryLog![index]
+                                                            .attachment!,height: 220,width: screenWidth()),
+                                                      ),
                                                       10.verticalSpace(),
                                                       DateFormat('dd MMM, yyyy hh:mm a')
                                                           .format(DateTime.parse(state
                                                               .responseEnquiryDetail!
                                                               .data!
-                                                              .enquiry!
-                                                              .createdAt
+                                                              .enquiry!.enquiryLog![index].createdAt
                                                               .toString()))
                                                           .textRegular(
                                                               color:
@@ -526,7 +598,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
 
-                                                "Are you you want to close?".textMedium(
+                                                "Are you want to close?".textMedium(
                                                   fontSize: 19,
                                                   color: Colors.black
                                                 ),
@@ -603,7 +675,7 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                       ? state.markAsClosed == ""?Container(
                           height: AppBar().preferredSize.height * 1.5,
                           width: screenWidth(),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.only(left: 16,right: 4),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: const BorderRadius.only(
@@ -615,6 +687,8 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                               Expanded(
                                 child: TextField(
                                   controller: commentController,
+                                  maxLines: 3,
+                                  minLines: 1,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       focusedBorder: InputBorder.none,
@@ -625,23 +699,56 @@ class _EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                       context
                                           .read<LandingPageCubit>()
                                           .addFollowUpRemark(context, true, value,
-                                              enquiryId: widget.id.toString());
+                                              enquiryId: widget.id.toString(),type: 'text');
                                       commentController.clear();
                                     }
                                   },
                                 ),
                               ),
-                              SvgPicture.asset(
-                                Images.attachment,
-                                colorFilter: const ColorFilter.mode(
-                                    ColorResources.fieldGrey, BlendMode.srcIn),
+
+                              InkWell(
+                                onTap: ()async{
+                                  var image =  imgFromGallery();
+                                  image.then((value) async{
+                                    context
+                                        .read<LandingPageCubit>()
+                                        .addFollowUpRemark(context, true, value,
+                                        enquiryId: widget.id.toString(),type: 'image');
+                                  });
+                                },
+                                child: SvgPicture.asset(
+                                  Images.attachment,
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorResources.fieldGrey, BlendMode.srcIn),
+                                ),
                               ),
                               10.horizontalSpace(),
-                              SvgPicture.asset(
-                                Images.camera,
-                                colorFilter: const ColorFilter.mode(
-                                    ColorResources.fieldGrey, BlendMode.srcIn),
-                              )
+                              InkWell(
+                                onTap: ()async{
+                                  var image = imgFromCamera();
+                                  image.then((value) async{
+                                    context
+                                        .read<LandingPageCubit>()
+                                        .addFollowUpRemark(context, true, value,
+                                        enquiryId: widget.id.toString(),type: 'image');
+                                  });
+                                },
+                                child: SvgPicture.asset(
+                                  Images.camera,
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorResources.fieldGrey, BlendMode.srcIn),
+                                ),
+                              ),
+                              // 10.horizontalSpace(),
+                              IconButton(onPressed: (){
+                                if(commentController.text.isNotEmpty){
+                                  context
+                                      .read<LandingPageCubit>()
+                                      .addFollowUpRemark(context, true, commentController.text,
+                                      enquiryId: widget.id.toString(),type: 'text');
+                                  commentController.clear();
+                                }
+                              },icon: const Icon(Icons.send,color: Colors.grey, size: 31,))
                             ],
                           ),
                         ):

@@ -40,7 +40,7 @@ class CustomTextField extends StatelessWidget {
   final Color? underLineBorderColor;
   final Color? imageColors;
   final Color? image2Colors;
-  final int? backgroundColor;
+  final int? backgroundColor,maxLength;
   final List<TextInputFormatter>? inputFormatters;
   final TextStyle? hintStyle;
   final Icon? suffixIcon;
@@ -92,6 +92,7 @@ class CustomTextField extends StatelessWidget {
       this.image2,
       this.image2Colors,
         this.readOnly,
+        this.maxLength,
       this.hintOnly = false})
       : super(key: key);
 
@@ -107,6 +108,7 @@ class CustomTextField extends StatelessWidget {
                   controller: controller,
                   autofocus: false,
                   onTap: onTap,
+                  maxLength: maxLength,
                   enabled: enabled,
                   maxLines: maxLine,
                   minLines: minLine,
@@ -117,6 +119,7 @@ class CustomTextField extends StatelessWidget {
                   onEditingComplete: onEditingComplete,
                   decoration: InputDecoration(
                     // hintText: hint,
+                    counterText: '',
                     contentPadding: leadingImage == null
                         ? 9.paddingVertical()
                         : const EdgeInsets.only(left: 30),
@@ -183,6 +186,7 @@ class CustomTextField extends StatelessWidget {
                           child: TextField(
                             focusNode: focusNode,
                             controller: controller,
+                            maxLength: maxLength,
                             inputFormatters: inputFormatters ??
                                 [
                                   LengthLimitingTextInputFormatter(length),
@@ -201,6 +205,7 @@ class CustomTextField extends StatelessWidget {
                                     fontSize: 16, color: Colors.black),
                             onEditingComplete: onEditingComplete,
                             decoration: InputDecoration(
+                              counterText: '',
                               labelText: hintOnly! ? null : hint,
                               hintText: hintOnly! ? hint : null,
                               enabledBorder: const UnderlineInputBorder(

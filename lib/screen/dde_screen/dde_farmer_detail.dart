@@ -611,8 +611,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
     return Stack(
       children: [
         GMap(
-          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.lattitude!.toString()),
-          lng: double.parse(state.responseFarmerProfile!.farmer!.address!.longitude!.toString()),
+          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.lattitude!=null?state.responseFarmerProfile!.farmer!.address!.lattitude!.toString():'0'),
+          lng: double.parse(state.responseFarmerProfile!.farmer!.address!.longitude!=null?state.responseFarmerProfile!.farmer!.address!.longitude!.toString():'0'),
           height: 350,
           onMapCreated: (GoogleMapController controller){
             if(state.responseFarmerProfile!.farmer!.address!.lattitude!=null){
@@ -699,7 +699,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
               ),
               InkWell(
                   onTap: () {
-                    const CowsAndYieldsSum().navigate();
+                    CowsAndYieldsSum(userId:state.responseFarmerProfile!.farmer!.userId.toString(),farmerId:state.responseFarmerProfile!.farmer!.id.toString()).navigate();
                   },
                   child: SvgPicture.asset(Images.profileEdit)),
             ],

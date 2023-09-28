@@ -7,6 +7,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
@@ -90,7 +91,8 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                                 20.verticalSpace(),
                                 customList(
                                   list: List.generate(state.followupRemarkListResponse!.data!.followupReamrkList!.length, (index) => ''),
-                                  child: (index) => state.followupRemarkListResponse!.data!.followupReamrkList![index].commentedBy == 'guest-farmer' ?Padding(
+                                  child: (index) => state.followupRemarkListResponse!.data!.followupReamrkList![index].commentedBy == 'guest-farmer' ?
+                                  Padding(
                                     padding: const EdgeInsets.only(bottom: 20),
                                     child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -108,18 +110,22 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          state.followupRemarkListResponse!.data!.followupReamrkList![index].type == "text"?
                                           Text(
                                               state.followupRemarkListResponse!.data!.followupReamrkList![index].comments!,
                                               style: figtreeMedium.copyWith(
-                                                  fontSize: 16, color: Colors.black)),
+                                                  fontSize: 16, color: Colors.black)):
+                                          networkImage(text: state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!,
+                                              height: 220,width: screenWidth()),
                                           10.verticalSpace(),
-                                          DateFormat('dd MMM, yyyy, hh:mm').format(DateTime.parse(state.followupRemarkListResponse!.data!.followupReamrkList![index].createdAt.toString())).textRegular(
+                                          DateFormat('dd MMM, yyyy, hh:mm a').format(DateTime.parse(state.followupRemarkListResponse!.data!.followupReamrkList![index].createdAt.toString())).textRegular(
                                               color: ColorResources.fieldGrey, fontSize: 14)
                                         ],
                                       ),
                                     ),
-                                ),
-                                  ) : Padding(
+                                    ),
+                                  ) :
+                                  Padding(
                                     padding: const EdgeInsets.only(bottom: 20),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -137,16 +143,36 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+                                            state.followupRemarkListResponse!.data!.followupReamrkList![index].type == "text"?
                                             Text('${state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.name} (DDE)',
                                                 style: figtreeMedium.copyWith(
-                                                    fontSize: 20, color: Colors.black)),
-                                            10.verticalSpace(),
-                                            Text(
-                                                state.followupRemarkListResponse!.data!.followupReamrkList![index].comments!,
-                                                style: figtreeMedium.copyWith(
-                                                    fontSize: 16, color: Colors.black)),
-                                            10.verticalSpace(),
-                                            DateFormat('dd MMM, yyyy, hh:mm').format(DateTime.parse(state.followupRemarkListResponse!.data!.followupReamrkList![index].createdAt.toString())).textRegular(
+                                                    fontSize: 20, color: Colors.black)):
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('${state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.name} (DDE)',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 20, color: Colors.black)),
+                                                10.verticalSpace(),
+                                                networkImage(text: state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!,
+                                                    height: 220,width: screenWidth()),
+                                                10.verticalSpace(),
+                                              ],
+                                            ),
+
+                                            state.followupRemarkListResponse!.data!.followupReamrkList![index].type == "text"?
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                10.verticalSpace(),
+                                                Text(
+                                                    state.followupRemarkListResponse!.data!.followupReamrkList![index].comments!,
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16, color: Colors.black)),
+                                                10.verticalSpace(),
+                                              ],
+                                            ):const SizedBox(width: 0,height: 0,),
+                                            DateFormat('dd MMM, yyyy hh:mm a').format(DateTime.parse(state.followupRemarkListResponse!.data!.followupReamrkList![index].createdAt.toString())).textRegular(
                                                 color: ColorResources.fieldGrey, fontSize: 14)
                                           ],
                                         ),
@@ -156,7 +182,19 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                               ],
                             ),
                           )),
-                      Container(
+
+
+                      state.guestDashboardResponse!.data!.enquiry!.status! == "closed"?
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          children: [
+                            checkBox(value: true),
+                            Text("Closed",style: figtreeBold.copyWith(
+                            ),)
+                          ],
+                        ),
+                      ):Container(
                         height: AppBar().preferredSize.height * 1.5,
                         width: screenWidth(),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -181,23 +219,55 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                                       context.read<LandingPageCubit>()
                                           .addFollowUpRemark(
                                           context, false, value,
-                                          enquiryId: null);
+                                          enquiryId: null,type: 'text');
                                       commentController.clear();
                                     }
                                   },
                                 ),
                             ),
-                            // SvgPicture.asset(
-                            //   Images.attachment,
-                            //   colorFilter: const ColorFilter.mode(
-                            //       ColorResources.fieldGrey, BlendMode.srcIn),
-                            // ),
+                            InkWell(
+                              onTap: ()async{
+                                var image =  imgFromGallery();
+                                image.then((value) async{
+                                  context
+                                      .read<LandingPageCubit>()
+                                      .addFollowUpRemark(context, false, value,
+                                      enquiryId: null,type: 'image');
+                                });
+                              },
+                              child: SvgPicture.asset(
+                                Images.attachment,
+                                colorFilter: const ColorFilter.mode(
+                                    ColorResources.fieldGrey, BlendMode.srcIn),
+                              ),
+                            ),
+                            10.horizontalSpace(),
+                            InkWell(
+                              onTap: ()async{
+                                var image = imgFromCamera();
+                                image.then((value) async{
+                                  context
+                                      .read<LandingPageCubit>()
+                                      .addFollowUpRemark(context, false, value,
+                                      enquiryId: null,type: 'image');
+                                });
+                              },
+                              child: SvgPicture.asset(
+                                Images.camera,
+                                colorFilter: const ColorFilter.mode(
+                                    ColorResources.fieldGrey, BlendMode.srcIn),
+                              ),
+                            ),
                             // 10.horizontalSpace(),
-                            // SvgPicture.asset(
-                            //   Images.camera,
-                            //   colorFilter: const ColorFilter.mode(
-                            //       ColorResources.fieldGrey, BlendMode.srcIn),
-                            // )
+                            IconButton(onPressed: (){
+                              if(commentController.text.isNotEmpty){
+                                context
+                                    .read<LandingPageCubit>()
+                                    .addFollowUpRemark(context, false, commentController.text,
+                                    enquiryId: null,type: 'text');
+                                commentController.clear();
+                              }
+                            },icon: const Icon(Icons.send,color: Colors.grey, size: 31,))
                           ],
                         ),
                       )

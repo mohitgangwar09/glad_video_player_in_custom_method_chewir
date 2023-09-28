@@ -93,7 +93,7 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
       await pressBack();
       pressBack();
       pressBack();
-      enquiryListApi(context, "closed");
+      enquiryListApi(context, "Closed");
       emit(state.copyWith(status: DdeEnquiryStatus.success,markAsClosed: "closed",enquiryStatus: "Closed"));
     } else {
       pressBack();

@@ -154,6 +154,8 @@ class EnquiryLog {
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
+  String? type;
+  String? attachment;
 
   EnquiryLog(
       {this.id,
@@ -167,7 +169,10 @@ class EnquiryLog {
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.type,
+        this.attachment,
+      });
 
   EnquiryLog.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -182,6 +187,8 @@ class EnquiryLog {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    type = json['type'];
+    attachment = json['attachment'];
   }
 
   Map<String, dynamic> toJson() {
@@ -198,6 +205,8 @@ class EnquiryLog {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['type'] = type;
+    data['attachment'] = attachment;
     return data;
   }
 }

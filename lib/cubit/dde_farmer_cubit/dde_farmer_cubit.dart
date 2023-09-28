@@ -384,7 +384,7 @@ class DdeFarmerCubit extends Cubit<DdeState>{
   }
 
   // getCowBreedDetailsApi
-  void getCowBreedDetailsApi(context) async{
+  Future<void> getCowBreedDetailsApi(context) async{
     customDialog(widget: launchProgress());
     emit(state.copyWith(status: DdeFarmerStatus.loading));
     var response = await apiRepository.cowBreedDetailsApi();
@@ -454,7 +454,7 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     if(response.status == 200){
       disposeProgress();
       showCustomToast(context, response.message.toString());
-      getCowBreedDetailsApi(context);
+      await getCowBreedDetailsApi(context);
       emit(state.copyWith(status: DdeFarmerStatus.success));
     }
     else{

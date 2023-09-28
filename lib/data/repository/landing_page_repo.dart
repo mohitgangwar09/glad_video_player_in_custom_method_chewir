@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
@@ -120,12 +122,26 @@ class LandingPageRepository {
 
   ////////////////////InviteExpert///////////////////////////
   Future<AddFollowupRemarkModel> addFollowupRemarkApi(
-      String enquiryId, String comments, bool isDDE) async {
-    FormData formData = FormData.fromMap({
-      'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
-      'enquiry_id': enquiryId,
-      'comments': comments,
-    });
+      String enquiryId, String comments, bool isDDE,String type) async {
+    FormData? formData;
+    if(type == 'text'){
+      formData = FormData.fromMap({
+        'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
+        'enquiry_id': enquiryId,
+        'comments': comments,
+        'type' : type,
+      });
+    }else
+      {
+        File file = File(comments);
+        formData = FormData.fromMap({
+          'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
+          'enquiry_id': enquiryId,
+          'attachment': await MultipartFile.fromFile(file.path),
+          'type' : type,
+        });
+      }
+
     if(isDDE) {
       formData.fields.add(MapEntry('dde_id',
           sharedPreferences!.getString(AppConstants.userId).toString()));
