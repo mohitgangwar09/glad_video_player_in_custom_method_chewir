@@ -158,7 +158,8 @@ class _DDEInAreaState extends State<DDEInArea> {
                           )
                         : InkWell(
                             onTap: () {
-                              const ExpertFollowUpScreen().navigate();
+                              const InviteAnExpert().navigate();
+                              // const ExpertFollowUpScreen().navigate();
                             },
                             child: Column(
                               children: [

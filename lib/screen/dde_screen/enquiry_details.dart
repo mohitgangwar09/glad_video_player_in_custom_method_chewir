@@ -203,7 +203,7 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                 ),
 
                                                 state.enquiryStatus == "Closed"?
-                                                widget.closedAt.isNotEmpty?
+                                                state.pendingFromClose == ''?
                                                 Text(
                                                   "Closed On: ${DateFormat('dd MMM, yyyy').format(DateTime.parse(widget.closedAt))}",
                                                   style: figtreeRegular.copyWith(

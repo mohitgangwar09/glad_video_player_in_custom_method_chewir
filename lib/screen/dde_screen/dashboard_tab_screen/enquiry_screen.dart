@@ -191,6 +191,8 @@ class EnquiryScreen extends StatelessWidget {
                           onTap: () {
                             if(state.responseEnquiryModel!.data![index].status.toString() == "pending"){
                               BlocProvider.of<DdeEnquiryCubit>(context).emit(state.copyWith(markAsClosed: ""));
+                            }else{
+                              BlocProvider.of<DdeEnquiryCubit>(context).emit(state.copyWith(pendingFromClose: ""));
                             }
                             EnquiryDetailsScreen(state.responseEnquiryModel!.data![index].id.toString()
                                 ,state.enquiryStatus.toString(),
