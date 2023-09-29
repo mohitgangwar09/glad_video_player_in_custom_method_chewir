@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
@@ -40,6 +41,7 @@ Future<void> init() async {
   sl.registerFactory(() => DashboardCubit());
   sl.registerFactory(() => DdeFarmerCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => CowsAndYieldCubit(apiRepository: sl(),sharedPreferences: sl()));
+  sl.registerFactory(() => CowsAndYieldDoneCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => LandingPageCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DrawerCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DdeEnquiryCubit(apiRepository: sl(),sharedPreferences: sl()));

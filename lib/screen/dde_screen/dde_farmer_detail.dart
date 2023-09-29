@@ -8,6 +8,7 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
+import 'package:glad/screen/dde_screen/dde_cow_and_yield_done.dart';
 import 'package:glad/screen/dde_screen/farmer_personal_detail.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
@@ -699,7 +700,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
               ),
               InkWell(
                   onTap: () {
-                    CowsAndYieldsSum(userId:state.responseFarmerProfile!.farmer!.userId.toString(),farmerId:state.responseFarmerProfile!.farmer!.id.toString()).navigate();
+                    CowsAndYieldsSumDone(userId:state.responseFarmerProfile!.farmer!.userId.toString(),farmerId:state.responseFarmerProfile!.farmer!.id.toString()).navigate();
+                    // CowsAndYieldsSum(userId:state.responseFarmerProfile!.farmer!.userId.toString(),farmerId:state.responseFarmerProfile!.farmer!.id.toString()).navigate();
                   },
                   child: SvgPicture.asset(Images.profileEdit)),
             ],

@@ -298,7 +298,6 @@ class CowsAndYieldCubitTest extends Cubit<TestYieldState>{
   // add Month Api
   void addMonthApi(context,String farmerId,String month) async{
     customDialog(widget: launchProgress());
-    CowsAndYieldsSumState.responseDateWiseData.clear();
     emit(state.copyWith(status: TestYieldStatus.loading));
     var response = await apiRepository.addMonthApi(farmerId.toString());
     if(response.status == 200){

@@ -40,7 +40,6 @@ class CowsAndYieldsDDEFarmer extends StatefulWidget {
 
 class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController;
   static List<String> productionList = [];
   static List<RequestData> requestData = [];
   static List<ModelTotalProduction> modelTotalProduction = [];
@@ -64,10 +63,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      // appBar: AppBar(title: const Text('Cows And Yield'),),
-      body: /*BlocBuilder<DdeFarmerCubit,DdeState>(
-        builder: (BuildContext context, state) {
-          return*/ Form(
+      body: Form(
             key: _formKey,
             child: Padding(
               padding: const EdgeInsets.all(0),
@@ -91,7 +87,6 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                     titleText1Style:
                     figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                   ),
-                  // addMore(newIndex == productionList.length-1, newIndex),
                   addMore(newIndex == BlocProvider.of<DdeFarmerCubit>(context).state.responseMonthlyWiseData!.length-1, newIndex,BlocProvider.of<DdeFarmerCubit>(context).state.responseMonthlyWiseData!),
                   Expanded(
                     child: SingleChildScrollView(
@@ -101,15 +96,6 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
                             children: [
                               ..._getProduction(state.responseMonthlyWiseData!),
                               const SizedBox(height: 40,),
-                              // TextButton(
-                              //   onPressed: (){
-                              //     _formKey.currentState?.save();
-                              //     // print(productionList);
-                              //     addCowAndYield();
-                              //   },
-                              //   child: const Text('Submit'),
-                              //   // color: Colors.green,
-                              // ),
                               saveCancelButton()
                             ],
                           );

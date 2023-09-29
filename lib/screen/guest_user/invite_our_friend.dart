@@ -154,6 +154,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               },
               markers: markers.values.toSet(),
               onCameraIdle: () {},
+              myLocationButtonEnabled: false,
             ),
             Positioned(
                 child: Padding(

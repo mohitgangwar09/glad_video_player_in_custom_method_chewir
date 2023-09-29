@@ -7,7 +7,7 @@ class DdeEnquiryState extends Equatable {
   final DdeEnquiryStatus status;
   final ResponseEnquiryModel? responseEnquiryModel;
   final ResponseEnquiryDetail? responseEnquiryDetail;
-  final String? enquiryStatus,markAsClosed;
+  final String? enquiryStatus,markAsClosed,pendingFromClose;
   final Completer<GoogleMapController>? mapController;
   final Set<Marker> ? markers;
 
@@ -19,6 +19,7 @@ class DdeEnquiryState extends Equatable {
     this.markAsClosed,
     this.mapController,
     this.markers,
+    this.pendingFromClose,
   });
 
   factory DdeEnquiryState.initial(){
@@ -27,6 +28,7 @@ class DdeEnquiryState extends Equatable {
       responseEnquiryModel: ResponseEnquiryModel(),
       enquiryStatus: "Pending",
       markAsClosed: "",
+      pendingFromClose: "",
       mapController:  Completer(),
       markers: const <Marker>{},
       responseEnquiryDetail: ResponseEnquiryDetail(),
@@ -46,7 +48,7 @@ class DdeEnquiryState extends Equatable {
     DdeEnquiryStatus? status,
     ResponseEnquiryModel? responseEnquiryModel,
     ResponseEnquiryDetail? responseEnquiryDetail,
-    String? enquiryStatus,markAsClosed,
+    String? enquiryStatus,markAsClosed,pendingFromClose,
     Completer<GoogleMapController>? mapController,
     Set<Marker>? markers ,
   }) {
@@ -58,6 +60,7 @@ class DdeEnquiryState extends Equatable {
       markAsClosed: markAsClosed ?? this.markAsClosed,
       mapController: mapController ?? this.mapController,
       markers: markers ?? this.markers,
+      pendingFromClose: pendingFromClose ?? this.pendingFromClose,
     );
   }
 
@@ -69,7 +72,8 @@ class DdeEnquiryState extends Equatable {
     enquiryStatus,
     markAsClosed,
     mapController,
-    markers
+    markers,
+    pendingFromClose
   ];
 
 }

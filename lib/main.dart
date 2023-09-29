@@ -14,12 +14,15 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
+import 'package:glad/screen/dde_screen/dde_cow_and_yield_done.dart';
 import 'package:glad/screen/extra_screen/add_item_list.dart';
 import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
 import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/screen/extra_screen/test_cows_and_yield.dart';
 import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
+import 'package:glad/screen/guest_user/invite_our_friend.dart';
 import 'package:glad/utils/extension.dart';
+import 'cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'di_container.dart' as di;
 
 Future<void> main() async {
@@ -36,6 +39,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<DrawerCubit>()),
       BlocProvider(create: (context) => di.sl<DdeFarmerCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubit>()),
+      BlocProvider(create: (context) => di.sl<CowsAndYieldDoneCubit>()),
       BlocProvider(create: (context) => di.sl<DdeEnquiryCubit>()),
       BlocProvider(create: (context) => di.sl<ImprovementAreaCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubitTest>()),
@@ -51,9 +55,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // return const CowsAndYieldsSum();
-    // return const CowsAndYieldsDDEFarmer();
+    // return const CowsAndYieldsSumDone();
     return const SplashScreen();
   }
 }
