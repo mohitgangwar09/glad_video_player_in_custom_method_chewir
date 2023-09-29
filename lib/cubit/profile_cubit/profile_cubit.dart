@@ -12,6 +12,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stepper_list_view/stepper_list_view.dart';
 
@@ -87,6 +88,11 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       if (response.data!.user!.address != null) {
         state.addressController.text =
             response.data!.user!.address!.address.toString();
+        if(response.data!.user!.address!.dialCode!=null){
+          print("dialCodess${response.data!.user!.address!.dialCode}");
+          await SharedPrefManager.savePrefString(AppConstants.countryCode, response.data!.user!.address!.dialCode.toString());
+        }
+
       }
 
       emit(state.copyWith(
@@ -95,6 +101,11 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
     }
+  }
+
+  Future<String> getCountryCode() async{
+    String countryCode = await SharedPrefManager.getPreferenceString(AppConstants.countryCode);
+    return countryCode;
   }
 
   // improvementAreaListApi
@@ -170,6 +181,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     if (response.status == 200) {
       showCustomToast(context, response.message.toString());
       await getFarmerProfile(context);
+      pressBack();
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));

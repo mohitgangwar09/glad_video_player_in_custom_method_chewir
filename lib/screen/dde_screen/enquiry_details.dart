@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
@@ -43,6 +44,12 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
+  String countryCode = "";
+
+  void getCountryCode() async{
+    String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+    countryCode = countryCodes;
+  }
 
   @override
   void initState() {
@@ -52,6 +59,8 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
 
       BlocProvider.of<DdeEnquiryCubit>(context)
           .enquiryDetailApi(context, widget.id);
+
+      getCountryCode();
     // });
   }
 
@@ -184,13 +193,22 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                               ],
                                             ),
                                             10.verticalSpace(),
-                                            Text(
-                                                state.responseEnquiryDetail!.data!
-                                                    .enquiry!.mobile
-                                                    .toString(),
-                                                style: figtreeRegular.copyWith(
-                                                    fontSize: 14,
-                                                    color: Colors.black)),
+                                            Row(
+                                              children: [
+                                                Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseEnquiryDetail!.data!
+                                                        .enquiry!.mobile}",
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+
+                                                Text(state.responseEnquiryDetail!.data!
+                                                    .enquiry!.supplierCode!=null?", ${state.responseEnquiryDetail!.data!
+                                                    .enquiry!.supplierCode!}":"",
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
+                                              ],
+                                            ),
                                             10.verticalSpace(),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
