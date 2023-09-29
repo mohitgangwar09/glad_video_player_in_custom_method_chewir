@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,14 +45,9 @@ class _DDELandingPageState extends State<DDELandingPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getApi();
+      BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context);
+      BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
     });
-  }
-
-
-  void getApi(){
-    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
-    BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context);
   }
 
   @override
@@ -60,48 +56,77 @@ class _DDELandingPageState extends State<DDELandingPage> {
     CalendarFormat calendarFormat = CalendarFormat.week;
     RangeSelectionMode rangeSelectionMode = RangeSelectionMode.toggledOff;
 
-    return Container(
-      color: Colors.white,
-      child: Stack(
-        children: [
+    return BlocBuilder<LandingPageCubit, LandingPageState>(
+      builder: (context, state) {
+        if (state.status == LandingPageStatus.loading) {
+          return const Center(
+              child: CircularProgressIndicator(
+                color: ColorResources.maroon,
+              ));
+        } else if (state.responseDdeDashboard == null) {
+          return Center(child: Text("${state.responseDdeDashboard} Api Error"));
+        } else {
+          return Container(
+            color: Colors.white,
+            child: Stack(
+              children: [
 
-          landingBackground(),
+                landingBackground(),
 
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Hello ',
-                titleText2: 'Abdullah',
-                leading: openDrawer(
-                    onTap: () {
-                      ddeLandingKey.currentState?.openDrawer();
-                    },
-                    child: SvgPicture.asset(Images.drawer)),
-                action: Row(
+                Column(
                   children: [
-                    InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
-                    7.horizontalSpace(),
-                    InkWell(
-                        onTap: () {
-                          const DDEProfile().navigate();
-                        },
-                        child: SvgPicture.asset(Images.person)),
-                    8.horizontalSpace(),
+                    CustomAppBar(
+                      context: context,
+                      titleText1: 'Hello ',
+                      titleText2: (state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.name ?? '') : '',
+                      leading: openDrawer(
+                          onTap: () {
+                            ddeLandingKey.currentState?.openDrawer();
+                          },
+                          child: SvgPicture.asset(Images.drawer)),
+                      action: Row(
+                        children: [
+                          InkWell(onTap: () {}, child: SvgPicture.asset(
+                              Images.call)),
+                          7.horizontalSpace(),
+                          InkWell(
+                              onTap: () {
+                                const DDEProfile().navigate();
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1000),
+                                child: Container(
+                                  height: AppBar().preferredSize.height * 0.7,
+                                  width: AppBar().preferredSize.height * 0.7,
+                                  decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                    (state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.image ?? '') : '',
+                                    errorWidget: (_, __, ___) =>
+                                        SvgPicture.asset(Images.person),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )),
+                          8.horizontalSpace(),
+                        ],
+                      ),
+                    ),
+                    landingPage(calendarFormat, context, state),
+
                   ],
                 ),
-              ),
-              landingPage(calendarFormat, context),
 
-            ],
-          ),
-
-        ],
-      ),
+              ],
+            ),
+          );
+        }
+      }
     );
   }
 
-  Widget landingPage(calendarFormat, BuildContext context){
+  Widget landingPage(calendarFormat, BuildContext context, LandingPageState state){
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -110,7 +135,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
             const LandingCarousel(),
             10.verticalSpace(),
 
-          farmersNearMe(context),
+          farmersNearMe(context, state),
 
           Container(
             margin: const EdgeInsets.only(left: 20,right: 20),
@@ -620,156 +645,152 @@ class _DDELandingPageState extends State<DDELandingPage> {
     );
   }
 
-  Widget farmersNearMe(BuildContext context){
-    return BlocBuilder<LandingPageCubit,LandingPageState>(
-      builder: (context,state) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 20.0,right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget farmersNearMe(BuildContext context, LandingPageState state){
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0,right: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          15.verticalSpace(),
+
+          "Farmers near me".textMedium(fontSize: 18),
+
+          10.verticalSpace(),
+
+          Row(
             children: [
-              15.verticalSpace(),
+              Expanded(
+                child: InkWell(
+                  onTap: (){
+                    BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Critical'.toLowerCase());
+                  },
+                  child: customShadowContainer(
+                      margin: 0,
+                      backColor: const Color(0xffFF8A8B),
+                      width: 105,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-              "Farmers near me".textMedium(fontSize: 18),
-
-              10.verticalSpace(),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
-                        BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Critical'.toLowerCase());
-                      },
-                      child: customShadowContainer(
-                          margin: 0,
-                          backColor: const Color(0xffFF8A8B),
-                          width: 105,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: SvgPicture.asset(Images.critical),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-
-                                      "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.critical:''}".textSemiBold(fontSize: 26),
-                                      3.verticalSpace(),
-                                      "Critical".textRegular(fontSize: 12),
-
-                                    ],
-                                  ),
-                                )
-
-                              ],
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: SvgPicture.asset(Images.critical),
                             ),
-                          )),
-                    ),
-                  ),
-                  10.horizontalSpace(),
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
-                        BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Average'.toLowerCase());
-                      },
-                      child: customShadowContainer(
-                          margin: 0,
-                          backColor: const Color(0xffFFC640),
-                          width: 105,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
 
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: SvgPicture.asset(Images.average),
-                                ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, bottom: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
 
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
+                                  "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.critical:''}".textSemiBold(fontSize: 26),
+                                  3.verticalSpace(),
+                                  "Critical".textRegular(fontSize: 12),
 
-                                      "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.average:''}".textSemiBold(fontSize: 26),
-                                      3.verticalSpace(),
-                                      "Average".textRegular(fontSize: 12),
+                                ],
+                              ),
+                            )
 
-                                    ],
-                                  ),
-                                )
-
-                              ],
-                            ),
-                          )),
-                    ),
-                  ),
-                  10.horizontalSpace(),
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
-                        BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Satisfactory'.toLowerCase());
-                      },
-                      child: customShadowContainer(
-                          margin: 0,
-                          backColor: const Color(0xff4BC56F),
-                          width: 105,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: SvgPicture.asset(Images.satisfactory),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-
-                                      "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.satisfactory:''}".textSemiBold(fontSize: 26),
-                                      3.verticalSpace(),
-                                      "Satisfactory".textRegular(fontSize: 12),
-
-                                    ],
-                                  ),
-                                )
-
-                              ],
-                            ),
-                          )),
-                    ),
-                  ),
-                ],
+                          ],
+                        ),
+                      )),
+                ),
               ),
+              10.horizontalSpace(),
+              Expanded(
+                child: InkWell(
+                  onTap: (){
+                    BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Average'.toLowerCase());
+                  },
+                  child: customShadowContainer(
+                      margin: 0,
+                      backColor: const Color(0xffFFC640),
+                      width: 105,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-              37.verticalSpace(),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: SvgPicture.asset(Images.average),
+                            ),
 
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, bottom: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.average:''}".textSemiBold(fontSize: 26),
+                                  3.verticalSpace(),
+                                  "Average".textRegular(fontSize: 12),
+
+                                ],
+                              ),
+                            )
+
+                          ],
+                        ),
+                      )),
+                ),
+              ),
+              10.horizontalSpace(),
+              Expanded(
+                child: InkWell(
+                  onTap: (){
+                    BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('Satisfactory'.toLowerCase());
+                  },
+                  child: customShadowContainer(
+                      margin: 0,
+                      backColor: const Color(0xff4BC56F),
+                      width: 105,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 4, 4, 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: SvgPicture.asset(Images.satisfactory),
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0, bottom: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  "${state.responseDdeDashboard!.data!=null?state.responseDdeDashboard!.data!.ragratingTypeStatus!.satisfactory:''}".textSemiBold(fontSize: 26),
+                                  3.verticalSpace(),
+                                  "Satisfactory".textRegular(fontSize: 12),
+
+                                ],
+                              ),
+                            )
+
+                          ],
+                        ),
+                      )),
+                ),
+              ),
             ],
           ),
-        );
-      }
+
+          37.verticalSpace(),
+
+        ],
+      ),
     );
   }
 
