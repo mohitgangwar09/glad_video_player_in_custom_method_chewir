@@ -32,6 +32,13 @@ class _FarmerProfileState extends State<FarmerProfile> {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
+  String countryCode = "";
+
+  void getCountryCode() async{
+    String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+    countryCode = countryCodes;
+  }
+
   void _onMapCreated(GoogleMapController controller,String latitude,String longitude) {
     mapController = controller;
     mapController?.animateCamera(
@@ -63,6 +70,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
     super.initState();
 
     BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+    getCountryCode();
   }
 
   @override
@@ -115,7 +123,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         40.verticalSpace(),
                         farmDetails(state),
                         30.verticalSpace(),
-                        dde(context, state),
+                        dde(context, state,countryCode),
                         20.verticalSpace(),
                         cowsInTheFarm(state),
                         30.verticalSpace(),
@@ -194,15 +202,36 @@ class _FarmerProfileState extends State<FarmerProfile> {
                 style: figtreeRegular.copyWith(
                     fontSize: 14, decoration: TextDecoration.underline)),
             8.horizontalSpace(),
-            Container(
-              height: 5,
-              width: 5,
-              decoration: const BoxDecoration(
-                  color: Colors.black, shape: BoxShape.circle),
-            ),
-            8.horizontalSpace(),
+            // Container(
+            //   height: 5,
+            //   width: 5,
+            //   decoration: const BoxDecoration(
+            //       color: Colors.black, shape: BoxShape.circle),
+            // ),
+            /*8.horizontalSpace(),
             Text(state.responseFarmerProfile!.farmer!.phone!,
-                style: figtreeSemiBold.copyWith(fontSize: 14)),
+                style: figtreeSemiBold.copyWith(fontSize: 14)),*/
+          ],
+        ),
+
+        10.verticalSpace(),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
+                .phone}",
+                style: figtreeRegular.copyWith(
+                  fontSize: 12,
+                )),
+
+            Text(
+                "${', '}""${state.responseFarmerProfile!.farmer!
+                    .supplierCode ??
+                    ''}",
+                style: figtreeRegular.copyWith(
+                  fontSize: 12,
+                )),
           ],
         ),
         10.verticalSpace(),
@@ -661,7 +690,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
     );
   }
 
-  Widget dde(BuildContext context, ProfileCubitState state) {
+  Widget dde(BuildContext context, ProfileCubitState state,String countryCode) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Stack(
@@ -703,9 +732,9 @@ class _FarmerProfileState extends State<FarmerProfile> {
                                 color: Colors.black,
                                 size: 16,
                               ),
-                              Text(
-                                  state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone ??
-                                      '',
+                              Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""}"
+                                  " ${state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone??''}"
+                                   ,
                                   style: figtreeRegular.copyWith(
                                       fontSize: 12, color: Colors.black)),
                             ],
@@ -864,7 +893,9 @@ class _FarmerProfileState extends State<FarmerProfile> {
                             color: Colors.black, shape: BoxShape.circle),
                       ),
                       4.horizontalSpace(),
-                      Text('${state.responseFarmerProfile!.farmer!.managerPhone}',
+                      // Text('${state.responseFarmerProfile!.farmer!.managerPhone}',
+                      Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
+                          .managerPhone}",
                           style: figtreeMedium.copyWith(fontSize: 12)),
                     ],
                   ),
