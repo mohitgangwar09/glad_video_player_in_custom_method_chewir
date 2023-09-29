@@ -6,7 +6,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
-import 'package:glad/screen/farmer_screen/common/installation_watertank.dart';
+import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/accept_screen.dart';
 import 'package:glad/screen/supplier_screen/add_milestone.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';

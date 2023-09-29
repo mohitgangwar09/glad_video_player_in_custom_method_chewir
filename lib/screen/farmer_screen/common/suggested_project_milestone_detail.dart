@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/common/attributes_edit.dart';
@@ -6,66 +8,88 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
-class InstallationOfWaterTank extends StatelessWidget {
-  const InstallationOfWaterTank({super.key});
+class SuggestedProjectMilestoneDetail extends StatefulWidget {
+  const SuggestedProjectMilestoneDetail({super.key, required this.milestoneId});
+  final int milestoneId;
+
+  @override
+  State<SuggestedProjectMilestoneDetail> createState() =>
+      _SuggestedProjectMilestoneDetailState();
+}
+
+class _SuggestedProjectMilestoneDetailState
+    extends State<SuggestedProjectMilestoneDetail> {
+  @override
+  void initState() {
+    BlocProvider.of<ProjectCubit>(context)
+        .farmerProjectMilestoneDetailApi(context, widget.milestoneId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          landingBackground(),
-          Column(
+      body: BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
+        if (state.status == ProjectStatus.loading) {
+          return const Center(
+              child: CircularProgressIndicator(
+            color: ColorResources.maroon,
+          ));
+        } else if (state.responseFarmerProjectMilestoneDetail == null) {
+          return Center(
+              child: Text("${state.responseFarmerProjectMilestoneDetail} Api Error"));
+        } else {
+          return Stack(
             children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Installation of water tank',
-
-                titleText1Style: figtreeMedium.copyWith(
-                    fontSize: 20, color: Colors.black),
-
-                leading: arrowBackButton(),
-
-              ),
-              // Stack(
-              //   alignment: Alignment.centerLeft,
-              //   children: [
-              //     Center(
-              //       child: Text(
-              //         'Installation of water tank...',
-              //         style: figtreeMedium.copyWith(fontSize: 22),
-              //       ),
-              //     ),
-              //     Positioned(
-              //         child: IconButton(
-              //             onPressed: () {
-              //               Navigator.pop(context);
-              //             },
-              //             icon: const Icon(Icons.arrow_back))),
-              //   ],
-              // ),
-              Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              landingBackground(),
+              Column(
                 children: [
-                  description(),
-                  dividerValue(),
-                  attributes(),
-                  mileStoneDeliverable(),
+                  CustomAppBar(
+                    context: context,
+                    titleText1: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneTitle ?? '',
+                    titleText1Style: figtreeMedium.copyWith(
+                        fontSize: 20, color: Colors.black),
+                    leading: arrowBackButton(),
+                  ),
+                  // Stack(
+                  //   alignment: Alignment.centerLeft,
+                  //   children: [
+                  //     Center(
+                  //       child: Text(
+                  //         'Installation of water tank...',
+                  //         style: figtreeMedium.copyWith(fontSize: 22),
+                  //       ),
+                  //     ),
+                  //     Positioned(
+                  //         child: IconButton(
+                  //             onPressed: () {
+                  //               Navigator.pop(context);
+                  //             },
+                  //             icon: const Icon(Icons.arrow_back))),
+                  //   ],
+                  // ),
+                  Expanded(
+                      child: SingleChildScrollView(
+                          child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      description(state),
+                      dividerValue(state),
+                      state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty ? attributes(state) : const SizedBox.shrink(),
+                      mileStoneDeliverable(state),
+                    ],
+                  )))
                 ],
-              )))
+              )
             ],
-          )
-        ],
-      ),
+          );
+        }
+      }),
     );
   }
 
-
-
   ///////DescriptionDetails///////////
-  Widget description() {
+  Widget description(ProjectState state) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
       child: Column(
@@ -78,7 +102,7 @@ class InstallationOfWaterTank extends StatelessWidget {
           05.horizontalSpace(),
           10.verticalSpace(),
           Text(
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries dummy text ever since the 1500s.",
+            state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneDescription ?? '',
             style: figtreeMedium.copyWith(fontSize: 14),
           )
         ],
@@ -87,7 +111,7 @@ class InstallationOfWaterTank extends StatelessWidget {
   }
 
 ///////DividerValue///////////
-  Widget dividerValue() {
+  Widget dividerValue(ProjectState state) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
       child: Column(
@@ -115,12 +139,12 @@ class InstallationOfWaterTank extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'UGX 700K',
+                'UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneValue ?? ''}',
                 style: figtreeSemiBold.copyWith(
                     fontSize: 16, color: ColorResources.maroon),
               ),
               Text(
-                '12 days',
+                '${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneDuration ?? ''} days',
                 style: figtreeSemiBold.copyWith(fontSize: 16),
               ),
             ],
@@ -135,7 +159,7 @@ class InstallationOfWaterTank extends StatelessWidget {
   }
 
   ////////Attributes///////////
-  Widget attributes() {
+  Widget attributes(ProjectState state) {
     return Column(
       children: [
         20.verticalSpace(),
@@ -150,8 +174,8 @@ class InstallationOfWaterTank extends StatelessWidget {
               ),
               05.horizontalSpace(),
               InkWell(
-                onTap: (){
-                  const AttributesEdit().navigate();
+                onTap: () {
+                  // const AttributesEdit().navigate();
                 },
                 child: Container(
                   padding:
@@ -189,7 +213,7 @@ class InstallationOfWaterTank extends StatelessWidget {
                     10.verticalSpace(),
                     customAttribute("Quantity", "02 NOS"),
                     10.verticalSpace(),
-                    customAttribute("Price", "UGX 100K"),
+                    customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
                     40.verticalSpace(),
                   ],
                 ),
@@ -200,7 +224,7 @@ class InstallationOfWaterTank extends StatelessWidget {
   }
 
   ////////Milestone Deliverable//////////////
-  Widget mileStoneDeliverable() {
+  Widget mileStoneDeliverable(ProjectState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -214,10 +238,10 @@ class InstallationOfWaterTank extends StatelessWidget {
         ),
         10.verticalSpace(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20,0,20,20),
-          child: customList(child: (
-            int index,
-          ) {
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: customList(
+            list: List.generate(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!.length, (index) => null),
+              child: (int index) {
             return Container(
               height: 60,
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
@@ -226,21 +250,25 @@ class InstallationOfWaterTank extends StatelessWidget {
                   border: Border.all(width: 1, color: ColorResources.grey),
                   borderRadius: BorderRadius.circular(14)),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20,0,5,0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 5, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Various versions have evolved',
+                      state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskName ?? '',
                       style: figtreeMedium.copyWith(fontSize: 14),
                     ),
                     Container(
-                      height:50,
+                      height: 50,
                       width: 50,
                       decoration: BoxDecoration(
                           color: ColorResources.pinkMain,
                           borderRadius: BorderRadius.circular(14)),
-                      child: Center(child: Text('01',style: figtreeMedium.copyWith(fontSize: 14),)),
+                      child: Center(
+                          child: Text(
+                        '${index + 1}',
+                        style: figtreeMedium.copyWith(fontSize: 14),
+                      )),
                     )
                   ],
                 ),

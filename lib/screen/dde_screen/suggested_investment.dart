@@ -5,7 +5,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/add_remark.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
-import 'package:glad/screen/farmer_screen/common/installation_watertank.dart';
+import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -278,7 +278,7 @@ class SuggestedInvestment extends StatelessWidget {
       15.verticalSpace(),
       InkWell(
         onTap: () {
-          const InstallationOfWaterTank().navigate();
+          // const InstallationOfWaterTank().navigate();
         },
         child: customList(
             axis: Axis.vertical,

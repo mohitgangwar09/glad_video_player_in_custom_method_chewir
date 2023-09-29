@@ -8,7 +8,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
-import 'package:glad/screen/farmer_screen/common/installation_watertank.dart';
+import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -69,7 +69,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             dde(context, state),
                             kpi(context),
                             projectMilestones(context, state),
-                            inviteExpert(context),
+                            inviteExpert(context, state),
                           ],
                         ),
                       ),
@@ -325,18 +325,18 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         style: figtreeMedium.copyWith(fontSize: 18),
       ),
       15.verticalSpace(),
-      InkWell(
-        onTap: () {
-          const InstallationOfWaterTank().navigate();
-        },
-        child: customList(
-          list: List.generate(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length, (index) => null),
-            axis: Axis.vertical,
-            child: (int index) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 20,
-                ),
+      customList(
+        list: List.generate(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length, (index) => null),
+          axis: Axis.vertical,
+          child: (int index) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20,
+              ),
+              child: InkWell(
+                onTap: () {
+                  SuggestedProjectMilestoneDetail(milestoneId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id).navigate();
+                },
                 child: customShadowContainer(
                     margin: 0,
                     backColor: ColorResources.grey,
@@ -359,7 +359,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                           ),
                           5.verticalSpace(),
                           Text(
-                            '05 tasks included in this milestone.',
+                            '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
                             style: figtreeMedium.copyWith(fontSize: 12),
                           ),
                           20.verticalSpace(),
@@ -405,9 +405,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                         ],
                       ),
                     )),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
       // 20.verticalSpace(),
       // Center(
       //     child: Padding(
@@ -431,7 +431,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
   }
 
   /////////////InviteExpert/////////
-  Widget inviteExpert(context) {
+  Widget inviteExpert(BuildContext context, ProjectState  state) {
     return Column(
       children: [
         Center(
@@ -442,81 +442,145 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
             width: screenWidth(),
             style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
             onTap: () {
+              TextEditingController controller = TextEditingController();
+              String date = '';
               modalBottomSheetMenu(context,
                   radius: 40,
-                  child: SizedBox(
-                    height: 450,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Text(
-                                'Farmer feedback',
-                                style: figtreeMedium.copyWith(fontSize: 22),
-                              ),
-                            ),
-                            30.verticalSpace(),
-                            Column(
+                  child: StatefulBuilder(
+                    builder: (context, setState) {
+                      return SizedBox(
+                        height: 450,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                          child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CustomTextField2(
-                                  borderColor: 0xff727272,
-                                  hint: 'Select Date',
-                                  width: screenWidth(),
-                                  title: 'Preferred date',
-                                  image2: Images.calender,
-                                  image2Colors: ColorResources.maroon,
-                                  readOnly: true,
-                                  onTap: () {
-                                    showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime.now());
-                                  },
-                                  focusNode: FocusNode(),
-                                ),
-                                20.verticalSpace(),
-                                Text(
-                                  'Remarks',
-                                  style: figtreeMedium.copyWith(fontSize: 12),
-                                ),
-                                5.verticalSpace(),
-                                TextField(
-                                  maxLines: 4,
-                                  minLines: 4,
-                                  decoration: InputDecoration(
-                                      hintText: 'Write...',
-                                      hintStyle:
-                                          figtreeMedium.copyWith(fontSize: 18),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
-                                          borderSide: const BorderSide(
-                                            width: 1,
-                                            color: Color(0xff999999),
-                                          ))),
+                                Center(
+                                  child: Text(
+                                    'Farmer feedback',
+                                    style: figtreeMedium.copyWith(fontSize: 22),
+                                  ),
                                 ),
                                 30.verticalSpace(),
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                  child: customButton(
-                                    'Submit',
-                                    fontColor: 0xffFFFFFF,
-                                    onTap: () {},
-                                    height: 60,
-                                    width: screenWidth(),
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomTextField2(
+                                      title: 'Preferred date',
+                                      image2: Images.calender,
+                                      image2Colors: ColorResources.maroon,
+                                      readOnly: true,
+                                      controller: TextEditingController()..text = date,
+                                        onTap: () async{
+                                          var selectDate = await selectedDate(context);
+                                          date = "${selectDate.year}/${selectDate.month}/${selectDate.day}";
+                                          setState(() {});
+                                        },
+                                      focusNode: FocusNode(),
+                                    ),
+                                    20.verticalSpace(),
+                                    Text(
+                                      'Remarks',
+                                      style: figtreeMedium.copyWith(fontSize: 12),
+                                    ),
+                                    5.verticalSpace(),
+                                    TextField(
+                                      controller: controller,
+                                      maxLines: 4,
+                                      minLines: 4,
+                                      decoration: InputDecoration(
+                                          hintText: 'Write...',
+                                          hintStyle:
+                                              figtreeMedium.copyWith(fontSize: 18),
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                              borderSide: const BorderSide(
+                                                width: 1,
+                                                color: Color(0xff999999),
+                                              ))),
+                                    ),
+                                    30.verticalSpace(),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                      child: customButton(
+                                        'Submit',
+                                        fontColor: 0xffFFFFFF,
+                                        onTap: () {
+                                          context.read<ProjectCubit>().inviteExpertForSurvey(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.id, date, controller.text ?? '');
+                                        },
+                                        height: 60,
+                                        width: screenWidth(),
+                                      ),
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
-                          ]),
-                    ),
+                              ]),
+                        ),
+                      );
+                    }
                   ));
             },
           ),
         )),
+        20.verticalSpace(),
+        InkWell(
+          onTap: () {
+            customDialog(
+                widget: Center(
+                  child: Material(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      height: 135,
+                      width: screenWidth()-30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          "Are you sure u are not interested?".textMedium(
+                              fontSize: 19,
+                              color: Colors.black
+                          ),
+
+                          20.verticalSpace(),
+
+                          Row(
+                            children: [
+
+                              20.horizontalSpace(),
+
+                              Expanded(
+                                child: customButton("No",
+                                    borderColor: 0xFF6A0030,
+                                    color: 0xFFffffff,onTap: (){
+                                      pressBack();
+                                    }),
+                              ),
+
+                              20.horizontalSpace(),
+
+                              Expanded(
+                                child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
+                                  context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'not_interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
+                                }),
+                              ),
+
+                              20.horizontalSpace(),
+
+                            ],
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+            );
+          },
+            child: Text('Not Interested', style: figtreeMedium.copyWith(fontSize: 16, color: Colors.grey, decoration: TextDecoration.underline), )),
+        20.verticalSpace(),
       ],
     );
   }

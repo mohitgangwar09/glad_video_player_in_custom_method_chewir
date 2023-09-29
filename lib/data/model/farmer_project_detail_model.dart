@@ -232,6 +232,7 @@ class FarmerProjectMilestones {
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
+  dynamic farmerProjectTaskCount;
 
   FarmerProjectMilestones(
       {this.id,
@@ -255,7 +256,8 @@ class FarmerProjectMilestones {
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.farmerProjectTaskCount});
 
   FarmerProjectMilestones.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -280,6 +282,7 @@ class FarmerProjectMilestones {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    farmerProjectTaskCount = json['farmer_project_task_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -306,6 +309,7 @@ class FarmerProjectMilestones {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['farmer_project_task_count'] = farmerProjectTaskCount;
     return data;
   }
 }

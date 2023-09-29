@@ -6,6 +6,7 @@ import 'package:glad/data/model/auth_models/invite_expert_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
+import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
@@ -60,6 +61,51 @@ class ProjectRepository {
       return FarmerProjectDetailModel.fromJson(apiResponse.response!.data);
     } else {
       return FarmerProjectDetailModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getDdeProjectsApi //////////
+  Future<FarmerProjectMilestoneDetailModel> getFarmerProjectMilestoneDetailApi(int milestoneId) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.farmerProjectMilestoneDetailApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'id': milestoneId});
+
+    if (apiResponse.status) {
+      return FarmerProjectMilestoneDetailModel.fromJson(apiResponse.response!.data);
+    } else {
+      return FarmerProjectMilestoneDetailModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getDdeProjectsApi //////////
+  Future<ResponseOtpModel> inviteExpertForSurveyApi(int ddeId, String date, String remark) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addInviteExpertForSurveyApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
+          'dde_id' : ddeId,
+          'date': date,
+          'remark': remark,
+        });
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ResponseOtpModel> suggestedProjectUpdateStatus(String projectStatus, int projectId) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateProjectStatusApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
+          'farmer_project_id' : projectId,
+          'project_status': projectStatus,
+        });
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
   }
 

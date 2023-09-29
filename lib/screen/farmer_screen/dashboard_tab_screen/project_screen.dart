@@ -33,6 +33,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProjectCubit, ProjectState>(
       builder: (context, state) {
+      if (state.status == ProjectStatus.loading) {
+        return const Center(
+            child: CircularProgressIndicator(
+              color: ColorResources.maroon,
+            ));
+      } else if (state.responseFarmerProject == null) {
+        return Center(child: Text("${state.responseFarmerProject} Api Error"));
+      } else {
         return Stack(
           children: [
             landingBackground(),
@@ -42,7 +50,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   context: context,
                   titleText1: 'Projects',
                   titleText1Style:
-                      figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                  figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                   centerTitle: true,
                   leading: openDrawer(
                       onTap: () {
@@ -64,26 +72,34 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            if(selectedStatus != 'active') {
+                            if (selectedStatus != 'active') {
                               selectedStatus = 'active';
                               setState(() {});
                               BlocProvider.of<ProjectCubit>(context)
-                                  .farmerProjectsApi(context, selectedStatus, true);
+                                  .farmerProjectsApi(
+                                  context, selectedStatus, true);
                             }
                           },
                           child: Container(
                             height: screenHeight(),
                             margin: const EdgeInsets.all(6),
                             decoration: boxDecoration(
-                                backgroundColor: selectedStatus == 'active' ? const Color(0xff6A0030) : Colors.white,
+                                backgroundColor: selectedStatus == 'active'
+                                    ? const Color(0xff6A0030)
+                                    : Colors.white,
                                 borderRadius: 62),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 "Active"
-                                    .textMedium(color: selectedStatus == 'active' ? Colors.white : ColorResources.black, fontSize: 14),
+                                    .textMedium(
+                                    color: selectedStatus == 'active' ? Colors
+                                        .white : ColorResources.black,
+                                    fontSize: 14),
                                 5.horizontalSpace(),
-                                SvgPicture.asset(selectedStatus == 'suggested' ? Images.activeSelected : Images.activeSelected)
+                                SvgPicture.asset(
+                                    selectedStatus == 'suggested' ? Images
+                                        .activeSelected : Images.activeSelected)
                               ],
                             ),
                           ),
@@ -92,26 +108,32 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            if(selectedStatus != 'suggested') {
+                            if (selectedStatus != 'suggested') {
                               selectedStatus = 'suggested';
                               setState(() {});
                               BlocProvider.of<ProjectCubit>(context)
-                                  .farmerProjectsApi(context, selectedStatus, true);
+                                  .farmerProjectsApi(
+                                  context, selectedStatus, true);
                             }
                           },
                           child: Container(
                             height: screenHeight(),
                             margin: const EdgeInsets.all(6),
                             decoration: boxDecoration(
-                                backgroundColor: selectedStatus == 'suggested' ?const Color(0xff6A0030) : Colors.white, borderRadius: 62),
+                                backgroundColor: selectedStatus == 'suggested'
+                                    ? const Color(0xff6A0030)
+                                    : Colors.white, borderRadius: 62),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 "Suggested".textMedium(
-                                    color: selectedStatus == 'suggested' ? Colors.white : ColorResources.black, fontSize: 14),
+                                    color: selectedStatus == 'suggested'
+                                        ? Colors.white
+                                        : ColorResources.black, fontSize: 14),
                                 5.horizontalSpace(),
                                 SvgPicture.asset(
-                                  selectedStatus == 'suggested' ? Images.completedSelected : Images.completed,
+                                  selectedStatus == 'suggested' ? Images
+                                      .completedSelected : Images.completed,
                                 )
                               ],
                             ),
@@ -124,29 +146,46 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 120, left: 10),
-                    child: state.responseFarmerProject!.data!.projectList!.isNotEmpty ? customList(
-                      list: List.generate(state.responseFarmerProject!.data!.projectList!.length, (index) => ''),
+                    child: state.responseFarmerProject!.data!.projectList!
+                        .isNotEmpty ? customList(
+                        list: List.generate(state.responseFarmerProject!.data!
+                            .projectList!.length, (index) => ''),
                         child: (int i) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: customProjectContainer(
-                            child: ProjectWidget(
-                              showStatus: true,
-                              status: state.responseFarmerProject!.data!.projectList![i].projectStatus ?? '',
-                              image: state.responseFarmerProject!.data!.projectList![i].photo ?? '',
-                              name: state.responseFarmerProject!.data!.projectList![i].name ?? '',
-                              targetYield: state.responseFarmerProject!.data!.projectList![i].targetYield ?? 0,
-                              investment: state.responseFarmerProject!.data!.projectList![i].investmentAmount ?? 0,
-                              revenue: state.responseFarmerProject!.data!.projectList![i].revenuePerYear ?? 0,
-                              index: i + 1,
-                              incrementalProduction: state.responseFarmerProject!.data!.projectList![i].incrementalProduction ?? 0,
-                              roi: state.responseFarmerProject!.data!.projectList![i].roiPerYear ?? 0,
-                              category: state.responseFarmerProject!.data!.projectList![i].farmerImprovementArea != null  ? (state.responseFarmerProject!.data!.projectList![i].farmerImprovementArea!.improvementArea!.name ?? '') : '',
-                              projectId: state.responseFarmerProject!.data!.projectList![i].id ?? 0,
-                            ),
-                            width: screenWidth()),
-                      );
-                    }) : Padding(
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child: customProjectContainer(
+                                child: ProjectWidget(
+                                  showStatus: true,
+                                  status: state.responseFarmerProject!.data!
+                                      .projectList![i].projectStatus ?? '',
+                                  image: state.responseFarmerProject!.data!
+                                      .projectList![i].photo ?? '',
+                                  name: state.responseFarmerProject!.data!
+                                      .projectList![i].name ?? '',
+                                  targetYield: state.responseFarmerProject!
+                                      .data!.projectList![i].targetYield ?? 0,
+                                  investment: state.responseFarmerProject!.data!
+                                      .projectList![i].investmentAmount ?? 0,
+                                  revenue: state.responseFarmerProject!.data!
+                                      .projectList![i].revenuePerYear ?? 0,
+                                  index: i + 1,
+                                  incrementalProduction: state
+                                      .responseFarmerProject!.data!
+                                      .projectList![i].incrementalProduction ??
+                                      0,
+                                  roi: state.responseFarmerProject!.data!
+                                      .projectList![i].roiPerYear ?? 0,
+                                  category: state.responseFarmerProject!.data!
+                                      .projectList![i].farmerImprovementArea !=
+                                      null ? (state.responseFarmerProject!.data!
+                                      .projectList![i].farmerImprovementArea!
+                                      .improvementArea!.name ?? '') : '',
+                                  projectId: state.responseFarmerProject!.data!
+                                      .projectList![i].id ?? 0,
+                                ),
+                                width: screenWidth()),
+                          );
+                        }) : Padding(
                       padding: EdgeInsets.only(top: screenWidth() / 2),
                       child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -162,6 +201,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
             ),
           ],
         );
+      }
       }
     );
   }

@@ -7,12 +7,14 @@ class ProjectState extends Equatable {
   final FarmerProjectModel? responseFarmerProject;
   final DdeProjectModel? responseDdeProject;
   final FarmerProjectDetailModel? responseFarmerProjectDetail;
+  final FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail;
 
   const ProjectState({
     required this.status,
     required this.responseFarmerProject,
     required this.responseDdeProject,
     required this.responseFarmerProjectDetail,
+    required this.responseFarmerProjectMilestoneDetail,
   });
 
   factory ProjectState.initial() {
@@ -21,6 +23,7 @@ class ProjectState extends Equatable {
       responseFarmerProject: null,
       responseDdeProject: null,
       responseFarmerProjectDetail: null,
+      responseFarmerProjectMilestoneDetail: null,
     );
   }
 
@@ -29,6 +32,7 @@ class ProjectState extends Equatable {
     FarmerProjectModel? responseFarmerProject,
     DdeProjectModel? responseDdeProject,
     FarmerProjectDetailModel? responseFarmerProjectDetail,
+    FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -37,6 +41,9 @@ class ProjectState extends Equatable {
       responseDdeProject: responseDdeProject ?? this.responseDdeProject,
       responseFarmerProjectDetail:
           responseFarmerProjectDetail ?? this.responseFarmerProjectDetail,
+      responseFarmerProjectMilestoneDetail:
+          responseFarmerProjectMilestoneDetail ??
+              this.responseFarmerProjectMilestoneDetail,
     );
   }
 
@@ -46,5 +53,6 @@ class ProjectState extends Equatable {
         responseFarmerProject,
         responseDdeProject,
         responseFarmerProjectDetail,
+        responseFarmerProjectMilestoneDetail,
       ];
 }
