@@ -241,6 +241,7 @@ class Address {
   dynamic city;
   dynamic state;
   dynamic country;
+  String? dialCode;
 
   Address(
       {this.id,
@@ -275,6 +276,7 @@ class Address {
         this.fullAddress,
         this.city,
         this.state,
+        dialCode,
         this.country});
 
   Address.fromJson(Map<String, dynamic> json) {
@@ -310,6 +312,7 @@ class Address {
     fullAddress = json['full_address'];
     city = json['city'];
     state = json['state'];
+    dialCode = json['dial_code;'];
     country = json['country'];
   }
 
@@ -332,6 +335,7 @@ class Address {
     data['village'] = village;
     data['parish'] = parish;
     data['county'] = county;
+    data['dial_code'] = dialCode;
     data['po_box_number'] = poBoxNumber;
     data['coordinates'] = coordinates;
     data['lattitude'] = lattitude;

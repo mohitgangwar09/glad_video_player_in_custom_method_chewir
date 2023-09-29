@@ -187,7 +187,11 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
   Future addCowAndYield() async {
 
     UpdateRecordMonthBreedModel response =
-    UpdateRecordMonthBreedModel(monthId: 5,farmerId: 5,
+    UpdateRecordMonthBreedModel(
+        suppliedToOtherPdf: int.parse(1.toString()),
+        suppliedToPdf: int.parse(2.toString()),
+        selfUse: int.parse(3.toString()),
+        monthId: 5,farmerId: 5,
         requestData: requestData);
 
     String jsonRequestData = jsonEncode(response);

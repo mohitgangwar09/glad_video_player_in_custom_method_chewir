@@ -47,6 +47,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context);
+      BlocProvider.of<ProfileCubit>(context).profileApi(context);
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
     });
   }

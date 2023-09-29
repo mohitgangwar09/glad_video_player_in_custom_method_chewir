@@ -49,9 +49,9 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     if(addMore == "addMore"){
       CowsAndYieldsSumDoneState.requestData.addAll({RequestData(
         id: 'null',
-        cowBreedId: '0',
+        cowBreedId: '1',
         milkingCows: '0',
-        yieldPerCow: '0',
+        yieldPerCow: '1',
         dryCows: '0',
         heardSize: '0',
         heiferCows: '0',
@@ -63,9 +63,9 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     }else{
       CowsAndYieldsSumDoneState.requestData.addAll({RequestData(
         id: state.responseMonthlyWiseData![0].dateWiseData![index].id.toString(),
-        cowBreedId: state.responseMonthlyWiseData![0].dateWiseData![index].cowBreedId.toString(),
+        cowBreedId: '1',
         milkingCows: state.responseMonthlyWiseData![0].dateWiseData![index].milkingCows.toString(),
-        yieldPerCow: state.responseMonthlyWiseData![0].dateWiseData![index].yieldPerCow.toString(),
+        yieldPerCow: '1',
         dryCows: state.responseMonthlyWiseData![0].dateWiseData![index].dryCows.toString(),
         heardSize: state.responseMonthlyWiseData![0].dateWiseData![index].heardSize.toString(),
         heiferCows: state.responseMonthlyWiseData![0].dateWiseData![index].heiferCows.toString(),
@@ -89,6 +89,20 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     state.bullCalfController.add(TextEditingController());
     state.breedController.add(TextEditingController());
     print("After${state.milkingCowController.length}");
+  }
+
+
+  void getProductionData(MonthWiseData responseMonthWise){
+    if(responseMonthWise.selfUse!=null){
+      state.selfUseController.text = responseMonthWise.selfUse.toString();
+    }
+    if(responseMonthWise.suppliedToPdfl!=null){
+      state.suppliedToPdfController.text = responseMonthWise.suppliedToPdfl.toString();
+    }
+    if(responseMonthWise.suppliedToOthers!=null){
+      state.suppliedToOtherPdfController.text = responseMonthWise.suppliedToOthers.toString();
+    }
+
   }
 
   void totalFirstProduction(double totalProduction,int index) {
@@ -132,7 +146,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
   }
 
   void getDataController(int childIndex,List<DateWiseData> responseDateWise){
-    state.breedController[childIndex].text = responseDateWise[childIndex].breedName.toString();
+    state.breedController[childIndex].text = 'Jersey';
     state.milkingCowController[childIndex].text = responseDateWise[childIndex].milkingCows.toString();
     state.herdSizeController[childIndex].text = responseDateWise[childIndex].heardSize.toString();
     state.yieldPerDayController[childIndex].text = responseDateWise[childIndex].yieldPerCow.toString();
@@ -425,14 +439,14 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
   }
 
   // updateCowBreedRecordApi
-  void updateCowBreedRecordApi(context,String requestData) async{
+  void updateCowBreedRecordApi(context,String requestData,String farmerId) async{
     customDialog(widget: launchProgress());
     emit(state.copyWith(status: CowsAndCubitStatus.loading));
     var response = await apiRepository.updateCowBreedRecordApi(requestData);
     disposeProgress();
     if(response.status == 200){
       showCustomToast(context, response.message.toString());
-      getCowBreedDetailsApi(context,"update");
+      getCowBreedDetailsApi(context,"update",id: farmerId);
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
     else{

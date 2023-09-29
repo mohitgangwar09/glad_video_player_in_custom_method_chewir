@@ -88,6 +88,14 @@ class AuthCubit extends Cubit<AuthCubitState>{
     }
   }
 
+  void emailValidateWithSupplierId(){
+    if(state.emailController.text.isEmpty){
+      emit(state.copyWith(validator: 'email',validatorString: "Please enter email/supplier id"));
+    }else{
+      emit(state.copyWith(validator: ''));
+    }
+  }
+
   void mobileValidate(){
     if(state.emailController.text.isEmpty){
       emit(state.copyWith(validator: "mobile",validatorString: 'Please enter phone number.'));
@@ -102,9 +110,9 @@ class AuthCubit extends Cubit<AuthCubitState>{
   Future<void> loginWithPasswordAPi(context) async{
     if(state.emailController.text.isEmpty){
       emit(state.copyWith(validator: "email",validatorString: 'Please enter email'));
-    }else if(!isEmail(state.emailController.text)){
+    }/*else if(!isEmail(state.emailController.text)){
       emit(state.copyWith(validator: "emailError",validatorString: 'Please enter valid email'));
-    }else if(state.passwordController.text.isEmpty){
+    }*/else if(state.passwordController.text.isEmpty){
       emit(state.copyWith(validator: "password",validatorString:"please enter password"));
     }else{
       customDialog(widget: launchProgress());

@@ -93,7 +93,11 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
                     _formKey.currentState?.save();
 
                     UpdateRecordMonthBreedModel response =
-                    UpdateRecordMonthBreedModel(monthId: BlocProvider.of<CowsAndYieldCubit>(context).state.responseMonthlyWiseData![0].id!,farmerId: int.parse(widget.farmerId.toString()),
+                    UpdateRecordMonthBreedModel(
+                        suppliedToOtherPdf: int.parse(BlocProvider.of<CowsAndYieldCubit>(context).state.suppliedToOtherPdfController.text),
+                        suppliedToPdf: int.parse(BlocProvider.of<CowsAndYieldCubit>(context).state.suppliedToPdfController.text),
+                        selfUse: int.parse(BlocProvider.of<CowsAndYieldCubit>(context).state.selfUseController.text),
+                        monthId: BlocProvider.of<CowsAndYieldCubit>(context).state.responseMonthlyWiseData![0].id!,farmerId: int.parse(widget.farmerId.toString()),
                         requestData: requestData);
                     String jsonRequestData = jsonEncode(response);
 
@@ -725,7 +729,11 @@ class CowsAndYieldsSumState extends State<CowsAndYieldsSum> {
               _formKey.currentState?.save();
 
               UpdateRecordMonthBreedModel response =
-              UpdateRecordMonthBreedModel(monthId: 3605,farmerId: 5,
+              UpdateRecordMonthBreedModel(
+                  suppliedToOtherPdf: int.parse(BlocProvider.of<CowsAndYieldCubit>(context).state.suppliedToOtherPdfController.text),
+                  suppliedToPdf: int.parse(BlocProvider.of<CowsAndYieldCubit>(context).state.suppliedToPdfController.text),
+                  selfUse: int.parse(BlocProvider.of<CowsAndYieldCubit>(context).state.selfUseController.text),
+                  monthId: 3605,farmerId: 5,
                   requestData: requestData);
               String jsonRequestData = jsonEncode(response);
 

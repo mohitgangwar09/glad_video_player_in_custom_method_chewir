@@ -158,10 +158,10 @@ Widget card(BuildContext context){
 
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40,21,40,0),
-                    child: CustomTextField(hint: 'Email',
+                    child: CustomTextField(hint: 'Email / Supplier Id',
                       controller: state.emailController,
                       onChanged: (value){
-                        context.read<AuthCubit>().emailValidate();
+                        context.read<AuthCubit>().emailValidateWithSupplierId();
                       },
                       style: figtreeRegular.copyWith(
                           color: Colors.white,
@@ -170,7 +170,8 @@ Widget card(BuildContext context){
                       image: Images.emailPhone,withoutBorder: true,),
                   ),
 
-                  if(state.validator == "email" || state.validator == "emailError")
+                  // if(state.validator == "email" || state.validator == "emailError")
+                  if(state.validator == "email")
                     Padding(padding: const EdgeInsets.only(left: 40),
                       child: validator(state.validatorString,
                       color: Colors.white),),

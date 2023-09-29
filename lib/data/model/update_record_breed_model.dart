@@ -2,11 +2,17 @@ class UpdateRecordMonthBreedModel {
 
   int monthId;
   int farmerId;
+  int selfUse;
+  int suppliedToOtherPdf;
+  int suppliedToPdf;
   List<RequestData> requestData;
 
   UpdateRecordMonthBreedModel({
     required this.monthId,
     required this.farmerId,
+    required this.selfUse,
+    required this.suppliedToOtherPdf,
+    required this.suppliedToPdf,
     required this.requestData,
   });
 
@@ -14,6 +20,9 @@ class UpdateRecordMonthBreedModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['month_id'] = monthId;
     data['farmer_id'] = farmerId;
+    data['supplied_to_pdfl'] = suppliedToPdf;
+    data['self_use'] = selfUse;
+    data['supplied_to_others'] = suppliedToOtherPdf;
     data['requestData'] = requestData.map((v) => v).toList();
 
     return data;
