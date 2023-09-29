@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
@@ -67,6 +68,21 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
     });
   }
 
+  void updateBreedDetailApi(){
+  _formKey.currentState?.save();
+
+  UpdateRecordMonthBreedModel response =
+  UpdateRecordMonthBreedModel(
+  suppliedToOtherPdf: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.suppliedToOtherPdfController.text),
+  suppliedToPdf: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.suppliedToPdfController.text),
+  selfUse: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.selfUseController.text),
+  monthId: BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData![0].id!,farmerId: int.parse(widget.farmerId.toString()),
+  requestData: requestData);
+  String jsonRequestData = jsonEncode(response);
+
+  BlocProvider.of<CowsAndYieldDoneCubit>(context).updateCowBreedRecordApi(context, jsonRequestData,widget.userId.toString());
+
+  }
 
 
   @override
@@ -88,15 +104,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                 description: 'Provide the following details',
                 action: TextButton(
                   onPressed: () {
-                    _formKey.currentState?.save();
-
-                    UpdateRecordMonthBreedModel response =
-                    UpdateRecordMonthBreedModel(monthId: BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData![0].id!,farmerId: int.parse(widget.farmerId.toString()),
-                        requestData: requestData);
-                    String jsonRequestData = jsonEncode(response);
-
-                    BlocProvider.of<CowsAndYieldDoneCubit>(context).updateCowBreedRecordApi(context, jsonRequestData);
-
+                    updateBreedDetailApi();
                   },
                   child: Text(
                     'Save',
@@ -721,15 +729,22 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
             style: figtreeMedium.copyWith(color: Colors.white, fontSize: 16),
             onTap: () {
 
-              _formKey.currentState?.save();
+              updateBreedDetailApi();
+             /* _formKey.currentState?.save();
 
+              print("print ${BlocProvider.of<CowsAndYieldDoneCubit>(context).state.suppliedToOtherPdfController.text}");
               UpdateRecordMonthBreedModel response =
-              UpdateRecordMonthBreedModel(monthId: 3605,farmerId: 5,
+              UpdateRecordMonthBreedModel(
+                  suppliedToOtherPdf: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.suppliedToOtherPdfController.text),
+                  suppliedToPdf: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.suppliedToPdfController.text),
+                  selfUse: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.selfUseController.text),
+                  monthId: BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData![0].id!,farmerId: int.parse(widget.farmerId.toString()),
                   requestData: requestData);
+
               String jsonRequestData = jsonEncode(response);
 
-              BlocProvider.of<CowsAndYieldDoneCubit>(context).updateCowBreedRecordApi(context, jsonRequestData);
-
+              BlocProvider.of<CowsAndYieldDoneCubit>(context).updateCowBreedRecordApi(context, jsonRequestData,widget.userId.toString());
+*/
             },
             width: screenWidth(),
             height: 60,
@@ -1098,11 +1113,13 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 onChanged: (v){
                                   CowsAndYieldsSumDoneState.requestData[widget.index].milkingCows = v;
                                 },
+                                inputType: TextInputType.phone,
+                                maxLine: 1,
+                                maxLength: 6,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 controller: state.milkingCowController[widget.index],
                                 paddingTop: 5,
-                                inputType: TextInputType.phone,
                                 paddingBottom: 21,
-                                maxLine: 1,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1163,10 +1180,12 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 hint: '',
                                 onChanged: (v) => CowsAndYieldsSumDoneState.requestData[widget.index].dryCows = v,
                                 controller: state.dryController[widget.index],
-                                paddingTop: 5,
                                 inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 6,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingTop: 5,
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1194,10 +1213,12 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 hint: '',
                                 onChanged: (v) => CowsAndYieldsSumDoneState.requestData[widget.index].heiferCows = v,
                                 controller: state.heiferController[widget.index],
-                                paddingTop: 5,
                                 inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 6,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingTop: 5,
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1229,10 +1250,12 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 hint: '',
                                 onChanged: (v) => CowsAndYieldsSumDoneState.requestData[widget.index].sevenToTwelveMonthCows = v,
                                 controller: state.sevenTwelveMonthController[widget.index],
-                                paddingTop: 5,
                                 inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 6,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingTop: 5,
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1258,10 +1281,12 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 hint: '',
                                 onChanged: (v) => CowsAndYieldsSumDoneState.requestData[widget.index].sixMonthCow = v,
                                 controller: state.lessthanSixMonthController[widget.index],
-                                paddingTop: 5,
                                 inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 6,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingTop: 5,
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1289,10 +1314,12 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
                                 hint: '',
                                 onChanged: (v) => CowsAndYieldsSumDoneState.requestData[widget.index].bullCalfs = v,
                                 controller: state.bullCalfController[widget.index],
-                                paddingTop: 5,
                                 inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 6,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingTop: 5,
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1331,6 +1358,8 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
     super.initState();
 
     context.read<DdeFarmerCubit>().totalFirstProduction(0,widget.index);
+
+    context.read<CowsAndYieldDoneCubit>().getProductionData(widget.responseMonthWise);
 
     CowsAndYieldsSumDoneState.modelTotalProduction.addAll({ModelTotalProduction(
       totalMilkProduction: widget.responseMonthWise.totalMilkProduction!=null ?double.parse(widget.responseMonthWise.totalMilkProduction.toString()): 0.0,
@@ -1390,14 +1419,14 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                               CustomTextField(
                                 hint: '',
                                 controller: state.suppliedToPdfController,
-
                                 onChanged: (v){
                                   context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
                                 } ,
-                                paddingTop: 5,
-                                inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 12,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingTop: 5,
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1426,9 +1455,10 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 onChanged: (v){
                                   context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
                                 } ,
-                                inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 12,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,
@@ -1461,9 +1491,10 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 onChanged: (v){
                                   context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
                                 } ,
-                                inputType: TextInputType.phone,
-                                paddingBottom: 21,
                                 maxLine: 1,
+                                maxLength: 12,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                paddingBottom: 21,
                                 width: 1,
                                 borderColor:
                                 0xff999999,

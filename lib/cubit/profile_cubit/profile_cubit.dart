@@ -157,6 +157,13 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       if(response.data!.farmer!.managerPhone != null){
         state.managerPhone.text = response.data!.farmer!.managerPhone.toString();
       }
+
+      if (response.data!.farmer!.address!= null) {
+        if(response.data!.farmer!.address!.dialCode!=null){
+          await SharedPrefManager.savePrefString(AppConstants.countryCode, response.data!.farmer!.address!.dialCode!.toString());
+        }
+      }
+
       await improvementAreaListApi(context, response.data!.farmer!.id.toString());
       emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data,
           selectDistrict: response.data!.farmer!.address!=null?response.data!.farmer!.address!.district!=null?
