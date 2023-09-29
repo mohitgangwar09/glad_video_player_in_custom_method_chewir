@@ -32,6 +32,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
   TextEditingController? mobileController = TextEditingController();
   TextEditingController? addressController = TextEditingController();
   TextEditingController? commentController = TextEditingController();
+  TextEditingController? supplierId = TextEditingController();
   final TextEditingController _searchPlaceController = TextEditingController();
   double? lat;
   double? long;
@@ -132,6 +133,14 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
             maxLine: 1,
             maxLength: 12,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          ),
+          10.verticalSpace(),
+          CustomTextField(
+            hint: 'Supplier Id',
+            controller: supplierId,
+            minLine: 2,
+            borderColor: 0xff999999,
+            radius: 12,
           ),
           20.verticalSpace(),
         ],
@@ -319,7 +328,8 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                   commentController!.text,
                   lat!.toString(),
                   long!.toString(),
-                  district ?? '');
+                  district ?? '',
+                  supplierId!.text);
             }
 
           },

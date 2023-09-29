@@ -62,7 +62,8 @@ class LandingPageRepository {
       String comment,
       String lat,
       String long,
-      String district) async {
+      String district,
+      String supplierId) async {
     FormData formData = FormData.fromMap({
       "name": name,
       "mobile": mobile,
@@ -72,6 +73,7 @@ class LandingPageRepository {
       'lat': lat,
       'lang': long,
       'district': district,
+      'supplier_code' : supplierId,
     });
     print(formData.fields);
 

@@ -56,9 +56,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   }
 
   Future<void> inviteExpertDetails(context, String name,
-      String mobile, String address, String comment, String lat, String long, String district) async {
+      String mobile, String address, String comment, String lat, String long, String district, String supplierId) async {
     customDialog(widget: launchProgress());
-    var response = await apiRepository.inviteExpertDetails(name, mobile, address, comment, lat, long, district);
+    var response = await apiRepository.inviteExpertDetails(name, mobile, address, comment, lat, long, district, supplierId);
 
     disposeProgress();
 
