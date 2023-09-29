@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
@@ -23,11 +24,18 @@ class FarmerDdeTabScreen extends StatefulWidget {
 
 class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
+  String countryCode = "";
+
+  void getCountryCode() async{
+    String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+    countryCode = countryCodes;
+  }
 
   @override
   void initState(){
     super.initState();
     BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+    getCountryCode();
   }
 
   Color ragColor(String ragRating) {
@@ -201,7 +209,9 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                               4.verticalSpace(),
                                               Row(
                                                 children: [
-                                                  Text(state.response!.farmerMAster![i].phone.toString(),
+                                                  Text(
+                                              "${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.response!.farmerMAster![i].phone.toString()}"
+                                                      ,
                                                       style:
                                                       figtreeRegular.copyWith(
                                                           fontSize: 12,

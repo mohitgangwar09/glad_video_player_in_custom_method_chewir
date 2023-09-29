@@ -47,6 +47,7 @@ class AppConstants {
   static const String userId = 'userId';
   static const String userType = 'userType';
   static const String deviceImeiId = 'deviceImeiId';
+  static const String countryCode = 'countryCode';
 
   static const Map languages = {'Swahili': 'Hujambo\nMimi Sam', 'English': 'Hi\nI\'m Sam'};
 }

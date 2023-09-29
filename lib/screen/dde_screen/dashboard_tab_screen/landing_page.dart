@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -52,6 +53,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
   void getApi(){
     BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
     BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context);
+    BlocProvider.of<ProfileCubit>(context).profileApi(context);
   }
 
   @override

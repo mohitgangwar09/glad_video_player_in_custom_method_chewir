@@ -38,6 +38,13 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
+  String countryCode = "";
+
+  void getCountryCode() async{
+    String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+    countryCode = countryCodes;
+  }
+
   void _onMapCreated(GoogleMapController controller,String latitude,String longitude) {
     mapController = controller;
     mapController?.animateCamera(
@@ -67,6 +74,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
   void initState() {
     BlocProvider.of<ProfileCubit>(context)
         .getFarmerProfile(context, userId: widget.userId.toString());
+    getCountryCode();
     super.initState();
   }
 
@@ -174,13 +182,23 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                             style: figtreeMedium.copyWith(
                                                 fontSize: 17)),
                                         5.verticalSpace(),
-                                        Text(
-                                            state.responseFarmerProfile!.farmer!
-                                                    .phone ??
-                                                '',
-                                            style: figtreeRegular.copyWith(
-                                              fontSize: 12,
-                                            )),
+                                        Row(
+                                          children: [
+                                            Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
+                                                .phone}",
+                                                style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                )),
+
+                                            Text(
+                                                "${', '}""${state.responseFarmerProfile!.farmer!
+                                                    .supplierCode ??
+                                                    ''}",
+                                                style: figtreeRegular.copyWith(
+                                                  fontSize: 9,
+                                                )),
+                                          ],
+                                        ),
                                         5.verticalSpace(),
                                         Text(
                                             state.responseFarmerProfile!.farmer!
@@ -370,7 +388,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                             shape: BoxShape.circle),
                                       ),
                                       10.horizontalSpace(),
-                                      Text(state.responseFarmerProfile!.farmer!.managerPhone ?? '+256 758711344',
+                                      Text(state.responseFarmerProfile!.farmer!.managerPhone ?? '',
                                           style: figtreeMedium.copyWith(
                                               fontSize: 12,
                                               color: const Color(0xff727272))),

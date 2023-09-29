@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
@@ -28,8 +29,18 @@ class EnquiryScreen extends StatelessWidget {
     BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
     BlocProvider.of<DdeEnquiryCubit>(context).enquiryListApi(context,"Pending");
 
+    String countryCode = "";
+
+    void getCountryCode() async{
+     String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+     countryCode = countryCodes;
+    }
+
     return BlocBuilder<DdeEnquiryCubit,DdeEnquiryState>(
       builder: (context,state) {
+
+        getCountryCode();
+
         return Stack(
           children: [
             landingBackground(),
@@ -224,7 +235,8 @@ class EnquiryScreen extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text(state.responseEnquiryModel!.data![index].mobile.toString(),
+
+                                                Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseEnquiryModel!.data![index].mobile}",
                                                     style: figtreeRegular.copyWith(
                                                         fontSize: 14,
                                                         color: Colors.black)),
@@ -233,9 +245,10 @@ class EnquiryScreen extends StatelessWidget {
                                                     SvgPicture.asset(
                                                       Images.calender,
                                                       color: Colors.black,
+                                                      width: 12,height: 12,
                                                     ),
                                                     4.horizontalSpace(),
-                                                    Text('${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].createdAt.toString()))}${state.responseEnquiryModel!.data![index].closedAt!=null?"-":""}${state.responseEnquiryModel!.data![index].closedAt!=null?DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseEnquiryModel!.data![index].closedAt.toString())):""}',
+                                                    Text('${DateFormat('dd MMM, yy').format(DateTime.parse(state.responseEnquiryModel!.data![index].createdAt.toString()))}${state.responseEnquiryModel!.data![index].closedAt!=null?"-":""}${state.responseEnquiryModel!.data![index].closedAt!=null?DateFormat('dd MMM, yy').format(DateTime.parse(state.responseEnquiryModel!.data![index].closedAt.toString())):""}',
                                                         style: figtreeRegular.copyWith(
                                                             fontSize: 14,
                                                             color: Colors.black)),

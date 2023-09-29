@@ -271,6 +271,7 @@ class Address {
   dynamic type;
   String? createdAt;
   String? updatedAt;
+  String? dialCode;
 
   Address(
       {this.id,
@@ -291,6 +292,7 @@ class Address {
         this.address,
         this.type,
         this.createdAt,
+        this.dialCode,
         this.updatedAt});
 
   Address.fromJson(Map<String, dynamic> json) {
@@ -313,6 +315,7 @@ class Address {
     type = json['type'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    dialCode = json['dial_code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -321,6 +324,7 @@ class Address {
     data['addressable_id'] = addressableId;
     data['addressable_type'] = addressableType;
     data['name'] = name;
+    data['dial_code'] = dialCode;
     data['mobile'] = mobile;
     data['email'] = email;
     data['gst_number'] = gstNumber;
