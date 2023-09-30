@@ -78,7 +78,12 @@ class PersonalDetails extends StatelessWidget {
                 // controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.dateOfBirth.toString(),
                 onTap: () async{
                   var selectDate = await selectedDate(context);
-                  BlocProvider.of<ProfileCubit>(context).selectDob("${selectDate.year}/${selectDate.month}/${selectDate.day}");
+                  if(isAdult("${selectDate.month}-${selectDate.day}-${selectDate.year}")){
+                    // BlocProvider.of<ProfileCubit>(context).selectDob("${selectDate.year}/${selectDate.month}/${selectDate.day}");
+                    BlocProvider.of<ProfileCubit>(context).selectDob("${selectDate.year}/${selectDate.month}/${selectDate.day}");
+                  }else{
+                    ageToast(context);
+                  }
                 },
                 focusNode: FocusNode(),
               ),
@@ -93,6 +98,8 @@ class PersonalDetails extends StatelessWidget {
                       title: 'Landline No',
                       inputType: TextInputType.phone,
                       maxLine: 1,
+                      enabled: false,
+                      readOnly: false,
                       maxLength: 12,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       controller: TextEditingController(text: '+256'),
@@ -125,7 +132,7 @@ class PersonalDetails extends StatelessWidget {
                 // controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.farmingExperience.toString(),
                 readOnly: true,
                 onTap: () async{
-                  var selectDate = await selectedDate(context);
+                  var selectDate = await selectedDateFarmer(context);
                   BlocProvider.of<ProfileCubit>(context).farmerSince("${selectDate.year}/${selectDate.month}/${selectDate.day}");
                 },
                 focusNode: FocusNode(),

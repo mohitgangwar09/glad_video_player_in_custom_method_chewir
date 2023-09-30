@@ -45,6 +45,9 @@ dependencies:
   intl:
   location: ^5.0.0
   age_calculator: ^1.0.0
+  dropdown_search: ^5.0.6
+  dropdown_button2: ^2.3.9
+
 
 dev_dependencies:
   flutter_test:

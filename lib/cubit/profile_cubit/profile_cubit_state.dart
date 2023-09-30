@@ -19,9 +19,10 @@ class ProfileCubitState extends Equatable{
   final TextEditingController landlineController;
   final TextEditingController profilePic;
   final TextEditingController countryController;
+  final TextEditingController regionController;
   final TextEditingController countyController;
-  final TextEditingController parishController;
-  final TextEditingController villageController;
+  final TextEditingController zipCodeController;
+  final TextEditingController editAddressController;
   final TextEditingController centreNameController;
   final TextEditingController districtController;
   final bool passwordVisible,confirmVisible;
@@ -29,9 +30,13 @@ class ProfileCubitState extends Equatable{
   final farmer_profile.Data? responseFarmerProfile;
   final List<DistrictData> ? districtResponse;
   final List<DistrictData> ? searchDistrictList;
+  final ResponseCountyList responseCountyList;
+  final ResponseSubCounty responseSubCounty;
   final int? selectedBreedIndex;
   final ImprovementAreaListModel? improvementAreaListResponse;
   final List<StepperItemData> stepperData;
+  final List<Counties>? counties;
+  final List<DataSubCounty>? dataSubCounty;
   final Results? resultData;
 
   const ProfileCubitState({
@@ -63,9 +68,9 @@ class ProfileCubitState extends Equatable{
     required this.responseFarmerProfile,
     required this.districtResponse,
     required this.centreNameController,
-    required this.villageController,
+    required this.editAddressController,
     required this.countryController,
-    required this.parishController,
+    required this.zipCodeController,
     required this.countyController,
     required this.districtController,
     required this.selectedBreedIndex,
@@ -73,6 +78,11 @@ class ProfileCubitState extends Equatable{
     required this.improvementAreaListResponse,
     required this.stepperData,
     required this.resultData,
+    required this.regionController,
+    required this.responseCountyList,
+    required this.responseSubCounty,
+    required this.counties,
+    required this.dataSubCounty,
   });
 
   factory ProfileCubitState.initial() {
@@ -87,6 +97,7 @@ class ProfileCubitState extends Equatable{
       farmSize: TextEditingController(),
       dairyArea: TextEditingController(),
       staffQuantity: TextEditingController(),
+      regionController: TextEditingController(),
       validator: '',
       profileImage: "",
       gender: null,
@@ -102,8 +113,8 @@ class ProfileCubitState extends Equatable{
       centreNameController: TextEditingController(),
       countyController: TextEditingController(),
       countryController: TextEditingController(),
-      parishController: TextEditingController(),
-      villageController: TextEditingController(),
+      zipCodeController: TextEditingController(),
+      editAddressController: TextEditingController(),
         districtController: TextEditingController(),
       passwordVisible: true,
       confirmVisible: true,
@@ -115,6 +126,10 @@ class ProfileCubitState extends Equatable{
         improvementAreaListResponse: null,
       stepperData: const [],
       resultData: null,
+      counties: const [],
+      dataSubCounty: const [],
+      responseCountyList: ResponseCountyList(),
+      responseSubCounty: ResponseSubCounty(),
     );
   }
 
@@ -129,12 +144,13 @@ class ProfileCubitState extends Equatable{
     TextEditingController? passwordController,
     TextEditingController? phoneController,
     TextEditingController? addressController,
-    TextEditingController? villageController,
+    TextEditingController? editAddressController,
     TextEditingController? countryController,
-    TextEditingController? parishController,
+    TextEditingController? zipCodeController,
     TextEditingController? countyController,
     TextEditingController? centreNameController,
     TextEditingController? districtController,
+    TextEditingController? regionController,
     String? token,validator,validatorString,id,gender,selectDistrict,districtId, selectDob,farmerSince,profileImage,
     bool? passwordVisible,confirmVisible,
     TextEditingController? profilePic,farmSize,dairyArea,staffQuantity,managerName,managerPhone,
@@ -145,6 +161,10 @@ class ProfileCubitState extends Equatable{
     ImprovementAreaListModel? improvementAreaListResponse,
     List<StepperItemData>? stepperData,
     Results? resultData,
+    ResponseCountyList? responseCountyList,
+    List<Counties>? counties,
+    List<DataSubCounty>? dataSubCounty,
+    ResponseSubCounty? responseSubCounty,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -178,13 +198,18 @@ class ProfileCubitState extends Equatable{
         centreNameController:centreNameController ?? this.centreNameController,
         countryController:countryController ?? this.countryController,
         countyController:countyController ?? this.countyController,
-        parishController:parishController ?? this.parishController,
-        villageController:villageController ?? this.villageController,
+        zipCodeController:zipCodeController ?? this.zipCodeController,
+        editAddressController:editAddressController ?? this.editAddressController,
       districtController:districtController ?? this.districtController,
         selectedBreedIndex: selectedBreedIndex ?? this.selectedBreedIndex,
         improvementAreaListResponse: improvementAreaListResponse ?? this.improvementAreaListResponse,
         stepperData: stepperData ?? this.stepperData,
-      resultData: resultData ?? this.resultData
+      resultData: resultData ?? this.resultData,
+        regionController: regionController ?? this.regionController,
+        responseCountyList: responseCountyList ?? this.responseCountyList,
+        responseSubCounty: responseSubCounty ?? this.responseSubCounty,
+        counties: counties ?? this.counties,
+        dataSubCounty: dataSubCounty ?? this.dataSubCounty,
     );
   }
 
@@ -215,8 +240,8 @@ class ProfileCubitState extends Equatable{
     selectDistrict,
     countyController,
     countryController,
-    villageController,
-    parishController,
+    editAddressController,
+    zipCodeController,
     centreNameController,
     districtController,
     districtId,
@@ -227,6 +252,11 @@ class ProfileCubitState extends Equatable{
     improvementAreaListResponse,
     stepperData,
     resultData,
+    regionController,
+    responseCountyList,
+    responseSubCounty,
+    counties,
+    dataSubCounty
   ];
 
 }

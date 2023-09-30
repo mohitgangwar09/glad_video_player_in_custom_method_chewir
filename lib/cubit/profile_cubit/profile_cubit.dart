@@ -4,9 +4,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
+import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
+import 'package:glad/data/model/response_sub_county.dart';
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -277,6 +279,44 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
+  void getCountyApi(context,String district) async {
+    emit(state.copyWith(status: ProfileStatus.loading));
+    var response = await apiRepository.getCountyByDistrictApi(state.districtController.text);
+    if (response.status == 200) {
+      List<Counties> counties= [];
+      if(response.data!=null){
+        counties = response.data![0].counties!;
+        // counties = response.data![0].counties!;
+      }
+
+      emit(state.copyWith(
+        status: ProfileStatus.success,
+        responseCountyList: response,counties: counties
+      ));
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void getSubCountyApi(context,String id) async {
+    emit(state.copyWith(status: ProfileStatus.loading));
+    var response = await apiRepository.getSubCountyApi(id);
+    if (response.status == 200) {
+      List<DataSubCounty> subCounties = [];
+      if(response.data!=null){
+         subCounties = response.data!;
+      }
+      emit(state.copyWith(
+        status: ProfileStatus.success,
+        responseSubCounty: response,dataSubCounty: subCounties
+      ));
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 ////////////AddressUpdate////////////////////////
   void addressUpdateApi(
     context,String userId
@@ -287,8 +327,8 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
         state.countryController.text.toString(),
         state.districtId.toString(),
         state.countyController.text.toString(),
-        state.parishController.text.toString(),
-        state.villageController.text.toString(),
+        state.zipCodeController.text.toString(),
+        state.editAddressController.text.toString(),
         state.centreNameController.text.toString(),userId);
 
     disposeProgress();

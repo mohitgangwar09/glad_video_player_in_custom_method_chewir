@@ -133,6 +133,7 @@ class DateWiseData {
   dynamic sevenToTwelveMonthCows;
   dynamic sixMonthCow;
   dynamic yieldPerCow;
+  dynamic bullCalfs;
 
   DateWiseData(
       {this.id,
@@ -147,6 +148,7 @@ class DateWiseData {
         this.heiferCows,
         this.sevenToTwelveMonthCows,
         this.sixMonthCow,
+        this.bullCalfs,
         this.yieldPerCow});
 
   DateWiseData.fromJson(Map<String, dynamic> json) {
@@ -163,6 +165,7 @@ class DateWiseData {
     sevenToTwelveMonthCows = json['seven_to_twelve_month_cows'];
     sixMonthCow = json['six_month_cow'];
     yieldPerCow = json['yield_per_cow'];
+    bullCalfs = json['bull_calfs'];
   }
 
   Map<String, dynamic> toJson() {
@@ -180,6 +183,7 @@ class DateWiseData {
     data['seven_to_twelve_month_cows'] = sevenToTwelveMonthCows;
     data['six_month_cow'] = sixMonthCow;
     data['yield_per_cow'] = yieldPerCow;
+    data['bull_calfs'] = bullCalfs;
     return data;
   }
 }

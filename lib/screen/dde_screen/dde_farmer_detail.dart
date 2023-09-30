@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -135,7 +136,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                             Container(
                               margin: const EdgeInsets.only(top: 31),
                               padding: const EdgeInsets.only(left: 20, right: 20),
-                              height: 171,
+                              height: 168,
                               child: Row(
                                 children: [
                                   ClipRRect(
@@ -153,61 +154,64 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                           fit: BoxFit.cover,
                                         ),
                                       )),
-                                  10.horizontalSpace(),
+                                  17.horizontalSpace(),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            SvgPicture.asset(
-                                              Images.kycUnverified,
-                                              width: 30,
-                                              height: 30,
-                                            ),
-                                            4.horizontalSpace(),
-                                            Text('KYC Verified',
-                                                style: figtreeMedium.copyWith(
-                                                    fontSize: 12)),
-                                          ],
-                                        ),
-                                        10.verticalSpace(),
-                                        Text(
-                                            state.responseFarmerProfile!.farmer!
-                                                    .name ??
-                                                '',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 17)),
-                                        5.verticalSpace(),
-                                        Row(
-                                          children: [
-                                            Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
-                                                .phone}",
-                                                style: figtreeRegular.copyWith(
-                                                  fontSize: 12,
-                                                )),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 25.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SvgPicture.asset(
+                                                Images.kycUnverified,
+                                                width: 20,
+                                                height: 20,
+                                              ),
+                                              4.horizontalSpace(),
+                                              Text('KYC Verified',
+                                                  style: figtreeMedium.copyWith(
+                                                      fontSize: 12)),
+                                            ],
+                                          ),
+                                          10.verticalSpace(),
+                                          Text(
+                                              state.responseFarmerProfile!.farmer!
+                                                      .name ??
+                                                  '',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 17)),
+                                          5.verticalSpace(),
+                                          Row(
+                                            children: [
+                                              Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
+                                                  .phone}",
+                                                  style: figtreeRegular.copyWith(
+                                                    fontSize: 12,
+                                                  )),
 
-                                            Text(
-                                                "${', '}""${state.responseFarmerProfile!.farmer!
-                                                    .supplierCode ??
-                                                    ''}",
-                                                style: figtreeRegular.copyWith(
-                                                  fontSize: 9,
-                                                )),
-                                          ],
-                                        ),
-                                        5.verticalSpace(),
-                                        Text(
-                                            state.responseFarmerProfile!.farmer!
-                                                    .email ??
-                                                '',
-                                            style: figtreeRegular.copyWith(
-                                              fontSize: 12,
-                                            )),
-                                      ],
+                                              Text(
+                                                  "${', '}""${state.responseFarmerProfile!.farmer!
+                                                      .supplierCode ??
+                                                      ''}",
+                                                  style: figtreeRegular.copyWith(
+                                                    fontSize: 9,
+                                                  )),
+                                            ],
+                                          ),
+                                          5.verticalSpace(),
+                                          Text(
+                                              state.responseFarmerProfile!.farmer!
+                                                      .email ??
+                                                  '',
+                                              style: figtreeRegular.copyWith(
+                                                fontSize: 12,
+                                              )),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   10.horizontalSpace(),
@@ -244,20 +248,20 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 20.0, right: 25, top: 22),
+                                  left: 22.0, right: 25, top: 0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':'${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} old').textRegular(),
+                                      (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':'${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} old').textRegular(fontSize: 12),
                                       10.horizontalSpace(),
                                       const CircleAvatar(
                                         radius: 4,
                                         backgroundColor: Colors.black,
                                       ),
                                       10.horizontalSpace(),
-                                      "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} experience".textRegular(),
+                                      "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} experience".textRegular(fontSize: 12),
                                     ],
                                   ),
 
@@ -292,12 +296,12 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                             ),
                             Padding(
                               padding:
-                              const EdgeInsets.only(left: 20.0, right: 25),
+                              const EdgeInsets.only(left: 22.0, right: 25),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   state.responseFarmerProfile!.farmer!.address!=null?Expanded(
-                                      child: state.responseFarmerProfile!.farmer!.address!.address.toString()
+                                      child: (state.responseFarmerProfile!.farmer!.address!.address.toString())
                                           .textRegular(fontSize: 12)):const Expanded(child: Text('')),
                                   state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory"?
                                   "Satisfactory".textMedium(fontSize: 12):
@@ -388,7 +392,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                             shape: BoxShape.circle),
                                       ),
                                       10.horizontalSpace(),
-                                      Text(state.responseFarmerProfile!.farmer!.managerPhone ?? '',
+                                      Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!.managerPhone ?? ''}",
                                           style: figtreeMedium.copyWith(
                                               fontSize: 12,
                                               color: const Color(0xff727272))),
@@ -718,6 +722,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
               ),
               InkWell(
                   onTap: () {
+                    BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
                     CowsAndYieldsSumDone(userId:state.responseFarmerProfile!.farmer!.userId.toString(),farmerId:state.responseFarmerProfile!.farmer!.id.toString()).navigate();
                     // CowsAndYieldsSum(userId:state.responseFarmerProfile!.farmer!.userId.toString(),farmerId:state.responseFarmerProfile!.farmer!.id.toString()).navigate();
                   },
@@ -738,7 +743,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Wrap(
+               /* Wrap(
                   spacing: 10,
                   children: [
                     for(int index = 0; index < state.responseFarmerProfile!.farmer!.cowBreedDetails!.length; index++)
@@ -759,8 +764,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                           ),
                         ),
                       ),
-                  ],),
-                20.verticalSpace(),
+                  ],),*/
+                // 20.verticalSpace(),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -771,10 +776,11 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+
                       RichText(
                           text: TextSpan(children: [
                             TextSpan(
-                                text: 'Milking Cows  ',
+                                text: 'Milking Cows - ',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
                             TextSpan(

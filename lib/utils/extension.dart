@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:glad/screen/custom_widget/custom_toast.dart';
 import 'package:glad/utils/styles.dart';
 
-/*extension Utility on String {
+extension UtilityToast on String {
   toast() => Fluttertoast.showToast(
     msg: this,
     textColor: Colors.white,
-    backgroundColor: const Color(0xff3C3C3C),
-    gravity: ToastGravity.TOP,
+    backgroundColor: Colors.red,
+    gravity: ToastGravity.CENTER,
     toastLength: Toast.LENGTH_LONG,
   );
   removeBracket() =>  replaceAll('[', '').replaceAll(']', '');
-}*/
+}
 
 extension Utility on String {
 

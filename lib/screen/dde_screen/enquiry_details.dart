@@ -9,6 +9,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
+import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/project_widget.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
@@ -480,12 +481,22 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                               fontSize: 16,
                                                               color: Colors
                                                                   .black)):
-                                                      networkImage(text: state
-                                                          .responseEnquiryDetail!
-                                                          .data!
-                                                          .enquiry!
-                                                          .enquiryLog![index]
-                                                          .attachment!,height: 220,width: screenWidth()),
+                                                      InkWell(
+                                                        onTap: (){
+                                                          PreviewScreen(previewImage:state
+                                                              .responseEnquiryDetail!
+                                                              .data!
+                                                              .enquiry!
+                                                              .enquiryLog![index]
+                                                              .attachment!).navigate();
+                                                        },
+                                                        child: networkImage(text: state
+                                                            .responseEnquiryDetail!
+                                                            .data!
+                                                            .enquiry!
+                                                            .enquiryLog![index]
+                                                            .attachment!,height: 220,width: screenWidth()),
+                                                      ),
                                                       10.verticalSpace(),
                                                       DateFormat('dd MMM, yyyy hh:mm a')
                                                           .format(DateTime.parse(state
@@ -565,7 +576,12 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                                   .black)):
                                                       InkWell(
                                                         onTap: (){
-
+                                                          PreviewScreen(previewImage:state
+                                                              .responseEnquiryDetail!
+                                                              .data!
+                                                              .enquiry!
+                                                              .enquiryLog![index]
+                                                              .attachment!).navigate();
                                                         },
                                                         child: networkImage(text: state
                                                             .responseEnquiryDetail!
