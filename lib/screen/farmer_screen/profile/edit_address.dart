@@ -42,8 +42,8 @@ class _EditAddressState extends State<EditAddress> {
   double? lat;
   double? long;
   String? district,ugandaRegion;
-  String selectedCounty = "Select County";
-  String selectedSubCounty = "Select Sub County";
+  // String selectedCounty = "Select County";
+  // String selectedSubCounty = "Select Sub County";
 
   GoogleMapController? mapController;
 
@@ -107,7 +107,8 @@ class _EditAddressState extends State<EditAddress> {
                     action: TextButton(
                         onPressed: () {
                           BlocProvider.of<ProfileCubit>(context)
-                              .addressUpdateApi(context,widget.userId);
+                              .addressUpdateApi(context,widget.userId,
+                          lat.toString(),long.toString());
                         },
                         child: Text(
                           'Save',
@@ -187,7 +188,7 @@ class _EditAddressState extends State<EditAddress> {
                                       isExpanded: true,
                                       isDense: true,
                                       hint: Text(
-                                        selectedCounty.toString(),
+                                        state.selectCounty.toString(),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Theme.of(context).hintColor,
@@ -205,11 +206,11 @@ class _EditAddressState extends State<EditAddress> {
                                       )).toList(),
                                       // value: state.counties![0].name!,
                                       onChanged: (Counties? value) {
-                                        setState(() {
-                                          selectedCounty = value!.name!;
-                                          selectedSubCounty = 'Select Sub County';
+                                        // setState(() {
+                                          // selectedCounty = value!.name!;
+                                          BlocProvider.of<ProfileCubit>(context).emit(state.copyWith(selectSubCounty: 'Select Sub County',selectCounty: value!.name.toString()));
                                           BlocProvider.of<ProfileCubit>(context).getSubCountyApi(context, value.id.toString());
-                                        });
+                                        // });
                                       },
                                       buttonStyleData: const ButtonStyleData(
                                         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -244,7 +245,7 @@ class _EditAddressState extends State<EditAddress> {
                                       isExpanded: true,
                                       isDense: true,
                                       hint: Text(
-                                        selectedSubCounty.toString(),
+                                        state.selectSubCounty.toString(),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Theme.of(context).hintColor,
@@ -265,9 +266,10 @@ class _EditAddressState extends State<EditAddress> {
                                         // if(selectedCounty == 'Select County'){
                                         //   showCustomToast(context, "Please select county ist");
                                         // }else{
-                                          setState(() {
+                                        BlocProvider.of<ProfileCubit>(context).emit(state.copyWith(selectSubCounty: value!.name!.toString()));
+                                         /* setState(() {
                                             selectedSubCounty = value!.name!;
-                                          });
+                                          });*/
                                         // }
                                       },
                                       buttonStyleData: const ButtonStyleData(
@@ -325,7 +327,8 @@ class _EditAddressState extends State<EditAddress> {
                                     'Save',
                                     onTap: () {
                                       BlocProvider.of<ProfileCubit>(context)
-                                          .addressUpdateApi(context,widget.userId);
+                                          .addressUpdateApi(context,widget.userId,
+                                          lat.toString(),long.toString());
                                     },
                                     radius: 40,
                                     width: double.infinity,
@@ -425,8 +428,9 @@ class _EditAddressState extends State<EditAddress> {
                                           // district = data.longName;
                                           state.districtController.text = data.longName.toString();
                                           print("district Name $district");
-                                          selectedCounty = 'Select County';
-                                          selectedSubCounty = 'Select Sub County';
+                                          // selectedCounty = 'Select County';
+                                          // selectedSubCounty = 'Select Sub County';
+                                          BlocProvider.of<ProfileCubit>(context).emit(state.copyWith(selectCounty: 'Select County',selectSubCounty: 'Select Sub County'));
                                           BlocProvider.of<ProfileCubit>(context).getCountyApi(context,data.longName.toString());
                                           // break;
                                         }

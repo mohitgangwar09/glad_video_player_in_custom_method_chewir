@@ -784,7 +784,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
                             TextSpan(
-                                text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].milkingCows!.toString(),
+                                text: state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].milkingCows!.toString():'0',
                                 style: figtreeSemiBold.copyWith(
                                     fontSize: 14, color: Colors.black)),
                           ])),
@@ -799,7 +799,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
                             TextSpan(
-                                text: '${state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].yieldPerCow!.toString()} Ltr/Day',
+                                text: '${state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].yieldPerCow!.toString():"0"} Ltr/Day',
                                 style: figtreeSemiBold.copyWith(
                                     fontSize: 14, color: Colors.black)),
                           ])),
@@ -818,7 +818,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Herd Size',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].herdSize!.toString(),
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].herdSize!.toString():"0",
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -831,7 +831,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Dry Cows',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].dryCows!.toString(),
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].dryCows!.toString():"0",
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -844,7 +844,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Text('Heifer',
                             style: figtreeMedium.copyWith(fontSize: 14)),
                         4.verticalSpace(),
-                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].heiferCows.toString(),
+                        Text(state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].heiferCows.toString():"0",
                             style: figtreeSemiBold.copyWith(fontSize: 18)),
                       ],
                     ),
@@ -864,7 +864,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         fontSize: 12,
                                         color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].sevenToTwelveMonthCows.toString(),
+                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].sevenToTwelveMonthCows.toString():"0",
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -889,7 +889,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         fontSize: 12,
                                         color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].sixMonthCow.toString(),
+                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].sixMonthCow.toString():"0",
                                     style: figtreeRegular.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -920,7 +920,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         fontSize: 12,
                                         color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].bullCalfs.toString() ?? '01',
+                                    text: state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].bullCalfs.toString(): '0',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),

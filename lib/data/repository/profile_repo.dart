@@ -148,21 +148,25 @@ class ProfileRepository {
   ////////////////////address UpdateApi////////////////
   Future<ResponseOtpModel> addressUpdateApi(
       String country,
-      String districtId,
+      String district,
+      String region,
       String county,
-      String parish,
-      String village,
-      String centreName,String userId) async {
+      String subCounty,
+      String postalCode,
+      String address,String latitude,String longitude,String userId) async {
     // var userId = sharedPreferences?.getString(AppConstants.userId);
 
     FormData formData = FormData.fromMap({
       "id": userId,
-      "district": districtId,
-      "country_id": 227,
+      "country": country,
+      "region": region,
+      "district": district,
       "county": county,
-      "parish": parish,
-      "village": village,
-      "centreName": centreName,
+      "sub_county": subCounty,
+      "postal_code": postalCode,
+      "address": address,
+      "latitude": latitude,
+      "longitude": longitude,
     });
     print(formData.fields);
 

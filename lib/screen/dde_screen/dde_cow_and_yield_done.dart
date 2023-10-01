@@ -44,7 +44,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
   static bool checkClickMonth = false;
   static List<bool> showQty=[];
   static List<bool> showGreaterQty=[];
-  List<bool> showMonthWiseData=[];
+  List<bool> showMonthWiseData=[true];
 
   void showHideMonthWise(int i){
     setState((){
@@ -196,6 +196,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                           builder: (context,state) {
                             if(state.responseMonthlyWiseData!.isNotEmpty){
                               return customList(list: state.responseMonthlyWiseData!,child: (index) {
+                                showMonthWiseData.add(false);
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -229,7 +230,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
 
                                                           InkWell(
                                                             onTap: (){
-
+                                                              showHideMonthWise(index);
                                                               showGreaterQty.clear();
                                                               context.read<CowsAndYieldDoneCubit>().showMonth(index,state.responseMonthlyWiseData![index]);
 
@@ -271,7 +272,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                           children: [
                                                                             // viewList.contains(index)?"dd".textBold():"PP".textMedium(),
 
-                                                                            state.responseMonthlyWiseData![index].id == state.monthId?
+                                                                            // state.responseMonthlyWiseData![index].id == state.monthId?
+                                                                            showMonthWiseData[index]?
                                                                             SvgPicture.asset(
                                                                               Images.less1,
                                                                               height:40,
@@ -508,8 +510,9 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                               ),
                                                             ),
                                                           ),
-                                                          //// breed Ui
-                                                          index>0?state.responseMonthlyWiseData![index].id == state.monthId?
+
+                                                          // index>0?state.responseMonthlyWiseData![index].id == state.monthId?
+                                                          index>0?showMonthWiseData[index] ?
                                                           customList(
                                                               padding: const EdgeInsets.only(left: 15,right: 15,top: 10,bottom: 10),
                                                               list: state.responseMonthlyWiseData![index].dateWiseData!,
@@ -587,7 +590,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                             padding:
                                                                             const EdgeInsets
                                                                                 .fromLTRB(
-                                                                                16, 20, 10, 20),
+                                                                                16, 20, 10, 0),
                                                                             child: Column(
                                                                               children: [
                                                                                 Row(
@@ -688,8 +691,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                         )),
                                                                                   ],
                                                                                 ),
-                                                                                20.verticalSpace(),
-                                                                               /* Row(
+                                                                                15.verticalSpace(),
+                                                                                /* Row(
                                                                                   mainAxisAlignment:
                                                                                   MainAxisAlignment
                                                                                       .spaceBetween,
@@ -750,7 +753,16 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                 );
                                                               }
                                                           ):const SizedBox(width: 0,height: 0,):
-                                                          state.responseMonthlyWiseData![index].id == state.monthId?
+                                                          showMonthWiseData[index] ?
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 17,right: 17),
+                                                            child: Column(
+                                                              children: [
+                                                                ...getDateWiseData(state.responseMonthlyWiseData![0].dateWiseData!)
+                                                              ],
+                                                            ),
+                                                          ):const SizedBox.shrink(),
+                                                          /*state.responseMonthlyWiseData![index].id == state.monthId?
                                                           checkClickMonth == false ?
                                                           Padding(
                                                             padding: const EdgeInsets.only(left: 17,right: 17),
@@ -760,9 +772,9 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                               ],
                                                             ),
                                                           ):const SizedBox(width: 0,height: 0,)
-                                                              :const SizedBox(width: 0,height: 0,),
+                                                              :const SizedBox(width: 0,height: 0,),*/
 
-                                                          index > 0 ? const SizedBox(width: 0,height: 0,) :
+                                                          /*index > 0 ? const SizedBox(width: 0,height: 0,) :
                                                           state.responseMonthlyWiseData![index].id == state.monthId?
                                                           checkClickMonth == false ?
                                                           Column(
@@ -773,7 +785,308 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                               20.verticalSpace(),
 
                                                             ],
-                                                          ):const Text("dd"):const SizedBox(width: 0,height: 0,),
+                                                          ):const Text(""):const SizedBox(width: 0,height: 0,),*/
+
+                                                          index > 0 ? const SizedBox(width: 0,height: 0,) :
+                                                          showMonthWiseData[index] ?
+                                                          Column(
+                                                            children: [
+
+                                                              20.verticalSpace(),
+                                                              TotalProductionTextField(0, state.responseMonthlyWiseData![index], state.responseMonthlyWiseData!),
+                                                              20.verticalSpace(),
+
+                                                            ],
+                                                          ):const SizedBox(width: 0,height: 0,),
+
+                                                          //// breed Ui
+                                                          // index>0?state.responseMonthlyWiseData![index].id == state.monthId?
+                                                          /*index>0?state.responseMonthlyWiseData![index].id == state.monthId?
+                                                          customList(
+                                                              padding: const EdgeInsets.only(left: 15,right: 15,top: 10,bottom: 10),
+                                                              list: state.responseMonthlyWiseData![index].dateWiseData!,
+                                                              child: (childIndex){
+                                                                if(state.responseMonthlyWiseData![index].dateWiseData!.length == 1){
+                                                                  showGreaterQty.add(true);
+                                                                }else{
+                                                                  if(index==state.responseMonthlyWiseData![index].dateWiseData!.length-1){
+                                                                    showGreaterQty.add(true);
+                                                                  }else{
+                                                                    showGreaterQty.add(false);
+                                                                  }
+                                                                }
+                                                                return Column(
+                                                                  children: [
+
+                                                                    *//*Row(
+                                                                  children: [
+                                                                    Expanded(
+                                                                        child: InkWell(
+                                                                          onTap: (){
+
+                                                                          },
+                                                                          child: SizedBox(
+                                                                              height: 65,
+                                                                              child: CustomTextField(
+                                                                                enabled: false,
+                                                                                controller: TextEditingController(text: state.responseMonthlyWiseData![index].dateWiseData![childIndex].breedName.toString()),
+                                                                                imageColors: Colors.black,
+                                                                                hint:'Breed Name',
+                                                                              )),
+                                                                        )),
+
+                                                                    10.horizontalSpace(),
+
+                                                                    InkWell(
+                                                                      onTap: (){
+                                                                        showGreaterHide(childIndex);
+                                                                      },
+                                                                      child: Container(
+                                                                        width: 45,
+                                                                        height: 60,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(8),
+                                                                            border: Border.all(color: Colors.red,)
+                                                                        ),
+                                                                        child: Icon(
+                                                                          showGreaterQty[childIndex] ?  Icons.remove:Icons.add, color: Colors.black,
+                                                                          // Icons.remove:Icons.add, color: Colors.black,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+
+                                                                  ],
+                                                                ),*//*
+
+                                                                    // showGreaterQty[childIndex]?
+                                                                    Column(
+                                                                      children: [
+
+                                                                        10.verticalSpace(),
+
+                                                                        greaterThanZero(state.responseMonthlyWiseData![index].dateWiseData![childIndex]),
+
+                                                                        Container(
+                                                                          margin: const EdgeInsets.only(left: 0,right: 0,top: 15),
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                            BorderRadius
+                                                                                .circular(20),
+                                                                            color: const Color(
+                                                                                0xffFFF3F4),
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding:
+                                                                            const EdgeInsets
+                                                                                .fromLTRB(
+                                                                                16, 20, 10, 0),
+                                                                            child: Column(
+                                                                              children: [
+                                                                                Row(
+                                                                                  mainAxisAlignment:
+                                                                                  MainAxisAlignment
+                                                                                      .spaceBetween,
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                        child:
+                                                                                        Column(
+                                                                                          crossAxisAlignment:
+                                                                                          CrossAxisAlignment
+                                                                                              .start,
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              'Supplied to PDFL (Ltr.)',
+                                                                                              style: figtreeSemiBold
+                                                                                                  .copyWith(
+                                                                                                  fontSize:
+                                                                                                  12),
+                                                                                            ),
+                                                                                            08.verticalSpace(),
+                                                                                            CustomTextField(
+                                                                                              hint: '',
+                                                                                              enabled: false,
+                                                                                              controller: TextEditingController(text: state.responseMonthlyWiseData![index].suppliedToPdfl!=null?state.responseMonthlyWiseData![index].suppliedToPdfl.toString():""),
+                                                                                              paddingTop: 5,
+                                                                                              inputType: TextInputType.phone,
+                                                                                              paddingBottom: 21,
+                                                                                              maxLine: 1,
+                                                                                              width: 1,
+                                                                                              borderColor:
+                                                                                              0xff999999,
+                                                                                            ),
+                                                                                          ],
+                                                                                        )),
+                                                                                    15.horizontalSpace(),
+                                                                                    Expanded(
+                                                                                        child: Column(
+                                                                                          crossAxisAlignment:
+                                                                                          CrossAxisAlignment
+                                                                                              .start,
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              'Supplied to Others (Ltr.)',
+                                                                                              style: figtreeSemiBold
+                                                                                                  .copyWith(
+                                                                                                  fontSize:
+                                                                                                  12),
+                                                                                            ),
+                                                                                            08.verticalSpace(),
+                                                                                            CustomTextField(
+                                                                                              hint: '',
+                                                                                              enabled: false,
+                                                                                              controller: TextEditingController(text: state.responseMonthlyWiseData![index].suppliedToOthers!=null?state.responseMonthlyWiseData![index].suppliedToOthers.toString():""),
+                                                                                              paddingTop: 5,
+                                                                                              inputType: TextInputType.phone,
+                                                                                              paddingBottom: 21,
+                                                                                              maxLine: 1,
+                                                                                              width: 1,
+                                                                                              borderColor:
+                                                                                              0xff999999,
+                                                                                            ),
+                                                                                          ],
+                                                                                        )),
+                                                                                    15.horizontalSpace(),
+                                                                                    Expanded(
+                                                                                        child:
+                                                                                        Column(
+                                                                                          crossAxisAlignment:
+                                                                                          CrossAxisAlignment
+                                                                                              .start,
+                                                                                          children: [
+                                                                                            Padding(
+                                                                                              padding: const EdgeInsets.only(top:15.0),
+                                                                                              child: Text(
+                                                                                                'Self use',
+                                                                                                style: figtreeSemiBold
+                                                                                                    .copyWith(
+                                                                                                    fontSize:
+                                                                                                    12),
+                                                                                              ),
+                                                                                            ),
+                                                                                            08.verticalSpace(),
+                                                                                            CustomTextField(
+                                                                                              hint: '',
+                                                                                              enabled: false,
+                                                                                              controller: TextEditingController(text: state.responseMonthlyWiseData![index].selfUse!=null?state.responseMonthlyWiseData![index].selfUse.toString():""),
+                                                                                              paddingTop: 5,
+                                                                                              inputType: TextInputType.phone,
+                                                                                              paddingBottom: 21,
+                                                                                              maxLine: 1,
+                                                                                              width: 1,
+                                                                                              borderColor:
+                                                                                              0xff999999,
+                                                                                            ),
+                                                                                          ],
+                                                                                        )),
+                                                                                  ],
+                                                                                ),
+                                                                                15.verticalSpace(),
+                                                                               *//* Row(
+                                                                                  mainAxisAlignment:
+                                                                                  MainAxisAlignment
+                                                                                      .spaceBetween,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Total milk production (Ltr.)',
+                                                                                      style: figtreeRegular
+                                                                                          .copyWith(
+                                                                                          fontSize:
+                                                                                          16),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      state.responseMonthlyWiseData![index].totalMilkProduction!=null?state.responseMonthlyWiseData![index].totalMilkProduction.toString():"",
+                                                                                      style: figtreeBold
+                                                                                          .copyWith(
+                                                                                          fontSize:
+                                                                                          16),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                05.verticalSpace(),*//*
+                                                                                // const Divider(
+                                                                                //   thickness: 1,
+                                                                                //   color:
+                                                                                //   ColorResources
+                                                                                //       .grey,
+                                                                                // ),
+                                                                                *//*Row(
+                                                                              mainAxisAlignment:
+                                                                              MainAxisAlignment
+                                                                                  .spaceBetween,
+                                                                              children: [
+                                                                                Text(
+                                                                                  'Yield (Ltr.) /Cow /Day',
+                                                                                  style: figtreeRegular
+                                                                                      .copyWith(
+                                                                                      fontSize:
+                                                                                      16),
+                                                                                ),
+                                                                                Text(
+                                                                                  state.responseMonthlyWiseData![index].yieldPerCow!=null?double.parse(state.responseMonthlyWiseData![index].yieldPerCow!.toString()).toStringAsFixed(2):"",
+                                                                                  style: figtreeBold
+                                                                                      .copyWith(
+                                                                                      fontSize:
+                                                                                      16),
+                                                                                ),
+                                                                              ],
+                                                                            ),*//*
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                    // :const SizedBox(width: 0,height: 0,)
+
+                                                                  ],
+                                                                );
+                                                              }
+                                                          ):const SizedBox(width: 0,height: 0,):
+                                                              showMonthWiseData[index] ?
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 17,right: 17),
+                                                            child: Column(
+                                                              children: [
+                                                                ...getDateWiseData(state.responseMonthlyWiseData![0].dateWiseData!)
+                                                              ],
+                                                            ),
+                                                          ):const SizedBox.shrink(),
+                                                          *//*state.responseMonthlyWiseData![index].id == state.monthId?
+                                                          checkClickMonth == false ?
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 17,right: 17),
+                                                            child: Column(
+                                                              children: [
+                                                                ...getDateWiseData(state.responseMonthlyWiseData![0].dateWiseData!)
+                                                              ],
+                                                            ),
+                                                          ):const SizedBox(width: 0,height: 0,)
+                                                              :const SizedBox(width: 0,height: 0,),*//*
+
+                                                          *//*index > 0 ? const SizedBox(width: 0,height: 0,) :
+                                                          state.responseMonthlyWiseData![index].id == state.monthId?
+                                                          checkClickMonth == false ?
+                                                          Column(
+                                                            children: [
+
+                                                              20.verticalSpace(),
+                                                              TotalProductionTextField(0, state.responseMonthlyWiseData![index], state.responseMonthlyWiseData!),
+                                                              20.verticalSpace(),
+
+                                                            ],
+                                                          ):const Text(""):const SizedBox(width: 0,height: 0,),*//*
+
+                                                          index > 0 ? const SizedBox(width: 0,height: 0,) :
+                                                          showMonthWiseData[index] ?
+                                                          Column(
+                                                            children: [
+
+                                                              20.verticalSpace(),
+                                                              TotalProductionTextField(0, state.responseMonthlyWiseData![index], state.responseMonthlyWiseData!),
+                                                              20.verticalSpace(),
+
+                                                            ],
+                                                          ):const SizedBox(width: 0,height: 0,),*/
 
                                                         ]),
                                                       ),
@@ -794,7 +1107,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                           }
                       ),
 
-                      saveCancelButton(),
+                      BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData!.isNotEmpty?
+                      saveCancelButton():const SizedBox.shrink(),
 
                     ],
                   ),

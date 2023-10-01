@@ -38,6 +38,7 @@ class ProfileCubitState extends Equatable{
   final List<Counties>? counties;
   final List<DataSubCounty>? dataSubCounty;
   final Results? resultData;
+  final String ?selectCounty,selectSubCounty;
 
   const ProfileCubitState({
     required this.status,
@@ -83,6 +84,8 @@ class ProfileCubitState extends Equatable{
     required this.responseSubCounty,
     required this.counties,
     required this.dataSubCounty,
+    required this.selectCounty,
+    required this.selectSubCounty,
   });
 
   factory ProfileCubitState.initial() {
@@ -106,6 +109,8 @@ class ProfileCubitState extends Equatable{
       id: '',
       selectDob: '0000-00-00',
       farmerSince: '0000-00-00',
+      selectCounty: 'Select County',
+      selectSubCounty: 'Select Sub County',
       validatorString: '',
       profilePic: TextEditingController(),
       phoneController: TextEditingController(),
@@ -165,6 +170,8 @@ class ProfileCubitState extends Equatable{
     List<Counties>? counties,
     List<DataSubCounty>? dataSubCounty,
     ResponseSubCounty? responseSubCounty,
+    String? selectCounty,
+    String? selectSubCounty,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -210,6 +217,8 @@ class ProfileCubitState extends Equatable{
         responseSubCounty: responseSubCounty ?? this.responseSubCounty,
         counties: counties ?? this.counties,
         dataSubCounty: dataSubCounty ?? this.dataSubCounty,
+        selectCounty: selectCounty ?? this.selectCounty,
+        selectSubCounty: selectSubCounty ?? this.selectSubCounty,
     );
   }
 
@@ -256,7 +265,9 @@ class ProfileCubitState extends Equatable{
     responseCountyList,
     responseSubCounty,
     counties,
-    dataSubCounty
+    dataSubCounty,
+    selectCounty,
+    selectSubCounty
   ];
 
 }

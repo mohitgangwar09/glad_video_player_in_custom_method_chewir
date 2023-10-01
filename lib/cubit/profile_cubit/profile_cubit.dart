@@ -164,6 +164,36 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
         if(response.data!.farmer!.address!.dialCode!=null){
           await SharedPrefManager.savePrefString(AppConstants.countryCode, response.data!.farmer!.address!.dialCode!.toString());
         }
+
+        if(response.data!.farmer!.address!.country!=null){
+          state.countryController.text = response.data!.farmer!.address!.country!;
+        }
+
+        if(response.data!.farmer!.address!.region!=null){
+          state.regionController.text = response.data!.farmer!.address!.region!;
+        }
+
+        if(response.data!.farmer!.address!.district!=null){
+          state.districtController.text = response.data!.farmer!.address!.district!;
+          emit(state.copyWith(selectCounty: response.data!.farmer!.address!.district!));
+          getCountyApi(context, response.data!.farmer!.address!.district!);
+        }
+
+        if(response.data!.farmer!.address!.subCounty!=null){
+          emit(state.copyWith(selectSubCounty: response.data!.farmer!.address!.subCounty!));
+        }
+
+        // if(response.data!.farmer!.address!.district!=null){
+        //   state.districtController.text = response.data!.farmer!.address!.district!;
+        // }
+
+        if(response.data!.farmer!.address!.address!=null){
+          state.editAddressController.text = response.data!.farmer!.address!.address!;
+        }
+
+        if(response.data!.farmer!.address!.postalCode!=null){
+          state.zipCodeController.text = response.data!.farmer!.address!.postalCode!;
+        }
       }
 
       await improvementAreaListApi(context, response.data!.farmer!.id.toString());
@@ -319,28 +349,37 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
 ////////////AddressUpdate////////////////////////
   void addressUpdateApi(
-    context,String userId
+    context,String userId,latitude,longitude
   ) async {
-    emit(state.copyWith(status: ProfileStatus.loading));
-    customDialog(widget: launchProgress());
-    var response = await apiRepository.addressUpdateApi(
-        state.countryController.text.toString(),
-        state.districtId.toString(),
-        state.countyController.text.toString(),
-        state.zipCodeController.text.toString(),
-        state.editAddressController.text.toString(),
-        state.centreNameController.text.toString(),userId);
+    if(state.selectCounty == "Select County"){
+      showCustomToast(context, 'Please select county');
+    }else if(state.selectSubCounty == "Select Sub County"){
+      showCustomToast(context, 'Please select sub county');
+    }else if(state.editAddressController.text.isEmpty){
+      showCustomToast(context, 'Please enter address');
+    }else{
+      emit(state.copyWith(status: ProfileStatus.loading));
+      customDialog(widget: launchProgress());
+      var response = await apiRepository.addressUpdateApi(
+          state.countryController.text.toString(),
+          state.districtController.text.toString(),
+          state.regionController.text.toString(),
+          state.selectCounty.toString(),
+          state.selectSubCounty.toString(),
+          state.zipCodeController.text.toString(),
+          state.addressController.text.toString(),latitude,longitude,userId);
 
-    disposeProgress();
+      disposeProgress();
 
-    if (response.status == 200) {
-      emit(state.copyWith(
-          status: ProfileStatus.success, districtResponse: response.data));
-      showCustomToast(context, 'Address had been updated successfully');
-      await getFarmerProfile(context,userId: userId);
-    } else {
-      emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if (response.status == 200) {
+        emit(state.copyWith(
+            status: ProfileStatus.success, districtResponse: response.data));
+        showCustomToast(context, 'Address had been updated successfully');
+        await getFarmerProfile(context,userId: userId);
+      } else {
+        emit(state.copyWith(status: ProfileStatus.error));
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
