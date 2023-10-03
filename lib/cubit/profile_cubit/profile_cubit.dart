@@ -303,6 +303,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     if (response.status == 200) {
       showCustomToast(context, response.message.toString(), isSuccess: true);
       await getFarmerProfile(context,userId: state.responseFarmerProfile!.farmer!.userId.toString());
+      pressBack();
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));

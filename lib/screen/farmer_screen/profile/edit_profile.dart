@@ -49,13 +49,13 @@ class _EditProfileState extends State<EditProfile> {
 
                   centerTitle: true,
                   leading: arrowBackButton(),
-                  action: TextButton(
+                  /*action: TextButton(
                       onPressed: () {},
                       child: Text(
                         'Save',
                         style: figtreeMedium.copyWith(
                             color: ColorResources.maroon, fontSize: 14),
-                      )),
+                      )),*/
                 ),
                 Expanded(
                   child: SingleChildScrollView(

@@ -183,6 +183,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                             InkWell(
                               onTap: (){
                                 BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+                                BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
                                 DdeFarmerDetail(userId: state.response!.farmerMAster![i].userId!,).navigate();
                               },
                               child: customProjectContainer(
@@ -224,8 +225,9 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                         color: Colors.black, shape: BoxShape.circle),
                                                   ),
                                                   10.horizontalSpace(),
-                                                  Text(
-                                                      "${state.response!.farmerMAster![i].farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.response!.farmerMAster![i].farmingExperience.toString()))} exp",
+
+                                                  Text(state.response!.farmerMAster![i].farmingExperience !=null?
+                                                      "${state.response!.farmerMAster![i].farmingExperience != "0000-00-00"? '0':getAge(DateTime.parse(state.response!.farmerMAster![i].farmingExperience.toString()))} exp":"0 exp",
                                                       style: figtreeMedium.copyWith(fontSize: 12,)),
 
                                                 ],
@@ -275,7 +277,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: '${state.response!.farmerMAster![i].farmSize}Acres',
+                                                    text: '${state.response!.farmerMAster![i].farmSize!=null?state.response!.farmerMAster![i].farmSize!.toString():""}Acres',
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12),
                                                   ),
@@ -293,7 +295,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: state.response!.farmerMAster![i].milkingCows.toString(),
+                                                    text: state.response!.farmerMAster![i].milkingCows!=null?state.response!.farmerMAster![i].milkingCows!.toString():'',
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12),
                                                   ),
@@ -311,7 +313,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: state.response!.farmerMAster![i].yieldPerCow.toString(),
+                                                    text: state.response!.farmerMAster![i].yieldPerCow!=null?state.response!.farmerMAster![i].yieldPerCow!.toString():'',
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12),
                                                   ),
@@ -333,31 +335,33 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                               borderRadius: 10),
                                           child: Column(
                                             children: [
-                                              Row(
-                                                children: [
-                                                  (state.response!.farmerMAster![i].farmerProject![0].name ?? '')
-                                                      .textMedium(fontSize: 12),
-                                                  Container(
-                                                    margin: 9.marginAll(),
-                                                    padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 4,
-                                                        horizontal: 7),
-                                                    decoration: boxDecoration(
-                                                      borderRadius: 30,
-                                                      borderColor:
-                                                      const Color(0xff6A0030),
+                                              Expanded(
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(child: (state.response!.farmerMAster![i].farmerProject![0].name ?? '')
+                                                        .textMedium(fontSize: 12)),
+                                                    Container(
+                                                      margin: 9.marginAll(),
+                                                      padding:
+                                                      const EdgeInsets.symmetric(
+                                                          vertical: 4,
+                                                          horizontal: 7),
+                                                      decoration: boxDecoration(
+                                                        borderRadius: 30,
+                                                        borderColor:
+                                                        const Color(0xff6A0030),
+                                                      ),
+                                                      child: Text(
+                                                        state.response!.farmerMAster![i].farmerProject![0].projectStatus ?? '',
+                                                        textAlign: TextAlign.center,
+                                                        style: figtreeMedium.copyWith(
+                                                            color:
+                                                            const Color(0xff6A0030),
+                                                            fontSize: 10),
+                                                      ),
                                                     ),
-                                                    child: Text(
-                                                      state.response!.farmerMAster![i].farmerProject![0].projectStatus ?? '',
-                                                      textAlign: TextAlign.center,
-                                                      style: figtreeMedium.copyWith(
-                                                          color:
-                                                          const Color(0xff6A0030),
-                                                          fontSize: 10),
-                                                    ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                               Row(
                                                 mainAxisAlignment:
@@ -413,14 +417,16 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                             ],
                                           ),
                                         ),
-                                      ) : SizedBox.shrink(),
+                                      ) : const SizedBox.shrink(),
+
                                       15.verticalSpace(),
                                       Container(
                                         width: 140,
                                         height: 3,
+
                                         decoration: boxDecoration(
                                             borderRadius: 10,
-                                            backgroundColor: ragColor(state.response!.farmerMAster![i].farmerRagRating!.ragRating!.toLowerCase())),
+                                            backgroundColor: ragColor(state.response!.farmerMAster![i].farmerRagRating!=null?state.response!.farmerMAster![i].farmerRagRating!.ragRating!.toLowerCase():"1")),
                                       )
                                     ],
                                   ),

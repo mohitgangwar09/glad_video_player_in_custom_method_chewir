@@ -19,6 +19,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
 
 String validatorCowYield = "";
 
@@ -212,7 +213,6 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                         BlocBuilder<CowsAndYieldDoneCubit,CowsAndCubitDoneState>(
                             builder: (context,state) {
                               if(state.responseMonthlyWiseData!.isNotEmpty){
-
                                 return customList(list: state.responseMonthlyWiseData!,child: (index) {
                                   showMonthWiseData.add(false);
                                   return Column(
@@ -226,7 +226,6 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                             Stack(
                                               children: [
                                                 SizedBox(
-                                                  // height: 150,
                                                   child: Column(
                                                     children: [
                                                       Container(
@@ -412,7 +411,12 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                 CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Text(
-                                                                                    state.responseMonthlyWiseData![index].yieldPerCow!=null?state.responseMonthlyWiseData![index].yieldPerCow!.toString():"0",
+                                                                                    double.parse('${state.responseMonthlyWiseData![index].totalMilkProduction!=null?
+                                                                                  double.parse(state.responseMonthlyWiseData![index].totalMilkProduction!.toString())/
+                                                                                  double.parse(state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"1")
+                                                                                      // /double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString())
+                                                                                      / double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString()):''}').toStringAsFixed(2)
+                                                                                    ,
                                                                                     style: figtreeSemiBold
                                                                                         .copyWith(fontSize: 18),
                                                                                   ),
