@@ -45,6 +45,7 @@ class AppConstants {
   static const String farmerProjectMilestoneDetailApi = '/api/farmer-project/milestone-details';
   static const String addInviteExpertForSurveyApi = '/api/farmer-project/add-invite-expert';
   static const String updateProjectStatusApi = '/api/farmer-project/update-status';
+  static const String validateCountry = '/api/address/check-country';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

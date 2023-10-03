@@ -229,6 +229,20 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
+  // updatePersonalDetailApi or updaterFarmerDetailApi
+  Future<bool> validateCountry(context, String country) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.validatedAddressCountry(country);
+    disposeProgress();
+    if (response.status == 200) {
+      return true;
+    }
+    else {
+      showCustomToast(context, response.message.toString());
+      return false;
+    }
+  }
+
   Future<void> getStepperData(index) async{
     emit(state.copyWith(status: ProfileStatus.loading));
     List<FarmerImprovementArea> areaList = (state.improvementAreaListResponse!)
