@@ -287,7 +287,7 @@ class _EditAddressState extends State<EditAddress> {
 
                                 20.verticalSpace(),
                                 CustomTextField2(
-                                  title: 'Zip-Code',
+                                  title: 'Zip-Code (Optional)',
                                   controller: state.zipCodeController,
                                   inputType: TextInputType.phone,
                                   maxLine: 1,
