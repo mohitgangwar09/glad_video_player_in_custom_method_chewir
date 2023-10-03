@@ -81,7 +81,7 @@ class ImprovementAreaCubit extends Cubit<ImprovementAreaState> {
     });
     if (response.status == 200) {
       disposeProgress();
-      showCustomToast(context, 'Improvement Area updated');
+      showCustomToast(context, 'Improvement Area updated', isSuccess: true);
       pressBack();
       improvementAreaListApi(context, farmerId, false, improvementIndex);
     } else {

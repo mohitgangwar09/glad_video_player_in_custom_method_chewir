@@ -188,7 +188,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
     disposeProgress();
     if (response.status == 200) {
       // response.message.toString().toast();
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
     }
     else {
       emit(state.copyWith(status: AuthStatus.error));
@@ -308,7 +308,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
       if(response.status == 200){
           BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
           const LoginWithPassword().navigate(isInfinity: true);
-          showCustomToast(context, response.message.toString());
+          showCustomToast(context, response.message.toString(), isSuccess: true);
         // }
         emit(state.copyWith(status: AuthStatus.success));
       }else{

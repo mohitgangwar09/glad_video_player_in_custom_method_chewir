@@ -130,7 +130,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     if (response.status == 200) {
       await profileApi(context);
       disposeProgress();
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
@@ -219,7 +219,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
         state.landlineController.text, state.profileImage.toString(), state.selectDob,state.farmerSince);
     disposeProgress();
     if (response.status == 200) {
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       await getFarmerProfile(context);
       pressBack();
     }
@@ -268,7 +268,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
     if (response.status == 200) {
       pressBack();
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       await getFarmerProfile(context,userId: state.responseFarmerProfile!.farmer!.userId.toString());
     }
     else {
@@ -287,7 +287,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     disposeProgress();
 
     if (response.status == 200) {
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       await getFarmerProfile(context,userId: state.responseFarmerProfile!.farmer!.userId.toString());
     }
     else {
@@ -375,7 +375,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       if (response.status == 200) {
         emit(state.copyWith(
             status: ProfileStatus.success, districtResponse: response.data));
-        showCustomToast(context, 'Address had been updated successfully');
+        showCustomToast(context, 'Address had been updated successfully', isSuccess: true);
         await getFarmerProfile(context,userId: userId);
         pressBack();
       } else {

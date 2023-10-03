@@ -42,11 +42,9 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (showLoader) {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
-    // customDialog(widget: launchProgress());
     var response = await apiRepository.getDdeProjectsApi(projectStatus);
     if (response.status == 200) {
-      // disposeProgress();
-      emit(state.copyWith(responseDdeProject: response));
+      emit(state.copyWith(status: ProjectStatus.success, responseDdeProject: response));
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
@@ -81,7 +79,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
       disposeProgress();
       pressBack();
-      showCustomToast(context, response.data['message']);
+      showCustomToast(context, response.data['message'], isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
@@ -94,7 +92,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
       disposeProgress();
       pressBack();
-      showCustomToast(context, response.message ?? '');
+      showCustomToast(context, response.message ?? '', isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());

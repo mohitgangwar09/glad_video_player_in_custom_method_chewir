@@ -302,7 +302,7 @@ class CowsAndYieldCubitTest extends Cubit<TestYieldState>{
     var response = await apiRepository.addMonthApi(farmerId.toString());
     if(response.status == 200){
       disposeProgress();
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,month);
       emit(state.copyWith(status: TestYieldStatus.success));
     }
@@ -319,7 +319,7 @@ class CowsAndYieldCubitTest extends Cubit<TestYieldState>{
     var response = await apiRepository.deleteMonthApi(monthName,farmerId);
     if(response.status == 200){
       disposeProgress();
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,"deleteMonth");
       emit(state.copyWith(status: TestYieldStatus.success));
     }

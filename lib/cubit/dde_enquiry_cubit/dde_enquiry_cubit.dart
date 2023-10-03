@@ -90,7 +90,7 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
     customDialog(widget: launchProgress());
     var response = await apiRepository.enquiryClosedApi(id);
     if (response.status == 200) {
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       await pressBack();
       pressBack();
       pressBack();

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class CustomToast extends StatelessWidget {
   final String message;
+  final bool isSuccess;
 
-  const CustomToast({super.key, required this.message});
+  const CustomToast(
+      {super.key, required this.message, required this.isSuccess});
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +35,28 @@ class CustomToast extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: Colors.redAccent,
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Image.asset(
-                          Images.errorIcon,
-                          width: 25,
-                          height: 25,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    isSuccess
+                        ? Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: SvgPicture.asset(
+                            Images.satisfactory,
+                            width: 45,
+                            height: 45,
+                          ),
+                        )
+                        : CircleAvatar(
+                            radius: 22,
+                            backgroundColor: Colors.redAccent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Image.asset(
+                                Images.errorIcon,
+                                width: 25,
+                                height: 25,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),

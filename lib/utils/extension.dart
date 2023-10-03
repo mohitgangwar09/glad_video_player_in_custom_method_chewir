@@ -67,10 +67,10 @@ extension Utility on String {
 
 }
 
-void showCustomToast(BuildContext context, String message) {
+void showCustomToast(BuildContext context, String message, {bool isSuccess = false}) {
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (BuildContext context) {
-      return CustomToast(message: message);
+      return CustomToast(message: message, isSuccess: isSuccess);
     },
   );
 

@@ -42,7 +42,7 @@ dependencies:
   permission_handler: ^11.0.0
   device_info_plus: ^9.0.3
   geolocator: ^10.0.1
-  intl:
+  intl: ^0.18.1
   location: ^5.0.0
   age_calculator: ^1.0.0
   dropdown_search: ^5.0.6

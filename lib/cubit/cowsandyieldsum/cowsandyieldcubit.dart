@@ -453,7 +453,7 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     var response = await apiRepository.updateCowBreedRecordApi(requestData);
     disposeProgress();
     if(response.status == 200){
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,"update");
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }

@@ -453,7 +453,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     var response = await apiRepository.updateCowBreedRecordApi(requestData);
     disposeProgress();
     if(response.status == 200){
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,"update",id: farmerId);
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
@@ -531,7 +531,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     var response = await apiRepository.addMonthApi(farmerId.toString());
     if(response.status == 200){
       disposeProgress();
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,month,id: userId.toString());
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
@@ -549,7 +549,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     if(response.status == 200){
       disposeProgress();
       // CowsAndYieldsSumState.showQty.clear();
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,"deleteMonth",id: userId);
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
