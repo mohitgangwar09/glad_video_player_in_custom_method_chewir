@@ -1,8 +1,13 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/data/model/response_county_list.dart';
+import 'package:glad/data/model/response_sub_county.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
@@ -36,25 +41,28 @@ class _EditAddressState extends State<EditAddress> {
   final TextEditingController _searchPlaceController = TextEditingController();
   double? lat;
   double? long;
-  String? district;
+  String? district,ugandaRegion;
+  // String selectedCounty = "Select County";
+  // String selectedSubCounty = "Select Sub County";
 
   GoogleMapController? mapController;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller,double latitude,double longitude) {
     mapController = controller;
     mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+          // target: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+          target: LatLng(latitude,longitude),
           zoom: 15.5,
         ),
       ),
     );
     var marker = Marker(
       markerId: const MarkerId(''),
-      position: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+      position: LatLng(lat!=null?lat!:latitude, long!=null?long!:longitude),
       // icon: BitmapDescriptor.,
       infoWindow: const InfoWindow(
         title: '',
@@ -76,7 +84,7 @@ class _EditAddressState extends State<EditAddress> {
 
   @override
   void initState() {
-    BlocProvider.of<ProfileCubit>(context).getDistrict(context);
+    // BlocProvider.of<ProfileCubit>(context).getDistrict(context);
     super.initState();
   }
 
@@ -100,7 +108,8 @@ class _EditAddressState extends State<EditAddress> {
                     action: TextButton(
                         onPressed: () {
                           BlocProvider.of<ProfileCubit>(context)
-                              .addressUpdateApi(context,widget.userId);
+                              .addressUpdateApi(context,widget.userId,
+                          lat.toString(),long.toString());
                         },
                         child: Text(
                           'Save',
@@ -114,89 +123,203 @@ class _EditAddressState extends State<EditAddress> {
                       child: Column(
                         children: [
                           20.verticalSpace(),
-                          map(context),
-                          /*const Stack(
-                            children: [
-                              GMap(
-                                lat: 28.4986,
-                                lng: 77.3999,
-                                height: 350,
-                                zoomGesturesEnabled: true,
-                                zoomControlsEnabled: true,
-                                myLocationEnabled: true,
-                                myLocationButtonEnabled: false,
-                              ),
-                              Positioned(
-                                  top: 20,
-                                  right: 20,
-                                  left: 20,
-                                  child: CustomTextField(
-                                    hint: 'Search By...',
-                                    leadingImage: Images.search,
-                                    imageColors: Colors.black,
-                                    radius: 60,
-                                  ))
-                            ],
-                          ),*/
+                          map(context,state),
                           40.verticalSpace(),
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Column(
                               children: [
+
                                 CustomTextField2(
                                   title: 'Country',
-                                  controller: state.countryController
-                                    ..text = "Uganda",
+                                  controller: state.countryController,
+                                  enabled: false,
+                                ),
+
+                                20.verticalSpace(),
+
+                                CustomTextField2(
+                                  title: 'Region',
+                                  controller: state.regionController,
                                   enabled: false,
                                 ),
                                 20.verticalSpace(),
                                 // DistrictPicker(),
                                 CustomTextField2(
                                   readOnly: true,
-                                  // controller: state.districtController,
-                                  controller: TextEditingController(
-                                      text: state.selectDistrict),
+                                  controller: state.districtController,
                                   title: 'District',
-                                  image: Images.arrowDropdown,
-                                  imageColors: Colors.black,
-                                  onTap: () {
-                                    customDialog(
-                                        widget: const DistrictPicker());
-                                  },
                                 ),
-                                20.verticalSpace(),
+
+                                /*20.verticalSpace(),
                                 CustomTextField2(
+                                  readOnly: true,
                                   title: 'County',
                                   controller: state.countyController
                                     ..text = state.responseFarmerProfile!
                                         .farmer!.address!.county
                                         .toString(),
+                                  imageColors: Colors.black,
+                                  image: Images.arrowDropdown,
+                                  onTap: () {
+                                    customDialog(
+                                        widget: const DistrictPicker());
+                                  },
+                                ),*/
+
+                                20.verticalSpace(),
+
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: "County".textMedium(color: Colors.black, fontSize: 12),
                                 ),
+
+                                5.verticalSpace(),
+
+                                Container(
+                                  height: 55,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                    borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  width: screenWidth(),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton2<Counties>(
+                                      isExpanded: true,
+                                      isDense: true,
+                                      hint: Text(
+                                        state.selectCounty.toString(),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context).hintColor,
+                                        ),
+                                      ),
+                                      items: state.counties!
+                                          .map((Counties item) => DropdownMenuItem<Counties>(
+                                        value: item,
+                                        child: Text(
+                                          item.name!,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      )).toList(),
+                                      // value: state.counties![0].name!,
+                                      onChanged: (Counties? value) {
+                                        // setState(() {
+                                          // selectedCounty = value!.name!;
+                                          BlocProvider.of<ProfileCubit>(context).emit(state.copyWith(selectSubCounty: 'Select Sub County',selectCounty: value!.name.toString()));
+                                          BlocProvider.of<ProfileCubit>(context).getSubCountyApi(context, value.id.toString());
+                                        // });
+                                      },
+                                      buttonStyleData: const ButtonStyleData(
+                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        height: 40,
+                                        width: 140,
+                                      ),
+                                      menuItemStyleData: const MenuItemStyleData(
+                                        height: 40,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                20.verticalSpace(),
+
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: "Sub County".textMedium(color: Colors.black, fontSize: 12),
+                                ),
+
+                                5.verticalSpace(),
+
+                                Container(
+                                  height: 55,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  width: screenWidth(),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton2<DataSubCounty>(
+                                      isExpanded: true,
+                                      isDense: true,
+                                      hint: Text(
+                                        state.selectSubCounty.toString(),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context).hintColor,
+                                        ),
+                                      ),
+                                      items: state.dataSubCounty!
+                                          .map((DataSubCounty item) => DropdownMenuItem<DataSubCounty>(
+                                        value: item,
+                                        child: Text(
+                                          item.name!,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      )).toList(),
+                                      // value: state.counties![0].name!,
+                                      onChanged: (DataSubCounty? value) {
+                                        // if(selectedCounty == 'Select County'){
+                                        //   showCustomToast(context, "Please select county ist");
+                                        // }else{
+                                        BlocProvider.of<ProfileCubit>(context).emit(state.copyWith(selectSubCounty: value!.name!.toString()));
+                                         /* setState(() {
+                                            selectedSubCounty = value!.name!;
+                                          });*/
+                                        // }
+                                      },
+                                      buttonStyleData: const ButtonStyleData(
+                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        height: 40,
+                                        width: 140,
+                                      ),
+                                      menuItemStyleData: const MenuItemStyleData(
+                                        height: 40,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
                                 20.verticalSpace(),
                                 CustomTextField2(
-                                  title: 'Parish',
-                                  controller: state.parishController
-                                    ..text = state.responseFarmerProfile!
-                                        .farmer!.address!.parish
-                                        .toString(),
+                                  title: 'Zip-Code',
+                                  controller: state.zipCodeController,
+                                  inputType: TextInputType.phone,
+                                  maxLine: 1,
+                                  maxLength: 12,
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    // ..text = state.responseFarmerProfile!
+                                    //     .farmer!.address!.parish
+                                    //     .toString(),
                                 ),
                                 20.verticalSpace(),
-                                CustomTextField2(
-                                  title: 'Village',
-                                  controller: state.villageController
-                                    ..text = state.responseFarmerProfile!
-                                        .farmer!.address!.village
-                                        .toString(),
+                                SizedBox(
+
+                                  child: CustomTextField2(
+                                    title: 'Address',
+                                    // height: state.editAddressController.text.isEmpty?100: state.editAddressController.text.length>38?100:70,
+                                    height: 100,
+                                    minLine: 1,
+                                    maxLine: 2,
+                                    controller: state.editAddressController
+                                      // ..text = state.responseFarmerProfile!
+                                      //     .farmer!.address!.village
+                                      //     .toString(),
+                                  ),
                                 ),
-                                20.verticalSpace(),
+                              /*  20.verticalSpace(),
                                 CustomTextField2(
                                   title: 'Centre Name',
                                   controller: state.centreNameController
                                     ..text = state.responseFarmerProfile!
                                         .farmer!.address!.centerName
                                         .toString(),
-                                ),
+                                ),*/
                                 40.verticalSpace(),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -205,7 +328,8 @@ class _EditAddressState extends State<EditAddress> {
                                     'Save',
                                     onTap: () {
                                       BlocProvider.of<ProfileCubit>(context)
-                                          .addressUpdateApi(context,widget.userId);
+                                          .addressUpdateApi(context,widget.userId,
+                                          lat.toString(),long.toString());
                                     },
                                     radius: 40,
                                     width: double.infinity,
@@ -220,7 +344,7 @@ class _EditAddressState extends State<EditAddress> {
                                       horizontal: 20.0),
                                   child: customButton('Cancel',
                                       onTap: () {
-                                    pressBack();
+                                    // pressBack();
                                       },
                                       radius: 40,
                                       width: double.infinity,
@@ -245,17 +369,22 @@ class _EditAddressState extends State<EditAddress> {
     );
   }
 
-  Widget map(context) {
+  Widget map(context,ProfileCubitState state) {
+    // print(state.responseFarmerProfile!.farmer!.address!.lattitude!);
     return Column(
       children: [
         Stack(
           children: [
             GMap(
-              lat: lat ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude,
-              lng: long ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude,
+              // lat: lat ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude,
+              // lng: long ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude,
+              lat: lat ?? state.responseFarmerProfile!.farmer!.address!.lattitude!,
+              lng: long ?? state.responseFarmerProfile!.farmer!.address!.longitude!,
               height: 350,
               onMapCreated: (controller) async{
-                _onMapCreated(controller);
+                _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.lattitude!,state.responseFarmerProfile!.farmer!.address!.longitude!);
+                lat = state.responseFarmerProfile!.farmer!.address!.lattitude!;
+                long = state.responseFarmerProfile!.farmer!.address!.longitude!;
               },
               markers: markers.values.toSet(),
               onCameraIdle: () {},
@@ -281,24 +410,62 @@ class _EditAddressState extends State<EditAddress> {
                                     googleAPIKey: AppConstants.gMapsApiKey,
                                     controller: _searchPlaceController,
                                     itmOnTap: (Prediction prediction) {
-                                      // _searchPlaceController.text = prediction.description ?? "";
                                       addressController!.text = prediction.description!;
-                                      // _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
                                       _searchPlaceController.clear();
                                     },
                                     getPlaceDetailWithLatLng: (Prediction prediction) {
-                                      // _searchPlaceController.text = prediction.description ?? "";
                                       addressController!.text = prediction.description!;
-                                      // _searchPlaceController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description?.length ?? 0));
                                       lat = double.parse(prediction.lat!);
                                       long = double.parse(prediction.lng!);
                                       setState(() {});
-                                      debugPrint("$lat $long");
-                                      for( AddressComponents data in prediction.placeDetails!.result!.addressComponents!) {
-                                        if(data.types!.contains('administrative_area_level_3')){
-                                          district = data.longName;
-                                          break;
+
+                                      if(prediction.placeDetails!.result!=null){
+                                        if(prediction.placeDetails!.result!.formattedAddress!=null){
+                                          state.editAddressController.text = prediction.placeDetails!.result!.formattedAddress.toString();
                                         }
+                                      }
+                                      List<DataSubCounty> data = [];
+                                      // state.dataSubCounty!.clear();
+
+                                      BlocProvider.of<ProfileCubit>(context).getSubCountyApi(context, 'null');
+                                      for( AddressComponents data in prediction.placeDetails!.result!.addressComponents!) {
+
+                                        if(data.types!.contains('administrative_area_level_2') || data.types!.contains('administrative_area_level_3')){
+                                          // district = data.longName;
+                                          state.districtController.text = data.longName.toString();
+                                          print("district Name $district");
+                                          // selectedCounty = 'Select County';
+                                          // selectedSubCounty = 'Select Sub County';
+                                          BlocProvider.of<ProfileCubit>(context).emit(state.copyWith(selectCounty: 'Select County',selectSubCounty: 'Select Sub County'));
+                                          BlocProvider.of<ProfileCubit>(context).getCountyApi(context,data.longName.toString());
+                                          // break;
+                                        }
+
+                                        if(data.types!.contains('postal_code')){
+                                          // district = data.longName;
+                                          // state.districtController.text = data.longName.toString();
+                                          print("Postal Code $district");
+                                          // break;
+                                        }
+
+                                        if(data.types!.contains('administrative_area_level_1')){
+                                          // ugandaRegion = data.longName;
+                                          state.regionController.text = data.longName.toString();
+                                          print("uganda Region Name $ugandaRegion");
+                                          // break;
+                                        }
+
+                                        if(data.types!.contains('country')){
+                                          state.countryController.text = data.longName.toString();
+                                          print("Country Name ${state.countryController.text}");
+                                        }
+
+
+                                        if(data.types!.contains('country')){
+                                          state.countryController.text = data.longName.toString();
+                                          print("Country Name ${state.countryController.text}");
+                                        }
+
                                       }
                                       mapController?.animateCamera(
                                         CameraUpdate.newCameraPosition(

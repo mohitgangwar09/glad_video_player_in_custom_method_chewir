@@ -87,10 +87,12 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   }
 
   Future<void> addFollowUpRemark(context, isDDE, String comment,{String? enquiryId,String? type}) async {
+    emit(state.copyWith(status: LandingPageStatus.loading));
     var response = await apiRepository.addFollowupRemarkApi(enquiryId==null?state.guestDashboardResponse!.data!.enquiry!.id!.toString():enquiryId.toString(),
         comment, isDDE,type.toString());
 
     if (response.status == 200) {
+      emit(state.copyWith(status: LandingPageStatus.success));
       if(isDDE){
         await BlocProvider.of<DdeEnquiryCubit>(context).enquiryDetailApi(context, enquiryId.toString());
       }else{

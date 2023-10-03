@@ -159,8 +159,16 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   image2Colors: ColorResources.maroon,
                   readOnly: true,
                   onTap: () async{
+
                     var selectDate = await selectedDate(context);
-                    BlocProvider.of<ProfileCubit>(context).selectDob("${selectDate.year}/${selectDate.month}/${selectDate.day}");
+                    if(isAdult("${selectDate.month}-${selectDate.day}-${selectDate.year}")){
+                      BlocProvider.of<ProfileCubit>(context).selectDob("${selectDate.year}/${selectDate.month}/${selectDate.day}");
+                    }else{
+                      ageToast(context);
+                    }
+
+                    // print(isAdult('12-19-2000') ? 'over 18' : 'under 18');
+
                   },
                   focusNode: FocusNode(),
                 ),
@@ -174,6 +182,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                         width: 1,
                         inputType: TextInputType.phone,
                         maxLine: 1,
+                        enabled: false,
                         maxLength: 12,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         borderColor: 0xff727272,
@@ -211,7 +220,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   image2Colors: ColorResources.maroon,
                   readOnly: true,
                   onTap: () async{
-                    var selectDate = await selectedDate(context);
+                    var selectDate = await selectedDateFarmer(context);
                     BlocProvider.of<ProfileCubit>(context).farmerSince("${selectDate.year}/${selectDate.month}/${selectDate.day}");
                   },
                   focusNode: FocusNode(),
@@ -307,7 +316,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         borderColor: 0xff727272,
                         controller: TextEditingController(text: '+256'),
-                        enabled: true,
+                        enabled: false,
                       ),
                     ),
                     10.horizontalSpace(),

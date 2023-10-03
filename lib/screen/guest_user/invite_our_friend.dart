@@ -9,6 +9,7 @@ import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
+import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -124,15 +125,41 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               borderColor: 0xff999999,
               decoration: const InputDecoration()),
           10.verticalSpace(),
-          CustomTextField(
-            hint: 'Enter your mobile',
-            controller: mobileController,
-            borderColor: 0xff999999,
-            radius: 12,
-            inputType: TextInputType.phone,
-            maxLine: 1,
-            maxLength: 12,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          Row(
+            children: [
+
+              Container(
+                width: 100,
+                height: 65,
+                decoration: BoxDecoration(
+                  // color: Color(0xffD9D9D9),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Color(0xff999999),width: 1)
+                ),
+                child: Center(
+                  child: Text("+256",
+                  style: figtreeMedium.copyWith(
+                    color: Color(0xff727272),
+                    fontSize: 16
+                  ),),
+                ),
+              ),
+
+              10.horizontalSpace(),
+
+              Expanded(
+                child: CustomTextField(
+                  hint: 'Enter your mobile',
+                  controller: mobileController,
+                  borderColor: 0xff999999,
+                  radius: 12,
+                  inputType: TextInputType.phone,
+                  maxLine: 1,
+                  maxLength: 12,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                ),
+              ),
+            ],
           ),
           10.verticalSpace(),
           CustomTextField(

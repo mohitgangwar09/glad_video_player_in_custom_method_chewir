@@ -13,6 +13,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -1224,8 +1225,34 @@ Future<DateTime> selectedDate(BuildContext context) async {
   final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(1995, 1),
-      lastDate: DateTime(2101));
+      firstDate: DateTime(1930, 1),
+      lastDate: DateTime.now());
+
+  return picked!;
+}
+
+void ageToast(BuildContext context){
+  showCustomToast(context, "Minimum age required is 18");
+}
+
+bool isAdult(String dob) {
+  final dateOfBirth = DateFormat("MM-dd-yyyy").parse(dob);
+  final now = DateTime.now();
+  final eighteenYearsAgo = DateTime(
+    now.year - 18,
+    now.month,
+    now.day + 1, // add day to return true on birthday
+  );
+  return dateOfBirth.isBefore(eighteenYearsAgo);
+}
+
+Future<DateTime> selectedDateFarmer(BuildContext context) async {
+  DateTime selectedDate = DateTime.now();
+  final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1920, 1),
+      lastDate: DateTime.now());
 
   return picked!;
 }

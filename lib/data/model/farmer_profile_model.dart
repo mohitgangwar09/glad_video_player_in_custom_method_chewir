@@ -299,7 +299,7 @@ class Address {
     county = json['county'];
     poBoxNumber = json['po_box_number'];
     coordinates = json['coordinates'];
-    lattitude = json['lattitude'];
+    lattitude = json['latitude'];
     longitude = json['longitude'];
     stateId = json['state_id'];
     countryId = json['country_id'];
@@ -338,7 +338,7 @@ class Address {
     data['dial_code'] = dialCode;
     data['po_box_number'] = poBoxNumber;
     data['coordinates'] = coordinates;
-    data['lattitude'] = lattitude;
+    data['latitude'] = lattitude;
     data['longitude'] = longitude;
     data['state_id'] = stateId;
     data['country_id'] = countryId;

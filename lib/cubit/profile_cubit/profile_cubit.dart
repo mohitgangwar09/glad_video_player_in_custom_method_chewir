@@ -4,15 +4,18 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
+import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
+import 'package:glad/data/model/response_sub_county.dart';
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/sharedprefrence.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stepper_list_view/stepper_list_view.dart';
 
@@ -136,7 +139,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
   Future<void> getFarmerProfile(context, {String? userId}) async{
     emit(state.copyWith(status: ProfileStatus.submit));
-
+    print(sharedPreferences.getString(AppConstants.userId));
     var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
       if(response.data!.farmer!.phone != null){
@@ -161,6 +164,36 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       if (response.data!.farmer!.address!= null) {
         if(response.data!.farmer!.address!.dialCode!=null){
           await SharedPrefManager.savePrefString(AppConstants.countryCode, response.data!.farmer!.address!.dialCode!.toString());
+        }
+
+        if(response.data!.farmer!.address!.country!=null){
+          state.countryController.text = response.data!.farmer!.address!.country!;
+        }
+
+        if(response.data!.farmer!.address!.region!=null){
+          state.regionController.text = response.data!.farmer!.address!.region!;
+        }
+
+        if(response.data!.farmer!.address!.district!=null){
+          state.districtController.text = response.data!.farmer!.address!.district!;
+          emit(state.copyWith(selectCounty: response.data!.farmer!.address!.district!));
+          getCountyApi(context, response.data!.farmer!.address!.district!);
+        }
+
+        if(response.data!.farmer!.address!.subCounty!=null){
+          emit(state.copyWith(selectSubCounty: response.data!.farmer!.address!.subCounty!));
+        }
+
+        // if(response.data!.farmer!.address!.district!=null){
+        //   state.districtController.text = response.data!.farmer!.address!.district!;
+        // }
+
+        if(response.data!.farmer!.address!.address!=null){
+          state.editAddressController.text = response.data!.farmer!.address!.address!;
+        }
+
+        if(response.data!.farmer!.address!.postalCode!=null){
+          state.zipCodeController.text = response.data!.farmer!.address!.postalCode!;
         }
       }
 
@@ -277,30 +310,78 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
-////////////AddressUpdate////////////////////////
-  void addressUpdateApi(
-    context,String userId
-  ) async {
+  void getCountyApi(context,String district) async {
     emit(state.copyWith(status: ProfileStatus.loading));
-    customDialog(widget: launchProgress());
-    var response = await apiRepository.addressUpdateApi(
-        state.countryController.text.toString(),
-        state.districtId.toString(),
-        state.countyController.text.toString(),
-        state.parishController.text.toString(),
-        state.villageController.text.toString(),
-        state.centreNameController.text.toString(),userId);
-
-    disposeProgress();
-
+    var response = await apiRepository.getCountyByDistrictApi(state.districtController.text);
     if (response.status == 200) {
+      List<Counties> counties= [];
+      if(response.data!=null){
+        counties = response.data![0].counties!;
+        // counties = response.data![0].counties!;
+      }
+
       emit(state.copyWith(
-          status: ProfileStatus.success, districtResponse: response.data));
-      showCustomToast(context, 'Address had been updated successfully');
-      await getFarmerProfile(context,userId: userId);
+        status: ProfileStatus.success,
+        responseCountyList: response,counties: counties
+      ));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void getSubCountyApi(context,String id) async {
+    emit(state.copyWith(status: ProfileStatus.loading));
+    var response = await apiRepository.getSubCountyApi(id);
+    if (response.status == 200) {
+      List<DataSubCounty> subCounties = [];
+      if(response.data!=null){
+         subCounties = response.data!;
+      }
+      emit(state.copyWith(
+        status: ProfileStatus.success,
+        responseSubCounty: response,dataSubCounty: subCounties
+      ));
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+////////////AddressUpdate////////////////////////
+  void addressUpdateApi(
+    context,String userId,latitude,longitude
+  ) async {
+    if(state.selectCounty == "Select County"){
+      showCustomToast(context, 'Please select county');
+    }else if(state.selectSubCounty == "Select Sub County"){
+      showCustomToast(context, 'Please select sub county');
+    }else if(state.editAddressController.text.isEmpty){
+      showCustomToast(context, 'Please enter address');
+    }else{
+      emit(state.copyWith(status: ProfileStatus.loading));
+      customDialog(widget: launchProgress());
+      var response = await apiRepository.addressUpdateApi(
+          state.countryController.text.toString(),
+          state.districtController.text.toString(),
+          state.regionController.text.toString(),
+          state.selectCounty.toString(),
+          state.selectSubCounty.toString(),
+          state.zipCodeController.text.toString(),
+          state.editAddressController.text.toString(),latitude,longitude,userId);
+
+      disposeProgress();
+
+      if (response.status == 200) {
+        emit(state.copyWith(
+            status: ProfileStatus.success, districtResponse: response.data));
+        showCustomToast(context, 'Address had been updated successfully');
+        await getFarmerProfile(context,userId: userId);
+        pressBack();
+      } else {
+        emit(state.copyWith(status: ProfileStatus.error));
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 

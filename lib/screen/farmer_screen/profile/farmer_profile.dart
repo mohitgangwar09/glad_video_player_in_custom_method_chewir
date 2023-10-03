@@ -89,6 +89,8 @@ class _FarmerProfileState extends State<FarmerProfile> {
               child: CircularProgressIndicator(
             color: ColorResources.maroon,
           ));
+        }else if (state.responseFarmerProfile == null) {
+          return "${state.responseFarmerProfile} Api Error".textMedium();
         }
         return Stack(
           children: [
@@ -160,7 +162,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                 ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.network(
-                      state.responseFarmerProfile!.farmer!.photo!,
+                      state.responseFarmerProfile!=null?state.responseFarmerProfile!.farmer!.photo!:"https://develop-glad.staqo.com/storage/52/image_picker_AC704C99-29C8-454C-9C89-DABDAAD217F3-10034-00001D8B132EAD0D.jpg",
                       errorBuilder: (_, __, ___) => Image.asset(
                         Images.placeHolder,
                         height: 164,
@@ -443,7 +445,11 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          state.responseFarmerProfile!.farmer!.address!.address!=null? state.responseFarmerProfile!.farmer!.address!.address!.toString():"",
+                          " ${state.responseFarmerProfile!.farmer!.address!.subCounty!=null?state.responseFarmerProfile!.farmer!.address!.subCounty!:""}"
+                              " ${state.responseFarmerProfile!.farmer!.address!.district!=null?state.responseFarmerProfile!.farmer!.address!.district!:""}"
+                              " ${state.responseFarmerProfile!.farmer!.address!.address!=null?state.responseFarmerProfile!.farmer!.address!.address!:""}"
+                          // state.responseFarmerProfile!.farmer!.address!.address!=null? state.responseFarmerProfile!.farmer!.address!.address!.toString():"",
+                          ,
                           style: figtreeRegular.copyWith(
                             fontSize: 14,
                             color: Colors.black,

@@ -8,8 +8,10 @@ import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/errors_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
+import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
+import 'package:glad/data/model/response_sub_county.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,6 +72,8 @@ class ProfileRepository {
   }
 
   Future<FarmerProfileModel> getFarmerProfileApi(String userId) async {
+
+    print("checked $userId");
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
         '${AppConstants.farmerDetailsApi}/$userId', headers: {'Authorization': 'Bearer ${getUserToken()}'});
@@ -146,21 +150,25 @@ class ProfileRepository {
   ////////////////////address UpdateApi////////////////
   Future<ResponseOtpModel> addressUpdateApi(
       String country,
-      String districtId,
+      String district,
+      String region,
       String county,
-      String parish,
-      String village,
-      String centreName,String userId) async {
+      String subCounty,
+      String postalCode,
+      String address,String latitude,String longitude,String userId) async {
     // var userId = sharedPreferences?.getString(AppConstants.userId);
 
     FormData formData = FormData.fromMap({
       "id": userId,
-      "district": districtId,
-      "country_id": 227,
+      "country": country,
+      "region": region,
+      "district": district,
       "county": county,
-      "parish": parish,
-      "village": village,
-      "centreName": centreName,
+      "sub_county": subCounty,
+      "postal_code": postalCode,
+      "address": address,
+      "latitude": latitude,
+      "longitude": longitude,
     });
     print(formData.fields);
 
@@ -245,6 +253,46 @@ class ProfileRepository {
     }else
     {
       return ResponseDistrict(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////getCountyList/////////////
+
+  Future<ResponseCountyList> getCountyByDistrictApi(String districtName) async {
+
+    var data = {
+      "districtname" : districtName
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.countyListApi, queryParameters: data ,headers: {
+      'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseCountyList.fromJson(apiResponse.response!.data);
+    }else
+    {
+      return ResponseCountyList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////getSubCounty/////////////
+
+  Future<ResponseSubCounty> getSubCountyApi(String id) async {
+
+    var data = {
+      "id" : id
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.subCountyListApi, queryParameters: data ,headers: {
+      'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseSubCounty.fromJson(apiResponse.response!.data);
+    }else
+    {
+      return ResponseSubCounty(status: 422, message: apiResponse.msg);
     }
   }
 

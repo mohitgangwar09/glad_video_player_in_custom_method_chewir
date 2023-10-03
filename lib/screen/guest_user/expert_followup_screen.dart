@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -115,8 +116,14 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                                               state.followupRemarkListResponse!.data!.followupReamrkList![index].comments!,
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 16, color: Colors.black)):
-                                          networkImage(text: state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!,
-                                              height: 220,width: screenWidth()),
+                                          InkWell(
+                                            onTap: (){
+                                              PreviewScreen(previewImage:
+                                              state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!).navigate();
+                                            },
+                                            child: networkImage(text: state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!,
+                                                height: 220,width: screenWidth()),
+                                          ),
                                           10.verticalSpace(),
                                           DateFormat('dd MMM, yyyy, hh:mm a').format(DateTime.parse(state.followupRemarkListResponse!.data!.followupReamrkList![index].createdAt.toString())).textRegular(
                                               color: ColorResources.fieldGrey, fontSize: 14)
@@ -154,8 +161,14 @@ class _ExpertFollowUpScreenState extends State<ExpertFollowUpScreen> {
                                                     style: figtreeMedium.copyWith(
                                                         fontSize: 20, color: Colors.black)),
                                                 10.verticalSpace(),
-                                                networkImage(text: state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!,
-                                                    height: 220,width: screenWidth()),
+                                                InkWell(
+                                                  onTap: (){
+                                                    PreviewScreen(previewImage:
+                                                    state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!).navigate();
+                                                  },
+                                                  child: networkImage(text: state.followupRemarkListResponse!.data!.followupReamrkList![index].attachment!,
+                                                      height: 220,width: screenWidth()),
+                                                ),
                                                 10.verticalSpace(),
                                               ],
                                             ),

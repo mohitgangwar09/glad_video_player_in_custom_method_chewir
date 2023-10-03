@@ -21,6 +21,8 @@ class AppConstants {
   static const String addTestimonialApi = '/api/testimonials';
   static const String milkProductionChart = '/api/last_six_month_data';
   static const String getDistrict = '/api/district/227';
+  static const String countyListApi = '/api/address/countylist';
+  static const String subCountyListApi = '/api/address/subcounty-list';
   static const String getBreedListApi = '/api/breed';
   static const String getCowBreedDetailApi = '/api/cow_breed_details';
   static const String updateCowBreedDetailApi = '/api/cow_breed_details_update';
