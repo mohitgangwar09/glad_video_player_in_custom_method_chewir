@@ -125,7 +125,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         40.verticalSpace(),
                         farmDetails(state),
                         30.verticalSpace(),
-                        state.responseFarmerProfile!.dairyDevelopMentExecutive != null ? dde(context, state,countryCode) : SizedBox.shrink(),
+                        dde(context, state,countryCode),
                         20.verticalSpace(),
                         cowsInTheFarm(state),
                         30.verticalSpace(),
@@ -151,35 +151,48 @@ class _FarmerProfileState extends State<FarmerProfile> {
   Widget profileData(ProfileCubitState state) {
     return Column(
       children: [
-        InkWell(
-          onTap: () {
-            const EditProfile(section: 'personal').navigate();
-          },
-          child: SizedBox(
-            width: 150,
-            child: Stack(
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.network(
-                      state.responseFarmerProfile!=null?state.responseFarmerProfile!.farmer!.photo!:"https://develop-glad.staqo.com/storage/52/image_picker_AC704C99-29C8-454C-9C89-DABDAAD217F3-10034-00001D8B132EAD0D.jpg",
-                      errorBuilder: (_, __, ___) => Image.asset(
-                        Images.placeHolder,
-                        height: 164,
-                        width: 168,
-                        fit: BoxFit.cover,
-                      ),
-                      height: 164,
-                      width: 168,
-                      fit: BoxFit.cover,
-                    )),
-                Positioned.fill(
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: SvgPicture.asset(Images.imageEdit)))
-              ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                const EditProfile(section: 'personal').navigate();
+              },
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: 177,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 154,
+                          height: 154,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image.network(
+                                state.responseFarmerProfile!=null?state.responseFarmerProfile!.farmer!.photo!:"https://develop-glad.staqo.com/storage/52/image_picker_AC704C99-29C8-454C-9C89-DABDAAD217F3-10034-00001D8B132EAD0D.jpg",
+                                errorBuilder: (_, __, ___) => Image.asset(
+                                  Images.placeHolder,
+                                  height: 164,
+                                  width: 164,
+                                  fit: BoxFit.cover,
+                                ),
+                                height: 164,
+                                width: 164,
+                                fit: BoxFit.cover,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  /*Positioned.fill(
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: SvgPicture.asset(Images.imageEdit))),*/
+                ],
+              ),
             ),
-          ),
+          ],
         ),
         10.verticalSpace(),
         InkWell(
@@ -503,7 +516,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Wrap(
+                /*Wrap(
                   spacing: 10,
                   children: [
                   for(int index = 0; index < state.responseFarmerProfile!.farmer!.cowBreedDetails!.length; index++)
@@ -525,7 +538,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       ),
                     ),
                 ],),
-                20.verticalSpace(),
+                20.verticalSpace(),*/
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
