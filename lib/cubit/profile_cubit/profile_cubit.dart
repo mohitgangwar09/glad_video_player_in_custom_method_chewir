@@ -15,6 +15,7 @@ import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/sharedprefrence.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stepper_list_view/stepper_list_view.dart';
 
@@ -138,7 +139,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
   Future<void> getFarmerProfile(context, {String? userId}) async{
     emit(state.copyWith(status: ProfileStatus.submit));
-
+    print(sharedPreferences.getString(AppConstants.userId));
     var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
       if(response.data!.farmer!.phone != null){
@@ -367,7 +368,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
           state.selectCounty.toString(),
           state.selectSubCounty.toString(),
           state.zipCodeController.text.toString(),
-          state.addressController.text.toString(),latitude,longitude,userId);
+          state.editAddressController.text.toString(),latitude,longitude,userId);
 
       disposeProgress();
 
@@ -376,6 +377,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
             status: ProfileStatus.success, districtResponse: response.data));
         showCustomToast(context, 'Address had been updated successfully');
         await getFarmerProfile(context,userId: userId);
+        pressBack();
       } else {
         emit(state.copyWith(status: ProfileStatus.error));
         showCustomToast(context, response.message.toString());

@@ -72,7 +72,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
         heiferCows: state.responseMonthlyWiseData![0].dateWiseData![index].heiferCows.toString(),
         sevenToTwelveMonthCows: state.responseMonthlyWiseData![0].dateWiseData![index].sevenToTwelveMonthCows.toString(),
         sixMonthCow: state.responseMonthlyWiseData![0].dateWiseData![index].sixMonthCow.toString(),
-        bullCalfs: "0",
+        bullCalfs: state.responseMonthlyWiseData![0].dateWiseData![index].bullCalfs.toString(),
       )});
     }
   }
@@ -124,6 +124,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     double sums = 0;
 
     state.suppliedToPdfController.addListener(() {
+      print(state.suppliedToPdfController.text);
       Future.delayed(const Duration(milliseconds: 20),(){
           sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
           double divideByMilking = 0,totalYield =0;

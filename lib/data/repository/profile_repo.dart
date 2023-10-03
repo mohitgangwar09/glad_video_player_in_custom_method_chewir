@@ -73,6 +73,8 @@ class ProfileRepository {
 
   Future<FarmerProfileModel> getFarmerProfileApi(String userId) async {
 
+    print("checked $userId");
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
         '${AppConstants.farmerDetailsApi}/$userId', headers: {'Authorization': 'Bearer ${getUserToken()}'});
 

@@ -39,6 +39,7 @@ class ProfileCubitState extends Equatable{
   final List<DataSubCounty>? dataSubCounty;
   final Results? resultData;
   final String ?selectCounty,selectSubCounty;
+  // final GoogleMapController
 
   const ProfileCubitState({
     required this.status,

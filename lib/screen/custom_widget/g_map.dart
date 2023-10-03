@@ -40,7 +40,8 @@ class GMap extends StatelessWidget {
       child: GoogleMap(
         //myLocationEnabled: true,
         onTap: (position) {
-          onTap!(position);
+          // if()
+          // onTap!(position);
         },
         zoomControlsEnabled: zoomControlsEnabled!,
         zoomGesturesEnabled: zoomGesturesEnabled!,

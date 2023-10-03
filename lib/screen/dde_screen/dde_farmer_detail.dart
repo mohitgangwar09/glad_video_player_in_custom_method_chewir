@@ -677,7 +677,11 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          state.responseFarmerProfile!.farmer!.address!.address!=null? state.responseFarmerProfile!.farmer!.address!.address!.toString():"",
+                          // "${state.responseFarmerProfile!.farmer!.address!.county!=null?state.responseFarmerProfile!.farmer!.address!.county!:""}"
+                              " ${state.responseFarmerProfile!.farmer!.address!.subCounty!=null?state.responseFarmerProfile!.farmer!.address!.subCounty!:""}"
+                              " ${state.responseFarmerProfile!.farmer!.address!.district!=null?state.responseFarmerProfile!.farmer!.address!.district!:""}"
+                              " ${state.responseFarmerProfile!.farmer!.address!.address!=null?state.responseFarmerProfile!.farmer!.address!.address!:""}"
+                          ,
                           style: figtreeRegular.copyWith(
                             fontSize: 14,
                             color: Colors.black,

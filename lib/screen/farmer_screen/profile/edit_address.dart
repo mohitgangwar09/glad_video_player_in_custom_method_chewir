@@ -49,19 +49,20 @@ class _EditAddressState extends State<EditAddress> {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller,double latitude,double longitude) {
     mapController = controller;
     mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+          // target: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+          target: LatLng(latitude,longitude),
           zoom: 15.5,
         ),
       ),
     );
     var marker = Marker(
       markerId: const MarkerId(''),
-      position: LatLng(lat!=null?lat!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, long!=null?long!:BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude),
+      position: LatLng(lat!=null?lat!:latitude, long!=null?long!:longitude),
       // icon: BitmapDescriptor.,
       infoWindow: const InfoWindow(
         title: '',
@@ -343,7 +344,7 @@ class _EditAddressState extends State<EditAddress> {
                                       horizontal: 20.0),
                                   child: customButton('Cancel',
                                       onTap: () {
-                                    pressBack();
+                                    // pressBack();
                                       },
                                       radius: 40,
                                       width: double.infinity,
@@ -369,16 +370,21 @@ class _EditAddressState extends State<EditAddress> {
   }
 
   Widget map(context,ProfileCubitState state) {
+    // print(state.responseFarmerProfile!.farmer!.address!.lattitude!);
     return Column(
       children: [
         Stack(
           children: [
             GMap(
-              lat: lat ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude,
-              lng: long ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude,
+              // lat: lat ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude,
+              // lng: long ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude,
+              lat: lat ?? state.responseFarmerProfile!.farmer!.address!.lattitude!,
+              lng: long ?? state.responseFarmerProfile!.farmer!.address!.longitude!,
               height: 350,
               onMapCreated: (controller) async{
-                _onMapCreated(controller);
+                _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.lattitude!,state.responseFarmerProfile!.farmer!.address!.longitude!);
+                lat = state.responseFarmerProfile!.farmer!.address!.lattitude!;
+                long = state.responseFarmerProfile!.farmer!.address!.longitude!;
               },
               markers: markers.values.toSet(),
               onCameraIdle: () {},

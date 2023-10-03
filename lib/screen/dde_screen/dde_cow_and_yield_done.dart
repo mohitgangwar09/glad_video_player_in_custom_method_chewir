@@ -68,7 +68,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
+      // BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
       BlocProvider.of<CowsAndYieldDoneCubit>(context).getCowBreedDetailsApi(context,"",id: widget.userId.toString());
       BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context);
       // context.read<CowsAndYieldCubit>().addRequestData();
@@ -190,11 +190,16 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                   child: Column(
                     children: [
 
-                      addMore(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.initialIndex == BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData!.length-1, BlocProvider.of<CowsAndYieldDoneCubit>(context).state.initialIndex!,BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData!),
+                      BlocBuilder<CowsAndYieldDoneCubit,CowsAndCubitDoneState>(
+                          builder: (context,state) {
+                          return addMore(state.initialIndex == state.responseMonthlyWiseData!.length-1, state.initialIndex!,state.responseMonthlyWiseData!);
+                        }
+                      ),
 
                       BlocBuilder<CowsAndYieldDoneCubit,CowsAndCubitDoneState>(
                           builder: (context,state) {
                             if(state.responseMonthlyWiseData!.isNotEmpty){
+
                               return customList(list: state.responseMonthlyWiseData!,child: (index) {
                                 showMonthWiseData.add(false);
                                 return Column(
@@ -291,8 +296,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
 
                                                                             10.horizontalSpace(),
 
-
                                                                             index>0?const SizedBox(width: 0,height: 0,):
+                                                                            state.responseMonthlyWiseData!.length>1?
                                                                             InkWell(
                                                                               onTap: (){
                                                                                 BlocProvider.of<CowsAndYieldDoneCubit>(context).deleteMonthId(context, state.responseMonthlyWiseData![index].monthname.toString().capitalized(),widget.farmerId,widget.userId);
@@ -302,7 +307,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                 height: 40,
                                                                                 width: 40,
                                                                               ),
-                                                                            ),
+                                                                            ):
+                                                                            const SizedBox.shrink(),
 
                                                                           ],
                                                                         ),
@@ -1110,6 +1116,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                       BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData!.isNotEmpty?
                       saveCancelButton():const SizedBox.shrink(),
 
+                      // const SizedBox(height: 40,)
+
                     ],
                   ),
                 ),
@@ -1140,7 +1148,17 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
           15.verticalSpace(),
           customButton('Cancel',
               style: figtreeMedium.copyWith(fontSize: 16),
-              onTap: () {},
+              onTap: () {
+            pressBack();
+            BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
+            responseDateWiseData.clear();
+            requestData.clear();
+            addBreedLength.clear();
+            showQty.clear();
+            showGreaterQty.clear();
+            addMonth = false;
+            checkClickMonth = false;
+              },
               width: screenWidth(),
               height: 60,
               color: 0xffDCDCDC),
@@ -1270,6 +1288,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
               if(responseMonthWiseData.isNotEmpty){
                 if(checkDateMonth(responseMonthWiseData[0].year,(responseMonthWiseData[0].month+1))){
 
+                  // showCustomToast(context, "Current Month");
                   BlocProvider.of<CowsAndYieldDoneCubit>(context).addMonthApi(context,widget.farmerId,"month",widget.userId);
 
                 }else{
@@ -1817,7 +1836,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
   void initState() {
     super.initState();
 
-    context.read<DdeFarmerCubit>().totalFirstProduction(0,widget.index);
+    context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
 
     context.read<CowsAndYieldDoneCubit>().getProductionData(widget.responseMonthWise);
 
