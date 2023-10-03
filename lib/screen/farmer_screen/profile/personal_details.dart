@@ -129,7 +129,7 @@ class PersonalDetails extends StatelessWidget {
                 image2Colors: ColorResources.maroon,
                 // hint: state.farmerSince.toString(),
                 controller: TextEditingController()..text = state.farmerSince == "0000-00-00"?"":state.farmerSince,
-                // controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.farmingExperience.toString(),
+                // controller: state.farmerSince,
                 readOnly: true,
                 onTap: () async{
                   var selectDate = await selectedDateFarmer(context);
@@ -156,7 +156,9 @@ class PersonalDetails extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: customButton('Cancel',
-                    onTap: () {},
+                    onTap: () {
+                  pressBack();
+                    },
                     radius: 40,
                     width: double.infinity,
                     height: 60,

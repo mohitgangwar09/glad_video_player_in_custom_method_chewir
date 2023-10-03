@@ -413,7 +413,13 @@ class _EditAddressState extends State<EditAddress> {
                                       addressController!.text = prediction.description!;
                                       _searchPlaceController.clear();
                                     },
-                                    getPlaceDetailWithLatLng: (Prediction prediction) {
+                                    getPlaceDetailWithLatLng: (Prediction prediction) async{
+                                      for(AddressComponents data in prediction.placeDetails!.result!.addressComponents!) {
+                                        if(data.types!.contains('country')) {
+                                          bool isValidCountry = await BlocProvider.of<ProfileCubit>(context).validateCountry(context, data.longName!);
+                                          if(!isValidCountry) return;
+                                        }
+                                      }
                                       addressController!.text = prediction.description!;
                                       lat = double.parse(prediction.lat!);
                                       long = double.parse(prediction.lng!);

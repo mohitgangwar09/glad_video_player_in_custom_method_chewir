@@ -254,14 +254,17 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 children: [
                                   Row(
                                     children: [
-                                      (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':'${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} old').textRegular(fontSize: 12),
+
+                                      state.responseFarmerProfile!.farmer!.dateOfBirth!=null?
+                                      (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':'${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} old').textRegular(fontSize: 12):"0".textRegular(fontSize: 12),
                                       10.horizontalSpace(),
                                       const CircleAvatar(
                                         radius: 4,
                                         backgroundColor: Colors.black,
                                       ),
                                       10.horizontalSpace(),
-                                      "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} experience".textRegular(fontSize: 12),
+                                      state.responseFarmerProfile!.farmer!.farmingExperience!=null?
+                                      "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} experience".textRegular(fontSize: 12):"0".textRegular(fontSize: 12),
                                     ],
                                   ),
 
@@ -407,7 +410,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                             30.verticalSpace(),
                             cowsInTheFarm(state),
                             30.verticalSpace(),
-                            address(context,state),
+                            state.responseFarmerProfile!.farmer!.address!=null?
+                            address(context,state):const SizedBox.shrink(),
                             topPerformingFarmer(),
                             25.verticalSpace(),
                           ],

@@ -12,6 +12,7 @@ import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/response_sub_county.dart';
+import 'package:glad/data/model/response_validate_country.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -257,7 +258,6 @@ class ProfileRepository {
   }
 
   ///////////////getCountyList/////////////
-
   Future<ResponseCountyList> getCountyByDistrictApi(String districtName) async {
 
     var data = {
@@ -273,6 +273,23 @@ class ProfileRepository {
     }else
     {
       return ResponseCountyList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////getCountyList/////////////
+  Future<ResponseValidateCountry> validatedAddressCountry(String country) async {
+
+    var data = {"name" : country};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.validateCountry, queryParameters: data ,headers: {
+      'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseValidateCountry.fromJson(apiResponse.response!.data);
+    }else
+    {
+      return ResponseValidateCountry(status: 422, message: apiResponse.msg);
     }
   }
 
