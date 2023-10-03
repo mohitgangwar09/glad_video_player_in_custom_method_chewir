@@ -83,12 +83,14 @@ class _EditProfileState extends State<EditProfile> {
                                           showPicker(context, cameraFunction: () async{
                                             var image = imgFromCamera();
                                             image.then((value) async{
-                                              context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                                              context.read<ProfileCubit>().updateProfilePicImageRam(context,value);
+                                              // context.read<ProfileCubit>().updateProfilePicImage(context,value);
                                             });
                                           }, galleryFunction: () async{
                                             var image =  imgFromGallery();
                                             image.then((value) async{
-                                              context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                                              context.read<ProfileCubit>().updateProfilePicImageRam(context,value);
+                                              // context.read<ProfileCubit>().updateProfilePicImage(context,value);
                                             });
                                           });
                                         },

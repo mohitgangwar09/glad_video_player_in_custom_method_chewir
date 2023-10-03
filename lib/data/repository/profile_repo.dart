@@ -42,6 +42,27 @@ class ProfileRepository {
   }
 
   ///////////////// updateProfileApi //////////
+  Future<ResponseOtpModel> updateProfileImageAPiRam(File file) async {
+    var userId = sharedPreferences!.getString(AppConstants.userId);
+
+    FormData formData = FormData.fromMap(
+        {"id": userId, "photo": await MultipartFile.fromFile(file.path)});
+
+    print(formData.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateFarmerApi, data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// updateProfileApi //////////
   Future<ResponseOtpModel> updateProfileImageAPi(File file) async {
     var userId = sharedPreferences!.getString(AppConstants.userId);
 
