@@ -225,6 +225,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                         color: Colors.black, shape: BoxShape.circle),
                                                   ),
                                                   10.horizontalSpace(),
+
                                                   Text(state.response!.farmerMAster![i].farmingExperience !=null?
                                                       "${state.response!.farmerMAster![i].farmingExperience != "0000-00-00"? '0':getAge(DateTime.parse(state.response!.farmerMAster![i].farmingExperience.toString()))} exp":"0 exp",
                                                       style: figtreeMedium.copyWith(fontSize: 12,)),
