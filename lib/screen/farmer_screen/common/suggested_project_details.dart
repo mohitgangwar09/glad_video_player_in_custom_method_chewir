@@ -202,7 +202,13 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                               width: MediaQuery.of(context).size.width *
                                   0.5,
                               child: Text(
-                                'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
+                                state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
+                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
+                                && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
+                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
+                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
+                                    : ''
+                                    : '',
                                 style: figtreeRegular.copyWith(
                                   fontSize: 12,
                                   color: Colors.black,

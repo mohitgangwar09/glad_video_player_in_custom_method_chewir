@@ -24,12 +24,17 @@ class FarmerProfileModel {
 
 class Data {
   Farmer? farmer;
+  DairyDevelopMentExecutive? dairyDevelopMentExecutive;
 
-  Data({this.farmer});
+  Data({this.farmer, this.dairyDevelopMentExecutive});
 
   Data.fromJson(Map<String, dynamic> json) {
     farmer =
     json['farmer'] != null ? Farmer.fromJson(json['farmer']) : null;
+    dairyDevelopMentExecutive = json['dairy_develop_ment_executive'] != null
+        ? DairyDevelopMentExecutive.fromJson(
+        json['dairy_develop_ment_executive'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -74,7 +79,6 @@ class Farmer {
   Address? address;
   FarmerRagRating? farmerRagRating;
   List<CowBreedDetails>? cowBreedDetails;
-  DairyDevelopMentExecutive? dairyDevelopMentExecutive;
 
   Farmer(
       {this.id,
@@ -108,8 +112,7 @@ class Farmer {
         this.achievement,
         this.address,
         this.farmerRagRating,
-        this.cowBreedDetails,
-        this.dairyDevelopMentExecutive});
+        this.cowBreedDetails});
 
   Farmer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -152,10 +155,6 @@ class Farmer {
         cowBreedDetails!.add(CowBreedDetails.fromJson(v));
       });
     }
-    dairyDevelopMentExecutive = json['dairy_develop_ment_executive'] != null
-        ? DairyDevelopMentExecutive.fromJson(
-        json['dairy_develop_ment_executive'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -198,10 +197,6 @@ class Farmer {
     if (cowBreedDetails != null) {
       data['cow_breed_details'] =
           cowBreedDetails!.map((v) => v.toJson()).toList();
-    }
-    if (dairyDevelopMentExecutive != null) {
-      data['dairy_develop_ment_executive'] =
-          dairyDevelopMentExecutive!.toJson();
     }
     return data;
   }
@@ -476,9 +471,10 @@ class DairyDevelopMentExecutive {
   String? name;
   dynamic phone;
   dynamic image;
+  dynamic address;
 
   DairyDevelopMentExecutive(
-      {this.id, this.userId, this.name, this.phone, this.image});
+      {this.id, this.userId, this.name, this.phone, this.image, this.address});
 
   DairyDevelopMentExecutive.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -486,6 +482,7 @@ class DairyDevelopMentExecutive {
     name = json['name'];
     phone = json['phone'];
     image = json['image'];
+    address = json['address'];
   }
 
   Map<String, dynamic> toJson() {
@@ -495,6 +492,7 @@ class DairyDevelopMentExecutive {
     data['name'] = name;
     data['phone'] = phone;
     data['image'] = image;
+    data['address'] = address;
     return data;
   }
 }

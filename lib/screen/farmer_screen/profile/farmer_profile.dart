@@ -125,7 +125,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         40.verticalSpace(),
                         farmDetails(state),
                         30.verticalSpace(),
-                        dde(context, state,countryCode),
+                        state.responseFarmerProfile!.dairyDevelopMentExecutive != null ? dde(context, state,countryCode) : SizedBox.shrink(),
                         20.verticalSpace(),
                         cowsInTheFarm(state),
                         30.verticalSpace(),
@@ -718,7 +718,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.network(
-                        state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.image ?? '',
+                        state.responseFarmerProfile!.dairyDevelopMentExecutive!.image ?? '',
                         errorBuilder: (_, __, ___) =>
                             Image.asset(Images.sampleUser),
                       ),
@@ -726,7 +726,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.name!,
+                          Text(state.responseFarmerProfile!.dairyDevelopMentExecutive!.name!,
                               style: figtreeMedium.copyWith(
                                   fontSize: 16, color: Colors.black)),
                           4.verticalSpace(),
@@ -739,7 +739,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                                 size: 16,
                               ),
                               Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""}"
-                                  " ${state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone??''}"
+                                  " ${state.responseFarmerProfile!.dairyDevelopMentExecutive!.phone??''}"
                                    ,
                                   style: figtreeRegular.copyWith(
                                       fontSize: 12, color: Colors.black)),
@@ -757,7 +757,13 @@ class _FarmerProfileState extends State<FarmerProfile> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.6,
                                 child: Text(
-                                  '',
+                                  state.responseFarmerProfile!.dairyDevelopMentExecutive!.address != null
+                                      ? state.responseFarmerProfile!.dairyDevelopMentExecutive!.address["address"] != null
+                                      && state.responseFarmerProfile!.dairyDevelopMentExecutive!.address["sub_county"] != null
+                                      ? state.responseFarmerProfile!.dairyDevelopMentExecutive!.address["sub_county"] +
+                                      state.responseFarmerProfile!.dairyDevelopMentExecutive!.address["address"]
+                                      : ''
+                                      : '',
                                   style: figtreeRegular.copyWith(
                                     fontSize: 12,
                                     color: Colors.black,
@@ -791,14 +797,14 @@ class _FarmerProfileState extends State<FarmerProfile> {
                 children: [
                   InkWell(
                     onTap: () {
-                      callOnMobile(state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone ??
+                      callOnMobile(state.responseFarmerProfile!.dairyDevelopMentExecutive!.phone ??
                           '');
                     },
                       child: SvgPicture.asset(Images.callPrimary)),
                   6.horizontalSpace(),
                   InkWell(
                       onTap: () {
-                        whatsapp(state.responseFarmerProfile!.farmer!.dairyDevelopMentExecutive!.phone ??
+                        whatsapp(state.responseFarmerProfile!.dairyDevelopMentExecutive!.phone ??
                             '');
                       },child: SvgPicture.asset(Images.whatsapp)),
                   6.horizontalSpace(),

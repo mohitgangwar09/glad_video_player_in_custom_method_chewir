@@ -320,9 +320,10 @@ class DairyDevelopMentExecutive {
   String? name;
   String? phone;
   dynamic image;
+  dynamic address;
 
   DairyDevelopMentExecutive(
-      {this.id, this.userId, this.name, this.phone, this.image});
+      {this.id, this.userId, this.name, this.phone, this.image, this.address});
 
   DairyDevelopMentExecutive.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -330,6 +331,7 @@ class DairyDevelopMentExecutive {
     name = json['name'];
     phone = json['phone'];
     image = json['image'];
+    address = json['address'];
   }
 
   Map<String, dynamic> toJson() {
@@ -339,6 +341,7 @@ class DairyDevelopMentExecutive {
     data['name'] = name;
     data['phone'] = phone;
     data['image'] = image;
+    data['address'] = address;
     return data;
   }
 }
