@@ -806,15 +806,22 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 text: 'Yield  ',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
+                            state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!=null?
                             TextSpan(
+                              // text:
+                              // '${900/
+                              //     double.parse(DateTime(DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).year, DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).month, 0).day.toString())
+                              //   /22}',
                                 text: '${ double.parse('${state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!=null?
                                 double.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!.toString())/
-                                    double.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].milkingCow!=null?state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].milkingCow!.toString():"1")
-                                    // /double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString())
-                                    / double.parse(DateTime(DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).year, DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).month, 0).day.toString()):'0'}').toStringAsFixed(2)
+                                    double.parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].milkingCows.toString().isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![0].milkingCows!.toString():"1")
+                                    / double.parse(DateTime(DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).year, DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).month, 0).day.toString()):''}').toStringAsFixed(2)
                                 } Ltr/Day',
                                 style: figtreeSemiBold.copyWith(
-                                    fontSize: 14, color: Colors.black)),
+                                    fontSize: 14, color: Colors.black)):TextSpan(
+                                text: '',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 14, color: const Color(0xFF727272))),
                           ])) : RichText(
                           text: TextSpan(children: [
                             TextSpan(

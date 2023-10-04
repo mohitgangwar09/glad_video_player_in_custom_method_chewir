@@ -366,27 +366,6 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                 crossAxisAlignment:
                                                                                 CrossAxisAlignment.start,
                                                                                 children: [
-                                                                                  Text(
-                                                                                    state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"0",
-                                                                                    style: figtreeSemiBold
-                                                                                        .copyWith(fontSize: 18),
-                                                                                  ),
-                                                                                  Text(
-                                                                                    'Milking Cows',
-                                                                                    style: figtreeMedium
-                                                                                        .copyWith(fontSize: 12),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              05.horizontalSpace(),
-                                                                            ],
-                                                                          ),
-                                                                          Row(
-                                                                            children: [
-                                                                              Column(
-                                                                                crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                                children: [
 
                                                                                   Text(
                                                                                     state.responseMonthlyWiseData![index].totalMilkProduction!=null?state.responseMonthlyWiseData![index].totalMilkProduction!.toString():"0",
@@ -411,11 +390,32 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                 CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Text(
+                                                                                    state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"0",
+                                                                                    style: figtreeSemiBold
+                                                                                        .copyWith(fontSize: 18),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    'Milking Cows',
+                                                                                    style: figtreeMedium
+                                                                                        .copyWith(fontSize: 12),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              05.horizontalSpace(),
+                                                                            ],
+                                                                          ),
+                                                                          Row(
+                                                                            children: [
+                                                                              Column(
+                                                                                crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
                                                                                     double.parse('${state.responseMonthlyWiseData![index].totalMilkProduction!=null?
                                                                                   double.parse(state.responseMonthlyWiseData![index].totalMilkProduction!.toString())/
                                                                                   double.parse(state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"1")
                                                                                       // /double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString())
-                                                                                      / double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString()):''}').toStringAsFixed(2)
+                                                                                      / double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString()):'0'}').toStringAsFixed(2)
                                                                                     ,
                                                                                     style: figtreeSemiBold
                                                                                         .copyWith(fontSize: 18),
@@ -1924,6 +1924,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 } ,
                                 maxLine: 1,
                                 maxLength: 12,
+                                inputType: TextInputType.phone,
                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 paddingTop: 5,
                                 paddingBottom: 21,
@@ -1957,6 +1958,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 } ,
                                 maxLine: 1,
                                 maxLength: 12,
+                                inputType: TextInputType.phone,
                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 paddingBottom: 21,
                                 width: 1,
@@ -1993,6 +1995,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 } ,
                                 maxLine: 1,
                                 maxLength: 12,
+                                inputType: TextInputType.phone,
                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 paddingBottom: 21,
                                 width: 1,

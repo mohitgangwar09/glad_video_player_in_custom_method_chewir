@@ -295,7 +295,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: state.response!.farmerMAster![i].milkingCows!=null?state.response!.farmerMAster![i].milkingCows!.toString():'',
+                                                    text: state.response!.farmerMAster![i].farmerMilkProduction!.isNotEmpty ? state.response!.farmerMAster![i].farmerMilkProduction![0].milkingCow!=null?state.response!.farmerMAster![i].farmerMilkProduction![0].milkingCow!.toString():'' : '',
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12, color: Colors.black),
                                                   ),
@@ -311,6 +311,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                           color: const Color(
                                                               0xff808080),
                                                           fontSize: 12)),
+                                                  state.response!.farmerMAster![i].farmerMilkProduction![0].totalMilkProduction!=null?
                                                   TextSpan(
                                                       text: '${ double.parse('${state.response!.farmerMAster![i].farmerMilkProduction![0].totalMilkProduction!=null?
                                                       double.parse(state.response!.farmerMAster![i].farmerMilkProduction![0].totalMilkProduction!.toString())/
@@ -319,7 +320,12 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                           / double.parse(DateTime(DateTime.parse(state.response!.farmerMAster![i].farmerMilkProduction![0].date ?? DateTime.now().toString()).year, DateTime.parse(state.response!.farmerMAster![i].farmerMilkProduction![0].date ?? DateTime.now().toString()).month, 0).day.toString()):'0'}').toStringAsFixed(2)
                                                       } Ltr.',
                                                       style: figtreeSemiBold.copyWith(
-                                                          fontSize: 12, color: Colors.black)),
+                                                          fontSize: 12, color: Colors.black)):TextSpan(
+                                                      text: '',
+                                                      style: figtreeRegular.copyWith(
+                                                          color: const Color(
+                                                              0xff808080),
+                                                          fontSize: 12)),
                                                 ])) : RichText(
                                                 text: TextSpan(children: [
                                                   TextSpan(

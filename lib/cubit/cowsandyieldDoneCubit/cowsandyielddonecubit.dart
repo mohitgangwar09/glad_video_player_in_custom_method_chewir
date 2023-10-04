@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/data/model/update_record_breed_model.dart';
@@ -207,8 +208,12 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
             int.parse(CowsAndYieldsSumState.requestData[index].sixMonthCow.toString().isEmpty?"0":CowsAndYieldsSumState.requestData[index].sixMonthCow.toString())+
             int.parse("0");*/
         // state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
+        double divideByMilking = 0,totalYield =0;
+        divideByMilking = state.totalProduction/sums;
+        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double divideByDays = divideByMilking/numberOfDays;
 
-        emit(state.copyWith(totalMilkingCow: sums,totalHerdSize: totalHerdSize));
+        emit(state.copyWith(totalMilkingCow: sums,totalHerdSize: totalHerdSize, yieldPerDay: divideByDays));
         sums = 0;
         totalHerdSize = 0;
         sumOfHerd = 0;
@@ -455,6 +460,16 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     if(response.status == 200){
       showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,"update",id: farmerId);
+      await BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context,userId: farmerId);
+      BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
+      CowsAndYieldsSumDoneState.responseDateWiseData.clear();
+      CowsAndYieldsSumDoneState.requestData.clear();
+      CowsAndYieldsSumDoneState.addBreedLength.clear();
+      CowsAndYieldsSumDoneState.showQty.clear();
+      CowsAndYieldsSumDoneState.showGreaterQty.clear();
+      CowsAndYieldsSumDoneState.addMonth = false;
+      CowsAndYieldsSumDoneState.checkClickMonth = false;
+      pressBack();
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
     else{
@@ -482,7 +497,16 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
           CowsAndYieldsSumState.showQty.add(true);
         }*/
         for(int i=0 ;i<response.data!.monthWiseData![0].dateWiseData!.length;i++){
-          if(tagMonth == 'deleteMonth'){}else{
+          if(tagMonth == 'deleteMonth'){
+            CowsAndYieldsSumDoneState.requestData.removeAt(i);
+            allController("0");
+            // CowsAndYieldsSumDoneState.responseDateWiseData.remove(response.data!.monthWiseData![0].dateWiseData![i]);
+            getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
+            totalMilkingCow(i);
+            sumAllBreed(i);
+            totalAll(i);
+            addRequestData(i,"ist");
+          }else{
           if(tagMonth == "update"){
             CowsAndYieldsSumDoneState.addBreedLength.add(true);
               // if(i==response.data!.monthWiseData![0].dateWiseData!.length-1){
@@ -544,6 +568,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
   // deleteMonthApi
   void deleteMonthId(context,String monthName,String farmerId,String userId) async{
     customDialog(widget: launchProgress());
+    // CowsAndYieldsSumDoneState.responseDateWiseData.clear();
     emit(state.copyWith(status: CowsAndCubitStatus.loading));
     var response = await apiRepository.deleteMonthApi(monthName,farmerId);
     if(response.status == 200){

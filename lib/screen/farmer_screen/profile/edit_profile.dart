@@ -145,7 +145,7 @@ class _EditProfileState extends State<EditProfile> {
                                   color: Colors.black, fontSize: 14))
                         ])),
                         Text(
-                          'Max size 20 MB',
+                          'Max size 5 MB',
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.grey),
                         ),
