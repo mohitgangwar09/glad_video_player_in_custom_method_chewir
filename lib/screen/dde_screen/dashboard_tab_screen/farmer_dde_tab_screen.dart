@@ -445,11 +445,12 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         },
                                         child: SvgPicture.asset(Images.callPrimary)),
                                     6.horizontalSpace(),
-                                    InkWell(
+
+                                    whatsapp(state.response!.farmerMAster![i].phone ?? ''),
+                                    /*InkWell(
                                         onTap: () {
-                                          whatsapp(state.response!.farmerMAster![i].phone ??
-                                              '');
-                                        },child: SvgPicture.asset(Images.whatsapp)),
+
+                                        },child: SvgPicture.asset(Images.whatsapp)),*/
                                     6.horizontalSpace(),
                                     InkWell(onTap: (){
                                       // BlocProvider.of<DdeEnquiryCubit>(context).launchURL(

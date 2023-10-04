@@ -1130,8 +1130,11 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                             }
                         ),
 
-                        BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData!.isNotEmpty?
-                        saveCancelButton():const SizedBox.shrink(),
+                        BlocBuilder<CowsAndYieldDoneCubit,CowsAndCubitDoneState>(
+                          builder: (context,state) {
+                            return state.responseMonthlyWiseData!.isNotEmpty?saveCancelButton():const SizedBox.shrink();
+                          }
+                        ),
 
                         // const SizedBox(height: 40,)
 
