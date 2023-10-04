@@ -105,7 +105,7 @@ class _EditAddressState extends State<EditAddress> {
                         fontSize: 20, color: Colors.black),
                     centerTitle: true,
                     leading: arrowBackButton(),
-                    action: TextButton(
+                    /*action: TextButton(
                         onPressed: () {
                           BlocProvider.of<ProfileCubit>(context)
                               .addressUpdateApi(context,widget.userId,
@@ -115,7 +115,7 @@ class _EditAddressState extends State<EditAddress> {
                           'Save',
                           style: figtreeMedium.copyWith(
                               color: ColorResources.maroon, fontSize: 14),
-                        )),
+                        )),*/
                     description: 'Provide the following details',
                   ),
                   Expanded(

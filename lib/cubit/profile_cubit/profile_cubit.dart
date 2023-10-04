@@ -405,7 +405,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       if (response.status == 200) {
         emit(state.copyWith(
             status: ProfileStatus.success, districtResponse: response.data));
-        showCustomToast(context, 'Address had been updated successfully', isSuccess: true);
+        showCustomToast(context, 'Address has been updated successfully', isSuccess: true);
         await getFarmerProfile(context,userId: userId);
         pressBack();
       } else {

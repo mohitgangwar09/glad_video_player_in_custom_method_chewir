@@ -258,7 +258,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                 Column(
                   children: [
                     Text(
-                        (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '')).split(' ')[0]),
+                        (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience ?? '')).split(' ')[0]),
                         style: figtreeSemiBold.copyWith(fontSize: 22)),
                     Text('${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? '')).split(' ')[1]} exp.',
                         style: figtreeRegular.copyWith(
