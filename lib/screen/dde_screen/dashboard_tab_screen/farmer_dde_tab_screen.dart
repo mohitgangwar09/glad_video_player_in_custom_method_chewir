@@ -277,7 +277,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: '${state.response!.farmerMAster![i].farmSize!=null?state.response!.farmerMAster![i].farmSize!.toString():""}Acres',
+                                                    text: state.response!.farmerMAster![i].farmSize!=null?'${state.response!.farmerMAster![i].farmSize!} Acres':"",
                                                     style: figtreeSemiBold.copyWith(
                                                         fontSize: 12),
                                                   ),
@@ -297,29 +297,48 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                   TextSpan(
                                                     text: state.response!.farmerMAster![i].milkingCows!=null?state.response!.farmerMAster![i].milkingCows!.toString():'',
                                                     style: figtreeSemiBold.copyWith(
-                                                        fontSize: 12),
+                                                        fontSize: 12, color: Colors.black),
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                            Text.rich(
-                                              TextSpan(
-                                                children: [
+                                            state.response!.farmerMAster![i].farmerMilkProduction!.isNotEmpty ?
+                                            RichText(
+                                                text: TextSpan(children: [
                                                   TextSpan(
-                                                      text: 'Yield/Cow: ',
-                                                      style:
-                                                      figtreeRegular.copyWith(
+                                                      text: 'Yield: ',
+                                                      style: figtreeRegular.copyWith(
+                                                          color: const Color(
+                                                              0xff808080),
+                                                          fontSize: 12)),
+                                                  state.response!.farmerMAster![i].farmerMilkProduction![0].totalMilkProduction!=null?
+                                                  TextSpan(
+                                                      text: '${ double.parse('${state.response!.farmerMAster![i].farmerMilkProduction![0].totalMilkProduction!=null?
+                                                      double.parse(state.response!.farmerMAster![i].farmerMilkProduction![0].totalMilkProduction!.toString())/
+                                                          double.parse(state.response!.farmerMAster![i].farmerMilkProduction![0].milkingCow!=null?state.response!.farmerMAster![i].farmerMilkProduction![0].milkingCow!.toString():"1")
+                                                          // /double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString())
+                                                          / double.parse(DateTime(DateTime.parse(state.response!.farmerMAster![i].farmerMilkProduction![0].date ?? DateTime.now().toString()).year, DateTime.parse(state.response!.farmerMAster![i].farmerMilkProduction![0].date ?? DateTime.now().toString()).month, 0).day.toString()):''}').toStringAsFixed(2)
+                                                      } Ltr.',
+                                                      style: figtreeSemiBold.copyWith(
+                                                          fontSize: 12, color: Colors.black)):TextSpan(
+                                                      text: '',
+                                                      style: figtreeRegular.copyWith(
+                                                          color: const Color(
+                                                              0xff808080),
+                                                          fontSize: 12)),
+                                                ])) : RichText(
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text: 'Yield:  ',
+                                                      style: figtreeRegular.copyWith(
                                                           color: const Color(
                                                               0xff808080),
                                                           fontSize: 12)),
                                                   TextSpan(
-                                                    text: state.response!.farmerMAster![i].yieldPerCow!=null?state.response!.farmerMAster![i].yieldPerCow!.toString():'',
-                                                    style: figtreeSemiBold.copyWith(
-                                                        fontSize: 12),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
+                                                      text: '',
+                                                      style: figtreeSemiBold.copyWith(
+                                                          fontSize: 12, color: Colors.black)),
+                                                ])),
                                           ],
                                         ),
                                       ),

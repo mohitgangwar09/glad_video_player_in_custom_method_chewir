@@ -125,7 +125,7 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
                                     majorTickLines:
                                         const MajorTickLines(width: 0)),
                                 primaryYAxis: NumericAxis(
-                                    interval: 10,
+                                    // interval: 10,
                                     labelStyle: figtreeRegular.copyWith(
                                         fontSize: 10, color: Colors.white),
                                     axisLine: const AxisLine(width: 0),

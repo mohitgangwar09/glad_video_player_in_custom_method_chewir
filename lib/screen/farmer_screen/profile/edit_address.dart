@@ -378,12 +378,12 @@ class _EditAddressState extends State<EditAddress> {
             GMap(
               // lat: lat ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude,
               // lng: long ?? BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude,
-              lat: lat ?? state.responseFarmerProfile!.farmer!.address!.lattitude!,
+              lat: lat ?? state.responseFarmerProfile!.farmer!.address!.latitude!,
               lng: long ?? state.responseFarmerProfile!.farmer!.address!.longitude!,
               height: 350,
               onMapCreated: (controller) async{
-                _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.lattitude!,state.responseFarmerProfile!.farmer!.address!.longitude!);
-                lat = state.responseFarmerProfile!.farmer!.address!.lattitude!;
+                _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.latitude!,state.responseFarmerProfile!.farmer!.address!.longitude!);
+                lat = state.responseFarmerProfile!.farmer!.address!.latitude!;
                 long = state.responseFarmerProfile!.farmer!.address!.longitude!;
               },
               markers: markers.values.toSet(),

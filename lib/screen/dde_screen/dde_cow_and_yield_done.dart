@@ -366,13 +366,15 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                 crossAxisAlignment:
                                                                                 CrossAxisAlignment.start,
                                                                                 children: [
+
                                                                                   Text(
-                                                                                    state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"0",
+                                                                                    state.responseMonthlyWiseData![index].totalMilkProduction!=null?state.responseMonthlyWiseData![index].totalMilkProduction!.toString():"0",
                                                                                     style: figtreeSemiBold
                                                                                         .copyWith(fontSize: 18),
                                                                                   ),
+
                                                                                   Text(
-                                                                                    'Milking Cows',
+                                                                                    'Production',
                                                                                     style: figtreeMedium
                                                                                         .copyWith(fontSize: 12),
                                                                                   ),
@@ -387,15 +389,13 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                 crossAxisAlignment:
                                                                                 CrossAxisAlignment.start,
                                                                                 children: [
-
                                                                                   Text(
-                                                                                    state.responseMonthlyWiseData![index].totalMilkProduction!=null?state.responseMonthlyWiseData![index].totalMilkProduction!.toString():"0",
+                                                                                    state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"0",
                                                                                     style: figtreeSemiBold
                                                                                         .copyWith(fontSize: 18),
                                                                                   ),
-
                                                                                   Text(
-                                                                                    'Production',
+                                                                                    'Milking Cows',
                                                                                     style: figtreeMedium
                                                                                         .copyWith(fontSize: 12),
                                                                                   ),

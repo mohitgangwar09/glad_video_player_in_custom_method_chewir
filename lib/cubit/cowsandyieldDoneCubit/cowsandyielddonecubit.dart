@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/data/model/update_record_breed_model.dart';
@@ -455,6 +456,16 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     if(response.status == 200){
       showCustomToast(context, response.message.toString(), isSuccess: true);
       getCowBreedDetailsApi(context,"update",id: farmerId);
+      await BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context,userId: farmerId);
+      BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
+      CowsAndYieldsSumDoneState.responseDateWiseData.clear();
+      CowsAndYieldsSumDoneState.requestData.clear();
+      CowsAndYieldsSumDoneState.addBreedLength.clear();
+      CowsAndYieldsSumDoneState.showQty.clear();
+      CowsAndYieldsSumDoneState.showGreaterQty.clear();
+      CowsAndYieldsSumDoneState.addMonth = false;
+      CowsAndYieldsSumDoneState.checkClickMonth = false;
+      pressBack();
       emit(state.copyWith(status: CowsAndCubitStatus.success));
     }
     else{
