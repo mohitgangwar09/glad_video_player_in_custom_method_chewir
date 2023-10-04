@@ -638,12 +638,12 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
     return Stack(
       children: [
         GMap(
-          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.lattitude!=null?state.responseFarmerProfile!.farmer!.address!.lattitude!.toString():'0'),
+          lat: double.parse(state.responseFarmerProfile!.farmer!.address!.latitude!=null?state.responseFarmerProfile!.farmer!.address!.latitude!.toString():'0'),
           lng: double.parse(state.responseFarmerProfile!.farmer!.address!.longitude!=null?state.responseFarmerProfile!.farmer!.address!.longitude!.toString():'0'),
           height: 350,
           onMapCreated: (GoogleMapController controller){
-            if(state.responseFarmerProfile!.farmer!.address!.lattitude!=null){
-              _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.lattitude!.toString(),
+            if(state.responseFarmerProfile!.farmer!.address!.latitude!=null){
+              _onMapCreated(controller,state.responseFarmerProfile!.farmer!.address!.latitude!.toString(),
                   state.responseFarmerProfile!.farmer!.address!.longitude!.toString());
             }else{
               _onMapCreated(controller,BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude.toString(),
@@ -788,7 +788,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                       RichText(
                           text: TextSpan(children: [
                             TextSpan(
-                                text: 'Milking Cows - ',
+                                text: 'Milking Cows  ',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
                             TextSpan(
@@ -800,14 +800,29 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         height: 20,
                         child: customPaint(const Color(0xFF999999)),
                       ),
-                      RichText(
+                      state.responseFarmerProfile!.farmer!.farmerMilkProduction!.isNotEmpty ? RichText(
                           text: TextSpan(children: [
                             TextSpan(
                                 text: 'Yield  ',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 14, color: const Color(0xFF727272))),
                             TextSpan(
-                                text: '${state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![state.selectedBreedIndex!].yieldPerCow!.toString():"0"} Ltr/Day',
+                                text: '${ double.parse('${state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!=null?
+                                double.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!.toString())/
+                                    double.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].milkingCow!=null?state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].milkingCow!.toString():"1")
+                                    // /double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString())
+                                    / double.parse(DateTime(DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).year, DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).month, 0).day.toString()):''}').toStringAsFixed(2)
+                                } Ltr/Day',
+                                style: figtreeSemiBold.copyWith(
+                                    fontSize: 14, color: Colors.black)),
+                          ])) : RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: 'Yield  ',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 14, color: const Color(0xFF727272))),
+                            TextSpan(
+                                text: '0 Ltr/Day',
                                 style: figtreeSemiBold.copyWith(
                                     fontSize: 14, color: Colors.black)),
                           ])),
