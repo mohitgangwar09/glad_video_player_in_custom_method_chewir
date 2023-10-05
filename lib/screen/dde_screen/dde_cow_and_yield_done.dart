@@ -415,7 +415,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                   double.parse(state.responseMonthlyWiseData![index].totalMilkProduction!.toString())/
                                                                                   double.parse(state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"1")
                                                                                       // /double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString())
-                                                                                      / double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString()):'0'}').toStringAsFixed(2)
+                                                                                      / double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!+1, 0).day.toString()):'0'}').toStringAsFixed(2)
                                                                                     ,
                                                                                     style: figtreeSemiBold
                                                                                         .copyWith(fontSize: 18),

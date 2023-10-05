@@ -23,6 +23,7 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class DdeFarmerDetail extends StatefulWidget {
   const DdeFarmerDetail({Key? key, required this.userId}) : super(key: key);
@@ -815,7 +816,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 text: '${ double.parse('${state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!=null?
                                 double.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!.toString())/
                                     double.parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].milkingCows.toString().isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![0].milkingCows!.toString():"1")
-                                    / double.parse(DateTime(DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).year, DateTime.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].date ?? DateTime.now().toString()).month, 0).day.toString()):''}').toStringAsFixed(2)
+                                    / double.parse(DateTime(int.parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].year!), DateFormat('MMMM').parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].month.toString()).month+1, 0).day.toString()):'0'}').toStringAsFixed(2)
                                 } Ltr/Day',
                                 style: figtreeSemiBold.copyWith(
                                     fontSize: 14, color: Colors.black)):TextSpan(
