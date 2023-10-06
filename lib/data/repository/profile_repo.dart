@@ -62,6 +62,37 @@ class ProfileRepository {
     }
   }
 
+///////////////// updateFarmerKYCStatus //////////
+  Future<ResponseOtpModel> updateFarmerKYCStatus(String docName, String docNo, String docExpiryDate, List<File> documentFiles,
+      String docType, String docTypeNo, String docTypeExpiryDate, List<File> documentTypeFiles, File profilePic) async {
+
+    FormData formData = FormData.fromMap(
+        {
+          "doc_name": docName,
+          "doc_no": docNo,
+          "doc_expiry_date": docExpiryDate,
+          "document_files": documentFiles.map((e) async => await MultipartFile.fromFile(e.path)).toList(),
+          "doc_type": docType,
+          "doc_type_no": docTypeNo,
+          "doc_type_expiry_date": docTypeExpiryDate,
+          "document_type_files": documentTypeFiles.map((e) async => await MultipartFile.fromFile(e.path)).toList(),
+          "profile_pic": await MultipartFile.fromFile(profilePic.path),
+        });
+
+    print(formData.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateKycDocument, data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// updateProfileApi //////////
   Future<ResponseOtpModel> updateProfileImageAPi(File file) async {
     var userId = sharedPreferences!.getString(AppConstants.userId);
