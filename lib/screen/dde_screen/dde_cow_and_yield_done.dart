@@ -414,7 +414,6 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                                     double.parse('${state.responseMonthlyWiseData![index].totalMilkProduction!=null?
                                                                                   double.parse(state.responseMonthlyWiseData![index].totalMilkProduction!.toString())/
                                                                                   double.parse(state.responseMonthlyWiseData![index].milkingCow!=null?state.responseMonthlyWiseData![index].milkingCow!.toString():"1")
-                                                                                      // /double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!, 0).day.toString())
                                                                                       / double.parse(DateTime(state.responseMonthlyWiseData![index].year!, state.responseMonthlyWiseData![index].month!+1, 0).day.toString()):'0'}').toStringAsFixed(2)
                                                                                     ,
                                                                                     style: figtreeSemiBold
@@ -512,7 +511,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                             CrossAxisAlignment.start,
                                                                             children: [
                                                                               Text(
-                                                                                state.yieldPerDay.toStringAsFixed(2),
+                                                                                state.yieldPerDay>0?
+                                                                                state.yieldPerDay.toStringAsFixed(2):'0',
                                                                                 style: figtreeSemiBold
                                                                                     .copyWith(fontSize: 18),
                                                                               ),
@@ -525,8 +525,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                           ),
                                                                           05.horizontalSpace(),
                                                                         ],
-                                                                      ),
-                                                                        ],
+                                                                      ),],
                                                                       ),
                                                                     )
                                                                   ],
