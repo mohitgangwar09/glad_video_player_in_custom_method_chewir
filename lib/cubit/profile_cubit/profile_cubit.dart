@@ -15,7 +15,6 @@ import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/sharedprefrence.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stepper_list_view/stepper_list_view.dart';
 
@@ -130,6 +129,22 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     if (response.status == 200) {
       await getFarmerProfile(context);
       disposeProgress();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+  // updateProfilePicImage
+  Future<void> updateFarmerKYC(context, String docName, String docNo, String docExpiryDate, List<String> documentFiles,
+      String docType, String docTypeNo, String docTypeExpiryDate, List<String> documentTypeFiles, String profilePic) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.updateFarmerKYCStatus(docName, docNo, docExpiryDate, documentFiles.map((e) => File(e)).toList(),
+    docType, docTypeNo, docTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), File(profilePic));
+    disposeProgress();
+    if (response.status == 200) {
+      getFarmerProfile(context);
+      pressBack();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));

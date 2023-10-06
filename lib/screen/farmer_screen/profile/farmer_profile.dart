@@ -196,16 +196,16 @@ class _FarmerProfileState extends State<FarmerProfile> {
         ),
         10.verticalSpace(),
         InkWell(
-          onTap: () {
+          onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
             const KYCUpdate().navigate();
-          },
+          } : () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(state.responseFarmerProfile!.farmer!.name!,
                   style: figtreeMedium.copyWith(fontSize: 24)),
               4.horizontalSpace(),
-              SvgPicture.asset(Images.kycUnverified)
+              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? SvgPicture.asset(Images.kycUnverified) : SizedBox.shrink(),
             ],
           ),
         ),
