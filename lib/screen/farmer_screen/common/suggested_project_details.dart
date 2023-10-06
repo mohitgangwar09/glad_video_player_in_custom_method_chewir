@@ -60,7 +60,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+                        padding: const EdgeInsets.fromLTRB(22, 20, 22, 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -227,10 +227,13 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                   padding: EdgeInsets.only(right: 15.0),
                   child: Divider(),
                 ),
-                Text(
-                  'You may contact our Dairy Development Executive (DDE) for any assistance related to application processing.',
-                  style: figtreeRegular.copyWith(fontSize: 12),
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: Text(
+                    'You may contact our Dairy Development Executive (DDE) for any assistance related to application processing.',
+                    style: figtreeRegular.copyWith(fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
                 )
               ],
             ),
@@ -272,51 +275,60 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         ),
         10.verticalSpace(),
         customGrid(context,
+            padding: 0.paddingAll(),
             list: [1, 2, 3, 4, 5, 6, 7],
             crossAxisCount: 3,
             mainAxisSpacing: 10,
-            mainAxisExtent: 135, child: (int index) {
-          return customShadowContainer(
-              backColor: ColorResources.grey,
-              margin: 2,
-              radius: 14,
-              width: screenWidth(),
-              child: Padding(
-                // padding: 0.paddingAll(),
-                padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset(
-                          Images.callPrimary,
-                          width: 30,
-                          height: 30,
-                        ),
-                        SvgPicture.asset(Images.menuIcon)
-                      ],
-                    ),
-                    15.verticalSpace(),
-                    Text(
-                      'UGX 800K',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: figtreeMedium.copyWith(fontSize: 16),
-                    ),
-                    05.verticalSpace(),
-                    Text(
-                      'Farmer Participation',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: figtreeRegular.copyWith(
-                        fontSize: 14,
+            crossAxisSpacing: 10,
+            mainAxisExtent: 125, child: (int index) {
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+              boxShadow:[
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    blurRadius: 7.0,
+                    offset: const Offset(0, 3))],
+            ),
+            child: Padding(
+              // padding: 0.paddingAll(),
+              padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(
+                        Images.callPrimary,
+                        width: 28,
+                        height: 28,
                       ),
-                    )
-                  ],
-                ),
-              ));
+                      SvgPicture.asset(Images.menuIcon)
+                    ],
+                  ),
+                  15.verticalSpace(),
+                  Text(
+                    'UGX 800K',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: figtreeMedium.copyWith(fontSize: 14.3),
+                  ),
+                  05.verticalSpace(),
+                  Text(
+                    'Farmer Participation',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: figtreeRegular.copyWith(
+                      fontSize: 12.5,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
         })
       ],
     );
@@ -343,9 +355,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                 onTap: () {
                   SuggestedProjectMilestoneDetail(milestoneId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id).navigate();
                 },
-                child: customShadowContainer(
-                    margin: 0,
-                    backColor: ColorResources.grey,
+                child: customProjectContainer(
+                    marginLeft: 0,
+                    marginTop: 0,
+                    borderRadius: 14,
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Column(

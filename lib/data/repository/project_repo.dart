@@ -13,6 +13,7 @@ import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/model/response_dde_dashboard.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
@@ -106,6 +107,46 @@ class ProjectRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getResourceTypeApi //////////
+  Future<ResponseResourceType> getResourceTypeApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.resourceTypeListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseResourceType.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseResourceType(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getResourceCapacityApi //////////
+  Future<ResponseResourceType> getResourceCapacityApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.resourceCapacityListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseResourceType.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseResourceType(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
+  ///////////////// projectUOMListApi //////////
+  Future<ResponseResourceType> projectUOMListApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.projectUOMListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseResourceType.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseResourceType(status: 422, message: apiResponse.msg);
     }
   }
 

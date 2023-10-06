@@ -75,6 +75,7 @@ class _SuggestedProjectMilestoneDetailState
                     children: [
                       description(state),
                       dividerValue(state),
+                      attributes(state),
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty ? attributes(state) : const SizedBox.shrink(),
                       mileStoneDeliverable(state),
                     ],
@@ -175,7 +176,7 @@ class _SuggestedProjectMilestoneDetailState
               05.horizontalSpace(),
               InkWell(
                 onTap: () {
-                  // const AttributesEdit().navigate();
+                  const AttributesEdit().navigate();
                 },
                 child: Container(
                   padding:
@@ -213,7 +214,8 @@ class _SuggestedProjectMilestoneDetailState
                     10.verticalSpace(),
                     customAttribute("Quantity", "02 NOS"),
                     10.verticalSpace(),
-                    customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
+                    customAttribute("Price", "UGX 200}"),
+                    // customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
                     40.verticalSpace(),
                   ],
                 ),

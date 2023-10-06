@@ -697,14 +697,14 @@ BoxDecoration boxDecoration({Color borderColor= Colors.transparent,
   );
 }
 
-Widget customProjectContainer({required Widget child,double? width,double? height,double? marginTop =20,double? marginLeft = 10}){
+Widget customProjectContainer({required Widget child,double? width,double? height,double? marginTop =20,double? borderRadius = 20,double? marginLeft = 10}){
   return Container(
     margin: EdgeInsets.only(left:marginLeft!,top: marginTop!),
     width: width,
     height: height,
     decoration: BoxDecoration(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(borderRadius!),
       border: Border.all(color: const Color(0xffDCDCDC),width: 1),
       boxShadow:[
     BoxShadow(
