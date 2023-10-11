@@ -13,6 +13,7 @@ import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/model/response_dde_dashboard.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/data/model/response_price_attribute.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
@@ -158,7 +159,7 @@ class ProjectRepository {
       String resourceUomId,
       ) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.updateProjectStatusApi,
+        .getPostApiResponse(AppConstants.updateAttributeApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
           'id' : id,
           'resource_type' : resourceTypeId,
@@ -172,6 +173,28 @@ class ProjectRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ResponsePriceAttribute> getPriceAttributeApi(
+      String resourceTypeId,
+      String resourceCapacityId,
+      String resourceUomId,
+      String resourceQty,
+      ) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.priceAttributeApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
+          'resource_type_id' : resourceTypeId,
+          'resource_capacity_id': resourceCapacityId,
+          'project_uom_id': resourceUomId,
+          'quantity': resourceQty,
+        });
+
+    if (apiResponse.status) {
+      return ResponsePriceAttribute.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponsePriceAttribute(status: 422, message: apiResponse.msg);
     }
   }
 
