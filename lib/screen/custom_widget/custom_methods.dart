@@ -1325,3 +1325,24 @@ Widget  errorText(String s) {
 bool equalsIgnoreCase(String? string1, String? string2) {
   return string1?.toUpperCase() == string2?.toLowerCase();
 }
+
+getCurrencyValueString(int value){
+  if(value >= 1000) {
+    if(value/1000 >= 1000) {
+      return 'UGX ${removeZeroesInFraction((value/1000/1000).toStringAsFixed(2))}M';
+    }
+    return 'UGX ${removeZeroesInFraction((value/1000).toStringAsFixed(2))}K';
+  }
+  return 'UGX $value';
+}
+
+removeZeroesInFraction(String value){
+  if(int.parse(value.split('.')[1]) == 0){
+    return value.split('.')[0];
+  }else if(int.parse(value.split('.')[1]) % 10 == 0) {
+    return '${value.split('.')[0]}.${int.parse(value.split('.')[1]) ~/ 10}';
+  }
+  return value;
+}
+
+
