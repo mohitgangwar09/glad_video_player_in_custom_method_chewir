@@ -125,6 +125,8 @@ class Images {
   static const String playVideo = 'assets/images/play_video.svg';
   static const String arrowDown = 'assets/images/arrow_down.svg';
 
+  static const String pdfLogo = 'assets/images/pdf.png';
+
 
   // bottom navigation item//
   static const String home = 'assets/images/lighthome.svg';

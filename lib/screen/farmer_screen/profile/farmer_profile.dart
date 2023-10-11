@@ -11,6 +11,7 @@ import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
 import 'package:glad/screen/farmer_screen/profile/improvement_area.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
+import 'package:glad/screen/farmer_screen/profile/view_kyc_documents.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -198,6 +199,8 @@ class _FarmerProfileState extends State<FarmerProfile> {
         InkWell(
           onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
             const KYCUpdate().navigate();
+          } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' || state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
+            ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!,).navigate();
           } : () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +208,10 @@ class _FarmerProfileState extends State<FarmerProfile> {
               Text(state.responseFarmerProfile!.farmer!.name!,
                   style: figtreeMedium.copyWith(fontSize: 24)),
               4.horizontalSpace(),
-              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? SvgPicture.asset(Images.kycUnverified) : SizedBox.shrink(),
+              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' || state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? SvgPicture.asset(Images.kycUnverified) : Container(
+                  decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                  padding: const EdgeInsets.all(4),
+                  child: const Icon(Icons.done, color: Colors.white, size: 16,)),
             ],
           ),
         ),

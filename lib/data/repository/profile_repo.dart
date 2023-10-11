@@ -71,14 +71,17 @@ class ProfileRepository {
           "doc_name": docName,
           "doc_no": docNo,
           "doc_expiry_date": docExpiryDate,
-          "document_files": documentFiles.map((e) async => await MultipartFile.fromFile(e.path)).toList(),
           "doc_type": docType,
           "doc_type_no": docTypeNo,
           "doc_type_expiry_date": docTypeExpiryDate,
-          "document_type_files": documentTypeFiles.map((e) async => await MultipartFile.fromFile(e.path)).toList(),
           "profile_pic": await MultipartFile.fromFile(profilePic.path),
         });
-
+    for(var e in documentFiles) {
+      formData.files.add(MapEntry("document_files[]", await MultipartFile.fromFile(e.path)));
+    }
+    for(var e in documentTypeFiles) {
+      formData.files.add(MapEntry("document_type_files[]", await MultipartFile.fromFile(e.path)));
+    }
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

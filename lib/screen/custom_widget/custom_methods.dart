@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,14 +7,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
-import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
+import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:glad/utils/color_resources.dart';
-import 'dart:io' show Platform;
+import 'dart:io' show File, Platform;
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -976,24 +979,37 @@ class DashedLineVerticalPainter extends CustomPainter {
 
 }
 
-Widget documentImage(String image, Function() onTapCancel) {
+Widget documentImage(String image, Function() onTapCancel, {bool isPDF = false}) {
   return Stack(
     children: [
-      Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF819891)),
-          borderRadius: BorderRadius.circular(200),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(200),
-              child: Image.asset(
-                Images.sampleVideo,
-                fit: BoxFit.fill,
-                height: 70,
-                width: 70,
-              )),
+      InkWell(
+        onTap: isPDF ? () async {
+          await Permission.manageExternalStorage.request();
+          var result = await OpenFilePlus.open(File(image).path);
+          print(result.message);
+        } : () {},
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFF819891)),
+            borderRadius: BorderRadius.circular(200),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(200),
+                child: isPDF ? Image.asset(Images.pdfLogo,
+                  fit: BoxFit.fill,
+                  height: 70,
+                  width: 70,
+                ) : Image.file(File(image), fit: BoxFit.fill,
+                    height: 70,
+                    width: 70, errorBuilder: (_, __, ___) => Image.asset(
+                  Images.sampleVideo,
+                  fit: BoxFit.fill,
+                  height: 70,
+                  width: 70,
+                )),),
+          ),
         ),
       ),
       Positioned(
@@ -1011,6 +1027,40 @@ Widget documentImage(String image, Function() onTapCancel) {
         ),
       ),
     ],
+  );
+}
+
+Widget viewDocumentImage(String image, {bool isPDF = false}) {
+  return InkWell(
+    onTap: isPDF ? () async {
+      var dir = await getApplicationDocumentsDirectory();
+      await Permission.manageExternalStorage.request();
+      await Dio().download(image, "${"${dir.path}/fileName"}.pdf");
+      await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+    } : () {},
+    child: Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF819891)),
+        borderRadius: BorderRadius.circular(200),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(200),
+          child: isPDF ? Image.asset(Images.pdfLogo,
+            fit: BoxFit.fill,
+            height: 70,
+            width: 70,
+          ) : CachedNetworkImage(imageUrl: image, fit: BoxFit.fill,
+              height: 70,
+              width: 70, errorWidget: (_, __, ___) => Image.asset(
+                Images.sampleVideo,
+                fit: BoxFit.fill,
+                height: 70,
+                width: 70,
+              )),),
+      ),
+    ),
   );
 }
 

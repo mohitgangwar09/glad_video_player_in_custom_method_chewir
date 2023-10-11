@@ -1,6 +1,6 @@
 class FarmerProfileModel {
   String? message;
-  dynamic status;
+  int? status;
   Data? data;
 
   FarmerProfileModel({this.message, this.status, this.data});
@@ -66,6 +66,7 @@ class Farmer {
   String? gender;
   String? registrationDate;
   String? supplierCode;
+  String? supplierId;
   dynamic farmSize;
   dynamic dairyArea;
   dynamic staffQuantity;
@@ -79,9 +80,11 @@ class Farmer {
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
+  String? createdAt;
   dynamic achievement;
-  List<CowBreedDetails>? cowBreedDetails;
   List<FarmerMilkProduction>? farmerMilkProduction;
+  List<CowBreedDetails>? cowBreedDetails;
+  FarmerDocuments? farmerDocuments;
   Address? address;
   FarmerRagRating? farmerRagRating;
 
@@ -101,6 +104,7 @@ class Farmer {
         this.gender,
         this.registrationDate,
         this.supplierCode,
+        this.supplierId,
         this.farmSize,
         this.dairyArea,
         this.staffQuantity,
@@ -114,9 +118,11 @@ class Farmer {
         this.status,
         this.createdBy,
         this.updatedBy,
+        this.createdAt,
         this.achievement,
-        this.cowBreedDetails,
         this.farmerMilkProduction,
+        this.cowBreedDetails,
+        this.farmerDocuments,
         this.address,
         this.farmerRagRating});
 
@@ -136,6 +142,7 @@ class Farmer {
     gender = json['gender'];
     registrationDate = json['registration_date'];
     supplierCode = json['supplier_code'];
+    supplierId = json['supplier_id'];
     farmSize = json['farm_size'];
     dairyArea = json['dairy_area'];
     staffQuantity = json['staff_quantity'];
@@ -149,19 +156,23 @@ class Farmer {
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
     achievement = json['achievement'];
-    if (json['cow_breed_details'] != null) {
-      cowBreedDetails = <CowBreedDetails>[];
-      json['cow_breed_details'].forEach((v) {
-        cowBreedDetails!.add(CowBreedDetails.fromJson(v));
-      });
-    }
     if (json['farmer_milk_production'] != null) {
       farmerMilkProduction = <FarmerMilkProduction>[];
       json['farmer_milk_production'].forEach((v) {
         farmerMilkProduction!.add(FarmerMilkProduction.fromJson(v));
       });
     }
+    if (json['cow_breed_details'] != null) {
+      cowBreedDetails = <CowBreedDetails>[];
+      json['cow_breed_details'].forEach((v) {
+        cowBreedDetails!.add(CowBreedDetails.fromJson(v));
+      });
+    }
+    farmerDocuments = json['farmer_documents'] != null
+        ? FarmerDocuments.fromJson(json['farmer_documents'])
+        : null;
     address =
     json['address'] != null ? Address.fromJson(json['address']) : null;
     farmerRagRating = json['farmer_rag_rating'] != null
@@ -186,6 +197,7 @@ class Farmer {
     data['gender'] = gender;
     data['registration_date'] = registrationDate;
     data['supplier_code'] = supplierCode;
+    data['supplier_id'] = supplierId;
     data['farm_size'] = farmSize;
     data['dairy_area'] = dairyArea;
     data['staff_quantity'] = staffQuantity;
@@ -199,14 +211,18 @@ class Farmer {
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
     data['achievement'] = achievement;
+    if (farmerMilkProduction != null) {
+      data['farmer_milk_production'] =
+          farmerMilkProduction!.map((v) => v.toJson()).toList();
+    }
     if (cowBreedDetails != null) {
       data['cow_breed_details'] =
           cowBreedDetails!.map((v) => v.toJson()).toList();
     }
-    if (farmerMilkProduction != null) {
-      data['farmer_milk_production'] =
-          farmerMilkProduction!.map((v) => v.toJson()).toList();
+    if (farmerDocuments != null) {
+      data['farmer_documents'] = farmerDocuments!.toJson();
     }
     if (address != null) {
       data['address'] = address!.toJson();
@@ -214,6 +230,87 @@ class Farmer {
     if (farmerRagRating != null) {
       data['farmer_rag_rating'] = farmerRagRating!.toJson();
     }
+    return data;
+  }
+}
+
+class FarmerMilkProduction {
+  dynamic id;
+  dynamic farmerId;
+  String? date;
+  String? month;
+  String? year;
+  dynamic totalMilkProduction;
+  dynamic milkingCow;
+  dynamic suppliedToPdfl;
+  dynamic suppliedToOthers;
+  dynamic selfUse;
+  double? yieldPerCow;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+
+  FarmerMilkProduction(
+      {this.id,
+        this.farmerId,
+        this.date,
+        this.month,
+        this.year,
+        this.totalMilkProduction,
+        this.milkingCow,
+        this.suppliedToPdfl,
+        this.suppliedToOthers,
+        this.selfUse,
+        this.yieldPerCow,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  FarmerMilkProduction.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    date = json['date'];
+    month = json['month'];
+    year = json['year'];
+    totalMilkProduction = json['total_milk_production'];
+    milkingCow = json['milking_cow'];
+    suppliedToPdfl = json['supplied_to_pdfl'];
+    suppliedToOthers = json['supplied_to_others'];
+    selfUse = json['self_use'];
+    yieldPerCow = json['yield_per_cow'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['date'] = date;
+    data['month'] = month;
+    data['year'] = year;
+    data['total_milk_production'] = totalMilkProduction;
+    data['milking_cow'] = milkingCow;
+    data['supplied_to_pdfl'] = suppliedToPdfl;
+    data['supplied_to_others'] = suppliedToOthers;
+    data['self_use'] = selfUse;
+    data['yield_per_cow'] = yieldPerCow;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -232,7 +329,7 @@ class CowBreedDetails {
   dynamic sevenToTwelveMonthCows;
   dynamic sixMonthCow;
   dynamic bullCalfs;
-  dynamic yieldPerCow;
+  double? yieldPerCow;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -311,79 +408,281 @@ class CowBreedDetails {
   }
 }
 
-class FarmerMilkProduction {
+class FarmerDocuments {
   dynamic id;
   dynamic farmerId;
-  String? date;
-  String? month;
-  dynamic totalMilkProduction;
-  dynamic milkingCow;
-  dynamic suppliedToPdfl;
-  dynamic suppliedToOthers;
-  dynamic selfUse;
-  dynamic yieldPerCow;
+  dynamic personalIdName;
+  String? docType;
+  String? docNo;
+  String? docName;
+  String? docTypeNo;
+  String? docTypeExpiryDate;
+  String? docExpiryDate;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
+  List<DocumentFiles>? documentFiles;
+  List<DocumentTypeFiles>? documentTypeFiles;
+  String? profilePic;
 
-  FarmerMilkProduction(
+  FarmerDocuments(
       {this.id,
         this.farmerId,
-        this.date,
-        this.month,
-        this.totalMilkProduction,
-        this.milkingCow,
-        this.suppliedToPdfl,
-        this.suppliedToOthers,
-        this.selfUse,
-        this.yieldPerCow,
+        this.personalIdName,
+        this.docType,
+        this.docNo,
+        this.docName,
+        this.docTypeNo,
+        this.docTypeExpiryDate,
+        this.docExpiryDate,
         this.status,
         this.createdBy,
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.documentFiles,
+        this.documentTypeFiles,
+        this.profilePic});
 
-  FarmerMilkProduction.fromJson(Map<String, dynamic> json) {
+  FarmerDocuments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     farmerId = json['farmer_id'];
-    date = json['date'];
-    month = json['month'];
-    totalMilkProduction = json['total_milk_production'];
-    milkingCow = json['milking_cow'];
-    suppliedToPdfl = json['supplied_to_pdfl'];
-    suppliedToOthers = json['supplied_to_others'];
-    selfUse = json['self_use'];
-    yieldPerCow = json['yield_per_cow'];
+    personalIdName = json['personal_id_name'];
+    docType = json['doc_type'];
+    docNo = json['doc_no'];
+    docName = json['doc_name'];
+    docTypeNo = json['doc_type_no'];
+    docTypeExpiryDate = json['doc_type_expiry_date'];
+    docExpiryDate = json['doc_expiry_date'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    if (json['document_files'] != null) {
+      documentFiles = <DocumentFiles>[];
+      json['document_files'].forEach((v) {
+        documentFiles!.add(DocumentFiles.fromJson(v));
+      });
+    }
+    if (json['document_type_files'] != null) {
+      documentTypeFiles = <DocumentTypeFiles>[];
+      json['document_type_files'].forEach((v) {
+        documentTypeFiles!.add(DocumentTypeFiles.fromJson(v));
+      });
+    }
+    profilePic = json['profile_pic'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['farmer_id'] = farmerId;
-    data['date'] = date;
-    data['month'] = month;
-    data['total_milk_production'] = totalMilkProduction;
-    data['milking_cow'] = milkingCow;
-    data['supplied_to_pdfl'] = suppliedToPdfl;
-    data['supplied_to_others'] = suppliedToOthers;
-    data['self_use'] = selfUse;
-    data['yield_per_cow'] = yieldPerCow;
+    data['personal_id_name'] = personalIdName;
+    data['doc_type'] = docType;
+    data['doc_no'] = docNo;
+    data['doc_name'] = docName;
+    data['doc_type_no'] = docTypeNo;
+    data['doc_type_expiry_date'] = docTypeExpiryDate;
+    data['doc_expiry_date'] = docExpiryDate;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (documentFiles != null) {
+      data['document_files'] =
+          documentFiles!.map((v) => v.toJson()).toList();
+    }
+    if (documentTypeFiles != null) {
+      data['document_type_files'] =
+          documentTypeFiles!.map((v) => v.toJson()).toList();
+    }
+    data['profile_pic'] = profilePic;
+    return data;
+  }
+}
+
+class DocumentFiles {
+  dynamic id;
+  String? modelType;
+  dynamic modelId;
+  String? uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  List<dynamic>? manipulations;
+  List<dynamic>? customProperties;
+  List<dynamic>? generatedConversions;
+  List<dynamic>? responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  DocumentFiles(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  DocumentFiles.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
+    return data;
+  }
+}
+
+class DocumentTypeFiles {
+  dynamic id;
+  String? modelType;
+  dynamic modelId;
+  String? uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  List<dynamic>? manipulations;
+  List<dynamic>? customProperties;
+  List<dynamic>? generatedConversions;
+  List<dynamic>? responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  DocumentTypeFiles(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  DocumentTypeFiles.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
     return data;
   }
 }
@@ -396,7 +695,7 @@ class Address {
   String? mobile;
   String? dialCode;
   dynamic landlineNo;
-  dynamic email;
+  String? email;
   dynamic gstNumber;
   String? line1;
   dynamic line2;
