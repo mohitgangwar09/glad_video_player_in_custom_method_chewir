@@ -55,7 +55,10 @@ class MilestoneDetails {
   String? milestoneDescription;
   dynamic milestoneDuration;
   dynamic resourceType;
+  dynamic resourceTypeName;
   dynamic resourceCapcity;
+  dynamic resourceCapacityName;
+  dynamic resourceUomName;
   dynamic resourcePrice;
   dynamic resourceQty;
   dynamic resourceUom;
@@ -96,7 +99,11 @@ class MilestoneDetails {
         this.createdAt,
         this.updatedAt,
         this.farmerProjectResourcePrice,
-        this.farmerProjectTask});
+        this.farmerProjectTask,
+        this.resourceCapacityName,
+        this.resourceTypeName,
+        this.resourceUomName,
+      });
 
   MilestoneDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -107,7 +114,10 @@ class MilestoneDetails {
     milestoneDescription = json['milestone_description'];
     milestoneDuration = json['milestone_duration'];
     resourceType = json['resource_type'];
+    resourceTypeName = json['resource_type_name'];
     resourceCapcity = json['resource_capcity'];
+    resourceCapacityName = json['resource_type_capcity'];
+    resourceUomName = json['resource_uom_name'];
     resourcePrice = json['resource_price'];
     resourceQty = json['resource_qty'];
     resourceUom = json['resource_uom'];
@@ -147,6 +157,9 @@ class MilestoneDetails {
     data['milestone_duration'] = milestoneDuration;
     data['resource_type'] = resourceType;
     data['resource_capcity'] = resourceCapcity;
+    data['resource_type_name'] = resourceTypeName;
+    data['resource_type_capcity'] = resourceCapacityName;
+    data['resource_uom_name'] = resourceUomName;
     data['resource_price'] = resourcePrice;
     data['resource_qty'] = resourceQty;
     data['resource_uom'] = resourceUom;

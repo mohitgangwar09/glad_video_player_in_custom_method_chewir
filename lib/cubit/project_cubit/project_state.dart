@@ -8,6 +8,10 @@ class ProjectState extends Equatable {
   final DdeProjectModel? responseDdeProject;
   final FarmerProjectDetailModel? responseFarmerProjectDetail;
   final FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail;
+  final List<DataResourceType>? responseResourceType;
+  final List<DataResourceType>? responseResourceCapacityType;
+  final List<DataResourceType>? responseProjectUOM;
+  final String? selectResourceType, selectSizeCapacity,selectProjectUOM;
 
   const ProjectState({
     required this.status,
@@ -15,6 +19,12 @@ class ProjectState extends Equatable {
     required this.responseDdeProject,
     required this.responseFarmerProjectDetail,
     required this.responseFarmerProjectMilestoneDetail,
+    required this.responseResourceType,
+    required this.responseResourceCapacityType,
+    required this.responseProjectUOM,
+    required this.selectResourceType,
+    required this.selectSizeCapacity,
+    required this.selectProjectUOM,
   });
 
   factory ProjectState.initial() {
@@ -24,6 +34,12 @@ class ProjectState extends Equatable {
       responseDdeProject: null,
       responseFarmerProjectDetail: null,
       responseFarmerProjectMilestoneDetail: null,
+      responseResourceType: [],
+      responseResourceCapacityType: [],
+      responseProjectUOM: [],
+      selectResourceType: 'Select Type',
+      selectSizeCapacity: 'Select Size Capacity',
+      selectProjectUOM: 'Select UOM',
     );
   }
 
@@ -33,6 +49,10 @@ class ProjectState extends Equatable {
     DdeProjectModel? responseDdeProject,
     FarmerProjectDetailModel? responseFarmerProjectDetail,
     FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail,
+    List<DataResourceType>? responseResourceType,
+    List<DataResourceType>? responseResourceCapacityType,
+    List<DataResourceType>? responseProjectUOM,
+    String? selectResourceType, selectSizeCapacity,selectProjectUOM
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -44,6 +64,18 @@ class ProjectState extends Equatable {
       responseFarmerProjectMilestoneDetail:
           responseFarmerProjectMilestoneDetail ??
               this.responseFarmerProjectMilestoneDetail,
+      responseResourceType:
+      responseResourceType ??
+          this.responseResourceType,
+      responseResourceCapacityType:
+      responseResourceCapacityType ??
+          this.responseResourceCapacityType,
+      responseProjectUOM:
+      responseProjectUOM ??
+          this.responseProjectUOM,
+      selectResourceType: selectResourceType ?? this.selectResourceType,
+      selectSizeCapacity: selectSizeCapacity ?? this.selectSizeCapacity,
+      selectProjectUOM: selectProjectUOM ?? this.selectProjectUOM,
     );
   }
 
@@ -54,5 +86,11 @@ class ProjectState extends Equatable {
         responseDdeProject,
         responseFarmerProjectDetail,
         responseFarmerProjectMilestoneDetail,
+    responseResourceType,
+    responseResourceCapacityType,
+    responseProjectUOM,
+    selectResourceType,
+    selectSizeCapacity,
+    selectProjectUOM
       ];
 }

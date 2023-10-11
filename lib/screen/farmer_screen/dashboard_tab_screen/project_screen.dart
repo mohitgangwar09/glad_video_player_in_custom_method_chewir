@@ -31,119 +31,124 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProjectCubit, ProjectState>(
-      builder: (context, state) {
-      if (state.status == ProjectStatus.loading) {
-        return const Center(
-            child: CircularProgressIndicator(
-              color: ColorResources.maroon,
-            ));
-      } else if (state.responseFarmerProject == null) {
-        return Center(child: Text("${state.responseFarmerProject} Api Error"));
-      } else {
-        return Stack(
+    return Stack(
+      children: [
+        landingBackground(),
+        Column(
           children: [
-            landingBackground(),
-            Column(
-              children: [
-                CustomAppBar(
-                  context: context,
-                  titleText1: 'Projects',
-                  titleText1Style:
-                  figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-                  centerTitle: true,
-                  leading: openDrawer(
+
+            CustomAppBar(
+              context: context,
+              titleText1: 'Projects',
+              titleText1Style:
+              figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+              centerTitle: true,
+              leading: openDrawer(
+                  onTap: () {
+                    farmerLandingKey.currentState?.openDrawer();
+                  },
+                  child: SvgPicture.asset(Images.drawer)),
+            ),
+            10.verticalSpace(),
+            Container(
+              height: 50,
+              margin: 20.marginHorizontal(),
+              width: screenWidth(),
+              decoration: boxDecoration(
+                  borderRadius: 62,
+                  borderColor: const Color(0xffDCDCDC),
+                  backgroundColor: Colors.white),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
                       onTap: () {
-                        farmerLandingKey.currentState?.openDrawer();
+                        if (selectedStatus != 'active') {
+                          selectedStatus = 'active';
+                          setState(() {});
+                          BlocProvider.of<ProjectCubit>(context)
+                              .farmerProjectsApi(
+                              context, selectedStatus, true);
+                        }
                       },
-                      child: SvgPicture.asset(Images.drawer)),
-                ),
-                10.verticalSpace(),
-                Container(
-                  height: 50,
-                  margin: 20.marginHorizontal(),
-                  width: screenWidth(),
-                  decoration: boxDecoration(
-                      borderRadius: 62,
-                      borderColor: const Color(0xffDCDCDC),
-                      backgroundColor: Colors.white),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            if (selectedStatus != 'active') {
-                              selectedStatus = 'active';
-                              setState(() {});
-                              BlocProvider.of<ProjectCubit>(context)
-                                  .farmerProjectsApi(
-                                  context, selectedStatus, true);
-                            }
-                          },
-                          child: Container(
-                            height: screenHeight(),
-                            margin: const EdgeInsets.all(6),
-                            decoration: boxDecoration(
-                                backgroundColor: selectedStatus == 'active'
-                                    ? const Color(0xff6A0030)
-                                    : Colors.white,
-                                borderRadius: 62),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                "Active"
-                                    .textMedium(
-                                    color: selectedStatus == 'active' ? Colors
-                                        .white : ColorResources.black,
-                                    fontSize: 14),
-                                5.horizontalSpace(),
-                                SvgPicture.asset(
-                                    selectedStatus == 'suggested' ? Images
-                                        .activeSelected : Images.activeSelected)
-                              ],
-                            ),
-                          ),
+                      child: Container(
+                        height: screenHeight(),
+                        margin: const EdgeInsets.all(6),
+                        decoration: boxDecoration(
+                            backgroundColor: selectedStatus == 'active'
+                                ? const Color(0xff6A0030)
+                                : Colors.white,
+                            borderRadius: 62),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            "Active"
+                                .textMedium(
+                                color: selectedStatus == 'active' ? Colors
+                                    .white : ColorResources.black,
+                                fontSize: 14),
+                            5.horizontalSpace(),
+                            SvgPicture.asset(
+                                selectedStatus == 'suggested' ? Images
+                                    .activeSelected : Images.activeSelected)
+                          ],
                         ),
                       ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            if (selectedStatus != 'suggested') {
-                              selectedStatus = 'suggested';
-                              setState(() {});
-                              BlocProvider.of<ProjectCubit>(context)
-                                  .farmerProjectsApi(
-                                  context, selectedStatus, true);
-                            }
-                          },
-                          child: Container(
-                            height: screenHeight(),
-                            margin: const EdgeInsets.all(6),
-                            decoration: boxDecoration(
-                                backgroundColor: selectedStatus == 'suggested'
-                                    ? const Color(0xff6A0030)
-                                    : Colors.white, borderRadius: 62),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                "Suggested".textMedium(
-                                    color: selectedStatus == 'suggested'
-                                        ? Colors.white
-                                        : ColorResources.black, fontSize: 14),
-                                5.horizontalSpace(),
-                                SvgPicture.asset(
-                                  selectedStatus == 'suggested' ? Images
-                                      .completedSelected : Images.completed,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                Expanded(
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        if (selectedStatus != 'suggested') {
+                          selectedStatus = 'suggested';
+                          setState(() {});
+                          BlocProvider.of<ProjectCubit>(context)
+                              .farmerProjectsApi(
+                              context, selectedStatus, true);
+                        }
+                      },
+                      child: Container(
+                        height: screenHeight(),
+                        margin: const EdgeInsets.all(6),
+                        decoration: boxDecoration(
+                            backgroundColor: selectedStatus == 'suggested'
+                                ? const Color(0xff6A0030)
+                                : Colors.white, borderRadius: 62),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            "Suggested".textMedium(
+                                color: selectedStatus == 'suggested'
+                                    ? Colors.white
+                                    : ColorResources.black, fontSize: 14),
+                            5.horizontalSpace(),
+                            SvgPicture.asset(
+                              selectedStatus == 'suggested' ? Images
+                                  .completedSelected : Images.completed,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            BlocBuilder<ProjectCubit, ProjectState>(
+              builder: (context, state) {
+              if (state.status == ProjectStatus.loading) {
+                return const SizedBox(
+                  height: 350,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                        color: ColorResources.maroon,
+                      )),
+                );
+              } else if (state.responseFarmerProject == null) {
+                return Center(child: Text("${state.responseFarmerProject} Api Error"));
+              } else {
+                return Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 120, left: 10),
                     child: state.responseFarmerProject!.data!.projectList!
@@ -185,24 +190,29 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                 ),
                                 width: screenWidth()),
                           );
-                        }) : Padding(
-                      padding: EdgeInsets.only(top: screenWidth() / 2),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('No data found'),
-                        ],
+                        }) :
+                    SizedBox(
+                      width: screenWidth(),
+                      height: 350,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: screenWidth() / 2),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('No data found'),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                )
-              ],
+                );
+              }
+              }
             ),
           ],
-        );
-      }
-      }
+        ),
+      ],
     );
   }
 }

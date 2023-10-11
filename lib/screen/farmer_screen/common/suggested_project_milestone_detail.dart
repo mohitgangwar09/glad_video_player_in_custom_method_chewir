@@ -75,6 +75,7 @@ class _SuggestedProjectMilestoneDetailState
                     children: [
                       description(state),
                       dividerValue(state),
+                      attributes(state),
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty ? attributes(state) : const SizedBox.shrink(),
                       mileStoneDeliverable(state),
                     ],
@@ -175,7 +176,7 @@ class _SuggestedProjectMilestoneDetailState
               05.horizontalSpace(),
               InkWell(
                 onTap: () {
-                  // const AttributesEdit().navigate();
+                  const AttributesEdit().navigate();
                 },
                 child: Container(
                   padding:
@@ -207,13 +208,15 @@ class _SuggestedProjectMilestoneDetailState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    customAttribute("Type", "Plastic"),
+                    customAttribute("Type", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceTypeName??''),
+                    // customAttribute("Type", "Plastic"),
                     10.verticalSpace(),
-                    customAttribute("Size/capacity", "5000Ltr"),
+                    customAttribute("Size/capacity", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceCapacityName??''),
                     10.verticalSpace(),
-                    customAttribute("Quantity", "02 NOS"),
+                    customAttribute("Quantity", '${(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceQty??'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceUomName??''}'),
                     10.verticalSpace(),
-                    customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
+                    customAttribute("Price", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice??''),
+                    // customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
                     40.verticalSpace(),
                   ],
                 ),

@@ -61,7 +61,7 @@ class PersonalDetails extends StatelessWidget {
               CustomDropdown(
                 title: 'Gender',
                 itemList: const ['Male', 'Female'],
-                dropdownValue: state.gender.toString(),
+                dropdownValue: state.gender,
                 icon: Images.arrowDropdown,
                 iconColor: Colors.black,
                 onChanged: (String? value) {

@@ -231,7 +231,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data,
           selectDistrict: response.data!.farmer!.address!=null?response.data!.farmer!.address!.district!=null?
           response.data!.farmer!.address!.district!.toString():"":"",
-        gender: response.data!.farmer!.gender!=null?response.data!.farmer!.gender.toString():null,
+        gender: response.data!.farmer!.gender!=null?response.data!.farmer!.gender.toString().capitalized():null,
         selectDob: response.data!.farmer!.dateOfBirth!=null?response.data!.farmer!.dateOfBirth.toString():null,
         farmerSince: response.data!.farmer!.farmingExperience!=null?response.data!.farmer!.farmingExperience.toString():null
       ));

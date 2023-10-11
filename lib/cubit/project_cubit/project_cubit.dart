@@ -5,6 +5,7 @@ import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
@@ -98,5 +99,62 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
     }
   }
+
+  void getResourceTypeApi(context) async {
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.getResourceTypeApi();
+    if (response.status == 200) {
+      List<DataResourceType> dataResourceType = [];
+      if(response.data!=null){
+        dataResourceType = response.data!;
+      }
+      emit(state.copyWith(responseResourceType: dataResourceType));
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void getResourceCapacityApi(context) async {
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.getResourceCapacityApi();
+    if (response.status == 200) {
+      List<DataResourceType> dataResourceType = [];
+      if(response.data!=null){
+        dataResourceType = response.data!;
+      }
+      emit(state.copyWith(responseResourceCapacityType: dataResourceType));
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void projectUOMListApi(context) async {
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.projectUOMListApi();
+    if (response.status == 200) {
+      List<DataResourceType> dataResourceType = [];
+      if(response.data!=null){
+        dataResourceType = response.data!;
+      }
+      emit(state.copyWith(responseProjectUOM: dataResourceType));
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  /*void updateAttributeApi(context) async {
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.updateAttributeApi(id, resourceTypeId, resourceCapacity, resourcePrice, resourceQty, resourceUomId);
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }*/
 
 }
