@@ -215,7 +215,7 @@ class _SuggestedProjectMilestoneDetailState
                     10.verticalSpace(),
                     customAttribute("Quantity", '${(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceQty??'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceUomName??''}'),
                     10.verticalSpace(),
-                    customAttribute("Price", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice??''),
+                    customAttribute("Price", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!.toString():''),
                     // customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
                     40.verticalSpace(),
                   ],

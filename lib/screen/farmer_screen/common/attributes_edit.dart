@@ -119,7 +119,8 @@ class _AttributesEditState extends State<AttributesEdit> {
                     onChanged: (DataResourceType? value) {
 
                       BlocProvider.of<ProjectCubit>(context).emit(
-                          state.copyWith(selectResourceType: value!.name!.toString()));
+                          state.copyWith(selectResourceType: value!.name!.toString(),
+                          selectResourceTypeId: value.id!.toString()));
 
                     },
                     buttonStyleData: const ButtonStyleData(
@@ -175,7 +176,8 @@ class _AttributesEditState extends State<AttributesEdit> {
                     onChanged: (DataResourceType? value) {
 
                       BlocProvider.of<ProjectCubit>(context).emit(
-                          state.copyWith(selectSizeCapacity: value!.name!.toString()));
+                          state.copyWith(selectSizeCapacity: value!.name!.toString(),
+                              selectSizeCapacityId: value.id!.toString()));
 
                     },
                     buttonStyleData: const ButtonStyleData(
@@ -194,7 +196,11 @@ class _AttributesEditState extends State<AttributesEdit> {
 
               Row(
                 children: [
-                  const Expanded(child: CustomTextField2(title:'Required Qty',width: 1,borderColor: 0xff727272,hint: '',),),
+                  Expanded(child:
+                  CustomTextField2(title:'Required Qty',
+                    width: 1,
+                    controller: state.requiredQtyController,
+                    borderColor: 0xff727272,hint: '',),),
                   10.horizontalSpace(),
                   Expanded(
                     child: Column(
@@ -235,7 +241,8 @@ class _AttributesEditState extends State<AttributesEdit> {
                               onChanged: (DataResourceType? value) {
 
                                 BlocProvider.of<ProjectCubit>(context).emit(
-                                    state.copyWith(selectProjectUOM: value!.name!.toString()));
+                                    state.copyWith(selectProjectUOM: value!.name!.toString(),
+                                    selectProjectUOMId: value.id!.toString(),));
 
                               },
                               buttonStyleData: const ButtonStyleData(
@@ -256,7 +263,11 @@ class _AttributesEditState extends State<AttributesEdit> {
                 ],
               ),
               20.verticalSpace(),
-              const CustomTextField2(title:'Price per unit',width: 1,borderColor: 0xff727272,hint: '',),
+              CustomTextField2(title:'Price per unit',
+                enabled: false,
+                width: 1,borderColor: 0xff727272,hint: '',
+                controller: state.pricePerUnitController,
+              ),
               80.verticalSpace(),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
@@ -265,7 +276,8 @@ class _AttributesEditState extends State<AttributesEdit> {
                     width: screenWidth(),
                     height: 60,
                     onTap: () {
-                  // BlocProvider.of<ProjectCubit>(context).updateAttributeApi(context);
+                  BlocProvider.of<ProjectCubit>(context).updateAttributeApi(context,
+                      state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString());
                     }),
               )
             ],

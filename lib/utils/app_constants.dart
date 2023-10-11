@@ -51,6 +51,7 @@ class AppConstants {
   static const String resourceTypeListApi = '/api/farmer-project/resource-type-list';
   static const String updateKycDocument = '/api/farmer-project/kyc-document';
   static const String updateAttributeApi = '/api/farmer-project/update-attribute';
+  static const String priceAttributeApi = '/api/farmer-project/price-attribute';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
