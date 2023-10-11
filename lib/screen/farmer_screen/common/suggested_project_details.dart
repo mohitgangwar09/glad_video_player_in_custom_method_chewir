@@ -67,7 +67,8 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             description(state),
                             30.verticalSpace(),
                             dde(context, state),
-                            kpi(context),
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
+                            kpi(context,state):const SizedBox.shrink(),
                             projectMilestones(context, state),
                             inviteExpert(context, state),
                           ],
@@ -262,7 +263,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
   }
 
 /////////KPI///////////////////////
-  Widget kpi(context) {
+  Widget kpi(context,ProjectState state) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,62 +275,621 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
           ),
         ),
         10.verticalSpace(),
-        customGrid(context,
-            padding: 0.paddingAll(),
-            list: [1, 2, 3, 4, 5, 6, 7],
-            crossAxisCount: 3,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            mainAxisExtent: 125, child: (int index) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xffDCDCDC),width: 1),
-              boxShadow:[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    blurRadius: 7.0,
-                    offset: const Offset(0, 3))],
-            ),
-            child: Padding(
-              // padding: 0.paddingAll(),
-              padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset(
-                        Images.callPrimary,
-                        width: 28,
-                        height: 28,
-                      ),
-                      SvgPicture.asset(Images.menuIcon)
-                    ],
+
+        SizedBox(
+          height: 125,
+          child: Row(
+            children: [
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
                   ),
-                  15.verticalSpace(),
-                  Text(
-                    'UGX 800K',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: figtreeMedium.copyWith(fontSize: 14.3),
-                  ),
-                  05.verticalSpace(),
-                  Text(
-                    'Farmer Participation',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: figtreeRegular.copyWith(
-                      fontSize: 12.5,
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!}K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Investment',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          );
-        })
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+              14.horizontalSpace(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.revenue!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.revenue!}k',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Revenue',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+              14.horizontalSpace(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi!}K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'ROI',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+            ],
+          ),
+        ),
+
+        16.verticalSpace(),
+
+        SizedBox(
+          height: 125,
+          child: Row(
+            children: [
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!}K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Farmer Participation',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!=null?
+              14.horizontalSpace():const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan!}k',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Loan',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan!=null?
+              14.horizontalSpace():const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!}K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Repayment',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+            ],
+          ),
+        ),
+
+
+        16.verticalSpace(),
+
+        SizedBox(
+          height: 125,
+          child: Row(
+            children: [
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!}K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'EMI',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null?
+              14.horizontalSpace():const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!} Ltr.',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Current Yield',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!=null?
+              14.horizontalSpace():const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!}K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Target Yield',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+            ],
+          ),
+        ),
+
+        16.verticalSpace(),
+
+        SizedBox(
+          height: 125,
+          child: Row(
+            children: [
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!}K',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Ideal Yield',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!=null?
+              14.horizontalSpace():const SizedBox.shrink(),
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!=null?
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              Images.callPrimary,
+                              width: 28,
+                              height: 28,
+                            ),
+                            // SvgPicture.asset(Images.menuIcon)
+                          ],
+                        ),
+                        15.verticalSpace(),
+                        Text(
+                          'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr.',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          'Target Farm Production',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ):const Expanded(child: SizedBox.shrink()),
+              14.horizontalSpace(),
+              const Expanded(child: SizedBox.shrink()),
+            ],
+          ),
+        ),
+
       ],
     );
   }

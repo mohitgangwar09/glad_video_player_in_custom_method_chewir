@@ -208,13 +208,14 @@ class _SuggestedProjectMilestoneDetailState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    customAttribute("Type", "Plastic"),
+                    customAttribute("Type", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceTypeName??''),
+                    // customAttribute("Type", "Plastic"),
                     10.verticalSpace(),
-                    customAttribute("Size/capacity", "5000Ltr"),
+                    customAttribute("Size/capacity", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceCapacityName??''),
                     10.verticalSpace(),
-                    customAttribute("Quantity", "02 NOS"),
+                    customAttribute("Quantity", '${(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceQty??'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceUomName??''}'),
                     10.verticalSpace(),
-                    customAttribute("Price", "UGX 200}"),
+                    customAttribute("Price", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice??''),
                     // customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
                     40.verticalSpace(),
                   ],

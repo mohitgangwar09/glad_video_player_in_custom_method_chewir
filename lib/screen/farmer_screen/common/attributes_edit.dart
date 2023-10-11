@@ -48,13 +48,13 @@ class _AttributesEditState extends State<AttributesEdit> {
                     figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                 centerTitle: true,
                 leading: arrowBackButton(),
-                action: TextButton(
+                /*action: TextButton(
                     onPressed: () {},
                     child: Text(
                       'Save',
                       style: figtreeMedium.copyWith(
                           color: ColorResources.maroon, fontSize: 14),
-                    )),
+                    )),*/
               ),
               Expanded(
                   child: SingleChildScrollView(
@@ -264,7 +264,9 @@ class _AttributesEditState extends State<AttributesEdit> {
                     style: figtreeMedium.copyWith(color: Colors.white),
                     width: screenWidth(),
                     height: 60,
-                    onTap: () {}),
+                    onTap: () {
+                  // BlocProvider.of<ProjectCubit>(context).updateAttributeApi(context);
+                    }),
               )
             ],
           ),

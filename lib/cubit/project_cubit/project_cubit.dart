@@ -145,4 +145,16 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  /*void updateAttributeApi(context) async {
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.updateAttributeApi(id, resourceTypeId, resourceCapacity, resourcePrice, resourceQty, resourceUomId);
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }*/
+
 }

@@ -150,6 +150,31 @@ class ProjectRepository {
     }
   }
 
+  Future<ResponseOtpModel> updateAttributeApi(String id,
+      String resourceTypeId,
+      String resourceCapacity,
+      String resourcePrice,
+      String resourceQty,
+      String resourceUomId,
+      ) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateProjectStatusApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
+          'id' : id,
+          'resource_type' : resourceTypeId,
+          'resource_capcity': resourceCapacity,
+          'resource_price': resourcePrice,
+          'resource_qty': resourceQty,
+          'resource_uom': resourceUomId
+        });
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

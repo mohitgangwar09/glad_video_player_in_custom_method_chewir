@@ -81,6 +81,7 @@ class FarmerProject {
   String? updatedAt;
   List<FarmerProjectMilestones>? farmerProjectMilestones;
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
+  Kpi? kpi;
 
   FarmerProject(
       {this.id,
@@ -116,7 +117,9 @@ class FarmerProject {
         this.createdAt,
         this.updatedAt,
         this.farmerProjectMilestones,
-        this.dairyDevelopMentExecutive});
+        this.dairyDevelopMentExecutive,
+        this.kpi,
+      });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -151,6 +154,7 @@ class FarmerProject {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    kpi = json['kpi'] != null ? Kpi.fromJson(json['kpi']) : null;
     if (json['farmer_project_milestones'] != null) {
       farmerProjectMilestones = <FarmerProjectMilestones>[];
       json['farmer_project_milestones'].forEach((v) {
@@ -204,6 +208,9 @@ class FarmerProject {
     if (dairyDevelopMentExecutive != null) {
       data['dairy_develop_ment_executive'] =
           dairyDevelopMentExecutive!.toJson();
+    }
+    if (kpi != null) {
+      data['kpi'] = kpi!.toJson();
     }
     return data;
   }
@@ -342,6 +349,63 @@ class DairyDevelopMentExecutive {
     data['phone'] = phone;
     data['image'] = image;
     data['address'] = address;
+    return data;
+  }
+}
+
+class Kpi {
+  dynamic investment;
+  dynamic revenue;
+  dynamic roi;
+  dynamic farmerParticipation;
+  dynamic loan;
+  dynamic repayment;
+  dynamic emi;
+  dynamic currentYield;
+  dynamic expectedYield;
+  dynamic idealYield;
+  dynamic targetFarmProduction;
+
+  Kpi(
+      {this.investment,
+        this.revenue,
+        this.roi,
+        this.farmerParticipation,
+        this.loan,
+        this.repayment,
+        this.emi,
+        this.currentYield,
+        this.expectedYield,
+        this.idealYield,
+        this.targetFarmProduction});
+
+  Kpi.fromJson(Map<String, dynamic> json) {
+    investment = json['investment'];
+    revenue = json['revenue'];
+    roi = json['roi'];
+    farmerParticipation = json['farmer_participation'];
+    loan = json['loan'];
+    repayment = json['repayment'];
+    emi = json['emi'];
+    currentYield = json['current_yield'];
+    expectedYield = json['expected_yield'];
+    idealYield = json['ideal_yield'];
+    targetFarmProduction = json['target_farm_production'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['investment'] = investment;
+    data['revenue'] = revenue;
+    data['roi'] = roi;
+    data['farmer_participation'] = farmerParticipation;
+    data['loan'] = loan;
+    data['repayment'] = repayment;
+    data['emi'] = emi;
+    data['current_yield'] = currentYield;
+    data['expected_yield'] = expectedYield;
+    data['ideal_yield'] = idealYield;
+    data['target_farm_production'] = targetFarmProduction;
     return data;
   }
 }

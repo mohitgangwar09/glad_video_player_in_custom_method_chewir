@@ -50,6 +50,7 @@ class AppConstants {
   static const String resourceCapacityListApi = '/api/farmer-project/resource-capacities-list';
   static const String resourceTypeListApi = '/api/farmer-project/resource-type-list';
   static const String updateKycDocument = '/api/farmer-project/kyc-document';
+  static const String updateAttributeApi = '/api/farmer-project/update-attribute';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

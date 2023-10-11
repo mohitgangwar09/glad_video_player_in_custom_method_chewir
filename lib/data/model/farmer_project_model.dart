@@ -111,7 +111,8 @@ class ProjectList {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.farmerImprovementArea});
+        this.farmerImprovementArea,
+      });
 
   ProjectList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -284,3 +285,4 @@ class ImprovementArea {
     return data;
   }
 }
+

@@ -213,7 +213,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(data.content["title"],
+                                            Text(data.content["title"] ?? '',
                                                 style: figtreeRegular.copyWith(
                                                     fontSize: 12,
                                                     color: ColorResources
@@ -233,7 +233,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                                   .black)),
                                                 ),
                                                 Text(
-                                                    data.content["description"],
+                                                    data.content["description"] ?? '',
                                                     style:
                                                         figtreeMedium.copyWith(
                                                             fontSize: 16,
@@ -347,7 +347,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                                   .fieldGrey)),
                                                   5.verticalSpace(),
                                                   Text(
-                                                      '${state.resultData!.incrementalProduction} Ltr.',
+                                                      '${double.parse(state.resultData!.incrementalProduction.toString()).toStringAsFixed(2)} Ltr.',
                                                       style: figtreeMedium
                                                           .copyWith(
                                                               fontSize: 18,
@@ -367,7 +367,8 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                                   .fieldGrey)),
                                                   5.verticalSpace(),
                                                   Text(
-                                                      '${state.resultData!.incrementalProduction * 30} Ltr.',
+                                                      '${(double.parse(state.resultData!.incrementalProduction.toString())*30).toStringAsFixed(2) } Ltr.',
+                                                      // '${(double.parse(double.parse(state.resultData!.incrementalProduction.toString())*30.0.toString()).toStringAsFixed(2)) } Ltr.',
                                                       style: figtreeMedium
                                                           .copyWith(
                                                               fontSize: 18,
@@ -387,7 +388,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                                   .fieldGrey)),
                                                   5.verticalSpace(),
                                                   Text(
-                                                      '${state.resultData!.incrementalProduction * 365} Ltr.',
+                                                      '${(double.parse(state.resultData!.incrementalProduction.toString())*95).toStringAsFixed(2)} Ltr.',
                                                       style: figtreeMedium
                                                           .copyWith(
                                                               fontSize: 18,
@@ -426,7 +427,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                                   .fieldGrey)),
                                                   5.verticalSpace(),
                                                   Text(
-                                                      'UGX ${state.resultData!.incrementalEarning}',
+                                                      'UGX ${state.resultData!.incrementalEarning??0.toString()}',
                                                       style: figtreeMedium
                                                           .copyWith(
                                                               fontSize: 18,
