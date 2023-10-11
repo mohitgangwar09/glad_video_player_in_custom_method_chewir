@@ -158,16 +158,20 @@ class ProjectRepository {
       String resourceQty,
       String resourceUomId,
       ) async {
+
+    var data = {
+    'id' : id,
+    'resource_type' : resourceTypeId,
+    'resource_capcity': resourceCapacity,
+    'resource_price': resourcePrice,
+    'resource_qty': resourceQty,
+    'resource_uom': resourceUomId
+    };
+
+    print(data);
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.updateAttributeApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
-          'id' : id,
-          'resource_type' : resourceTypeId,
-          'resource_capcity': resourceCapacity,
-          'resource_price': resourcePrice,
-          'resource_qty': resourceQty,
-          'resource_uom': resourceUomId
-        });
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},data: data);
 
     if (apiResponse.status) {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
