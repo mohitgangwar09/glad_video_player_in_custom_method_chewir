@@ -141,7 +141,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        '${state.response!.farmerMilkProduction![0].totalMilkProduction}K ltr.',
+                                        '${getCurrencyString(state.response!.farmerMilkProduction![0].totalMilkProduction, unit: '')}K ltr.',
                                         'Milk produced',
                                         'Last 6 months')),
                               ),
@@ -154,7 +154,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        'UGX ${state.response!.farmerMilkProduction![0].suppliedToPdfl}M',
+                                        getCurrencyString(state.response!.farmerMilkProduction![0].suppliedToPdfl),
                                         'Supplied to PDFL',
                                         'Last 6 months')),
                               ),
@@ -171,7 +171,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard('40 cows', 'Milking cows',
-                                        '05 breeds')),
+                                        '')),
                               ),
                             ),
                             Expanded(
@@ -461,13 +461,12 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                             color: const Color(0xff727272)),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: state
-                                                      .response!
-                                                      .topPerformerFarmer![
-                                                          index]
-                                                      .milkingCows
-                                                      .toString() ??
-                                                  '30',
+                                              text: (state
+                                                  .response!
+                                                  .topPerformerFarmer![
+                                              index]
+                                                  .milkingCows ??
+                                                  '').toString(),
                                               style: figtreeSemiBold.copyWith(
                                                   color:
                                                       const Color(0xff23262A))),

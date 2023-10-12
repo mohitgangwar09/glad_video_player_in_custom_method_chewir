@@ -168,7 +168,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               setState(() {});
                               BlocProvider.of<ProjectCubit>(context)
                                   .ddeProjectsApi(
-                                  context, selectedStatus, true);
+                                  context, selectedStatus, false);
                             }
                           },
                           child: Container(
@@ -205,7 +205,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               setState(() {});
                               BlocProvider.of<ProjectCubit>(context)
                                   .ddeProjectsApi(
-                                  context, selectedStatus, true);
+                                  context, selectedStatus, false);
                             }
                           },
                           child: Container(
@@ -241,7 +241,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               setState(() {});
                               BlocProvider.of<ProjectCubit>(context)
                                   .ddeProjectsApi(
-                                  context, selectedStatus, true);
+                                  context, selectedStatus, false);
                             }
                           },
                           child: Container(

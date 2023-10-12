@@ -140,7 +140,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "UGX ${investment / 1000}M"
+                          getCurrencyString(investment).toString()
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "Investment".textMedium(fontSize: 12),
                         ],
@@ -149,7 +149,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "UGX ${revenue / 1000}M"
+                          getCurrencyString(revenue).toString()
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "Revenue"
                               .textMedium(fontSize: 12, color: Colors.black),
