@@ -245,7 +245,7 @@ class FarmerMilkProduction {
   dynamic suppliedToPdfl;
   dynamic suppliedToOthers;
   dynamic selfUse;
-  double? yieldPerCow;
+  dynamic yieldPerCow;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -329,7 +329,7 @@ class CowBreedDetails {
   dynamic sevenToTwelveMonthCows;
   dynamic sixMonthCow;
   dynamic bullCalfs;
-  double? yieldPerCow;
+  dynamic yieldPerCow;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -709,8 +709,8 @@ class Address {
   String? county;
   dynamic poBoxNumber;
   dynamic coordinates;
-  double? latitude;
-  double? longitude;
+  dynamic latitude;
+  dynamic longitude;
   dynamic stateId;
   String? country;
   dynamic countryId;
