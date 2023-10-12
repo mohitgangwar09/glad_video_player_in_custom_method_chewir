@@ -1326,14 +1326,14 @@ bool equalsIgnoreCase(String? string1, String? string2) {
   return string1?.toUpperCase() == string2?.toLowerCase();
 }
 
-getCurrencyValueString(int value){
+getCurrencyString(dynamic value, {String unit = 'UGX '}){
   if(value >= 1000) {
     if(value/1000 >= 1000) {
-      return 'UGX ${removeZeroesInFraction((value/1000/1000).toStringAsFixed(2))}M';
+      return '$unit${removeZeroesInFraction((value/1000/1000).toStringAsFixed(2))}M';
     }
-    return 'UGX ${removeZeroesInFraction((value/1000).toStringAsFixed(2))}K';
+    return '$unit${removeZeroesInFraction((value/1000).toStringAsFixed(2))}K';
   }
-  return 'UGX $value';
+  return '$unit$value';
 }
 
 removeZeroesInFraction(String value){
