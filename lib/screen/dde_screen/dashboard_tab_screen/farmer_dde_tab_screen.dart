@@ -392,7 +392,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].investmentAmount ?? 0)}'.textSemiBold(
+                                                      getCurrencyString(state.response!.farmerMAster![i].farmerProject![0].investmentAmount).toString().textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                      'Investment'.textMedium(
@@ -407,7 +407,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                     children: [
-                                                      'UGX ${(state.response!.farmerMAster![i].farmerProject![0].revenuePerYear ?? 0)}'.textSemiBold(
+                                                      getCurrencyString(state.response!.farmerMAster![i].farmerProject![0].revenuePerYear).textSemiBold(
                                                           color: Colors.black,
                                                           fontSize: 16),
                                                       'Revenue'.textMedium(

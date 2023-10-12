@@ -1326,7 +1326,7 @@ bool equalsIgnoreCase(String? string1, String? string2) {
   return string1?.toUpperCase() == string2?.toLowerCase();
 }
 
-getCurrencyString(dynamic value, {String unit = 'UGX '}){
+String getCurrencyString(dynamic value, {String unit = 'UGX '}){
   if(value >= 1000) {
     if(value/1000 >= 1000) {
       return '$unit${removeZeroesInFraction((value/1000/1000).toStringAsFixed(2))}M';

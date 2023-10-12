@@ -62,7 +62,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "UGX $investment"
+                         getCurrencyString(investment)
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "Investment".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
@@ -72,7 +72,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "UGX $revenue"
+                          getCurrencyString(revenue)
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "Revenue".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
@@ -101,7 +101,7 @@ class ProjectWidget extends StatelessWidget {
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: const Color(0xFF808080))),
                       TextSpan(
-                          text: 'UGX $loan',
+                          text: getCurrencyString(loan),
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black))
                     ])),
@@ -112,7 +112,7 @@ class ProjectWidget extends StatelessWidget {
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: const Color(0xFF808080))),
                       TextSpan(
-                          text: 'UGX $emi',
+                          text: getCurrencyString(emi),
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black))
                     ])),
