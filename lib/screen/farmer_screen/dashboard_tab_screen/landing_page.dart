@@ -141,7 +141,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        '${getCurrencyString(state.response!.farmerMilkProduction![0].totalMilkProduction, unit: '')}K ltr.',
+                                        '${getCurrencyString(state.response!.farmerMilkProduction![0].totalMilkProduction, unit: '')} Ltr.',
                                         'Milk produced',
                                         'Last 6 months')),
                               ),
@@ -243,15 +243,15 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
             10.verticalSpace(),
             MCCInArea(
               name: state.response!.mcc!.name ?? '',
-              phone: state.response!.mcc!.phone ?? '+256 758711344',
+              phone: state.response!.mcc!.phone ?? '',
               address: state.response!.mcc!.address ??
-                  'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
+                  '',
               image: state.response!.mcc!.image ?? '',
             ),
             35.verticalSpace(),
             DDEInArea(
-              name: state.response!.dde!.name ?? 'Begumanya Charles',
-              phone: state.response!.dde!.phone ?? '+256 758711344',
+              name: state.response!.dde!.name ?? '',
+              phone: state.response!.dde!.phone ?? ' ',
               image: state.response!.dde!.image ?? '',
             ),
             topPerformingFarmer(state),

@@ -201,6 +201,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
             const KYCUpdate().navigate();
           } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' || state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
             ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!,).navigate();
+            // const KYCUpdate().navigate();
           } : () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

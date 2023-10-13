@@ -76,7 +76,8 @@ class _SuggestedProjectMilestoneDetailState
                       description(state),
                       dividerValue(state),
                       attributes(state),
-                      state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty ? attributes(state) : const SizedBox.shrink(),
+                      // state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?
+                      //  attributes(state) :const SizedBox.shrink(),
                       mileStoneDeliverable(state),
                     ],
                   )))
@@ -188,7 +189,7 @@ class _SuggestedProjectMilestoneDetailState
                     borderColor: const Color(0xff6A0030),
                   ),
                   child: Text(
-                    "Edit",
+                    "Add",
                     textAlign: TextAlign.center,
                     style: figtreeMedium.copyWith(
                         color: const Color(0xff6A0030), fontSize: 10),
@@ -198,30 +199,37 @@ class _SuggestedProjectMilestoneDetailState
             ],
           ),
         ),
-        20.verticalSpace(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-          child: customShadowContainer(
-              backColor: ColorResources.grey,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    customAttribute("Type", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceTypeName??''),
-                    // customAttribute("Type", "Plastic"),
-                    10.verticalSpace(),
-                    customAttribute("Size/capacity", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceCapacityName??''),
-                    10.verticalSpace(),
-                    customAttribute("Quantity", '${(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceQty??'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceUomName??''}'),
-                    10.verticalSpace(),
-                    customAttribute("Price", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!.toString():''),
-                    // customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
-                    40.verticalSpace(),
-                  ],
-                ),
-              )),
-        )
+        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?20.verticalSpace():0.verticalSpace(),
+        SizedBox(
+          height: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?190:0,
+          child: customList(
+            axis: Axis.horizontal,
+            list: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!,
+              child: (index) => Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: customShadowContainer(
+                    backColor: ColorResources.grey,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          customAttribute("Type", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceTypeName??''),
+                          // customAttribute("Type", "Plastic"),
+                          10.verticalSpace(),
+                          customAttribute("Size/capacity", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceCapacityName??''),
+                          10.verticalSpace(),
+                          customAttribute("Quantity", '${(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceQty??'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceUomName??''}'),
+                          10.verticalSpace(),
+                          customAttribute("Price", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!.toString():''),
+                          // customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
+                          40.verticalSpace(),
+                        ],
+                      ),
+                    )),
+              )
+          ),
+        ),
       ],
     );
   }

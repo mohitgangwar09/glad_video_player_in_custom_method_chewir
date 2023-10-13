@@ -131,9 +131,9 @@ class MilestoneDetails {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    if (json['farmer_project_resource_price'] != null) {
+    if (json['farmer_project_resources'] != null) {
       farmerProjectResourcePrice = <FarmerProjectResourcePrice>[];
-      json['farmer_project_resource_price'].forEach((v) {
+      json['farmer_project_resources'].forEach((v) {
         farmerProjectResourcePrice!
             .add(FarmerProjectResourcePrice.fromJson(v));
       });
@@ -174,7 +174,7 @@ class MilestoneDetails {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (farmerProjectResourcePrice != null) {
-      data['farmer_project_resource_price'] =
+      data['farmer_project_resources'] =
           farmerProjectResourcePrice!.map((v) => v.toJson()).toList();
     }
     if (farmerProjectTask != null) {

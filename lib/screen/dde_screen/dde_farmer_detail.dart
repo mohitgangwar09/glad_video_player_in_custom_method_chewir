@@ -407,7 +407,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                               ),
                             ),
                             30.verticalSpace(),
-                            milkSupplyCardDetails(),
+                            state.responseFarmerProfile!.farmer!.milkCollectionCenter!=null?
+                            milkSupplyCardDetails(context,state):const SizedBox.shrink(),
                             30.verticalSpace(),
                             cowsInTheFarm(state),
                             30.verticalSpace(),
@@ -471,7 +472,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
   }
 
   ///////////milkSupplyCardDetails/////////
-  Widget milkSupplyCardDetails() {
+  Widget milkSupplyCardDetails(context, ProfileCubitState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -517,7 +518,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          '2000 Ltr',
+                                          '${state.responseFarmerProfile!.farmerTotalMilkProduction??''} Ltr',
                                           style:
                                               figtreeBold.copyWith(fontSize: 24),
                                         ),
@@ -555,7 +556,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text("Matts Francesca",
+                                            Text(state.responseFarmerProfile!.farmer!.milkCollectionCenter!.name??'',
                                                 style: figtreeMedium.copyWith(
                                                     fontSize: 16,
                                                     color: Colors.black)),
@@ -569,7 +570,9 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                                   color: Colors.black,
                                                   size: 16,
                                                 ),
-                                                Text("+22112 3232 3223",
+                                                Text(/*"+22112 3232 3223",*/
+                                                    "${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
+                                                        .milkCollectionCenter!.phone??''}",
                                                     style:
                                                         figtreeRegular.copyWith(
                                                             fontSize: 12,

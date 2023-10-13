@@ -53,6 +53,7 @@ class ProjectList {
   dynamic category;
   String? description;
   String? projectStatus;
+  String? projectSubStatus;
   dynamic suggestionRank;
   dynamic initialYield;
   dynamic targetYield;
@@ -100,6 +101,7 @@ class ProjectList {
         this.ddeCommisionPercentage,
         this.ddeCommisionAmount,
         this.loanAmount,
+        this.projectSubStatus,
         this.repaymentMonths,
         this.emiAmount,
         this.incrementalProduction,
@@ -122,6 +124,7 @@ class ProjectList {
     category = json['category'];
     description = json['description'];
     projectStatus = json['project_status'];
+    projectSubStatus = json['project_sub_status'];
     suggestionRank = json['suggestion_rank'];
     initialYield = json['initial_yield'];
     targetYield = json['target_yield'];
@@ -160,6 +163,7 @@ class ProjectList {
     data['category'] = category;
     data['description'] = description;
     data['project_status'] = projectStatus;
+    data['project_sub_status'] = projectSubStatus;
     data['suggestion_rank'] = suggestionRank;
     data['initial_yield'] = initialYield;
     data['target_yield'] = targetYield;

@@ -1270,6 +1270,17 @@ Widget searchBox({bool enabled=true,
   );
 }
 
+Future<DateTime> selectedFutureDate(BuildContext context) async {
+  DateTime selectedDate = DateTime.now();
+  final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2030,1));
+
+  return picked!;
+}
+
 Future<DateTime> selectedDate(BuildContext context) async {
   DateTime selectedDate = DateTime.now();
   final DateTime? picked = await showDatePicker(

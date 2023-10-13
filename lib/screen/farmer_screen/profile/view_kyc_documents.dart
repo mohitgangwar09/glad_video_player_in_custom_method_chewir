@@ -86,6 +86,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                             Expanded(
                               child: CustomTextField(
                                 hint: 'Select Address Proof',
+                                enabled: false,
                                 controller: TextEditingController()..text = widget.farmerDocuments.docName!,
                                 // itemList: const [
                                 //   "Utility Bill",
@@ -161,6 +162,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                             Expanded(
                               child: CustomTextField(
                                 hint: 'Select ID Proof',
+                                readOnly: true,
                                 controller: TextEditingController()..text = widget.farmerDocuments.docType!,
                                 // dropdownValue: widget.farmerDocuments.docType,
                                 // itemList: const [
