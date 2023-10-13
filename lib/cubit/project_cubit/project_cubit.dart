@@ -57,7 +57,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  void farmerProjectDetailApi(context, int projectId) async {
+  Future<void> farmerProjectDetailApi(context, int projectId) async {
     emit(state.copyWith(status: ProjectStatus.loading));
     var response = await apiRepository.getFarmerProjectDetailApi(projectId);
     if (response.status == 200) {
@@ -93,12 +93,15 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  void inviteExpertForSurvey(context, int ddeId, String date, String remark) async {
+  void inviteExpertForSurvey(context, int projectId, String date,
+      String remark,String projectStatus,String farmerId) async {
     customDialog(widget: launchProgress());
-    var response = await apiRepository.inviteExpertForSurveyApi(ddeId, date, remark);
+    var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
+        remark,projectStatus,farmerId);
     if (response.status == 200) {
       disposeProgress();
       pressBack();
+      await farmerProjectDetailApi(context, projectId);
       showCustomToast(context, response.data['message'], isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));

@@ -80,13 +80,17 @@ class ProjectRepository {
   }
 
   ///////////////// getDdeProjectsApi //////////
-  Future<ResponseOtpModel> inviteExpertForSurveyApi(int ddeId, String date, String remark) async {
+  Future<ResponseOtpModel> inviteExpertForSurveyApi(int projectId, String date,
+      String remark,String projectStatus,String farmerId) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.addInviteExpertForSurveyApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
-          'dde_id' : ddeId,
+          // 'dde_id' : ddeId,
+          'project_id': projectId,
           'date': date,
           'remark': remark,
+          'project_status': projectStatus,
+          'farmer_id': farmerId,
         });
 
     if (apiResponse.status) {

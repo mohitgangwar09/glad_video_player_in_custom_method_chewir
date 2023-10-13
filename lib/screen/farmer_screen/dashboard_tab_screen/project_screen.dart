@@ -162,7 +162,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                 child: ProjectWidget(
                                   showStatus: true,
                                   status: state.responseFarmerProject!.data!
-                                      .projectList![i].projectStatus ?? '',
+                                      .projectList![i].projectSubStatus ?? '',
                                   image: state.responseFarmerProject!.data!
                                       .projectList![i].photo ?? '',
                                   name: state.responseFarmerProject!.data!

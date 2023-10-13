@@ -472,9 +472,11 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         },child: SvgPicture.asset(Images.whatsapp)),*/
                                     6.horizontalSpace(),
                                     InkWell(onTap: (){
-                                      // BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                                      //     state.response!.farmerMAster![i].fAddress,
-                                      //     state.responseEnquiryModel!.data![index].lang.toString(),context);
+                                      if(state.response!.farmerMAster![i].address!=null){
+                                        BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                            state.response!.farmerMAster![i].address!.latitude.toString(),
+                                            state.response!.farmerMAster![i].address!.longitude.toString(),context);
+                                      }
                                     },child: SvgPicture.asset(Images.redirectLocation)),
                                     4.horizontalSpace(),
                                   ],

@@ -187,7 +187,7 @@ class ProjectWidget extends StatelessWidget {
                 borderColor: const Color(0xff6A0030),
               ),
               child: Text(
-                status,
+                status.toString(),
                 textAlign: TextAlign.center,
                 style: figtreeMedium.copyWith(
                     color: const Color(0xff6A0030), fontSize: 10),

@@ -67,7 +67,7 @@ class Images {
   static const String kyc = 'assets/images/kyc.svg';
   static const String farmerBackground = 'assets/images/farmerbackground.svg';
   static const String profileEdit = 'assets/images/profileedit.svg';
-  static const String imageEdit = 'assets/images/edit_image.svg';
+  static const String imageEdit = 'assets/images/edit_kpi.svg';
   static const String kycUnverified = 'assets/images/kyc_unverified.svg';
   static const String dryCows = 'assets/images/dry_cows.svg';
   static const String heifer = 'assets/images/heifer.svg';
@@ -143,6 +143,17 @@ class Images {
   static const String selectedCommunityBottom = 'assets/images/selectedcommunity.svg';
   static const String selectedNewsBottom = 'assets/images/selectednews.svg';
   static const String selectedTrainingBottom = 'assets/images/selectedtraining.svg';
+
+  // kpiImage
+  static const String investmentKpi = 'assets/images/investment_kpi.svg';
+  static const String revenueKpi = 'assets/images/revenue_kpi.svg';
+  static const String farmerParticipationKpi = 'assets/images/farmer_participation_kpi.svg';
+  static const String roiKpi = 'assets/images/roi_kpi.svg';
+  static const String loanKpi = 'assets/images/loan_kpi.svg';
+  static const String repaymentKpi = 'assets/images/repayment_kpi.svg';
+  static const String emiKpi = 'assets/images/emi_kpi.svg';
+  static const String idealKpi = 'assets/images/ideal_yield_kpi.svg';
+  static const String yieldKpi = 'assets/images/expected_yield.svg';
 
   //mcc Bottom
   static const String selectedApplication = 'assets/images/selectedapplication.svg';

@@ -25,10 +25,12 @@ class FarmerProfileModel {
 class Data {
   Farmer? farmer;
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
+  dynamic farmerTotalMilkProduction;
 
   Data({this.farmer, this.dairyDevelopMentExecutive});
 
   Data.fromJson(Map<String, dynamic> json) {
+    farmerTotalMilkProduction = json['farmer_total_milk_production'];
     farmer =
     json['farmer'] != null ? Farmer.fromJson(json['farmer']) : null;
     dairyDevelopMentExecutive = json['dairy_develop_ment_executive'] != null
@@ -39,6 +41,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['farmer_total_milk_production'] = farmerTotalMilkProduction;
     if (farmer != null) {
       data['farmer'] = farmer!.toJson();
     }
@@ -86,6 +89,7 @@ class Farmer {
   List<CowBreedDetails>? cowBreedDetails;
   FarmerDocuments? farmerDocuments;
   Address? address;
+  MilkCollectionCenter? milkCollectionCenter;
   FarmerRagRating? farmerRagRating;
 
   Farmer(
@@ -124,6 +128,7 @@ class Farmer {
         this.cowBreedDetails,
         this.farmerDocuments,
         this.address,
+        this.milkCollectionCenter,
         this.farmerRagRating});
 
   Farmer.fromJson(Map<String, dynamic> json) {
@@ -175,6 +180,8 @@ class Farmer {
         : null;
     address =
     json['address'] != null ? Address.fromJson(json['address']) : null;
+    milkCollectionCenter =
+    json['milk_collection_center'] != null ? MilkCollectionCenter.fromJson(json['milk_collection_center']) : null;
     farmerRagRating = json['farmer_rag_rating'] != null
         ? FarmerRagRating.fromJson(json['farmer_rag_rating'])
         : null;
@@ -226,6 +233,9 @@ class Farmer {
     }
     if (address != null) {
       data['address'] = address!.toJson();
+    }
+    if (milkCollectionCenter != null) {
+      data['milk_collection_center'] = milkCollectionCenter!.toJson();
     }
     if (farmerRagRating != null) {
       data['farmer_rag_rating'] = farmerRagRating!.toJson();
@@ -828,6 +838,41 @@ class Address {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['full_address'] = fullAddress;
+    return data;
+  }
+}
+
+class MilkCollectionCenter {
+
+  dynamic id;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic image;
+
+  MilkCollectionCenter({
+    this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.image,
+  });
+
+  MilkCollectionCenter.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['image'] = image;
     return data;
   }
 }
