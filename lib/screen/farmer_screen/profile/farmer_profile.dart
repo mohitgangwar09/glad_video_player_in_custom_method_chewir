@@ -9,6 +9,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
+import 'package:glad/screen/farmer_screen/profile/edit_kyc_documents.dart';
 import 'package:glad/screen/farmer_screen/profile/improvement_area.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/screen/farmer_screen/profile/view_kyc_documents.dart';
@@ -199,9 +200,10 @@ class _FarmerProfileState extends State<FarmerProfile> {
         InkWell(
           onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
             const KYCUpdate().navigate();
-          } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' || state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
-            ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!,).navigate();
-            // const KYCUpdate().navigate();
+          } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? () {
+            EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
+          } : state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
+            ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
           } : () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -249,7 +251,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
 
             Text(
                 "${', '}""${state.responseFarmerProfile!.farmer!
-                    .supplierCode ??
+                    .supplierId ??
                     ''}",
                 style: figtreeRegular.copyWith(
                   fontSize: 12,

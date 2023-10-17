@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:glad/cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/data/model/farmers_list.dart';
+import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
@@ -14,6 +16,7 @@ import 'package:glad/screen/dde_screen/farmer_personal_detail.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
 import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
+import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
@@ -167,11 +170,10 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              SvgPicture.asset(
-                                                Images.kycUnverified,
-                                                width: 20,
-                                                height: 20,
-                                              ),
+                                              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' || state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? SvgPicture.asset(Images.kycUnverified) : Container(
+                                                  decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                                                  padding: const EdgeInsets.all(4),
+                                                  child: const Icon(Icons.done, color: Colors.white, size: 16,)),
                                               4.horizontalSpace(),
                                               Text('KYC Verified',
                                                   style: figtreeMedium.copyWith(
@@ -196,7 +198,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
 
                                               Text(
                                                   "${', '}""${state.responseFarmerProfile!.farmer!
-                                                      .supplierCode ??
+                                                      .supplierId ??
                                                       ''}",
                                                   style: figtreeRegular.copyWith(
                                                     fontSize: 9,
@@ -486,7 +488,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
         10.verticalSpace(),
         InkWell(
           onTap: () {
-            const SuppliedToPDFL().navigate();
+            MilkProductionYield(type: 'milk_production', farmerId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
           },
           child: Padding(
             padding: const EdgeInsets.fromLTRB(18, 0, 24, 0),

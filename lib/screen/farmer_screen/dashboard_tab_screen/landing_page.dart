@@ -136,7 +136,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  const MilkProductionYield(type: 'milk_production',).navigate();
+                                  const MilkProductionYield(type: 'milk_production', farmerId: null).navigate();
                                 },
                                 child: customProjectContainer(
                                     width: screenWidth(),
@@ -149,7 +149,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  const SuppliedToPDFL().navigate();
+                                  const SuppliedToPDFL(farmerId: null).navigate();
                                 },
                                 child: customProjectContainer(
                                     width: screenWidth(),
@@ -166,7 +166,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  const MilkProductionYield(type: 'milking_cows',).navigate();
+                                  const MilkProductionYield(type: 'milking_cows', farmerId: null).navigate();
                                 },
                                 child: customProjectContainer(
                                     width: screenWidth(),
@@ -177,7 +177,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  const MilkProductionYield(type: 'yield',).navigate();
+                                  const MilkProductionYield(type: 'yield', farmerId: null).navigate();
                                 },
                                 child: customProjectContainer(
                                     width: screenWidth(),

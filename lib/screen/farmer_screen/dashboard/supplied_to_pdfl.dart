@@ -11,7 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SuppliedToPDFL extends StatefulWidget {
-  const SuppliedToPDFL({super.key});
+  const SuppliedToPDFL({super.key, required this.farmerId});
+  final String? farmerId;
 
   @override
   State<SuppliedToPDFL> createState() => _SuppliedToPDFLState();
@@ -23,7 +24,7 @@ class _SuppliedToPDFLState extends State<SuppliedToPDFL> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<LandingPageCubit>(context)
-          .getMilkProductionChart(context);
+          .getMilkProductionChart(context, widget.farmerId);
     });
     super.initState();
   }

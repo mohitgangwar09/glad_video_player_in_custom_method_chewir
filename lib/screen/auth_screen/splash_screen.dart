@@ -9,16 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
-import 'package:glad/screen/auth_screen/create_password.dart';
-import 'package:glad/screen/auth_screen/login_with_password.dart';
-import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
-import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
-import 'package:glad/screen/farmer_screen/profile/edit_profile.dart';
 import 'package:glad/screen/mcc_screen/dashboard/dashboard_mcc.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
-import 'package:glad/translation/change_language.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -40,9 +34,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _route() async {
     await initPlatformState();
-    if (!mounted) return;
+    if(!mounted)return;
     await BlocProvider.of<AuthCubit>(context).getLocation(context);
-    if (!mounted) return;
+    if(!mounted)return;
     await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
     Timer(const Duration(seconds: 1), () async {
 

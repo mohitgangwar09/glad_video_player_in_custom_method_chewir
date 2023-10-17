@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
@@ -16,14 +18,15 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class KYCUpdate extends StatefulWidget {
-  const KYCUpdate({super.key});
+class EditKYCDocuments extends StatefulWidget {
+  const EditKYCDocuments({super.key, required this.farmerDocuments});
+  final FarmerDocuments farmerDocuments;
 
   @override
-  State<KYCUpdate> createState() => _KYCUpdateState();
+  State<EditKYCDocuments> createState() => _EditKYCDocumentsState();
 }
 
-class _KYCUpdateState extends State<KYCUpdate> {
+class _EditKYCDocumentsState extends State<EditKYCDocuments> {
   String profilePicture = '';
   String? addressProof;
   String? idProof;
@@ -33,6 +36,42 @@ class _KYCUpdateState extends State<KYCUpdate> {
   TextEditingController idDoc = TextEditingController();
   TextEditingController idDate = TextEditingController();
   List<String> idImg = [];
+
+  @override
+  void initState() {
+    if(widget.farmerDocuments.docType!.contains('-')) {
+      List address = widget.farmerDocuments.docType!.split('-');
+      address =
+          address.map((e) => e = e.toString().substring(0, 1).toUpperCase() + e.toString().substring(1)).toList();
+      addressProof = address.join(' ');
+    } else{
+      addressProof = widget.farmerDocuments.docType!.substring(0, 1).toUpperCase() + widget.farmerDocuments.docType!.substring(1);
+    }
+    print(widget.farmerDocuments.docName);
+    if(widget.farmerDocuments.docName!.contains('-')) {
+      List address = widget.farmerDocuments.docName!.split('-');
+      address =
+          address.map((e) => e = e.toString().substring(0, 1).toUpperCase() + e.toString().substring(1)).toList();
+      idProof = address.join(' ');
+    } else{
+      if(widget.farmerDocuments.docName != "nic") {
+        idProof =
+            widget.farmerDocuments.docName!.substring(0, 1).toUpperCase() +
+                widget.farmerDocuments.docName!.substring(1);
+      } else{
+        idProof =
+            widget.farmerDocuments.docName!.toUpperCase();
+      }
+    }
+    profilePicture = widget.farmerDocuments.profilePic!;
+    addressDoc = TextEditingController(text: widget.farmerDocuments.docTypeNo);
+    addressDate = TextEditingController(text: widget.farmerDocuments.docTypeExpiryDate);
+    idDoc = TextEditingController(text: widget.farmerDocuments.docNo);
+    idDate = TextEditingController(text: widget.farmerDocuments.docExpiryDate);
+    addressImg.addAll(widget.farmerDocuments.documentFiles!.map((e) => e.fullUrl!));
+    idImg.addAll(widget.farmerDocuments.documentTypeFiles!.map((e) => e.fullUrl!));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +85,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                 context: context,
                 titleText1: 'KYC documents',
                 titleText1Style:
-                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                 centerTitle: true,
                 leading: arrowBackButton(),
                 description: 'Provide the following details',
@@ -81,7 +120,10 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                     )),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.file(
+                                  child: isUrl(profilePicture) ? CachedNetworkImage(
+                                    imageUrl: profilePicture, fit: BoxFit.cover, errorWidget: (context, url, error) =>
+                                      SvgPicture.asset(Images.uploadPP),) :
+                                  Image.file(
                                     File(profilePicture),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, url, error) =>
@@ -117,15 +159,15 @@ class _KYCUpdateState extends State<KYCUpdate> {
                       15.verticalSpace(),
                       RichText(
                           text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Tap to upload ',
-                            style: figtreeMedium.copyWith(
-                                color: ColorResources.redText, fontSize: 14)),
-                        TextSpan(
-                            text: 'your photo',
-                            style: figtreeMedium.copyWith(
-                                color: Colors.black, fontSize: 14))
-                      ])),
+                            TextSpan(
+                                text: 'Tap to upload ',
+                                style: figtreeMedium.copyWith(
+                                    color: ColorResources.redText, fontSize: 14)),
+                            TextSpan(
+                                text: 'your photo',
+                                style: figtreeMedium.copyWith(
+                                    color: Colors.black, fontSize: 14))
+                          ])),
                       Text(
                         'Max size 5 MB',
                         style: figtreeMedium.copyWith(
@@ -187,14 +229,14 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                 readOnly: true,
                                 onTap: () {
                                   showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(2100))
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2100))
                                       .then((value) {
                                     setState(() {
                                       addressDate.text =
-                                          "${value!.year}/${value.month}/${value.day}";
+                                      "${value!.year}/${value.month}/${value.day}";
                                     });
                                   });
                                 },
@@ -207,117 +249,117 @@ class _KYCUpdateState extends State<KYCUpdate> {
                       10.verticalSpace(),
                       addressImg.length < 2
                           ? !(addressProof == 'Bank Statement' && addressImg.length == 1) ? Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Stack(
+                          children: [
+                            ContainerBorder(
+                              margin: 0.marginVertical(),
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Stack(
+                              10.paddingOnly(top: 15, bottom: 15),
+                              borderColor: 0xffD9D9D9,
+                              backColor: 0xffFFFFFF,
+                              radius: 10,
+                              widget: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
                                 children: [
-                                  ContainerBorder(
-                                    margin: 0.marginVertical(),
-                                    padding:
-                                        10.paddingOnly(top: 15, bottom: 15),
-                                    borderColor: 0xffD9D9D9,
-                                    backColor: 0xffFFFFFF,
-                                    radius: 10,
-                                    widget: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        5.horizontalSpace(),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0, top: 2, bottom: 2),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                RichText(
-                                                    text: TextSpan(children: [
-                                                  TextSpan(
-                                                      text: 'Choose ',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 16,
-                                                              color: const Color(
-                                                                  0xFFFC5E60))),
-                                                  TextSpan(
-                                                      text: 'you file here',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 16,
-                                                              color:
-                                                                  ColorResources
-                                                                      .fieldGrey))
-                                                ])),
-                                                Text('Max size 5 MB',
-                                                    style:
-                                                        figtreeMedium.copyWith(
-                                                            fontSize: 12,
-                                                            color:
-                                                                ColorResources
-                                                                    .fieldGrey))
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 13,
-                                    top: 0,
-                                    bottom: 0,
-                                    child: Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            if(addressProof == 'Bank Statement') {
-                                              FilePickerResult? result = await FilePicker.platform.pickFiles(type:  FileType.custom, allowedExtensions: ['pdf']);
-                                              if(result!.files.first.extension == 'pdf') {
-                                                addressImg.add(
-                                                    result.files.first.path!);
-                                                setState(() {});
-                                              } else {
-                                                showCustomToast(context, 'Please select only PDF');
-                                              }
-                                            } else {
-                                              var image = await imgFromGallery();
-                                              addressImg.add(image);
-                                              setState(() {});
-                                            }
-                                          },
-                                          child: SvgPicture.asset(
-                                            Images.attachment,
-                                            colorFilter: const ColorFilter.mode(
-                                                ColorResources.fieldGrey,
-                                                BlendMode.srcIn),
-                                          ),
-                                        ),
-                                        if(addressProof != 'Bank Statement')
-                                        Row(children: [
-                                          10.horizontalSpace(),
-                                          InkWell(
-                                            onTap: () async{
-                                              var image = await imgFromCamera();
-                                              addressImg.add(image);
-                                              setState(() {});
-                                            },
-                                            child: SvgPicture.asset(
-                                              Images.camera,
-                                              colorFilter: const ColorFilter.mode(
-                                                  ColorResources.fieldGrey,
-                                                  BlendMode.srcIn),
-                                            ),
-                                          )
-                                        ],),
-                                      ],
+                                  5.horizontalSpace(),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10.0, top: 2, bottom: 2),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          RichText(
+                                              text: TextSpan(children: [
+                                                TextSpan(
+                                                    text: 'Choose ',
+                                                    style: figtreeMedium
+                                                        .copyWith(
+                                                        fontSize: 16,
+                                                        color: const Color(
+                                                            0xFFFC5E60))),
+                                                TextSpan(
+                                                    text: 'you file here',
+                                                    style: figtreeMedium
+                                                        .copyWith(
+                                                        fontSize: 16,
+                                                        color:
+                                                        ColorResources
+                                                            .fieldGrey))
+                                              ])),
+                                          Text('Max size 5 MB',
+                                              style:
+                                              figtreeMedium.copyWith(
+                                                  fontSize: 12,
+                                                  color:
+                                                  ColorResources
+                                                      .fieldGrey))
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            )
+                            ),
+                            Positioned(
+                              right: 13,
+                              top: 0,
+                              bottom: 0,
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      if(addressProof == 'Bank Statement') {
+                                        FilePickerResult? result = await FilePicker.platform.pickFiles(type:  FileType.custom, allowedExtensions: ['pdf']);
+                                        if(result!.files.first.extension == 'pdf') {
+                                          addressImg.add(
+                                              result.files.first.path!);
+                                          setState(() {});
+                                        } else {
+                                          showCustomToast(context, 'Please select only PDF');
+                                        }
+                                      } else {
+                                        var image = await imgFromGallery();
+                                        addressImg.add(image);
+                                        setState(() {});
+                                      }
+                                    },
+                                    child: SvgPicture.asset(
+                                      Images.attachment,
+                                      colorFilter: const ColorFilter.mode(
+                                          ColorResources.fieldGrey,
+                                          BlendMode.srcIn),
+                                    ),
+                                  ),
+                                  if(addressProof != 'Bank Statement')
+                                    Row(children: [
+                                      10.horizontalSpace(),
+                                      InkWell(
+                                        onTap: () async{
+                                          var image = await imgFromCamera();
+                                          addressImg.add(image);
+                                          setState(() {});
+                                        },
+                                        child: SvgPicture.asset(
+                                          Images.camera,
+                                          colorFilter: const ColorFilter.mode(
+                                              ColorResources.fieldGrey,
+                                              BlendMode.srcIn),
+                                        ),
+                                      )
+                                    ],),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                           : const SizedBox.shrink()
                           : const SizedBox.shrink(),
                       Padding(
@@ -335,6 +377,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                       documentImage(image, () {
                                         setState(() {
                                           addressImg.remove(image);
+                                          if(isUrl(image)){
+                                            addressImg.clear();
+                                          }
                                         });
                                       }, isPDF: addressProof == 'Bank Statement'),
                                       10.horizontalSpace(),
@@ -397,14 +442,14 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                 readOnly: true,
                                 onTap: () {
                                   showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(2100))
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2100))
                                       .then((value) {
                                     setState(() {
                                       idDate.text =
-                                          "${value!.year}/${value.month}/${value.day}";
+                                      "${value!.year}/${value.month}/${value.day}";
                                     });
                                   });
                                 },
@@ -436,28 +481,28 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                           left: 10.0, top: 2, bottom: 2),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           RichText(
                                               text: TextSpan(children: [
-                                            TextSpan(
-                                                text: 'Choose ',
-                                                style: figtreeMedium.copyWith(
-                                                    fontSize: 16,
-                                                    color: const Color(
-                                                        0xFFFC5E60))),
-                                            TextSpan(
-                                                text: 'you file here',
-                                                style: figtreeMedium.copyWith(
-                                                    fontSize: 16,
-                                                    color: ColorResources
-                                                        .fieldGrey))
-                                          ])),
+                                                TextSpan(
+                                                    text: 'Choose ',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: const Color(
+                                                            0xFFFC5E60))),
+                                                TextSpan(
+                                                    text: 'you file here',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: ColorResources
+                                                            .fieldGrey))
+                                              ])),
                                           Text('Max size 5 MB',
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 12,
                                                   color:
-                                                      ColorResources.fieldGrey))
+                                                  ColorResources.fieldGrey))
                                         ],
                                       ),
                                     ),
@@ -518,6 +563,10 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                       documentImage(image, () {
                                         setState(() {
                                           idImg.remove(image);
+                                          if(isUrl(image)){
+                                            idImg.clear();
+                                          }
+
                                         });
                                       }),
                                       10.horizontalSpace(),
@@ -543,14 +592,16 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                   context, 'Address Proof is required');
                             } else if (addressImg.length < 2 && !(addressProof == 'Bank Statement' && addressImg.length == 1)) {
                               showCustomToast(
-                                    context, 'Address Proof image required');
+                                  context, 'Address Proof image required');
                             } else if (idProof == null) {
                               showCustomToast(context, 'Id Proof is required');
                             } else if (idImg.length < 2) {
                               showCustomToast(
                                   context, 'Id Proof image required');
                             } else {
-                              BlocProvider.of<ProfileCubit>(context).updateFarmerKYC(context, addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, idImg, profilePicture);
+                              print(addressImg);
+                              print(idImg);
+                              BlocProvider.of<ProfileCubit>(context).editFarmerKYC(context, widget.farmerDocuments.id,addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, isUrl(addressImg[0]) ? [] : addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, isUrl(idImg[0]) ? [] : idImg, isUrl(profilePicture) ? '' : profilePicture);
                             }
                           },
                           radius: 40,

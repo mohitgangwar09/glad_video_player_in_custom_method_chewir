@@ -68,12 +68,12 @@ class ProfileRepository {
 
     FormData formData = FormData.fromMap(
         {
-          "doc_name": docName,
-          "doc_no": docNo,
-          "doc_expiry_date": docExpiryDate,
-          "doc_type": docType,
-          "doc_type_no": docTypeNo,
-          "doc_type_expiry_date": docTypeExpiryDate,
+          "doc_name": docType,
+          "doc_no": docTypeNo,
+          "doc_expiry_date": docTypeExpiryDate,
+          "doc_type": docName,
+          "doc_type_no": docNo,
+          "doc_type_expiry_date": docExpiryDate,
           "profile_pic": await MultipartFile.fromFile(profilePic.path),
         });
     for(var e in documentFiles) {
@@ -86,6 +86,43 @@ class ProfileRepository {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.updateKycDocument, data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// updateFarmerKYCStatus //////////
+  Future<ResponseOtpModel> editFarmerKYCStatus(int id, String docName, String docNo, String docExpiryDate, List<File> documentFiles,
+      String docType, String docTypeNo, String docTypeExpiryDate, List<File> documentTypeFiles, String profilePic) async {
+
+    FormData formData = FormData.fromMap(
+        {
+          'id': id,
+          "doc_name": docType,
+          "doc_no": docTypeNo,
+          "doc_expiry_date": docTypeExpiryDate,
+          "doc_type": docName,
+          "doc_type_no": docNo,
+          "doc_type_expiry_date": docExpiryDate,
+        });
+    if(profilePic != ''){
+      formData.files.add(MapEntry("profile_pic", await MultipartFile.fromFile(File(profilePic).path)));
+    }
+    for(var e in documentFiles) {
+      formData.files.add(MapEntry("document_files[]", await MultipartFile.fromFile(e.path)));
+    }
+    for(var e in documentTypeFiles) {
+      formData.files.add(MapEntry("document_type_files[]", await MultipartFile.fromFile(e.path)));
+    }
+    print(formData.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.editKycDocument, data: formData,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}
     );
 

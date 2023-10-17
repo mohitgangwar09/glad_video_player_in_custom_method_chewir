@@ -40,10 +40,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     }
   }
 
-  void getMilkProductionChart(context) async {
+  void getMilkProductionChart(context, String? farmerId) async {
     emit(state.copyWith(status: LandingPageStatus.loading));
     // customDialog(widget: launchProgress());
-    var response = await apiRepository.getMilkProductionChartApi();
+    var response = await apiRepository.getMilkProductionChartApi(farmerId);
     if (response.status == 200) {
       emit(state.copyWith(
           status: LandingPageStatus.success,

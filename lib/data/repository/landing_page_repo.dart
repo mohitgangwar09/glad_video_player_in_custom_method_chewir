@@ -38,12 +38,12 @@ class LandingPageRepository {
   }
 
   ///////////////// milkProductionChartApi //////////
-  Future<MilkProductionChart> getMilkProductionChartApi() async {
+  Future<MilkProductionChart> getMilkProductionChartApi(String? farmerId) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.milkProductionChart, headers: {
       'Authorization': 'Bearer ${getUserToken()}'
     }, queryParameters: {
-      'id': sharedPreferences!.getString(AppConstants.userId)
+      'id': farmerId ?? sharedPreferences!.getString(AppConstants.userId)
     });
 
     if (apiResponse.status) {

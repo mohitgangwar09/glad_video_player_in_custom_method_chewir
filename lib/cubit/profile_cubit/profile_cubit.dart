@@ -91,7 +91,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
         state.addressController.text =
             response.data!.user!.address!.address.toString();
         if(response.data!.user!.address!.dialCode!=null){
-          print("dialCodess${response.data!.user!.address!.dialCode}");
+          debugPrint("dialCode${response.data!.user!.address!.dialCode}");
           await SharedPrefManager.savePrefString(AppConstants.countryCode, response.data!.user!.address!.dialCode.toString());
         }
 
@@ -153,6 +153,23 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   }
 
   // updateProfilePicImage
+  Future<void> editFarmerKYC(context, int id, String docName, String docNo, String docExpiryDate, List<String> documentFiles,
+      String docType, String docTypeNo, String docTypeExpiryDate, List<String> documentTypeFiles, String profilePic) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.editFarmerKYCStatus(id, docName, docNo, docExpiryDate, documentFiles.map((e) => File(e)).toList(),
+        docType, docTypeNo, docTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), profilePic);
+    disposeProgress();
+    if (response.status == 200) {
+      getFarmerProfile(context);
+      pressBack();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // updateProfilePicImage
   Future<void> updateProfilePicImage(context, String image) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.updateProfileImageAPi(File(image));
@@ -169,7 +186,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
 
   Future<void> getFarmerProfile(context, {String? userId}) async{
     emit(state.copyWith(status: ProfileStatus.submit));
-    print(sharedPreferences.getString(AppConstants.userId));
+
     var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
       if(response.data!.farmer!.phone != null){

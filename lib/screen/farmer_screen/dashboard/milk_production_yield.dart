@@ -13,8 +13,9 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MilkProductionYield extends StatefulWidget {
-  const MilkProductionYield({super.key, required this.type});
+  const MilkProductionYield({super.key, required this.type, required this.farmerId});
   final String type;
+  final String? farmerId;
 
   @override
   State<MilkProductionYield> createState() => _MilkProductionYieldState();
@@ -25,7 +26,7 @@ class _MilkProductionYieldState extends State<MilkProductionYield> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<LandingPageCubit>(context)
-          .getMilkProductionChart(context);
+          .getMilkProductionChart(context, widget.farmerId);
     });
 
     super.initState();
