@@ -289,7 +289,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi!=null){
       kpiData.add(FrontendKpiModel(name: 'ROI',
           image: Images.roiKpi,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi!)));
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi!}%"));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!=null){
@@ -308,7 +308,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!=null){
       kpiData.add(FrontendKpiModel(name: 'Repayment',
           image: Images.repaymentKpi,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!)));
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!} MO"));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null){

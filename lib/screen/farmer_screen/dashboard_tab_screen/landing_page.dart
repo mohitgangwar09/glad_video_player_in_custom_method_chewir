@@ -94,13 +94,13 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 width: AppBar().preferredSize.height * 0.7,
                                 decoration:
                                     const BoxDecoration(shape: BoxShape.circle),
-                                child: CachedNetworkImage(
+                                child: state.response!.farmerMaster!.photo!=null?CachedNetworkImage(
                                   imageUrl:
                                       state.response!.farmerMaster!.photo!,
                                   errorWidget: (_, __, ___) =>
                                       SvgPicture.asset(Images.person),
                                   fit: BoxFit.cover,
-                                ),
+                                ):const SizedBox.shrink(),
                               ),
                             )),
                         8.horizontalSpace(),

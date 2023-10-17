@@ -37,13 +37,13 @@ class MilestoneDetail extends StatelessWidget {
                   child: SingleChildScrollView(
                       child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  description(),
-                  dividerValue(),
-                  attributes(),
-                  mileStoneDeliverable(),
-                ],
-              )))
+                        children: [
+                          description(),
+                          dividerValue(),
+                          attributes(),
+                          mileStoneDeliverable(),
+                        ],
+                      )))
             ],
           )
         ],

@@ -48,10 +48,13 @@ class AppConstants {
   static const String validateCountry = '/api/address/check-country';
   static const String projectUOMListApi = '/api/farmer-project/project-uom-list';
   static const String resourceCapacityListApi = '/api/farmer-project/resource-capacities-list';
+  static const String resourceMaterialListApi = '/api/farmer-project/material-list';
   static const String resourceTypeListApi = '/api/farmer-project/resource-type-list';
   static const String updateKycDocument = '/api/farmer-project/kyc-document';
   static const String updateAttributeApi = '/api/farmer-project/update-attribute';
+  static const String addAttributeApi = '/api/farmer-project/add-attribute';
   static const String priceAttributeApi = '/api/farmer-project/price-attribute';
+  static const String deleteAttributeApi = '/api/farmer-project/delete-attribute';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

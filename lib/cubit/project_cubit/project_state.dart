@@ -11,8 +11,9 @@ class ProjectState extends Equatable {
   final List<DataResourceType>? responseResourceType;
   final List<DataResourceType>? responseResourceCapacityType;
   final List<DataResourceType>? responseProjectUOM;
-  final String? selectResourceType, selectSizeCapacity,selectProjectUOM;
-  final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId;
+  final List<DataMaterialType>? responseMaterialType;
+  final String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialName;
+  final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialId;
   final TextEditingController requiredQtyController,pricePerUnitController;
 
   const ProjectState({
@@ -32,6 +33,9 @@ class ProjectState extends Equatable {
     required this.selectProjectUOM,
     required this.requiredQtyController,
     required this.pricePerUnitController,
+    required this.responseMaterialType,
+    required this.selectMaterialName,
+    required this.selectMaterialId,
   });
 
   factory ProjectState.initial() {
@@ -43,6 +47,7 @@ class ProjectState extends Equatable {
       responseFarmerProjectMilestoneDetail: null,
       responseResourceType: const [],
       responseResourceCapacityType: const [],
+      responseMaterialType: const [],
       responseProjectUOM: const [],
       selectResourceType: 'Select Type',
       selectSizeCapacity: 'Select Size Capacity',
@@ -50,6 +55,8 @@ class ProjectState extends Equatable {
       selectResourceTypeId: '',
       selectSizeCapacityId: '',
       selectProjectUOMId: '',
+      selectMaterialId: '',
+      selectMaterialName: 'Select Material Name',
       pricePerUnitController: TextEditingController(),
       requiredQtyController: TextEditingController(),
     );
@@ -64,8 +71,9 @@ class ProjectState extends Equatable {
     List<DataResourceType>? responseResourceType,
     List<DataResourceType>? responseResourceCapacityType,
     List<DataResourceType>? responseProjectUOM,
-    String? selectResourceType, selectSizeCapacity,selectProjectUOM,
-    String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,
+    List<DataMaterialType>? responseMaterialType,
+    String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialId,
+    String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialName,
     TextEditingController? requiredQtyController,pricePerUnitController
   }) {
     return ProjectState(
@@ -87,6 +95,9 @@ class ProjectState extends Equatable {
       responseProjectUOM:
       responseProjectUOM ??
           this.responseProjectUOM,
+      responseMaterialType:
+      responseMaterialType ??
+          this.responseMaterialType,
       selectResourceType: selectResourceType ?? this.selectResourceType,
       selectSizeCapacity: selectSizeCapacity ?? this.selectSizeCapacity,
       selectProjectUOM: selectProjectUOM ?? this.selectProjectUOM,
@@ -95,6 +106,8 @@ class ProjectState extends Equatable {
       selectProjectUOMId: selectProjectUOMId ?? this.selectProjectUOMId,
       requiredQtyController: requiredQtyController ?? this.requiredQtyController,
       pricePerUnitController: pricePerUnitController ?? this.pricePerUnitController,
+      selectMaterialName: selectMaterialName ?? this.selectMaterialName,
+      selectMaterialId: selectMaterialId ?? this.selectMaterialId,
     );
   }
 
@@ -115,6 +128,9 @@ class ProjectState extends Equatable {
     selectSizeCapacityId,
     selectProjectUOMId,
     requiredQtyController,
-    pricePerUnitController
+    pricePerUnitController,
+    responseMaterialType,
+    selectMaterialName,
+    selectMaterialId
       ];
 }

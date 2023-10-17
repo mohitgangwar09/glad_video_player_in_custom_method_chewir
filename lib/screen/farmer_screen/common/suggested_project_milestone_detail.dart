@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/common/add_attribute.dart';
 import 'package:glad/screen/farmer_screen/common/attributes_edit.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class SuggestedProjectMilestoneDetail extends StatefulWidget {
@@ -171,13 +174,21 @@ class _SuggestedProjectMilestoneDetailState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Attributes',
+                'Resources',
                 style: figtreeMedium.copyWith(fontSize: 18),
               ),
               05.horizontalSpace(),
               InkWell(
                 onTap: () {
-                  const AttributesEdit().navigate();
+                  context.read<ProjectCubit>().getSelectedAttribute(
+                    'Select Material Name',
+                    'Select Type',
+                    'Select Size Capacity',
+                    '',
+                    '',
+                    '');
+                  const AttributesAdd().navigate();
+
                 },
                 child: Container(
                   padding:
@@ -201,32 +212,82 @@ class _SuggestedProjectMilestoneDetailState
         ),
         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?20.verticalSpace():0.verticalSpace(),
         SizedBox(
-          height: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?190:0,
+          height: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?265:0,
           child: customList(
+            padding: const EdgeInsets.only(left: 0),
             axis: Axis.horizontal,
+            scrollPhysics: const BouncingScrollPhysics(),
             list: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!,
-              child: (index) => Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                child: customShadowContainer(
-                    backColor: ColorResources.grey,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          customAttribute("Type", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceTypeName??''),
-                          // customAttribute("Type", "Plastic"),
-                          10.verticalSpace(),
-                          customAttribute("Size/capacity", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceCapacityName??''),
-                          10.verticalSpace(),
-                          customAttribute("Quantity", '${(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceQty??'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourceUomName??''}'),
-                          10.verticalSpace(),
-                          customAttribute("Price", state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].resourcePrice!.toString():''),
-                          // customAttribute("Price", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
-                          40.verticalSpace(),
-                        ],
-                      ),
-                    )),
+              child: (index) => SizedBox(
+                height: 200,
+                width: screenWidth()-25,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  child: customShadowContainer(
+                      backColor: ColorResources.grey,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            10.verticalSpace(),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+
+                                InkWell(
+                                    onTap: (){
+                                      AttributesEdit(index:index).navigate();
+                                      context.read<ProjectCubit>().getSelectedAttribute(
+                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceName??'',
+                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceType??'',
+                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceCapacity??'',
+                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceUom??'',
+                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize.toString()??'',
+                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice.toString()??'',
+                                      );
+                                    },child: Image.asset(Images.editIcon,width: 24,height: 24,)),
+                                15.horizontalSpace(),
+                                InkWell(
+                                    onTap: (){
+                                      BlocProvider.of<ProjectCubit>(context).deleteAttributeApi(context,
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].id.toString(),
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
+                                      );
+                                    }
+                                    ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
+
+                              ],
+                            ),
+                            10.verticalSpace(),
+                            customAttribute("Material -",
+                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceName??'':''),
+                            10.verticalSpace(),
+                            customAttribute("Type",
+                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceType??'':''),
+                            10.verticalSpace(),
+                            customAttribute("Size/capacity",
+                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceCapacity??'':''),
+                            10.verticalSpace(),
+                            Row(
+
+                              children: [
+                                Expanded(child: customAttribute("Quantity", '${(
+                                    state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize??'':'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceUom??''}')),
+                                Container(height: 25,width: 1,color: Colors.grey),
+                                Expanded(child: customAttribute("Price", getCurrencyString(double.parse(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice.toString()??'0')))),
+                              ],
+                            ),
+                            10.verticalSpace(),
+
+                            customAttribute("Value", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
+                            // 40.verticalSpace(),
+                          ],
+                        ),
+                      )),
+                ),
               )
           ),
         ),
@@ -294,7 +355,7 @@ class _SuggestedProjectMilestoneDetailState
   Widget customAttribute(String attributeName, String attributeData) {
     return Container(
       height: 32,
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 15, right: 15),
       decoration: BoxDecoration(
           color: ColorResources.containerColor,
           borderRadius: BorderRadius.circular(06)),
@@ -307,11 +368,12 @@ class _SuggestedProjectMilestoneDetailState
               style: figtreeMedium.copyWith(fontSize: 14),
             ),
           ),
-          Expanded(
-            child: Text(
-              attributeData,
-              style: figtreeMedium.copyWith(fontSize: 14),
-            ),
+
+          Text(
+            attributeData,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: figtreeMedium.copyWith(fontSize: 14),
           ),
         ],
       ),
