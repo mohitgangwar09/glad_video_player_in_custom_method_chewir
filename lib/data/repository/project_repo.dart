@@ -13,6 +13,7 @@ import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/model/response_dde_dashboard.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/data/model/response_material_type.dart';
 import 'package:glad/data/model/response_price_attribute.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -116,9 +117,13 @@ class ProjectRepository {
   }
 
   ///////////////// getResourceTypeApi //////////
-  Future<ResponseResourceType> getResourceTypeApi() async {
+  Future<ResponseResourceType> getResourceTypeApi(String id) async {
+    var data = {
+      "material_id": id
+    };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.resourceTypeListApi,
+        queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
@@ -128,10 +133,27 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// getMaterialTypeApi //////////
+  Future<ResponseMaterialType> getMaterialTypeApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.resourceMaterialListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseMaterialType.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseMaterialType(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// getResourceCapacityApi //////////
-  Future<ResponseResourceType> getResourceCapacityApi() async {
+  Future<ResponseResourceType> getResourceCapacityApi(String id) async {
+    var data = {
+      "resource_type_id": id
+    };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.resourceCapacityListApi,
+        queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
@@ -155,21 +177,29 @@ class ProjectRepository {
     }
   }
 
-  Future<ResponseOtpModel> updateAttributeApi(String id,
-      String resourceTypeId,
+  Future<ResponseOtpModel> updateAttributeApi(
+      String id,
+      String farmerProjectId,
+      String farmerMilestoneId,
+      String resourceName,
+      String resourceType,
       String resourceCapacity,
-      String resourcePrice,
-      String resourceQty,
-      String resourceUomId,
+      String resourceSize,
+      String resourceUom,
       ) async {
 
     var data = {
     'id' : id,
-    'resource_type' : resourceTypeId,
-    'resource_capcity': resourceCapacity,
-    'resource_price': resourcePrice,
-    'resource_qty': resourceQty,
-    'resource_uom': resourceUomId
+    'farmer_project_id': farmerProjectId,
+    'farmer_milestone_id': farmerMilestoneId,
+    // 'id' : '3',
+    // 'farmer_project_id': '1',
+    // 'farmer_milestone_id': '3',
+    'resource_name' : resourceName,
+    'resource_type' : resourceType,
+    'resource_capacity': resourceCapacity,
+    'resource_size': resourceSize,
+    'resource_uom': resourceUom,
     };
 
     print(data);
@@ -184,25 +214,82 @@ class ProjectRepository {
     }
   }
 
-  Future<ResponsePriceAttribute> getPriceAttributeApi(
-      String resourceTypeId,
-      String resourceCapacityId,
-      String resourceUomId,
-      String resourceQty,
+  Future<ResponseOtpModel> addAttributeApi(
+      String farmerProjectId,
+      String farmerMilestoneId,
+      String resourceName,
+      String resourceType,
+      String resourceCapacity,
+      String resourceSize,
+      String resourceUom,
       ) async {
+
+    var data = {
+      'farmer_project_id': farmerProjectId,
+      'farmer_milestone_id': farmerMilestoneId,
+      // 'resource_name' : 'Plastic',
+      // 'resource_type' : 'Plastic Pipe',
+      'resource_name' : resourceName,
+      'resource_type' : resourceType,
+      'resource_capacity': resourceCapacity,
+      'resource_size': resourceSize,
+      'resource_uom': resourceUom,
+    };
+
+    print(data);
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addAttributeApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},data: data);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ResponsePriceAttribute> getPriceAttributeApi(
+      String materialName,
+      String resourceTypeName,
+      String resourceCapacity,
+      String resourceQty,
+      String uomId,
+      ) async {
+    var data = {
+      // 'resource_name' : "Plastic",
+      'resource_name' : materialName,
+      'resource_type': resourceTypeName,
+      // 'resource_type': 'Plastic Pipe',
+      'resource_capacity': resourceCapacity,
+      'quantity': resourceQty,
+      'project_uom_id': '3',
+      // 'project_uom_id': uomId,
+    };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.priceAttributeApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
-          'resource_type_id' : resourceTypeId,
-          'resource_capacity_id': resourceCapacityId,
-          'project_uom_id': resourceUomId,
-          'quantity': resourceQty,
-        });
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: data);
 
     if (apiResponse.status) {
       return ResponsePriceAttribute.fromJson(apiResponse.response!.data);
     } else {
       return ResponsePriceAttribute(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ResponseOtpModel> deleteAttributeApi(
+      String id,
+      ) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.deleteAttributeApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
+          'id' : id,
+        });
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
   }
 

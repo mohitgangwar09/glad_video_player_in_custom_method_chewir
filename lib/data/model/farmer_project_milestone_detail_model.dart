@@ -72,7 +72,7 @@ class MilestoneDetails {
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
-  List<FarmerProjectResourcePrice>? farmerProjectResourcePrice;
+  List<FarmerProjectResources>? farmerProjectResourcePrice;
   List<FarmerProjectTask>? farmerProjectTask;
 
   MilestoneDetails(
@@ -132,10 +132,10 @@ class MilestoneDetails {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['farmer_project_resources'] != null) {
-      farmerProjectResourcePrice = <FarmerProjectResourcePrice>[];
+      farmerProjectResourcePrice = <FarmerProjectResources>[];
       json['farmer_project_resources'].forEach((v) {
         farmerProjectResourcePrice!
-            .add(FarmerProjectResourcePrice.fromJson(v));
+            .add(FarmerProjectResources.fromJson(v));
       });
     }
     if (json['farmer_project_task'] != null) {
@@ -185,29 +185,37 @@ class MilestoneDetails {
   }
 }
 
-class FarmerProjectResourcePrice {
+class FarmerProjectResources {
   dynamic id;
   dynamic farmerId;
-  dynamic projectMilestoneId;
-  dynamic resourceTypeId;
-  dynamic resourceCapacityId;
+  dynamic farmerProjectId;
+  dynamic farmerMilestoneId;
+  dynamic resourceName;
+  dynamic resourceType;
+  dynamic resourceCapacity;
+  dynamic resourceUom;
   dynamic resourcePrice;
-  dynamic isDefault;
-  String? status;
+  dynamic resourceSize;
+  dynamic resourceValue;
+  dynamic status;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
-  String? createdAt;
-  String? updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
 
-  FarmerProjectResourcePrice(
+  FarmerProjectResources(
       {this.id,
         this.farmerId,
-        this.projectMilestoneId,
-        this.resourceTypeId,
-        this.resourceCapacityId,
+        this.farmerProjectId,
+        this.farmerMilestoneId,
+        this.resourceName,
+        this.resourceType,
+        this.resourceCapacity,
+        this.resourceUom,
         this.resourcePrice,
-        this.isDefault,
+        this.resourceSize,
+        this.resourceValue,
         this.status,
         this.createdBy,
         this.updatedBy,
@@ -215,14 +223,18 @@ class FarmerProjectResourcePrice {
         this.createdAt,
         this.updatedAt});
 
-  FarmerProjectResourcePrice.fromJson(Map<String, dynamic> json) {
+  FarmerProjectResources.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     farmerId = json['farmer_id'];
-    projectMilestoneId = json['project_milestone_id'];
-    resourceTypeId = json['resource_type_id'];
-    resourceCapacityId = json['resource_capacity_id'];
+    farmerProjectId = json['farmer_project_id'];
+    farmerMilestoneId = json['farmer_milestone_id'];
+    resourceName = json['resource_name'];
+    resourceType = json['resource_type'];
+    resourceCapacity = json['resource_capacity'];
+    resourceUom = json['resource_uom'];
     resourcePrice = json['resource_price'];
-    isDefault = json['is_default'];
+    resourceSize = json['resource_size'];
+    resourceValue = json['resource_value'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -232,20 +244,24 @@ class FarmerProjectResourcePrice {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['farmer_id'] = farmerId;
-    data['project_milestone_id'] = projectMilestoneId;
-    data['resource_type_id'] = resourceTypeId;
-    data['resource_capacity_id'] = resourceCapacityId;
-    data['resource_price'] = resourcePrice;
-    data['is_default'] = isDefault;
-    data['status'] = status;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['deleted_by'] = deletedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['farmer_id'] = this.farmerId;
+    data['farmer_project_id'] = this.farmerProjectId;
+    data['farmer_milestone_id'] = this.farmerMilestoneId;
+    data['resource_name'] = this.resourceName;
+    data['resource_type'] = this.resourceType;
+    data['resource_capacity'] = this.resourceCapacity;
+    data['resource_uom'] = this.resourceUom;
+    data['resource_price'] = this.resourcePrice;
+    data['resource_size'] = this.resourceSize;
+    data['resource_value'] = this.resourceValue;
+    data['status'] = this.status;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
