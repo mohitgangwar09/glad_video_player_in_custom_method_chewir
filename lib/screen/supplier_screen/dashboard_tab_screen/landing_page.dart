@@ -59,7 +59,7 @@ class SupplierLandingPage extends StatelessWidget {
                     child: SvgPicture.asset(Images.drawer)),
                 action: Row(
                   children: [
-                    InkWell(onTap: () {}, child: SvgPicture.asset(Images.call)),
+                    phoneCall(256758711344),
                     7.horizontalSpace(),
                     InkWell(
                         onTap: () {

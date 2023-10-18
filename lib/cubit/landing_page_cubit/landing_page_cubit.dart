@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
+import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart' as dashboard;
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
@@ -123,7 +124,18 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     emit(state.copyWith(status: LandingPageStatus.loading));
     var response = await apiRepository.ddeDashboardApi();
     if (response.status == 200) {
+      await ddeFarmerVisitorApi(context);
       emit(state.copyWith(status: LandingPageStatus.success,responseDdeDashboard: response));
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString(),);
+    }
+  }
+
+  Future<void> ddeFarmerVisitorApi(context) async {
+    var response = await apiRepository.ddeFarmerVisitorApi();
+    if (response.status == 200) {
+      emit(state.copyWith(responseFarmerVisitor: response));
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString(),);

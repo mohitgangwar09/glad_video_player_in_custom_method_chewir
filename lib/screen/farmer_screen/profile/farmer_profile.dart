@@ -144,7 +144,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         20.verticalSpace(),
                         cowsInTheFarm(state),
                         30.verticalSpace(),
-                        address(context,state),
+                        state.responseFarmerProfile!.farmer!.address != null ? address(context,state) : SizedBox.shrink(),
                         state.improvementAreaListResponse != null
                             ? state.improvementAreaListResponse!.data!.improvementAreaList!.isNotEmpty
                                 ? facilitiesInTheFarm(state)

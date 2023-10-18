@@ -219,7 +219,9 @@ class _SuggestedProjectMilestoneDetailState
             axis: Axis.horizontal,
             scrollPhysics: const BouncingScrollPhysics(),
             list: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!,
-              child: (index) => SizedBox(
+              child: (index) => state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].notRequired!=null?
+                const SizedBox.shrink():
+              SizedBox(
                 height: 200,
                 width: screenWidth()-25,
                 child: Padding(
@@ -275,7 +277,7 @@ class _SuggestedProjectMilestoneDetailState
                             Row(
 
                               children: [
-                                Expanded(child: customAttribute("Quantity", '${(
+                                Expanded(child: customAttribute("QTY", '${(
                                     state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize??'':'')} ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceUom??''}')),
                                 Container(height: 25,width: 1,color: Colors.grey),
                                 Expanded(child: customAttribute("Price", getCurrencyString(double.parse(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice.toString()??'0')))),
@@ -283,7 +285,7 @@ class _SuggestedProjectMilestoneDetailState
                             ),
                             10.verticalSpace(),
 
-                            customAttribute("Value", "UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourcePrice ?? ''}"),
+                            customAttribute("Value", " ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice* state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize ?? ''}"),
                             // 40.verticalSpace(),
                           ],
                         ),

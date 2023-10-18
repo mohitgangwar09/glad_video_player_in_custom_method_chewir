@@ -15,6 +15,7 @@ import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_dde_dashboard.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/response_material_type.dart';
+import 'package:glad/data/model/response_not_required.dart';
 import 'package:glad/data/model/response_price_attribute.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
@@ -195,6 +196,24 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// projectUOMListApi //////////
+  Future<ResponseNotRequiredData> notRequiredDataApi(String id) async {
+    var data = {
+      "id": id
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.notRequiredDataApi,
+        queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseNotRequiredData.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseNotRequiredData(status: 422, message: apiResponse.msg);
+    }
+  }
+
   Future<ResponseOtpModel> updateAttributeApi(
       String id,
       String farmerProjectId,
@@ -204,20 +223,19 @@ class ProjectRepository {
       String resourceCapacity,
       String resourceSize,
       String resourceUom,
+      String resourcePrice,
       ) async {
 
     var data = {
-    'id' : id,
+    'farmer_id' : id,
     'farmer_project_id': farmerProjectId,
     'farmer_milestone_id': farmerMilestoneId,
-    // 'id' : '3',
-    // 'farmer_project_id': '1',
-    // 'farmer_milestone_id': '3',
     'resource_name' : resourceName,
     'resource_type' : resourceType,
     'resource_capacity': resourceCapacity,
     'resource_size': resourceSize,
     'resource_uom': resourceUom,
+    'resource_price': resourcePrice,
     };
 
     print(data);
@@ -271,17 +289,16 @@ class ProjectRepository {
       String resourceTypeName,
       String resourceCapacity,
       String resourceQty,
-      String uomId,
+      String projectId,
+      String mileStoneId,
       ) async {
     var data = {
-      // 'resource_name' : "Plastic",
       'resource_name' : materialName,
       'resource_type': resourceTypeName,
-      // 'resource_type': 'Plastic Pipe',
       'resource_capacity': resourceCapacity,
       'quantity': resourceQty,
-      'project_uom_id': '3',
-      // 'project_uom_id': uomId,
+      'project_id': projectId,
+      'milestone_id': mileStoneId,
     };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.priceAttributeApi,

@@ -184,7 +184,7 @@ class FarmerProjectResources {
   String? resourceName;
   String? resourceType;
   dynamic resourceCapacity;
-  String? resourceUom;
+  dynamic resourceUom;
   dynamic resourcePrice;
   dynamic resourceSize;
   dynamic resourceValue;
