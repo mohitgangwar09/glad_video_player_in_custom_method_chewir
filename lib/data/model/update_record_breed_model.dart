@@ -5,6 +5,8 @@ class UpdateRecordMonthBreedModel {
   int selfUse;
   int suppliedToOtherPdf;
   int suppliedToPdf;
+  int totalProduction;
+  double yieldPerCow;
   List<RequestData> requestData;
 
   UpdateRecordMonthBreedModel({
@@ -13,6 +15,8 @@ class UpdateRecordMonthBreedModel {
     required this.selfUse,
     required this.suppliedToOtherPdf,
     required this.suppliedToPdf,
+    required this.totalProduction,
+    required this.yieldPerCow,
     required this.requestData,
   });
 
@@ -23,6 +27,8 @@ class UpdateRecordMonthBreedModel {
     data['supplied_to_pdfl'] = suppliedToPdf;
     data['self_use'] = selfUse;
     data['supplied_to_others'] = suppliedToOtherPdf;
+    data['total_milk_production'] = totalProduction;
+    data['yield_per_cow'] = yieldPerCow;
     data['requestData'] = requestData.map((v) => v).toList();
 
     return data;

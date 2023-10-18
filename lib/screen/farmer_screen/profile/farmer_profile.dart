@@ -123,8 +123,21 @@ class _FarmerProfileState extends State<FarmerProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         10.verticalSpace(),
-                        profileData(state),
-                        40.verticalSpace(),
+                        state.responseFarmerProfile!.farmer!.photo!=null?
+                        profileData(state):SizedBox(
+                          height: 164,
+                          width: 164,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.asset(
+                              Images.placeHolder,
+                              height: 164,
+                              width: 164,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        state.responseFarmerProfile!.farmer!.photo!=null?40.verticalSpace():0.verticalSpace(),
                         farmDetails(state),
                         30.verticalSpace(),
                         dde(context, state,countryCode),

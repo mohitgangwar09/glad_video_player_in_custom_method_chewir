@@ -100,7 +100,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                   errorWidget: (_, __, ___) =>
                                       SvgPicture.asset(Images.person),
                                   fit: BoxFit.cover,
-                                ):const SizedBox.shrink(),
+                                ):SvgPicture.asset(Images.person),
                               ),
                             )),
                         8.horizontalSpace(),

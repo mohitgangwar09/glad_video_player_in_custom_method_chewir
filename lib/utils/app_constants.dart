@@ -1,5 +1,6 @@
 class AppConstants {
   static const String baseUrl = 'https://develop-glad.staqo.com';
+  // static const String baseUrl = 'https://staging-glad.staqo.com';
   static const String gMapsApiKey = 'AIzaSyAJg4PGbl1XfwJFKo-vQWlUVtH1Zzg3FEQ';
 
 
