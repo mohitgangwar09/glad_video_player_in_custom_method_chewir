@@ -11,10 +11,12 @@ import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
+import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_dde_dashboard.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/response_material_type.dart';
 import 'package:glad/data/model/response_price_attribute.dart';
+import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/data/model/response_enquiry_detail.dart';
@@ -32,7 +34,10 @@ class ProjectRepository {
   Future<FarmerProjectModel> getFarmerProjectsApi(String projectStatus) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerProjectListApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_status': projectStatus});
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {
+          'project_status': projectStatus
+          // 'project_status': projectStatus
+        });
 
     if (apiResponse.status) {
       return FarmerProjectModel.fromJson(apiResponse.response!.data);
@@ -117,9 +122,10 @@ class ProjectRepository {
   }
 
   ///////////////// getResourceTypeApi //////////
-  Future<ResponseResourceType> getResourceTypeApi(String id) async {
+  Future<ResponseResourceType> getResourceTypeApi(String mileStoneId,String resourceName) async {
     var data = {
-      "material_id": id
+      "milestone_id": mileStoneId,
+      "resource_name": resourceName,
     };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.resourceTypeListApi,
@@ -134,22 +140,34 @@ class ProjectRepository {
   }
 
   ///////////////// getMaterialTypeApi //////////
-  Future<ResponseMaterialType> getMaterialTypeApi() async {
+  Future<ResponseResourceName> getResourceNameApi(String farmerId,String farmerProjectId,String farmerMileStoneId) async {
+
+    var data = {
+      "farmer_id" : farmerId,
+      "farmer_project_id" : farmerProjectId,
+      "farmer_milestone_id" : farmerMileStoneId,
+    };
+
+    print(data);
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.resourceMaterialListApi,
+        .getApiResponse(AppConstants.resourceNameListApi,
+        queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
-      return ResponseMaterialType.fromJson(apiResponse.response!.data);
+      return ResponseResourceName.fromJson(apiResponse.response!.data);
     } else {
-      return ResponseMaterialType(status: 422, message: apiResponse.msg);
+      return ResponseResourceName(status: 422, message: apiResponse.msg);
     }
   }
 
   ///////////////// getResourceCapacityApi //////////
-  Future<ResponseResourceType> getResourceCapacityApi(String id) async {
+  Future<ResponseCapacityList> getResourceCapacityApi(String mileStoneId,String resourceName,String resourceType) async {
     var data = {
-      "resource_type_id": id
+      "milestone_id": mileStoneId,
+      "resource_name": resourceName,
+      "resource_type": resourceType,
     };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.resourceCapacityListApi,
@@ -157,9 +175,9 @@ class ProjectRepository {
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
-      return ResponseResourceType.fromJson(apiResponse.response!.data);
+      return ResponseCapacityList.fromJson(apiResponse.response!.data);
     } else {
-      return ResponseResourceType(status: 422, message: apiResponse.msg);
+      return ResponseCapacityList(status: 422, message: apiResponse.msg);
     }
   }
 

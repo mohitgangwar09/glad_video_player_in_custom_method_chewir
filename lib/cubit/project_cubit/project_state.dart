@@ -9,9 +9,9 @@ class ProjectState extends Equatable {
   final FarmerProjectDetailModel? responseFarmerProjectDetail;
   final FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail;
   final List<DataResourceType>? responseResourceType;
-  final List<DataResourceType>? responseResourceCapacityType;
+  final List<DataCapacityList>? responseResourceCapacityType;
   final List<DataResourceType>? responseProjectUOM;
-  final List<DataMaterialType>? responseMaterialType;
+  final List<DataResourceName>? responseMaterialType;
   final String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialName;
   final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialId;
   final TextEditingController requiredQtyController,pricePerUnitController;
@@ -69,9 +69,9 @@ class ProjectState extends Equatable {
     FarmerProjectDetailModel? responseFarmerProjectDetail,
     FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail,
     List<DataResourceType>? responseResourceType,
-    List<DataResourceType>? responseResourceCapacityType,
+    List<DataCapacityList>? responseResourceCapacityType,
     List<DataResourceType>? responseProjectUOM,
-    List<DataMaterialType>? responseMaterialType,
+    List<DataResourceName>? responseMaterialType,
     String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialId,
     String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialName,
     TextEditingController? requiredQtyController,pricePerUnitController

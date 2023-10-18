@@ -160,6 +160,7 @@ Widget card(BuildContext context){
                     padding: const EdgeInsets.fromLTRB(40,21,40,0),
                     child: CustomTextField(hint: 'Email / Supplier Id',
                       controller: state.emailController,
+                      maxLine: 1,
                       onChanged: (value){
                         context.read<AuthCubit>().emailValidateWithSupplierId();
                       },

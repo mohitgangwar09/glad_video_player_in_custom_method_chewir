@@ -48,8 +48,8 @@ class AppConstants {
   static const String updateProjectStatusApi = '/api/farmer-project/update-status';
   static const String validateCountry = '/api/address/check-country';
   static const String projectUOMListApi = '/api/farmer-project/project-uom-list';
-  static const String resourceCapacityListApi = '/api/farmer-project/resource-capacities-list';
-  static const String resourceMaterialListApi = '/api/farmer-project/material-list';
+  static const String resourceCapacityListApi = '/api/farmer-project/resource-capacity-list';
+  static const String resourceNameListApi = '/api/farmer-project/resource-name-list';
   static const String resourceTypeListApi = '/api/farmer-project/resource-type-list';
   static const String updateKycDocument = '/api/farmer-project/kyc-document';
   static const String editKycDocument = '/api/farmer-project/kyc-document-update';

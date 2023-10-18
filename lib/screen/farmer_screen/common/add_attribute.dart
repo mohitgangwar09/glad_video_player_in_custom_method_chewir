@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_material_type.dart';
+import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
@@ -29,10 +31,10 @@ class _AttributesEditState extends State<AttributesAdd> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<ProjectCubit>(context).getMaterialTypeApi(context);
-      // BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context);
-      // BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context);
-      BlocProvider.of<ProjectCubit>(context).projectUOMListApi(context);
+      /*BlocProvider.of<ProjectCubit>(context).getResourceNameApi(context,
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].farmerId.toString(),
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].farmerProjectId.toString(),
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].id.toString());*/
     });
   }
 
@@ -98,7 +100,7 @@ class _AttributesEditState extends State<AttributesAdd> {
                   ),
                   width: screenWidth(),
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButton2<DataMaterialType>(
+                    child: DropdownButton2<DataResourceName>(
                       isExpanded: true,
                       isDense: true,
                       hint: Text(
@@ -109,26 +111,26 @@ class _AttributesEditState extends State<AttributesAdd> {
                         ),
                       ),
                       items: state.responseMaterialType!
-                          .map((DataMaterialType item) => DropdownMenuItem<DataMaterialType>(
+                          .map((DataResourceName item) => DropdownMenuItem<DataResourceName>(
                         value: item,
                         child: Text(
-                          item.name!,
+                          item.resourceName!,
                           style: const TextStyle(
                             fontSize: 14,
                           ),
                         ),
                       )).toList(),
                       // value: state.counties![0].name!,
-                      onChanged: (DataMaterialType? value) {
+                      onChanged: (DataResourceName? value) {
 
                         BlocProvider.of<ProjectCubit>(context).emit(
-                            state.copyWith(selectMaterialName: value!.name!.toString(),
+                            state.copyWith(selectMaterialName: value!.resourceName!.toString(),
                               selectMaterialId: value.id!.toString(),
                               selectResourceType: 'Select Type',selectResourceTypeId: '',
                               selectSizeCapacity: 'Select Size Capacity',selectSizeCapacityId: '',
                             ));
                         BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
-                        BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context,value.id.toString());
+                        BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context,value.id.toString(),'resourceName');
 
                       },
                       buttonStyleData: const ButtonStyleData(
@@ -186,7 +188,7 @@ class _AttributesEditState extends State<AttributesAdd> {
                             state.copyWith(selectResourceType: value!.name!.toString(),
                                 selectResourceTypeId: value.id!.toString()));
                         BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
-                        BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,value.id.toString());
+                        // BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,value.id.toString());
                       },
                       buttonStyleData: const ButtonStyleData(
                         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -217,7 +219,7 @@ class _AttributesEditState extends State<AttributesAdd> {
                   ),
                   width: screenWidth(),
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButton2<DataResourceType>(
+                    child: DropdownButton2<DataCapacityList>(
                       isExpanded: true,
                       isDense: true,
                       hint: Text(
@@ -228,20 +230,20 @@ class _AttributesEditState extends State<AttributesAdd> {
                         ),
                       ),
                       items: state.responseResourceCapacityType!
-                          .map((DataResourceType item) => DropdownMenuItem<DataResourceType>(
+                          .map((DataCapacityList item) => DropdownMenuItem<DataCapacityList>(
                         value: item,
                         child: Text(
-                          item.name!,
+                          item.resourceCapacity!,
                           style: const TextStyle(
                             fontSize: 14,
                           ),
                         ),
                       )).toList(),
                       // value: state.counties![0].name!,
-                      onChanged: (DataResourceType? value) {
+                      onChanged: (DataCapacityList? value) {
 
                         BlocProvider.of<ProjectCubit>(context).emit(
-                            state.copyWith(selectSizeCapacity: value!.name!.toString(),
+                            state.copyWith(selectSizeCapacity: value!.resourceCapacity!.toString(),
                                 selectSizeCapacityId: value.id!.toString()));
                         BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
                       },
