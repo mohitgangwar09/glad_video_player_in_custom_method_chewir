@@ -71,8 +71,8 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
                             projectMilestones(context, state),
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectSubStatus!=null?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectSubStatus.toString().capitalized() == "suggested".capitalized()?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().capitalized() == "suggested".capitalized()?
                             inviteExpert(context, state):const SizedBox.shrink():const SizedBox.shrink(),
                           ],
                         ),
@@ -617,7 +617,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
                                               date,
                                               controller.text ?? '',
-                                              '',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                              'Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
                                           );
                                         },
                                         height: 60,
@@ -675,7 +675,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
                               Expanded(
                                 child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
-                                  context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'not_interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
+                                  context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
                                 }),
                               ),
 

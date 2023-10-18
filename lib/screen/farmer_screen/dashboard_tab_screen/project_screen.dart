@@ -21,11 +21,11 @@ class ProjectScreen extends StatefulWidget {
 
 class _ProjectScreenState extends State<ProjectScreen> {
 
-  String selectedStatus = 'suggested';
+  String selectedFilter = 'suggested';
 
   @override
   void initState() {
-    BlocProvider.of<ProjectCubit>(context).farmerProjectsApi(context, selectedStatus, true);
+    BlocProvider.of<ProjectCubit>(context).farmerProjectsApi(context, selectedFilter, true);
     super.initState();
   }
 
@@ -63,19 +63,19 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        if (selectedStatus != 'active') {
-                          selectedStatus = 'active';
+                        if (selectedFilter != 'active') {
+                          selectedFilter = 'active';
                           setState(() {});
                           BlocProvider.of<ProjectCubit>(context)
                               .farmerProjectsApi(
-                              context, selectedStatus, true);
+                              context, selectedFilter, true);
                         }
                       },
                       child: Container(
                         height: screenHeight(),
                         margin: const EdgeInsets.all(6),
                         decoration: boxDecoration(
-                            backgroundColor: selectedStatus == 'active'
+                            backgroundColor: selectedFilter == 'active'
                                 ? const Color(0xff6A0030)
                                 : Colors.white,
                             borderRadius: 62),
@@ -84,12 +84,12 @@ class _ProjectScreenState extends State<ProjectScreen> {
                           children: [
                             "Active"
                                 .textMedium(
-                                color: selectedStatus == 'active' ? Colors
+                                color: selectedFilter == 'active' ? Colors
                                     .white : ColorResources.black,
                                 fontSize: 14),
                             5.horizontalSpace(),
                             SvgPicture.asset(
-                                selectedStatus == 'suggested' ? Images
+                                selectedFilter == 'suggested' ? Images
                                     .activeSelected : Images.activeSelected)
                           ],
                         ),
@@ -99,31 +99,31 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        if (selectedStatus != 'suggested') {
-                          selectedStatus = 'suggested';
+                        if (selectedFilter != 'suggested') {
+                          selectedFilter = 'suggested';
                           setState(() {});
                           BlocProvider.of<ProjectCubit>(context)
                               .farmerProjectsApi(
-                              context, selectedStatus, true);
+                              context, selectedFilter, true);
                         }
                       },
                       child: Container(
                         height: screenHeight(),
                         margin: const EdgeInsets.all(6),
                         decoration: boxDecoration(
-                            backgroundColor: selectedStatus == 'suggested'
+                            backgroundColor: selectedFilter == 'suggested'
                                 ? const Color(0xff6A0030)
                                 : Colors.white, borderRadius: 62),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             "Suggested".textMedium(
-                                color: selectedStatus == 'suggested'
+                                color: selectedFilter == 'suggested'
                                     ? Colors.white
                                     : ColorResources.black, fontSize: 14),
                             5.horizontalSpace(),
                             SvgPicture.asset(
-                              selectedStatus == 'suggested' ? Images
+                              selectedFilter == 'suggested' ? Images
                                   .completedSelected : Images.completed,
                             )
                           ],
@@ -162,7 +162,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                 child: ProjectWidget(
                                   showStatus: true,
                                   status: state.responseFarmerProject!.data!
-                                      .projectList![i].projectSubStatus ?? '',
+                                      .projectList![i].projectStatus ?? '',
                                   image: state.responseFarmerProject!.data!
                                       .projectList![i].photo ?? '',
                                   name: state.responseFarmerProject!.data!

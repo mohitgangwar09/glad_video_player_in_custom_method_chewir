@@ -32,11 +32,11 @@ class ProjectRepository {
   ProjectRepository({this.sharedPreferences});
 
   ///////////////// getFarmerProjectsApi //////////
-  Future<FarmerProjectModel> getFarmerProjectsApi(String projectStatus) async {
+  Future<FarmerProjectModel> getFarmerProjectsApi(String projectFilter) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerProjectListApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {
-          'project_status': projectStatus
+          'project_filter': projectFilter
           // 'project_status': projectStatus
         });
 
@@ -93,9 +93,9 @@ class ProjectRepository {
         .getPostApiResponse(AppConstants.addInviteExpertForSurveyApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
           // 'dde_id' : ddeId,
-          'project_id': projectId,
+          'farmer_project_id': projectId,
           'date': date,
-          'remark': remark,
+          'remarks': remark,
           'project_status': projectStatus,
           'farmer_id': farmerId,
         });
