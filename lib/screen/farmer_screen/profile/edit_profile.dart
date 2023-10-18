@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -83,13 +84,15 @@ class _EditProfileState extends State<EditProfile> {
                                           showPicker(context, cameraFunction: () async{
                                             var image = imgFromCamera();
                                             image.then((value) async{
-                                              context.read<ProfileCubit>().updateProfilePicImageRam(context,value);
+                                              await context.read<ProfileCubit>().updateProfilePicImageRam(context,value);
+                                              context.read<LandingPageCubit>().getFarmerDashboard(context);
                                               // context.read<ProfileCubit>().updateProfilePicImage(context,value);
                                             });
                                           }, galleryFunction: () async{
                                             var image =  imgFromGallery();
                                             image.then((value) async{
-                                              context.read<ProfileCubit>().updateProfilePicImageRam(context,value);
+                                              await context.read<ProfileCubit>().updateProfilePicImageRam(context,value);
+                                              context.read<LandingPageCubit>().getFarmerDashboard(context);
                                               // context.read<ProfileCubit>().updateProfilePicImage(context,value);
                                             });
                                           });

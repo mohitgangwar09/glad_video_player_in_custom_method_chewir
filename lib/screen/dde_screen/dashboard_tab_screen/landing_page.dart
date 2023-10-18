@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,6 +25,7 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../auth_screen/login_with_password.dart';
@@ -37,6 +39,8 @@ class DDELandingPage extends StatefulWidget {
 }
 
 class _DDELandingPageState extends State<DDELandingPage> {
+
+  int activeIndex = 0;
 
   List<_ChartData> data2 = [
     _ChartData('Completed', 12),
@@ -184,7 +188,6 @@ class _DDELandingPageState extends State<DDELandingPage> {
                       String eventDate = DateFormat('yyyy-MM-dd').format(date);
                       if(data.containsKey(eventDate)) {
                         List<DDEVisitorDetails> dataData = [];
-                        print('true + $eventDate');
                         for (var element in data[eventDate]) {
                           dataData.add(DDEVisitorDetails.fromJson(element));
                         }
@@ -195,7 +198,11 @@ class _DDELandingPageState extends State<DDELandingPage> {
                     },
                     onDaySelected: (date, _) {
                       context.read<LandingPageCubit>().emit(state.copyWith(selectedFarmerVisitDate: date));
-                      print(state.selectedFarmerVisitDate);
+                      if(state.selectedFarmerVisitDate!.compareTo(date) != 0){
+                        setState(() {
+                          activeIndex = 0;
+                        });
+                      }
                     },
                     selectedDayPredicate: (date) {
                       Map<String, dynamic> data = state.responseFarmerVisitor!.data as Map<String, dynamic>;
@@ -209,82 +216,129 @@ class _DDELandingPageState extends State<DDELandingPage> {
                   ),
                 ),
 
-                Stack(
-                  children: [
-                    Container(
-                      // height: 105,
-                      // padding: 10.paddingAll(),
-                      width: screenWidth(),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12.0, 20, 12, 22),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(Images.sampleUser),
-                            15.horizontalSpace(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Begumanya Charles",
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 16, color: Colors.black)),
-                                4.verticalSpace(),
-
-                                "Visit schedule for today".textRegular(fontSize: 12),
-
-                                10.verticalSpace(),
-
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    'Project: '.textRegular(color: Colors.grey,
-                                    fontSize: 12),
-                                    Text("Dam Construction",
-                                        style: figtreeRegular.copyWith(
-                                            fontSize: 12, color: Colors.black)),
-                                  ],
-                                ),
-                                4.verticalSpace(),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on,
-                                      color: Colors.black,
-                                      size: 16,
-                                    ),
-                                    SizedBox(
-                                      width:
-                                      screenWidth() * 0.5,
-                                      child: Text(
-                                        "Plot 11, Street 09, Luwum St.Rwo",
-                                        style: figtreeRegular.copyWith(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          overflow: TextOverflow.ellipsis,
+                (state.responseFarmerVisitor!.data as Map<String, dynamic>).containsKey(DateFormat('yyyy-MM-dd').format(state.selectedFarmerVisitDate!))
+                    ? Builder(
+                  builder: (context) {
+                    List<DDEVisitorDetails> data = [];
+                    for (var element in (state.responseFarmerVisitor!.data as Map<String, dynamic>)[DateFormat('yyyy-MM-dd').format(state.selectedFarmerVisitDate!)]) {
+                      data.add(DDEVisitorDetails.fromJson(element));
+                    }
+                    return Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 130,
+                            width: screenWidth(),
+                            child: CarouselSlider(
+                                items: data.map((detail) => Container(
+                                  width: screenWidth(),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(12.0, 20, 12, 22),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(1000),
+                                          child: Container(
+                                            height: AppBar().preferredSize.height * 0.7,
+                                            width: AppBar().preferredSize.height * 0.7,
+                                            decoration:
+                                            const BoxDecoration(shape: BoxShape.circle),
+                                            child: CachedNetworkImage(
+                                              imageUrl: detail.photo ?? '',
+                                              errorWidget: (_, __, ___) =>
+                                                  Image.asset(Images.sampleUser),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                                        15.horizontalSpace(),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(detail.name ?? '',
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 16, color: Colors.black)),
+                                            4.verticalSpace(),
 
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Align(alignment: Alignment.topRight,
-                        child: "9:00 am".textRegular(color: Colors.grey,
-                        fontSize: 12),),
-                    )
-                  ],
-                ),
+                                            "Visit schedule for today".textRegular(fontSize: 12),
+
+                                            10.verticalSpace(),
+
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                'Project: '.textRegular(color: Colors.grey,
+                                                    fontSize: 12),
+                                                Text(detail.farmerProject![0].name ?? '',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12, color: Colors.black)),
+                                              ],
+                                            ),
+                                            4.verticalSpace(),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                const Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.black,
+                                                  size: 16,
+                                                ),
+                                                SizedBox(
+                                                  width:
+                                                  screenWidth() * 0.5,
+                                                  child: Text(
+                                                    detail.fAddress ?? '',
+                                                    style: figtreeRegular.copyWith(
+                                                      fontSize: 12,
+                                                      color: Colors.black,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )).toList(),
+                                options: CarouselOptions(
+                              autoPlay: false,
+                              enableInfiniteScroll: false,
+                              viewportFraction: 1,
+                              // enlargeCenterPage: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  activeIndex = index;
+                                });
+                              },
+                            )),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: AnimatedSmoothIndicator(
+                                activeIndex: activeIndex,
+                                count: 3,
+                                effect: const WormEffect(
+                                    activeDotColor: ColorResources.maroon,
+                                    dotHeight: 7,
+                                    dotWidth: 7,
+                                    dotColor: ColorResources.grey),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                ) : const SizedBox.shrink(),
 
               ],
             ),
