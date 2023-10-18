@@ -6,7 +6,9 @@ import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_material_type.dart';
+import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -30,9 +32,9 @@ class ProjectCubit extends Cubit<ProjectState> {
         selectMaterialName: materialName,
         selectResourceType: resourceType,
         selectSizeCapacity: resourceCapacityName,
-        selectProjectUOM: '',
-        requiredQtyController: TextEditingController()..clear(),
-        pricePerUnitController: TextEditingController()..clear(),
+        selectProjectUOM: uom,
+        requiredQtyController: TextEditingController(text: requiredQty),
+        pricePerUnitController: TextEditingController(text: pricePerUnit),
     ));
 
   }
@@ -93,10 +95,10 @@ class ProjectCubit extends Cubit<ProjectState> {
 
       emit(state.copyWith(status: ProjectStatus.success,
           responseFarmerProjectMilestoneDetail: response,
-          selectResourceType: response.data!.milestoneDetails![0].resourceTypeName!=null?response.data!.milestoneDetails![0].resourceTypeName!:'Select Type',
-          selectSizeCapacity: response.data!.milestoneDetails![0].resourceCapacityName!=null?response.data!.milestoneDetails![0].resourceCapacityName!:'Select Size Capacity',
-          selectProjectUOM: response.data!.milestoneDetails![0].resourceUomName!=null?response.data!.milestoneDetails![0].resourceUomName!:'Select UOM',
       ));
+    //   selectResourceType: response.data!.milestoneDetails![0].resourceType!=null?response.data!.milestoneDetails![0].resourceType!:'Select Type',
+    // selectSizeCapacity: response.data!.milestoneDetails![0].resourceCapcity!=null?response.data!.milestoneDetails![0].resourceCapcity!:'Select Size Capacity',
+    // selectProjectUOM: response.data!.milestoneDetails![0].resourceUom!=null?response.data!.milestoneDetails![0].resourceUom!:'Select UOM',
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
@@ -132,26 +134,11 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  void getResourceTypeApi(context,String id) async {
+  void getResourceNameApi(context,String farmerId,String farmerProjectId,String farmerMileStoneId) async {
     // emit(state.copyWith(status: ProjectStatus.loading));
-    var response = await apiRepository.getResourceTypeApi(id);
+    var response = await apiRepository.getResourceNameApi(farmerId,farmerProjectId,farmerMileStoneId);
     if (response.status == 200) {
-      List<DataResourceType> dataResourceType = [];
-      if(response.data!=null){
-        dataResourceType = response.data!;
-      }
-      emit(state.copyWith(responseResourceType: dataResourceType));
-    } else {
-      // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
-    }
-  }
-
-  void getMaterialTypeApi(context) async {
-    // emit(state.copyWith(status: ProjectStatus.loading));
-    var response = await apiRepository.getMaterialTypeApi();
-    if (response.status == 200) {
-      List<DataMaterialType> dataResourceType = [];
+      List<DataResourceName> dataResourceType = [];
       if(response.data!=null){
         dataResourceType = response.data!;
       }
@@ -161,11 +148,28 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  void getResourceCapacityApi(context,String id) async {
+  void getResourceTypeApi(context,String mileStoneId,String resourceName) async {
     // emit(state.copyWith(status: ProjectStatus.loading));
-    var response = await apiRepository.getResourceCapacityApi(id);
+    var response = await apiRepository.getResourceTypeApi(mileStoneId,resourceName);
     if (response.status == 200) {
+      print(response.data![0].name);
       List<DataResourceType> dataResourceType = [];
+      if(response.data!=null){
+        dataResourceType = response.data!;
+      }
+
+      emit(state.copyWith(responseResourceType: dataResourceType));
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void getResourceCapacityApi(context,String mileStoneId,resourceName,resourceType) async {
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.getResourceCapacityApi(mileStoneId, resourceName, resourceType);
+    if (response.status == 200) {
+      List<DataCapacityList> dataResourceType = [];
       if(response.data!=null){
         dataResourceType = response.data!;
       }
@@ -191,7 +195,24 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  void updateAttributeApi(context,String id,farmerProjectId,farmerMileStoneId) async {
+  void notRequiredApi(context,String id) async {
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.notRequiredDataApi(id);
+    if (response.status == 200) {
+      getSelectedAttribute(
+        response.data!.resourceName??'',
+        response.data!.resourceType??'',
+        response.data!.resourceCapacity??'',
+        response.data!.resourceUom??'',
+        response.data!.resourceSize??'',
+        response.data!.resourcePrice??'');
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void updateAttributeApi(context,String id,String farmerProjectId,String farmerMileStoneId) async {
     customDialog(
       widget: launchProgress()
     );
@@ -203,12 +224,15 @@ class ProjectCubit extends Cubit<ProjectState> {
         state.selectResourceType.toString(),
         state.selectSizeCapacity.toString(),
         state.requiredQtyController.text.toString(),
-        state.selectProjectUOM.toString());
+        state.selectProjectUOM.toString(),
+        state.pricePerUnitController.text);
 
     disposeProgress();
 
     if (response.status == 200) {
 
+      pressBack();
+      farmerProjectMilestoneDetailApi(context,int.parse(farmerMileStoneId));
       showCustomToast(context, response.message.toString());
 
     } else {
@@ -254,13 +278,13 @@ class ProjectCubit extends Cubit<ProjectState> {
 
   }
 
-  void getPriceAttributeApi(context) async {
+  void getPriceAttributeApi(context,String projectId,String mileStoneId) async {
     var response = await apiRepository.getPriceAttributeApi(
         state.selectMaterialName.toString(),
         state.selectResourceType.toString(),
         state.selectSizeCapacity.toString(),
         state.requiredQtyController.text.toString(),
-        state.selectProjectUOMId.toString(),
+      projectId,mileStoneId
     );
 
     if (response.status == 200) {

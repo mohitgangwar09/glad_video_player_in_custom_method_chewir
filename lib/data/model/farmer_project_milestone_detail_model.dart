@@ -50,15 +50,13 @@ class MilestoneDetails {
   dynamic id;
   dynamic farmerId;
   dynamic farmerProjectId;
-  String? milestoneCode;
+  dynamic projectId;
+  dynamic milestoneCode;
   String? milestoneTitle;
   String? milestoneDescription;
   dynamic milestoneDuration;
   dynamic resourceType;
-  dynamic resourceTypeName;
   dynamic resourceCapcity;
-  dynamic resourceCapacityName;
-  dynamic resourceUomName;
   dynamic resourcePrice;
   dynamic resourceQty;
   dynamic resourceUom;
@@ -70,8 +68,8 @@ class MilestoneDetails {
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
-  String? createdAt;
-  String? updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
   List<FarmerProjectResources>? farmerProjectResourcePrice;
   List<FarmerProjectTask>? farmerProjectTask;
 
@@ -79,6 +77,7 @@ class MilestoneDetails {
       {this.id,
         this.farmerId,
         this.farmerProjectId,
+        this.projectId,
         this.milestoneCode,
         this.milestoneTitle,
         this.milestoneDescription,
@@ -99,25 +98,19 @@ class MilestoneDetails {
         this.createdAt,
         this.updatedAt,
         this.farmerProjectResourcePrice,
-        this.farmerProjectTask,
-        this.resourceCapacityName,
-        this.resourceTypeName,
-        this.resourceUomName,
-      });
+        this.farmerProjectTask});
 
   MilestoneDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     farmerId = json['farmer_id'];
     farmerProjectId = json['farmer_project_id'];
+    projectId = json['project_id'];
     milestoneCode = json['milestone_code'];
     milestoneTitle = json['milestone_title'];
     milestoneDescription = json['milestone_description'];
     milestoneDuration = json['milestone_duration'];
     resourceType = json['resource_type'];
-    resourceTypeName = json['resource_type_name'];
     resourceCapcity = json['resource_capcity'];
-    resourceCapacityName = json['resource_type_capcity'];
-    resourceUomName = json['resource_uom_name'];
     resourcePrice = json['resource_price'];
     resourceQty = json['resource_qty'];
     resourceUom = json['resource_uom'];
@@ -134,8 +127,7 @@ class MilestoneDetails {
     if (json['farmer_project_resources'] != null) {
       farmerProjectResourcePrice = <FarmerProjectResources>[];
       json['farmer_project_resources'].forEach((v) {
-        farmerProjectResourcePrice!
-            .add(FarmerProjectResources.fromJson(v));
+        farmerProjectResourcePrice!.add(FarmerProjectResources.fromJson(v));
       });
     }
     if (json['farmer_project_task'] != null) {
@@ -151,15 +143,13 @@ class MilestoneDetails {
     data['id'] = id;
     data['farmer_id'] = farmerId;
     data['farmer_project_id'] = farmerProjectId;
+    data['project_id'] = projectId;
     data['milestone_code'] = milestoneCode;
     data['milestone_title'] = milestoneTitle;
     data['milestone_description'] = milestoneDescription;
     data['milestone_duration'] = milestoneDuration;
     data['resource_type'] = resourceType;
     data['resource_capcity'] = resourceCapcity;
-    data['resource_type_name'] = resourceTypeName;
-    data['resource_type_capcity'] = resourceCapacityName;
-    data['resource_uom_name'] = resourceUomName;
     data['resource_price'] = resourcePrice;
     data['resource_qty'] = resourceQty;
     data['resource_uom'] = resourceUom;
@@ -190,25 +180,28 @@ class FarmerProjectResources {
   dynamic farmerId;
   dynamic farmerProjectId;
   dynamic farmerMilestoneId;
-  dynamic resourceName;
-  dynamic resourceType;
+  dynamic milestoneId;
+  String? resourceName;
+  String? resourceType;
   dynamic resourceCapacity;
   dynamic resourceUom;
   dynamic resourcePrice;
   dynamic resourceSize;
   dynamic resourceValue;
-  dynamic status;
+  String? status;
+  dynamic notRequired;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
   dynamic createdAt;
-  dynamic updatedAt;
+  String? updatedAt;
 
   FarmerProjectResources(
       {this.id,
         this.farmerId,
         this.farmerProjectId,
         this.farmerMilestoneId,
+        this.milestoneId,
         this.resourceName,
         this.resourceType,
         this.resourceCapacity,
@@ -217,6 +210,7 @@ class FarmerProjectResources {
         this.resourceSize,
         this.resourceValue,
         this.status,
+        this.notRequired,
         this.createdBy,
         this.updatedBy,
         this.deletedBy,
@@ -228,6 +222,7 @@ class FarmerProjectResources {
     farmerId = json['farmer_id'];
     farmerProjectId = json['farmer_project_id'];
     farmerMilestoneId = json['farmer_milestone_id'];
+    milestoneId = json['milestone_id'];
     resourceName = json['resource_name'];
     resourceType = json['resource_type'];
     resourceCapacity = json['resource_capacity'];
@@ -236,6 +231,7 @@ class FarmerProjectResources {
     resourceSize = json['resource_size'];
     resourceValue = json['resource_value'];
     status = json['status'];
+    notRequired = json['not_required'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
@@ -244,24 +240,26 @@ class FarmerProjectResources {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['farmer_id'] = this.farmerId;
-    data['farmer_project_id'] = this.farmerProjectId;
-    data['farmer_milestone_id'] = this.farmerMilestoneId;
-    data['resource_name'] = this.resourceName;
-    data['resource_type'] = this.resourceType;
-    data['resource_capacity'] = this.resourceCapacity;
-    data['resource_uom'] = this.resourceUom;
-    data['resource_price'] = this.resourcePrice;
-    data['resource_size'] = this.resourceSize;
-    data['resource_value'] = this.resourceValue;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['farmer_project_id'] = farmerProjectId;
+    data['farmer_milestone_id'] = farmerMilestoneId;
+    data['milestone_id'] = milestoneId;
+    data['resource_name'] = resourceName;
+    data['resource_type'] = resourceType;
+    data['resource_capacity'] = resourceCapacity;
+    data['resource_uom'] = resourceUom;
+    data['resource_price'] = resourcePrice;
+    data['resource_size'] = resourceSize;
+    data['resource_value'] = resourceValue;
+    data['status'] = status;
+    data['not_required'] = notRequired;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -280,8 +278,8 @@ class FarmerProjectTask {
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
-  String? createdAt;
-  String? updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   FarmerProjectTask(
       {this.id,

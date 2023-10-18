@@ -1,17 +1,17 @@
-class ResponseResourceType {
+class ResponseCapacityList {
   String? message;
   int? status;
-  List<DataResourceType>? data;
+  List<DataCapacityList>? data;
 
-  ResponseResourceType({this.message, this.status, this.data});
+  ResponseCapacityList({this.message, this.status, this.data});
 
-  ResponseResourceType.fromJson(Map<String, dynamic> json) {
+  ResponseCapacityList.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     if (json['data'] != null) {
-      data = <DataResourceType>[];
+      data = <DataCapacityList>[];
       json['data'].forEach((v) {
-        data!.add(DataResourceType.fromJson(v));
+        data!.add(DataCapacityList.fromJson(v));
       });
     }
   }
@@ -27,21 +27,21 @@ class ResponseResourceType {
   }
 }
 
-class DataResourceType {
+class DataCapacityList {
   int? id;
-  String? name;
+  String? resourceCapacity;
 
-  DataResourceType({this.id, this.name});
+  DataCapacityList({this.id, this.resourceCapacity});
 
-  DataResourceType.fromJson(Map<String, dynamic> json) {
+  DataCapacityList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['resource_type'];
+    resourceCapacity = json['resource_capacity'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['resource_type'] = name;
+    data['resource_capacity'] = resourceCapacity;
     return data;
   }
 }

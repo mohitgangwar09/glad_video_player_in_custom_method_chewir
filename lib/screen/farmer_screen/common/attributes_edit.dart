@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_material_type.dart';
+import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
+import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -30,10 +33,20 @@ class _AttributesEditState extends State<AttributesEdit> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<ProjectCubit>(context).getMaterialTypeApi(context);
-      // BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context);
-      // BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context);
-      BlocProvider.of<ProjectCubit>(context).projectUOMListApi(context);
+      /*BlocProvider.of<ProjectCubit>(context).getResourceNameApi(context,
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].farmerId.toString(),
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].farmerProjectId.toString(),
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].farmerMilestoneId.toString()
+      );*/
+      BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context,
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),
+          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].resourceName.toString(),
+      );
+      BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,
+        BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),
+        BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].resourceName.toString(),
+        BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].resourceType.toString(),);
+      // BlocProvider.of<ProjectCubit>(context).projectUOMListApi(context);
     });
   }
 
@@ -47,7 +60,7 @@ class _AttributesEditState extends State<AttributesEdit> {
             children: [
               CustomAppBar(
                 context: context,
-                titleText1: 'Attributes',
+                titleText1: 'Resources',
                 titleText1Style:
                     figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                 centerTitle: true,
@@ -98,8 +111,27 @@ class _AttributesEditState extends State<AttributesEdit> {
                     borderRadius: BorderRadius.circular(10)
                 ),
                 width: screenWidth(),
+                child: TextField(
+                  enabled: false,
+                  maxLines: 1,
+                  controller: TextEditingController(text: state.selectMaterialName.toString()),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 10,left: 13)
+                  ),
+                ),
+              ),
+
+
+              /*Container(
+                height: 60,
+                decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                width: screenWidth(),
                 child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<DataMaterialType>(
+                  child: DropdownButton2<DataResourceName>(
                     isExpanded: true,
                     isDense: true,
                     hint: Text(
@@ -110,27 +142,27 @@ class _AttributesEditState extends State<AttributesEdit> {
                       ),
                     ),
                     items: state.responseMaterialType!
-                        .map((DataMaterialType item) => DropdownMenuItem<DataMaterialType>(
+                        .map((DataResourceName item) => DropdownMenuItem<DataResourceName>(
                       value: item,
                       child: Text(
-                        item.name!,
+                        item.resourceName!,
                         style: const TextStyle(
                           fontSize: 14,
                         ),
                       ),
                     )).toList(),
                     // value: state.counties![0].name!,
-                    onChanged: (DataMaterialType? value) {
+                    onChanged: (DataResourceName? value) {
 
                       BlocProvider.of<ProjectCubit>(context).emit(
-                          state.copyWith(selectMaterialName: value!.name!.toString(),
+                          state.copyWith(selectMaterialName: value!.resourceName!.toString(),
                               selectMaterialId: value.id!.toString(),
                               selectResourceType: 'Select Type',selectResourceTypeId: '',
                               selectSizeCapacity: 'Select Size Capacity',selectSizeCapacityId: '',
                           ));
 
                       BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
-                      BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context,value.id.toString());
+                      BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context,value.id.toString(),'resourceType');
 
                     },
                     buttonStyleData: const ButtonStyleData(
@@ -143,7 +175,7 @@ class _AttributesEditState extends State<AttributesEdit> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
 
               20.verticalSpace(),
               Align(
@@ -187,8 +219,14 @@ class _AttributesEditState extends State<AttributesEdit> {
                       BlocProvider.of<ProjectCubit>(context).emit(
                           state.copyWith(selectResourceType: value!.name!.toString(),
                           selectResourceTypeId: value.id!.toString()));
-                      BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
-                      BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,value.id.toString());
+                      BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),
+                      );
+                      BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,
+                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),
+                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].resourceName.toString(),
+                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].resourceType.toString());
                     },
                     buttonStyleData: const ButtonStyleData(
                       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -219,7 +257,7 @@ class _AttributesEditState extends State<AttributesEdit> {
                 ),
                 width: screenWidth(),
                 child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<DataResourceType>(
+                  child: DropdownButton2<DataCapacityList>(
                     isExpanded: true,
                     isDense: true,
                     hint: Text(
@@ -230,22 +268,24 @@ class _AttributesEditState extends State<AttributesEdit> {
                       ),
                     ),
                     items: state.responseResourceCapacityType!
-                        .map((DataResourceType item) => DropdownMenuItem<DataResourceType>(
+                        .map((DataCapacityList item) => DropdownMenuItem<DataCapacityList>(
                       value: item,
                       child: Text(
-                        item.name!,
+                        item.resourceCapacity!,
                         style: const TextStyle(
                           fontSize: 14,
                         ),
                       ),
                     )).toList(),
                     // value: state.counties![0].name!,
-                    onChanged: (DataResourceType? value) {
+                    onChanged: (DataCapacityList? value) {
 
                       BlocProvider.of<ProjectCubit>(context).emit(
-                          state.copyWith(selectSizeCapacity: value!.name!.toString(),
+                          state.copyWith(selectSizeCapacity: value!.resourceCapacity!.toString(),
                               selectSizeCapacityId: value.id!.toString()));
-                      BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
+                      BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
                     },
                     buttonStyleData: const ButtonStyleData(
                       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -263,20 +303,95 @@ class _AttributesEditState extends State<AttributesEdit> {
 
               Row(
                 children: [
-                  Expanded(child:
+
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: "Required Qty".textMedium(color: Colors.black, fontSize: 12),
+                        ),
+
+                        5.verticalSpace(),
+
+                        Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          width: screenWidth(),
+                          child: TextField(
+                            maxLines: 1,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            controller: state.requiredQtyController,
+                            maxLength: 10,
+                            keyboardType: TextInputType.phone,
+                            onChanged: (value){
+                              BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
+                            },
+                            decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                counterText: '',
+                                contentPadding: EdgeInsets.only(top: 10,left: 13)
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /*Expanded(child:
                   CustomTextField2(title:'Required Qty',
                     width: 1,
                     inputType: TextInputType.phone,
                     maxLine: 1,
                     maxLength: 10,
                     onChanged: (value){
-                      BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
+                      BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
                     },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: state.requiredQtyController,
-                    borderColor: 0xff727272,hint: '',),),
+                    borderColor: 0xff727272,hint: '',),),*/
                   10.horizontalSpace(),
+
                   Expanded(
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: "".textMedium(color: Colors.black, fontSize: 12),
+                        ),
+
+                        5.verticalSpace(),
+
+                        Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          width: screenWidth(),
+                          child: TextField(
+                            enabled: false,
+                            maxLines: 1,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            controller: TextEditingController(text: state.selectProjectUOM.toString()),
+                            decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(top: 10,left: 13)
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /*Expanded(
                     child: Column(
                       children: [
 
@@ -318,7 +433,9 @@ class _AttributesEditState extends State<AttributesEdit> {
                                     state.copyWith(selectProjectUOM: value!.name!.toString(),
                                     selectProjectUOMId: value.id!.toString(),));
 
-                                BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context);
+                                BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
 
                               },
                               buttonStyleData: const ButtonStyleData(
@@ -334,16 +451,43 @@ class _AttributesEditState extends State<AttributesEdit> {
                         ),
                       ],
                     )
-                  ),
-
+                  ),*/
                 ],
               ),
               20.verticalSpace(),
-              CustomTextField2(title:'Price per unit',
+              Align(
+                alignment: Alignment.centerLeft,
+                child: "Price per unit".textMedium(color: Colors.black, fontSize: 12),
+              ),
+
+              5.verticalSpace(),
+
+              Container(
+                height: 60,
+                decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                width: screenWidth(),
+                child: TextField(
+                  maxLines: 1,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  controller: state.pricePerUnitController,
+                  maxLength: 10,
+                  enabled: false,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      counterText: '',
+                      contentPadding: EdgeInsets.only(top: 10,left: 13)
+                  ),
+                ),
+              ),
+              /*CustomTextField2(title:'Price per unit',
                 enabled: false,
                 width: 1,borderColor: 0xff727272,hint: '',
                 controller: state.pricePerUnitController,
-              ),
+              ),*/
               80.verticalSpace(),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
@@ -353,7 +497,7 @@ class _AttributesEditState extends State<AttributesEdit> {
                     height: 60,
                     onTap: () {
                   BlocProvider.of<ProjectCubit>(context).updateAttributeApi(context,
-                      state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].id.toString(),
+                      state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerId.toString(),
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId.toString(),
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
                   );

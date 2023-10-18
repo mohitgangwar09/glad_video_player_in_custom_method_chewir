@@ -30,6 +30,7 @@ class DataPrice {
   dynamic projectUomId;
   dynamic resourceCapacityId;
   dynamic resourcePrice;
+  dynamic uomName;
   dynamic isDefault;
   dynamic status;
   dynamic createdBy;
@@ -52,6 +53,7 @@ class DataPrice {
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
+        this.uomName,
         this.updatedAt});
 
   DataPrice.fromJson(Map<String, dynamic> json) {
@@ -64,6 +66,7 @@ class DataPrice {
     resourcePrice = json['resource_price'];
     isDefault = json['is_default'];
     status = json['status'];
+    uomName = json['uom_name'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
@@ -82,6 +85,7 @@ class DataPrice {
     data['resource_price'] = resourcePrice;
     data['is_default'] = isDefault;
     data['status'] = status;
+    data['uom_name'] = uomName;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['deleted_by'] = deletedBy;
