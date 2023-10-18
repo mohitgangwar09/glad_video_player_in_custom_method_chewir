@@ -165,6 +165,7 @@ class _SuggestedProjectMilestoneDetailState
 
   ////////Attributes///////////
   Widget attributes(ProjectState state) {
+    print(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice);
     return Column(
       children: [
         20.verticalSpace(),

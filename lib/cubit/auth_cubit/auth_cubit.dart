@@ -125,6 +125,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
         emit(state.copyWith(status: AuthStatus.success,id: response.data!.id.toString(),passwordController: TextEditingController()));
 
         if(response.data!.isFirst == 0){
+          emit(state.copyWith(emailController: TextEditingController(text: response.data!.email ?? state.emailController.text)));
           const OtpScreen(tag: "email",).navigate(isInfinity: true);
         }else{
           apiRepository.saveUserToken(response.data!.accessToken.toString());
