@@ -192,6 +192,8 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
         suppliedToPdf: int.parse(2.toString()),
         selfUse: int.parse(3.toString()),
         monthId: 5,farmerId: 5,
+        totalProduction:int.parse("source"),
+        yieldPerCow:double.parse("source"),
         requestData: requestData);
 
     String jsonRequestData = jsonEncode(response);

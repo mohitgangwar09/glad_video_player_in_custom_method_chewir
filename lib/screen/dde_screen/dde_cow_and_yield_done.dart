@@ -132,6 +132,8 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
         suppliedToPdf: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.suppliedToPdfController.text),
         selfUse: int.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.selfUseController.text),
         monthId: BlocProvider.of<CowsAndYieldDoneCubit>(context).state.responseMonthlyWiseData![0].id!,farmerId: int.parse(widget.farmerId.toString()),
+        totalProduction:BlocProvider.of<CowsAndYieldDoneCubit>(context).state.totalProduction.toInt(),
+        yieldPerCow:double.parse(BlocProvider.of<CowsAndYieldDoneCubit>(context).state.yieldPerDay.toStringAsFixed(2)),
         requestData: requestData);
     String jsonRequestData = jsonEncode(response);
 

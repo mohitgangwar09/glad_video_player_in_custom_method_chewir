@@ -177,6 +177,8 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
         suppliedToOtherPdf: int.parse(1.toString()),
         suppliedToPdf: int.parse(2.toString()),
         selfUse: int.parse(3.toString()),
+        totalProduction:int.parse("source"),
+        yieldPerCow:double.parse("source"),
     monthId: 5,farmerId: 5,
         requestData: requestData);
 

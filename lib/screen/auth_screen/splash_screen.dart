@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }else if(BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.userType == "farmer"){
           const DashboardFarmer().navigate(isInfinity: true);
         }else{
-
+          "User Type not exist".toast();
         }
 
       }else{
