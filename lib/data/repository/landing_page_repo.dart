@@ -236,6 +236,21 @@ class LandingPageRepository {
     }
   }
 
+  ////////////////////ddeDashboardApi///////////////////////////
+  Future<ResponseOtpModel> ddeFarmerVisitorApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.ddeFarmerVisitorApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

@@ -6,6 +6,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/data/model/dde_visitor_details.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -22,6 +23,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../auth_screen/login_with_password.dart';
@@ -88,8 +90,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                           child: SvgPicture.asset(Images.drawer)),
                       action: Row(
                         children: [
-                          InkWell(onTap: () {}, child: SvgPicture.asset(
-                              Images.call)),
+                          phoneCall(256758711344),
                           7.horizontalSpace(),
                           InkWell(
                               onTap: () {
@@ -139,7 +140,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
           farmersNearMe(context, state),
 
-          Container(
+          state.responseFarmerVisitor != null ? Container(
             margin: const EdgeInsets.only(left: 20,right: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -151,10 +152,10 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
                 Padding(
                   padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
-                  child: TableCalendar(
+                  child: TableCalendar<DDEVisitorDetails>(
                     headerStyle: const HeaderStyle(
                       leftChevronIcon: Icon(Icons.arrow_back,
-                      color: Colors.black,),
+                      color: Colors.black),
                       rightChevronIcon: CircleAvatar(
                         radius: 18,
                         backgroundColor: Colors.grey,
@@ -165,14 +166,46 @@ class _DDELandingPageState extends State<DDELandingPage> {
                     ),
                     firstDay: DateTime.utc(2010, 10, 16),
                     lastDay: DateTime.utc(2030, 3, 14),
-                    focusedDay: DateTime.now(),
+                    focusedDay: state.selectedFarmerVisitDate!,
+                    currentDay: state.selectedFarmerVisitDate,
                     calendarFormat: calendarFormat,
                     startingDayOfWeek: StartingDayOfWeek.sunday,
                     calendarStyle: CalendarStyle(
                       selectedDecoration: BoxDecoration(
-                          color: ColorResources.primary,
-                          borderRadius: BorderRadiusDirectional.circular(30)),
+                          color: ColorResources.maroon,
+                          borderRadius: BorderRadiusDirectional.circular(12),
+                      shape: BoxShape.rectangle),
+                      markersMaxCount: 1,
+                      markerSize: 5,
+                      markerDecoration: BoxDecoration(color: ColorResources.maroon, shape: BoxShape.circle),
                     ),
+                    eventLoader: (date) {
+                      Map<String, dynamic> data = state.responseFarmerVisitor!.data as Map<String, dynamic>;
+                      String eventDate = DateFormat('yyyy-MM-dd').format(date);
+                      if(data.containsKey(eventDate)) {
+                        List<DDEVisitorDetails> dataData = [];
+                        print('true + $eventDate');
+                        for (var element in data[eventDate]) {
+                          dataData.add(DDEVisitorDetails.fromJson(element));
+                        }
+                        return dataData;
+                      } else {
+                        return [];
+                      }
+                    },
+                    onDaySelected: (date, _) {
+                      context.read<LandingPageCubit>().emit(state.copyWith(selectedFarmerVisitDate: date));
+                      print(state.selectedFarmerVisitDate);
+                    },
+                    selectedDayPredicate: (date) {
+                      Map<String, dynamic> data = state.responseFarmerVisitor!.data as Map<String, dynamic>;
+                      String eventDate = DateFormat('yyyy-MM-dd').format(date);
+                      if(data.containsKey(eventDate) && state.selectedFarmerVisitDate!.compareTo(date) == 0) {
+                        return true;
+                      } else {
+                        return false;
+                      }
+                    },
                   ),
                 ),
 
@@ -255,7 +288,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
               ],
             ),
-          ),
+          ) : const SizedBox.shrink(),
 
           30.verticalSpace(),
 

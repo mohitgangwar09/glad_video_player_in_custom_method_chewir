@@ -75,11 +75,7 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
                         child: SvgPicture.asset(Images.drawer)),
                     action: Row(
                       children: [
-                        InkWell(
-                            onTap: () async {
-                              await callOnMobile(256758711344);
-                            },
-                            child: SvgPicture.asset(Images.call)),
+                        phoneCall(256758711344),
                         7.horizontalSpace(),
                         InkWell(
                             onTap: () {

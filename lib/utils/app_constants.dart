@@ -57,6 +57,7 @@ class AppConstants {
   static const String addAttributeApi = '/api/farmer-project/add-attribute';
   static const String priceAttributeApi = '/api/farmer-project/price-attribute';
   static const String deleteAttributeApi = '/api/farmer-project/delete-attribute';
+  static const String ddeFarmerVisitorApi = '/api/dde/farmer-visitor';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
