@@ -122,20 +122,20 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  void updateSuggestedProjectStatus(context, String status, int projectId) async {
-    customDialog(widget: launchProgress());
-    var response = await apiRepository.suggestedProjectUpdateStatus(status, projectId);
-    if (response.status == 200) {
-      disposeProgress();
-      pressBack();
-      farmerProjectsApi(context, 'Suggested', false);
-      await farmerProjectDetailApi(context, projectId);
-      showCustomToast(context, response.message ?? '', isSuccess: true);
-    } else {
-      emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
-    }
-  }
+  // void updateSuggestedProjectStatus(context, String status, int projectId) async {
+  //   customDialog(widget: launchProgress());
+  //   var response = await apiRepository.suggestedProjectUpdateStatus(status, projectId);
+  //   if (response.status == 200) {
+  //     disposeProgress();
+  //     pressBack();
+  //     farmerProjectsApi(context, 'Suggested', false);
+  //     await farmerProjectDetailApi(context, projectId);
+  //     showCustomToast(context, response.message ?? '', isSuccess: true);
+  //   } else {
+  //     emit(state.copyWith(status: ProjectStatus.error));
+  //     showCustomToast(context, response.message.toString());
+  //   }
+  // }
 
   void getResourceNameApi(context,String farmerId,String farmerProjectId,String farmerMileStoneId) async {
     // emit(state.copyWith(status: ProjectStatus.loading));

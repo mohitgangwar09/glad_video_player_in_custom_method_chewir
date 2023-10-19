@@ -172,7 +172,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
           children: [
             InkWell(
               onTap: () {
-                const EditProfile(section: 'personal').navigate();
+                // const EditProfile(section: 'personal').navigate();
               },
               child: Stack(
                 children: [

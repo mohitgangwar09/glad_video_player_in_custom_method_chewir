@@ -675,7 +675,13 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
                               Expanded(
                                 child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
-                                  context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
+                                  // context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
+                                  context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                      '',
+                                      '',
+                                      'Not Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                  );
                                 }),
                               ),
 

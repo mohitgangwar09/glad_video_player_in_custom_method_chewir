@@ -107,20 +107,20 @@ class ProjectRepository {
     }
   }
 
-  Future<ResponseOtpModel> suggestedProjectUpdateStatus(String projectStatus, int projectId) async {
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getPostApiResponse(AppConstants.updateProjectStatusApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
-          'farmer_project_id' : projectId,
-          'project_status': projectStatus,
-        });
-
-    if (apiResponse.status) {
-      return ResponseOtpModel.fromJson(apiResponse.response!.data);
-    } else {
-      return ResponseOtpModel(status: 422, message: apiResponse.msg);
-    }
-  }
+  // Future<ResponseOtpModel> suggestedProjectUpdateStatus(String projectStatus, int projectId) async {
+  //   api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+  //       .getPostApiResponse(AppConstants.updateProjectStatusApi,
+  //       headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
+  //         'farmer_project_id' : projectId,
+  //         'project_status': projectStatus,
+  //       });
+  //
+  //   if (apiResponse.status) {
+  //     return ResponseOtpModel.fromJson(apiResponse.response!.data);
+  //   } else {
+  //     return ResponseOtpModel(status: 422, message: apiResponse.msg);
+  //   }
+  // }
 
   ///////////////// getResourceTypeApi //////////
   Future<ResponseResourceType> getResourceTypeApi(String mileStoneId,String resourceName) async {

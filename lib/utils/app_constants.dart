@@ -45,7 +45,7 @@ class AppConstants {
   static const String farmerProjectDetailApi = '/api/farmer-project/details';
   static const String farmerProjectMilestoneDetailApi = '/api/farmer-project/milestone-details';
   static const String addInviteExpertForSurveyApi = '/api/farmer-project/add-invite-expert';
-  static const String updateProjectStatusApi = '/api/farmer-project/update-status';
+  // static const String updateProjectStatusApi = '/api/farmer-project/update-status';
   static const String validateCountry = '/api/address/check-country';
   static const String projectUOMListApi = '/api/farmer-project/project-uom-list';
   static const String resourceCapacityListApi = '/api/farmer-project/resource-capacity-list';
