@@ -179,6 +179,7 @@ class FarmerMaster {
   dynamic mccId;
   dynamic ddeId;
   String? photo;
+  String? profilePic;
   String? kycStatus;
   String? landlineNo;
   String? dateOfBirth;
@@ -209,6 +210,7 @@ class FarmerMaster {
         this.mccId,
         this.ddeId,
         this.photo,
+        this.profilePic,
         this.kycStatus,
         this.landlineNo,
         this.dateOfBirth,
@@ -239,6 +241,7 @@ class FarmerMaster {
     mccId = json['mcc_id'];
     ddeId = json['dde_id'];
     photo = json['photo'];
+    profilePic = json['profile_pic'];
     kycStatus = json['kyc_status'];
     landlineNo = json['landline_no'];
     dateOfBirth = json['date_of_birth'];
@@ -271,6 +274,7 @@ class FarmerMaster {
     data['mcc_id'] = mccId;
     data['dde_id'] = ddeId;
     data['photo'] = photo;
+    data['profile_pic'] = profilePic;
     data['kyc_status'] = kycStatus;
     data['landline_no'] = landlineNo;
     data['date_of_birth'] = dateOfBirth;

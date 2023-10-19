@@ -132,11 +132,8 @@ class _AttributesEditState extends State<AttributesAdd> {
                               requiredQtyController: TextEditingController()..clear(),
                             ));
 
-                        /*BlocProvider.of<ProjectCubit>(context).notRequiredApi(context,
-                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerId.toString(),
-                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId.toString(),
-                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
-                        );*/
+                        BlocProvider.of<ProjectCubit>(context).notRequiredApi(context,
+                          value.id!.toString());
 
                         BlocProvider.of<ProjectCubit>(context).getResourceTypeApi(context,
                             state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
