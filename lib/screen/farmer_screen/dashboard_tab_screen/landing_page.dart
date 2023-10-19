@@ -86,7 +86,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             onTap: () {
                               const FarmerProfile().navigate();
                             },
-                            child: ClipRRect(
+                            child: /*ClipRRect(
                               borderRadius: BorderRadius.circular(1000),
                               child: Container(
                                 height: AppBar().preferredSize.height * 0.7,
@@ -96,6 +96,21 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: state.response!.farmerMaster!.photo!=null?CachedNetworkImage(
                                   imageUrl:
                                       state.response!.farmerMaster!.photo!,
+                                  errorWidget: (_, __, ___) =>
+                                      SvgPicture.asset(Images.person),
+                                  fit: BoxFit.cover,
+                                ):SvgPicture.asset(Images.person),
+                              ),
+                            )*/ClipRRect(
+                              borderRadius: BorderRadius.circular(1000),
+                              child: Container(
+                                height: AppBar().preferredSize.height * 0.7,
+                                width: AppBar().preferredSize.height * 0.7,
+                                decoration:
+                                const BoxDecoration(shape: BoxShape.circle),
+                                child: state.response!.farmerMaster!.profilePic!=null?CachedNetworkImage(
+                                  imageUrl:
+                                  state.response!.farmerMaster!.profilePic!,
                                   errorWidget: (_, __, ___) =>
                                       SvgPicture.asset(Images.person),
                                   fit: BoxFit.cover,
@@ -140,7 +155,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        '${getCurrencyString(state.response!.farmerMilkProduction![0].totalMilkProduction, unit: '')} Ltr.',
+                                        '${getCurrencyString(state.response!.farmerMilkProduction![0].totalMilkProduction ?? 0, unit: '')} Ltr.',
                                         'Milk produced',
                                         'Last 6 months')),
                               ),
@@ -153,7 +168,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        getCurrencyString(state.response!.farmerMilkProduction![0].suppliedToPdfl),
+                                        getCurrencyString(state.response!.farmerMilkProduction![0].suppliedToPdfl ?? 0),
                                         'Supplied to PDFL',
                                         'Last 6 months')),
                               ),

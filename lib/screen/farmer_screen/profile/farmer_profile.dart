@@ -142,7 +142,8 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         30.verticalSpace(),
                         dde(context, state,countryCode),
                         20.verticalSpace(),
-                        cowsInTheFarm(state),
+                        state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?
+                        cowsInTheFarm(state):const SizedBox.shrink(),
                         30.verticalSpace(),
                         state.responseFarmerProfile!.farmer!.address != null ? address(context,state) : SizedBox.shrink(),
                         state.improvementAreaListResponse != null
@@ -571,6 +572,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                     ),
                 ],),
                 20.verticalSpace(),*/
+
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),

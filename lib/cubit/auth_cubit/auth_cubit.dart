@@ -132,7 +132,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
           await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
           await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
           if(response.data!.profilePic == null){
-            const UploadProfilePicture().navigate(isInfinity: true);
+            const UploadProfilePicture().navigate(isInfinity: true,);
           }else{
             if(response.data!.userType == "mcc"){
               const DashboardMCC().navigate(isInfinity: true);

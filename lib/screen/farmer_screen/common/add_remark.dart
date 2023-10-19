@@ -228,7 +228,7 @@ class _AddRemarkState extends State<AddRemark> {
             ),
             onCompleted: (v) {
               print("Completed");
-              const UploadProfilePicture().navigate();
+              UploadProfilePicture().navigate();
             },
             onChanged: (value) {
               print(value);
