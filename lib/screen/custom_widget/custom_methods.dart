@@ -1347,6 +1347,9 @@ bool equalsIgnoreCase(String? string1, String? string2) {
 String getCurrencyString(dynamic value, {String unit = 'UGX '}){
   if(value >= 1000) {
     if(value/1000 >= 1000) {
+      if((value/1000)/1000 >= 1000) {
+        return '$unit${removeZeroesInFraction((value/1000/1000/1000).toStringAsFixed(2))}B';
+      }
       return '$unit${removeZeroesInFraction((value/1000/1000).toStringAsFixed(2))}M';
     }
     return '$unit${removeZeroesInFraction((value/1000).toStringAsFixed(2))}K';

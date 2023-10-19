@@ -224,7 +224,7 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                       color: ColorResources
                                                           .fieldGrey)),
                                               5.verticalSpace(),
-                                              Text('${state.resultData!.lossOfMilkPerCow} Ltr.',
+                                              Text('${getCurrencyString(state.resultData!.lossOfMilkPerCow, unit: '')} Ltr.',
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 16,
                                                       color: Colors.black)),
@@ -240,7 +240,7 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                       color: ColorResources
                                                           .fieldGrey)),
                                               5.verticalSpace(),
-                                              Text('${state.resultData!.expectedYieldPerCow} Ltr.',
+                                              Text('${getCurrencyString(state.resultData!.expectedYieldPerCow, unit: '')} Ltr.',
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 16,
                                                       color: Colors.black)),
@@ -265,9 +265,9 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                             color: ColorResources
                                                                 .fieldGrey)),
                                                     5.verticalSpace(),
-                                                    Text('${state.resultData!.incrementalProduction} Ltr.',
+                                                    Text('${getCurrencyString(state.resultData!.incrementalProduction, unit: '')} Ltr.',
                                                         style: figtreeMedium.copyWith(
-                                                            fontSize: 18,
+                                                            fontSize: 16,
                                                             color: Colors.black)),
                                                   ],),
                                                   Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -277,9 +277,9 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                             color: ColorResources
                                                                 .fieldGrey)),
                                                     5.verticalSpace(),
-                                                    Text('${state.resultData!.incrementalProduction *30} Ltr.',
+                                                    Text('${getCurrencyString(state.resultData!.incrementalProduction * 30, unit: '')} Ltr.',
                                                         style: figtreeMedium.copyWith(
-                                                            fontSize: 18,
+                                                            fontSize: 16,
                                                             color: Colors.black)),
                                                   ],),
                                                   Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -289,9 +289,9 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                             color: ColorResources
                                                                 .fieldGrey)),
                                                     5.verticalSpace(),
-                                                    Text('${state.resultData!.incrementalProduction *365} Ltr.',
+                                                    Text('${getCurrencyString(state.resultData!.incrementalProduction * 365, unit: '')} Ltr.',
                                                         style: figtreeMedium.copyWith(
-                                                            fontSize: 18,
+                                                            fontSize: 16,
                                                             color: Colors.black)),
                                                   ],)
                                                 ],)
@@ -316,9 +316,9 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                             color: ColorResources
                                                                 .fieldGrey)),
                                                     5.verticalSpace(),
-                                                    Text('UGX ${state.resultData!.incrementalEarning}',
+                                                    Text(getCurrencyString(state.resultData!.incrementalEarning),
                                                         style: figtreeMedium.copyWith(
-                                                            fontSize: 18,
+                                                            fontSize: 16,
                                                             color: Colors.black)),
                                                   ],),
                                                   Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -328,9 +328,9 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                             color: ColorResources
                                                                 .fieldGrey)),
                                                     5.verticalSpace(),
-                                                    Text('UGX ${(state.resultData!.incrementalEarning *30)  /1000}',
+                                                    Text(getCurrencyString(state.resultData!.incrementalEarning * 30),
                                                         style: figtreeMedium.copyWith(
-                                                            fontSize: 18,
+                                                            fontSize: 16,
                                                             color: Colors.black)),
                                                   ],),
                                                   Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -340,9 +340,9 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                             color: ColorResources
                                                                 .fieldGrey)),
                                                     5.verticalSpace(),
-                                                    Text('UGX ${(state.resultData!.incrementalEarning *365) /1000}',
+                                                    Text(getCurrencyString(state.resultData!.incrementalEarning * 365),
                                                         style: figtreeMedium.copyWith(
-                                                            fontSize: 18,
+                                                            fontSize: 16,
                                                             color: Colors.black)),
                                                   ],)
                                                 ],)

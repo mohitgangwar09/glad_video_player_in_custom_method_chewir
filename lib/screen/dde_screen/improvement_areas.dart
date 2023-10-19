@@ -282,11 +282,10 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                   padding: const EdgeInsets.all(20),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text('Loss of Milk Yield /cow /day',
                                               style: figtreeRegular.copyWith(
@@ -294,8 +293,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                   color: ColorResources
                                                       .fieldGrey)),
                                           5.verticalSpace(),
-                                          Text(
-                                              '${state.resultData!.lossOfMilkPerCow} Ltr.',
+                                          Text('${getCurrencyString(state.resultData!.lossOfMilkPerCow, unit: '')} Ltr.',
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 16,
                                                   color: Colors.black)),
@@ -303,8 +301,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                       ),
                                       10.verticalSpace(),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text('Expected Yield /cow /day',
                                               style: figtreeRegular.copyWith(
@@ -312,8 +309,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                   color: ColorResources
                                                       .fieldGrey)),
                                           5.verticalSpace(),
-                                          Text(
-                                              '${state.resultData!.expectedYieldPerCow} Ltr.',
+                                          Text('${getCurrencyString(state.resultData!.expectedYieldPerCow, unit: '')} Ltr.',
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 16,
                                                   color: Colors.black)),
@@ -321,89 +317,58 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                       ),
                                       20.verticalSpace(),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                              'Expected incremental production',
+                                          Text('Expected incremental production',
                                               style: figtreeRegular.copyWith(
                                                   fontSize: 12,
                                                   color: ColorResources
                                                       .fieldGrey)),
                                           15.verticalSpace(),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text('Per day',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: ColorResources
-                                                                  .fieldGrey)),
-                                                  5.verticalSpace(),
-                                                  Text(
-                                                      '${double.parse(state.resultData!.incrementalProduction.toString()).toStringAsFixed(2)} Ltr.',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black)),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text('Per month',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: ColorResources
-                                                                  .fieldGrey)),
-                                                  5.verticalSpace(),
-                                                  Text(
-                                                      '${(double.parse(state.resultData!.incrementalProduction.toString())*30).toStringAsFixed(2) } Ltr.',
-                                                      // '${(double.parse(double.parse(state.resultData!.incrementalProduction.toString())*30.0.toString()).toStringAsFixed(2)) } Ltr.',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black)),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text('Per year',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: ColorResources
-                                                                  .fieldGrey)),
-                                                  5.verticalSpace(),
-                                                  Text(
-                                                      '${(double.parse(state.resultData!.incrementalProduction.toString())*95).toStringAsFixed(2)} Ltr.',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black)),
-                                                ],
-                                              )
-                                            ],
-                                          )
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per day',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${getCurrencyString(state.resultData!.incrementalProduction, unit: '')} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per month',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${getCurrencyString(state.resultData!.incrementalProduction * 30, unit: '')} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per year',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${getCurrencyString(state.resultData!.incrementalProduction * 365, unit: '')} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],)
+                                            ],)
                                         ],
                                       ),
                                       20.verticalSpace(),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text('Expected incremental earning',
                                               style: figtreeRegular.copyWith(
@@ -411,72 +376,45 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                   color: ColorResources
                                                       .fieldGrey)),
                                           15.verticalSpace(),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text('Per day',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: ColorResources
-                                                                  .fieldGrey)),
-                                                  5.verticalSpace(),
-                                                  Text(
-                                                      'UGX ${state.resultData!.incrementalEarning??0.toString()}',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black)),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text('Per month',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: ColorResources
-                                                                  .fieldGrey)),
-                                                  5.verticalSpace(),
-                                                  Text(
-                                                      'UGX ${(state.resultData!.incrementalEarning * 30) / 1000}',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black)),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text('Per year',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: ColorResources
-                                                                  .fieldGrey)),
-                                                  5.verticalSpace(),
-                                                  Text(
-                                                      'UGX ${(state.resultData!.incrementalEarning * 365) / 1000}',
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black)),
-                                                ],
-                                              )
-                                            ],
-                                          )
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per day',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text(getCurrencyString(state.resultData!.incrementalEarning),
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per month',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text(getCurrencyString(state.resultData!.incrementalEarning * 30),
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],),
+                                              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+                                                Text('Per year',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text(getCurrencyString(state.resultData!.incrementalEarning * 365),
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],)
+                                            ],)
                                         ],
                                       )
                                     ],
@@ -560,7 +498,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                                'UGX ${(state.response!.data!.improvementAreaList![pageIndex].projects![0].investmentAmount ?? '')}',
+                                                                getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].investmentAmount ?? 0),
                                                                 style: figtreeSemiBold
                                                                     .copyWith(
                                                                         fontSize:
@@ -581,7 +519,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                                'UGX ${(state.response!.data!.improvementAreaList![pageIndex].projects![0].revenuePerYear ?? '')}',
+                                                                getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].revenuePerYear ?? 0),
                                                                 style: figtreeSemiBold
                                                                     .copyWith(
                                                                         fontSize:
@@ -630,7 +568,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          Text('UGX ${state.response!.data!.improvementAreaList![pageIndex].projects![0].loanAmount ?? ''}',
+                                                          Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].loanAmount ?? 0),
                                                               style: figtreeMedium
                                                                   .copyWith(
                                                                       fontSize:
@@ -650,7 +588,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          Text('UGX ${state.response!.data!.improvementAreaList![pageIndex].projects![0].farmerParticipation ?? ''}',
+                                                          Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].farmerParticipation ?? 0),
                                                               style: figtreeMedium
                                                                   .copyWith(
                                                                       fontSize:
@@ -690,7 +628,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          Text('UGX ${state.response!.data!.improvementAreaList![pageIndex].projects![0].emiAmount ?? ''}',
+                                                          Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].emiAmount ?? 0),
                                                               style: figtreeMedium
                                                                   .copyWith(
                                                                       fontSize:
