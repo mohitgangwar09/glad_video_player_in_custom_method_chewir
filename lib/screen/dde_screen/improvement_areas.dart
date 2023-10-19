@@ -439,7 +439,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                           horizontal: 20),
                                       child: InkWell(
                                         onTap: () {
-                                          const SuggestedInvestment()
+                                          DDeFarmerInvestmentDetails(projectId: state.response!.data!.improvementAreaList![pageIndex].projects![0].projectId,)
                                               .navigate();
                                         },
                                         child: customProjectContainer(
