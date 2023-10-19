@@ -139,10 +139,15 @@ class _AttributesEditState extends State<AttributesAdd> {
                             state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
                             value.resourceName!.toString());
 
-                        BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                        /*BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,
+                          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
+                          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourceName.toString(),
+                          BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].resourceType.toString(),);*/
+
+                       /* BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
-                        );
+                        );*/
 
                       },
                       buttonStyleData: const ButtonStyleData(
@@ -285,7 +290,154 @@ class _AttributesEditState extends State<AttributesAdd> {
 
                 20.verticalSpace(),
 
+                20.verticalSpace(),
+
                 Row(
+                  children: [
+
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: "Required Qty".textMedium(color: Colors.black, fontSize: 12),
+                          ),
+
+                          5.verticalSpace(),
+
+                          Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            width: screenWidth(),
+                            child: TextField(
+                              maxLines: 1,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              controller: state.requiredQtyController,
+                              maxLength: 10,
+                              keyboardType: TextInputType.phone,
+                              onChanged: (value){
+                                BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
+                                );
+                                if(value.isNotEmpty){
+                                  double sums = double.parse(value.toString())*double.parse(state.pricePerUnitController.toString());
+                                  state.valueController.text = sums.toStringAsFixed(2);
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  counterText: '',
+                                  contentPadding: EdgeInsets.only(top: 10,left: 13)
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    10.horizontalSpace(),
+
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: "".textMedium(color: Colors.black, fontSize: 12),
+                          ),
+
+                          5.verticalSpace(),
+
+                          Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            width: screenWidth(),
+                            child: TextField(
+                              enabled: false,
+                              maxLines: 1,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              controller: TextEditingController(text: state.selectProjectUOM.toString()),
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(top: 10,left: 13)
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  ],
+                ),
+                20.verticalSpace(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: "Price per unit".textMedium(color: Colors.black, fontSize: 12),
+                ),
+
+                5.verticalSpace(),
+
+                Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  width: screenWidth(),
+                  child: TextField(
+                    maxLines: 1,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    controller: state.pricePerUnitController,
+                    maxLength: 10,
+                    enabled: false,
+                    keyboardType: TextInputType.phone,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        counterText: '',
+                        contentPadding: EdgeInsets.only(top: 10,left: 13)
+                    ),
+                  ),
+                ),
+
+                20.verticalSpace(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: "Value".textMedium(color: Colors.black, fontSize: 12),
+                ),
+
+                5.verticalSpace(),
+
+                Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  width: screenWidth(),
+                  child: TextField(
+                    maxLines: 1,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    // controller: TextEditingController(text: state.requiredQtyController.text.isEmpty?"0":'${double.parse(state.requiredQtyController.text.toString())*double.parse(state.pricePerUnitController.text.toString())}'),
+                    controller: state.valueController,
+                    maxLength: 10,
+                    enabled: false,
+                    keyboardType: TextInputType.phone,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        counterText: '',
+                        contentPadding: EdgeInsets.only(top: 10,left: 13)
+                    ),
+                  ),
+                ),
+
+
+                /*Row(
                   children: [
                     Expanded(child:
                     CustomTextField2(title:'Required Qty',
@@ -368,7 +520,7 @@ class _AttributesEditState extends State<AttributesAdd> {
                   enabled: false,
                   width: 1,borderColor: 0xff727272,hint: '',
                   controller: state.pricePerUnitController,
-                ),
+                ),*/
                 80.verticalSpace(),
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
@@ -381,6 +533,7 @@ class _AttributesEditState extends State<AttributesAdd> {
                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerId.toString(),
                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId.toString(),
                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
+                          state.primaryId.toString(),
                         );
                       }),
                 )

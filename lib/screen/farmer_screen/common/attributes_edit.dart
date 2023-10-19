@@ -28,6 +28,8 @@ class AttributesEdit extends StatefulWidget {
 
 class _AttributesEditState extends State<AttributesEdit> {
 
+  final TextEditingController valueController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -331,6 +333,10 @@ class _AttributesEditState extends State<AttributesEdit> {
                               BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
                                 state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
                                 state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
+                              if(value.isNotEmpty){
+                                double sums = double.parse(value.toString())*double.parse(state.pricePerUnitController.toString());
+                                state.valueController.text = sums.toStringAsFixed(2);
+                              }
                             },
                             decoration: const InputDecoration(
                                 border: InputBorder.none,
@@ -343,20 +349,6 @@ class _AttributesEditState extends State<AttributesEdit> {
                     ),
                   ),
 
-                  /*Expanded(child:
-                  CustomTextField2(title:'Required Qty',
-                    width: 1,
-                    inputType: TextInputType.phone,
-                    maxLine: 1,
-                    maxLength: 10,
-                    onChanged: (value){
-                      BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
-                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
-                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
-                    },
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: state.requiredQtyController,
-                    borderColor: 0xff727272,hint: '',),),*/
                   10.horizontalSpace(),
 
                   Expanded(
@@ -391,67 +383,6 @@ class _AttributesEditState extends State<AttributesEdit> {
                     ),
                   ),
 
-                  /*Expanded(
-                    child: Column(
-                      children: [
-
-                        const Text(""),
-
-                        Container(
-                          height: 60,
-                          margin: const EdgeInsets.only(top: 3),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          width: screenWidth(),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<DataResourceType>(
-                              isExpanded: true,
-                              isDense: true,
-                              hint: Text(
-                                state.selectProjectUOM.toString(),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                              ),
-                              items: state.responseProjectUOM!
-                                  .map((DataResourceType item) => DropdownMenuItem<DataResourceType>(
-                                value: item,
-                                child: Text(
-                                  item.name!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              )).toList(),
-                              // value: state.counties![0].name!,
-                              onChanged: (DataResourceType? value) {
-
-                                BlocProvider.of<ProjectCubit>(context).emit(
-                                    state.copyWith(selectProjectUOM: value!.name!.toString(),
-                                    selectProjectUOMId: value.id!.toString(),));
-
-                                BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
-                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
-                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
-
-                              },
-                              buttonStyleData: const ButtonStyleData(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                height: 40,
-                                width: 140,
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ),*/
                 ],
               ),
               20.verticalSpace(),
@@ -483,6 +414,38 @@ class _AttributesEditState extends State<AttributesEdit> {
                   ),
                 ),
               ),
+
+              20.verticalSpace(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: "Value".textMedium(color: Colors.black, fontSize: 12),
+              ),
+
+              5.verticalSpace(),
+
+              Container(
+                height: 60,
+                decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                width: screenWidth(),
+                child: TextField(
+                  maxLines: 1,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  // controller: TextEditingController(text: state.requiredQtyController.text.isEmpty?"0":'${double.parse(state.requiredQtyController.text.toString())*double.parse(state.pricePerUnitController.text.toString())}'),
+                  controller: state.valueController,
+                  maxLength: 10,
+                  enabled: false,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      counterText: '',
+                      contentPadding: EdgeInsets.only(top: 10,left: 13)
+                  ),
+                ),
+              ),
+
               /*CustomTextField2(title:'Price per unit',
                 enabled: false,
                 width: 1,borderColor: 0xff727272,hint: '',
@@ -500,6 +463,8 @@ class _AttributesEditState extends State<AttributesEdit> {
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerId.toString(),
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId.toString(),
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
+                      BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].id.toString()
+
                   );
                 }),
               )
