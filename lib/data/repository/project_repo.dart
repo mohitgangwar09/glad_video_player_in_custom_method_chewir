@@ -215,7 +215,7 @@ class ProjectRepository {
   }
 
   Future<ResponseOtpModel> updateAttributeApi(
-      String id,
+      String farmerId,
       String farmerProjectId,
       String farmerMilestoneId,
       String resourceName,
@@ -224,10 +224,11 @@ class ProjectRepository {
       String resourceSize,
       String resourceUom,
       String resourcePrice,
+      String primaryId,
       ) async {
 
     var data = {
-    'farmer_id' : id,
+    'farmer_id' : farmerId,
     'farmer_project_id': farmerProjectId,
     'farmer_milestone_id': farmerMilestoneId,
     'resource_name' : resourceName,
@@ -236,6 +237,7 @@ class ProjectRepository {
     'resource_size': resourceSize,
     'resource_uom': resourceUom,
     'resource_price': resourcePrice,
+    'id': primaryId,
     };
 
     print(data);

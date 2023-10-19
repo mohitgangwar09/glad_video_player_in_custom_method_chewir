@@ -144,7 +144,7 @@ class _SuggestedProjectMilestoneDetailState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'UGX ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneValue ?? ''}',
+                getCurrencyString(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneValue ?? 0),
                 style: figtreeSemiBold.copyWith(
                     fontSize: 16, color: ColorResources.maroon),
               ),
@@ -251,6 +251,7 @@ class _SuggestedProjectMilestoneDetailState
                                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize.toString()??'',
                                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice.toString()??'',
                                       );
+                                      state.valueController.text = state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceValue.toString()??'';
                                     },child: Image.asset(Images.editIcon,width: 24,height: 24,)),
                                 15.horizontalSpace(),
                                 InkWell(
@@ -285,7 +286,7 @@ class _SuggestedProjectMilestoneDetailState
                             ),
                             10.verticalSpace(),
 
-                            customAttribute("Value", " ${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice* state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize ?? ''}"),
+                            customAttribute("Value", " ${getCurrencyString(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceValue??0)}"),
                             // 40.verticalSpace(),
                           ],
                         ),
