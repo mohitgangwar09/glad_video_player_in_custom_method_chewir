@@ -66,6 +66,8 @@ class Dde {
   String? createdAt;
   dynamic updatedAt;
   dynamic image;
+  dynamic profilePic;
+  dynamic photo;
 
   Dde(
       {this.id,
@@ -85,7 +87,9 @@ class Dde {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.image});
+        this.image,
+        this.profilePic,
+        this.photo});
 
   Dde.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -106,6 +110,8 @@ class Dde {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     image = json['image'];
+    profilePic = json['profile_pic'];
+    photo = json['photo'];
   }
 
   Map<String, dynamic> toJson() {

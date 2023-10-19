@@ -25,7 +25,7 @@ class FarmerDashboard {
 class Data {
   Dde? dde;
   Mcc? mcc;
-  FarmerMaster? farmerMaster;
+  User? user;
   List<Testimonials>? testimonials;
   List<FarmerProject>? farmerProject;
   List<CowBreedDetails>? cowBreedDetails;
@@ -35,7 +35,7 @@ class Data {
   Data(
       {this.dde,
         this.mcc,
-        this.farmerMaster,
+        this.user,
         this.testimonials,
         this.farmerProject,
         this.cowBreedDetails,
@@ -45,8 +45,8 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     dde = json['dde'] != null ? Dde.fromJson(json['dde']) : null;
     mcc = json['mcc'] != null ? Mcc.fromJson(json['mcc']) : null;
-    farmerMaster = json['farmerMaster'] != null
-        ? FarmerMaster.fromJson(json['farmerMaster'])
+    user = json['user'] != null
+        ? User.fromJson(json['user'])
         : null;
     if (json['testimonials'] != null) {
       testimonials = <Testimonials>[];
@@ -88,8 +88,8 @@ class Data {
     if (mcc != null) {
       data['mcc'] = mcc!.toJson();
     }
-    if (farmerMaster != null) {
-      data['farmerMaster'] = farmerMaster!.toJson();
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     if (testimonials != null) {
       data['testimonials'] = testimonials!.map((v) => v.toJson()).toList();
@@ -169,7 +169,7 @@ class Mcc {
   }
 }
 
-class FarmerMaster {
+class User {
   dynamic id;
   dynamic userId;
   String? name;
@@ -200,7 +200,7 @@ class FarmerMaster {
   dynamic updatedBy;
   dynamic supplierCode;
 
-  FarmerMaster(
+  User(
       {this.id,
         this.userId,
         this.name,
@@ -231,7 +231,7 @@ class FarmerMaster {
         this.updatedBy,
       this.supplierCode});
 
-  FarmerMaster.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     name = json['name'];
