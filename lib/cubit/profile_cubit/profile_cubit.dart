@@ -100,6 +100,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(
           status: ProfileStatus.success, responseProfile: response));
     } else {
+      print(response.message.toString());
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
     }
@@ -173,12 +174,14 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   Future<void> updateProfilePicImage(context, String image) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.updateProfileImageAPi(File(image));
-    disposeProgress();
+    print(response.status.toString());
     if (response.status == 200) {
       await profileApi(context);
       disposeProgress();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
+      disposeProgress();
+      print(response.message.toString());
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
     }

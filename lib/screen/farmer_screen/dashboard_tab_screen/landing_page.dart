@@ -72,7 +72,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                   CustomAppBar(
                     context: context,
                     titleText1: 'Hello ',
-                    titleText2: state.response!=null? state.response!.farmerMaster!.name!.split(' ')[0]:"",
+                    titleText2: state.response!=null? state.response!.user!.name!.split(' ')[0]:"",
                     leading: openDrawer(
                         onTap: () {
                           farmerLandingKey.currentState?.openDrawer();
@@ -108,9 +108,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 width: AppBar().preferredSize.height * 0.7,
                                 decoration:
                                 const BoxDecoration(shape: BoxShape.circle),
-                                child: state.response!.farmerMaster!.profilePic!=null?CachedNetworkImage(
+                                child: state.response!.user!.profilePic!=null?CachedNetworkImage(
                                   imageUrl:
-                                  state.response!.farmerMaster!.profilePic!,
+                                  state.response!.user!.profilePic!,
                                   errorWidget: (_, __, ___) =>
                                       SvgPicture.asset(Images.person),
                                   fit: BoxFit.cover,

@@ -46,7 +46,7 @@ class ProfileRepository {
     var userId = sharedPreferences!.getString(AppConstants.userId);
 
     FormData formData = FormData.fromMap(
-        {"id": userId, "photo": await MultipartFile.fromFile(file.path)});
+        {"id": userId, "photo": await MultipartFile.fromFile(file.path), "profile_pic": await MultipartFile.fromFile(file.path),});
 
     print(formData.fields);
 
@@ -137,8 +137,11 @@ class ProfileRepository {
   Future<ResponseOtpModel> updateProfileImageAPi(File file) async {
     var userId = sharedPreferences!.getString(AppConstants.userId);
 
-    FormData formData = FormData.fromMap(
-        {"id": userId, "profile_pic": await MultipartFile.fromFile(file.path)});
+    FormData formData = FormData.fromMap({
+          "id": userId,
+          "profile_pic": await MultipartFile.fromFile(file.path),
+          "photo": await MultipartFile.fromFile(file.path),
+        });
 
     print(formData.fields);
 

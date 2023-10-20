@@ -513,13 +513,14 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                                             CrossAxisAlignment.start,
                                                                             children: [
                                                                               Text(
+                                                                                // state.yieldPerDay.toStringAsFixed(2),
                                                                                 state.yieldPerDay>0?
                                                                                 state.yieldPerDay.toStringAsFixed(2):'0',
                                                                                 style: figtreeSemiBold
                                                                                     .copyWith(fontSize: 18),
                                                                               ),
                                                                               Text(
-                                                                                'Yield/day',
+                                                                                'Yield/days',
                                                                                 style: figtreeMedium
                                                                                     .copyWith(fontSize: 12),
                                                                               )
@@ -782,7 +783,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
                                                               padding: const EdgeInsets.only(left: 17,right: 17),
                                                               child: Column(
                                                                 children: [
-                                                                  ...getDateWiseData(state.responseMonthlyWiseData![0].dateWiseData!)
+                                                                  ...getDateWiseData(state.responseMonthlyWiseData![0].dateWiseData!,state.responseMonthlyWiseData![0])
                                                                 ],
                                                               ),
                                                             ):const SizedBox.shrink(),
@@ -1427,7 +1428,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
     );
   }
 
-  List<Widget> getDateWiseData(List<DateWiseData> responseDateWis,){
+  List<Widget> getDateWiseData(List<DateWiseData> responseDateWis,MonthWiseData responseMonthWise){
     List<Widget> friendsTextFieldsList = [];
     for(int i=0; i<responseDateWiseData.length; i++){
 
@@ -1444,7 +1445,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
 
               // showQty.isEmpty?const SizedBox(width: 0,height: 0,):
               // showQty[i] ?
-              ProductionTextField(i,responseDateWiseData[i],responseDateWiseData)
+              ProductionTextField(i,responseDateWiseData[i],responseDateWiseData,responseMonthWise)
                   // : const SizedBox(width: 0,height: 0,),
               // addRemoveButton(i == responseDateWiseData.length-1, i),
             ],
@@ -1462,8 +1463,9 @@ class ProductionTextField extends StatefulWidget {
   final int index;
   final DateWiseData responseDateWise;
   final List<DateWiseData> dateWiseDate;
+  final MonthWiseData responseMonthWise;
 
-  const ProductionTextField(this.index,this.responseDateWise, this.dateWiseDate, {super.key});
+  const ProductionTextField(this.index,this.responseDateWise, this.dateWiseDate,this.responseMonthWise, {super.key});
 
   @override
   State<ProductionTextField> createState() => _ProductionTextFieldState();
@@ -1474,7 +1476,7 @@ class _ProductionTextFieldState extends State<ProductionTextField> {
   @override
   void initState() {
     super.initState();
-    context.read<CowsAndYieldDoneCubit>().totalMilkingCow(widget.index);
+    context.read<CowsAndYieldDoneCubit>().totalMilkingCow(widget.index,widget.responseMonthWise);
     context.read<CowsAndYieldDoneCubit>().sumAllBreed(widget.index);
   }
 
@@ -1858,7 +1860,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
   void initState() {
     super.initState();
 
-    context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
+    context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index,widget.responseMonthWise);
 
     context.read<CowsAndYieldDoneCubit>().getProductionData(widget.responseMonthWise);
 
@@ -1921,7 +1923,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 hint: '',
                                 controller: state.suppliedToPdfController,
                                 onChanged: (v){
-                                  context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
+                                  context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index,widget.responseMonthWise);
                                 } ,
                                 maxLine: 1,
                                 maxLength: 12,
@@ -1955,7 +1957,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 controller: state.suppliedToOtherPdfController,
                                 paddingTop: 5,
                                 onChanged: (v){
-                                  context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
+                                  context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index,widget.responseMonthWise);
                                 } ,
                                 maxLine: 1,
                                 maxLength: 12,
@@ -1992,7 +1994,7 @@ class _TotalProductionTextFieldState extends State<TotalProductionTextField> {
                                 controller: state.selfUseController,
                                 paddingTop: 5,
                                 onChanged: (v){
-                                  context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index);
+                                  context.read<CowsAndYieldDoneCubit>().totalFirstProduction(0,widget.index,widget.responseMonthWise);
                                 } ,
                                 maxLine: 1,
                                 maxLength: 12,

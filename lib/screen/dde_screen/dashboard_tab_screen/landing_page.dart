@@ -109,7 +109,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                   const BoxDecoration(shape: BoxShape.circle),
                                   child: CachedNetworkImage(
                                     imageUrl:
-                                    (state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.image ?? '') : '',
+                                    (state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '') : '',
                                     errorWidget: (_, __, ___) =>
                                         SvgPicture.asset(Images.person),
                                     fit: BoxFit.cover,

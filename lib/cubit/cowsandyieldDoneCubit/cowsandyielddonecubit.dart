@@ -10,6 +10,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_cow_and_yield_done.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 part 'cowsandcubitdonestate.dart';
 
@@ -108,11 +109,18 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
     }
 
     sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
-
     double divideByMilking = 0,totalYield =0;
     divideByMilking = sums/state.totalMilkingCow;
-    double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+    // state.totalMilkingCow.toString().toast();
+    // responseMonthWise.monthname.toString().toast();
+    double numberOfDays = getDaysInMonth(responseMonthWise.year, responseMonthWise.month).toDouble();
+    // numberOfDays.toString().toast();
+    // double numberOfDays = double.parse(DateTime(int.parse(responseMonthWise.year!.toString()), responseMonthWise.month!, 0).day.toString());
+    // double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month, 0).day.toString());
     double divideByDays = divideByMilking/numberOfDays;
+    // print(responseMonthWise.month);
+
+    // double divideByDays = divideByMilking/double.parse(DateTime(int.parse(responseMonthWise.year!.toString()), );
     totalYield = 0 ;
 
     emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
@@ -120,7 +128,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
 
   }
 
-  void totalFirstProduction(double totalProduction,int index) {
+  void totalFirstProduction(double totalProduction,int index,MonthWiseData responseMonthWise) {
 
     double sums = 0;
 
@@ -130,7 +138,8 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
           sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
           double divideByMilking = 0,totalYield =0;
           divideByMilking = state.totalProduction/state.totalMilkingCow;
-          double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+          double numberOfDays = getDaysInMonth(responseMonthWise.year, responseMonthWise.month).toDouble();
+          // double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
           double divideByDays = divideByMilking/numberOfDays;
           totalYield = 0 ;
           emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
@@ -143,7 +152,8 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
         double divideByMilking = 0,totalYield =0;
         divideByMilking = state.totalProduction/state.totalMilkingCow;
         debugPrint(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
-        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double numberOfDays = getDaysInMonth(responseMonthWise.year, responseMonthWise.month).toDouble();
+        // double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
         double divideByDays = divideByMilking/numberOfDays;
         totalYield = 0 ;
         emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
@@ -154,7 +164,8 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
         sums = double.parse(state.suppliedToPdfController.text.isNotEmpty?state.suppliedToPdfController.text.toString():"0")+double.parse(state.suppliedToOtherPdfController.text.isNotEmpty?state.suppliedToOtherPdfController.text.toString():"0")+double.parse(state.selfUseController.text.isNotEmpty?state.selfUseController.text.toString():"0");
         double divideByMilking = 0,totalYield =0;
         divideByMilking = state.totalProduction/state.totalMilkingCow;
-        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double numberOfDays = getDaysInMonth(responseMonthWise.year, responseMonthWise.month).toDouble();
+        // double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
         double divideByDays = divideByMilking/numberOfDays;
         totalYield = 0 ;
         emit(state.copyWith(totalProduction: sums,yieldPerDay: divideByDays));
@@ -174,7 +185,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
   }
 
 
-  void totalMilkingCow(int index){
+  void totalMilkingCow(int index, MonthWiseData responseMonthWise){
     int sums = 0,sumOfHerd = 0,totalHerdSize = 0,addTotalHerd;
 
     state.milkingCowController[index].addListener(() {
@@ -210,7 +221,8 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
         // state.herdSizeController[index] = TextEditingController(text: sumOfHerd.toString());
         double divideByMilking = 0,totalYield =0;
         divideByMilking = state.totalProduction/sums;
-        double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
+        double numberOfDays = getDaysInMonth(responseMonthWise.year, responseMonthWise.month).toDouble();
+        // double numberOfDays = double.parse(DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day.toString());
         double divideByDays = divideByMilking/numberOfDays;
 
         emit(state.copyWith(totalMilkingCow: sums,totalHerdSize: totalHerdSize, yieldPerDay: divideByDays));
@@ -502,7 +514,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
             allController("0");
             // CowsAndYieldsSumDoneState.responseDateWiseData.remove(response.data!.monthWiseData![0].dateWiseData![i]);
             getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
-            totalMilkingCow(i);
+            totalMilkingCow(i,response.data!.monthWiseData![0]);
             sumAllBreed(i);
             totalAll(i);
             addRequestData(i,"ist");
@@ -531,7 +543,7 @@ class CowsAndYieldDoneCubit extends Cubit<CowsAndCubitDoneState>{
             allController("0");
             CowsAndYieldsSumDoneState.responseDateWiseData.add(response.data!.monthWiseData![0].dateWiseData![i]);
             getDataController(i, response.data!.monthWiseData![0].dateWiseData!);
-            totalMilkingCow(i);
+            totalMilkingCow(i,response.data!.monthWiseData![0]);
             sumAllBreed(i);
             totalAll(i);
             addRequestData(i,"ist");

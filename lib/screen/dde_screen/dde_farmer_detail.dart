@@ -821,7 +821,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 text: '${ double.parse('${state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!=null?
                                 double.parse(state.responseFarmerProfile!.farmer!.farmerMilkProduction![0].totalMilkProduction!.toString())/
                                     double.parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].milkingCows.toString().isNotEmpty?state.responseFarmerProfile!.farmer!.cowBreedDetails![0].milkingCows!.toString():"1")
-                                    / double.parse(DateTime(int.parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].year!), DateFormat('MMMM').parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].month.toString()).month+1, 0).day.toString()):'0'}').toStringAsFixed(2)
+                                    / double.parse(DateTime(int.parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].year!), DateFormat('MMMM').parse(state.responseFarmerProfile!.farmer!.cowBreedDetails![0].month.toString()).month+1, 0).day.toString()):'0'}')
+                                    .toStringAsFixed(2)
                                 } Ltr/Day',
                                 style: figtreeSemiBold.copyWith(
                                     fontSize: 14, color: Colors.black)):TextSpan(
