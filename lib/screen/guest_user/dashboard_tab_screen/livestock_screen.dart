@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/livestock_details.dart';
+import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -27,7 +31,11 @@ class LiveStockScreen extends StatelessWidget {
                 centerTitle: true,
                 leading: openDrawer(
                     onTap: () {
-                      landingKey.currentState?.openDrawer();
+                      if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'farmer') {
+                        farmerLandingKey.currentState?.openDrawer();
+                      } else {
+                        landingKey.currentState?.openDrawer();
+                      }
                     },
                     child: SvgPicture.asset(Images.drawer)),
                 action: Row(

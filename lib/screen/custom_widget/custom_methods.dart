@@ -1378,3 +1378,14 @@ const List<int> daysInMonth = <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 
 return daysInMonth[month - 1];
 }
 
+
+String formatProjectStatus(String status) {
+  String formattedStatus = '';
+  if(status.contains('_')) {
+    List sta = status.split('_');
+    formattedStatus = sta.map((e) => e = e.toString().substring(0, 1).toUpperCase() + e.toString().substring(1)).toList().join(' ');
+  } else{
+    formattedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
+  }
+  return formattedStatus;
+}

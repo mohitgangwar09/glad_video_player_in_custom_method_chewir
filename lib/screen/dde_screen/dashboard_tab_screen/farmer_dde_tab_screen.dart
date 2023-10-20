@@ -7,8 +7,10 @@ import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
+import 'package:glad/screen/dde_screen/suggested_investment.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -129,7 +131,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                   ),
                   leading: openDrawer(
                       onTap: () {
-                        // onTapDrawer();
+                        ddeLandingKey.currentState?.openDrawer();
                       },
                       child: SvgPicture.asset(Images.drawer)),
                   centerTitle: true,
@@ -345,22 +347,26 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                       20.verticalSpace(),
                                       state.response!.farmerMAster![i].farmerProject!.isNotEmpty ? Padding(
                                         padding: const EdgeInsets.only(right:15),
-                                        child: Container(
-                                          height: 80,
-                                          padding: 20.paddingHorizontal(),
-                                          decoration: boxDecoration(
-                                              backgroundColor:
-                                              const Color(0xffFFF3F4),
-                                              borderRadius: 10),
-                                          child: Column(
-                                            children: [
-                                              Expanded(
-                                                child: Row(
+                                        child: InkWell(
+                                          onTap: () {
+                                            DDeFarmerInvestmentDetails(projectId: state.response!.farmerMAster![i].farmerProject![0].projectId,)
+                                                .navigate();
+                                          },
+                                          child: Container(
+                                            height: 80,
+                                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                            decoration: boxDecoration(
+                                                backgroundColor:
+                                                const Color(0xffFFF3F4),
+                                                borderRadius: 10),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
                                                   children: [
                                                     Expanded(child: (state.response!.farmerMAster![i].farmerProject![0].name ?? '')
                                                         .textMedium(fontSize: 12)),
                                                     Container(
-                                                      margin: 9.marginAll(),
                                                       padding:
                                                       const EdgeInsets.symmetric(
                                                           vertical: 4,
@@ -371,7 +377,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                         const Color(0xff6A0030),
                                                       ),
                                                       child: Text(
-                                                        state.response!.farmerMAster![i].farmerProject![0].projectStatus ?? '',
+                                                        formatProjectStatus(state.response!.farmerMAster![i].farmerProject![0].projectStatus ?? ''),
                                                         textAlign: TextAlign.center,
                                                         style: figtreeMedium.copyWith(
                                                             color:
@@ -381,59 +387,59 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      getCurrencyString(state.response!.farmerMAster![i].farmerProject![0].investmentAmount).toString().textSemiBold(
-                                                          color: Colors.black,
-                                                          fontSize: 16),
-                                                     'Investment'.textMedium(
-                                                          fontSize: 12,
-                                                          color: const Color(
-                                                              0xff808080)),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      getCurrencyString(state.response!.farmerMAster![i].farmerProject![0].revenuePerYear).textSemiBold(
-                                                          color: Colors.black,
-                                                          fontSize: 16),
-                                                      'Revenue'.textMedium(
-                                                          fontSize: 12,
-                                                          color: const Color(
-                                                              0xff808080)),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
-                                                          color: Colors.black,
-                                                          fontSize: 16),
-                                                      'ROI'.textMedium(
-                                                          fontSize: 12,
-                                                          color: const Color(
-                                                              0xff808080)),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        getCurrencyString(state.response!.farmerMAster![i].farmerProject![0].investmentAmount).toString().textSemiBold(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                       'Investment'.textMedium(
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xff808080)),
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        getCurrencyString(state.response!.farmerMAster![i].farmerProject![0].revenuePerYear).textSemiBold(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                        'Revenue'.textMedium(
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xff808080)),
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                        'ROI'.textMedium(
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xff808080)),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ) : const SizedBox.shrink(),

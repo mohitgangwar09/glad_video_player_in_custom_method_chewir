@@ -8,6 +8,7 @@ import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
 import 'package:glad/screen/dde_screen/enquiry_details.dart';
 import 'package:glad/screen/dde_screen/project_widget.dart';
@@ -54,7 +55,7 @@ class EnquiryScreen extends StatelessWidget {
                   centerTitle: true,
                   leading: openDrawer(
                       onTap: () {
-                        farmerLandingKey.currentState?.openDrawer();
+                        ddeLandingKey.currentState?.openDrawer();
                       },
                       child: SvgPicture.asset(Images.drawer)),
                   /*action: Row(

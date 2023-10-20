@@ -434,220 +434,227 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                           color: Colors.black, fontSize: 18),
                                     ),
                                     10.verticalSpace(),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: InkWell(
-                                        onTap: () {
-                                          DDeFarmerInvestmentDetails(projectId: state.response!.data!.improvementAreaList![pageIndex].projects![0].projectId,)
-                                              .navigate();
-                                        },
-                                        child: customProjectContainer(
-                                            marginLeft: 0,
-                                            marginTop: 0,
-                                            width: screenWidth(),
-                                            child: Container(
-                                              padding: const EdgeInsets.all(20),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  (state
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 10, right: 20),
+                                      height: 232,
+                                      child: customList(
+                                          list: List.generate(
+                                              state.response!.data!.improvementAreaList![pageIndex].projects!.length, (index) => index),
+                                          axis: Axis.horizontal,
+                                          child: (int index) {
+                                            return SizedBox(
+                                              width: screenWidth() * 0.9,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  DDeFarmerInvestmentDetails(projectId: state.response!.data!.improvementAreaList![pageIndex].projects![index].projectId,)
+                                                      .navigate();
+                                                },
+                                                child: customProjectContainer(
+                                                    marginTop: 0,
+                                                    child: Container(
+                                                      padding: const EdgeInsets.all(20),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                        children: [
+                                                          (state
                                                               .response!
                                                               .data!
                                                               .improvementAreaList![
-                                                                  pageIndex]
-                                                              .projects![0]
+                                                          pageIndex]
+                                                              .projects![index]
                                                               .name ??
-                                                          '')
-                                                      .textMedium(
-                                                          color: Colors.black,
-                                                          fontSize: 18),
-                                                  10.verticalSpace(),
-                                                  (state
+                                                              '')
+                                                              .textMedium(
+                                                              color: Colors.black,
+                                                              fontSize: 18),
+                                                          10.verticalSpace(),
+                                                          (state
                                                               .response!
                                                               .data!
                                                               .improvementAreaList![
-                                                                  pageIndex]
-                                                              .projects![0]
+                                                          pageIndex]
+                                                              .projects![index]
                                                               .description ??
-                                                          '')
-                                                      .textRegular(
-                                                          color: const Color(
-                                                              0xFF808080),
-                                                          fontSize: 14),
-                                                  20.verticalSpace(),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: const Color(
-                                                            0xFFFFF3F4),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10)),
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                                getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].investmentAmount ?? 0),
-                                                                style: figtreeSemiBold
-                                                                    .copyWith(
-                                                                        fontSize:
+                                                              '')
+                                                              .textRegular(
+                                                              color: const Color(
+                                                                  0xFF808080),
+                                                              fontSize: 14),
+                                                          20.verticalSpace(),
+                                                          Container(
+                                                            decoration: BoxDecoration(
+                                                                color: const Color(
+                                                                    0xFFFFF3F4),
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(10)),
+                                                            padding:
+                                                            const EdgeInsets.all(
+                                                                20),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                              children: [
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Text(
+                                                                        getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![index].investmentAmount ?? 0),
+                                                                        style: figtreeSemiBold
+                                                                            .copyWith(
+                                                                            fontSize:
                                                                             16)),
-                                                            Text('Investment',
-                                                                style: figtreeRegular
-                                                                    .copyWith(
-                                                                        fontSize:
+                                                                    Text('Investment',
+                                                                        style: figtreeRegular
+                                                                            .copyWith(
+                                                                            fontSize:
                                                                             12,
-                                                                        color: const Color(
-                                                                            0xFF808080))),
-                                                          ],
-                                                        ),
-                                                        10.horizontalSpace(),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                                getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].revenuePerYear ?? 0),
-                                                                style: figtreeSemiBold
-                                                                    .copyWith(
-                                                                        fontSize:
+                                                                            color: const Color(
+                                                                                0xFF808080))),
+                                                                  ],
+                                                                ),
+                                                                10.horizontalSpace(),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Text(
+                                                                        getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![index].revenuePerYear ?? 0),
+                                                                        style: figtreeSemiBold
+                                                                            .copyWith(
+                                                                            fontSize:
                                                                             16)),
-                                                            Text('Revenue',
-                                                                style: figtreeRegular
-                                                                    .copyWith(
-                                                                        fontSize:
+                                                                    Text('Revenue',
+                                                                        style: figtreeRegular
+                                                                            .copyWith(
+                                                                            fontSize:
                                                                             12,
-                                                                        color: const Color(
-                                                                            0xFF808080))),
-                                                          ],
-                                                        ),
-                                                        10.horizontalSpace(),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                                '${(state.response!.data!.improvementAreaList![pageIndex].projects![0].roiPerYear ?? '')}%',
-                                                                style: figtreeSemiBold
-                                                                    .copyWith(
-                                                                        fontSize:
+                                                                            color: const Color(
+                                                                                0xFF808080))),
+                                                                  ],
+                                                                ),
+                                                                10.horizontalSpace(),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Text(
+                                                                        '${(state.response!.data!.improvementAreaList![pageIndex].projects![index].roiPerYear ?? '')}%',
+                                                                        style: figtreeSemiBold
+                                                                            .copyWith(
+                                                                            fontSize:
                                                                             16)),
-                                                            Text('ROI',
-                                                                style: figtreeRegular
-                                                                    .copyWith(
-                                                                        fontSize:
+                                                                    Text('ROI',
+                                                                        style: figtreeRegular
+                                                                            .copyWith(
+                                                                            fontSize:
                                                                             12,
-                                                                        color: const Color(
-                                                                            0xFF808080))),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  20.verticalSpace(),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].loanAmount ?? 0),
-                                                              style: figtreeMedium
-                                                                  .copyWith(
-                                                                      fontSize:
+                                                                            color: const Color(
+                                                                                0xFF808080))),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          20.verticalSpace(),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            children: [
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![index].loanAmount ?? 0),
+                                                                      style: figtreeMedium
+                                                                          .copyWith(
+                                                                          fontSize:
                                                                           12)),
-                                                          Text('Loan',
-                                                              style: figtreeRegular
-                                                                  .copyWith(
-                                                                      fontSize:
+                                                                  Text('Loan',
+                                                                      style: figtreeRegular
+                                                                          .copyWith(
+                                                                          fontSize:
                                                                           12,
-                                                                      color: ColorResources
-                                                                          .fieldGrey)),
+                                                                          color: ColorResources
+                                                                              .fieldGrey)),
+                                                                ],
+                                                              ),
+                                                              10.horizontalSpace(),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![index].farmerParticipation ?? 0),
+                                                                      style: figtreeMedium
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          12)),
+                                                                  Text('Farmer share',
+                                                                      style: figtreeRegular
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          12,
+                                                                          color: ColorResources
+                                                                              .fieldGrey)),
+                                                                ],
+                                                              ),
+                                                              10.horizontalSpace(),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  Text('${state.response!.data!.improvementAreaList![pageIndex].projects![index].repaymentMonths ?? ''} Months',
+                                                                      style: figtreeMedium
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          12)),
+                                                                  Text('Repayment',
+                                                                      style: figtreeRegular
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          12,
+                                                                          color: ColorResources
+                                                                              .fieldGrey)),
+                                                                ],
+                                                              ),
+                                                              10.horizontalSpace(),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![index].emiAmount ?? 0),
+                                                                      style: figtreeMedium
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          12)),
+                                                                  Text('EMI',
+                                                                      style: figtreeRegular
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          12,
+                                                                          color: ColorResources
+                                                                              .fieldGrey)),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ],
                                                       ),
-                                                      10.horizontalSpace(),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].farmerParticipation ?? 0),
-                                                              style: figtreeMedium
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12)),
-                                                          Text('Farmer share',
-                                                              style: figtreeRegular
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: ColorResources
-                                                                          .fieldGrey)),
-                                                        ],
-                                                      ),
-                                                      10.horizontalSpace(),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text('${state.response!.data!.improvementAreaList![pageIndex].projects![0].repaymentMonths ?? ''} Months',
-                                                              style: figtreeMedium
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12)),
-                                                          Text('Repayment',
-                                                              style: figtreeRegular
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: ColorResources
-                                                                          .fieldGrey)),
-                                                        ],
-                                                      ),
-                                                      10.horizontalSpace(),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(getCurrencyString(state.response!.data!.improvementAreaList![pageIndex].projects![0].emiAmount ?? 0),
-                                                              style: figtreeMedium
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12)),
-                                                          Text('EMI',
-                                                              style: figtreeRegular
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: ColorResources
-                                                                          .fieldGrey)),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                    )),
                                               ),
-                                            )),
-                                      ),
+                                            );
+                                          }),
                                     ),
                                     40.verticalSpace()
                                   ],

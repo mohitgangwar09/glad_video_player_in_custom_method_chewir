@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -25,7 +26,9 @@ class FarmerStatement extends StatelessWidget {
                     fontSize: 20, color: Colors.black),
                 centerTitle: true,
                 leading: openDrawer(
-                    onTap: () {}, child: SvgPicture.asset(Images.drawer)),
+                    onTap: () {
+                      farmerLandingKey.currentState?.openDrawer();
+                      }, child: SvgPicture.asset(Images.drawer)),
                 action: InkWell(
                     onTap: () {}, child: SvgPicture.asset(Images.filter2)),
               ),

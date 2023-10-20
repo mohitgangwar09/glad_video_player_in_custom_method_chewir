@@ -36,8 +36,7 @@ class ProjectRepository {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerProjectListApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {
-          'project_filter': projectFilter
-          // 'project_status': projectStatus
+          'project_status': projectFilter
         });
 
     if (apiResponse.status) {
@@ -48,10 +47,11 @@ class ProjectRepository {
   }
 
   ///////////////// getDdeProjectsApi //////////
-  Future<DdeProjectModel> getDdeProjectsApi(String projectStatus) async {
+  Future<DdeProjectModel> getDdeProjectsApi(String projectFilter) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.ddeProjectListApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_status': projectStatus});
+        // .getApiResponse(AppConstants.ddeProjectListApi,
+        .getApiResponse(AppConstants.farmerProjectListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_status': projectFilter});
 
     if (apiResponse.status) {
       return DdeProjectModel.fromJson(apiResponse.response!.data);

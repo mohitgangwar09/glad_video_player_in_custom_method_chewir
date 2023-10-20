@@ -71,9 +71,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
                             projectMilestones(context, state),
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().capitalized() == "suggested".capitalized()?
-                            inviteExpert(context, state):const SizedBox.shrink():const SizedBox.shrink(),
+                            if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() != "interested" ?
+                            inviteExpert(context, state):const SizedBox.shrink(),
                           ],
                         ),
                       ),
@@ -617,7 +617,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
                                               date,
                                               controller.text ?? '',
-                                              'Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                              'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
                                           );
                                         },
                                         height: 60,
@@ -635,67 +635,150 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
           ),
         )),
         20.verticalSpace(),
+        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() != "not_interested")
         InkWell(
           onTap: () {
-            customDialog(
-                widget: Center(
-                  child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Container(
-                      height: 135,
-                      width: screenWidth()-30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-
-                          "Are you sure u are not interested?".textMedium(
-                              fontSize: 19,
-                              color: Colors.black
-                          ),
-
-                          20.verticalSpace(),
-
-                          Row(
-                            children: [
-
-                              20.horizontalSpace(),
-
-                              Expanded(
-                                child: customButton("No",
-                                    borderColor: 0xFF6A0030,
-                                    color: 0xFFffffff,onTap: (){
-                                      pressBack();
-                                    }),
-                              ),
-
-                              20.horizontalSpace(),
-
-                              Expanded(
-                                child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
-                                  // context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
-                                  context.read<ProjectCubit>().inviteExpertForSurvey(context,
-                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                      '',
-                                      '',
-                                      'Not Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
-                                  );
-                                }),
-                              ),
-
-                              20.horizontalSpace(),
-
-                            ],
-                          ),
-
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-            );
+            TextEditingController controller = TextEditingController();
+            modalBottomSheetMenu(context,
+                radius: 40,
+                child: StatefulBuilder(
+                    builder: (context, setState) {
+                      return SizedBox(
+                        height: 450,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Farmer feedback',
+                                    style: figtreeMedium.copyWith(fontSize: 22),
+                                  ),
+                                ),
+                                30.verticalSpace(),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomTextField2(
+                                      title: 'Preferred date',
+                                      image2: Images.calender,
+                                      image2Colors: ColorResources.maroon,
+                                      readOnly: true,
+                                      enabled: false,
+                                      controller: TextEditingController(),
+                                      onTap: () async{
+                                        // var selectDate = await selectedFutureDate(context);
+                                        // date = "${selectDate.year}/${selectDate.month}/${selectDate.day}";
+                                        // setState(() {});
+                                      },
+                                      focusNode: FocusNode(),
+                                    ),
+                                    20.verticalSpace(),
+                                    Text(
+                                      'Remarks',
+                                      style: figtreeMedium.copyWith(fontSize: 12),
+                                    ),
+                                    5.verticalSpace(),
+                                    TextField(
+                                      controller: controller,
+                                      maxLines: 4,
+                                      minLines: 4,
+                                      decoration: InputDecoration(
+                                          hintText: 'Write...',
+                                          hintStyle:
+                                          figtreeMedium.copyWith(fontSize: 18),
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                              borderSide: const BorderSide(
+                                                width: 1,
+                                                color: Color(0xff999999),
+                                              ))),
+                                    ),
+                                    30.verticalSpace(),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                      child: customButton(
+                                        'Submit',
+                                        fontColor: 0xffFFFFFF,
+                                        onTap: () {
+                                          context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                              '',
+                                              '',
+                                              'not_interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                          );
+                                        },
+                                        height: 60,
+                                        width: screenWidth(),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ]),
+                        ),
+                      );
+                    }
+                ));
+            // customDialog(
+            //     widget: Center(
+            //       child: Material(
+            //         borderRadius: BorderRadius.circular(15),
+            //         child: Container(
+            //           height: 135,
+            //           width: screenWidth()-30,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(15),
+            //           ),
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //
+            //               "Are you sure u are not interested?".textMedium(
+            //                   fontSize: 19,
+            //                   color: Colors.black
+            //               ),
+            //
+            //               20.verticalSpace(),
+            //
+            //               Row(
+            //                 children: [
+            //
+            //                   20.horizontalSpace(),
+            //
+            //                   Expanded(
+            //                     child: customButton("No",
+            //                         borderColor: 0xFF6A0030,
+            //                         color: 0xFFffffff,onTap: (){
+            //                           pressBack();
+            //                         }),
+            //                   ),
+            //
+            //                   20.horizontalSpace(),
+            //
+            //                   Expanded(
+            //                     child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
+            //                       // context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
+            //                       context.read<ProjectCubit>().inviteExpertForSurvey(context,
+            //                           state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+            //                           '',
+            //                           '',
+            //                           'Not Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+            //                       );
+            //                     }),
+            //                   ),
+            //
+            //                   20.horizontalSpace(),
+            //
+            //                 ],
+            //               ),
+            //
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     )
+            // );
           },
             child: Text('Not Interested', style: figtreeMedium.copyWith(fontSize: 16, color: Colors.grey, decoration: TextDecoration.underline), )),
         20.verticalSpace(),

@@ -161,8 +161,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                             child: customProjectContainer(
                                 child: ProjectWidget(
                                   showStatus: true,
-                                  status: state.responseFarmerProject!.data!
-                                      .projectList![i].projectStatus ?? '',
+                                  status: formatProjectStatus(state.responseFarmerProject!.data!
+                                      .projectList![i].projectStatus ?? ''),
                                   image: state.responseFarmerProject!.data!
                                       .projectList![i].photo ?? '',
                                   name: state.responseFarmerProject!.data!
