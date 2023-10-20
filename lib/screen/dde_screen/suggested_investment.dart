@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -17,8 +18,9 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class DDeFarmerInvestmentDetails extends StatefulWidget {
-  const DDeFarmerInvestmentDetails({super.key, required this.projectId});
+  const DDeFarmerInvestmentDetails({super.key, required this.projectId,this.farmerDetail});
   final int projectId;
+  final FarmerMaster? farmerDetail;
 
   @override
   State<DDeFarmerInvestmentDetails> createState() =>

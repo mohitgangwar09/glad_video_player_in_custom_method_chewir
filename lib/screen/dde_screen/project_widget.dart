@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/project_details.dart';
+import 'package:glad/screen/dde_screen/suggested_investment.dart';
+import 'package:glad/screen/farmer_screen/common/suggested_project_details.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -13,19 +16,21 @@ class ProjectWidget extends StatelessWidget {
   final String category;
   final String projectStatus;
   final String description;
-  final int investment;
-  final int revenue;
-  final int roi;
-  final int loan;
-  final int emi;
-  final int balance;
+  final dynamic investment;
+  final dynamic revenue;
+  final dynamic roi;
+  final dynamic loan;
+  final dynamic emi;
+  final dynamic balance;
   final String farmerName;
   final String farmerImage;
   final String farmerPhone;
   final String farmerAddress;
-  final int projectPercent;
+  final dynamic projectPercent;
+  final int projectId;
+  final FarmerMaster farmerDetail;
 
-  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent}) : super(key: key);
+  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,12 @@ class ProjectWidget extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: InkWell(
             onTap: () {
-              const ProjectDetails().navigate();
+              DDeFarmerInvestmentDetails(projectId: projectId,farmerDetail:farmerDetail)
+                  .navigate();
+              /*SuggestedProjectDetails(
+                  projectId: projectId,
+                  farmerDetail:farmerDetail).navigate();*/
+              // const ProjectDetails().navigate();
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

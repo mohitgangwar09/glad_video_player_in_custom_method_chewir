@@ -9,12 +9,12 @@ import 'package:glad/utils/styles.dart';
 class ProjectWidget extends StatelessWidget {
   final bool showStatus;
   final String name;
-  final int targetYield;
-  final int investment;
-  final int revenue;
+  final dynamic targetYield;
+  final dynamic investment;
+  final dynamic revenue;
   final int index;
-  final int incrementalProduction;
-  final int roi;
+  final dynamic incrementalProduction;
+  final dynamic roi;
   final String category;
   final String image;
   final String status;

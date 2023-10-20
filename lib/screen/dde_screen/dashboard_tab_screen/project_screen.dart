@@ -338,7 +338,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                   revenue: state.responseDdeProject!.data!
                                       .projectList![i].revenuePerYear ?? 0,
                                   roi: state.responseDdeProject!.data!
-                                      .projectList![i].roiPerYear ?? 0,
+                                      .projectList![i].roiPerYear ?? 0.0,
                                   loan: state.responseDdeProject!.data!
                                       .projectList![i].loanAmount ?? 0,
                                   emi: state.responseDdeProject!.data!
@@ -360,6 +360,11 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       .projectList![i].farmerMaster!.phone ??
                                       ''  : '',
                                   projectPercent: 0,
+                                    projectId: state.responseDdeProject!.data!
+                                        .projectList![i].id ?? 0,
+                                    farmerDetail: state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!
+
                                 ),
                                 width: screenWidth()),
                           );
