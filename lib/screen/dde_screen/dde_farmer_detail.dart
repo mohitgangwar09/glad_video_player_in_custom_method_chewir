@@ -440,7 +440,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              ImprovementAreas(farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString())).navigate();
+                              ImprovementAreas(farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString()),farmerData:state.responseFarmerProfile!.farmer!).navigate();
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

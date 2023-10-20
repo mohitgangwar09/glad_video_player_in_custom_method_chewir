@@ -353,7 +353,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                 .navigate();
                                           },
                                           child: Container(
-                                            height: 80,
+                                            height: 83,
                                             padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                                             decoration: boxDecoration(
                                                 backgroundColor:
@@ -365,7 +365,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                 Row(
                                                   children: [
                                                     Expanded(child: (state.response!.farmerMAster![i].farmerProject![0].name ?? '')
-                                                        .textMedium(fontSize: 12)),
+                                                        .textMedium(fontSize: 12,maxLines: 2,overflow: TextOverflow.ellipsis)),
                                                     Container(
                                                       padding:
                                                       const EdgeInsets.symmetric(

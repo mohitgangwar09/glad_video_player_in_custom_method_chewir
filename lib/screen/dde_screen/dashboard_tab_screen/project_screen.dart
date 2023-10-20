@@ -317,6 +317,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                         list: List.generate(state.responseDdeProject!.data!
                             .projectList!.length, (index) => null),
                         child: (int i) {
+
                           return Padding(
                             padding: const EdgeInsets.only(right: 20.0),
                             child: customProjectContainer(

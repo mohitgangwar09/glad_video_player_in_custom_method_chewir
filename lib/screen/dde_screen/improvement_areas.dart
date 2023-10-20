@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
+import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/edit_improvement_area.dart';
@@ -16,8 +17,9 @@ import 'package:glad/utils/styles.dart';
 import 'package:stepper_list_view/stepper_list_view.dart';
 
 class ImprovementAreas extends StatefulWidget {
-  const ImprovementAreas({super.key, required this.farmerId});
+  const ImprovementAreas({super.key, required this.farmerId,this.farmerData});
   final int farmerId;
+  final Farmer? farmerData;
 
   @override
   State<ImprovementAreas> createState() => _ImprovementAreasState();
@@ -436,7 +438,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                     10.verticalSpace(),
                                     Container(
                                       margin: const EdgeInsets.only(left: 10, right: 20),
-                                      height: 232,
+                                      height: 250,
                                       child: customList(
                                           list: List.generate(
                                               state.response!.data!.improvementAreaList![pageIndex].projects!.length, (index) => index),
@@ -446,8 +448,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                               width: screenWidth() * 0.9,
                                               child: InkWell(
                                                 onTap: () {
-                                                  DDeFarmerInvestmentDetails(projectId: state.response!.data!.improvementAreaList![pageIndex].projects![index].projectId,)
-                                                      .navigate();
+                                                  DDeFarmerInvestmentDetails(projectId: state.response!.data!.improvementAreaList![pageIndex].projects![index].projectId,farmerData: widget.farmerData,).navigate();
                                                 },
                                                 child: customProjectContainer(
                                                     marginTop: 0,
@@ -467,7 +468,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                               '')
                                                               .textMedium(
                                                               color: Colors.black,
-                                                              fontSize: 18),
+                                                              fontSize: 18,maxLines: 1,overflow: TextOverflow.ellipsis),
                                                           10.verticalSpace(),
                                                           (state
                                                               .response!

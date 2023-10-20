@@ -20,6 +20,7 @@ import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
 import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/screen/extra_screen/test_cows_and_yield.dart';
 import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
+import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/screen/guest_user/invite_our_friend.dart';
 import 'package:glad/utils/extension.dart';
 import 'cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return const CowsAndYieldsSum();
-    // return const CowsAndYieldsSumDone();
+    // return ThankYou();
     return const SplashScreen();
   }
 }

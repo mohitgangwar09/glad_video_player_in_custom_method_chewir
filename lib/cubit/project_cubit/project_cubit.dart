@@ -122,6 +122,21 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+
+  void inviteExpertForSurveyDDe(context, int projectId, String date,
+      String remark,String projectStatus,String farmerId) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
+        remark,projectStatus,farmerId);
+    if (response.status == 200) {
+
+      showCustomToast(context, response.data['message'], isSuccess: true);
+    } else {
+      emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   // void updateSuggestedProjectStatus(context, String status, int projectId) async {
   //   customDialog(widget: launchProgress());
   //   var response = await apiRepository.suggestedProjectUpdateStatus(status, projectId);
@@ -155,7 +170,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     // emit(state.copyWith(status: ProjectStatus.loading));
     var response = await apiRepository.getResourceTypeApi(mileStoneId,resourceName);
     if (response.status == 200) {
-      print(response.data![0].name);
+      // print(response.data![0].name);
       List<DataResourceType> dataResourceType = [];
       if(response.data!=null){
         dataResourceType = response.data!;
