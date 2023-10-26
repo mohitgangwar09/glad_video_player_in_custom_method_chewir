@@ -143,7 +143,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       // print(response);
       if(response.status == 200){
 
-        showCustomToast(context, "We have sent otp on your registered email");
+        showCustomToast(context, "We have sent otp on your registered email ${response.data!.otp.toString()}");
         emit(state.copyWith(userIdForOtpValidate: response.data!.id.toString()));
       }
       else{
