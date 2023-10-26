@@ -31,25 +31,14 @@ class _AddRemarkState extends State<AddRemark> {
   bool enableResend = false;
   String date = '';
   late Timer timer;
-  String selectOption = "Select Option";
+  String selectOption = "Select Option",istClickOnSendOtp = "";
 
   final TextEditingController controller = TextEditingController();
 
-  @override
+  /*@override
   initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (secondsRemaining != 0) {
-        setState(() {
-          secondsRemaining--;
-        });
-      } else {
-        setState(() {
-          enableResend = true;
-        });
-      }
-    });
-  }
+  }*/
 
   @override
   dispose() {
@@ -94,6 +83,7 @@ class _AddRemarkState extends State<AddRemark> {
                       child: Column(
                         children: [
                           remarkOtp(),
+                          istClickOnSendOtp == ""?const SizedBox.shrink():
                           mainView(),
                           // pinFieldController(context),
                         ],
@@ -217,6 +207,18 @@ class _AddRemarkState extends State<AddRemark> {
             showCustomToast(context, "Please select option");
           }else{
             if(selectOption == "Not Interested"){
+              istClickOnSendOtp = "click";
+              timer = Timer.periodic(const Duration(seconds: 1), (_) {
+                if (secondsRemaining != 0) {
+                  setState(() {
+                    secondsRemaining--;
+                  });
+                } else {
+                  setState(() {
+                    enableResend = true;
+                  });
+                }
+              });
 
               BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
                   widget.projectData.phone.toString()
@@ -240,6 +242,20 @@ class _AddRemarkState extends State<AddRemark> {
               } else if(controller.text.isEmpty){
                 showCustomToast(context, "Please enter remarks");
               }else{
+
+                istClickOnSendOtp = "click";
+
+                timer = Timer.periodic(const Duration(seconds: 1), (_) {
+                  if (secondsRemaining != 0) {
+                    setState(() {
+                      secondsRemaining--;
+                    });
+                  } else {
+                    setState(() {
+                      enableResend = true;
+                    });
+                  }
+                });
 
                 BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
                     widget.projectData.phone.toString()

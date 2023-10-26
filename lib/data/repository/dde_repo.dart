@@ -102,11 +102,12 @@ class DdeRepository {
 
   ///////////////getBreedList/////////////
 
-  Future<ResponseBreed> getBreedApi() async {
+  Future<ResponseBreed> getBreedApi(String userId) async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.getBreedListApi,queryParameters: {
-          "id":"1847"
+          "id":userId
+          // "id":"1847"
           }, headers: {'Authorization': 'Bearer ${getUserToken()}'});
       // 'Authorization': 'Bearer ${getUserToken()}'});
 

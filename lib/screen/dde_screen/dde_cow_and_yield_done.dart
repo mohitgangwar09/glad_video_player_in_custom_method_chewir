@@ -71,7 +71,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
       BlocProvider.of<CowsAndYieldDoneCubit>(context).getCowBreedDetailsApi(context,"",id: widget.userId.toString());
-      BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context);
+      BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context,widget.userId.toString());
       // context.read<CowsAndYieldCubit>().addRequestData();
       // BlocProvider.of<CowsAndYieldCubit>(context).showMonth(0,MonthWiseData());
     });
