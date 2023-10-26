@@ -31,6 +31,8 @@ import 'package:glad/utils/styles.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
+import '../farmer_screen/profile/improvement_area.dart';
+
 class DdeFarmerDetail extends StatefulWidget {
   const DdeFarmerDetail({Key? key, required this.userId}) : super(key: key);
   final int userId;
@@ -137,40 +139,46 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 90.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 31),
-                              padding: const EdgeInsets.only(left: 20, right: 20),
-                              height: 168,
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: CachedNetworkImage(
-                                        imageUrl: state.responseFarmerProfile!
-                                            .farmer!.photo ?? '',
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 31),
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            height: 168,
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: CachedNetworkImage(
+                                      imageUrl: state.responseFarmerProfile!
+                                          .farmer!.photo ?? '',
+                                      width: 117,
+                                      height: 150,
+                                      fit: BoxFit.cover,
+                                      errorWidget: (_, __, ___) => Image.asset(
+                                        Images.profileDemo,
                                         width: 117,
                                         height: 150,
                                         fit: BoxFit.cover,
-                                        errorWidget: (_, __, ___) => Image.asset(
-                                          Images.profileDemo,
-                                          width: 117,
-                                          height: 150,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )),
-                                  17.horizontalSpace(),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 25.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
+                                      ),
+                                    )),
+                                17.horizontalSpace(),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 25.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          // onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
+                                          //   const KYCUpdate().navigate();
+                                          // } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? () {
+                                          //   EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
+                                          // } : state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
+                                          //   ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
+                                          // } : () {},
+                                          child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
@@ -179,303 +187,385 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                                   padding: const EdgeInsets.all(4),
                                                   child: const Icon(Icons.done, color: Colors.white, size: 16,)),
                                               4.horizontalSpace(),
-                                              Text('KYC Verified',
+                                              Text('KYC ${formatProjectStatus(state.responseFarmerProfile!.farmer!.kycStatus ?? '')}',
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 12)),
                                             ],
                                           ),
-                                          10.verticalSpace(),
-                                          Text(
-                                              state.responseFarmerProfile!.farmer!
-                                                      .name ??
-                                                  '',
-                                              style: figtreeMedium.copyWith(
-                                                  fontSize: 17)),
-                                          5.verticalSpace(),
-                                          Row(
-                                            children: [
-                                              Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
-                                                  .phone}",
-                                                  style: figtreeRegular.copyWith(
-                                                    fontSize: 12,
-                                                  )),
+                                        ),
+                                        10.verticalSpace(),
+                                        Text(
+                                            state.responseFarmerProfile!.farmer!
+                                                    .name ??
+                                                '',
+                                            style: figtreeMedium.copyWith(
+                                                fontSize: 17)),
+                                        5.verticalSpace(),
+                                        Row(
+                                          children: [
+                                            Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!
+                                                .phone}",
+                                                style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                )),
 
-                                              Text(
-                                                  "${', '}""${state.responseFarmerProfile!.farmer!
-                                                      .supplierId ??
-                                                      ''}",
-                                                  style: figtreeRegular.copyWith(
-                                                    fontSize: 9,
-                                                  )),
-                                            ],
-                                          ),
-                                          5.verticalSpace(),
-                                          Text(
-                                              state.responseFarmerProfile!.farmer!
-                                                      .email ??
-                                                  '',
-                                              style: figtreeRegular.copyWith(
-                                                fontSize: 12,
-                                              )),
-                                        ],
-                                      ),
+                                            Text(
+                                                "${', '}""${state.responseFarmerProfile!.farmer!
+                                                    .supplierId ??
+                                                    ''}",
+                                                style: figtreeRegular.copyWith(
+                                                  fontSize: 9,
+                                                )),
+                                          ],
+                                        ),
+                                        5.verticalSpace(),
+                                        Text(
+                                            state.responseFarmerProfile!.farmer!
+                                                    .email ??
+                                                '',
+                                            style: figtreeRegular.copyWith(
+                                              fontSize: 12,
+                                            )),
+                                      ],
                                     ),
                                   ),
-                                  10.horizontalSpace(),
-                                  Column(
-                                    children: [
+                                ),
+                                10.horizontalSpace(),
+                                Column(
+                                  children: [
 
-                                      InkWell(
-                                        onTap: () {
-                                          callOnMobile(state.responseFarmerProfile!.farmer!.phone ??
-                                              '');
-                                        },
-                                        child: SvgPicture.asset(
-                                          Images.callPrimary,
-                                          width: 37,
-                                          height: 37,
-                                        ),
+                                    InkWell(
+                                      onTap: () {
+                                        callOnMobile(state.responseFarmerProfile!.farmer!.phone ??
+                                            '');
+                                      },
+                                      child: SvgPicture.asset(
+                                        Images.callPrimary,
+                                        width: 37,
+                                        height: 37,
                                       ),
-                                      10.verticalSpace(),
-                                      InkWell(
-                                        onTap: () async{
-                                          await launchWhatsApp(state.responseFarmerProfile!.farmer!.phone ??
-                                              '');
-                                        },
-                                        child: SvgPicture.asset(
-                                          Images.whatsapp,
-                                          width: 37,
-                                          height: 37,
-                                        ),
+                                    ),
+                                    10.verticalSpace(),
+                                    InkWell(
+                                      onTap: () async{
+                                        await launchWhatsApp(state.responseFarmerProfile!.farmer!.phone ??
+                                            '');
+                                      },
+                                      child: SvgPicture.asset(
+                                        Images.whatsapp,
+                                        width: 37,
+                                        height: 37,
                                       ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 22.0, right: 25, top: 0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-
-                                      state.responseFarmerProfile!.farmer!.dateOfBirth!=null?
-                                      (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':'${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} old').textRegular(fontSize: 12):"0".textRegular(fontSize: 12),
-                                      10.horizontalSpace(),
-                                      const CircleAvatar(
-                                        radius: 4,
-                                        backgroundColor: Colors.black,
-                                      ),
-                                      10.horizontalSpace(),
-                                      state.responseFarmerProfile!.farmer!.farmingExperience!=null?
-                                      "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} experience".textRegular(fontSize: 12):"0".textRegular(fontSize: 12),
-                                    ],
-                                  ),
-
-                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory" ?
-                                  const CustomIndicator(
-                                    percentage: 65,
-                                    width: 95,
-                                    color: Color(0xFFFC5E60),
-                                    color1: Colors.yellow,
-                                    color2: Color(0xFF4BC56F),
-                                    barCircleColor: Color(0xFF4BC56F),
-                                  ):
-                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
-                                  const CustomIndicator(
-                                    percentage: 10,
-                                    width: 95,
-                                    color: Color(0xFFFC5E60),
-                                    color1: Colors.yellow,
-                                    color2: Colors.green,
-                                    barCircleColor: Color(0xFFFC5E60),
-                                  ):state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
-                                  const CustomIndicator(
-                                    percentage: 38,
-                                    width: 95,
-                                    color: Color(0xFFFC5E60),
-                                    color1: Colors.yellow,
-                                    color2: Colors.green,
-                                    barCircleColor: Colors.yellow,
-                                  ):"".textMedium()
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                              const EdgeInsets.only(left: 22.0, right: 25),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  state.responseFarmerProfile!.farmer!.address!=null?Expanded(
-                                      child: (state.responseFarmerProfile!.farmer!.address!.address.toString())
-                                          .textRegular(fontSize: 12)):const Expanded(child: Text('')),
-                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory"?
-                                  "Satisfactory".textMedium(fontSize: 12):
-                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
-                                  "Critical".textMedium(fontSize: 12):
-                                  state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
-                                  "Average".textMedium(fontSize: 12):"".textMedium(),
-                                  23.horizontalSpace()
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 28),
-                              width: screenWidth(),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        blurRadius: 16.0,
-                                        offset: const Offset(0, 5)),
+                                    ),
                                   ],
-                                  border: Border.all(color: ColorResources.grey)),
-                              padding:
-                              const EdgeInsets.fromLTRB(18.0, 18, 18, 10),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text('${state.responseFarmerProfile!.farmer!.farmSize ?? 150} Acres',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 18)),
-                                          Text('Farm Area',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12)),
-                                        ],
-                                      ),
-                                      10.horizontalSpace(),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text('${state.responseFarmerProfile!.farmer!.dairyArea ?? 150} Acres',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 18)),
-                                          Text('Dairy area',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12)),
-                                        ],
-                                      ),
-                                      10.horizontalSpace(),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text('${state.responseFarmerProfile!.farmer!.staffQuantity ?? 5}',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 18)),
-                                          Text('Members',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12)),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  17.verticalSpace(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text('Managed by: ${state.responseFarmerProfile!.farmer!.managerName ?? 'Moses Emanuel'}',
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 12,
-                                              color: const Color(0xff727272))),
-                                      10.horizontalSpace(),
-                                      Container(
-                                        height: 5,
-                                        width: 5,
-                                        decoration: const BoxDecoration(
-                                            color: Colors.black,
-                                            shape: BoxShape.circle),
-                                      ),
-                                      10.horizontalSpace(),
-                                      Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!.managerPhone ?? ''}",
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 12,
-                                              color: const Color(0xff727272))),
-                                      30.verticalSpace()
-                                    ],
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             ),
-                            30.verticalSpace(),
-                            state.responseFarmerProfile!.farmer!.milkCollectionCenter!=null?
-                            milkSupplyCardDetails(context,state):const SizedBox.shrink(),
-                            30.verticalSpace(),
-                            cowsInTheFarm(state),
-                            30.verticalSpace(),
-                            projectList(),
-                            30.verticalSpace(),
-                            state.responseFarmerProfile!.farmer!.address!=null?
-                            address(context,state):const SizedBox.shrink(),
-                            topPerformingFarmer(),
-                            25.verticalSpace(),
-                          ],
-                        ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 22.0, right: 25, top: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+
+                                    state.responseFarmerProfile!.farmer!.dateOfBirth!=null?
+                                    (state.responseFarmerProfile!.farmer!.dateOfBirth == "0000-00-00"?'0 years old':'${getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.dateOfBirth ?? ''))} old').textRegular(fontSize: 12):"0".textRegular(fontSize: 12),
+                                    10.horizontalSpace(),
+                                    const CircleAvatar(
+                                      radius: 4,
+                                      backgroundColor: Colors.black,
+                                    ),
+                                    10.horizontalSpace(),
+                                    state.responseFarmerProfile!.farmer!.farmingExperience!=null?
+                                    "${state.responseFarmerProfile!.farmer!.farmingExperience == "0000-00-00"? '0':getAge(DateTime.parse(state.responseFarmerProfile!.farmer!.farmingExperience.toString()))} experience".textRegular(fontSize: 12):"0".textRegular(fontSize: 12),
+                                  ],
+                                ),
+
+                                state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory" ?
+                                const CustomIndicator(
+                                  percentage: 65,
+                                  width: 95,
+                                  color: Color(0xFFFC5E60),
+                                  color1: Colors.yellow,
+                                  color2: Color(0xFF4BC56F),
+                                  barCircleColor: Color(0xFF4BC56F),
+                                ):
+                                state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
+                                const CustomIndicator(
+                                  percentage: 10,
+                                  width: 95,
+                                  color: Color(0xFFFC5E60),
+                                  color1: Colors.yellow,
+                                  color2: Colors.green,
+                                  barCircleColor: Color(0xFFFC5E60),
+                                ):state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
+                                const CustomIndicator(
+                                  percentage: 38,
+                                  width: 95,
+                                  color: Color(0xFFFC5E60),
+                                  color1: Colors.yellow,
+                                  color2: Colors.green,
+                                  barCircleColor: Colors.yellow,
+                                ):"".textMedium()
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            const EdgeInsets.only(left: 22.0, right: 25),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                state.responseFarmerProfile!.farmer!.address!=null?Expanded(
+                                    child: (state.responseFarmerProfile!.farmer!.address!.address.toString())
+                                        .textRegular(fontSize: 12)):const Expanded(child: Text('')),
+                                state.responseFarmerProfile!.farmer!.ragRating.toString() == "satisfactory"?
+                                "Satisfactory".textMedium(fontSize: 12):
+                                state.responseFarmerProfile!.farmer!.ragRating.toString() == 'critical'?
+                                "Critical".textMedium(fontSize: 12):
+                                state.responseFarmerProfile!.farmer!.ragRating.toString() == 'average'?
+                                "Average".textMedium(fontSize: 12):"".textMedium(),
+                                23.horizontalSpace()
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, top: 28),
+                            width: screenWidth(),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      blurRadius: 16.0,
+                                      offset: const Offset(0, 5)),
+                                ],
+                                border: Border.all(color: ColorResources.grey)),
+                            padding:
+                            const EdgeInsets.fromLTRB(18.0, 18, 18, 10),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text('${state.responseFarmerProfile!.farmer!.farmSize ?? 150} Acres',
+                                            style: figtreeSemiBold.copyWith(
+                                                fontSize: 18)),
+                                        Text('Farm Area',
+                                            style: figtreeRegular.copyWith(
+                                                fontSize: 12)),
+                                      ],
+                                    ),
+                                    10.horizontalSpace(),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text('${state.responseFarmerProfile!.farmer!.dairyArea ?? 150} Acres',
+                                            style: figtreeSemiBold.copyWith(
+                                                fontSize: 18)),
+                                        Text('Dairy area',
+                                            style: figtreeRegular.copyWith(
+                                                fontSize: 12)),
+                                      ],
+                                    ),
+                                    10.horizontalSpace(),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text('${state.responseFarmerProfile!.farmer!.staffQuantity ?? 5}',
+                                            style: figtreeSemiBold.copyWith(
+                                                fontSize: 18)),
+                                        Text('Members',
+                                            style: figtreeRegular.copyWith(
+                                                fontSize: 12)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                17.verticalSpace(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Managed by: ${state.responseFarmerProfile!.farmer!.managerName ?? 'Moses Emanuel'}',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12,
+                                            color: const Color(0xff727272))),
+                                    10.horizontalSpace(),
+                                    Container(
+                                      height: 5,
+                                      width: 5,
+                                      decoration: const BoxDecoration(
+                                          color: Colors.black,
+                                          shape: BoxShape.circle),
+                                    ),
+                                    10.horizontalSpace(),
+                                    Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseFarmerProfile!.farmer!.managerPhone ?? ''}",
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12,
+                                            color: const Color(0xff727272))),
+                                    30.verticalSpace()
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          30.verticalSpace(),
+                          state.responseFarmerProfile!.farmer!.milkCollectionCenter!=null?
+                          milkSupplyCardDetails(context,state):const SizedBox.shrink(),
+                          30.verticalSpace(),
+                          cowsInTheFarm(state),
+                          30.verticalSpace(),
+                          projectList(),
+                          30.verticalSpace(),
+                          state.responseFarmerProfile!.farmer!.address!=null?
+                          address(context,state):const SizedBox.shrink(),
+                          topPerformingFarmer(),
+                          25.verticalSpace(),
+                          state.improvementAreaListResponse != null
+                              ? state.improvementAreaListResponse!.data!.improvementAreaList!.isNotEmpty
+                              ? facilitiesInTheFarm(state)
+                              : const SizedBox.shrink()
+                              : const SizedBox.shrink(),
+                        ],
                       ),
                     ),
                   ),
                 ],
               ),
-              Positioned(
-                  bottom: 20,
-                  right: 20,
-                  left: 20,
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 25),
-                    height: 75,
-                    decoration: boxDecoration(
-                        backgroundColor: ColorResources.primary,
-                        borderRadius: 40),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              ImprovementAreas(farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString()),farmerData:state.responseFarmerProfile!.farmer!).navigate();
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                "Improvement areas".textRegular(
-                                    fontSize: 19, color: Colors.white),
-                                "Based on the survey done by our experts!"
-                                    .textRegular(
-                                    fontSize: 12, color: Colors.white)
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 25),
-                          child: CircleAvatar(
-                            radius: 23,
-                            backgroundColor: Color(0xffFC5E60),
-                            child: Icon(Icons.arrow_forward_rounded),
-                          ),
-                        )
-                      ],
-                    ),
-                  )),
+              // Positioned(
+              //     bottom: 20,
+              //     right: 20,
+              //     left: 20,
+              //     child: Container(
+              //       padding: const EdgeInsets.only(left: 25),
+              //       height: 75,
+              //       decoration: boxDecoration(
+              //           backgroundColor: ColorResources.primary,
+              //           borderRadius: 40),
+              //       child: Row(
+              //         children: [
+              //           Expanded(
+              //             child: InkWell(
+              //               onTap: () {
+              //                 ImprovementAreas(farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString()),farmerData:state.responseFarmerProfile!.farmer!).navigate();
+              //               },
+              //               child: Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 children: [
+              //                   "Improvement areas".textRegular(
+              //                       fontSize: 19, color: Colors.white),
+              //                   "Based on the survey done by our experts!"
+              //                       .textRegular(
+              //                       fontSize: 12, color: Colors.white)
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //           const Padding(
+              //             padding: EdgeInsets.only(right: 25),
+              //             child: CircleAvatar(
+              //               radius: 23,
+              //               backgroundColor: Color(0xffFC5E60),
+              //               child: Icon(Icons.arrow_forward_rounded),
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //     )),
             ],
           );
         }
       }),
+    );
+  }
+
+  Widget facilitiesInTheFarm(ProfileCubitState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 30, 0, 0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Facilities in the Farm',
+                style: figtreeMedium.copyWith(fontSize: 18)),
+          ),
+        ),
+        15.verticalSpace(),
+        SizedBox(
+          height: 150,
+          child: ListView.separated(
+            itemCount: state.improvementAreaListResponse!.data!.improvementAreaList!.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  ImprovementArea(index: index, fromDDE: true, farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString()),).navigate();
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: index == 0 ? 20.0 : 0),
+                  child: SizedBox(
+                    width: 120,
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(16.0),
+                          child: CachedNetworkImage(
+                            imageUrl: state
+                                .improvementAreaListResponse!
+                                .data!
+                                .improvementAreaList![
+                            index]
+                                .image ??
+                                '',
+                            errorWidget: (_, __, ___) =>
+                                Image.asset(
+                                  Images.facilities,
+                                  width: 120,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.center,
+                                ),
+                            width: 120,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                          ),
+                        ),
+                        7.verticalSpace(),
+                        Text(
+                          state.improvementAreaListResponse!.data!.improvementAreaList![index].name.toString(),
+                          style: figtreeMedium.copyWith(
+                              color: Colors.black, fontSize: 12),
+                          softWrap: true,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return 10.horizontalSpace();
+            },
+          ),
+        )
+      ],
     );
   }
 

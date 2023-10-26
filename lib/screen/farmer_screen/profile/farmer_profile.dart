@@ -394,7 +394,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  ImprovementArea(index: index).navigate();
+                  ImprovementArea(index: index, fromDDE: false,farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString()),).navigate();
                 },
                 child: Padding(
                   padding: EdgeInsets.only(left: index == 0 ? 20.0 : 0),
