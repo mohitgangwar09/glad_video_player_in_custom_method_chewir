@@ -7,11 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
-import 'package:glad/data/model/dde_project_model.dart';
-import 'package:glad/screen/auth_screen/upload_profile_picture.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
-import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -20,10 +17,10 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../data/model/farmer_project_detail_model.dart';
 
+
 class AddRemark extends StatefulWidget {
-  FarmerProject projectData;
-  FarmerMaster? profileData;
-  AddRemark({super.key,required this.projectData,this.profileData});
+  FarmerMaster projectData;
+  AddRemark({super.key,required this.projectData});
 
   @override
   State<AddRemark> createState() => _AddRemarkState();
@@ -220,18 +217,22 @@ class _AddRemarkState extends State<AddRemark> {
             showCustomToast(context, "Please select option");
           }else{
             if(selectOption == "Not Interested"){
-            if(controller.text.isEmpty){
-              showCustomToast(context, "Please enter remarks");
-            }
-            else{
-              BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyDDe(context,
+
+              BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                  widget.projectData.phone.toString()
+              );
+              /*if(widget.projectData!=null){
+              }else{
+                BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context, widget.profileData!.phone.toString());
+              }*/
+              /*BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyDDe(context,
                   widget.projectData.id,
                   date,
                   controller.text ?? '',
                   "not_interested",
                   widget.projectData.farmerId.toString()
-              );
-            }
+              );*/
+
 
             }else{
               if(date == ""){
@@ -240,14 +241,17 @@ class _AddRemarkState extends State<AddRemark> {
                 showCustomToast(context, "Please enter remarks");
               }else{
 
-                BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyDDe(context,
+                BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                    widget.projectData.phone.toString()
+                );
+                /*BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyDDe(context,
                     widget.projectData.id,
 
                     date,
                     controller.text ?? '',
                     selectOption.toLowerCase().toString(),
                     widget.projectData.farmerId.toString()
-                );
+                );*/
               }
             }
           }
@@ -302,7 +306,7 @@ class _AddRemarkState extends State<AddRemark> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.profileData?.name ?? '',
+                        Text(widget.projectData.name ?? '',
                             style: figtreeMedium.copyWith(
                                 fontSize: 16, color: Colors.black)),
                         10.verticalSpace(),
@@ -314,7 +318,7 @@ class _AddRemarkState extends State<AddRemark> {
                               color: Colors.black,
                               size: 16,
                             ),
-                            Text(widget.profileData?.phone ?? '',
+                            Text(widget.projectData.phone ?? '',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: Colors.black)),
                           ],
@@ -331,14 +335,8 @@ class _AddRemarkState extends State<AddRemark> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width *
                                   0.5,
-                              child: Text('need address'
-                                /*farmerDetail.photo != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                    && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                    : ''
-                                    : ''*/,
+                              child: Text(widget.projectData.address!=null?
+                              widget.projectData.address!.address!=null ?widget.projectData.address!.address!.toString():"":"",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: figtreeRegular.copyWith(
@@ -411,6 +409,8 @@ class _AddRemarkState extends State<AddRemark> {
                   customTextButton(
                       text: "Resend",
                       onTap: () {
+
+                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;
@@ -427,7 +427,9 @@ class _AddRemarkState extends State<AddRemark> {
         40.verticalSpace(),
         Center(
           child: customTextButton(
-              onTap: () {},
+              onTap: () {
+                pressBack();
+              },
               text: "Cancel",
               color: const Color(0xff727272),
               fontSize: 15,
@@ -468,12 +470,29 @@ class _AddRemarkState extends State<AddRemark> {
               // fieldOuterPadding: 2.paddingAll(),
             ),
             onCompleted: (v) {
-              print("Completed");
-              ThankYou(profileData:widget.profileData,improvementProfileData:widget.projectData).navigate();
+              // print("Completed");
+              // ThankYou(profileData:widget.profileData,improvementProfileData:widget.projectData).navigate();
               // const UploadProfilePicture().navigate();
             },
             onChanged: (value) {
-              print(value);
+              if(value.length==4){
+                if(selectOption == "Not Interested"){
+                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
+                      widget.projectData.id.toString(),
+                      date,
+                      controller.text ?? '',
+                      "not_interested",
+                      widget.projectData.id.toString(),widget.projectData);
+                }else{
+                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
+                      widget.projectData.id.toString(),
+                      date,
+                      controller.text ?? '',
+                      selectOption.toLowerCase().toString(),
+                      widget.projectData.id.toString(),widget.projectData);
+                }
+
+              }
               // setState(() {
               //   // currentText = value;
               // });

@@ -17,7 +17,8 @@ import 'package:glad/utils/color_resources.dart';
 final GlobalKey<ScaffoldState> ddeLandingKey = GlobalKey();
 
 class DashboardDDE extends StatelessWidget {
-  const DashboardDDE({Key? key}) : super(key: key);
+  const DashboardDDE({Key? key,this.initialNavigateIndex}) : super(key: key);
+  final int? initialNavigateIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,9 @@ class DashboardDDE extends StatelessWidget {
 
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
+        // if(initialNavigateIndex!=null){
+        //   BlocProvider.of<DashboardCubit>(context).selectedIndex(initialNavigateIndex!);
+        // }
         return Scaffold(
             key: ddeLandingKey,
             drawer: const DdeDrawer(),

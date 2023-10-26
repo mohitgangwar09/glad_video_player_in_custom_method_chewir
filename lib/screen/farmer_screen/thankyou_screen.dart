@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glad/data/model/dde_project_model.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-import '../../data/model/farmer_project_detail_model.dart';
 
 class ThankYou extends StatelessWidget {
-  const ThankYou({super.key,this.profileData,this.improvementProfileData});
+  const ThankYou({super.key,this.profileData});
   final FarmerMaster? profileData;
-  final FarmerProject? improvementProfileData;
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +50,6 @@ class ThankYou extends StatelessWidget {
 
                 profileData!=null?
                 profileDataWidget(profileData!,context):const SizedBox.shrink(),
-
-                /*improvementProfileData!=null?
-                improvementProfileDataWidget(improvementProfileData!,context):const SizedBox.shrink(),*/
 
                 /*Stack(
                   alignment: Alignment.center,
@@ -139,7 +135,11 @@ class ThankYou extends StatelessWidget {
                 ),*/
 
                 40.verticalSpace(),
-                customButton("Go to Home", fontColor: 0xffffffff, onTap: () {})
+                customButton("Go to Home", fontColor: 0xffffffff, onTap: () {
+                  // ddeLandingKey.currentState?.dispose();
+                  const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
+                  // BlocProvider.of<DashboardCubit>(context).selectedIndex(0);
+                })
               ],
             ),
           )
@@ -198,14 +198,8 @@ class ThankYou extends StatelessWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width *
                               0.5,
-                          child: Text('need address'
-                            /*farmerDetail.photo != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                    && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                    : ''
-                                    : ''*/,
+                          child: Text(profileData.address!=null?
+                          profileData.address!.address!=null ?profileData.address!.address!.toString():"":"",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: figtreeRegular.copyWith(

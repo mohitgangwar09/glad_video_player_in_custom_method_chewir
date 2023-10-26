@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/auth_models/invite_expert_model.dart';
+import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart';
@@ -43,6 +44,20 @@ class ProjectRepository {
       return FarmerProjectModel.fromJson(apiResponse.response!.data);
     } else {
       return FarmerProjectModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// withFarmerIdGetDdeProjectsApi //////////
+  Future<DdeProjectModel> getDdeWithFarmerIdProjectsApi(String farmerId) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+    // .getApiResponse(AppConstants.ddeProjectListApi,
+        .getApiResponse(AppConstants.farmerProjectListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'farmer_id': farmerId});
+
+    if (apiResponse.status) {
+      return DdeProjectModel.fromJson(apiResponse.response!.data);
+    } else {
+      return DdeProjectModel(status: 422, message: apiResponse.msg);
     }
   }
 
@@ -104,6 +119,40 @@ class ProjectRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// verifyStatusApi //////////
+  Future<MobileLoginModel> verifyProjectStatusApi(String otp, String id) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.verifyMobileApi,
+        data: {'otp_number': otp,"user_id": id});
+    if (apiResponse.status) {
+      return MobileLoginModel.fromJson(apiResponse.response!.data);
+    } else {
+      return MobileLoginModel(
+          status: 422,
+          message: apiResponse.msg);
+    }
+  }
+
+  Future<MobileLoginModel> sendOtpApi(
+      String phone) async {
+
+    var data = {
+      'user': phone};
+
+    api_hitter.ApiResponse apiResponse =
+    await api_hitter.ApiHitter().getPostApiResponse(
+      AppConstants.loginWithMobileApi,
+      data: data,
+    );
+    if (apiResponse.status) {
+      return MobileLoginModel.fromJson(apiResponse.response!.data);
+    } else {
+      return MobileLoginModel(
+          status: 422,
+          message: apiResponse.msg);
     }
   }
 

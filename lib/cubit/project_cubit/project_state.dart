@@ -6,14 +6,14 @@ class ProjectState extends Equatable {
   final ProjectStatus status;
   final FarmerProjectModel? responseFarmerProject;
   final DdeProjectModel? responseDdeProject;
-  final FarmerProjectDetailModel? responseFarmerProjectDetail;
+  final dde.FarmerProjectDetailModel? responseFarmerProjectDetail;
   final FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail;
   final List<DataResourceType>? responseResourceType;
   final List<DataCapacityList>? responseResourceCapacityType;
   final List<DataResourceType>? responseProjectUOM;
   final List<DataResourceName>? responseMaterialType;
   final String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialName,primaryId;
-  final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialId;
+  final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialId,userIdForOtpValidate;
   final TextEditingController requiredQtyController,pricePerUnitController,valueController;
 
   const ProjectState({
@@ -38,6 +38,7 @@ class ProjectState extends Equatable {
     required this.selectMaterialName,
     required this.selectMaterialId,
     required this.primaryId,
+    required this.userIdForOtpValidate,
   });
 
   factory ProjectState.initial() {
@@ -63,6 +64,7 @@ class ProjectState extends Equatable {
       requiredQtyController: TextEditingController(),
       valueController: TextEditingController(),
       primaryId: '',
+      userIdForOtpValidate: '',
     );
   }
 
@@ -70,13 +72,13 @@ class ProjectState extends Equatable {
     ProjectStatus? status,
     FarmerProjectModel? responseFarmerProject,
     DdeProjectModel? responseDdeProject,
-    FarmerProjectDetailModel? responseFarmerProjectDetail,
+    dde.FarmerProjectDetailModel? responseFarmerProjectDetail,
     FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail,
     List<DataResourceType>? responseResourceType,
     List<DataCapacityList>? responseResourceCapacityType,
     List<DataResourceType>? responseProjectUOM,
     List<DataResourceName>? responseMaterialType,
-    String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialId,primaryId,
+    String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialId,primaryId,userIdForOtpValidate,
     String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialName,
     TextEditingController? requiredQtyController,pricePerUnitController,valueController
   }) {
@@ -114,6 +116,7 @@ class ProjectState extends Equatable {
       selectMaterialName: selectMaterialName ?? this.selectMaterialName,
       selectMaterialId: selectMaterialId ?? this.selectMaterialId,
       valueController: valueController ?? this.valueController,
+      userIdForOtpValidate: userIdForOtpValidate ?? this.userIdForOtpValidate,
     );
   }
 
@@ -139,6 +142,7 @@ class ProjectState extends Equatable {
     selectMaterialName,
     selectMaterialId,
     primaryId,
-    valueController
+    valueController,
+    userIdForOtpValidate
       ];
 }

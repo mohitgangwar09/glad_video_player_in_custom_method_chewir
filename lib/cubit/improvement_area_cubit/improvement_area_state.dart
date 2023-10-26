@@ -50,7 +50,7 @@ class ImprovementAreaState extends Equatable {
     response,
     stepperData,
     resultData,
-    areaControllers,
+    areaControllers
   ];
 
 }

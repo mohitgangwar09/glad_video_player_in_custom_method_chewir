@@ -10,7 +10,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class ProjectWidget extends StatelessWidget {
+class AllProjectFarmerWidget extends StatelessWidget {
   final bool status;
   final String name;
   final String category;
@@ -30,7 +30,7 @@ class ProjectWidget extends StatelessWidget {
   final int projectId;
   final FarmerMaster farmerDetail;
 
-  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail}) : super(key: key);
+  const AllProjectFarmerWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class ProjectWidget extends StatelessWidget {
           child: InkWell(
             onTap: () {
               DDeFarmerInvestmentDetails(projectId: projectId,
-                  // farmerDetail:farmerDetail
+                // farmerDetail:farmerDetail
               ).navigate();
               /*SuggestedProjectDetails(
                   projectId: projectId,
@@ -58,7 +58,7 @@ class ProjectWidget extends StatelessWidget {
                 category.textMedium(fontSize: 12, color: const Color(0xFF808080)),
                 10.verticalSpace(),
                 description.textMedium(
-                        fontSize: 14, color: const Color(0xFF808080), maxLines: 2),
+                    fontSize: 14, color: const Color(0xFF808080), maxLines: 2),
                 15.verticalSpace(),
                 Container(
                   height: 60,
@@ -73,7 +73,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                         getCurrencyString(investment)
+                          getCurrencyString(investment)
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "Investment".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
@@ -107,41 +107,41 @@ class ProjectWidget extends StatelessWidget {
                   children: [
                     RichText(
                         text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Loan: ',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: const Color(0xFF808080))),
-                      TextSpan(
-                          text: getCurrencyString(loan),
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: Colors.black))
-                    ])),
+                          TextSpan(
+                              text: 'Loan: ',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: const Color(0xFF808080))),
+                          TextSpan(
+                              text: getCurrencyString(loan),
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: Colors.black))
+                        ])),
                     RichText(
                         text: TextSpan(children: [
-                      TextSpan(
-                          text: 'EMI/Mo: ',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: const Color(0xFF808080))),
-                      TextSpan(
-                          text: getCurrencyString(emi),
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: Colors.black))
-                    ])),
+                          TextSpan(
+                              text: 'EMI/Mo: ',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: const Color(0xFF808080))),
+                          TextSpan(
+                              text: getCurrencyString(emi),
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: Colors.black))
+                        ])),
                     RichText(
                         text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Balance: ',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: const Color(0xFF808080))),
-                      TextSpan(
-                          text: '$balance%',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: Colors.black))
-                    ])),
+                          TextSpan(
+                              text: 'Balance: ',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: const Color(0xFF808080))),
+                          TextSpan(
+                              text: '$balance%',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: Colors.black))
+                        ])),
                   ],
                 ),
-                15.verticalSpace(),
-                Row(
+                // 15.verticalSpace(),
+                /*Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
@@ -203,7 +203,7 @@ class ProjectWidget extends StatelessWidget {
                     ),
                     1.horizontalSpace()
                   ],
-                ),
+                ),*/
               ],
             ),
           ),

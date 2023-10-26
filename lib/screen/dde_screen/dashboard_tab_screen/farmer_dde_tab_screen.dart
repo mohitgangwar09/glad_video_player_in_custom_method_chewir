@@ -245,7 +245,8 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                         .width *
                                                         0.5,
                                                     child: Text(
-                                                      state.response!.farmerMAster![i].fAddress ?? "",
+                                                      state.response!.farmerMAster![i].address!=null?
+                                                      state.response!.farmerMAster![i].address!.address!=null?state.response!.farmerMAster![i].address!.address!:"":"",
                                                       style:
                                                       figtreeRegular.copyWith(
                                                         fontSize: 12,
