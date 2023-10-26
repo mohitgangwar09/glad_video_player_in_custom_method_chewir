@@ -1,15 +1,14 @@
 class MobileLoginModel {
   String? message;
   int? status;
-  dynamic otp;
   Data? data;
 
-  MobileLoginModel({this.message, this.status, this.data,this.otp});
+  MobileLoginModel({this.message, this.status, this.data});
 
   MobileLoginModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    otp = json['otp'];
+
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
@@ -17,7 +16,7 @@ class MobileLoginModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
     data['status'] = status;
-    data['otp'] = otp;
+
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -54,6 +53,7 @@ class Data {
   String? name;
   dynamic profilePic;
   List<dynamic>? roles;
+  dynamic otp;
 
   Data(
       {this.id,
@@ -83,6 +83,7 @@ class Data {
         this.accessToken,
         this.name,
         this.profilePic,
+        this.otp,
         this.roles});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -98,6 +99,7 @@ class Data {
     isMobileVerified = json['is_mobile_verified'];
     dateOfBirth = json['date_of_birth'];
     gender = json['gender'];
+    otp = json['otp'];
     status = json['status'];
     deviceToken = json['device_token'];
     loginAt = json['login_at'];
@@ -125,6 +127,7 @@ class Data {
     data['user_code'] = userCode;
     data['has_password'] = hasPassword;
     data['mobile'] = mobile;
+    data['otp'] = otp;
     data['is_mobile_verified'] = isMobileVerified;
     data['date_of_birth'] = dateOfBirth;
     data['gender'] = gender;
