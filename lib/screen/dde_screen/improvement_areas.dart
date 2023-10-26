@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
+import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/edit_improvement_area.dart';
@@ -16,8 +17,9 @@ import 'package:glad/utils/styles.dart';
 import 'package:stepper_list_view/stepper_list_view.dart';
 
 class ImprovementAreas extends StatefulWidget {
-  const ImprovementAreas({super.key, required this.farmerId});
+  const ImprovementAreas({super.key, required this.farmerId,this.farmerData});
   final int farmerId;
+  final Farmer? farmerData;
 
   @override
   State<ImprovementAreas> createState() => _ImprovementAreasState();
@@ -284,7 +286,91 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
+
                                       Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Total Distance Travelled',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          5.verticalSpace(),
+                                          Text("${state.resultData!.totalDistanceTravelled} km",
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                        ],
+                                      ),
+
+                                      20.verticalSpace(),
+
+                                      Text('Yield incremental /cow /day',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 12,
+                                              color: ColorResources
+                                                  .fieldGrey)),
+
+                                      10.verticalSpace(),
+
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Loss of Milk',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${getCurrencyString(state.resultData!.lossOfMilkPerCow, unit: '')} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Current Yield',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${getCurrencyString(0, unit: '')} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],
+                                            ),
+                                          ),
+                                          // 20.verticalSpace(),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Expected Yield',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: ColorResources
+                                                            .fieldGrey)),
+                                                5.verticalSpace(),
+                                                Text('${getCurrencyString(state.resultData!.expectedYieldPerCow, unit: '')} Ltr.',
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16,
+                                                        color: Colors.black)),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+
+                                    /*  Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text('Loss of Milk Yield /cow /day',
@@ -299,7 +385,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                   color: Colors.black)),
                                         ],
                                       ),
-                                      10.verticalSpace(),
+                                      // 20.verticalSpace(),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -314,7 +400,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                   fontSize: 16,
                                                   color: Colors.black)),
                                         ],
-                                      ),
+                                      ),*/
                                       20.verticalSpace(),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,7 +420,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                         color: ColorResources
                                                             .fieldGrey)),
                                                 5.verticalSpace(),
-                                                Text('${getCurrencyString(state.resultData!.incrementalProduction, unit: '')} Ltr.',
+                                                Text('${getCurrencyString(double.parse(state.resultData!.incrementalProduction.toStringAsFixed(2)), unit: '')} Ltr.',
                                                     style: figtreeMedium.copyWith(
                                                         fontSize: 16,
                                                         color: Colors.black)),
@@ -422,7 +508,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                 )),
                           ),
                           30.verticalSpace(),
-                          state.response!.data!.improvementAreaList![pageIndex]
+                          /*state.response!.data!.improvementAreaList![pageIndex]
                                   .projects!.isNotEmpty
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -436,7 +522,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                     10.verticalSpace(),
                                     Container(
                                       margin: const EdgeInsets.only(left: 10, right: 20),
-                                      height: 232,
+                                      height: 250,
                                       child: customList(
                                           list: List.generate(
                                               state.response!.data!.improvementAreaList![pageIndex].projects!.length, (index) => index),
@@ -446,8 +532,9 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                               width: screenWidth() * 0.9,
                                               child: InkWell(
                                                 onTap: () {
-                                                  DDeFarmerInvestmentDetails(projectId: state.response!.data!.improvementAreaList![pageIndex].projects![index].projectId,)
-                                                      .navigate();
+                                                  DDeFarmerInvestmentDetails(projectId: state.response!.data!.improvementAreaList![pageIndex].projects![index].projectId!,
+                                                    // farmerData: widget.farmerData,
+                                                  ).navigate();
                                                 },
                                                 child: customProjectContainer(
                                                     marginTop: 0,
@@ -467,7 +554,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                                               '')
                                                               .textMedium(
                                                               color: Colors.black,
-                                                              fontSize: 18),
+                                                              fontSize: 18,maxLines: 1,overflow: TextOverflow.ellipsis),
                                                           10.verticalSpace(),
                                                           (state
                                                               .response!
@@ -659,7 +746,7 @@ class _ImprovementAreasState extends State<ImprovementAreas> {
                                     40.verticalSpace()
                                   ],
                                 )
-                              : const SizedBox.shrink(),
+                              : const SizedBox.shrink(),*/
                         ],
                       ),
                     ),

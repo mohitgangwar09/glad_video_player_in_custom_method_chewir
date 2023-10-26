@@ -83,6 +83,7 @@ class FarmerProject {
   List<FarmerProjectMilestones>? farmerProjectMilestones;
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
   Kpi? kpi;
+  FarmerMaster? farmerMaster;
 
   FarmerProject(
       {this.id,
@@ -121,6 +122,7 @@ class FarmerProject {
         this.farmerProjectMilestones,
         this.dairyDevelopMentExecutive,
         this.kpi,
+        this.farmerMaster,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -158,6 +160,7 @@ class FarmerProject {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     kpi = json['kpi'] != null ? Kpi.fromJson(json['kpi']) : null;
+    farmerMaster = json['farmer_master'] != null ? FarmerMaster.fromJson(json['farmer_master']) : null;
     if (json['farmer_project_milestones'] != null) {
       farmerProjectMilestones = <FarmerProjectMilestones>[];
       json['farmer_project_milestones'].forEach((v) {
@@ -215,6 +218,9 @@ class FarmerProject {
     }
     if (kpi != null) {
       data['kpi'] = kpi!.toJson();
+    }
+    if (farmerMaster != null) {
+      data['farmer_master'] = farmerMaster!.toJson();
     }
     return data;
   }
@@ -410,6 +416,295 @@ class Kpi {
     data['expected_yield'] = expectedYield;
     data['ideal_yield'] = idealYield;
     data['target_farm_production'] = targetFarmProduction;
+    return data;
+  }
+}
+
+class FarmerMaster {
+  int? id;
+  int? userId;
+  String? name;
+  String? email;
+  String? fAddress;
+  String? phone;
+  dynamic mccId;
+  dynamic ddeId;
+  dynamic photos;
+  dynamic kycStatus;
+  dynamic landlineNo;
+  dynamic dateOfBirth;
+  dynamic gender;
+  dynamic registrationDate;
+  dynamic supplierId;
+  dynamic farmSize;
+  dynamic dairyArea;
+  dynamic staffQuantity;
+  dynamic farmingExperience;
+  dynamic managerName;
+  dynamic managerPhone;
+  dynamic ragRating;
+  dynamic leadType;
+  dynamic idealYield;
+  dynamic currentYield;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  dynamic photo;
+  dynamic achievement;
+  Address? address;
+
+  FarmerMaster(
+      {this.id,
+        this.userId,
+        this.name,
+        this.email,
+        this.fAddress,
+        this.phone,
+        this.mccId,
+        this.ddeId,
+        this.photos,
+        this.kycStatus,
+        this.landlineNo,
+        this.dateOfBirth,
+        this.gender,
+        this.registrationDate,
+        this.supplierId,
+        this.farmSize,
+        this.dairyArea,
+        this.staffQuantity,
+        this.farmingExperience,
+        this.managerName,
+        this.managerPhone,
+        this.ragRating,
+        this.leadType,
+        this.idealYield,
+        this.currentYield,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.createdAt,
+        this.photo,
+        this.achievement,
+        this.address});
+
+  FarmerMaster.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    name = json['name'];
+    email = json['email'];
+    fAddress = json['f_address'];
+    phone = json['phone'];
+    mccId = json['mcc_id'];
+    ddeId = json['dde_id'];
+    photos = json['photos'];
+    kycStatus = json['kyc_status'];
+    landlineNo = json['landline_no'];
+    dateOfBirth = json['date_of_birth'];
+    gender = json['gender'];
+    registrationDate = json['registration_date'];
+    supplierId = json['supplier_id'];
+    farmSize = json['farm_size'];
+    dairyArea = json['dairy_area'];
+    staffQuantity = json['staff_quantity'];
+    farmingExperience = json['farming_experience'];
+    managerName = json['manager_name'];
+    managerPhone = json['manager_phone'];
+    ragRating = json['rag_rating'];
+    leadType = json['lead_type'];
+    idealYield = json['ideal_yield'];
+    currentYield = json['current_yield'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    photo = json['photo'];
+    achievement = json['achievement'];
+    address =
+    json['address'] != null ? Address.fromJson(json['address']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['email'] = email;
+    data['f_address'] = fAddress;
+    data['phone'] = phone;
+    data['mcc_id'] = mccId;
+    data['dde_id'] = ddeId;
+    data['photos'] = photos;
+    data['kyc_status'] = kycStatus;
+    data['landline_no'] = landlineNo;
+    data['date_of_birth'] = dateOfBirth;
+    data['gender'] = gender;
+    data['registration_date'] = registrationDate;
+    data['supplier_id'] = supplierId;
+    data['farm_size'] = farmSize;
+    data['dairy_area'] = dairyArea;
+    data['staff_quantity'] = staffQuantity;
+    data['farming_experience'] = farmingExperience;
+    data['manager_name'] = managerName;
+    data['manager_phone'] = managerPhone;
+    data['rag_rating'] = ragRating;
+    data['lead_type'] = leadType;
+    data['ideal_yield'] = idealYield;
+    data['current_yield'] = currentYield;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['photo'] = photo;
+    data['achievement'] = achievement;
+    if (address != null) {
+      data['address'] = address!.toJson();
+    }
+    return data;
+  }
+}
+
+class Address {
+  int? id;
+  int? addressableId;
+  String? addressableType;
+  String? name;
+  String? mobile;
+  dynamic dialCode;
+  dynamic landlineNo;
+  String? email;
+  dynamic gstNumber;
+  String? line1;
+  dynamic line2;
+  dynamic landmark;
+  dynamic cityId;
+  String? district;
+  String? subCounty;
+  dynamic centerName;
+  dynamic village;
+  dynamic parish;
+  String? county;
+  dynamic poBoxNumber;
+  dynamic coordinates;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic stateId;
+  dynamic country;
+  dynamic countryId;
+  String? region;
+  String? postalCode;
+  dynamic address;
+  dynamic type;
+  String? createdAt;
+  String? updatedAt;
+  String? fullAddress;
+
+  Address(
+      {this.id,
+        this.addressableId,
+        this.addressableType,
+        this.name,
+        this.mobile,
+        this.dialCode,
+        this.landlineNo,
+        this.email,
+        this.gstNumber,
+        this.line1,
+        this.line2,
+        this.landmark,
+        this.cityId,
+        this.district,
+        this.subCounty,
+        this.centerName,
+        this.village,
+        this.parish,
+        this.county,
+        this.poBoxNumber,
+        this.coordinates,
+        this.latitude,
+        this.longitude,
+        this.stateId,
+        this.country,
+        this.countryId,
+        this.region,
+        this.postalCode,
+        this.address,
+        this.type,
+        this.createdAt,
+        this.updatedAt,
+        this.fullAddress});
+
+  Address.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    addressableId = json['addressable_id'];
+    addressableType = json['addressable_type'];
+    name = json['name'];
+    mobile = json['mobile'];
+    dialCode = json['dial_code'];
+    landlineNo = json['landline_no'];
+    email = json['email'];
+    gstNumber = json['gst_number'];
+    line1 = json['line_1'];
+    line2 = json['line_2'];
+    landmark = json['landmark'];
+    cityId = json['city_id'];
+    district = json['district'];
+    subCounty = json['sub_county'];
+    centerName = json['center_name'];
+    village = json['village'];
+    parish = json['parish'];
+    county = json['county'];
+    poBoxNumber = json['po_box_number'];
+    coordinates = json['coordinates'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    stateId = json['state_id'];
+    country = json['country'];
+    countryId = json['country_id'];
+    region = json['region'];
+    postalCode = json['postal_code'];
+    address = json['address'];
+    type = json['type'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullAddress = json['full_address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['addressable_id'] = addressableId;
+    data['addressable_type'] = addressableType;
+    data['name'] = name;
+    data['mobile'] = mobile;
+    data['dial_code'] = dialCode;
+    data['landline_no'] = landlineNo;
+    data['email'] = email;
+    data['gst_number'] = gstNumber;
+    data['line_1'] = line1;
+    data['line_2'] = line2;
+    data['landmark'] = landmark;
+    data['city_id'] = cityId;
+    data['district'] = district;
+    data['sub_county'] = subCounty;
+    data['center_name'] = centerName;
+    data['village'] = village;
+    data['parish'] = parish;
+    data['county'] = county;
+    data['po_box_number'] = poBoxNumber;
+    data['coordinates'] = coordinates;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['state_id'] = stateId;
+    data['country'] = country;
+    data['country_id'] = countryId;
+    data['region'] = region;
+    data['postal_code'] = postalCode;
+    data['address'] = address;
+    data['type'] = type;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_address'] = fullAddress;
     return data;
   }
 }

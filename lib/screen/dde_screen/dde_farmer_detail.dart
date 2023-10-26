@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:glad/cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmers_list.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -15,6 +16,8 @@ import 'package:glad/screen/dde_screen/dde_cow_and_yield_done.dart';
 import 'package:glad/screen/dde_screen/farmer_personal_detail.dart';
 import 'package:glad/screen/dde_screen/improvement_areas.dart';
 import 'package:glad/screen/dde_screen/cows_and_yield.dart';
+import 'package:glad/screen/dde_screen/project_widget.dart';
+import 'package:glad/screen/dde_screen/widget/all_project_farmer_widget.dart';
 import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
 import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
@@ -79,6 +82,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
   void initState() {
     BlocProvider.of<ProfileCubit>(context)
         .getFarmerProfile(context, userId: widget.userId.toString());
+    BlocProvider.of<ProjectCubit>(context).ddeProjectsWithFarmerIdApi(context, "1");
     getCountryCode();
     super.initState();
   }
@@ -414,6 +418,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                             30.verticalSpace(),
                             cowsInTheFarm(state),
                             30.verticalSpace(),
+                            projectList(),
+                            30.verticalSpace(),
                             state.responseFarmerProfile!.farmer!.address!=null?
                             address(context,state):const SizedBox.shrink(),
                             topPerformingFarmer(),
@@ -440,7 +446,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              ImprovementAreas(farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString())).navigate();
+                              ImprovementAreas(farmerId: int.parse(state.responseFarmerProfile!.farmer!.id!.toString()),farmerData:state.responseFarmerProfile!.farmer!).navigate();
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -971,6 +977,92 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
           ),
         ) ,
       ],
+    );
+  }
+
+  Widget projectList(){
+    return BlocBuilder<ProjectCubit, ProjectState>(
+      builder: (context,state) {
+        return Column(
+          children: [
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
+                child: Text('Projects',
+                    style: figtreeMedium.copyWith(fontSize: 18)),
+              ),
+            ),
+
+            SizedBox(
+              height: 235,
+              width: screenWidth(),
+              child: customList(
+                padding: const EdgeInsets.only(left: 10.0,right: 10),
+                  axis: Axis.horizontal,
+                  list: List.generate(state.responseDdeProject!.data!
+                      .projectList!.length, (index) => null),
+                  child: (int i) {
+
+                    return SizedBox(
+                      height: 200,
+                      width: screenWidth()-30,
+                      child: customProjectContainer(
+                        marginTop: 13.0,
+                          child: AllProjectFarmerWidget(
+                              status: true,
+                              projectStatus: formatProjectStatus(state.responseDdeProject!.data!
+                                  .projectList![i].projectStatus ?? ''),
+                              name: state.responseDdeProject!.data!
+                                  .projectList![i].name ?? '',
+                              category: state.responseDdeProject!.data!
+                                  .projectList![i].farmerImprovementArea !=
+                                  null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerImprovementArea!
+                                  .improvementArea!.name ?? '' : '',
+                              description: state.responseDdeProject!.data!
+                                  .projectList![i].description ?? '',
+                              investment: state.responseDdeProject!.data!
+                                  .projectList![i].investmentAmount ?? 0,
+                              revenue: state.responseDdeProject!.data!
+                                  .projectList![i].revenuePerYear ?? 0,
+                              roi: state.responseDdeProject!.data!
+                                  .projectList![i].roiPerYear ?? 0.0,
+                              loan: state.responseDdeProject!.data!
+                                  .projectList![i].loanAmount ?? 0,
+                              emi: state.responseDdeProject!.data!
+                                  .projectList![i].emiAmount ?? 0,
+                              balance: 0,
+                              farmerName: state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.name ?? '' : '',
+                              farmerAddress:  state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.fAddress ??
+                                  '' : '',
+                              farmerImage:  state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.photo ??
+                                  ''  : '',
+                              farmerPhone:  state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.phone ??
+                                  ''  : '',
+                              projectPercent: 0,
+                              projectId: state.responseDdeProject!.data!
+                                  .projectList![i].id ?? 0,
+                              farmerDetail: state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!
+
+                          ),
+                          width: screenWidth()),
+                    );
+                  }),
+            ),
+          ],
+        );
+      }
     );
   }
 

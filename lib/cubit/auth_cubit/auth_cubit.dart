@@ -198,6 +198,23 @@ class AuthCubit extends Cubit<AuthCubitState>{
     }
   }
 
+  // resendProjectStatusApiApi
+  Future<void> resendProjectStatusApiApi(context,String email) async{
+    customDialog(widget: launchProgress());
+    ResponseOtpModel response;
+      response = await apiRepository.resendOtpApi(state.validatorString);
+    disposeProgress();
+    if (response.status == 200) {
+      // response.message.toString().toast();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    }
+    else {
+      emit(state.copyWith(status: AuthStatus.error));
+      // response.errors![0].message.toString().toast();
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   // forgotPasswordApi
   Future<void> forgotPasswordApi(context) async{
     if(state.emailController.text.isEmpty){

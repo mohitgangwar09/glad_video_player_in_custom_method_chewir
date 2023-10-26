@@ -1,17 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/dde_project_model.dart';
-import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart' as dde;
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
-import 'package:glad/data/model/response_material_type.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,6 +50,19 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(status: ProjectStatus.success, responseFarmerProject: response));
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // farmerProjectsApi
+  void ddeProjectsWithFarmerIdApi(context,String farmerId) async {
+    // customDialog(widget: launchProgress());
+    var response = await apiRepository.getDdeWithFarmerIdProjectsApi(farmerId);
+    if (response.status == 200) {
+      // disposeProgress();
+      emit(state.copyWith(responseDdeProject: response));
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
     }
   }
@@ -122,6 +134,70 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+
+  // sendProjectStatusOtpApi
+  Future<void> sendProjectStatusOtpApi(context,String mobile) async{
+      customDialog(widget: launchProgress());
+      var response = await apiRepository.sendOtpApi(mobile);
+      disposeProgress();
+      // print(response);
+      if(response.status == 200){
+
+        showCustomToast(context, "We have sent otp on your registered email");
+        emit(state.copyWith(userIdForOtpValidate: response.data!.id.toString()));
+      }
+      else{
+        // emit(state.copyWith(status: ProjectStatus.error));
+        showCustomToast(context, response.message.toString());
+      }
+  }
+
+  ///// verifyProjectStatusApi /////
+  Future<void> verifyProjectStatus(context,String otp,String projectId,
+      String date,String remarks,String selectStatus,String farmerId,dde.FarmerMaster profileData) async{
+
+      customDialog(widget: launchProgress());
+      // emit(state.copyWith(status: ProjectStatus.loading));
+      var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+      disposeProgress();
+      if(response.status == 200){
+
+        showCustomToast(context, "message");
+
+        await inviteExpertForSurveyDDe(context,
+            int.parse(projectId),
+            date,
+            remarks,
+            selectStatus,
+            farmerId.toString(),
+          profileData
+        );
+      }
+      else
+      {
+        // emit(state.copyWith(status: ProjectStatus.error));
+        showCustomToast(context, response.message.toString());
+    }
+  }
+
+
+  Future<void> inviteExpertForSurveyDDe(context, int projectId, String date,
+      String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
+        remark,projectStatus,farmerId);
+    if (response.status == 200) {
+
+      ThankYou(
+          profileData:profileData
+      ).navigate(isInfinity: true);
+      showCustomToast(context, response.data['message'], isSuccess: true);
+    } else {
+      emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   // void updateSuggestedProjectStatus(context, String status, int projectId) async {
   //   customDialog(widget: launchProgress());
   //   var response = await apiRepository.suggestedProjectUpdateStatus(status, projectId);
@@ -155,7 +231,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     // emit(state.copyWith(status: ProjectStatus.loading));
     var response = await apiRepository.getResourceTypeApi(mileStoneId,resourceName);
     if (response.status == 200) {
-      print(response.data![0].name);
+      // print(response.data![0].name);
       List<DataResourceType> dataResourceType = [];
       if(response.data!=null){
         dataResourceType = response.data!;

@@ -1,13 +1,15 @@
 class MobileLoginModel {
   String? message;
   int? status;
+  dynamic otp;
   Data? data;
 
-  MobileLoginModel({this.message, this.status, this.data});
+  MobileLoginModel({this.message, this.status, this.data,this.otp});
 
   MobileLoginModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
+    otp = json['otp'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
@@ -15,6 +17,7 @@ class MobileLoginModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
     data['status'] = status;
+    data['otp'] = otp;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
