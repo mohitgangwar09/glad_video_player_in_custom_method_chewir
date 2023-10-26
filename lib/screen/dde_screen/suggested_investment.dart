@@ -12,6 +12,8 @@ import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
+import 'package:glad/screen/farmer_screen/profile/edit_kyc_documents.dart';
+import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -106,14 +108,19 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               ),
                             ) :const SizedBox.shrink():const SizedBox.shrink(),
 
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().capitalized() == "interested".capitalized()?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
                             Center(
                               child: customButton(
                                 'Apply for Loan',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-                                onTap: () {
+                                  onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'not_available' ? () {
+                                    KYCUpdate(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();
+                                  } : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'pending' ? () {
+                                    EditKYCDocuments(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.farmerDocuments!, farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();
+                                  } : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'verified' ? () {
+                                  } : () {
 
-                                },
+                                  },
                               ),
                             ):const SizedBox.shrink(),
 

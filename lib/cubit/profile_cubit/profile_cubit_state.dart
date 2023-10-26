@@ -39,6 +39,7 @@ class ProfileCubitState extends Equatable{
   final List<DataSubCounty>? dataSubCounty;
   final Results? resultData;
   final String ?selectCounty,selectSubCounty;
+  final List<TextEditingController>? areaControllers;
   // final GoogleMapController
 
   const ProfileCubitState({
@@ -87,6 +88,7 @@ class ProfileCubitState extends Equatable{
     required this.dataSubCounty,
     required this.selectCounty,
     required this.selectSubCounty,
+    required this.areaControllers,
   });
 
   factory ProfileCubitState.initial() {
@@ -136,6 +138,7 @@ class ProfileCubitState extends Equatable{
       dataSubCounty: const [],
       responseCountyList: ResponseCountyList(),
       responseSubCounty: ResponseSubCounty(),
+      areaControllers: [],
     );
   }
 
@@ -173,6 +176,7 @@ class ProfileCubitState extends Equatable{
     ResponseSubCounty? responseSubCounty,
     String? selectCounty,
     String? selectSubCounty,
+    List<TextEditingController>? areaControllers,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -220,6 +224,7 @@ class ProfileCubitState extends Equatable{
         dataSubCounty: dataSubCounty ?? this.dataSubCounty,
         selectCounty: selectCounty ?? this.selectCounty,
         selectSubCounty: selectSubCounty ?? this.selectSubCounty,
+      areaControllers: areaControllers ?? this.areaControllers,
     );
   }
 
@@ -268,7 +273,8 @@ class ProfileCubitState extends Equatable{
     counties,
     dataSubCounty,
     selectCounty,
-    selectSubCounty
+    selectSubCounty,
+    areaControllers,
   ];
 
 }

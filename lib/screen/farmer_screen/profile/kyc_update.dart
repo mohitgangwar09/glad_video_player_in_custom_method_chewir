@@ -17,7 +17,9 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class KYCUpdate extends StatefulWidget {
-  const KYCUpdate({super.key});
+  const KYCUpdate({super.key, required this.farmerId, required this.userId});
+  final  int farmerId;
+  final  String userId;
 
   @override
   State<KYCUpdate> createState() => _KYCUpdateState();
@@ -543,14 +545,14 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                   context, 'Address Proof is required');
                             } else if (addressImg.length < 2 && !(addressProof == 'Bank Statement' && addressImg.length == 1)) {
                               showCustomToast(
-                                    context, 'Address Proof image required');
+                                    context, '${addressProof == 'Bank Statement' ? '' : '2'}Address Proof image required');
                             } else if (idProof == null) {
                               showCustomToast(context, 'Id Proof is required');
                             } else if (idImg.length < 2) {
                               showCustomToast(
-                                  context, 'Id Proof image required');
+                                  context, '2 Id Proof image required');
                             } else {
-                              BlocProvider.of<ProfileCubit>(context).updateFarmerKYC(context, addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, idImg, profilePicture);
+                              BlocProvider.of<ProfileCubit>(context).updateFarmerKYC(context, widget.userId, widget.farmerId, addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, idImg, profilePicture);
                             }
                           },
                           radius: 40,

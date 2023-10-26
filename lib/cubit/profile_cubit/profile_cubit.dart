@@ -137,14 +137,14 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
   // updateProfilePicImage
-  Future<void> updateFarmerKYC(context, String docName, String docNo, String docExpiryDate, List<String> documentFiles,
+  Future<void> updateFarmerKYC(context, String userId, int farmerId, String docName, String docNo, String docExpiryDate, List<String> documentFiles,
       String docType, String docTypeNo, String docTypeExpiryDate, List<String> documentTypeFiles, String profilePic) async {
     customDialog(widget: launchProgress());
-    var response = await apiRepository.updateFarmerKYCStatus(docName, docNo, docExpiryDate, documentFiles.map((e) => File(e)).toList(),
+    var response = await apiRepository.updateFarmerKYCStatus(farmerId, docName, docNo, docExpiryDate, documentFiles.map((e) => File(e)).toList(),
     docType, docTypeNo, docTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), File(profilePic));
     disposeProgress();
     if (response.status == 200) {
-      getFarmerProfile(context);
+      getFarmerProfile(context, userId: userId);
       pressBack();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
@@ -153,15 +153,15 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
-  // updateProfilePicImage
-  Future<void> editFarmerKYC(context, int id, String docName, String docNo, String docExpiryDate, List<String> documentFiles,
+  // editFarmerKYC
+  Future<void> editFarmerKYC(context, String userId, int farmerId, int id, String docName, String docNo, String docExpiryDate, List<String> documentFiles,
       String docType, String docTypeNo, String docTypeExpiryDate, List<String> documentTypeFiles, String profilePic) async {
     customDialog(widget: launchProgress());
-    var response = await apiRepository.editFarmerKYCStatus(id, docName, docNo, docExpiryDate, documentFiles.map((e) => File(e)).toList(),
+    var response = await apiRepository.editFarmerKYCStatus(farmerId, id, docName, docNo, docExpiryDate, documentFiles.map((e) => File(e)).toList(),
         docType, docTypeNo, docTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), profilePic);
     disposeProgress();
     if (response.status == 200) {
-      getFarmerProfile(context);
+      getFarmerProfile(context, userId: userId);
       pressBack();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
@@ -316,6 +316,47 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
           ),
         ),
         resultData: resultData));
+  }
+
+  // updateImprovementAreaApi
+  void updateImprovementAreaApi(
+      context, int farmerId, int improvementIndex) async {
+    // emit(state.copyWith(status: ImprovementAreaStatus.loading));
+    List<Map<String, dynamic>> updatedData = [];
+    for (int index = 0; index < state.areaControllers!.length; index++) {
+      updatedData.add({
+        'id': state.improvementAreaListResponse!.data!.improvementAreaList![improvementIndex]
+            .farmerImprovementArea![index].id.toString(),
+        'value': state.areaControllers![index].text.toString()
+      });
+    }
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.updateImprovementArea({
+      'farmer_id': farmerId.toString(),
+      'improvementAreaData': updatedData,
+    });
+    if (response.status == 200) {
+      disposeProgress();
+      showCustomToast(context, 'Improvement Area updated', isSuccess: true);
+      pressBack();
+      await improvementAreaListApi(context, farmerId.toString());
+      getStepperData(improvementIndex);
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void generateController(int improvementIndex) {
+    List<TextEditingController> con = [];
+    emit(state.copyWith(areaControllers: []));
+
+    for (FarmerImprovementArea area in state.improvementAreaListResponse!.data!
+        .improvementAreaList![improvementIndex].farmerImprovementArea!) {
+      con.add(TextEditingController(text: area.value));
+      print(area.value);
+    }
+    emit(state.copyWith(areaControllers: [...con]));
   }
 
   // updateDdeFarmDetailApi

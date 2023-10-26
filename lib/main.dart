@@ -42,7 +42,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldDoneCubit>()),
       BlocProvider(create: (context) => di.sl<DdeEnquiryCubit>()),
-      BlocProvider(create: (context) => di.sl<ImprovementAreaCubit>()),
+      // BlocProvider(create: (context) => di.sl<ImprovementAreaCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubitTest>()),
       BlocProvider(create: (context) => di.sl<ProjectCubit>()),
     ],

@@ -226,6 +226,285 @@ class FarmerProject {
   }
 }
 
+class FarmerDocuments {
+  dynamic id;
+  dynamic farmerId;
+  dynamic personalIdName;
+  String? docType;
+  String? docNo;
+  String? docName;
+  String? docTypeNo;
+  String? docTypeExpiryDate;
+  String? docExpiryDate;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  List<DocumentFiles>? documentFiles;
+  List<DocumentTypeFiles>? documentTypeFiles;
+  String? profilePic;
+
+  FarmerDocuments(
+      {this.id,
+        this.farmerId,
+        this.personalIdName,
+        this.docType,
+        this.docNo,
+        this.docName,
+        this.docTypeNo,
+        this.docTypeExpiryDate,
+        this.docExpiryDate,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.documentFiles,
+        this.documentTypeFiles,
+        this.profilePic});
+
+  FarmerDocuments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    personalIdName = json['personal_id_name'];
+    docType = json['doc_type'];
+    docNo = json['doc_no'];
+    docName = json['doc_name'];
+    docTypeNo = json['doc_type_no'];
+    docTypeExpiryDate = json['doc_type_expiry_date'];
+    docExpiryDate = json['doc_expiry_date'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    if (json['document_files'] != null) {
+      documentFiles = <DocumentFiles>[];
+      json['document_files'].forEach((v) {
+        documentFiles!.add(DocumentFiles.fromJson(v));
+      });
+    }
+    if (json['document_type_files'] != null) {
+      documentTypeFiles = <DocumentTypeFiles>[];
+      json['document_type_files'].forEach((v) {
+        documentTypeFiles!.add(DocumentTypeFiles.fromJson(v));
+      });
+    }
+    profilePic = json['profile_pic'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['personal_id_name'] = personalIdName;
+    data['doc_type'] = docType;
+    data['doc_no'] = docNo;
+    data['doc_name'] = docName;
+    data['doc_type_no'] = docTypeNo;
+    data['doc_type_expiry_date'] = docTypeExpiryDate;
+    data['doc_expiry_date'] = docExpiryDate;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (documentFiles != null) {
+      data['document_files'] =
+          documentFiles!.map((v) => v.toJson()).toList();
+    }
+    if (documentTypeFiles != null) {
+      data['document_type_files'] =
+          documentTypeFiles!.map((v) => v.toJson()).toList();
+    }
+    data['profile_pic'] = profilePic;
+    return data;
+  }
+}
+
+class DocumentFiles {
+  dynamic id;
+  String? modelType;
+  dynamic modelId;
+  String? uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  List<dynamic>? manipulations;
+  List<dynamic>? customProperties;
+  List<dynamic>? generatedConversions;
+  List<dynamic>? responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  DocumentFiles(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  DocumentFiles.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
+    return data;
+  }
+}
+
+class DocumentTypeFiles {
+  dynamic id;
+  String? modelType;
+  dynamic modelId;
+  String? uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  List<dynamic>? manipulations;
+  List<dynamic>? customProperties;
+  List<dynamic>? generatedConversions;
+  List<dynamic>? responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  DocumentTypeFiles(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  DocumentTypeFiles.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
+    return data;
+  }
+}
+
 class FarmerProjectMilestones {
   dynamic id;
   dynamic farmerId;
@@ -453,6 +732,7 @@ class FarmerMaster {
   dynamic photo;
   dynamic achievement;
   Address? address;
+  FarmerDocuments? farmerDocuments;
 
   FarmerMaster(
       {this.id,
@@ -486,7 +766,8 @@ class FarmerMaster {
         this.createdAt,
         this.photo,
         this.achievement,
-        this.address});
+        this.address,
+        this.farmerDocuments});
 
   FarmerMaster.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -522,6 +803,9 @@ class FarmerMaster {
     achievement = json['achievement'];
     address =
     json['address'] != null ? Address.fromJson(json['address']) : null;
+    farmerDocuments = json['farmer_documents'] != null
+        ? FarmerDocuments.fromJson(json['farmer_documents'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {

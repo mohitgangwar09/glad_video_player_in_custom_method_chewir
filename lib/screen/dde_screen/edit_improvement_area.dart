@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
@@ -25,21 +26,21 @@ class _EditImprovementAreaState extends State<EditImprovementArea> {
 
   @override
   void initState() {
-    BlocProvider.of<ImprovementAreaCubit>(context).generateController(widget.improvementIndex);
+    BlocProvider.of<ProfileCubit>(context).generateController(widget.improvementIndex);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ImprovementAreaCubit, ImprovementAreaState>(
+      body: BlocBuilder<ProfileCubit, ProfileCubitState>(
           builder: (context, state) {
-        if (state.status == ImprovementAreaStatus.loading) {
+        if (state.status == ProfileStatus.loading) {
           return const Center(
               child: CircularProgressIndicator(
             color: ColorResources.maroon,
           ));
-        } else if (state.response == null) {
-          return Center(child: Text("${state.response} Api Error"));
+        } else if (state.improvementAreaListResponse == null) {
+          return Center(child: Text("${state.improvementAreaListResponse} Api Error"));
         } else {
           return Stack(
             children: [
@@ -48,13 +49,18 @@ class _EditImprovementAreaState extends State<EditImprovementArea> {
                 children: [
                   CustomAppBar(
                     context: context,
-                    titleText1: "Improvement areas",
-                    description: 'Provide the following details',
+                    titleText1: state.improvementAreaListResponse!
+                        .data!
+                        .improvementAreaList![
+                    widget.improvementIndex]
+                        .name ??
+                        '',
+                    description: 'Survey details',
                     leading: arrowBackButton(),
                     centerTitle: true,
                     action: TextButton(
-                        onPressed: () {
-                          context.read<ImprovementAreaCubit>().updateImprovementAreaApi(context, widget.farmerId, widget.improvementIndex);
+                        onPressed: () async {
+                          context.read<ProfileCubit>().updateImprovementAreaApi(context, widget.farmerId, widget.improvementIndex);
                         },
                         child: Text(
                           'Save',
@@ -69,66 +75,66 @@ class _EditImprovementAreaState extends State<EditImprovementArea> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Center(
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius:
-                                    BorderRadius.circular(16.0),
-                                    child: CachedNetworkImage(
-                                      imageUrl: state
-                                          .response!
-                                          .data!
-                                          .improvementAreaList![widget.improvementIndex]
-                                          .image ??
-                                          '',
-                                      errorWidget: (_, __, ___) =>
-                                          Image.asset(
-                                            Images.facilities,
-                                            width: screenWidth() * 0.75,
-                                            height: screenWidth() * 0.65 ,
-                                            fit: BoxFit.cover,
-                                            alignment: Alignment.center,
-                                          ),
-                                      width: screenWidth() * 0.75,
-                                      height: screenWidth() * 0.65,
-                                      fit: BoxFit.cover,
-                                      alignment: Alignment.center,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 20,
-                                    right: 10,
-                                    left: 10,
-                                    child: Text(
-                                      state
-                                          .response!
-                                          .data!
-                                          .improvementAreaList![widget.improvementIndex]
-                                          .name ??
-                                          '',
-                                      style: figtreeMedium.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 18),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                            // Center(
+                            //   child: Stack(
+                            //     children: [
+                            //       ClipRRect(
+                            //         borderRadius:
+                            //         BorderRadius.circular(16.0),
+                            //         child: CachedNetworkImage(
+                            //           imageUrl: state
+                            //               .improvementAreaListResponse!
+                            //               .data!
+                            //               .improvementAreaList![widget.improvementIndex]
+                            //               .image ??
+                            //               '',
+                            //           errorWidget: (_, __, ___) =>
+                            //               Image.asset(
+                            //                 Images.facilities,
+                            //                 width: screenWidth() * 0.75,
+                            //                 height: screenWidth() * 0.65 ,
+                            //                 fit: BoxFit.cover,
+                            //                 alignment: Alignment.center,
+                            //               ),
+                            //           width: screenWidth() * 0.75,
+                            //           height: screenWidth() * 0.65,
+                            //           fit: BoxFit.cover,
+                            //           alignment: Alignment.center,
+                            //         ),
+                            //       ),
+                            //       Positioned(
+                            //         bottom: 20,
+                            //         right: 10,
+                            //         left: 10,
+                            //         child: Text(
+                            //           state
+                            //               .improvementAreaListResponse!
+                            //               .data!
+                            //               .improvementAreaList![widget.improvementIndex]
+                            //               .name ??
+                            //               '',
+                            //           style: figtreeMedium.copyWith(
+                            //               color: Colors.white,
+                            //               fontSize: 18),
+                            //           textAlign: TextAlign.center,
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
                             20.verticalSpace(),
                             customList(
-                              list: List.generate(state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea!.length, (index) => ''),
+                              list: List.generate(state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea!.length, (index) => ''),
                                 child: (index) {
                                   return Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Column(
                                     children: [
-                                      state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "dropdown"?
+                                      state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "dropdown"?
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].parameter!),
+                                          Text(state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].parameter!),
 
                                           4.verticalSpace(),
 
@@ -150,7 +156,7 @@ class _EditImprovementAreaState extends State<EditImprovementArea> {
                                                     color: Theme.of(context).hintColor,
                                                   ),
                                                 ),
-                                                items: state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].dropdownValues!
+                                                items: state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].dropdownValues!
                                                     .map((String item) => DropdownMenuItem<String>(
                                                   value: item,
                                                   child: Text(
@@ -182,13 +188,13 @@ class _EditImprovementAreaState extends State<EditImprovementArea> {
 
                                         ],
                                       ) :CustomTextField2(
-                                        inputFormatters: [state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "number"?FilteringTextInputFormatter.digitsOnly:
-                                        state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "decimal"?FilteringTextInputFormatter.allow(RegExp(r'^[0-9]+\.?[0-9]*')):FilteringTextInputFormatter.singleLineFormatter],
-                                        title: state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].parameter!,
+                                        inputFormatters: [state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "number"?FilteringTextInputFormatter.digitsOnly:
+                                        state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "decimal"?FilteringTextInputFormatter.allow(RegExp(r'^[0-9]+\.?[0-9]*')):FilteringTextInputFormatter.singleLineFormatter],
+                                        title: state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].parameter!,
                                         controller: state.areaControllers![index],
-                                        inputType: state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "number"?TextInputType.number:
-                                        state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "text"?TextInputType.text:
-                                        state.response!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "decimal"?const TextInputType.numberWithOptions(decimal: true):TextInputType.text,
+                                        inputType: state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "number"?TextInputType.number:
+                                        state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "text"?TextInputType.text:
+                                        state.improvementAreaListResponse!.data!.improvementAreaList![widget.improvementIndex].farmerImprovementArea![index].inputType == "decimal"?const TextInputType.numberWithOptions(decimal: true):TextInputType.text,
                                       ),
                                     ],
                                   ),);

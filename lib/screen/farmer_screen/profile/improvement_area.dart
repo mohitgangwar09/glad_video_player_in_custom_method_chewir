@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -49,9 +50,26 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                     children: [
                       CustomAppBar(
                         context: context,
-                        titleText1: "Improvement area",
-                        description: 'See the details of the improvement area.',
+                        titleText1: state.improvementAreaListResponse!
+                                      .data!
+                                      .improvementAreaList![
+                                  widget.index]
+                                      .name ??
+                                      '',
+                        description: 'Survey details',
                         leading: arrowBackButton(),
+                        action: Row(children: [
+                          if(widget.fromDDE)
+                            InkWell(
+                                onTap: () {
+                                  EditImprovementArea(
+                                      improvementIndex: widget.index,
+                                      farmerId: widget.farmerId)
+                                      .navigate();
+                                },
+                                child:
+                                SvgPicture.asset(Images.profileEdit)),
+                        ],),
                         centerTitle: true,
                       ),
                       Expanded(
@@ -59,77 +77,78 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              30.verticalSpace(),
-                              Center(
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius:
-                                      BorderRadius.circular(16.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: state
-                                            .improvementAreaListResponse!
-                                            .data!
-                                            .improvementAreaList![
-                                        widget.index]
-                                            .image ??
-                                            '',
-                                        errorWidget: (_, __, ___) =>
-                                            Image.asset(
-                                              Images.facilities,
-                                              width: screenWidth() * 0.7,
-                                              height: screenWidth() * 0.6,
-                                              fit: BoxFit.cover,
-                                              alignment: Alignment.center,
-                                            ),
-                                        width: screenWidth() * 0.7,
-                                        height: screenWidth() * 0.6,
-                                        fit: BoxFit.cover,
-                                        alignment: Alignment.center,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      bottom: 20,
-                                      right: 10,
-                                      left: 10,
-                                      child: Text(
-                                        state
-                                            .improvementAreaListResponse!
-                                            .data!
-                                            .improvementAreaList![
-                                        widget.index]
-                                            .name ??
-                                            '',
-                                        style: figtreeMedium.copyWith(
-                                            color: Colors.white,
-                                            fontSize: 18),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              30.verticalSpace(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    'Survey details'
-                                        .textMedium(color: Colors.black, fontSize: 18),
-                                    InkWell(
-                                        onTap: () {
-                                          EditImprovementArea(
-                                              improvementIndex: widget.index,
-                                              farmerId: widget.farmerId)
-                                              .navigate();
-                                        },
-                                        child:
-                                        SvgPicture.asset(Images.profileEdit)),
-                                  ],
-                                ),
-                              ),
-                              10.verticalSpace(),
+                              // 30.verticalSpace(),
+                              // Center(
+                              //   child: Stack(
+                              //     children: [
+                              //       ClipRRect(
+                              //         borderRadius:
+                              //         BorderRadius.circular(16.0),
+                              //         child: CachedNetworkImage(
+                              //           imageUrl: state
+                              //               .improvementAreaListResponse!
+                              //               .data!
+                              //               .improvementAreaList![
+                              //           widget.index]
+                              //               .image ??
+                              //               '',
+                              //           errorWidget: (_, __, ___) =>
+                              //               Image.asset(
+                              //                 Images.facilities,
+                              //                 width: screenWidth() * 0.7,
+                              //                 height: screenWidth() * 0.6,
+                              //                 fit: BoxFit.cover,
+                              //                 alignment: Alignment.center,
+                              //               ),
+                              //           width: screenWidth() * 0.7,
+                              //           height: screenWidth() * 0.6,
+                              //           fit: BoxFit.cover,
+                              //           alignment: Alignment.center,
+                              //         ),
+                              //       ),
+                              //       Positioned(
+                              //         bottom: 20,
+                              //         right: 10,
+                              //         left: 10,
+                              //         child: Text(
+                              //           state
+                              //               .improvementAreaListResponse!
+                              //               .data!
+                              //               .improvementAreaList![
+                              //           widget.index]
+                              //               .name ??
+                              //               '',
+                              //           style: figtreeMedium.copyWith(
+                              //               color: Colors.white,
+                              //               fontSize: 18),
+                              //           textAlign: TextAlign.center,
+                              //         ),
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+                              // 30.verticalSpace(),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       'Survey details'
+                              //           .textMedium(color: Colors.black, fontSize: 18),
+                              //       if(widget.fromDDE)
+                              //       InkWell(
+                              //           onTap: () {
+                              //             EditImprovementArea(
+                              //                 improvementIndex: widget.index,
+                              //                 farmerId: widget.farmerId)
+                              //                 .navigate();
+                              //           },
+                              //           child:
+                              //           SvgPicture.asset(Images.profileEdit)),
+                              //     ],
+                              //   ),
+                              // ),
+                              20.verticalSpace(),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child:

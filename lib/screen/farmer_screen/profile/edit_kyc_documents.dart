@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/farmer_profile_model.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart' as project_detail;
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
@@ -19,8 +20,10 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class EditKYCDocuments extends StatefulWidget {
-  const EditKYCDocuments({super.key, required this.farmerDocuments});
-  final FarmerDocuments farmerDocuments;
+  const EditKYCDocuments({super.key, required this.farmerDocuments, required this.farmerId, required this.userId});
+  final dynamic farmerDocuments;
+  final  int farmerId;
+  final  String userId;
 
   @override
   State<EditKYCDocuments> createState() => _EditKYCDocumentsState();
@@ -65,11 +68,11 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
     }
     profilePicture = widget.farmerDocuments.profilePic!;
     addressDoc = TextEditingController(text: widget.farmerDocuments.docTypeNo);
-    addressDate = TextEditingController(text: widget.farmerDocuments.docTypeExpiryDate);
+    addressDate = TextEditingController(text: widget.farmerDocuments.docTypeExpiryDate! == '0000-00-00' ? '': widget.farmerDocuments.docTypeExpiryDate!);
     idDoc = TextEditingController(text: widget.farmerDocuments.docNo);
-    idDate = TextEditingController(text: widget.farmerDocuments.docExpiryDate);
-    addressImg.addAll(widget.farmerDocuments.documentFiles!.map((e) => e.fullUrl!));
-    idImg.addAll(widget.farmerDocuments.documentTypeFiles!.map((e) => e.fullUrl!));
+    idDate = TextEditingController(text: widget.farmerDocuments.docExpiryDate! == '0000-00-00' ? '': widget.farmerDocuments.docExpiryDate);
+    addressImg.addAll(Iterable.castFrom(widget.farmerDocuments.documentFiles!.map((e) => e.fullUrl!)));
+    idImg.addAll(Iterable.castFrom(widget.farmerDocuments.documentTypeFiles!.map((e) => e.fullUrl!)));
     super.initState();
   }
 
@@ -592,16 +595,16 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
                                   context, 'Address Proof is required');
                             } else if (addressImg.length < 2 && !(addressProof == 'Bank Statement' && addressImg.length == 1)) {
                               showCustomToast(
-                                  context, 'Address Proof image required');
+                                  context, '${addressProof == 'Bank Statement' ? '' : '2'}Address Proof image required');
                             } else if (idProof == null) {
                               showCustomToast(context, 'Id Proof is required');
                             } else if (idImg.length < 2) {
                               showCustomToast(
-                                  context, 'Id Proof image required');
+                                  context, '2 Id Proof image required');
                             } else {
                               print(addressImg);
                               print(idImg);
-                              BlocProvider.of<ProfileCubit>(context).editFarmerKYC(context, widget.farmerDocuments.id,addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, isUrl(addressImg[0]) ? [] : addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, isUrl(idImg[0]) ? [] : idImg, isUrl(profilePicture) ? '' : profilePicture);
+                              BlocProvider.of<ProfileCubit>(context).editFarmerKYC(context,widget.userId, widget.farmerId, widget.farmerDocuments.id,addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, isUrl(addressImg[0]) ? [] : addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, isUrl(idImg[0]) ? [] : idImg, isUrl(profilePicture) ? '' : profilePicture);
                             }
                           },
                           radius: 40,

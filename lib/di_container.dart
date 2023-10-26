@@ -45,7 +45,7 @@ Future<void> init() async {
   sl.registerFactory(() => LandingPageCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DrawerCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DdeEnquiryCubit(apiRepository: sl(),sharedPreferences: sl()));
-  sl.registerFactory(() => ImprovementAreaCubit(apiRepository: sl(),sharedPreferences: sl()));
+  // sl.registerFactory(() => ImprovementAreaCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => ProjectCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => CowsAndYieldCubitTest(apiRepository: sl(),sharedPreferences: sl()));
 

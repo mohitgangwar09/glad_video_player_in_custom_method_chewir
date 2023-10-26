@@ -8,6 +8,7 @@ import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/errors_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
+import 'package:glad/data/model/improvement_area_update_response.dart';
 import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
@@ -63,7 +64,7 @@ class ProfileRepository {
   }
 
 ///////////////// updateFarmerKYCStatus //////////
-  Future<ResponseOtpModel> updateFarmerKYCStatus(String docName, String docNo, String docExpiryDate, List<File> documentFiles,
+  Future<ResponseOtpModel> updateFarmerKYCStatus(int farmerId, String docName, String docNo, String docExpiryDate, List<File> documentFiles,
       String docType, String docTypeNo, String docTypeExpiryDate, List<File> documentTypeFiles, File profilePic) async {
 
     FormData formData = FormData.fromMap(
@@ -82,6 +83,9 @@ class ProfileRepository {
     for(var e in documentTypeFiles) {
       formData.files.add(MapEntry("document_type_files[]", await MultipartFile.fromFile(e.path)));
     }
+    // if(sharedPreferences!.getString(AppConstants.userType) == 'dde'){
+      formData.fields.add(MapEntry('farmer_id', farmerId.toString()));
+    // }
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
@@ -97,7 +101,7 @@ class ProfileRepository {
   }
 
   ///////////////// updateFarmerKYCStatus //////////
-  Future<ResponseOtpModel> editFarmerKYCStatus(int id, String docName, String docNo, String docExpiryDate, List<File> documentFiles,
+  Future<ResponseOtpModel> editFarmerKYCStatus(int farmerId,  int id, String docName, String docNo, String docExpiryDate, List<File> documentFiles,
       String docType, String docTypeNo, String docTypeExpiryDate, List<File> documentTypeFiles, String profilePic) async {
 
     FormData formData = FormData.fromMap(
@@ -119,6 +123,9 @@ class ProfileRepository {
     for(var e in documentTypeFiles) {
       formData.files.add(MapEntry("document_type_files[]", await MultipartFile.fromFile(e.path)));
     }
+    // if(sharedPreferences!.getString(AppConstants.userType) == 'dde'){
+      formData.fields.add(MapEntry('farmer_id', farmerId.toString()));
+    // }
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
@@ -162,6 +169,18 @@ class ProfileRepository {
       return ImprovementAreaListModel.fromJson(apiResponse.response!.data);
     } {
       return ImprovementAreaListModel(
+          status: 422,
+          message: apiResponse.msg);
+    }
+  }
+
+  Future<ImprovementAreaUpdateResponse> updateImprovementArea(Map<String, dynamic> data) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
+        AppConstants.improvementAreaUpdate, headers: {'Authorization': 'Bearer ${getUserToken()}'}, data :data);
+    if (apiResponse.status) {
+      return ImprovementAreaUpdateResponse.fromJson(apiResponse.response!.data);
+    } {
+      return ImprovementAreaUpdateResponse(
           status: 422,
           message: apiResponse.msg);
     }

@@ -20,7 +20,7 @@ import 'package:glad/utils/styles.dart';
 
 class ViewKYCDocuments extends StatefulWidget {
   const ViewKYCDocuments({super.key, required this.farmerDocuments});
-  final FarmerDocuments farmerDocuments;
+  final dynamic farmerDocuments;
 
   @override
   State<ViewKYCDocuments> createState() => _ViewKYCDocumentsState();

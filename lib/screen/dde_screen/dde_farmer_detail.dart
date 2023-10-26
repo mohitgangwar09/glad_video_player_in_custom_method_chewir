@@ -22,7 +22,10 @@ import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
 import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_address.dart';
+import 'package:glad/screen/farmer_screen/profile/edit_kyc_documents.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
+import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
+import 'package:glad/screen/farmer_screen/profile/view_kyc_documents.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -171,13 +174,13 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         InkWell(
-                                          // onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
-                                          //   const KYCUpdate().navigate();
-                                          // } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? () {
-                                          //   EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
-                                          // } : state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
-                                          //   ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
-                                          // } : () {},
+                                          onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
+                                            KYCUpdate(farmerId: state.responseFarmerProfile!.farmer!.id!, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
+                                          } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? () {
+                                            EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!, farmerId: state.responseFarmerProfile!.farmer!.id!, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
+                                          } : state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
+                                            ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
+                                          } : () {},
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,

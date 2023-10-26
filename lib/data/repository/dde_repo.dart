@@ -118,29 +118,29 @@ class DdeRepository {
     }
   }
 
-  Future<ImprovementAreaListModel> getImprovementArea(int farmerId) async {
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
-        AppConstants.improvementAreaList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'farmer_id': farmerId});
-    if (apiResponse.status) {
-      return ImprovementAreaListModel.fromJson(apiResponse.response!.data);
-    } {
-      return ImprovementAreaListModel(
-          status: 422,
-          message: apiResponse.msg);
-    }
-  }
-
-  Future<ImprovementAreaUpdateResponse> updateImprovementArea(Map<String, dynamic> data) async {
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
-        AppConstants.improvementAreaUpdate, headers: {'Authorization': 'Bearer ${getUserToken()}'}, data :data);
-    if (apiResponse.status) {
-      return ImprovementAreaUpdateResponse.fromJson(apiResponse.response!.data);
-    } {
-      return ImprovementAreaUpdateResponse(
-          status: 422,
-          message: apiResponse.msg);
-    }
-  }
+  // Future<ImprovementAreaListModel> getImprovementArea(int farmerId) async {
+  //   api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
+  //       AppConstants.improvementAreaList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'farmer_id': farmerId});
+  //   if (apiResponse.status) {
+  //     return ImprovementAreaListModel.fromJson(apiResponse.response!.data);
+  //   } {
+  //     return ImprovementAreaListModel(
+  //         status: 422,
+  //         message: apiResponse.msg);
+  //   }
+  // }
+  //
+  // Future<ImprovementAreaUpdateResponse> updateImprovementArea(Map<String, dynamic> data) async {
+  //   api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
+  //       AppConstants.improvementAreaUpdate, headers: {'Authorization': 'Bearer ${getUserToken()}'}, data :data);
+  //   if (apiResponse.status) {
+  //     return ImprovementAreaUpdateResponse.fromJson(apiResponse.response!.data);
+  //   } {
+  //     return ImprovementAreaUpdateResponse(
+  //         status: 422,
+  //         message: apiResponse.msg);
+  //   }
+  // }
 
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
