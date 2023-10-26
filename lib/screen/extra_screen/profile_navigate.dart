@@ -52,7 +52,7 @@ class CowsAndYieldsDDEFarmerState extends State<CowsAndYieldsDDEFarmer> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<DdeFarmerCubit>(context).emit(DdeState.initial());
       BlocProvider.of<DdeFarmerCubit>(context).getCowBreedDetailsApi(context);
-      BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context);
+      BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context,"");
     });
   }
 

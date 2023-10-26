@@ -465,9 +465,9 @@ class DdeFarmerCubit extends Cubit<DdeState>{
   }
 
   // getBreed
-  void getBreedListApi(context) async {
+  void getBreedListApi(context,String userId) async {
     emit(state.copyWith(status: DdeFarmerStatus.loading));
-    var response = await apiRepository.getBreedApi();
+    var response = await apiRepository.getBreedApi(userId);
     if (response.status == 200) {
       emit(state.copyWith(
         status: DdeFarmerStatus.success,
