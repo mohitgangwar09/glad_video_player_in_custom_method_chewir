@@ -66,7 +66,7 @@ class RejectScreen extends StatelessWidget {
                               Text(
                                 'Water Management',
                                 style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Color(0xFF808080)),
+                                    fontSize: 12, color: const Color(0xFF808080)),
                               ),
                             ],
                           ),
@@ -130,7 +130,7 @@ class RejectScreen extends StatelessWidget {
                 ),
                 40.verticalSpace(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 35),
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
                   child:
                       'Your project will be put on hold until the dispute is resolved.'
                           .textRegular(

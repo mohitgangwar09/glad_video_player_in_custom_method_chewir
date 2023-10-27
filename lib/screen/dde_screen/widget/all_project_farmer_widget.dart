@@ -1,13 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glad/data/model/dde_project_model.dart';
-import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dde_screen/project_details.dart';
 import 'package:glad/screen/dde_screen/suggested_investment.dart';
-import 'package:glad/screen/farmer_screen/common/suggested_project_details.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class AllProjectFarmerWidget extends StatelessWidget {

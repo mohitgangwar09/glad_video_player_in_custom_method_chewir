@@ -9,7 +9,6 @@ import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
-import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';

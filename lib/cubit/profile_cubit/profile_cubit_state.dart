@@ -138,7 +138,7 @@ class ProfileCubitState extends Equatable{
       dataSubCounty: const [],
       responseCountyList: ResponseCountyList(),
       responseSubCounty: ResponseSubCounty(),
-      areaControllers: [],
+      areaControllers: const [],
     );
   }
 

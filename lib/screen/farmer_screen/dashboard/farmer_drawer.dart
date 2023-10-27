@@ -13,7 +13,6 @@ import '../../../utils/color_resources.dart';
 import '../../../utils/extension.dart';
 import '../../../utils/images.dart';
 import '../../../utils/styles.dart';
-import '../../auth_screen/login_with_password.dart';
 import '../../custom_widget/custom_methods.dart';
 
 class FarmerDrawer extends StatelessWidget {
@@ -85,7 +84,7 @@ class FarmerDrawer extends StatelessWidget {
           navigationBarItem(
               image: Images.notification,
               onTap: () {
-                FarmerNotification().navigate();
+                const FarmerNotification().navigate();
               },
               text: 'Notification',
               visible: false),

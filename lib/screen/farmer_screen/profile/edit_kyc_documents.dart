@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
-import 'package:glad/data/model/farmer_profile_model.dart';
-import 'package:glad/data/model/farmer_project_detail_model.dart' as project_detail;
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';

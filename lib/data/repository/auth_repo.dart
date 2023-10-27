@@ -1,10 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:glad/data/model/api_response.dart';
 import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
-import 'package:glad/data/model/errors_model.dart';
 import 'package:glad/utils/app_constants.dart';
-import 'package:glad/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
 

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
-import 'package:glad/screen/farmer_screen/drawer_screen/chat_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -146,10 +144,10 @@ class Earnings extends StatelessWidget {
                             ),
                             20.verticalSpace(),
                             Container(
-                              padding: EdgeInsets.all(25),
+                              padding: const EdgeInsets.all(25),
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  border: Border.all(color: Color(0xffDCDCDC)),
+                                  border: Border.all(color: const Color(0xffDCDCDC)),
                                   borderRadius: BorderRadius.circular(20)),
                               child: Column(
                                 children: [
@@ -206,12 +204,12 @@ class Earnings extends StatelessWidget {
                                                 ],
                                               ),
                                               Container(
-                                                padding: EdgeInsets.all(12),
+                                                padding: const EdgeInsets.all(12),
                                                 decoration: boxDecoration(
                                                     backgroundColor:
-                                                        Color(0xFFFFF3F4),
+                                                        const Color(0xFFFFF3F4),
                                                     borderColor:
-                                                        Color(0xffF6B51D),
+                                                        const Color(0xffF6B51D),
                                                     borderRadius: 40,
                                                     borderWidth: 1),
                                                 child: 'UGX 500K'.textBold(
@@ -229,7 +227,7 @@ class Earnings extends StatelessWidget {
                                       child: Divider(),
                                     ),
                                   ),
-                                  Padding(
+                                  const Padding(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 10.0),
                                     child: Divider(),

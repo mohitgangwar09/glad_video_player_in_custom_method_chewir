@@ -37,7 +37,7 @@ class SurveyFinishedScreen extends StatelessWidget {
                     .textMedium(fontSize: 30, color: ColorResources.black),
                 10.verticalSpace(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 35),
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: 'Survey has been completed successfully.'
                       .textRegular(
                           fontSize: 16,
@@ -72,7 +72,7 @@ class SurveyFinishedScreen extends StatelessWidget {
                               Text(
                                 'Water Management',
                                 style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Color(0xFF808080)),
+                                    fontSize: 12, color: const Color(0xFF808080)),
                               ),
                             ],
                           ),
@@ -136,7 +136,7 @@ class SurveyFinishedScreen extends StatelessWidget {
                 ),
                 40.verticalSpace(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 35),
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: 'You can track the status of your application from surveys section.'
                       .textRegular(
                           fontSize: 16,

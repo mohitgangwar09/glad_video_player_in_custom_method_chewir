@@ -48,7 +48,7 @@ class ProjectDetails extends StatelessWidget {
                         20.verticalSpace(),
                         Container(
 
-                          decoration: boxDecoration(backgroundColor: Colors.white,borderRadius: 10, borderColor: Color(0xFF999999)),
+                          decoration: boxDecoration(backgroundColor: Colors.white,borderRadius: 10, borderColor: const Color(0xFF999999)),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 12),

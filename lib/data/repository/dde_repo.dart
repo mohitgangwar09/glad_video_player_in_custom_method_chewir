@@ -1,7 +1,5 @@
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/farmers_list.dart';
-import 'package:glad/data/model/improvement_area_list_model.dart';
-import 'package:glad/data/model/improvement_area_update_response.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/utils/app_constants.dart';

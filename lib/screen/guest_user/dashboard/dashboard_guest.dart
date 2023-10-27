@@ -6,7 +6,6 @@ import 'package:glad/screen/guest_user/dashboard_tab_screen/livestock_screen.dar
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/landing_page.dart';
-import 'package:glad/screen/guest_user/faq_screen.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/color_resources.dart';

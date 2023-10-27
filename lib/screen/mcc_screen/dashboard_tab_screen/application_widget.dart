@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
-import 'package:glad/utils/styles.dart';
 
 class MCCApplicationScreen extends StatelessWidget {
   final double? bottom;

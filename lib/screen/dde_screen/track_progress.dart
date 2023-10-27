@@ -80,7 +80,7 @@ class TrackProgress extends StatelessWidget {
                                     ),
                                     7.verticalSpace(),
                                     'Begumanya Charles (Admin)'.textMedium(
-                                        fontSize: 14, color: Color(0xFF23262A)),
+                                        fontSize: 14, color: const Color(0xFF23262A)),
                                     4.verticalSpace(),
                                     RichText(
                                         text: TextSpan(children: [

@@ -1,13 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glad/cubit/improvement_area_cubit/improvement_area_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/edit_improvement_area.dart';
-import 'package:glad/screen/dde_screen/suggested_investment.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -253,37 +250,121 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
+
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text('Loss of Milk Yield /cow /day',
+                                              Text('Total Distance Travelled',
                                                   style: figtreeRegular.copyWith(
                                                       fontSize: 12,
                                                       color: ColorResources
                                                           .fieldGrey)),
                                               5.verticalSpace(),
-                                              Text('${getCurrencyString(state.resultData!.lossOfMilkPerCow, unit: '')} Ltr.',
+                                              Text("${state.resultData!.totalDistanceTravelled} km",
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 16,
                                                       color: Colors.black)),
                                             ],
                                           ),
+
+                                          20.verticalSpace(),
+
+                                          Text('Yield incremental /cow /day',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+
                                           10.verticalSpace(),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                                          Row(
                                             children: [
-                                              Text('Expected Yield /cow /day',
-                                                  style: figtreeRegular.copyWith(
-                                                      fontSize: 12,
-                                                      color: ColorResources
-                                                          .fieldGrey)),
-                                              5.verticalSpace(),
-                                              Text('${getCurrencyString(state.resultData!.expectedYieldPerCow, unit: '')} Ltr.',
-                                                  style: figtreeMedium.copyWith(
-                                                      fontSize: 16,
-                                                      color: Colors.black)),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('Loss of Milk',
+                                                        style: figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: ColorResources
+                                                                .fieldGrey)),
+                                                    5.verticalSpace(),
+                                                    Text('${getCurrencyString(state.resultData!.lossOfMilkPerCow, unit: '')} Ltr.',
+                                                        style: figtreeMedium.copyWith(
+                                                            fontSize: 16,
+                                                            color: Colors.black)),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('Current Yield',
+                                                        style: figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: ColorResources
+                                                                .fieldGrey)),
+                                                    5.verticalSpace(),
+                                                    Text('${getCurrencyString(0, unit: '')} Ltr.',
+                                                        style: figtreeMedium.copyWith(
+                                                            fontSize: 16,
+                                                            color: Colors.black)),
+                                                  ],
+                                                ),
+                                              ),
+                                              // 20.verticalSpace(),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('Expected Yield',
+                                                        style: figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: ColorResources
+                                                                .fieldGrey)),
+                                                    5.verticalSpace(),
+                                                    Text('${getCurrencyString(state.resultData!.expectedYieldPerCow, unit: '')} Ltr.',
+                                                        style: figtreeMedium.copyWith(
+                                                            fontSize: 16,
+                                                            color: Colors.black)),
+                                                  ],
+                                                ),
+                                              ),
                                             ],
                                           ),
+
+                                          /*  Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Loss of Milk Yield /cow /day',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          5.verticalSpace(),
+                                          Text('${getCurrencyString(state.resultData!.lossOfMilkPerCow, unit: '')} Ltr.',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                        ],
+                                      ),
+                                      // 20.verticalSpace(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Expected Yield /cow /day',
+                                              style: figtreeRegular.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          5.verticalSpace(),
+                                          Text('${getCurrencyString(state.resultData!.expectedYieldPerCow, unit: '')} Ltr.',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                        ],
+                                      ),*/
                                           20.verticalSpace(),
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,7 +384,7 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                                             color: ColorResources
                                                                 .fieldGrey)),
                                                     5.verticalSpace(),
-                                                    Text('${getCurrencyString(state.resultData!.incrementalProduction, unit: '')} Ltr.',
+                                                    Text('${getCurrencyString(double.parse(state.resultData!.incrementalProduction.toStringAsFixed(2)), unit: '')} Ltr.',
                                                         style: figtreeMedium.copyWith(
                                                             fontSize: 16,
                                                             color: Colors.black)),

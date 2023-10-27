@@ -9,7 +9,6 @@ import 'package:glad/utils/styles.dart';
 
 import '../custom_widget/custom_appbar.dart';
 
-import 'package:flutter/material.dart';
 
 class TrianglePainter extends CustomPainter {
   @override

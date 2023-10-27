@@ -54,7 +54,7 @@ class FarmerStatement extends StatelessWidget {
                     margin: i == 3
                         ? const EdgeInsets.only(right: 12)
                         : i==1 ? const EdgeInsets.only(left: 12) : null,
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(

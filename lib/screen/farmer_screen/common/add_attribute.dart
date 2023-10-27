@@ -4,17 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
-import 'package:glad/data/model/response_material_type.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
-import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
-import 'package:glad/screen/custom_widget/custom_textfield2.dart';
-import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class AttributesAdd extends StatefulWidget {

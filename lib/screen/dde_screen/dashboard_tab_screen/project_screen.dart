@@ -8,11 +8,8 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
 import 'package:glad/screen/dde_screen/project_widget.dart';
-import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
-import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 

@@ -319,23 +319,23 @@ class PreviousDay {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['farmer_id'] = this.farmerId;
-    data['date'] = this.date;
-    data['month'] = this.month;
-    data['total_milk_production'] = this.totalMilkProduction;
-    data['milking_cow'] = this.milkingCow;
-    data['supplied_to_pdfl'] = this.suppliedToPdfl;
-    data['supplied_to_others'] = this.suppliedToOthers;
-    data['self_use'] = this.selfUse;
-    data['yield_per_cow'] = this.yieldPerCow;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['date'] = date;
+    data['month'] = month;
+    data['total_milk_production'] = totalMilkProduction;
+    data['milking_cow'] = milkingCow;
+    data['supplied_to_pdfl'] = suppliedToPdfl;
+    data['supplied_to_others'] = suppliedToOthers;
+    data['self_use'] = selfUse;
+    data['yield_per_cow'] = yieldPerCow;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

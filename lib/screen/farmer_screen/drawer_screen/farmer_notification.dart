@@ -45,7 +45,7 @@ class FarmerNotification extends StatelessWidget {
         list: [1, 2, 3, 4],
         child: (index) {
           return Container(
-            margin: EdgeInsets.fromLTRB(10,10,10,5),
+            margin: const EdgeInsets.fromLTRB(10,10,10,5),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(14),

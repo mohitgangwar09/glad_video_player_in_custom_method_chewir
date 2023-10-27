@@ -1,21 +1,16 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
-import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
-import 'package:glad/data/model/update_record_breed_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/dialog/breed_picker.dart';
 import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
-import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 

@@ -5,10 +5,8 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
-import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -107,7 +105,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                               shape: BoxShape.circle,
                                               color: type == 'director'
                                                   ? ColorResources.maroon
-                                                  : Color(0xFFD2D2D2)),
+                                                  : const Color(0xFFD2D2D2)),
                                           padding: const EdgeInsets.all(8),
                                           child: const Icon(
                                             Icons.done,
@@ -281,7 +279,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                       style: figtreeMedium.copyWith(
                                           fontSize: 16,
                                           color:
-                                          Color(0xFFFC5E60))),
+                                          const Color(0xFFFC5E60))),
                                   TextSpan(
                                       text: 'you file here',
                                       style: figtreeMedium.copyWith(
@@ -338,14 +336,14 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     SvgPicture.asset(
                       Images.attachment,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           ColorResources.fieldGrey,
                           BlendMode.srcIn),
                     ),
                     10.horizontalSpace(),
                     SvgPicture.asset(
                       Images.camera,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           ColorResources.fieldGrey,
                           BlendMode.srcIn),
                     )
@@ -438,7 +436,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                       style: figtreeMedium.copyWith(
                                           fontSize: 16,
                                           color:
-                                          Color(0xFFFC5E60))),
+                                          const Color(0xFFFC5E60))),
                                   TextSpan(
                                       text: 'you file here',
                                       style: figtreeMedium.copyWith(
@@ -495,14 +493,14 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     SvgPicture.asset(
                       Images.attachment,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           ColorResources.fieldGrey,
                           BlendMode.srcIn),
                     ),
                     10.horizontalSpace(),
                     SvgPicture.asset(
                       Images.camera,
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                           ColorResources.fieldGrey,
                           BlendMode.srcIn),
                     )

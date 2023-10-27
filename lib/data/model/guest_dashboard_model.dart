@@ -8,13 +8,13 @@ class GuestDashboardModel {
   GuestDashboardModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -30,21 +30,21 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     dairyDevelopmentExecutive = json['dairyDevelopmentExecutive'] != null
-        ? new DairyDevelopmentExecutive.fromJson(
+        ? DairyDevelopmentExecutive.fromJson(
         json['dairyDevelopmentExecutive'])
         : null;
     enquiry =
-    json['enquiry'] != null ? new Enquiry.fromJson(json['enquiry']) : null;
+    json['enquiry'] != null ? Enquiry.fromJson(json['enquiry']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.dairyDevelopmentExecutive != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (dairyDevelopmentExecutive != null) {
       data['dairyDevelopmentExecutive'] =
-          this.dairyDevelopmentExecutive!.toJson();
+          dairyDevelopmentExecutive!.toJson();
     }
-    if (this.enquiry != null) {
-      data['enquiry'] = this.enquiry!.toJson();
+    if (enquiry != null) {
+      data['enquiry'] = enquiry!.toJson();
     }
     return data;
   }
@@ -76,13 +76,13 @@ class DairyDevelopmentExecutive {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['phone'] = this.phone;
-    data['name'] = this.name;
-    data['created_at'] = this.createdAt;
-    data['distance'] = this.distance;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['phone'] = phone;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    data['distance'] = distance;
+    data['image'] = image;
     return data;
   }
 }
@@ -152,26 +152,26 @@ class Enquiry {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['farmer_id'] = this.farmerId;
-    data['dde_id'] = this.ddeId;
-    data['device_id'] = this.deviceId;
-    data['supplier_code'] = this.supplierCode;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['mobile'] = this.mobile;
-    data['address'] = this.address;
-    data['lat'] = this.lat;
-    data['lang'] = this.lang;
-    data['comment'] = this.comment;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['closed_at'] = this.closedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['dde_id'] = ddeId;
+    data['device_id'] = deviceId;
+    data['supplier_code'] = supplierCode;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['mobile'] = mobile;
+    data['address'] = address;
+    data['lat'] = lat;
+    data['lang'] = lang;
+    data['comment'] = comment;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['closed_at'] = closedAt;
     return data;
   }
 }

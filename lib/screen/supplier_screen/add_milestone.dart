@@ -51,7 +51,7 @@ class _AddMilestoneState extends State<AddMilestone> {
                         iconColor: Colors.black,
                         icon: Images.arrowDropdown,
                         dropdownValue: null,
-                        itemList: [' ', ' '], onChanged: (String ) {  },
+                        itemList: const [' ', ' '], onChanged: (String ) {  },
                       ),
                       20.verticalSpace(),
                       const CustomTextField2(

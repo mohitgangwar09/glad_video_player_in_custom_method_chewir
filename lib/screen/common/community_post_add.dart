@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glad/screen/common/community_forum.dart';
-import 'package:glad/screen/custom_widget/community_widget.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
-import 'package:glad/screen/extra_screen/navigation.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';

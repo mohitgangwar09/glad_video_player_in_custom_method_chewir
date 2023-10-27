@@ -19,7 +19,6 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
-import 'package:intl/intl.dart';
 
 String validatorCowYield = "";
 

@@ -36,7 +36,7 @@ class AcceptScreen extends StatelessWidget {
                 'Thank you!'
                     .textMedium(fontSize: 30, color: ColorResources.black),
                 10.verticalSpace(),
-                Padding(padding: EdgeInsets.symmetric(horizontal: 35), child: 'Survey request has been accepted successfully.'
+                Padding(padding: const EdgeInsets.symmetric(horizontal: 35), child: 'Survey request has been accepted successfully.'
                     .textRegular(fontSize: 16, color: Colors.black, textAlign: TextAlign.center),),
                 30.verticalSpace(),
                 Container(
@@ -66,7 +66,7 @@ class AcceptScreen extends StatelessWidget {
                               Text(
                                 'Water Management',
                                 style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Color(0xFF808080)),
+                                    fontSize: 12, color: const Color(0xFF808080)),
                               ),
                             ],
                           ),
@@ -130,7 +130,7 @@ class AcceptScreen extends StatelessWidget {
                 ),
                 40.verticalSpace(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 35),
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
                   child:
                       'You can contact the farmer and start the survey.'
                           .textRegular(

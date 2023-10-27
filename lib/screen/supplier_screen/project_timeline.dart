@@ -239,7 +239,7 @@ class _ProjectTimelineState extends State<ProjectTimeline> {
                                                 underLine:
                                                     TextDecoration.underline,
                                                 color: ColorResources.maroon)
-                                            : SizedBox.shrink(),
+                                            : const SizedBox.shrink(),
                                       ],
                                     )
                                   ],

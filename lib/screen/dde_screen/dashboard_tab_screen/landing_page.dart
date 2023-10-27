@@ -17,18 +17,15 @@ import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
-import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../auth_screen/login_with_password.dart';
 import '../dashboard/dashboard_dde.dart';
 
 class DDELandingPage extends StatefulWidget {
@@ -181,7 +178,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                       shape: BoxShape.rectangle),
                       markersMaxCount: 1,
                       markerSize: 5,
-                      markerDecoration: BoxDecoration(color: ColorResources.maroon, shape: BoxShape.circle),
+                      markerDecoration: const BoxDecoration(color: ColorResources.maroon, shape: BoxShape.circle),
                     ),
                     eventLoader: (date) {
                       Map<String, dynamic> data = state.responseFarmerVisitor!.data as Map<String, dynamic>;
@@ -531,7 +528,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                             "Dam Construction"
                                                 .textMedium(fontSize: 12),
                                             2.verticalSpace(),
-                                            'Suggested project'.textMedium(color: Color(0xFF808080), fontSize: 10)
+                                            'Suggested project'.textMedium(color: const Color(0xFF808080), fontSize: 10)
                                           ],),
                                           Container(
                                             margin: 9.marginOnly(top: 0, bottom: 9),
@@ -655,7 +652,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                         height: 13,
                                         width: 9,
                                         decoration: BoxDecoration(
-                                            color: Color(0xFFFC5E60),
+                                            color: const Color(0xFFFC5E60),
                                             borderRadius:
                                             BorderRadius.circular(10)),
                                       ),

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/auth_models/invite_expert_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';

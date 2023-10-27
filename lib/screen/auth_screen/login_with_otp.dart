@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
-import 'package:glad/screen/auth_screen/forgot_password.dart';
-import 'package:glad/screen/auth_screen/otp.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/utils/extension.dart';

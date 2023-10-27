@@ -188,8 +188,8 @@ class DdeDrawer extends StatelessWidget {
           onTap: () {
             const LoginWithPassword().navigate(isRemove: true);
           },
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: const Padding(
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

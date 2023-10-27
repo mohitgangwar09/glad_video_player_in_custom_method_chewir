@@ -9,7 +9,6 @@ import 'package:glad/data/model/response_enquiry_detail.dart';
 import 'package:glad/data/model/response_enquiry_model.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

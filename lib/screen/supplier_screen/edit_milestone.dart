@@ -8,7 +8,6 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
-import 'package:stepper_list_view/stepper_list_view.dart';
 
 class EditMilestone extends StatefulWidget {
   const EditMilestone({super.key});
@@ -53,7 +52,7 @@ class _EditMilestoneState extends State<EditMilestone> {
                             iconColor: Colors.black,
                             icon: Images.arrowDropdown,
                             dropdownValue: null,
-                            itemList: [' ', ' '], onChanged: (String ) {  },
+                            itemList: const [' ', ' '], onChanged: (String ) {  },
                           ),
                           20.verticalSpace(),
                           const CustomTextField2(

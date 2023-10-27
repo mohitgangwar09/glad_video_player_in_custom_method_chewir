@@ -101,47 +101,47 @@ class DDEVisitorDetails {
     if (json['farmer_project'] != null) {
       farmerProject = <FarmerProject>[];
       json['farmer_project'].forEach((v) {
-        farmerProject!.add(new FarmerProject.fromJson(v));
+        farmerProject!.add(FarmerProject.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['f_address'] = this.fAddress;
-    data['phone'] = this.phone;
-    data['mcc_id'] = this.mccId;
-    data['dde_id'] = this.ddeId;
-    data['photo'] = this.photo;
-    data['kyc_status'] = this.kycStatus;
-    data['landline_no'] = this.landlineNo;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['gender'] = this.gender;
-    data['registration_date'] = this.registrationDate;
-    data['supplier_id'] = this.supplierId;
-    data['farm_size'] = this.farmSize;
-    data['dairy_area'] = this.dairyArea;
-    data['staff_quantity'] = this.staffQuantity;
-    data['farming_experience'] = this.farmingExperience;
-    data['manager_name'] = this.managerName;
-    data['manager_phone'] = this.managerPhone;
-    data['rag_rating'] = this.ragRating;
-    data['lead_type'] = this.leadType;
-    data['ideal_yield'] = this.idealYield;
-    data['current_yield'] = this.currentYield;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['created_at'] = this.createdAt;
-    data['date'] = this.date;
-    data['achievement'] = this.achievement;
-    if (this.farmerProject != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['name'] = name;
+    data['email'] = email;
+    data['f_address'] = fAddress;
+    data['phone'] = phone;
+    data['mcc_id'] = mccId;
+    data['dde_id'] = ddeId;
+    data['photo'] = photo;
+    data['kyc_status'] = kycStatus;
+    data['landline_no'] = landlineNo;
+    data['date_of_birth'] = dateOfBirth;
+    data['gender'] = gender;
+    data['registration_date'] = registrationDate;
+    data['supplier_id'] = supplierId;
+    data['farm_size'] = farmSize;
+    data['dairy_area'] = dairyArea;
+    data['staff_quantity'] = staffQuantity;
+    data['farming_experience'] = farmingExperience;
+    data['manager_name'] = managerName;
+    data['manager_phone'] = managerPhone;
+    data['rag_rating'] = ragRating;
+    data['lead_type'] = leadType;
+    data['ideal_yield'] = idealYield;
+    data['current_yield'] = currentYield;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['date'] = date;
+    data['achievement'] = achievement;
+    if (farmerProject != null) {
       data['farmer_project'] =
-          this.farmerProject!.map((v) => v.toJson()).toList();
+          farmerProject!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -257,41 +257,41 @@ class FarmerProject {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['dde_id'] = this.ddeId;
-    data['farmer_id'] = this.farmerId;
-    data['project_id'] = this.projectId;
-    data['name'] = this.name;
-    data['category'] = this.category;
-    data['description'] = this.description;
-    data['project_status'] = this.projectStatus;
-    data['project_sub_status'] = this.projectSubStatus;
-    data['suggestion_rank'] = this.suggestionRank;
-    data['initial_yield'] = this.initialYield;
-    data['target_yield'] = this.targetYield;
-    data['investment_amount'] = this.investmentAmount;
-    data['credit_ratio'] = this.creditRatio;
-    data['revenue_per_year'] = this.revenuePerYear;
-    data['roi_per_year'] = this.roiPerYear;
-    data['farmer_participation'] = this.farmerParticipation;
-    data['glad_commision_percentage'] = this.gladCommisionPercentage;
-    data['glad_commision_amount'] = this.gladCommisionAmount;
-    data['dde_commision_percentage'] = this.ddeCommisionPercentage;
-    data['dde_commision_amount'] = this.ddeCommisionAmount;
-    data['loan_amount'] = this.loanAmount;
-    data['repayment_months'] = this.repaymentMonths;
-    data['emi_amount'] = this.emiAmount;
-    data['incremental_production'] = this.incrementalProduction;
-    data['repayment_start_date'] = this.repaymentStartDate;
-    data['photo'] = this.photo;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['project_filter'] = this.projectFilter;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['dde_id'] = ddeId;
+    data['farmer_id'] = farmerId;
+    data['project_id'] = projectId;
+    data['name'] = name;
+    data['category'] = category;
+    data['description'] = description;
+    data['project_status'] = projectStatus;
+    data['project_sub_status'] = projectSubStatus;
+    data['suggestion_rank'] = suggestionRank;
+    data['initial_yield'] = initialYield;
+    data['target_yield'] = targetYield;
+    data['investment_amount'] = investmentAmount;
+    data['credit_ratio'] = creditRatio;
+    data['revenue_per_year'] = revenuePerYear;
+    data['roi_per_year'] = roiPerYear;
+    data['farmer_participation'] = farmerParticipation;
+    data['glad_commision_percentage'] = gladCommisionPercentage;
+    data['glad_commision_amount'] = gladCommisionAmount;
+    data['dde_commision_percentage'] = ddeCommisionPercentage;
+    data['dde_commision_amount'] = ddeCommisionAmount;
+    data['loan_amount'] = loanAmount;
+    data['repayment_months'] = repaymentMonths;
+    data['emi_amount'] = emiAmount;
+    data['incremental_production'] = incrementalProduction;
+    data['repayment_start_date'] = repaymentStartDate;
+    data['photo'] = photo;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['project_filter'] = projectFilter;
     return data;
   }
 }

@@ -286,7 +286,7 @@ class FarmerComparison extends StatelessWidget {
                 ),
               ),
             ),
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.only(left:10.0),
               child: Column(

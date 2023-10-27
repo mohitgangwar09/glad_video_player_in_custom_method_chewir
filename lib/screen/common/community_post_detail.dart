@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glad/screen/common/community_forum.dart';
-import 'package:glad/screen/common/community_post_add.dart';
-import 'package:glad/screen/custom_widget/community_widget.dart';
-import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
-import 'package:glad/screen/extra_screen/navigation.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -151,7 +145,7 @@ class CommunityPostDetail extends StatelessWidget {
             ),
             20.verticalSpace(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child:
                   """Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.Lorem Ipsum has been the industry's.Standard dummy text ever since the 1500s, when an unknown printer took a galley."""
                       .textRegular(fontSize: 16, color: Colors.black),

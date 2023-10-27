@@ -468,7 +468,7 @@ class CowBreedDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['cow_breed_id'] = cowBreedId;
     data['breed_name'] = breedName;

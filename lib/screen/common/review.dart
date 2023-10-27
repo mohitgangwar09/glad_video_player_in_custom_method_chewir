@@ -105,7 +105,7 @@ class _GladReviewState extends State<GladReview> {
                                 builder: (context) => Stack(
                                   children: [
                                     Container(
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)), color: Colors.white),
+                                      decoration: const BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)), color: Colors.white),
                                       padding: const EdgeInsets.only(left: 20),
                                       child: Row(
                                         children: [
@@ -213,7 +213,7 @@ class _GladReviewState extends State<GladReview> {
                                               onTap: () {
                                                 pressBack();
                                               },
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.close,
                                                 color: Colors.white,
                                               )),
@@ -362,9 +362,9 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
   }
 
   showFadingIcon() {
-    var _visible = true;
+    var visible = true;
     return AnimatedOpacity(
-        opacity: _visible ? 1 : 0, duration: const Duration(milliseconds: 500));
+        opacity: visible ? 1 : 0, duration: const Duration(milliseconds: 500));
   }
 
   showAnimation() {
@@ -455,7 +455,7 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
                                 onTap: () {
                                   pressBack();
                                 },
-                                child: Icon(
+                                child: const Icon(
                                   Icons.close,
                                   color: Colors.white,
                                 )),

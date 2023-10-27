@@ -3,7 +3,6 @@ import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/mcc_screen/dashboard/dashboard_mcc.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
-import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 

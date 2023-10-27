@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/livestock_details.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
-import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class LiveStockMarketplace extends StatelessWidget {

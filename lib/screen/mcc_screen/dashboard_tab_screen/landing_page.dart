@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/common/community_forum.dart';
@@ -12,7 +11,6 @@ import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_widget.d
 import 'package:glad/screen/mcc_screen/profile/mcc_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

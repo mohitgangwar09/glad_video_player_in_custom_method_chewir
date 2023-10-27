@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
-import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/farmer_screen/dashboard_tab_screen/project_screen.dart';

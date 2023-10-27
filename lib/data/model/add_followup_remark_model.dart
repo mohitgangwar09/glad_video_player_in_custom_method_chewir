@@ -8,13 +8,13 @@ class AddFollowupRemarkModel {
   AddFollowupRemarkModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -29,13 +29,13 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     enquiry =
-    json['enquiry'] != null ? new Enquiry.fromJson(json['enquiry']) : null;
+    json['enquiry'] != null ? Enquiry.fromJson(json['enquiry']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.enquiry != null) {
-      data['enquiry'] = this.enquiry!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (enquiry != null) {
+      data['enquiry'] = enquiry!.toJson();
     }
     return data;
   }
@@ -70,14 +70,14 @@ class Enquiry {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['enquiry_id'] = this.enquiryId;
-    data['comments'] = this.comments;
-    data['commented_by'] = this.commentedBy;
-    data['commented_id'] = this.commentedId;
-    data['updated_at'] = this.updatedAt;
-    data['created_at'] = this.createdAt;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['enquiry_id'] = enquiryId;
+    data['comments'] = comments;
+    data['commented_by'] = commentedBy;
+    data['commented_id'] = commentedId;
+    data['updated_at'] = updatedAt;
+    data['created_at'] = createdAt;
+    data['id'] = id;
     return data;
   }
 }

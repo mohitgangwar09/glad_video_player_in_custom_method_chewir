@@ -1,18 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_cow_breed_details.dart';
 import 'package:glad/data/repository/dde_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/extra_screen/cowsandyieldsum.dart';
-import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/screen/extra_screen/test_cows_and_yield.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/model/farmers_list.dart';
 
 part 'test_cubit_yield_state.dart';
 

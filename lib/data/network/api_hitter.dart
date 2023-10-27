@@ -1,16 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/data/repository/auth_repo.dart';
 import 'package:glad/utils/app_constants.dart';
-import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'network_exception.dart';
 
 class ApiHitter {

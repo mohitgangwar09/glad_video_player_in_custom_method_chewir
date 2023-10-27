@@ -16,7 +16,6 @@ import 'package:glad/screen/farmer_screen/profile/edit_kyc_documents.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 

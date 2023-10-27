@@ -2,15 +2,11 @@ import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/community_widget.dart';
-import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/livestock_details.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
-import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

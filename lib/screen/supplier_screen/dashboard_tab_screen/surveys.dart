@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
 import 'package:glad/screen/supplier_screen/survey_detail.dart';
 import 'package:glad/screen/supplier_screen/survey_filter.dart';
 import 'package:glad/utils/extension.dart';

@@ -5,7 +5,6 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/screen/supplier_screen/project_details.dart';
-import 'package:glad/screen/supplier_screen/survey_detail.dart';
 import 'package:glad/screen/supplier_screen/survey_filter.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';

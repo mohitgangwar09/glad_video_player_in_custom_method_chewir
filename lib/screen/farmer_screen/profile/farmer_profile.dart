@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
@@ -145,7 +144,7 @@ class _FarmerProfileState extends State<FarmerProfile> {
                         state.responseFarmerProfile!.farmer!.cowBreedDetails!.isNotEmpty?
                         cowsInTheFarm(state):const SizedBox.shrink(),
                         30.verticalSpace(),
-                        state.responseFarmerProfile!.farmer!.address != null ? address(context,state) : SizedBox.shrink(),
+                        state.responseFarmerProfile!.farmer!.address != null ? address(context,state) : const SizedBox.shrink(),
                         state.improvementAreaListResponse != null
                             ? state.improvementAreaListResponse!.data!.improvementAreaList!.isNotEmpty
                                 ? facilitiesInTheFarm(state)
