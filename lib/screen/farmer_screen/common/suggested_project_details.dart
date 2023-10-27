@@ -442,7 +442,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               ),
               child: InkWell(
                 onTap: () {
-                  SuggestedProjectMilestoneDetail(milestoneId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id).navigate();
+                  SuggestedProjectMilestoneDetail(milestoneId:
+                  state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
+                  projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
+                  ,farmerLogin:"farmer").navigate();
                 },
                 child: customProjectContainer(
                     marginLeft: 0,

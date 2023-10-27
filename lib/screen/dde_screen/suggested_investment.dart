@@ -108,6 +108,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               ),
                             ) :const SizedBox.shrink():const SizedBox.shrink(),
 
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
                             Center(
                               child: customButton(
@@ -122,7 +123,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
 
                                   },
                               ),
-                            ):const SizedBox.shrink(),
+                            ):const SizedBox.shrink():const SizedBox.shrink(),
 
                             30.verticalSpace(),
                           ],
@@ -492,7 +493,10 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
               ),
               child: InkWell(
                 onTap: () {
-                  SuggestedProjectMilestoneDetail(milestoneId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id).navigate();
+                  SuggestedProjectMilestoneDetail(milestoneId:
+                  state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
+                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
+                  ).navigate();
                 },
                 child: customProjectContainer(
                     marginLeft: 0,

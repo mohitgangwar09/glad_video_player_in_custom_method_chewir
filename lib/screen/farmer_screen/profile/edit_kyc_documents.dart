@@ -66,7 +66,9 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
             widget.farmerDocuments.docName!.toUpperCase();
       }
     }
-    profilePicture = widget.farmerDocuments.profilePic!;
+    if(widget.farmerDocuments.profilePic!=null){
+      profilePicture = widget.farmerDocuments.profilePic!;
+    }
     addressDoc = TextEditingController(text: widget.farmerDocuments.docTypeNo);
     addressDate = TextEditingController(text: widget.farmerDocuments.docTypeExpiryDate! == '0000-00-00' ? '': widget.farmerDocuments.docTypeExpiryDate!);
     idDoc = TextEditingController(text: widget.farmerDocuments.docNo);

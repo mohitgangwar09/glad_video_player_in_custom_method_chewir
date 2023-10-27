@@ -49,6 +49,7 @@ class ProjectRepository {
 
   ///////////////// withFarmerIdGetDdeProjectsApi //////////
   Future<DdeProjectModel> getDdeWithFarmerIdProjectsApi(String farmerId) async {
+    print(farmerId);
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
     // .getApiResponse(AppConstants.ddeProjectListApi,
         .getApiResponse(AppConstants.farmerProjectListApi,

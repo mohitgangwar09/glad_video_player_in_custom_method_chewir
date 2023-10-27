@@ -37,8 +37,8 @@ import 'package:intl/intl.dart';
 import '../farmer_screen/profile/improvement_area.dart';
 
 class DdeFarmerDetail extends StatefulWidget {
-  const DdeFarmerDetail({Key? key, required this.userId}) : super(key: key);
-  final int userId;
+  const DdeFarmerDetail({Key? key, required this.userId,required this.farmerId}) : super(key: key);
+  final int userId,farmerId;
 
   @override
   State<DdeFarmerDetail> createState() => _DdeFarmerDetailState();
@@ -87,7 +87,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
   void initState() {
     BlocProvider.of<ProfileCubit>(context)
         .getFarmerProfile(context, userId: widget.userId.toString());
-    BlocProvider.of<ProjectCubit>(context).ddeProjectsWithFarmerIdApi(context, "1");
+    BlocProvider.of<ProjectCubit>(context).ddeProjectsWithFarmerIdApi(context, widget.farmerId.toString());
     getCountryCode();
     super.initState();
   }
@@ -155,12 +155,12 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                     child: CachedNetworkImage(
                                       imageUrl: state.responseFarmerProfile!
                                           .farmer!.photo ?? '',
-                                      width: 117,
+                                      width: 112,
                                       height: 150,
                                       fit: BoxFit.cover,
                                       errorWidget: (_, __, ___) => Image.asset(
                                         Images.profileDemo,
-                                        width: 117,
+                                        width: 112,
                                         height: 150,
                                         fit: BoxFit.cover,
                                       ),

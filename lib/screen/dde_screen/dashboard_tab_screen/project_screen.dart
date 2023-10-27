@@ -201,6 +201,41 @@ class _ProjectScreenState extends State<ProjectScreen> {
                         ),
                         InkWell(
                           onTap: () {
+                            if (selectedFilter != 'pending') {
+                              selectedFilter = 'pending';
+                              setState(() {});
+                              BlocProvider.of<ProjectCubit>(context)
+                                  .ddeProjectsApi(
+                                  context, selectedFilter, false);
+                            }
+                          },
+                          child: Container(
+                            height: screenHeight(),
+                            margin: const EdgeInsets.all(6),
+                            decoration: boxDecoration(
+                                backgroundColor: selectedFilter == 'pending'
+                                    ? const Color(0xff6A0030)
+                                    : Colors.white,
+                                borderRadius: 62),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                "Pending".textMedium(
+                                    color: selectedFilter == 'pending'
+                                        ? Colors.white
+                                        : ColorResources.black,
+                                    fontSize: 14),
+                                5.horizontalSpace(),
+                                SvgPicture.asset(selectedFilter == 'pending'
+                                    ? Images.pendingSelected
+                                    : Images.pending)
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
                             if (selectedFilter != 'active') {
                               selectedFilter = 'active';
                               setState(() {});
@@ -231,41 +266,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                     ? Images.activeSelected
                                     : Images.active
                                 )
-                              ],
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            if (selectedFilter != 'pending') {
-                              selectedFilter = 'pending';
-                              setState(() {});
-                              BlocProvider.of<ProjectCubit>(context)
-                                  .ddeProjectsApi(
-                                  context, selectedFilter, false);
-                            }
-                          },
-                          child: Container(
-                            height: screenHeight(),
-                            margin: const EdgeInsets.all(6),
-                            decoration: boxDecoration(
-                                backgroundColor: selectedFilter == 'pending'
-                                    ? const Color(0xff6A0030)
-                                    : Colors.white,
-                                borderRadius: 62),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                "Pending".textMedium(
-                                    color: selectedFilter == 'pending'
-                                        ? Colors.white
-                                        : ColorResources.black,
-                                    fontSize: 14),
-                                5.horizontalSpace(),
-                                SvgPicture.asset(selectedFilter == 'pending'
-                                    ? Images.pendingSelected
-                                    : Images.pending)
                               ],
                             ),
                           ),
@@ -350,7 +350,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       .projectList![i].farmerMaster!.name ?? '' : '',
                                   farmerAddress:  state.responseDdeProject!.data!
                                       .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
-                                      .projectList![i].farmerMaster!.fAddress ??
+                                      .projectList![i].farmerMaster!.address!=null?state.responseDdeProject!.data!
+                                      .projectList![i].farmerMaster!.address!.address.toString():"" ??
                                       '' : '',
                                   farmerImage:  state.responseDdeProject!.data!
                                       .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!

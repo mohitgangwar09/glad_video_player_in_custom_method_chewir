@@ -186,7 +186,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                               onTap: (){
                                 BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
                                 BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
-                                DdeFarmerDetail(userId: state.response!.farmerMAster![i].userId!,).navigate();
+                                DdeFarmerDetail(userId: state.response!.farmerMAster![i].userId!,farmerId:state.response!.farmerMAster![i].id!).navigate();
                               },
                               child: customProjectContainer(
                                 child: Padding(

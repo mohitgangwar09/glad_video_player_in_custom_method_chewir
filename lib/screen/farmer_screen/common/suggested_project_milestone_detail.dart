@@ -12,8 +12,10 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class SuggestedProjectMilestoneDetail extends StatefulWidget {
-  const SuggestedProjectMilestoneDetail({super.key, required this.milestoneId});
+  const SuggestedProjectMilestoneDetail({super.key, required this.milestoneId,required this.projectStatus,this.farmerLogin});
   final int milestoneId;
+  final String projectStatus;
+  final String? farmerLogin;
 
   @override
   State<SuggestedProjectMilestoneDetail> createState() =>
@@ -179,6 +181,8 @@ class _SuggestedProjectMilestoneDetailState
                 style: figtreeMedium.copyWith(fontSize: 18),
               ),
               05.horizontalSpace(),
+              widget.farmerLogin==null ?
+              widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
               InkWell(
                 onTap: () {
                   context.read<ProjectCubit>().getSelectedAttribute(
@@ -207,7 +211,7 @@ class _SuggestedProjectMilestoneDetailState
                         color: const Color(0xff6A0030), fontSize: 10),
                   ),
                 ),
-              )
+              ):const SizedBox.shrink():const SizedBox.shrink()
             ],
           ),
         ),
@@ -236,6 +240,8 @@ class _SuggestedProjectMilestoneDetailState
 
                             10.verticalSpace(),
 
+                            widget.farmerLogin==null ?
+                            widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -264,7 +270,7 @@ class _SuggestedProjectMilestoneDetailState
                                     ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
 
                               ],
-                            ),
+                            ):const SizedBox.shrink():const SizedBox.shrink(),
                             10.verticalSpace(),
                             customAttribute("Material -",
                                 state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceName??'':''),

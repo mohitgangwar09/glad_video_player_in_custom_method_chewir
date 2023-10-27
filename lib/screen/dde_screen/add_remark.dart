@@ -16,7 +16,8 @@ import 'package:glad/utils/styles.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class AddRemark extends StatefulWidget {
-  const AddRemark({super.key});
+  const AddRemark({super.key,this.tag});
+  final String? tag;
 
   @override
   State<AddRemark> createState() => _AddRemarkState();
@@ -100,7 +101,7 @@ class _AddRemarkState extends State<AddRemark> {
         CustomDropdown(
           title: 'Select option',
           dropdownValue: null,
-          itemList: ['', '', ''],
+          itemList: const ['', '', ''],
           onChanged: (value) {},
           hint: '',
           icon: Images.arrowDropdown,

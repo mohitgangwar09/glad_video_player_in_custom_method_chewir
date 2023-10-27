@@ -53,6 +53,8 @@ class AllProjectFarmerWidget extends StatelessWidget {
               children: [
                 name.textMedium(
                   fontSize: 18,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis
                 ),
                 5.verticalSpace(),
                 category.textMedium(fontSize: 12, color: const Color(0xFF808080)),

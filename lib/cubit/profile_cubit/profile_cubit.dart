@@ -11,6 +11,7 @@ import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
 import 'package:glad/data/model/response_sub_county.dart';
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/add_remark.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -162,7 +163,8 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     disposeProgress();
     if (response.status == 200) {
       getFarmerProfile(context, userId: userId);
-      pressBack();
+      // pressBack();
+      const AddRemark(tag: "loan",).navigate();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));

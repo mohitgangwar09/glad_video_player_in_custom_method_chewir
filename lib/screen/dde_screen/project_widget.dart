@@ -178,7 +178,7 @@ class ProjectWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    CircularPercentIndicator(
+                    /*CircularPercentIndicator(
                       radius: 30,
                       percent: 0.25,
                       progressColor: const Color(0xFF12CE57),
@@ -201,7 +201,7 @@ class ProjectWidget extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    1.horizontalSpace()
+                    1.horizontalSpace()*/
                   ],
                 ),
               ],
