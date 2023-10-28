@@ -59,6 +59,7 @@ class AppConstants {
   static const String deleteAttributeApi = '/api/farmer-project/delete-attribute';
   static const String ddeFarmerVisitorApi = '/api/dde/farmer-visitor';
   static const String notRequiredDataApi = '/api/farmer-project/fetch-not-required-data';
+  static const String projectKycDocumentsApi = '/api/farmer-project/project-kyc-document';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
