@@ -333,6 +333,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
   }
 
 
+
   Future<void> getLocation(contexts) async {
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -354,6 +355,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
     }
 
   }
+
 
 
   bool isLoggedIn() {
