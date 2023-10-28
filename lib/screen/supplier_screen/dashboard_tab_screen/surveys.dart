@@ -287,11 +287,14 @@ class _SurveysScreenState extends State<SurveysScreen> {
                             .projectList!.length, (index) => null),
                         child: (int i) {
 
-                          return Padding(
+                          return state.responseDdeProject!.data!
+                              .projectList![i].farmerProjectSurvey!.isNotEmpty?
+                          Padding(
                             padding: const EdgeInsets.only(right: 20.0),
                             child: customProjectContainer(
                                 child: ProjectSupplierWidget(
-                                    status: true,
+                                    status: state.responseDdeProject!.data!
+                                        .projectList![i].farmerProjectSurvey![0].surveyStatus==null?false:true,
                                     projectStatus: formatProjectStatus(state.responseDdeProject!.data!
                                         .projectList![i].projectStatus ?? ''),
                                     name: state.responseDdeProject!.data!
@@ -334,11 +337,12 @@ class _SurveysScreenState extends State<SurveysScreen> {
                                     projectId: state.responseDdeProject!.data!
                                         .projectList![i].id ?? 0,
                                     farmerDetail: state.responseDdeProject!.data!
-                                        .projectList![i].farmerMaster!
+                                        .projectList![i].farmerMaster!,
+                                  selectedFilter: selectedFilter
 
                                 ),
                                 width: screenWidth()),
-                          );
+                          ):const SizedBox.shrink();
                         }),
                   ),
                 )

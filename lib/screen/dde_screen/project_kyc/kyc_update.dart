@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';
@@ -17,9 +19,11 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class ProjectKYC extends StatefulWidget {
-  const ProjectKYC({super.key, required this.farmerId, required this.userId});
+  const ProjectKYC({super.key, required this.farmerId, required this.userId,required this.farmerMaster,required this.farmerProjectId});
   final  int farmerId;
   final  String userId;
+  final  String farmerProjectId;
+  final  FarmerMaster farmerMaster;
 
   @override
   State<ProjectKYC> createState() => _ProjectKYCState();
@@ -548,11 +552,22 @@ class _ProjectKYCState extends State<ProjectKYC> {
                                     context, '${addressProof == 'Bank Statement' ? '' : '2'}Address Proof image required');
                             } else if (idProof == null) {
                               showCustomToast(context, 'Id Proof is required');
-                            } else if (idImg.length < 2) {
+                            } /*else if (idImg.length < 2) {
                               showCustomToast(
                                   context, '2 Id Proof image required');
-                            } else {
-                              BlocProvider.of<ProfileCubit>(context).updateFarmerKYC(context, widget.userId, widget.farmerId, addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, idImg, profilePicture);
+                            }*/ else {
+                              BlocProvider.of<ProjectCubit>(context).projectKycApi(context,
+                                  widget.farmerId.toString(), widget.farmerProjectId.toString(),
+                                  addressProof!.toLowerCase().replaceAll(' ', '-'),
+                                  addressDoc.text,
+                                  addressDate.text,
+                                  addressImg,
+                                  idProof!.toLowerCase().replaceAll(' ', '-'),
+                                  idDoc.text,
+                                  idDate.text,
+                                  idImg,
+                                  profilePicture,
+                              widget.farmerMaster);
                             }
                           },
                           radius: 40,

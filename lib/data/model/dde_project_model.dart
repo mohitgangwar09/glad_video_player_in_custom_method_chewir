@@ -80,7 +80,7 @@ class ProjectList {
   String? updatedAt;
   FarmerMaster? farmerMaster;
   FarmerImprovementArea? farmerImprovementArea;
-  FarmerProjectSurvey? farmerProjectSurvey;
+  List<FarmerProjectSurvey>? farmerProjectSurvey;
 
 
   ProjectList(
@@ -160,9 +160,12 @@ class ProjectList {
     farmerImprovementArea = json['farmer_improvement_area'] != null
         ? FarmerImprovementArea.fromJson(json['farmer_improvement_area'])
         : null;
-    farmerProjectSurvey = json['farmer_project_survey'] != null
-        ? FarmerProjectSurvey.fromJson(json['farmer_project_survey'])
-        : null;
+    if (json['farmer_project_survey'] != null) {
+      farmerProjectSurvey = <FarmerProjectSurvey>[];
+      json['farmer_project_survey'].forEach((v) {
+        farmerProjectSurvey!.add(FarmerProjectSurvey.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -206,7 +209,8 @@ class ProjectList {
       data['farmer_improvement_area'] = farmerImprovementArea!.toJson();
     }
     if (farmerProjectSurvey != null) {
-      data['farmer_project_survey'] = farmerImprovementArea!.toJson();
+      data['farmer_project_survey'] =
+          farmerProjectSurvey!.map((v) => v.toJson()).toList();
     }
     return data;
   }

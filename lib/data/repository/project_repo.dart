@@ -112,7 +112,7 @@ class ProjectRepository {
   }
 
   ///////////////// projectKycApi //////////
-  Future<ResponseOtpModel> projectKycApi(int farmerId, int farmerProjectId ,String addressDocName, String addressDocNo, String addressDocExpiryDate, List<File> documentFiles,
+  Future<ResponseOtpModel> projectKycApi(String farmerId, String farmerProjectId ,String addressDocName, String addressDocNo, String addressDocExpiryDate, List<File> documentFiles,
       String idDocName, String idDocTypeNo, String idDocTypeExpiryDate, List<File> documentTypeFiles, File farmerPhoto) async {
 
     FormData formData = FormData.fromMap(

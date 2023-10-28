@@ -3,6 +3,7 @@ import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/suggested_investment.dart';
+import 'package:glad/screen/supplier_screen/survey_detail.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -25,8 +26,9 @@ class ProjectSupplierWidget extends StatelessWidget {
   final dynamic projectPercent;
   final int projectId;
   final FarmerMaster farmerDetail;
+  final String selectedFilter;
 
-  const ProjectSupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail}) : super(key: key);
+  const ProjectSupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,required this.selectedFilter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,10 @@ class ProjectSupplierWidget extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       child: InkWell(
         onTap: () {
-          DDeFarmerInvestmentDetails(projectId: projectId,
-            // farmerDetail:farmerDetail
-          ).navigate();
+          SurveyDetails(projectId: projectId,selectedFilter:selectedFilter).navigate();
+          // DDeFarmerInvestmentDetails(projectId: projectId,
+          //   farmerDetail:farmerDetail
+          // ).navigate();
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +57,8 @@ class ProjectSupplierWidget extends StatelessWidget {
 
               ],
             ),
-            5.verticalSpace(),
+            // 5.verticalSpace(),
+            status == false?10.verticalSpace():0.verticalSpace(),
             Row(
               children: [
                 category.textMedium(fontSize: 12, color: const Color(0xFF808080)),
@@ -81,78 +85,50 @@ class ProjectSupplierWidget extends StatelessWidget {
               ],
             ),
             // 10.verticalSpace(),
+            status == false?10.verticalSpace():0.verticalSpace(),
             description.textMedium(
                 fontSize: 14, color: const Color(0xFF808080), maxLines: 2,
             overflow: TextOverflow.ellipsis),
 
             20.verticalSpace(),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 70,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  padding: 15.paddingHorizontal(),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xffFFF3F4)
+            Container(
+              height: 70,
+              width: MediaQuery.of(context).size.width,
+              padding: 15.paddingHorizontal(),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color(0xffFFF3F4)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        farmerName.textMedium(
+                            color: Colors.black,
+                            fontSize: 14,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                        1.verticalSpace(),
+                        farmerPhone.textRegular(
+                            fontSize: 12, color: Colors.black),
+                        4.verticalSpace(),
+                        farmerAddress.textRegular(
+                            fontSize: 12,
+                            color: Colors.black,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      networkImage(text: farmerImage,height: 46,width: 46,radius: 40),
-                      10.horizontalSpace(),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            farmerName.textMedium(
-                                color: Colors.black,
-                                fontSize: 14,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                            1.verticalSpace(),
-                            farmerPhone.textRegular(
-                                fontSize: 12, color: Colors.black),
-                            4.verticalSpace(),
-                            farmerAddress.textRegular(
-                                fontSize: 12,
-                                color: Colors.black,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                CircularPercentIndicator(
-                  radius: 30,
-                  percent: 0.25,
-                  progressColor: const Color(0xFF12CE57),
-                  backgroundColor: const Color(0xFFDCEAE5),
-                  center: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: '$projectPercent',
-                          style: figtreeBold.copyWith(
-                              color: Colors.black, fontSize: 16)),
-                      TextSpan(
-                          text: '%\n',
-                          style: figtreeBold.copyWith(
-                              color: Colors.black, fontSize: 9)),
-                      TextSpan(
-                          text: 'completed',
-                          style: figtreeBold.copyWith(
-                              color: const Color(0xFF808080), fontSize: 6))
-                    ]),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                1.horizontalSpace()
-              ],
+
+                  networkImage(text: farmerImage,height: 46,width: 46,radius: 40),
+                ],
+              ),
             ),
           ],
         ),
