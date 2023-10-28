@@ -24,6 +24,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
   final AuthRepository apiRepository;
   final SharedPreferences sharedPreferences;
+
   Location location = Location();
 
   bool isEmail(String em) {
