@@ -46,8 +46,9 @@ class ProjectWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                name.textMedium(
-                  fontSize: 18,
+                Container(
+                  constraints: BoxConstraints(maxWidth: screenWidth() * 0.6),
+                  child: name.textMedium(fontSize: 18),
                 ),
                 5.verticalSpace(),
                 category.textMedium(fontSize: 12, color: const Color(0xFF808080)),

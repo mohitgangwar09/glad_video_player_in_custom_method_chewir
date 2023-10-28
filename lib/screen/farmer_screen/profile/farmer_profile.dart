@@ -212,9 +212,9 @@ class _FarmerProfileState extends State<FarmerProfile> {
         10.verticalSpace(),
         InkWell(
           onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
-            KYCUpdate(farmerId: state.responseFarmerProfile!.farmer!.id, userId: state.responseFarmerProfile!.farmer!.userId).navigate();
+            KYCUpdate(farmerId: state.responseFarmerProfile!.farmer!.id, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
           } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? () {
-            EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!, farmerId: state.responseFarmerProfile!.farmer!.id, userId: state.responseFarmerProfile!.farmer!.userId).navigate();
+            EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!, farmerId: state.responseFarmerProfile!.farmer!.id, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
           } : state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
             ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
           } : () {},

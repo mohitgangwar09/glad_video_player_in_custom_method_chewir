@@ -42,21 +42,24 @@ class CustomAppBar extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Positioned(left: 0, top: 0, bottom: 0, child: leading!),
-                  RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: titleText1,
-                        style: titleText1Style ??
-                            figtreeRegular.copyWith(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 20,
-                                color: Colors.black)),
-                    TextSpan(
-                        text: titleText2,
-                        style: titleText2Style ??
-                            figtreeMedium.copyWith(
-                                fontSize: 20, color: Colors.black))
-                  ]), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: screenWidth() * 0.7),
+                    child: RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          text: titleText1,
+                          style: titleText1Style ??
+                              figtreeRegular.copyWith(
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 20,
+                                  color: Colors.black)),
+                      TextSpan(
+                          text: titleText2,
+                          style: titleText2Style ??
+                              figtreeMedium.copyWith(
+                                  fontSize: 20, color: Colors.black))
+                    ]), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                  ),
                   if (description != null)
                   Positioned(
                     bottom: 0,
