@@ -225,7 +225,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                                                   showCustomToast(context, "Please enter remarks");
                                                                 }else{
                                                                   context.read<ProjectCubit>().surveyStatusApi(context,
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].projectId,
                                                                       controller.text ?? '',
                                                                       'survey_rejected',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
                                                                       state.responseFarmerProjectDetail!.data!.farmerProject![0]);
@@ -289,7 +289,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                                                   showCustomToast(context, "Please enter remarks");
                                                                 }else{
                                                                   context.read<ProjectCubit>().surveyStatusApi(context,
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].projectId,
                                                                       controller.text ?? '',
                                                                       'survey_accepted',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
                                                                       state.responseFarmerProjectDetail!.data!.farmerProject![0]);
@@ -355,7 +355,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                                           showCustomToast(context, "Please enter remarks");
                                                         }else{
                                                           context.read<ProjectCubit>().surveyStatusApi(context,
-                                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].projectId,
                                                               controller.text ?? '',
                                                               'survey_completed',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
                                                               state.responseFarmerProjectDetail!.data!.farmerProject![0]);
