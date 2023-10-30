@@ -68,7 +68,7 @@ class AcceptScreen extends StatelessWidget {
                                 style: figtreeMedium.copyWith(fontSize: 16),
                               ),
                               Text(
-                                farmerProjectSurvey.category??"",
+                                farmerProjectSurvey.category.toString() ?? "",
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: const Color(0xFF808080)),
                               ),
