@@ -11,15 +11,15 @@ class TrainingListModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -80,29 +80,29 @@ class Data {
     categoryName = json['category_name'];
     image = json['image'];
     categories = json['categories'] != null
-        ? new Categories.fromJson(json['categories'])
+        ? Categories.fromJson(json['categories'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['video_url'] = this.videoUrl;
-    data['applicable_for'] = this.applicableFor;
-    data['valid_from'] = this.validFrom;
-    data['valid_to'] = this.validTo;
-    data['status'] = this.status;
-    data['category_id'] = this.categoryId;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['category_name'] = this.categoryName;
-    data['image'] = this.image;
-    if (this.categories != null) {
-      data['categories'] = this.categories!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['video_url'] = videoUrl;
+    data['applicable_for'] = applicableFor;
+    data['valid_from'] = validFrom;
+    data['valid_to'] = validTo;
+    data['status'] = status;
+    data['category_id'] = categoryId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['category_name'] = categoryName;
+    data['image'] = image;
+    if (categories != null) {
+      data['categories'] = categories!.toJson();
     }
     return data;
   }
@@ -143,16 +143,16 @@ class Categories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['name'] = this.name;
-    data['status'] = this.status;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['deleted_by'] = this.deletedBy;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['name'] = name;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

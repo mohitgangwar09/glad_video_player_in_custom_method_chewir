@@ -80,6 +80,8 @@ class ProjectList {
   String? updatedAt;
   FarmerMaster? farmerMaster;
   FarmerImprovementArea? farmerImprovementArea;
+  List<FarmerProjectSurvey>? farmerProjectSurvey;
+
 
   ProjectList(
       {this.id,
@@ -115,7 +117,9 @@ class ProjectList {
         this.createdAt,
         this.updatedAt,
         this.farmerMaster,
-        this.farmerImprovementArea});
+        this.farmerImprovementArea,
+        this.farmerProjectSurvey,
+      });
 
   ProjectList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -156,6 +160,12 @@ class ProjectList {
     farmerImprovementArea = json['farmer_improvement_area'] != null
         ? FarmerImprovementArea.fromJson(json['farmer_improvement_area'])
         : null;
+    if (json['farmer_project_survey'] != null) {
+      farmerProjectSurvey = <FarmerProjectSurvey>[];
+      json['farmer_project_survey'].forEach((v) {
+        farmerProjectSurvey!.add(FarmerProjectSurvey.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -197,6 +207,10 @@ class ProjectList {
     }
     if (farmerImprovementArea != null) {
       data['farmer_improvement_area'] = farmerImprovementArea!.toJson();
+    }
+    if (farmerProjectSurvey != null) {
+      data['farmer_project_survey'] =
+          farmerProjectSurvey!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -575,6 +589,79 @@ class Address {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['full_address'] = fullAddress;
+    return data;
+  }
+}
+
+class FarmerProjectSurvey {
+  int? id;
+  int? farmerId;
+  int? farmerProjectId;
+  dynamic supplierId;
+  String? projectSurveyDays;
+  String? surveySubmitDate;
+  String? surveyCompletionDate;
+  String? surveyStatus;
+  dynamic surveyRemarks;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+
+  FarmerProjectSurvey(
+      {this.id,
+        this.farmerId,
+        this.farmerProjectId,
+        this.supplierId,
+        this.projectSurveyDays,
+        this.surveySubmitDate,
+        this.surveyCompletionDate,
+        this.surveyStatus,
+        this.surveyRemarks,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  FarmerProjectSurvey.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    farmerProjectId = json['farmer_project_id'];
+    supplierId = json['supplier_id'];
+    projectSurveyDays = json['project_survey_days'];
+    surveySubmitDate = json['survey_submit_date'];
+    surveyCompletionDate = json['survey_completion_date'];
+    surveyStatus = json['survey_status'];
+    surveyRemarks = json['survey_remarks'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['farmer_project_id'] = farmerProjectId;
+    data['supplier_id'] = supplierId;
+    data['project_survey_days'] = projectSurveyDays;
+    data['survey_submit_date'] = surveySubmitDate;
+    data['survey_completion_date'] = surveyCompletionDate;
+    data['survey_status'] = surveyStatus;
+    data['survey_remarks'] = surveyRemarks;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

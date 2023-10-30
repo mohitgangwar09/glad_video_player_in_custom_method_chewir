@@ -1,273 +1,366 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/supplier_screen/survey_detail.dart';
-import 'package:glad/screen/supplier_screen/survey_filter.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
+import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
+import 'package:glad/screen/supplier_screen/widegt/project_supplier_widget.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-import '../dashboard/dashboard_supplier.dart';
-
-
-class SurveysScreen extends StatelessWidget {
+class SurveysScreen extends StatefulWidget {
   const SurveysScreen({Key? key}) : super(key: key);
 
   @override
+  State<SurveysScreen> createState() => _SurveysScreenState();
+}
+
+class _SurveysScreenState extends State<SurveysScreen> {
+  String selectedFilter = 'new';
+
+  @override
+  void initState() {
+    BlocProvider.of<ProjectCubit>(context)
+        .ddeProjectsApi(context, selectedFilter, true);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        landingBackground(),
-        hideKeyboard(
-          context,
-          child: Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Survey',
-                titleText1Style: figtreeMedium.copyWith(
-                    fontSize: 20, color: Colors.black),
-                centerTitle: true,
-                leading: openDrawer(
-                    onTap: () {
-                      supplierLandingKey.currentState?.openDrawer();
-                    },
-                    child: SvgPicture.asset(Images.drawer)),
-                action: Row(
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          modalBottomSheetMenu(
-                              context, child:
-                          SizedBox(
-                            height: screenHeight()*0.55,
-                            child: Column(
-                              children: [
+    BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
 
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0,right: 8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-
-                                      TextButton(onPressed: (){
-                                        pressBack();
-                                      }, child: "Cancel".textMedium(color: const Color(0xff6A0030),fontSize: 14)),
-
-                                      "Sort By".textMedium(fontSize: 22),
-
-                                      TextButton(onPressed: (){},child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
-
-                                    ],
-                                  ),
-                                ),
-
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 20.0,right: 20),
-                                  child: Divider(),
-                                ),
-
-                                Expanded(
-                                  child: customList(list: [1,2,22,2,22],child: (index){
-                                    return Padding(padding: const EdgeInsets.only(left: 30,right: 30,top:30,bottom: 10),
-                                        child: "Default".textRegular(fontSize: 16));
-                                  }),
-                                ),
-
-                                10.verticalSpace(),
-
-                                Container(margin: 20.marginAll(),height: 55,width: screenWidth(),child: customButton("Apply",fontColor: 0xffffffff, onTap: (){}))
-
-
-                              ],
-                            ),
-                          ));
-                        }, child: SvgPicture.asset(Images.filter2)),
-                    13.horizontalSpace(),
-                    InkWell(
-                        onTap: () {
-                          const FilterSurvey().navigate();
-                        }, child: SvgPicture.asset(Images.filter1)),
-                    18.horizontalSpace(),
-                  ],
-                ),
-              ),
-
-              10.verticalSpace(),
-
-              Container(
-                height: 50,
-                margin: 20.marginHorizontal(),
-                width: screenWidth(),
-                decoration: boxDecoration(
-                    borderRadius: 62,
-                    borderColor: const Color(0xffDCDCDC),
-                  backgroundColor: Colors.white
-                ),
-                child: Row(
-                  children: [
-
-                    Expanded(
-                      child: Container(
-                        height: screenHeight(),
-                        margin: const EdgeInsets.all(6),
-                        decoration: boxDecoration(
-                            backgroundColor: const Color(0xff6A0030),
-                            borderRadius: 62,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-
-                            "Pending".textMedium(color: Colors.white,fontSize: 14),
-
-                            5.horizontalSpace(),
-
-                            SvgPicture.asset(Images.pendingSelected)
-
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    Expanded(
-                      child: Container(
-                        height: screenHeight(),
-                        margin: const EdgeInsets.all(6),
-                        decoration: boxDecoration(
-                            backgroundColor: Colors.white,
-                            borderRadius: 62
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-
-                            "Completed".textMedium(color: Colors.black,fontSize: 14),
-
-                            5.horizontalSpace(),
-
-                            SvgPicture.asset(Images.completed,)
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
+    return BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
+      if (state.status == ProjectStatus.loading) {
+        return const Center(
+            child: CircularProgressIndicator(
+              color: ColorResources.maroon,
+            ));
+      } else if (state.responseDdeProject == null) {
+        return Center(child: Text("${state.responseDdeProject} Api Error"));
+      } else {
+        return Stack(
+          children: [
+            landingBackground(),
+            Column(
+              children: [
+                CustomAppBar(
+                  context: context,
+                  titleText1: 'Surveys',
+                  titleText1Style:
+                  figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                  centerTitle: true,
+                  leading: openDrawer(
+                      onTap: () {
+                        ddeLandingKey.currentState?.openDrawer();
+                      },
+                      child: SvgPicture.asset(Images.drawer)),
+                  action: Row(
                     children: [
-                      customList(child: (index){
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 20.0,left: 10),
-                          child: customProjectContainer(
-                              marginTop: 10,
-                              width: screenWidth()-45,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 25.0,bottom: 25,left: 20,right: 20,),
-                                child: InkWell(
-                                  onTap: (){
-                                    const SurveyDetails().navigate();
-                                  },
+                      InkWell(
+                          onTap: () {
+                            modalBottomSheetMenu(context,
+                                child: SizedBox(
+                                  height: screenHeight() * 0.65,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-
-                                                "Dam Construction".textMedium(fontSize: 18,),
-
-                                                5.verticalSpace(),
-
-                                                "Water Management".textRegular(fontSize: 12, color: const Color(0xff808080)),
-
-                                              ],
-                                            ),
-                                          ),
-
-                                          "UGX 3.2M".textSemiBold(fontSize: 18),
-
-                                        ],
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, right: 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  pressBack();
+                                                },
+                                                child: "Cancel".textMedium(
+                                                    color:
+                                                    const Color(0xff6A0030),
+                                                    fontSize: 14)),
+                                            "Sort By".textMedium(fontSize: 22),
+                                            TextButton(
+                                                onPressed: () {},
+                                                child: "Reset".textMedium(
+                                                    color:
+                                                    const Color(0xff6A0030),
+                                                    fontSize: 14))
+                                          ],
+                                        ),
                                       ),
-
-                                      18.verticalSpace(),
-
-                                      "Construct a water tank and water trough in night paddock plus water pump ".textRegular(
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 14,color: const Color(0xff808080)
+                                      const Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20.0, right: 20),
+                                        child: Divider(),
                                       ),
-
-                                      15.verticalSpace(),
-
+                                      Expanded(
+                                        child: customList(
+                                            list: [
+                                              1,
+                                              2,
+                                              22,
+                                              2,
+                                              22,
+                                              2,
+                                              2,
+                                              22,
+                                              2
+                                            ],
+                                            child: (index) {
+                                              return Padding(
+                                                  padding: const EdgeInsets
+                                                      .only(
+                                                      left: 30,
+                                                      right: 30,
+                                                      top: 30,
+                                                      bottom: 10),
+                                                  child: "ROI Highest to Lowest"
+                                                      .textRegular(
+                                                      fontSize: 16));
+                                            }),
+                                      ),
+                                      10.verticalSpace(),
                                       Container(
-                                        height: 70,
-                                        padding: 15.paddingHorizontal(),
-                                        decoration: boxDecoration(
-                                            backgroundColor: const Color(0xffFFF3F4),
-                                            borderRadius: 10
-                                        ),child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-
-                                                "Begumanya Charles".textMedium(color: Colors.black, fontSize: 14,maxLines: 1,overflow: TextOverflow.ellipsis),
-
-                                                1.verticalSpace(),
-
-                                                "+256 758711344".textRegular(fontSize: 12,color: Colors.black),
-
-                                                4.verticalSpace(),
-
-                                                "Luwum St. Rwoozi, Kampala...".textRegular(fontSize: 12,color: Colors.black,maxLines: 1,overflow: TextOverflow.ellipsis),
-
-
-
-                                              ],
-                                            ),
-                                          ),
-
-                                          CircleAvatar(
-                                            radius: 24,
-                                            child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 53,height: 53,),
-                                          )
-
-                                        ],
-                                      ),),
-
-
-                                      // 30.verticalSpace()
-
+                                          margin: 20.marginAll(),
+                                          height: 55,
+                                          width: screenWidth(),
+                                          child: customButton("Apply",
+                                              fontColor: 0xffffffff,
+                                              onTap: () {}))
                                     ],
                                   ),
-                                ),
-                              )),
-                        );}),
-                      100.verticalSpace(),
+                                ));
+                          },
+                          child: SvgPicture.asset(Images.filter2)),
+                      InkWell(
+                          onTap: () {
+                            const FilterDDEFarmer().navigate();
+                          },
+                          child: SvgPicture.asset(Images.filter1)),
+                      18.horizontalSpace(),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                10.verticalSpace(),
+                SingleChildScrollView(
+                  child: Container(
+                    height: 50,
+                    margin: const EdgeInsets.only(left: 20,right: 20),
+                    width: screenWidth(),
+                    decoration: boxDecoration(
+                        borderRadius: 62,
+                        borderColor: const Color(0xffDCDCDC),
+                        backgroundColor: Colors.white),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              if (selectedFilter != 'new') {
+                                selectedFilter = 'new';
+                                setState(() {});
+                                BlocProvider.of<ProjectCubit>(context)
+                                    .ddeProjectsApi(
+                                    context, selectedFilter, false);
+                              }
+                            },
+                            child: Container(
+                              height: screenHeight(),
+                              margin: const EdgeInsets.all(6),
+                              decoration: boxDecoration(
+                                  backgroundColor: selectedFilter == 'new'
+                                      ? const Color(0xff6A0030)
+                                      : Colors.white,
+                                  borderRadius: 62),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  "New".textMedium(
+                                      color: selectedFilter == 'new'
+                                          ? Colors.white
+                                          : ColorResources.black,
+                                      fontSize: 14),
+                                  5.horizontalSpace(),
+                                  SvgPicture.asset(selectedFilter == 'new'
+                                      ? Images.pendingSelected
+                                      : Images.pending)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              if (selectedFilter != 'pending') {
+                                selectedFilter = 'pending';
+                                setState(() {});
+                                BlocProvider.of<ProjectCubit>(context)
+                                    .ddeProjectsApi(
+                                    context, selectedFilter, false);
+                              }
+                            },
+                            child: Container(
+                              height: screenHeight(),
+                              margin: const EdgeInsets.all(6),
+                              decoration: boxDecoration(
+                                  backgroundColor: selectedFilter == 'pending'
+                                      ? const Color(0xff6A0030)
+                                      : Colors.white,
+                                  borderRadius: 62),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  "Pending".textMedium(
+                                      color: selectedFilter == 'pending'
+                                          ? Colors.white
+                                          : ColorResources.black,
+                                      fontSize: 14),
+                                  5.horizontalSpace(),
+                                  SvgPicture.asset(selectedFilter == 'pending'
+                                      ? Images.pendingSelected
+                                      : Images.pending)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              if (selectedFilter != 'completed') {
+                                selectedFilter = 'completed';
+                                setState(() {});
+                                BlocProvider.of<ProjectCubit>(context)
+                                    .ddeProjectsApi(
+                                    context, selectedFilter, false);
+                              }
+                            },
+                            child: Container(
+                              height: screenHeight(),
+                              margin: const EdgeInsets.only(left: 0,right: 4,top: 6,bottom: 6),
+                              decoration: boxDecoration(
+                                  backgroundColor: selectedFilter == 'completed'
+                                      ? const Color(0xff6A0030)
+                                      : Colors.white,
+                                  borderRadius: 62),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  "Completed".textMedium(
+                                      color: selectedFilter == 'completed'
+                                          ? Colors.white
+                                          : ColorResources.black,
+                                      fontSize: 14),
+                                  5.horizontalSpace(),
+                                  SvgPicture.asset(selectedFilter == 'completed'
+                                      ? Images.completedSelected
+                                      : Images.completed)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                state.responseDdeProject!.data!.projectList!.isNotEmpty
+                    ? Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.only(bottom: 120, left: 10),
+                    child: customList(
+                        list: List.generate(state.responseDdeProject!.data!
+                            .projectList!.length, (index) => null),
+                        child: (int i) {
+
+                          return state.responseDdeProject!.data!
+                              .projectList![i].farmerProjectSurvey!.isNotEmpty?
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child: customProjectContainer(
+                                child: ProjectSupplierWidget(
+                                    status: state.responseDdeProject!.data!
+                                        .projectList![i].farmerProjectSurvey![0].surveyStatus==null?false:true,
+                                    projectStatus: formatProjectStatus(state.responseDdeProject!.data!
+                                        .projectList![i].projectStatus ?? ''),
+                                    name: state.responseDdeProject!.data!
+                                        .projectList![i].name ?? '',
+                                    category: state.responseDdeProject!.data!
+                                        .projectList![i].farmerImprovementArea !=
+                                        null ? state.responseDdeProject!.data!
+                                        .projectList![i].farmerImprovementArea!
+                                        .improvementArea!.name ?? '' : '',
+                                    description: state.responseDdeProject!.data!
+                                        .projectList![i].description ?? '',
+                                    investment: state.responseDdeProject!.data!
+                                        .projectList![i].investmentAmount ?? 0,
+                                    revenue: state.responseDdeProject!.data!
+                                        .projectList![i].revenuePerYear ?? 0,
+                                    roi: state.responseDdeProject!.data!
+                                        .projectList![i].roiPerYear ?? 0.0,
+                                    loan: state.responseDdeProject!.data!
+                                        .projectList![i].loanAmount ?? 0,
+                                    emi: state.responseDdeProject!.data!
+                                        .projectList![i].emiAmount ?? 0,
+                                    balance: 0,
+                                    farmerName: state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!.name ?? '' : '',
+                                    farmerAddress:  state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!.address!=null?state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!.address!.address.toString():"" ??
+                                        '' : '',
+                                    farmerImage:  state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!.photo ??
+                                        ''  : '',
+                                    farmerPhone:  state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!.phone ??
+                                        ''  : '',
+                                    projectPercent: 0,
+                                    projectId: state.responseDdeProject!.data!
+                                        .projectList![i].id ?? 0,
+                                    farmerDetail: state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!,
+                                  selectedFilter: selectedFilter
+
+                                ),
+                                width: screenWidth()),
+                          ):const SizedBox.shrink();
+                        }),
+                  ),
+                )
+                    : Padding(
+                  padding: EdgeInsets.only(top: screenWidth() / 2),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('No data found'),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
+        );
+      }
+    });
   }
 }

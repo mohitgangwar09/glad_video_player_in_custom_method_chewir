@@ -35,6 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _route() async {
     await initPlatformState();
     if(!mounted)return;
+
     await BlocProvider.of<AuthCubit>(context).getLocation(context);
     if(!mounted)return;
     await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();

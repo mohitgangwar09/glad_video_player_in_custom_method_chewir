@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
+import '../../data/model/farmer_project_detail_model.dart';
+
 class RejectScreen extends StatelessWidget {
-  const RejectScreen({super.key});
+  const RejectScreen({super.key,required this.farmerProjectSurvey});
+  final FarmerProject farmerProjectSurvey;
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +64,11 @@ class RejectScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Dam Construction',
+                                farmerProjectSurvey.name??"",
                                 style: figtreeMedium.copyWith(fontSize: 16),
                               ),
                               Text(
-                                'Water Management',
+                                farmerProjectSurvey.category??"",
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: const Color(0xFF808080)),
                               ),
@@ -72,6 +76,7 @@ class RejectScreen extends StatelessWidget {
                           ),
                         ),
                         10.verticalSpace(),
+                        farmerProjectSurvey.farmerMaster!=null?
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -80,7 +85,7 @@ class RejectScreen extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Begumanya Charles',
+                                Text(farmerProjectSurvey.farmerMaster!.name??"",
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: Colors.black)),
                                 10.verticalSpace(),
@@ -92,7 +97,7 @@ class RejectScreen extends StatelessWidget {
                                       color: Colors.black,
                                       size: 16,
                                     ),
-                                    Text('+256 758711344',
+                                    Text('+256 ${farmerProjectSurvey.farmerMaster!.phone??""}',
                                         style: figtreeRegular.copyWith(
                                             fontSize: 12, color: Colors.black)),
                                   ],
@@ -110,7 +115,7 @@ class RejectScreen extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.5,
                                       child: Text(
-                                        'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
+                                        farmerProjectSurvey.farmerMaster!.address!=null?farmerProjectSurvey.farmerMaster!.address!.address.toString():"",
                                         style: figtreeRegular.copyWith(
                                           fontSize: 12,
                                           color: Colors.black,
@@ -123,7 +128,7 @@ class RejectScreen extends StatelessWidget {
                               ],
                             )
                           ],
-                        ),
+                        ):const SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -142,6 +147,7 @@ class RejectScreen extends StatelessWidget {
                 customButton("Go to Home",
                     fontColor: 0xffffffff,
                     onTap: () {
+                  const DashboardSupplier().navigate();
                     })
               ],
             ),

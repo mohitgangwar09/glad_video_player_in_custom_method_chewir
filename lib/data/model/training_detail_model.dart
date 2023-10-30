@@ -8,13 +8,13 @@ class TrainingDetailModel {
   TrainingDetailModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -54,22 +54,22 @@ class Data {
     categoryId = json['category_id'];
     image = json['image'];
     categories = json['categories'] != null
-        ? new Categories.fromJson(json['categories'])
+        ? Categories.fromJson(json['categories'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['video_url'] = this.videoUrl;
-    data['applicable_for'] = this.applicableFor;
-    data['valid_from'] = this.validFrom;
-    data['valid_to'] = this.validTo;
-    data['category_id'] = this.categoryId;
-    data['image'] = this.image;
-    if (this.categories != null) {
-      data['categories'] = this.categories!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['video_url'] = videoUrl;
+    data['applicable_for'] = applicableFor;
+    data['valid_from'] = validFrom;
+    data['valid_to'] = validTo;
+    data['category_id'] = categoryId;
+    data['image'] = image;
+    if (categories != null) {
+      data['categories'] = categories!.toJson();
     }
     return data;
   }
@@ -89,10 +89,10 @@ class Categories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['name'] = name;
     return data;
   }
 }

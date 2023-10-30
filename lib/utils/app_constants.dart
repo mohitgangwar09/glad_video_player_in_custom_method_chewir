@@ -62,6 +62,7 @@ class AppConstants {
   static const String trainingListApi = '/api/training/list';
   static const String trainingCategoryApi = '/api/training/category';
   static const String trainingDetailApi = '/api/training/details';
+  static const String projectKycDocumentsApi = '/api/farmer-project/project-kyc-document';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

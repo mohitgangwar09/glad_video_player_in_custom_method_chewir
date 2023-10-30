@@ -81,6 +81,7 @@ class FarmerProject {
   String? createdAt;
   String? updatedAt;
   List<FarmerProjectMilestones>? farmerProjectMilestones;
+  List<FarmerProjectPaymentTerms>? farmerProjectPaymentTerms;
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
   Kpi? kpi;
   FarmerMaster? farmerMaster;
@@ -123,6 +124,7 @@ class FarmerProject {
         this.dairyDevelopMentExecutive,
         this.kpi,
         this.farmerMaster,
+        this.farmerProjectPaymentTerms,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -165,6 +167,13 @@ class FarmerProject {
       farmerProjectMilestones = <FarmerProjectMilestones>[];
       json['farmer_project_milestones'].forEach((v) {
         farmerProjectMilestones!.add(FarmerProjectMilestones.fromJson(v));
+      });
+    }
+    if (json['farmer_project_payment_terms'] != null) {
+      farmerProjectPaymentTerms = <FarmerProjectPaymentTerms>[];
+      json['farmer_project_payment_terms'].forEach((v) {
+        farmerProjectPaymentTerms!
+            .add(FarmerProjectPaymentTerms.fromJson(v));
       });
     }
     dairyDevelopMentExecutive = json['dairy_develop_ment_executive'] != null
@@ -218,6 +227,10 @@ class FarmerProject {
     }
     if (kpi != null) {
       data['kpi'] = kpi!.toJson();
+    }
+    if (farmerProjectPaymentTerms != null) {
+      data['farmer_project_payment_terms'] =
+          farmerProjectPaymentTerms!.map((v) => v.toJson()).toList();
     }
     if (farmerMaster != null) {
       data['farmer_master'] = farmerMaster!.toJson();
@@ -989,6 +1002,67 @@ class Address {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['full_address'] = fullAddress;
+    return data;
+  }
+}
+
+class FarmerProjectPaymentTerms {
+  int? id;
+  int? farmerId;
+  int? farmerProjectId;
+  dynamic farmerMilestoneId;
+  dynamic paymentTerm;
+  dynamic paymentPercentage;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  FarmerProjectPaymentTerms(
+      {this.id,
+        this.farmerId,
+        this.farmerProjectId,
+        this.farmerMilestoneId,
+        this.paymentTerm,
+        this.paymentPercentage,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  FarmerProjectPaymentTerms.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    farmerProjectId = json['farmer_project_id'];
+    farmerMilestoneId = json['farmer_milestone_id'];
+    paymentTerm = json['payment_term'];
+    paymentPercentage = json['payment_percentage'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['farmer_project_id'] = farmerProjectId;
+    data['farmer_milestone_id'] = farmerMilestoneId;
+    data['payment_term'] = paymentTerm;
+    data['payment_percentage'] = paymentPercentage;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

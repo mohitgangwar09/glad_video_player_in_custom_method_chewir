@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,9 @@ import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
+import 'package:glad/screen/supplier_screen/accept_screen.dart';
+import 'package:glad/screen/supplier_screen/reject_screen.dart';
+import 'package:glad/screen/supplier_screen/survey_finished.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -130,6 +135,43 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.data['message'], isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // surveyStatusApi
+  void surveyStatusApi(context, int projectId,
+      String remark,String projectStatus,String farmerId,dde.FarmerProject projectSurvey) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.inviteExpertForSurveyApi(projectId, "",
+        remark,projectStatus,farmerId);
+    if (response.status == 200) {
+      disposeProgress();
+      if(projectStatus == "survey_rejected"){
+        RejectScreen(farmerProjectSurvey: projectSurvey,).navigate();
+      }else if(projectStatus == "survey_accepted"){
+        AcceptScreen(farmerProjectSurvey: projectSurvey,).navigate();
+      }else{
+        SurveyFinishedScreen(farmerProjectSurvey: projectSurvey,).navigate();
+      }
+
+    } else {
+      emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // updateProfilePicImage
+  Future<void> projectKycApi(context, String farmerId, String farmerProjectId, String addressDocName, String addressDocNo, String addressDocExpiryDate,
+      List<String> documentFiles,String idDocName,
+      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto,dde.FarmerMaster farmerProject) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.projectKycApi(farmerId, farmerProjectId, addressDocName, addressDocNo, addressDocExpiryDate, documentFiles.map((e) => File(e)).toList(), idDocName, idDocTypeNo, idDocTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), File(farmerPhoto));
+    disposeProgress();
+    if (response.status == 200) {
+      ThankYou(profileData: farmerProject,).navigate();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    } else {
       showCustomToast(context, response.message.toString());
     }
   }

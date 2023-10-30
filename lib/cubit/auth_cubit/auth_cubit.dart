@@ -24,6 +24,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
   final AuthRepository apiRepository;
   final SharedPreferences sharedPreferences;
+
   Location location = Location();
 
   bool isEmail(String em) {
@@ -331,6 +332,8 @@ class AuthCubit extends Cubit<AuthCubitState>{
     }
   }
 
+
+
   Future<void> getLocation(contexts) async {
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -352,6 +355,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
     }
 
   }
+
 
 
   bool isLoggedIn() {
