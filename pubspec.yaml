@@ -49,6 +49,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   file_picker: ^5.5.0
   open_file_safe_plus: ^0.0.3
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:

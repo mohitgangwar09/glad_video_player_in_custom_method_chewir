@@ -72,7 +72,7 @@ class FarmerDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
               image: Images.drawerTraining, onTap: () {
-                const OnlineTraining().navigate();
+                const OnlineTraining(isBottomAppBar: false,).navigate();
           }, text: 'Training'),
           30.verticalSpace(),
           navigationBarItem(

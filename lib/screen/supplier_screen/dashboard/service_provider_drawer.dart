@@ -5,6 +5,8 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -65,10 +67,14 @@ class ServiceProviderDrawer extends StatelessWidget {
           ),
           30.verticalSpace(),
           navigationBarItem(
-              image: Images.news, onTap: () {}, text: 'News & Events'),
+              image: Images.news, onTap: () {
+                const NewsAndEvent(isBottomAppBar: false).navigate();
+          }, text: 'News & Events'),
           30.verticalSpace(),
           navigationBarItem(
-              image: Images.drawerTraining, onTap: () {}, text: 'Training'),
+              image: Images.drawerTraining, onTap: () {
+                const OnlineTraining(isBottomAppBar: false,).navigate();
+          }, text: 'Training'),
           30.verticalSpace(),
           navigationBarItem(
             image: Images.faq,

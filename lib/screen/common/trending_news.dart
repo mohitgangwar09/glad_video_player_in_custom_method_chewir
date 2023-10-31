@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -25,7 +26,9 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
               Text('Trending News & Events',
                   style: figtreeMedium.copyWith(
                       fontSize: 18, color: Colors.black)),
-              ShowAllButton(onTap: () {})
+              ShowAllButton(onTap: () {
+                const NewsAndEvent(isBottomAppBar: false,).navigate();
+              })
             ],
           ),
         ),

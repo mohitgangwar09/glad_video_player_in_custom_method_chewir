@@ -1,14 +1,35 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/training_cubit/training_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training_detail.dart';
+import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
+import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class OnlineTraining extends StatelessWidget {
-  const OnlineTraining({super.key});
+class OnlineTraining extends StatefulWidget {
+  const OnlineTraining({super.key, required this.isBottomAppBar});
+  final bool isBottomAppBar;
+
+  @override
+  State<OnlineTraining> createState() => _OnlineTrainingState();
+}
+
+class _OnlineTrainingState extends State<OnlineTraining> {
+  @override
+  void initState() {
+    BlocProvider.of<TrainingCubit>(context).trainingCategoriesApi(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,139 +37,304 @@ class OnlineTraining extends StatelessWidget {
       body: Stack(
         children: [
           landingBackground(),
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Online trainings',
-                leading: arrowBackButton(),
-                centerTitle: true,
-                titleText1Style:
-                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-              ),
-              fourOptions(),
-              imageWithDetails()
-            ],
-          )
+          BlocBuilder<TrainingCubit, TrainingCubitState>(
+              builder: (context, state) {
+            if (state.status == TrainingStatus.submit) {
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: ColorResources.maroon,
+              ));
+            } else if (state.responseTrainingList == null) {
+              return Center(
+                  child: Text("${state.responseTrainingList} Api Error"));
+            } else if (state.responseTrainingCategories == null) {
+              return Center(
+                  child: Text("${state.responseTrainingCategories} Api Error"));
+            } else {
+              return Column(
+
+                children: [
+                  widget.isBottomAppBar ?
+                  CustomAppBar(
+                    context: context,
+                    titleText1: 'Online trainings',
+                    centerTitle: true,
+                    leading: BlocProvider.of<ProfileCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'mcc' ?
+                    SizedBox.shrink()
+                        : openDrawer(
+                        onTap: () {
+                          landingKey.currentState?.openDrawer();
+                        },
+                        child: SvgPicture.asset(Images.drawer)),
+                    // action: Row(
+                    //   children: [
+                    //     InkWell(
+                    //         onTap: () {
+                    //           modalBottomSheetMenu(
+                    //               context, child:
+                    //           SizedBox(
+                    //             height: screenHeight()*0.65,
+                    //             child: Column(
+                    //               children: [
+                    //
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.only(left: 8.0,right: 8),
+                    //                   child: Row(
+                    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //                     children: [
+                    //
+                    //                       TextButton(onPressed: (){
+                    //                         pressBack();
+                    //                       }, child: "Cancel".textMedium(color: const Color(0xff6A0030),fontSize: 14)),
+                    //
+                    //                       "Sort By".textMedium(fontSize: 22),
+                    //
+                    //                       TextButton(onPressed: (){},child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
+                    //
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //
+                    //                 const Padding(
+                    //                   padding: EdgeInsets.only(left: 20.0,right: 20),
+                    //                   child: Divider(),
+                    //                 ),
+                    //
+                    //                 Expanded(
+                    //                   child: customList(list: [1,2,22,2,22,2,2,22,2],child: (index){
+                    //                     return Padding(padding: const EdgeInsets.only(left: 30,right: 30,top:30,bottom: 10),
+                    //                         child: "ROI Highest to Lowest".textRegular(fontSize: 16));
+                    //                   }),
+                    //                 ),
+                    //
+                    //                 10.verticalSpace(),
+                    //
+                    //                 Container(margin: 20.marginAll(),height: 55,width: screenWidth(),child: customButton("Apply",fontColor: 0xffffffff, onTap: (){}))
+                    //
+                    //
+                    //               ],
+                    //             ),
+                    //           ));
+                    //         }, child: SvgPicture.asset(Images.filter2)),
+                    //     18.horizontalSpace(),
+                    //   ],
+                    // ),
+                  ) :
+                  CustomAppBar(
+                    context: context,
+                    titleText1: 'News and Events',
+                    centerTitle: true,
+                    leading: arrowBackButton(),
+                  ),
+                  fourOptions(state),
+                  imageWithDetails(state)
+                ],
+              );
+            }
+          })
         ],
       ),
     );
   }
 
 ////////////FourOptions///////////////
-  Widget fourOptions() {
+  Widget fourOptions(TrainingCubitState state) {
     return SizedBox(
       height: 45,
       child: customList(
-          list: [1, 2, 3, 4],
+          list: List.generate(
+              state.responseTrainingCategories!.data!.length, (index) => null),
           axis: Axis.horizontal,
           child: (index) {
-            return Container(
-                margin:3.marginAll(),
-                padding: const EdgeInsets.only(
-                    left: 14, right: 14, bottom: 10, top: 10),
-                decoration: boxDecoration(
-                    borderColor: const Color(0xffDCDCDC), borderRadius: 30,backgroundColor: Colors.white,borderWidth:1),
-                child: const Text("Trending"));
+            return Row(
+              children: [
+                index == 0
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: InkWell(
+                          onTap: () {
+                            BlocProvider.of<TrainingCubit>(context)
+                                .emit(state.copyWith(selectedCategoryId: ''));
+                            BlocProvider.of<TrainingCubit>(context)
+                                .trainingListApi(context, '');
+                          },
+                          child: Container(
+                              padding: const EdgeInsets.all(14),
+                              decoration: boxDecoration(
+                                borderColor: state.selectedCategoryId == ''
+                                    ? ColorResources.maroon
+                                    : const Color(0xffDCDCDC),
+                                borderRadius: 50,
+                                backgroundColor: state.selectedCategoryId == ''
+                                    ? const Color(0xFFFFF3F4)
+                                    : Colors.white,
+                              ),
+                              child: Text(
+                                'All',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12,
+                                    color: state.selectedCategoryId == ''
+                                        ? ColorResources.maroon
+                                        : Colors.black),
+                              )),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                Padding(
+                  padding:
+                      EdgeInsets.only(right: 10, left: index == 0 ? 10 : 0),
+                  child: InkWell(
+                    onTap: () {
+                      BlocProvider.of<TrainingCubit>(context).emit(
+                          state.copyWith(
+                              selectedCategoryId: state
+                                      .responseTrainingCategories!
+                                      .data![index]
+                                      .id.toString() ??
+                                  ''));
+                      BlocProvider.of<TrainingCubit>(context).trainingListApi(
+                          context,
+                          state.responseTrainingCategories!.data![index].id.toString() ??
+                              '');
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: boxDecoration(
+                          borderColor: state.selectedCategoryId ==
+                                  state.responseTrainingCategories!.data![index]
+                                      .id.toString()
+                              ? ColorResources.maroon
+                              : const Color(0xffDCDCDC),
+                          borderRadius: 50,
+                          backgroundColor: state.selectedCategoryId ==
+                                  state.responseTrainingCategories!.data![index]
+                                      .id.toString()
+                              ? const Color(0xFFFFF3F4)
+                              : Colors.white,
+                        ),
+                        child: Text(
+                          state.responseTrainingCategories!.data![index].name ??
+                              '',
+                          style: figtreeMedium.copyWith(
+                              fontSize: 12,
+                              color: state.selectedCategoryId ==
+                                      state.responseTrainingCategories!
+                                          .data![index].id.toString()
+                                  ? ColorResources.maroon
+                                  : Colors.black),
+                        )),
+                  ),
+                ),
+              ],
+            );
           }),
     );
   }
 
   //////ImageWithDetails////////////////
-  Widget imageWithDetails() {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: customList(
-            padding: const EdgeInsets.fromLTRB(20, 13, 20, 120),
-            list: [1, 2, 3, 4, 5, 6, 7],
-            child: (index) {
-              return Column(
-                children: [
-                  InkWell(
-                    onTap: (){
-                      const OnlineTrainingDetails().navigate();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: customShadowContainer(
-                          margin: 0,
-                          backColor: Colors.grey.withOpacity(0.4),
-                          child: Stack(
-                            children: [
-                              Column(
-                                children: [
-                                  Container(
-                                    height: 150,
-                                    decoration: BoxDecoration(
-                                        image: const DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(Images.cowBig),
-                                        ),
-                                        borderRadius: BorderRadius.circular(20)),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(22,15,25,20),
-                                    child: Column(
+  Widget imageWithDetails(TrainingCubitState state) {
+    return state.responseTrainingList!.data != null
+        ? Expanded(
+            child: SingleChildScrollView(
+              child: customList(
+                  padding: const EdgeInsets.fromLTRB(20, 17, 20, 20),
+                  list: List.generate(state.responseTrainingList!.data!.length,
+                      (index) => null),
+                  child: (index) {
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            OnlineTrainingDetails(categoryId: state.responseTrainingList!.data![index].id.toString()).navigate();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: customShadowContainer(
+                                margin: 0,
+                                backColor: Colors.grey.withOpacity(0.4),
+                                child: Stack(
+                                  children: [
+                                    Column(
                                       children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'How to start dairy business...',
-                                              style: figtreeMedium.copyWith(fontSize: 18),
-                                            ),
-                                            SvgPicture.asset(Images.menuIcon,height: 20,width: 20,)
-
-                                          ],
-                                        ),
-                                        10.verticalSpace(),
-                                        Row(
-                                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text('04k views',style: figtreeMedium.copyWith(fontSize: 12),),
-                                            8.horizontalSpace(),
-                                            Container(
-                                              height:5,
-                                              width:5,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.black, shape: BoxShape.circle),
-                                            ),
-                                            8.horizontalSpace(),
-                                            Text('10 months ago',style: figtreeMedium.copyWith(fontSize: 12),),
-                                            8.horizontalSpace(),
-                                            Container(
-                                              height:5,
-                                              width:5,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.black, shape: BoxShape.circle),
-                                            ),
-                                            8.horizontalSpace(),
-                                            Text('245 comments',style: figtreeMedium.copyWith(fontSize: 12),),
-
-                                          ],
-                                        ),
+                                        Container(
+                                            height: 150,
+                                            width: screenWidth(),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: CachedNetworkImage(
+                                                imageUrl: state
+                                                        .responseTrainingList!
+                                                        .data![index]
+                                                        .image ??
+                                                    '',
+                                                fit: BoxFit.fitWidth,
+                                                errorWidget: (_, __, ___) {
+                                                  return Image.asset(
+                                                    Images.cowBig,
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
+                                              ),
+                                            )),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              22, 15, 25, 20),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    state.responseTrainingList!
+                                                            .data![index].title ??
+                                                        '',
+                                                    style: figtreeMedium
+                                                        .copyWith(fontSize: 18),
+                                                  ),
+                                                  SvgPicture.asset(
+                                                    Images.menuIcon,
+                                                    height: 20,
+                                                    width: 20,
+                                                  )
+                                                ],
+                                              ),
+                                              10.verticalSpace(),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${getAge(DateTime.parse(state.responseTrainingList!.data![index].validFrom.toString()))} ago',
+                                                    style: figtreeMedium
+                                                        .copyWith(fontSize: 12),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                              Positioned(
-                                right: 10,
-                                top: 10,
-                                child: SvgPicture.asset(
-                                  Images.newsI,
-                                  width: 35,
-                                  height: 35,
-                                ),
-                              )
-                            ],
-                          )),
-                    ),
-                  ),
-                ],
-              );
-            }),
-      ),
-    );
+                                    Positioned(
+                                      right: 10,
+                                      top: 10,
+                                      child: SvgPicture.asset(
+                                        Images.newsI,
+                                        width: 35,
+                                        height: 35,
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }

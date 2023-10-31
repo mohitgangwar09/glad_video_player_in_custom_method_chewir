@@ -5,6 +5,7 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 
 import '../../../utils/color_resources.dart';
 import '../../../utils/extension.dart';
@@ -64,7 +65,9 @@ class DdeDrawer extends StatelessWidget {
             height: 30,
           ),
           navigationBarItem(
-              image: Images.news, onTap: () {}, text: 'News & Events'),
+              image: Images.news, onTap: () {
+            const NewsAndEvent(isBottomAppBar: false,).navigate();
+          }, text: 'News & Events'),
           const SizedBox(
             height: 30,
           ),

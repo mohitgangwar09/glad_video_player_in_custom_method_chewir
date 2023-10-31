@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -26,7 +27,9 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
               Text('Featured Trainings',
                   style: figtreeMedium.copyWith(
                       fontSize: 18, color: Colors.black)),
-              ShowAllButton(onTap: () {})
+              ShowAllButton(onTap: () {
+                const OnlineTraining(isBottomAppBar: false,).navigate();
+              })
             ],
           ),
         ),

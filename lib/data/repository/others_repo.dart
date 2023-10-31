@@ -1,5 +1,6 @@
 
-import 'package:glad/data/model/training_category_model.dart';
+import 'package:glad/data/model/news_list_model.dart';
+import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -12,11 +13,12 @@ class OthersRepository {
   OthersRepository({this.sharedPreferences});
 
   ///////////////// getTrainingListApi //////////
-  Future<TrainingListModel> getTrainingListApi(String categoryName) async {
-    var data = {"category_name": categoryName};
+  Future<TrainingListModel> getTrainingListApi(String categoryId) async {
+    var data = {"category_id": categoryId};
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.trainingListApi, queryParameters: data);
+        .getApiResponse(AppConstants.trainingListApi, queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return TrainingListModel.fromJson(apiResponse.response!.data);
@@ -30,7 +32,8 @@ class OthersRepository {
    var data = {"id": trainingId};
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.trainingDetailApi, queryParameters: data);
+        .getApiResponse(AppConstants.trainingDetailApi, queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
       return TrainingDetailModel.fromJson(apiResponse.response!.data);
@@ -40,18 +43,43 @@ class OthersRepository {
   }
 
   ///////////////// getTrainingCategoryApi //////////
-  Future<TrainingCategoryModel> getTrainingCategoryApi() async {
-    var userId = sharedPreferences?.getString(AppConstants.userId);
-
-    var data = {"id": userId};
-
+  Future<TrainingAndNewsCategoryModel> getTrainingCategoryApi() async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.trainingCategoryApi, queryParameters: data);
+        .getApiResponse(AppConstants.trainingCategoryApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
-      return TrainingCategoryModel.fromJson(apiResponse.response!.data);
+      return TrainingAndNewsCategoryModel.fromJson(apiResponse.response!.data);
     } else {
-      return TrainingCategoryModel(status: 422, message: apiResponse.msg);
+      return TrainingAndNewsCategoryModel(status: 422, message: apiResponse.msg);
+    }
+  }
+  ///////////////// getNewsListApi //////////
+  Future<NewsListModel> getNewsListApi(String categoryId) async {
+    var data = {"category_id": categoryId};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.newsListApi, queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return NewsListModel.fromJson(apiResponse.response!.data);
+    } else {
+      return NewsListModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
+  ///////////////// getTrainingCategoryApi //////////
+  Future<TrainingAndNewsCategoryModel> getNewsCategoryApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.newsCategoryApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return TrainingAndNewsCategoryModel.fromJson(apiResponse.response!.data);
+    } else {
+      return TrainingAndNewsCategoryModel(status: 422, message: apiResponse.msg);
     }
   }
 
