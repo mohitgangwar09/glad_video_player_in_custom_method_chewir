@@ -154,6 +154,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       }else{
         SurveyFinishedScreen(farmerProjectSurvey: projectSurvey,).navigate();
       }
+      farmerProjectDetailApi(context,projectId);
 
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
