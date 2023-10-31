@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -15,11 +17,27 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class MCCLandingPage extends StatelessWidget {
+class MCCLandingPage extends StatefulWidget {
   const MCCLandingPage({super.key});
 
   @override
+  State<MCCLandingPage> createState() => _MCCLandingPageState();
+}
+
+class _MCCLandingPageState extends State<MCCLandingPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<ProjectCubit>(context)
+          .ddeProjectsApi(context, "pending", true);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Container(
       color: Colors.white,
       child: Stack(
@@ -101,6 +119,7 @@ class MCCLandingPage extends StatelessWidget {
                   }),
             ),
 
+
             Padding(
               padding: const EdgeInsets.only(left: 24.0,right: 24,top: 10),
               child: Row(
@@ -109,19 +128,91 @@ class MCCLandingPage extends StatelessWidget {
                   "Pending Application".textMedium(fontSize: 18),
 
                   "View All".textSemiBold(underLine: TextDecoration.underline,
-                  fontSize: 12,color: const Color(0xff6A0030))
+                      fontSize: 12,color: const Color(0xff6A0030))
                 ],
               ),
             ),
 
-            Container(
-              margin: const EdgeInsets.only(left: 8),
-              height: 235,
-                child: customList(axis: Axis.horizontal,child: (index){
-                  return const Padding(
-                    padding: EdgeInsets.only(right: 5.0,left: 0),
-                    child: MCCApplicationScreen(),
-                  );})),
+            /*SizedBox(
+              height: 250,
+              child: BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
+               if (state.responseDdeProject == null) {
+                  return Center(child: Text("${state.responseDdeProject} Api Error"));
+                }*//*else if (state.responseDdeProject!.data!.projectList!.isEmpty) {
+                  return const Center(child: Text("No Data found"));
+                } else if (state.responseDdeProject!.data!.projectList== null) {
+                  return const Center(child: Text("No Data found"));
+                }*//*else {
+                  return Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    height: 235,
+                    child: state.responseDdeProject!.data!.projectList!.isNotEmpty
+                        ?
+                    Expanded(
+                      child: customList(
+                          list: state.responseDdeProject!.data!
+                              .projectList!,
+                        scrollPhysics: const BouncingScrollPhysics(),
+
+                          axis: Axis.horizontal,child: (i){
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 5.0,left: 0),
+                          child: MCCApplicationScreen(
+                              status: false,
+                              projectStatus: formatProjectStatus(state.responseDdeProject!.data!
+                                  .projectList![i].projectStatus ?? ''),
+                              name: state.responseDdeProject!.data!
+                                  .projectList![i].name ?? '',
+                              category: state.responseDdeProject!.data!
+                                  .projectList![i].farmerImprovementArea !=
+                                  null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerImprovementArea!
+                                  .improvementArea!.name ?? '' : '',
+                              description: state.responseDdeProject!.data!
+                                  .projectList![i].description ?? '',
+                              investment: state.responseDdeProject!.data!
+                                  .projectList![i].investmentAmount ?? 0,
+                              revenue: state.responseDdeProject!.data!
+                                  .projectList![i].revenuePerYear ?? 0,
+                              roi: state.responseDdeProject!.data!
+                                  .projectList![i].roiPerYear ?? 0.0,
+                              loan: state.responseDdeProject!.data!
+                                  .projectList![i].loanAmount ?? 0,
+                              emi: state.responseDdeProject!.data!
+                                  .projectList![i].emiAmount ?? 0,
+                              balance: 0,
+                              farmerName: state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.name ?? '' : '',
+                              farmerAddress:  state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.address!=null?state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.address!.address.toString():"" ??
+                                  '' : '',
+                              farmerImage:  state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.photo ??
+                                  ''  : '',
+                              farmerPhone:  state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                  .projectList![i].farmerMaster!.phone ??
+                                  ''  : '',
+                              projectPercent: 0,
+                              projectId: state.responseDdeProject!.data!
+                                  .projectList![i].id ?? 0,
+                              farmerDetail: "farmer",
+                              // farmerDetail: state.responseDdeProject!.data!
+                              //     .projectList![i].farmerMaster!,
+                              selectedFilter: "pending"
+
+                          ),
+                        );}),
+                    ):const SizedBox.shrink(),
+                  );
+                }
+              },
+              ),
+            ),*/
 
             30.verticalSpace(),
 
@@ -323,5 +414,4 @@ class MCCLandingPage extends StatelessWidget {
       ),
     );
   }
-
 }

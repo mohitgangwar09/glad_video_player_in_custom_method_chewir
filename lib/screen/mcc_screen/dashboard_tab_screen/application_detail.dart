@@ -17,10 +17,11 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-import '../../data/model/farmer_project_detail_model.dart';
+import '../../../data/model/farmer_project_detail_model.dart';
 
-class SurveyDetails extends StatefulWidget {
-  const SurveyDetails({super.key,
+
+class ApplicationDetail extends StatefulWidget {
+  const ApplicationDetail({super.key,
     required this.projectId,
     required this.selectedFilter,
   });
@@ -29,10 +30,10 @@ class SurveyDetails extends StatefulWidget {
   final String selectedFilter;
 
   @override
-  State<SurveyDetails> createState() => _SurveyDetailsState();
+  State<ApplicationDetail> createState() => _ApplicationDetailState();
 }
 
-class _SurveyDetailsState extends State<SurveyDetails> {
+class _ApplicationDetailState extends State<ApplicationDetail> {
 
   TextEditingController controller = TextEditingController();
 
@@ -115,44 +116,44 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                         ),
                                       ),
                                       customList(
-                                        list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms!,
+                                          list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms!,
                                           child: (index){
-                                          return Container(
-                                            margin: const EdgeInsets.only(top: 10),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8, horizontal: 14),
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xFFE4FFE3),
-                                                borderRadius: BorderRadius.circular(10)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms![index].paymentTerm??"",
-                                                    style:
-                                                    figtreeMedium.copyWith(fontSize: 16),
+                                            return Container(
+                                              margin: const EdgeInsets.only(top: 10),
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 8, horizontal: 14),
+                                              decoration: BoxDecoration(
+                                                  color: const Color(0xFFE4FFE3),
+                                                  borderRadius: BorderRadius.circular(10)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms![index].paymentTerm??"",
+                                                      style:
+                                                      figtreeMedium.copyWith(fontSize: 16),
+                                                    ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  padding: const EdgeInsets.symmetric(
-                                                      horizontal: 20, vertical: 10),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                      BorderRadius.circular(14),
-                                                      border:
-                                                      Border.all(color: Colors.grey)),
-                                                  child: Text(
-                                                    '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms![index].paymentPercentage!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms![index].paymentPercentage!.toString():""}%',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 12),
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(
+                                                        horizontal: 20, vertical: 10),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                        BorderRadius.circular(14),
+                                                        border:
+                                                        Border.all(color: Colors.grey)),
+                                                    child: Text(
+                                                      '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms![index].paymentPercentage!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms![index].paymentPercentage!.toString():""}%',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 12),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
+                                                ],
+                                              ),
+                                            );
                                           })
                                     ],
                                   ),
@@ -168,81 +169,15 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                             ),
 
 
-                            widget.selectedFilter == "new"?
+                            widget.selectedFilter == "pending"?
                             Row(
                               children: [
-                                /*Expanded(
-                                  child: Container(
-                                      margin: 18.marginAll(),
-                                      height: 55,
-                                      width: screenWidth(),
-                                      child: customButton("Reject",
-                                          fontColor: 0xffffffff,
-                                          color: 0xff999999,
-                                          onTap: () {
-                                            modalBottomSheetMenu(context,
-                                                radius: 40,
-                                                child: SizedBox(
-                                                  height: 320,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                                    child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Center(
-                                                            child: Text(
-                                                              'Remarks',
-                                                              style: figtreeMedium.copyWith(fontSize: 22),
-                                                            ),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          TextField(
-                                                            maxLines: 4,
-                                                            minLines: 4,
-                                                            controller: controller,
-                                                            decoration: InputDecoration(
-                                                                hintText: 'Write...',
-                                                                hintStyle:
-                                                                figtreeMedium.copyWith(fontSize: 18),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius: BorderRadius.circular(12),
-                                                                    borderSide: const BorderSide(
-                                                                      width: 1,
-                                                                      color: Color(0xff999999),
-                                                                    ))),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          Padding(
-                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                            child: customButton(
-                                                              'Submit',
-                                                              fontColor: 0xffFFFFFF,
-                                                              onTap: () {
-                                                                if(controller.text.isEmpty){
-                                                                  showCustomToast(context, "Please enter remarks");
-                                                                }else{
-                                                                  context.read<ProjectCubit>().surveyStatusApi(context,
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].projectId,
-                                                                      controller.text ?? '',
-                                                                      'survey_rejected',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0]);
-                                                                }
-                                                              },
-                                                              height: 60,
-                                                              width: screenWidth(),
-                                                            ),
-                                                          )
-                                                        ]),
-                                                  ),
-                                                ));
-                                          })),
-                                ),*/
                                 Expanded(
                                   child: Container(
                                       margin: 18.marginAll(),
                                       height: 55,
                                       width: screenWidth(),
-                                      child: customButton("Accept",
+                                      child: customButton("Farmer Document",
                                           fontColor: 0xffffffff, onTap: () {
                                             modalBottomSheetMenu(context,
                                                 radius: 40,
@@ -304,69 +239,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                               ],
                             ):const SizedBox.shrink(),
 
-                            15.verticalSpace(),
-
-                            widget.selectedFilter == "pending"?
-                            Center(
-                              child: customButton("Submit Survey",
-                                  fontColor: 0xffffffff, onTap: () {
-                                    modalBottomSheetMenu(context,
-                                        radius: 40,
-                                        child: SizedBox(
-                                          height: 320,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                            child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      'Remarks',
-                                                      style: figtreeMedium.copyWith(fontSize: 22),
-                                                    ),
-                                                  ),
-                                                  30.verticalSpace(),
-                                                  TextField(
-                                                    maxLines: 4,
-                                                    minLines: 4,
-                                                    controller: controller,
-                                                    decoration: InputDecoration(
-                                                        hintText: 'Write...',
-                                                        hintStyle:
-                                                        figtreeMedium.copyWith(fontSize: 18),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(12),
-                                                            borderSide: const BorderSide(
-                                                              width: 1,
-                                                              color: Color(0xff999999),
-                                                            ))),
-                                                  ),
-                                                  30.verticalSpace(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                    child: customButton(
-                                                      'Submit',
-                                                      fontColor: 0xffFFFFFF,
-                                                      onTap: () {
-                                                        if(controller.text.isEmpty){
-                                                          showCustomToast(context, "Please enter remarks");
-                                                        }else{
-                                                          context.read<ProjectCubit>().surveyStatusApi(context,
-                                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                                              controller.text ?? '',
-                                                              'survey_completed',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                              state.responseFarmerProjectDetail!.data!.farmerProject![0]);
-                                                        }
-                                                      },
-                                                      height: 60,
-                                                      width: screenWidth(),
-                                                    ),
-                                                  )
-                                                ]),
-                                          ),
-                                        ));
-                                  }),
-                            ):const SizedBox.shrink()
+                            40.verticalSpace(),
                           ],
                         ),
                       ),
@@ -374,18 +247,10 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                   ),
                 ],
               ),
-              Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Image.asset(
-                    Images.messageChat,
-                    width: 100,
-                    height: 100,
-                  ))
             ],
           );
         }
-        }
+      }
       ),
     );
   }
@@ -555,22 +420,6 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                         6.horizontalSpace(),
                       ],
                     )),
-                Positioned(
-                    bottom: -2,
-                    child: InkWell(
-                      onTap: () {
-                        // const ProjectTimeline().navigate();
-                      },
-                      child: Text(
-                        'View Timeline',
-                        style: figtreeSemiBold.copyWith(
-                            fontSize: 14,
-                            color: ColorResources.maroon,
-                            decoration: TextDecoration.underline,
-                            decorationColor: ColorResources.maroon,
-                            decorationThickness: 3.0),
-                      ),
-                    ))
               ],
             ),
           ],
@@ -731,17 +580,11 @@ class _SurveyDetailsState extends State<SurveyDetails> {
             'Project milestones',
             style: figtreeMedium.copyWith(fontSize: 18),
           ),
-          widget.selectedFilter == "pending"?
-          InkWell(
-            onTap: () {
-              const AddMilestone().navigate();
-            },
-              child: SvgPicture.asset(Images.add)):const SizedBox.shrink()
         ],
       ),
       15.verticalSpace(),
       customList(
-        list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!,
+          list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!,
           axis: Axis.vertical,
           child: (int index) {
             return Padding(
@@ -753,8 +596,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                   // const MilestoneDetail().navigate();
                   SupplierMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
-                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
-                      selectedFilter:widget.selectedFilter
+                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
                   ).navigate();
                   /*SuggestedProjectMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
@@ -777,8 +619,6 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                 state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneTitle ?? '',
                                 style: figtreeMedium.copyWith(fontSize: 18),
                               ),
-                              widget.selectedFilter == "pending"?
-                              SvgPicture.asset(Images.cross):const SizedBox.shrink()
                             ],
                           ),
                           5.verticalSpace(),
