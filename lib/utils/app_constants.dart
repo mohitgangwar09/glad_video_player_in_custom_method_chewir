@@ -63,6 +63,12 @@ class AppConstants {
   static const String trainingCategoryApi = '/api/training/category';
   static const String trainingDetailApi = '/api/training/details';
   static const String projectKycDocumentsApi = '/api/farmer-project/project-kyc-document';
+  //mileStoneApi
+  static const String mileStoneDeleteAp = '/api/farmer-project/milestone-delete';
+  static const String mileStoneNameApi = '/api/farmer-project/milestone-name-list';
+  static const String fetchMileStoneDataApi = '/api/farmer-project/fetch-milestone-data';
+  static const String addTaskApi = '/api/farmer-project/add-task';
+  static const String deleteTaskApi = '/api/farmer-project/delete-task';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

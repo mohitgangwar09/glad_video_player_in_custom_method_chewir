@@ -404,6 +404,98 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// mileStoneDeleteApi //////////
+  Future<ResponseOtpModel> mileStoneDeleteApi(int id) async {
+    var data = {
+      "id": id
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.mileStoneDeleteAp,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+      queryParameters: data
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// mileStoneNameApi //////////
+  Future<ResponseOtpModel> mileStoneNameApi(int id) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.mileStoneNameApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// fetchMileStoneDataApi //////////
+  Future<ResponseOtpModel> getMileStoneDataApi(int id) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.fetchMileStoneDataApi,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// addTaskApi //////////
+  Future<ResponsePriceAttribute> addTaskApi(
+      String farmerId,
+      String farmerProjectId,
+      String farmerMileStoneId,
+      String taskName
+      ) async {
+    var data = {
+      'farmer_id' : farmerId,
+      'farmer_project_id': farmerProjectId,
+      'farmer_milestone_id': farmerMileStoneId,
+      'task_name': taskName
+    };
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addTaskApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: data);
+
+    if (apiResponse.status) {
+      return ResponsePriceAttribute.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponsePriceAttribute(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// deleteTaskApi //////////
+  Future<ResponsePriceAttribute> deleteTaskApi(String id
+      ) async {
+    var data = {
+      'id' : id
+    };
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.deleteTaskApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: data);
+
+    if (apiResponse.status) {
+      return ResponsePriceAttribute.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponsePriceAttribute(status: 422, message: apiResponse.msg);
+    }
+  }
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

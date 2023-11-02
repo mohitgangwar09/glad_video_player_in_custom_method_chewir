@@ -303,7 +303,7 @@ class _SurveysScreenState extends State<SurveysScreen> {
                                         .projectList![i].farmerImprovementArea !=
                                         null ? state.responseDdeProject!.data!
                                         .projectList![i].farmerImprovementArea!
-                                        .improvementArea!.name ?? '' : 'null',
+                                        .improvementArea!.name ?? '' : '',
                                     description: state.responseDdeProject!.data!
                                         .projectList![i].description ?? '',
                                     investment: state.responseDdeProject!.data!

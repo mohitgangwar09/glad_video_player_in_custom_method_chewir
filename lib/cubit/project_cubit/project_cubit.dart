@@ -452,4 +452,77 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  // mileStoneDeleteApi
+  void milestoneDeleteApi(context,int id) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.mileStoneDeleteApi(id);
+
+    disposeProgress();
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // mileStoneNameApi
+  void milestoneNameApi(context,int id) async {
+    var response = await apiRepository.mileStoneNameApi(id);
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // getMileStoneDataApi
+  void getMileStoneDataApi(context,int id) async {
+
+    var response = await apiRepository.getMileStoneDataApi(id);
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // addTaskApi
+  void addTaskApi(context,String farmerId, String farmerProjectId, String farmerMileStoneId, String taskName) async {
+
+    var response = await apiRepository.addTaskApi(farmerId, farmerProjectId, farmerMileStoneId, taskName);
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // addTaskApi
+  void deleteTaskApi(context,String id) async {
+
+    customDialog(widget: launchProgress());
+
+    var response = await apiRepository.deleteTaskApi(id);
+
+    disposeProgress();
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 }
