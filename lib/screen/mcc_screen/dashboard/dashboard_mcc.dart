@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_screen.dart';
 import 'package:glad/screen/mcc_screen/dashboard_tab_screen/landing_page.dart';
 import 'package:glad/utils/extension.dart';
@@ -20,8 +22,8 @@ class DashboardMCC extends StatelessWidget {
       const MCCLandingPage(),
       const ApplicationScreen(),
       const CommunityPost(),
-      const Text("Orders"),
-      const Text("Earnings"),
+      const NewsAndEvent(isBottomAppBar: true),
+      const OnlineTraining(isBottomAppBar: true,),
     ];
 
     return BlocBuilder<DashboardCubit, DashboardState>(

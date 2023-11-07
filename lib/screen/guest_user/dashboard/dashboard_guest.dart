@@ -23,7 +23,7 @@ class DashboardGuest extends StatelessWidget {
       const GuestLandingPage(),
       const LiveStockScreen(),
       const Text("Community"),
-      const NewsAndEvent(),
+      const NewsAndEvent(isBottomAppBar: true,),
       const Text("Earnings"),
     ];
 

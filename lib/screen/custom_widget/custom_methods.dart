@@ -1107,9 +1107,9 @@ class DashLinePainter extends CustomPainter {
   }
 }
 
-Widget arrowBackButton({Color? color}) {
+Widget arrowBackButton({Color? color, void Function()? onTap}) {
   return InkWell(
-      onTap: () {
+      onTap: onTap ?? () {
         pressBack();
       },
       child: Container(
@@ -1153,7 +1153,7 @@ Widget sizeBox(){
 
 Widget logOut(BuildContext context){
   return InkWell(
-    onTap: (){
+    onTap: () {
       BlocProvider.of<AuthCubit>(context).clearSharedData();
       BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
     },

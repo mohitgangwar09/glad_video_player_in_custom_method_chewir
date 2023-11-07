@@ -1,11 +1,11 @@
-class TrainingCategoryModel {
+class TrainingAndNewsCategoryModel {
   String? message;
   int? status;
   List<Data>? data;
 
-  TrainingCategoryModel({this.message, this.status, this.data});
+  TrainingAndNewsCategoryModel({this.message, this.status, this.data});
 
-  TrainingCategoryModel.fromJson(Map<String, dynamic> json) {
+  TrainingAndNewsCategoryModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     if (json['data'] != null) {

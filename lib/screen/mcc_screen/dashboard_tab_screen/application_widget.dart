@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/supplier_screen/survey_detail.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 

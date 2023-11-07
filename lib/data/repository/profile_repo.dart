@@ -158,6 +158,7 @@ class ProfileRepository {
   }
 
   Future<ImprovementAreaListModel> getImprovementArea(int farmerId) async {
+    print({'farmer_id': farmerId});
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
         AppConstants.improvementAreaList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'farmer_id': farmerId});
     if (apiResponse.status) {

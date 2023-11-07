@@ -150,7 +150,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
             ),
             child: Column(
               children: [
-
+                if(state.responseFarmerVisitor!.data != null)
                 Padding(
                   padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
                   child: TableCalendar<DDEVisitorDetails>(
@@ -212,7 +212,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                     },
                   ),
                 ),
-
+                if(state.responseFarmerVisitor!.data != null)
                 (state.responseFarmerVisitor!.data as Map<String, dynamic>).containsKey(DateFormat('yyyy-MM-dd').format(state.selectedFarmerVisitDate!))
                     ? Builder(
                   builder: (context) {
