@@ -68,6 +68,7 @@ class ApiHitter {
           print('queryParameters');
           print(data);
         }
+        print(baseurl + endPoint);
         var response = await getDio(
           baseurl: baseurl,
         ).post(endPoint,
@@ -103,6 +104,7 @@ class ApiHitter {
     bool value = await checkInternetConnection();
     if (value) {
       try {
+        print(baseurl + endPoint);
         var response = await getDio(
           baseurl: baseurl,
         ).put(endPoint,
@@ -139,6 +141,7 @@ class ApiHitter {
     bool value = await checkInternetConnection();
     if (value) {
       try {
+        print(baseurl + endPoint);
         var response = await getDio(
           baseurl: baseurl,
         ).get(
