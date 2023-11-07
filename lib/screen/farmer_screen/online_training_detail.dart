@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/training_cubit/training_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -80,112 +80,115 @@ class _OnlineTrainingDetailsState extends State<OnlineTrainingDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: BlocBuilder<TrainingCubit, TrainingCubitState>(
-          builder: (context, state) {
-        if (state.status == TrainingStatus.submit) {
-          return const Center(
-              child: CircularProgressIndicator(
-            color: ColorResources.maroon,
-          ));
-        } else if (state.responseTrainingDetail == null) {
-          return Center(
-              child: Text("${state.responseTrainingDetail} Api Error"));
-        } else {
-          return Stack(
-            children: [
-              fullScreen ? const SizedBox.shrink() :landingBackground(),
-              Column(
-                children: [
-                  if(!fullScreen)
-                    CustomAppBar(
-                      context: context,
-                      titleText1: 'Online training',
-                      leading: arrowBackButton(),
-                      centerTitle: true,
-                      titleText1Style: figtreeMedium.copyWith(
-                          fontSize: 20, color: Colors.black),
-                    ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0, fullScreen ? 0 : 20, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            YoutubePlayerBuilder(
-                              player: YoutubePlayer(
-                                controller: controller!,
-                                // aspectRatio: 4/3,
+    return WillPopScope(
+      onWillPop: () async{
+        await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: BlocBuilder<TrainingCubit, TrainingCubitState>(
+            builder: (context, state) {
+          if (state.status == TrainingStatus.submit) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: ColorResources.maroon,
+            ));
+          } else if (state.responseTrainingDetail == null) {
+            return Center(
+                child: Text("${state.responseTrainingDetail} Api Error"));
+          } else {
+            return Stack(
+              children: [
+                fullScreen ? const SizedBox.shrink() :landingBackground(),
+                Column(
+                  children: [
+                    if(!fullScreen)
+                      CustomAppBar(
+                        context: context,
+                        titleText1: 'Online training',
+                        leading: arrowBackButton(onTap: () async{
+                          await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+                          pressBack();
+                        }),
+                        centerTitle: true,
+                        titleText1Style: figtreeMedium.copyWith(
+                            fontSize: 20, color: Colors.black),
+                      ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0, fullScreen ? 0 : 20, 0, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              YoutubePlayerBuilder(
+                                player: YoutubePlayer(
+                                  controller: controller!,
+                                  // aspectRatio: 4/3,
+                                ),
+                                builder: (context, player) {
+                                  return player;
+                                },
+                                onEnterFullScreen: () {
+                                  setState(() {
+                                    fullScreen = true;
+                                  });
+                                },
+                                onExitFullScreen: () {
+                                  setState(() {
+                                    fullScreen = false;
+                                  });
+                                },
                               ),
-                              builder: (context, player) {
-                                return Column(
+                              !fullScreen ? Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    22, 15, 25, 20),
+                                child: Column(
                                   children: [
-                                    // some widgets
-                                    player,
-                                    //some other widgets
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        Text(
+                                          state.responseTrainingDetail!
+                                              .data!.title ??
+                                              '',
+                                          style: figtreeMedium
+                                              .copyWith(fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
+                                    10.verticalSpace(),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${getAge(DateTime.parse(state.responseTrainingDetail!.data!.validFrom.toString()))} ago',
+                                          style: figtreeMedium
+                                              .copyWith(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
                                   ],
-                                );
-                              },
-                              onEnterFullScreen: () {
-                                setState(() {
-                                  fullScreen = true;
-                                });
-                              },
-                              onExitFullScreen: () {
-                                setState(() {
-                                  fullScreen = false;
-                                });
-                              },
-                            ),
-                            !fullScreen ? Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  22, 15, 25, 20),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .spaceBetween,
-                                    children: [
-                                      Text(
-                                        state.responseTrainingDetail!
-                                            .data!.title ??
-                                            '',
-                                        style: figtreeMedium
-                                            .copyWith(fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                  10.verticalSpace(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${getAge(DateTime.parse(state.responseTrainingDetail!.data!.validFrom.toString()))} ago',
-                                        style: figtreeMedium
-                                            .copyWith(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ) : const SizedBox.shrink(),
-                            // imageCard(state),
-                            // comment(),
-                            // commentList(),
-                          ],
+                                ),
+                              ) : const SizedBox.shrink(),
+                              // imageCard(state),
+                              // comment(),
+                              // commentList(),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          );
-        }
-      }),
+                    )
+                  ],
+                )
+              ],
+            );
+          }
+        }),
+      ),
     );
   }
 

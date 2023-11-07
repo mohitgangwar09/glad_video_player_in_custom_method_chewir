@@ -11,13 +11,13 @@ class NewsListModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
     data['status'] = status;
     if (this.data != null) {
@@ -79,13 +79,13 @@ class Data {
     updatedAt = json['updated_at'];
     image = json['image'];
     resource = json['resource'] != null
-        ? new Resource.fromJson(json['resource'])
+        ? Resource.fromJson(json['resource'])
         : null;
     categories = json['categories'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['title'] = title;
     data['web_url'] = webUrl;
@@ -164,7 +164,7 @@ class Resource {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['model_type'] = modelType;
     data['model_id'] = modelId;

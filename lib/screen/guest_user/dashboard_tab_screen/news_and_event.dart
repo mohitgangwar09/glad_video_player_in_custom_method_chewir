@@ -8,7 +8,6 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
-import 'package:glad/screen/mcc_screen/dashboard/dashboard_mcc.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -19,7 +18,6 @@ import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class NewsAndEvent extends StatefulWidget {
   const NewsAndEvent({Key? key, required this.isBottomAppBar}) : super(key: key);
@@ -63,7 +61,7 @@ class _NewsAndEventState extends State<NewsAndEvent> {
                     titleText1: 'News and Events',
                     centerTitle: true,
                     leading: BlocProvider.of<ProfileCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'mcc' ?
-                    SizedBox.shrink()
+                    const SizedBox.shrink()
                     : openDrawer(
                         onTap: () {
                           landingKey.currentState?.openDrawer();

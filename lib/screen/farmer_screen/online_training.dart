@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -60,7 +59,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                     titleText1: 'Online trainings',
                     centerTitle: true,
                     leading: BlocProvider.of<ProfileCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'mcc' ?
-                    SizedBox.shrink()
+                    const SizedBox.shrink()
                         : openDrawer(
                         onTap: () {
                           landingKey.currentState?.openDrawer();
@@ -256,7 +255,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                   children: [
                                     Column(
                                       children: [
-                                        Container(
+                                        SizedBox(
                                             height: 150,
                                             width: screenWidth(),
                                             child: ClipRRect(
