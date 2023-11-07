@@ -190,10 +190,13 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   }
 
   Future<void> getFarmerProfile(context, {String? userId}) async{
+    print("faaaaaaaa");
     emit(state.copyWith(status: ProfileStatus.submit));
 
     var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
+
+      print("doneeeee");
       if(response.data!.farmer!.phone != null){
         state.landlineController.text = response.data!.farmer!.phone.toString();
       }
@@ -249,7 +252,6 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
         }
       }
 
-      await improvementAreaListApi(context, response.data!.farmer!.id.toString());
       emit(state.copyWith(status: ProfileStatus.success, responseFarmerProfile: response.data,
           selectDistrict: response.data!.farmer!.address!=null?response.data!.farmer!.address!.district!=null?
           response.data!.farmer!.address!.district!.toString():"":"",
@@ -257,6 +259,9 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
         selectDob: response.data!.farmer!.dateOfBirth!=null?response.data!.farmer!.dateOfBirth.toString():null,
         farmerSince: response.data!.farmer!.farmingExperience!=null?response.data!.farmer!.farmingExperience.toString():null
       ));
+
+      await improvementAreaListApi(context, response.data!.farmer!.id.toString());
+
     }
     else{
       emit(state.copyWith(status: ProfileStatus.error));

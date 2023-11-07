@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -112,7 +113,12 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               child: customButton(
                                 'Apply for Loan',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-                                  onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'not_available' ? () {
+                                  onTap: (){
+                                    ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
+                                        farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
+                                  }
+                                  /*onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'not_available' ? () {
                                     // KYCUpdate(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();
                                     ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
                                     farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
@@ -124,7 +130,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                   } : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'verified' ? () {
                                   } : () {
 
-                                  },
+                                  },*/
                               ),
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
@@ -481,11 +487,38 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
   Widget projectMilestones(context, ProjectState state) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       50.verticalSpace(),
-      Text(
-        'Project milestones',
-        style: figtreeMedium.copyWith(fontSize: 18),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Project milestones',
+            style: figtreeMedium.copyWith(fontSize: 18),
+          ),
+
+          // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+          // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
+          Container(
+            padding:
+            const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+            decoration: boxDecoration(
+              backgroundColor: ColorResources.white,
+              borderWidth: 1,
+              borderRadius: 160,
+              borderColor: const Color(0xff6A0030),
+            ),
+            child: Text(
+              "Add",
+              textAlign: TextAlign.center,
+              style: figtreeMedium.copyWith(
+                  color: const Color(0xff6A0030), fontSize: 10),
+            ),
+          )/*:const SizedBox.shrink():const SizedBox.shrink()*/
+
+        ],
       ),
+
       15.verticalSpace(),
+
       customList(
           list: List.generate(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length, (index) => null),
           axis: Axis.vertical,
@@ -501,75 +534,96 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                       projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
                   ).navigate();
                 },
-                child: customProjectContainer(
-                    marginLeft: 0,
-                    marginTop: 0,
-                    borderRadius: 14,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                child: Stack(
+                  children: [
+                    customProjectContainer(
+                        marginLeft: 0,
+                        marginTop: 0,
+                        borderRadius: 14,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneTitle ?? '',
+                                    style: figtreeMedium.copyWith(fontSize: 18),
+                                  ),
+                                  // checkBox(
+                                  //   value: true,
+                                  // )
+                                ],
+                              ),
+                              5.verticalSpace(),
                               Text(
-                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneTitle ?? '',
-                                style: figtreeMedium.copyWith(fontSize: 18),
+                                '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
+                                style: figtreeMedium.copyWith(fontSize: 12),
                               ),
-                              // checkBox(
-                              //   value: true,
-                              // )
-                            ],
-                          ),
-                          5.verticalSpace(),
-                          Text(
-                            '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
-                            style: figtreeMedium.copyWith(fontSize: 12),
-                          ),
-                          20.verticalSpace(),
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              20.verticalSpace(),
+                              Row(
                                 children: [
-                                  Text(
-                                    'Value',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Value',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12,
+                                            color: ColorResources.fieldGrey),
+                                      ),
+                                      Text(
+                                        'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
+                                        style: figtreeSemiBold.copyWith(
+                                            fontSize: 16,
+                                            color: ColorResources.maroon),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 16,
-                                        color: ColorResources.maroon),
-                                  )
-                                ],
-                              ),
-                              40.horizontalSpace(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Duration',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.fieldGrey),
+                                  40.horizontalSpace(),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Duration',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12,
+                                            color: ColorResources.fieldGrey),
+                                      ),
+                                      Text(
+                                        '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDuration ?? ''} Days',
+                                        style: figtreeSemiBold.copyWith(
+                                            fontSize: 16,
+                                            color: ColorResources.black),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDuration ?? ''} Days',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 16,
-                                        color: ColorResources.black),
-                                  )
                                 ],
                               ),
                             ],
                           ),
-                        ],
+                        )),
+
+                    // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                    // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: InkWell(
+                            onTap: (){
+                              BlocProvider.of<ProjectCubit>(context).milestoneDeleteApi(context,
+                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
+                              );
+                            }
+                            ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
                       ),
-                    )),
+                    )/*:const SizedBox.shrink():const SizedBox.shrink()*/
+                  ],
+                ),
               ),
             );
           }),

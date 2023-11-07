@@ -312,9 +312,101 @@ class _SuggestedProjectMilestoneDetailState
         30.verticalSpace(),
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-          child: Text(
-            'Milestone deliverables',
-            style: figtreeMedium.copyWith(fontSize: 18),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Milestone deliverables',
+                style: figtreeMedium.copyWith(fontSize: 18),
+              ),
+
+              InkWell(
+                onTap: (){
+                  TextEditingController controller = TextEditingController();
+                  modalBottomSheetMenu(context,
+                      radius: 40,
+                      child: StatefulBuilder(
+                          builder: (context, setState) {
+                            return SizedBox(
+                              height: 320,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'Add Milestone Deliverable',
+                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                        ),
+                                      ),
+                                      30.verticalSpace(),
+
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Milestone Name',
+                                            style: figtreeMedium.copyWith(fontSize: 12),
+                                          ),
+                                          5.verticalSpace(),
+                                          TextField(
+                                            controller: controller,
+                                            maxLines: 1,
+                                            minLines: 1,
+                                            decoration: InputDecoration(
+                                                hintText: 'Enter milestone name',
+                                                hintStyle:
+                                                figtreeMedium.copyWith(fontSize: 18),
+                                                border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      width: 1,
+                                                      color: Color(0xff999999),
+                                                    ))),
+                                          ),
+                                          30.verticalSpace(),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                            child: customButton(
+                                              'Submit',
+                                              fontColor: 0xffFFFFFF,
+                                              onTap: () {
+                                                BlocProvider.of<ProjectCubit>(context).addTaskApi(context,"1","1001","1004",
+                                                  controller.text
+                                                );
+                                              },
+                                              height: 60,
+                                              width: screenWidth(),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ]),
+                              ),
+                            );
+                          }
+                      ));
+                },
+                child: Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                  decoration: boxDecoration(
+                    backgroundColor: ColorResources.white,
+                    borderWidth: 1,
+                    borderRadius: 160,
+                    borderColor: const Color(0xff6A0030),
+                  ),
+                  child: Text(
+                    "Add",
+                    textAlign: TextAlign.center,
+                    style: figtreeMedium.copyWith(
+                        color: const Color(0xff6A0030), fontSize: 10),
+                  ),
+                ),
+              )
+
+            ],
           ),
         ),
         10.verticalSpace(),
@@ -339,7 +431,18 @@ class _SuggestedProjectMilestoneDetailState
                       state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskName ?? '',
                       style: figtreeMedium.copyWith(fontSize: 14),
                     ),
-                    Container(
+
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                          onTap: (){
+                            BlocProvider.of<ProjectCubit>(context).deleteTaskApi(context,
+                              state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id.toString(),
+                            );
+                          }
+                          ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
+                    )
+                    /*Container(
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
@@ -350,7 +453,7 @@ class _SuggestedProjectMilestoneDetailState
                         '${index + 1}',
                         style: figtreeMedium.copyWith(fontSize: 14),
                       )),
-                    )
+                    )*/
                   ],
                 ),
               ),
