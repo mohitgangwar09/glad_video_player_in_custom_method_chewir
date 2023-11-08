@@ -130,6 +130,7 @@ class Images {
   static const String pdfLogo = 'assets/images/pdf.png';
 
 
+
   // bottom navigation item//
   static const String home = 'assets/images/lighthome.svg';
   static const String liveStock = 'assets/images/livestock.svg';

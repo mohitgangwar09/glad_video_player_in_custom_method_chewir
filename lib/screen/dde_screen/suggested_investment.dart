@@ -10,6 +10,7 @@ import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/dde_screen/edit_project_milestone.dart';
 import 'package:glad/screen/dde_screen/project_kyc/kyc_update.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
@@ -18,6 +19,8 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+
+import 'add_project_milestone.dart';
 
 class DDeFarmerInvestmentDetails extends StatefulWidget {
   const DDeFarmerInvestmentDetails({super.key,
@@ -495,24 +498,30 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
             style: figtreeMedium.copyWith(fontSize: 18),
           ),
 
-          // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
-          // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
-          Container(
-            padding:
-            const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-            decoration: boxDecoration(
-              backgroundColor: ColorResources.white,
-              borderWidth: 1,
-              borderRadius: 160,
-              borderColor: const Color(0xff6A0030),
+          state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+          state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
+          InkWell(
+            onTap: (){
+              BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(milestoneTitle: TextEditingController(text: ''),milestoneDuration: TextEditingController(text: ''),milestoneDescription: TextEditingController(text: '')));
+              AddProjectMileStone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId).navigate();
+            },
+            child: Container(
+              padding:
+              const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+              decoration: boxDecoration(
+                backgroundColor: ColorResources.white,
+                borderWidth: 1,
+                borderRadius: 160,
+                borderColor: const Color(0xff6A0030),
+              ),
+              child: Text(
+                "Add",
+                textAlign: TextAlign.center,
+                style: figtreeMedium.copyWith(
+                    color: const Color(0xff6A0030), fontSize: 10),
+              ),
             ),
-            child: Text(
-              "Add",
-              textAlign: TextAlign.center,
-              style: figtreeMedium.copyWith(
-                  color: const Color(0xff6A0030), fontSize: 10),
-            ),
-          )/*:const SizedBox.shrink():const SizedBox.shrink()*/
+          ):const SizedBox.shrink():const SizedBox.shrink()
 
         ],
       ),
@@ -607,21 +616,33 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                           ),
                         )),
 
-                    // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
-                    // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: InkWell(
-                            onTap: (){
-                              BlocProvider.of<ProjectCubit>(context).milestoneDeleteApi(context,
-                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
-                              );
-                            }
-                            ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
+                    state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                    state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
+                    Positioned(
+                      right: 2,
+                      child: Row(
+                        children: [
+                          InkWell(
+                              onTap: (){
+                                BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(milestoneTitle: TextEditingController(text: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneTitle ?? ''),milestoneDuration: TextEditingController(text: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDuration.toString() ?? ''),milestoneDescription: TextEditingController(text: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDescription ?? '',),projectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id.toString()));
+                                EditProjectMilestone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId).navigate();
+                              },child: Image.asset(Images.editIcon,width: 24,height: 24,)),
+
+                          Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: InkWell(
+                                onTap: (){
+                                  BlocProvider.of<ProjectCubit>(context).milestoneDeleteApi(context,
+                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,widget.projectId
+                                  );
+                                }
+                                ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
+                          )
+                        ],
                       ),
-                    )/*:const SizedBox.shrink():const SizedBox.shrink()*/
+                    ):const SizedBox.shrink():const SizedBox.shrink()
+
+
                   ],
                 ),
               ),
