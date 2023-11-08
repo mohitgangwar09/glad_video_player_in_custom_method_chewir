@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/livestock_screen.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
@@ -24,7 +25,7 @@ class DashboardGuest extends StatelessWidget {
       const LiveStockScreen(),
       const Text("Community"),
       const NewsAndEvent(isBottomAppBar: true,),
-      const Text("Earnings"),
+      const OnlineTraining(isBottomAppBar: true),
     ];
 
     return BlocBuilder<DashboardCubit, DashboardState>(

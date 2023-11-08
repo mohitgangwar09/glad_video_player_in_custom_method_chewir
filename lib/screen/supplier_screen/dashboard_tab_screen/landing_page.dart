@@ -16,9 +16,14 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 
-class SupplierLandingPage extends StatelessWidget {
-  SupplierLandingPage({super.key});
+class SupplierLandingPage extends StatefulWidget {
+  const SupplierLandingPage({super.key});
 
+  @override
+  State<SupplierLandingPage> createState() => _SupplierLandingPageState();
+}
+
+class _SupplierLandingPageState extends State<SupplierLandingPage> {
   List<_ChartData> data = [
     _ChartData('Completed', 12),
     _ChartData('Pending', 6),
@@ -114,7 +119,9 @@ class SupplierLandingPage extends StatelessWidget {
                                             ColorResources.fieldGrey
                                           ],
                                           margin: EdgeInsets.zero,
-                                          // centerY: '40%',
+                                          // onDataLabelTapped: (details) {
+                                          //   print(details.);
+                                          // },
                                           series: <CircularSeries<_ChartData,
                                               String>>[
                                             DoughnutSeries<_ChartData, String>(
@@ -126,7 +133,15 @@ class SupplierLandingPage extends StatelessWidget {
                                                     (_ChartData data, _) =>
                                                         data.y,
                                                 radius: '60',
-                                                innerRadius: '40')
+                                                innerRadius: '40',
+                                                selectionBehavior: SelectionBehavior(
+                                                  enable: true,
+                                                  unselectedOpacity: 0.7
+                                                ),
+                                                onPointTap: (detail) {
+                                                  print(detail.pointIndex);
+                                                  print((detail.dataPoints![detail.pointIndex!] as ChartPoint).text);
+                                                })
                                           ]),
                                     ),
                                     Positioned(

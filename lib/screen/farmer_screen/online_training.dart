@@ -43,12 +43,12 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                   child: CircularProgressIndicator(
                 color: ColorResources.maroon,
               ));
-            } else if (state.responseTrainingList == null) {
-              return Center(
-                  child: Text("${state.responseTrainingList} Api Error"));
             } else if (state.responseTrainingCategories == null) {
               return Center(
                   child: Text("${state.responseTrainingCategories} Api Error"));
+            }  else if (state.responseTrainingList == null) {
+              return Center(
+                  child: Text("${state.responseTrainingList} Api Error"));
             } else {
               return Column(
 

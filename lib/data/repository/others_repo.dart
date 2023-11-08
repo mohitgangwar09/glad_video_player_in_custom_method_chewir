@@ -75,7 +75,7 @@ class OthersRepository {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.newsCategoryApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
-
+print(apiResponse.response!.data);
     if (apiResponse.status) {
       return TrainingAndNewsCategoryModel.fromJson(apiResponse.response!.data);
     } else {
