@@ -471,6 +471,28 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// mileStoneNameApi //////////
+  Future<ResponseOtpModel> farmerParticipationApi(String farmerId,String farmerProjectId,String farmerParticipation) async {
+
+    var data = {
+      "farmer_id" : farmerId,
+      "farmer_project_id" : farmerProjectId,
+      "farmer_participation" : farmerParticipation,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.farmerParticipationApi,
+      data: data,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// fetchMileStoneDataApi //////////
   Future<ResponseOtpModel> getMileStoneDataApi(int id) async {
 
@@ -512,7 +534,7 @@ class ProjectRepository {
   }
 
   ///////////////// deleteTaskApi //////////
-  Future<ResponsePriceAttribute> deleteTaskApi(String id
+  Future<ResponseOtpModel> deleteTaskApi(String id
       ) async {
     var data = {
       'id' : id
@@ -523,9 +545,9 @@ class ProjectRepository {
         data: data);
 
     if (apiResponse.status) {
-      return ResponsePriceAttribute.fromJson(apiResponse.response!.data);
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
-      return ResponsePriceAttribute(status: 422, message: apiResponse.msg);
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
   }
 

@@ -10,9 +10,9 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class AddProjectMileStone extends StatefulWidget {
-  const AddProjectMileStone({Key? key,required this.farmerId,required this.farmerProjectId,required this.projectId}) : super(key: key);
+  const AddProjectMileStone({Key? key,required this.farmerId,required this.farmerProjectId,required this.projectId,required this.projectStatus}) : super(key: key);
 
-  final String farmerId,farmerProjectId;
+  final String farmerId,farmerProjectId,projectStatus;
   final int projectId;
 
   @override
@@ -209,7 +209,7 @@ class _AddProjectMileStoneState extends State<AddProjectMileStone> {
                         width: screenWidth(),
                         height: 60,
                         onTap: () {
-                          BlocProvider.of<ProjectCubit>(context).addMilestoneApi(context, widget.farmerId, widget.farmerProjectId, state.milestoneTitle.text, state.milestoneDescription.text, state.milestoneDuration.text,widget.projectId);
+                          BlocProvider.of<ProjectCubit>(context).addMilestoneApi(context, widget.farmerId, widget.farmerProjectId, state.milestoneTitle.text, state.milestoneDescription.text, state.milestoneDuration.text,widget.projectId,widget.projectStatus);
                         })
 
                   ],

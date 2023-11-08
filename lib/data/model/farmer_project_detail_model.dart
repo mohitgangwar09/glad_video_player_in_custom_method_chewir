@@ -85,6 +85,7 @@ class FarmerProject {
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
   Kpi? kpi;
   FarmerMaster? farmerMaster;
+  List<FarmerProjectLog>? farmerProjectLog;
 
   FarmerProject(
       {this.id,
@@ -125,6 +126,7 @@ class FarmerProject {
         this.kpi,
         this.farmerMaster,
         this.farmerProjectPaymentTerms,
+        this.farmerProjectLog,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -180,6 +182,12 @@ class FarmerProject {
         ? DairyDevelopMentExecutive.fromJson(
         json['dairy_develop_ment_executive'])
         : null;
+    if (json['farmer_project_log'] != null) {
+      farmerProjectLog = <FarmerProjectLog>[];
+      json['farmer_project_log'].forEach((v) {
+        farmerProjectLog!.add(new FarmerProjectLog.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -234,6 +242,10 @@ class FarmerProject {
     }
     if (farmerMaster != null) {
       data['farmer_master'] = farmerMaster!.toJson();
+    }
+    if (farmerProjectLog != null) {
+      data['farmer_project_log'] =
+          farmerProjectLog!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1057,6 +1069,103 @@ class FarmerProjectPaymentTerms {
     data['farmer_milestone_id'] = farmerMilestoneId;
     data['payment_term'] = paymentTerm;
     data['payment_percentage'] = paymentPercentage;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class FarmerProjectLog {
+  dynamic id;
+  dynamic farmerId;
+  dynamic farmerProjectId;
+  dynamic date;
+  dynamic userId;
+  String? userName;
+  dynamic userRole;
+  dynamic activityId;
+  String? activityName;
+  dynamic remarks;
+  dynamic ddeVisitDate;
+  dynamic projectStatus;
+  dynamic ddeName;
+  dynamic mccName;
+  dynamic supplierName;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+
+  FarmerProjectLog(
+      {this.id,
+        this.farmerId,
+        this.farmerProjectId,
+        this.date,
+        this.userId,
+        this.userName,
+        this.userRole,
+        this.activityId,
+        this.activityName,
+        this.remarks,
+        this.ddeVisitDate,
+        this.projectStatus,
+        this.ddeName,
+        this.mccName,
+        this.supplierName,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  FarmerProjectLog.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    farmerProjectId = json['farmer_project_id'];
+    date = json['date'];
+    userId = json['user_id'];
+    userName = json['user_name'];
+    userRole = json['user_role'];
+    activityId = json['activity_id'];
+    activityName = json['activity_name'];
+    remarks = json['remarks'];
+    ddeVisitDate = json['dde_visit_date'];
+    projectStatus = json['project_status'];
+    ddeName = json['dde_name'];
+    mccName = json['mcc_name'];
+    supplierName = json['supplier_name'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['farmer_project_id'] = farmerProjectId;
+    data['date'] = date;
+    data['user_id'] = userId;
+    data['user_name'] = userName;
+    data['user_role'] = userRole;
+    data['activity_id'] = activityId;
+    data['activity_name'] = activityName;
+    data['remarks'] = remarks;
+    data['dde_visit_date'] = ddeVisitDate;
+    data['project_status'] = projectStatus;
+    data['dde_name'] = ddeName;
+    data['mcc_name'] = mccName;
+    data['supplier_name'] = supplierName;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
