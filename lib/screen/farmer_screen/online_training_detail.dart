@@ -56,15 +56,18 @@ class _OnlineTrainingDetailsState extends State<OnlineTrainingDetails> {
   func() async {
     await BlocProvider.of<TrainingCubit>(context)
         .trainingDetailApi(context, widget.categoryId);
+    String videoId = YoutubePlayer.convertUrlToId(
+        BlocProvider.of<TrainingCubit>(context)
+            .state
+            .responseTrainingDetail!
+            .data!
+            .videoUrl
+            .toString())
+        .toString();
+    BlocProvider.of<TrainingCubit>(context)
+        .getVideoStatistics(context, videoId);
     controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(
-              BlocProvider.of<TrainingCubit>(context)
-                  .state
-                  .responseTrainingDetail!
-                  .data!
-                  .videoUrl
-                  .toString())
-          .toString(),
+      initialVideoId: videoId,
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: true,
@@ -160,20 +163,68 @@ class _OnlineTrainingDetailsState extends State<OnlineTrainingDetails> {
                                         ),
                                       ],
                                     ),
-                                    10.verticalSpace(),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${getAge(DateTime.parse(state.responseTrainingDetail!.data!.validFrom.toString()))} ago',
-                                          style: figtreeMedium
-                                              .copyWith(fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
+                                    // 10.verticalSpace(),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.start,
+                                    //   children: [
+                                    //     Text(
+                                    //       '${getAge(DateTime.parse(state.responseTrainingDetail!.data!.validFrom.toString()))} ago',
+                                    //       style: figtreeMedium
+                                    //           .copyWith(fontSize: 12),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ) : const SizedBox.shrink(),
+                              if(!fullScreen && state.responseVideoStatistics != null)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${state.responseVideoStatistics!.items![0].statistics!.viewCount ?? 0} views',
+                                          style: figtreeMedium.copyWith(fontSize: 12),
+                                        ),
+                                        8.horizontalSpace(),
+                                        Container(
+                                          height: 5,
+                                          width: 5,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.black, shape: BoxShape.circle),
+                                        ),
+                                        8.horizontalSpace(),
+                                        Text(
+                                          '${getAge(DateTime.parse(state.responseTrainingDetail!.data!.validFrom.toString()))} ago',
+                                          style: figtreeMedium.copyWith(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                    20.verticalSpace(),
+                                    Row(children: [
+                                      Text(
+                                        '${state.responseVideoStatistics!.items![0].statistics!.commentCount ?? 0} comments',
+                                        style: figtreeMedium.copyWith(fontSize: 12),
+                                      ),
+                                      8.horizontalSpace(),
+                                      Container(
+                                        height: 5,
+                                        width: 5,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.black, shape: BoxShape.circle),
+                                      ),
+                                      8.horizontalSpace(),
+                                      Text(
+                                        '${state.responseVideoStatistics!.items![0].statistics!.likeCount ?? 0} likes',
+                                        style: figtreeMedium.copyWith(fontSize: 12),
+                                      ),
+                                    ],)
+                                  ],
+                                ),
+                              ),
                               // imageCard(state),
                               // comment(),
                               // commentList(),

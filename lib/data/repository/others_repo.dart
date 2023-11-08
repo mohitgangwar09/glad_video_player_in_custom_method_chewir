@@ -1,8 +1,10 @@
 
+import 'package:dio/dio.dart';
 import 'package:glad/data/model/news_list_model.dart';
 import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
+import 'package:glad/data/model/youtube_video_statistics_model.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
@@ -52,6 +54,20 @@ class OthersRepository {
       return TrainingAndNewsCategoryModel.fromJson(apiResponse.response!.data);
     } else {
       return TrainingAndNewsCategoryModel(status: 422, message: apiResponse.msg);
+    }
+  }
+  ///////////////// getTrainingCategoryApi //////////
+  Future<YoutubeVideoStatisticsModel?> getVideoStatisticsApi(String videoId) async {
+    String apiKey = 'AIzaSyDdkM0EySEulkkwqqB0c5Z29ddPYaY3FU0';
+    String url = 'https://www.googleapis.com/youtube/v3/videos?part=statistics&id=$videoId&key=$apiKey';
+    print(url);
+    Response apiResponse = await Dio().get(url);
+
+    print(apiResponse.data);
+    if (apiResponse.statusCode == 200) {
+      return YoutubeVideoStatisticsModel.fromJson(apiResponse.data);
+    } else {
+      return null;
     }
   }
   ///////////////// getNewsListApi //////////

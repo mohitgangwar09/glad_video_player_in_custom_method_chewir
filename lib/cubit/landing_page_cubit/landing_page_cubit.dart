@@ -6,8 +6,10 @@ import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/farmer_dashboard_model.dart' as dashboard;
 import 'package:glad/data/model/followup_remark_list_model.dart';
 import 'package:glad/data/model/guest_dashboard_model.dart';
+import 'package:glad/data/model/mcc_dashboard_model.dart';
 import 'package:glad/data/model/milk_production_chart.dart';
 import 'package:glad/data/model/response_dde_dashboard.dart';
+import 'package:glad/data/model/supplier_dashboard_model.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/guest_user/thankyou_screen.dart';
@@ -55,16 +57,24 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     }
   }
 
-  Future<void> inviteExpertDetails(context, String name,
-      String mobile, String address, String comment, String lat, String long, String district, String supplierId) async {
+  Future<void> inviteExpertDetails(
+      context,
+      String name,
+      String mobile,
+      String address,
+      String comment,
+      String lat,
+      String long,
+      String district,
+      String supplierId) async {
     customDialog(widget: launchProgress());
-    var response = await apiRepository.inviteExpertDetails(name, mobile, address, comment, lat, long, district, supplierId);
+    var response = await apiRepository.inviteExpertDetails(
+        name, mobile, address, comment, lat, long, district, supplierId);
 
     disposeProgress();
 
     if (response.status == 200) {
       ThankYou(expert: response).navigate(isInfinity: true);
-
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString());
@@ -72,30 +82,39 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   }
 
   Future<void> getFollowUpDetails(context, bool isOnScreen) async {
-    if(!isOnScreen){
+    if (!isOnScreen) {
       emit(state.copyWith(status: LandingPageStatus.loading));
     }
-    var response = await apiRepository.followupRemarkListApi(int.parse(state.guestDashboardResponse!.data!.enquiry!.id!.toString()));
+    var response = await apiRepository.followupRemarkListApi(
+        int.parse(state.guestDashboardResponse!.data!.enquiry!.id!.toString()));
 
     if (response.status == 200) {
-
-      emit(state.copyWith(status: LandingPageStatus.success, followupRemarkListResponse: response));
+      emit(state.copyWith(
+          status: LandingPageStatus.success,
+          followupRemarkListResponse: response));
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
       showCustomToast(context, response.message.toString());
     }
   }
 
-  Future<void> addFollowUpRemark(context, isDDE, String comment,{String? enquiryId,String? type}) async {
+  Future<void> addFollowUpRemark(context, isDDE, String comment,
+      {String? enquiryId, String? type}) async {
     emit(state.copyWith(status: LandingPageStatus.loading));
-    var response = await apiRepository.addFollowupRemarkApi(enquiryId==null?state.guestDashboardResponse!.data!.enquiry!.id!.toString():enquiryId.toString(),
-        comment, isDDE,type.toString());
+    var response = await apiRepository.addFollowupRemarkApi(
+        enquiryId == null
+            ? state.guestDashboardResponse!.data!.enquiry!.id!.toString()
+            : enquiryId.toString(),
+        comment,
+        isDDE,
+        type.toString());
 
     if (response.status == 200) {
       emit(state.copyWith(status: LandingPageStatus.success));
-      if(isDDE){
-        await BlocProvider.of<DdeEnquiryCubit>(context).enquiryDetailApi(context, enquiryId.toString());
-      }else{
+      if (isDDE) {
+        await BlocProvider.of<DdeEnquiryCubit>(context)
+            .enquiryDetailApi(context, enquiryId.toString());
+      } else {
         await getFollowUpDetails(context, true);
       }
     } else {
@@ -107,10 +126,39 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   Future<void> getGuestDashboard(context) async {
     emit(state.copyWith(status: LandingPageStatus.loading));
     // customDialog(widget: launchProgress());
-    var response = await apiRepository.getGuestDashboardApi(state.currentPosition!.latitude, state.currentPosition!.longitude);
+    var response = await apiRepository.getGuestDashboardApi(
+        state.currentPosition!.latitude, state.currentPosition!.longitude);
     if (response.status == 200) {
       emit(state.copyWith(
           status: LandingPageStatus.success, guestDashboardResponse: response));
+      // disposeProgress();
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> getSupplierDashboard(context) async {
+    emit(state.copyWith(status: LandingPageStatus.loading));
+    // customDialog(widget: launchProgress());
+    var response = await apiRepository.getSupplierDashboardApi();
+    if (response.status == 200) {
+      emit(state.copyWith(
+          status: LandingPageStatus.success, responseSupplierDashboard: response));
+      // disposeProgress();
+    } else {
+      emit(state.copyWith(status: LandingPageStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> getMCCDashboard(context) async {
+    emit(state.copyWith(status: LandingPageStatus.loading));
+    // customDialog(widget: launchProgress());
+    var response = await apiRepository.getMCCDashboardApi();
+    if (response.status == 200) {
+      emit(state.copyWith(
+          status: LandingPageStatus.success, responseMCCDashboard: response));
       // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
@@ -124,10 +172,14 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     var response = await apiRepository.ddeDashboardApi();
     if (response.status == 200) {
       await ddeFarmerVisitorApi(context);
-      emit(state.copyWith(status: LandingPageStatus.success,responseDdeDashboard: response));
+      emit(state.copyWith(
+          status: LandingPageStatus.success, responseDdeDashboard: response));
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString(),);
+      showCustomToast(
+        context,
+        response.message.toString(),
+      );
     }
   }
 
@@ -137,11 +189,14 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       emit(state.copyWith(responseFarmerVisitor: response));
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString(),);
+      showCustomToast(
+        context,
+        response.message.toString(),
+      );
     }
   }
 
-  Future<void> getCurrentLocation() async{
+  Future<void> getCurrentLocation() async {
     await Permission.location.request();
     Position position = await apiRepository.getCurrentPosition();
     emit(state.copyWith(currentPosition: position));
@@ -154,5 +209,4 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   //   print(response!.locality.toString());
   //   return response;
   // }
-
 }

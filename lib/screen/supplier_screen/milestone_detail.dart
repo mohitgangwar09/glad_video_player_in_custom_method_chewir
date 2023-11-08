@@ -254,8 +254,7 @@ class _SupplierMilestoneDetailState
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].id.toString(),
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
                                       );
-                                    }
-                                    ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
+                                    },child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
 
                               ],
                             ):const SizedBox.shrink():const SizedBox.shrink(),

@@ -8,6 +8,7 @@ import 'package:glad/data/model/farmer_project_detail_model.dart' as dde;
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
+import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
@@ -453,7 +454,7 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // mileStoneDeleteApi
-  void milestoneDeleteApi(context,int id) async {
+  void milestoneDeleteApi(context,int id,int projectId) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.mileStoneDeleteApi(id);
 
@@ -461,6 +462,7 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     if (response.status == 200) {
 
+      await farmerProjectDetailApi(context,projectId);
       showCustomToast(context, response.message.toString());
     } else {
       showCustomToast(context, response.message.toString());
@@ -468,14 +470,64 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // mileStoneNameApi
-  void milestoneNameApi(context,int id) async {
-    var response = await apiRepository.mileStoneNameApi(id);
+  Future<void> milestoneNameApi(context,String farmerId,String farmerProjectId) async {
+    var response = await apiRepository.mileStoneNameApi(farmerId,farmerProjectId);
 
     if (response.status == 200) {
-
-      showCustomToast(context, response.message.toString());
+      List<DataMileStoneName> dataMilestoneName = [];
+      if(response.data!=null){
+        dataMilestoneName = response.data!;
+      }
+      emit(state.copyWith(responseMilestoneName: dataMilestoneName));
     } else {
       showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // addMilestoneApi
+  Future<void> addMilestoneApi(context,String farmerId,
+      String farmerProjectId,
+      String milestoneTitle,
+      String milestoneDescription,
+      String milestoneDuration,int projectId) async {
+
+    if(state.milestoneTitle.text.isEmpty){
+      showCustomToast(context, "Please enter milestone name");
+    }else if(state.milestoneDuration.text.isEmpty){
+      showCustomToast(context, "Please enter milestone duration");
+    }else if(state.milestoneDescription.text.isEmpty){
+      showCustomToast(context, "Please enter milestone description");
+    }else{
+      var response = await apiRepository.addMileStoneApi(farmerId, farmerProjectId, milestoneTitle, milestoneDescription, milestoneDuration,id: state.projectId.toString());
+
+      if (response.status == 200) {
+        showCustomToast(context, response.message.toString());
+        await farmerProjectDetailApi(context,projectId);
+        pressBack();
+      } else {
+        showCustomToast(context, response.message.toString());
+      }
+    }
+  }
+
+  void milestoneId(String id){
+    emit(state.copyWith(projectId: id));
+  }
+
+  void searchMilestoneFilter(String query, List<DataMileStoneName> searchList) {
+    List<DataMileStoneName> dummySearchList = <DataMileStoneName>[];
+    dummySearchList.addAll(searchList);
+    if (query.isNotEmpty) {
+      List<DataMileStoneName> dummyListData = <DataMileStoneName>[];
+      for (final item in dummySearchList) {
+        if (item.milestoneTitle!.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      }
+      emit(state.copyWith(filterMileStone: dummyListData));
+      return;
+    } else {
+      emit(state.copyWith(filterMileStone: dummySearchList));
     }
   }
 

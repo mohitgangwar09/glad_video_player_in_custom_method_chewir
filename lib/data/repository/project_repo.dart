@@ -5,8 +5,10 @@ import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/response_add_value.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_not_required.dart';
 import 'package:glad/data/model/response_price_attribute.dart';
 import 'package:glad/data/model/response_resource_name.dart';
@@ -424,17 +426,48 @@ class ProjectRepository {
   }
 
   ///////////////// mileStoneNameApi //////////
-  Future<ResponseOtpModel> mileStoneNameApi(int id) async {
+  Future<ResponseMilestoneName> mileStoneNameApi(String farmerId,String farmerProjectId) async {
+
+    var data = {
+      "farmer_id" : farmerId,
+      "farmer_project_id" : farmerProjectId,
+    };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.mileStoneNameApi,
+        queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'},
     );
 
     if (apiResponse.status) {
-      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+      return ResponseMilestoneName.fromJson(apiResponse.response!.data);
     } else {
-      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+      return ResponseMilestoneName(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// mileStoneNameApi //////////
+  Future<ResponseAddValue> addMileStoneApi(String farmerId,String farmerProjectId,String milestoneTitle,String milestoneDescription,String milestoneDuration,{String? id}) async {
+
+    var data = {
+      "id" : id,
+      "farmer_id" : farmerId,
+      "farmer_project_id" : farmerProjectId,
+      "milestone_title" : milestoneTitle,
+      "milestone_description" : milestoneDescription,
+      "milestone_duration" : milestoneDuration,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addMilestoneApi,
+      data: data,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseAddValue.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseAddValue(status: 422, message: apiResponse.msg);
     }
   }
 

@@ -34,6 +34,8 @@ class AppConstants {
   static const String followupRemarkList = '/api/followup-remark-list';
   static const String addFollowupRemark = '/api/add-followup-remark';
   static const String getGuestDashboard = '/api/guest-user-dashboard';
+  static const String getMCCDashboard = '/api/milk-centers/mcc-dashboard';
+  static const String getSupplierDashboard = '/api/supplier/supplier-dashboard';
   static const String enquiryListApi = '/api/enquiry-list';
   static const String enquiryDetailsApi = '/api/enquiry-details';
   static const String improvementAreaList = '/api/improvement/list';
@@ -71,6 +73,7 @@ class AppConstants {
   static const String fetchMileStoneDataApi = '/api/farmer-project/fetch-milestone-data';
   static const String addTaskApi = '/api/farmer-project/add-task';
   static const String deleteTaskApi = '/api/farmer-project/delete-task';
+  static const String addMilestoneApi = '/api/farmer-project/add-milestone';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -24,10 +26,12 @@ class SupplierLandingPage extends StatefulWidget {
 }
 
 class _SupplierLandingPageState extends State<SupplierLandingPage> {
-  List<_ChartData> data = [
-    _ChartData('Completed', 12),
-    _ChartData('Pending', 6),
-  ];
+  // List<_ChartData> data = [
+  //   _ChartData('Completed', 12),
+  //   _ChartData('Pending', 6),
+  // ];
+
+  int surveyPercentage = 0;
 
   List<_ChartData> data2 = [
     _ChartData('Completed', 07),
@@ -44,45 +48,64 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
   ];
 
   @override
+  void initState() {
+    BlocProvider.of<LandingPageCubit>(context).getSupplierDashboard(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Stack(
-        children: [
-          landingBackground(),
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Hello ',
-                titleText2: 'Hurton,',
-                leading: openDrawer(
-                    onTap: () {
-                      supplierLandingKey.currentState?.openDrawer();
-                    },
-                    child: SvgPicture.asset(Images.drawer)),
-                action: Row(
+    return BlocBuilder<LandingPageCubit, LandingPageState>(
+      builder: (context, state) {
+        if (state.status == LandingPageStatus.loading) {
+          return const Center(
+              child: CircularProgressIndicator(
+                color: ColorResources.maroon,
+              ));
+        } else if (state.responseSupplierDashboard == null) {
+          return Center(child: Text("${state.responseSupplierDashboard} Api Error"));
+        } else {
+          return Container(
+            color: Colors.white,
+            child: Stack(
+              children: [
+                landingBackground(),
+                Column(
                   children: [
-                    phoneCall(256758711344),
-                    7.horizontalSpace(),
-                    InkWell(
-                        onTap: () {
-                          const SupplierProfile().navigate();
-                        },
-                        child: SvgPicture.asset(Images.person)),
-                    8.horizontalSpace(),
+                    CustomAppBar(
+                      context: context,
+                      titleText1: 'Hello ',
+                      titleText2: 'Hurton,',
+                      leading: openDrawer(
+                          onTap: () {
+                            supplierLandingKey.currentState?.openDrawer();
+                          },
+                          child: SvgPicture.asset(Images.drawer)),
+                      action: Row(
+                        children: [
+                          phoneCall(256758711344),
+                          7.horizontalSpace(),
+                          InkWell(
+                              onTap: () {
+                                const SupplierProfile().navigate();
+                              },
+                              child: SvgPicture.asset(Images.person)),
+                          8.horizontalSpace(),
+                        ],
+                      ),
+                    ),
+                    landingPage(state),
                   ],
                 ),
-              ),
-              landingPage(),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
+          );
+        }
+      }
     );
   }
 
-  Widget landingPage() {
+  Widget landingPage(LandingPageState state) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -108,6 +131,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                     style:
                                         figtreeMedium.copyWith(fontSize: 16)),
                                 10.verticalSpace(),
+                                if(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.isNotEmpty)
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
@@ -119,13 +143,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                             ColorResources.fieldGrey
                                           ],
                                           margin: EdgeInsets.zero,
-                                          // onDataLabelTapped: (details) {
-                                          //   print(details.);
-                                          // },
                                           series: <CircularSeries<_ChartData,
                                               String>>[
                                             DoughnutSeries<_ChartData, String>(
-                                                dataSource: data,
+                                                dataSource: List.generate(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.length, (index) => _ChartData(formatProjectStatus(state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].surveyStatus ?? ''), state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].count.toDouble())),
                                                 xValueMapper:
                                                     (_ChartData data, _) =>
                                                         data.x,
@@ -139,8 +160,8 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                   unselectedOpacity: 0.7
                                                 ),
                                                 onPointTap: (detail) {
-                                                  print(detail.pointIndex);
-                                                  print((detail.dataPoints![detail.pointIndex!] as ChartPoint).text);
+                                                  surveyPercentage = ((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toInt();
+                                                  setState(() {});
                                                 })
                                           ]),
                                     ),
@@ -149,7 +170,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        "66".textBold(
+                                        surveyPercentage.toString().textBold(
                                             color: Colors.black, fontSize: 26),
                                         "%".textBold(
                                             color: Colors.black, fontSize: 12)
@@ -173,10 +194,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                     BorderRadius.circular(10)),
                                           ),
                                           7.horizontalSpace(),
-                                          Text('${data[0].x}: ',
+                                          Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].surveyStatus}: ',
                                               style: figtreeRegular.copyWith(
                                                   fontSize: 12)),
-                                          Text(data[0].y.toInt().toString(),
+                                          Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].count.toInt().toString(),
                                               style: figtreeBold.copyWith(
                                                   fontSize: 12)),
                                         ],
@@ -193,10 +214,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                     BorderRadius.circular(10)),
                                           ),
                                           7.horizontalSpace(),
-                                          Text('${data[1].x}: ',
+                                          Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].surveyStatus}: ',
                                               style: figtreeRegular.copyWith(
                                                   fontSize: 12)),
-                                          Text(data[1].y.toInt().toString(),
+                                          Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].count.toInt().toString(),
                                               style: figtreeBold.copyWith(
                                                   fontSize: 12)),
                                         ],

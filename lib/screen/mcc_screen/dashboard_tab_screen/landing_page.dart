@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
@@ -28,6 +30,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<LandingPageCubit>(context).getMCCDashboard(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<ProjectCubit>(context)
           .ddeProjectsApi(context, "pending", true);
@@ -37,41 +40,54 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      color: Colors.white,
-      child: Stack(
-        children: [
-          landingBackground(),
-          Column(
-            children: [
-
-              CustomAppBar(
-                context: context,
-                titleText1: 'Welcome to ',
-                titleText2: 'GLAD',
-                leading: null,
-                action: Row(
+    return BlocBuilder<LandingPageCubit, LandingPageState>(
+      builder: (context, state) {
+        if (state.status == LandingPageStatus.loading) {
+          return const Center(
+              child: CircularProgressIndicator(
+                color: ColorResources.maroon,
+              ));
+        } else if (state.responseMCCDashboard == null) {
+          return Center(child: Text("${state.responseMCCDashboard} Api Error"));
+        } else {
+          return Container(
+            color: Colors.white,
+            child: Stack(
+              children: [
+                landingBackground(),
+                Column(
                   children: [
-                    phoneCall(256758711344),
-                    7.horizontalSpace(),
-                    InkWell(
-                        onTap: () {
-                          const MccProfile().navigate();
-                        },
-                        child: SvgPicture.asset(Images.person)),
-                    8.horizontalSpace(),
+
+                    CustomAppBar(
+                      context: context,
+                      titleText1: 'Welcome to ',
+                      titleText2: 'GLAD',
+                      leading: null,
+                      action: Row(
+                        children: [
+                          phoneCall(256758711344),
+                          7.horizontalSpace(),
+                          InkWell(
+                              onTap: () {
+                                const MccProfile().navigate();
+                              },
+                              child: SvgPicture.asset(Images.person)),
+                          8.horizontalSpace(),
+                        ],
+                      ),
+                    ),
+                    landingPage(context, state),
                   ],
                 ),
-              ),
-              landingPage(context),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
+          );
+        }
+      }
     );
   }
 
-  Widget landingPage(context) {
+  Widget landingPage(context, LandingPageState state) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -84,6 +100,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
               padding: const EdgeInsets.only(right: 20.0,bottom: 25,left: 10),
               child: customGrid(
                   context,
+                  list: List.generate(state.responseMCCDashboard!.data!.farmerProjet!.length, (index) => null),
                   mainAxisExtent: 160,
                   crossAxisSpacing: 10,
                   child: (int index) {
@@ -97,12 +114,12 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
 
-                                  "09".textMedium(fontSize: 32,
+                                  state.responseMCCDashboard!.data!.farmerProjet![index].count.toString().textMedium(fontSize: 32,
                                       color: const Color(0xffFC5E60)),
 
                                   12.verticalSpace(),
 
-                                  "Pending".textMedium(fontSize: 16),
+                                  state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString().textMedium(fontSize: 16),
 
                                   7.verticalSpace(),
 
@@ -215,7 +232,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
 
             30.verticalSpace(),
 
-            ddeProfileSlider(context),
+            ddeProfileSlider(context, state),
 
             CommunityForum(
               name: 'Begumanya Charles',
@@ -238,7 +255,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
     );
   }
 
-  Widget ddeProfileSlider(context){
+  Widget ddeProfileSlider(context, LandingPageState state){
     return Padding(
       padding: const EdgeInsets.only(left: 10.0,right: 20),
       child: Column(
@@ -248,16 +265,22 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
           Padding(padding: const EdgeInsets.only(left: 10),
           child: 'DDE'.textMedium(fontSize: 18),),
 
-          CarouselSlider(
-            items: [1,2,3,4].map<Widget>((e) => Stack(
+          SizedBox(
+            height: 180,
+            child: ListView.builder(
+                itemCount: state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive!.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) =>
+                    Stack(
               alignment: Alignment.center,
               children: [
                 SizedBox(
                     height: 100,
-                    width: MediaQuery.of(context).size.width),
+                    width: MediaQuery.of(context).size.width * 0.8),
                 customProjectContainer(
                   // height: 115,
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: Column(
                     children: [
 
@@ -266,12 +289,26 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(Images.sampleUser),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(1000),
+                              child: Container(
+                                height: AppBar().preferredSize.height * 0.7,
+                                width: AppBar().preferredSize.height * 0.7,
+                                decoration:
+                                const BoxDecoration(shape: BoxShape.circle),
+                                child: CachedNetworkImage(
+                                  imageUrl: state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].photo ?? '',
+                                  errorWidget: (_, __, ___) =>
+                                      Image.asset(Images.sampleUser),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
                             15.horizontalSpace(),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Begumanya Charles',
+                                Text(state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].name ?? '',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: Colors.black)),
                                 4.verticalSpace(),
@@ -283,7 +320,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                                       color: Colors.black,
                                       size: 16,
                                     ),
-                                    Text('+256 758711344',
+                                    Text(state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].phone ?? '',
                                         style: figtreeRegular.copyWith(
                                             fontSize: 12, color: Colors.black)),
                                   ],
@@ -300,8 +337,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                                     SizedBox(
                                       width:
                                       MediaQuery.of(context).size.width * 0.5,
-                                      child: Text(
-                                        'Plot 11, street 09, Luwum St. Rwooz',
+                                      child: Text('',
                                         style: figtreeRegular.copyWith(
                                           fontSize: 12,
                                           color: Colors.black,
@@ -318,8 +354,8 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                       ),
 
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        child: Divider(thickness: 1.2,color: Color(0xffDCDCDC))),
+                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          child: Divider(thickness: 1.2,color: Color(0xffDCDCDC))),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -328,37 +364,77 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                           'Farmers Managed'.textMedium(fontSize: 14),
 
                           12.horizontalSpace(),
+                          if(state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.length > 3)
+                            Stack(
+                              children: [
+                                // CircleAvatar(
+                                //     radius: 20,
+                                //     child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 40,height: 40)),
 
-                          Stack(
-                            children: [
-
-                              CircleAvatar(
+                                for(int i= 0; i < 3;i++)
+                                  Padding(
+                                    padding: EdgeInsets.only(left: i > 0 ? 30.0 : 0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(1000),
+                                      child: Container(
+                                        height: AppBar().preferredSize.height * 0.7,
+                                        width: AppBar().preferredSize.height * 0.7,
+                                        decoration:
+                                        const BoxDecoration(shape: BoxShape.circle),
+                                        child: CachedNetworkImage(
+                                          imageUrl: state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster![i].photo?? '',
+                                          errorWidget: (_, __, ___) =>
+                                              Image.asset(Images.sampleUser),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                CircleAvatar(
                                   radius: 20,
-                                  child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 40,height: 40)),
+                                  backgroundColor: Colors.yellow,
+                                  child: '+${state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.length - 3}'.textMedium(),
+                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(left: 30.0),
+                                //   child: CircleAvatar(
+                                //       radius: 20,
+                                //       child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 70,height: 70)),
+                                // ),
+                                //
+                                // Padding(
+                                //   padding: const EdgeInsets.only(left: 60),
+                                //   child: CircleAvatar(
+                                //       radius: 20,
+                                //       child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 70,height: 70)),
+                                // ),
 
-                              Padding(
-                                padding: const EdgeInsets.only(left: 30.0),
-                                child: CircleAvatar(
-                                    radius: 20,
-                                    child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 70,height: 70)),
-                              ),
+                              ],
+                            ),
 
-                              Padding(
-                                padding: const EdgeInsets.only(left: 60),
-                                child: CircleAvatar(
-                                    radius: 20,
-                                    child: Image.asset(Images.sampleUser,fit: BoxFit.cover,width: 70,height: 70)),
-                              ),
-
-                            ],
-                          ),
-
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.yellow,
-                            child: '+2'.textMedium(),
-                          )
-
+                          if(state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.length <= 3)
+                            Stack(
+                              children: [
+                                for(int i= 0; i < state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.length;i++)
+                                  Padding(
+                                    padding: EdgeInsets.only(left: i > 0 ? 30.0 : 0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(1000),
+                                      child: Container(
+                                        height: AppBar().preferredSize.height * 0.7,
+                                        width: AppBar().preferredSize.height * 0.7,
+                                        decoration:
+                                        const BoxDecoration(shape: BoxShape.circle),
+                                        child: CachedNetworkImage(
+                                          imageUrl: state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster![i].photo?? '',
+                                          errorWidget: (_, __, ___) =>
+                                              Image.asset(Images.sampleUser),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],)
                         ],
                       )
 
@@ -377,35 +453,40 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                       ],
                     )),
               ],
-            )).toList(),
-            options: CarouselOptions(
-              autoPlay: true,
-              clipBehavior: Clip.none,
-              enableInfiniteScroll: false,
-              viewportFraction: 1,
-              height: 180,
-              onPageChanged: (index, reason) {
-
-              },
-            )
-          ),
-
-          5.verticalSpace(),
-
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(5),
-              child: AnimatedSmoothIndicator(
-                activeIndex: 3,
-                count: 3,
-                effect: WormEffect(
-                    activeDotColor: ColorResources.maroon,
-                    dotHeight: 7,
-                    dotWidth: 7,
-                    dotColor: ColorResources.grey),
-              ),
+            ),
             ),
           ),
+
+          // CarouselSlider(
+          //   items: ,
+          //   options: CarouselOptions(
+          //     autoPlay: true,
+          //     clipBehavior: Clip.none,
+          //     enableInfiniteScroll: false,
+          //     viewportFraction: 1,
+          //     height: 180,
+          //     onPageChanged: (index, reason) {
+          //
+          //     },
+          //   )
+          // ),
+
+          // 5.verticalSpace(),
+          //
+          // const Center(
+          //   child: Padding(
+          //     padding: EdgeInsets.all(5),
+          //     child: AnimatedSmoothIndicator(
+          //       activeIndex: 3,
+          //       count: 3,
+          //       effect: WormEffect(
+          //           activeDotColor: ColorResources.maroon,
+          //           dotHeight: 7,
+          //           dotWidth: 7,
+          //           dotColor: ColorResources.grey),
+          //     ),
+          //   ),
+          // ),
 
           15.verticalSpace(),
 

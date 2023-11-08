@@ -12,9 +12,14 @@ class ProjectState extends Equatable {
   final List<DataCapacityList>? responseResourceCapacityType;
   final List<DataResourceType>? responseProjectUOM;
   final List<DataResourceName>? responseMaterialType;
+  final List<DataMileStoneName>? responseMilestoneName;
+  final List<DataMileStoneName>? filterMileStone;
   final String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialName,primaryId;
   final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialId,userIdForOtpValidate;
   final TextEditingController requiredQtyController,pricePerUnitController,valueController;
+  final TextEditingController milestoneTitle,milestoneDescription,milestoneDuration;
+  final String? projectId;
+
 
   const ProjectState({
     required this.status,
@@ -39,6 +44,12 @@ class ProjectState extends Equatable {
     required this.selectMaterialId,
     required this.primaryId,
     required this.userIdForOtpValidate,
+    required this.milestoneTitle,
+    required this.milestoneDescription,
+    required this.milestoneDuration,
+    required this.responseMilestoneName,
+    required this.filterMileStone,
+    required this.projectId,
   });
 
   factory ProjectState.initial() {
@@ -52,6 +63,8 @@ class ProjectState extends Equatable {
       responseResourceCapacityType: const [],
       responseMaterialType: const [],
       responseProjectUOM: const [],
+      responseMilestoneName: const [],
+      filterMileStone: const [],
       selectResourceType: 'Select Type',
       selectSizeCapacity: 'Select Size Capacity',
       selectProjectUOM: '',
@@ -63,8 +76,12 @@ class ProjectState extends Equatable {
       pricePerUnitController: TextEditingController(),
       requiredQtyController: TextEditingController(),
       valueController: TextEditingController(),
+      milestoneTitle: TextEditingController(),
+      milestoneDuration: TextEditingController(),
+      milestoneDescription: TextEditingController(),
       primaryId: '',
       userIdForOtpValidate: '',
+      projectId: '',
     );
   }
 
@@ -78,9 +95,13 @@ class ProjectState extends Equatable {
     List<DataCapacityList>? responseResourceCapacityType,
     List<DataResourceType>? responseProjectUOM,
     List<DataResourceName>? responseMaterialType,
+    List<DataMileStoneName>? responseMilestoneName,
+    List<DataMileStoneName>? filterMileStone,
     String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialId,primaryId,userIdForOtpValidate,
     String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialName,
-    TextEditingController? requiredQtyController,pricePerUnitController,valueController
+    TextEditingController? requiredQtyController,pricePerUnitController,valueController,
+    TextEditingController? milestoneTitle,mile,milestoneDuration,milestoneDescription,
+    String? projectId
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -117,6 +138,12 @@ class ProjectState extends Equatable {
       selectMaterialId: selectMaterialId ?? this.selectMaterialId,
       valueController: valueController ?? this.valueController,
       userIdForOtpValidate: userIdForOtpValidate ?? this.userIdForOtpValidate,
+      milestoneTitle: milestoneTitle ?? this.milestoneTitle,
+      milestoneDuration: milestoneDuration ?? this.milestoneDuration,
+      milestoneDescription: milestoneDescription ?? this.milestoneDescription,
+      filterMileStone: filterMileStone ?? this.filterMileStone,
+      projectId: projectId ?? this.projectId,
+      responseMilestoneName: responseMilestoneName ?? this.responseMilestoneName,
     );
   }
 
@@ -143,6 +170,10 @@ class ProjectState extends Equatable {
     selectMaterialId,
     primaryId,
     valueController,
-    userIdForOtpValidate
+    userIdForOtpValidate,
+    milestoneDescription,
+    responseMilestoneName,
+    filterMileStone,
+    projectId
       ];
 }

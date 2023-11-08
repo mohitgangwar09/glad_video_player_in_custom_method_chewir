@@ -13,6 +13,8 @@ class LandingPageState extends Equatable {
   final ResponseDdeDashboard? responseDdeDashboard;
   final ResponseOtpModel? responseFarmerVisitor;
   final DateTime? selectedFarmerVisitDate;
+  final SupplierDashboardModel? responseSupplierDashboard;
+  final MCCDashboardModel? responseMCCDashboard;
 
   const LandingPageState({
     required this.focusTag,
@@ -25,6 +27,8 @@ class LandingPageState extends Equatable {
     required this.responseDdeDashboard,
     required this.responseFarmerVisitor,
     required this.selectedFarmerVisitDate,
+    required this.responseSupplierDashboard,
+    required this.responseMCCDashboard,
   });
 
   factory LandingPageState.initial() {
@@ -39,6 +43,8 @@ class LandingPageState extends Equatable {
       responseDdeDashboard: ResponseDdeDashboard(),
       responseFarmerVisitor: null,
       selectedFarmerVisitDate: DateTime.now(),
+      responseSupplierDashboard: null,
+      responseMCCDashboard: null,
     );
   }
 
@@ -54,6 +60,8 @@ class LandingPageState extends Equatable {
     ResponseDdeDashboard? responseDdeDashboard,
     ResponseOtpModel? responseFarmerVisitor,
     DateTime? selectedFarmerVisitDate,
+    SupplierDashboardModel? responseSupplierDashboard,
+    MCCDashboardModel? responseMCCDashboard,
   }) {
     return LandingPageState(
       focusTag: focusTag ?? this.focusTag,
@@ -71,6 +79,8 @@ class LandingPageState extends Equatable {
           responseFarmerVisitor ?? this.responseFarmerVisitor,
       selectedFarmerVisitDate:
           selectedFarmerVisitDate ?? this.selectedFarmerVisitDate,
+      responseMCCDashboard: responseMCCDashboard ?? this.responseMCCDashboard,
+      responseSupplierDashboard: responseSupplierDashboard ?? this.responseSupplierDashboard,
     );
   }
 
@@ -85,6 +95,8 @@ class LandingPageState extends Equatable {
         followupRemarkListResponse,
         responseDdeDashboard,
         responseFarmerVisitor,
-        selectedFarmerVisitDate
+        selectedFarmerVisitDate,
+        responseSupplierDashboard,
+        responseMCCDashboard,
       ];
 }

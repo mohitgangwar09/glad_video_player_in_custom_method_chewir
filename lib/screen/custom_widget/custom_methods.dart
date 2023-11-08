@@ -182,7 +182,7 @@ Widget customGrid<T>(BuildContext context,
     itemBuilder: (context, index) => child(index)
     // child(list[index], index),
     ,
-    itemCount: list.isNotEmpty ? list.length :2,
+    itemCount: list.length,
     //controller: listScrollController,
   );
 }

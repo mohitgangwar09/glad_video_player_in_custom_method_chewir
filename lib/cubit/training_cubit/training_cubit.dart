@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
+import 'package:glad/data/model/youtube_video_statistics_model.dart';
 import 'package:glad/data/repository/others_repo.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,6 +52,18 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     else {
       emit(state.copyWith(status: TrainingStatus.error));
       showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> getVideoStatistics(context, String videoId) async{
+    // emit(state.copyWith(status: TrainingStatus.submit));
+    var response = await apiRepository.getVideoStatisticsApi(videoId);
+    if (response!= null) {
+      emit(state.copyWith(responseVideoStatistics: response));
+    }
+    else {
+      // emit(state.copyWith(status: TrainingStatus.error));
+      showCustomToast(context, 'Error getting statistics');
     }
   }
 

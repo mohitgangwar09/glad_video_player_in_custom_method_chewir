@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -48,7 +50,9 @@ class GuestSideDrawer extends StatelessWidget {
         children: [
           navigationBarItem(
             image: Images.news,
-            onTap: () {},
+            onTap: () {
+              const NewsAndEvent(isBottomAppBar: false).navigate();
+            },
             text: 'News & Events',
             visible: false
           ),
@@ -56,7 +60,9 @@ class GuestSideDrawer extends StatelessWidget {
             height: 30,
           ),
           navigationBarItem(
-              image: Images.drawerTraining, onTap: () {}, text: 'Training'),
+              image: Images.drawerTraining, onTap: () {
+                const OnlineTraining(isBottomAppBar: false).navigate();
+          }, text: 'Training'),
           const SizedBox(
             height: 30,
           ),
