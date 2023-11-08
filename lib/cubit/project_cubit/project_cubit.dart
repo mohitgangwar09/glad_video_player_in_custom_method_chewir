@@ -13,6 +13,8 @@ import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
+import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/screen/supplier_screen/accept_screen.dart';
 import 'package:glad/screen/supplier_screen/reject_screen.dart';
@@ -40,6 +42,9 @@ class ProjectCubit extends Cubit<ProjectState> {
         selectProjectUOM: uom,
         requiredQtyController: TextEditingController(text: requiredQty),
         pricePerUnitController: TextEditingController(text: pricePerUnit),
+        resourceTypeController: TextEditingController(text: resourceType),
+        resourceCapacityController: TextEditingController(text: resourceCapacityName),
+        uomController: TextEditingController(text: uom),
     ));
 
   }
@@ -110,6 +115,8 @@ class ProjectCubit extends Cubit<ProjectState> {
       if(response.data!.milestoneDetails![0].resourcePrice!=null){
         state.pricePerUnitController.text = response.data!.milestoneDetails![0].resourcePrice.toString();
       }
+
+      response.data!.milestoneDetails![0].farmerProjectResourcePrice!.length.toString().toast();
 
       emit(state.copyWith(status: ProjectStatus.success,
           responseFarmerProjectMilestoneDetail: response,
@@ -371,6 +378,38 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  void updateDdeAttributeApi(context,String id,String farmerProjectId,String farmerMileStoneId) async {
+    if(state.requiredQtyController.text.isEmpty){
+      showCustomToast(context, "Please enter quantity");
+    }else{
+      customDialog(
+          widget: launchProgress()
+      );
+      var response = await apiRepository.updateAttributeApi(
+          id,
+          farmerProjectId,
+          farmerMileStoneId,
+          state.materialNameController.text.toString(),
+          state.resourceTypeController.text.toString(),
+          state.resourceCapacityController.text.toString(),
+          state.requiredQtyController.text.toString(),
+          state.uomController.text.toString(),
+          state.pricePerUnitController.text, state.primaryId.toString());
+
+      disposeProgress();
+
+      if (response.status == 200) {
+
+        pressBack();
+        farmerProjectMilestoneDetailApi(context,int.parse(farmerMileStoneId));
+        showCustomToast(context, response.message.toString());
+
+      } else {
+        showCustomToast(context, response.message.toString());
+      }
+    }
+  }
+
   void addAttributeApi(context,farmerProjectId,farmerMileStoneId) async {
 
     if(state.selectMaterialName == 'Select Material Name'){
@@ -431,8 +470,9 @@ class ProjectCubit extends Cubit<ProjectState> {
       }
 
     } else {
-      state.pricePerUnitController.clear();
-      state.valueController.clear();
+      /*state.pricePerUnitController.clear();
+      state.valueController.clear();*/
+
       // showCustomToast(context, response.message.toString());
     }
   }
@@ -484,12 +524,25 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  // farmerParticipationApi
+  Future<void> farmerParticipationApi(context,String farmerId,String farmerProjectId,String farmerParticipation,int projectId) async {
+    var response = await apiRepository.farmerParticipationApi(farmerId,farmerProjectId,farmerParticipation);
+
+    if (response.status == 200) {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      await farmerProjectDetailApi(context,projectId);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   // addMilestoneApi
   Future<void> addMilestoneApi(context,String farmerId,
       String farmerProjectId,
       String milestoneTitle,
       String milestoneDescription,
-      String milestoneDuration,int projectId) async {
+      String milestoneDuration,int projectId,String projectStatus) async {
 
     if(state.milestoneTitle.text.isEmpty){
       showCustomToast(context, "Please enter milestone name");
@@ -503,7 +556,12 @@ class ProjectCubit extends Cubit<ProjectState> {
       if (response.status == 200) {
         showCustomToast(context, response.message.toString());
         await farmerProjectDetailApi(context,projectId);
-        pressBack();
+        DdeMilestoneDetail(milestoneId:
+        response.data!.id,
+            projectStatus:projectStatus,
+          navigateScreen: "add",projectId:projectId
+        ).navigate();
+        // pressBack();
       } else {
         showCustomToast(context, response.message.toString());
       }
@@ -531,6 +589,58 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  void searchMaterialName(String query, List<DataResourceName> searchList) {
+    List<DataResourceName> dummySearchList = <DataResourceName>[];
+    dummySearchList.addAll(searchList);
+    if (query.isNotEmpty) {
+      List<DataResourceName> dummyListData = <DataResourceName>[];
+      for (final item in dummySearchList) {
+        if (item.resourceName!.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      }
+      emit(state.copyWith(filterMaterialType: dummyListData));
+      return;
+    } else {
+      emit(state.copyWith(filterMaterialType: dummySearchList));
+    }
+  }
+
+  void searchResourceType(String query, List<DataResourceType> searchList) {
+    List<DataResourceType> dummySearchList = <DataResourceType>[];
+    dummySearchList.addAll(searchList);
+    if (query.isNotEmpty) {
+      List<DataResourceType> dummyListData = <DataResourceType>[];
+      for (final item in dummySearchList) {
+        if (item.name!.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      }
+      emit(state.copyWith(filterResourceType: dummyListData));
+      return;
+    } else {
+      emit(state.copyWith(filterResourceType: dummySearchList));
+    }
+  }
+
+
+  void searchSizeCapacity(String query, List<DataCapacityList> searchList) {
+    List<DataCapacityList> dummySearchList = <DataCapacityList>[];
+    dummySearchList.addAll(searchList);
+    if (query.isNotEmpty) {
+      List<DataCapacityList> dummyListData = <DataCapacityList>[];
+      for (final item in dummySearchList) {
+        if (item.resourceCapacity!.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      }
+      emit(state.copyWith(filterResourceCapacityType: dummyListData));
+      return;
+    } else {
+      emit(state.copyWith(filterResourceCapacityType: dummySearchList));
+    }
+  }
+
   // getMileStoneDataApi
   void getMileStoneDataApi(context,int id) async {
 
@@ -546,13 +656,15 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // addTaskApi
-  void addTaskApi(context,String farmerId, String farmerProjectId, String farmerMileStoneId, String taskName) async {
+  void addTaskApi(context,String farmerId, String farmerProjectId, String farmerMileStoneId, String taskName,int milestoneId) async {
 
     var response = await apiRepository.addTaskApi(farmerId, farmerProjectId, farmerMileStoneId, taskName);
 
     if (response.status == 200) {
 
       showCustomToast(context, response.message.toString());
+      disposeProgress();
+      await farmerProjectMilestoneDetailApi(context, milestoneId);
 
     } else {
       showCustomToast(context, response.message.toString());
@@ -560,7 +672,7 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // addTaskApi
-  void deleteTaskApi(context,String id) async {
+  void deleteTaskApi(context,String id,int milestoneId) async {
 
     customDialog(widget: launchProgress());
 
@@ -571,6 +683,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
 
       showCustomToast(context, response.message.toString());
+      await farmerProjectMilestoneDetailApi(context,milestoneId);
 
     } else {
       showCustomToast(context, response.message.toString());

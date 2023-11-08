@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/add_dde_resources.dart';
+import 'package:glad/screen/dde_screen/suggested_investment.dart';
+import 'package:glad/screen/dde_screen/update_dde_resource.dart';
 import 'package:glad/screen/farmer_screen/common/add_attribute.dart';
 import 'package:glad/screen/farmer_screen/common/attributes_edit.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -10,19 +13,18 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class SuggestedProjectMilestoneDetail extends StatefulWidget {
-  const SuggestedProjectMilestoneDetail({super.key, required this.milestoneId,required this.projectStatus,this.farmerLogin});
-  final int milestoneId;
-  final String projectStatus;
-  final String? farmerLogin;
+class DdeMilestoneDetail extends StatefulWidget {
+  const DdeMilestoneDetail({super.key, required this.milestoneId,required this.projectStatus,required this.navigateScreen,required this.projectId});
+  final int milestoneId,projectId;
+  final String projectStatus,navigateScreen;
 
   @override
-  State<SuggestedProjectMilestoneDetail> createState() =>
-      _SuggestedProjectMilestoneDetailState();
+  State<DdeMilestoneDetail> createState() =>
+      _DdeMilestoneDetailState();
 }
 
-class _SuggestedProjectMilestoneDetailState
-    extends State<SuggestedProjectMilestoneDetail> {
+class _DdeMilestoneDetailState
+    extends State<DdeMilestoneDetail> {
   @override
   void initState() {
     BlocProvider.of<ProjectCubit>(context)
@@ -37,8 +39,8 @@ class _SuggestedProjectMilestoneDetailState
         if (state.status == ProjectStatus.loading) {
           return const Center(
               child: CircularProgressIndicator(
-            color: ColorResources.maroon,
-          ));
+                color: ColorResources.maroon,
+              ));
         } else if (state.responseFarmerProjectMilestoneDetail == null) {
           return Center(
               child: Text("${state.responseFarmerProjectMilestoneDetail} Api Error"));
@@ -53,7 +55,14 @@ class _SuggestedProjectMilestoneDetailState
                     titleText1: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneTitle ?? '',
                     titleText1Style: figtreeMedium.copyWith(
                         fontSize: 20, color: Colors.black),
-                    leading: arrowBackButton(),
+                    leading: arrowBackButton(onTap: (){
+                      if(widget.navigateScreen == ""){
+                        pressBack();
+                      }else{
+                        DDeFarmerInvestmentDetails(projectId: widget.projectId,).navigate(isRemove: true);
+                      }
+                    }),
+                    // leading: arrowBackButton(),
                   ),
                   // Stack(
                   //   alignment: Alignment.centerLeft,
@@ -75,16 +84,16 @@ class _SuggestedProjectMilestoneDetailState
                   Expanded(
                       child: SingleChildScrollView(
                           child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      description(state),
-                      dividerValue(state),
-                      attributes(state),
-                      // state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?
-                      //  attributes(state) :const SizedBox.shrink(),
-                      mileStoneDeliverable(state),
-                    ],
-                  )))
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              description(state),
+                              dividerValue(state),
+                              attributes(state),
+                              // state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?
+                              //  attributes(state) :const SizedBox.shrink(),
+                              mileStoneDeliverable(state),
+                            ],
+                          )))
                 ],
               )
             ],
@@ -180,22 +189,32 @@ class _SuggestedProjectMilestoneDetailState
               ),
               05.horizontalSpace(),
               // widget.farmerLogin==null ?
-              // widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
+              widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
               InkWell(
                 onTap: () {
-                  context.read<ProjectCubit>().getSelectedAttribute(
-                    'Select Material Name',
-                    'Select Type',
-                    'Select Size Capacity',
-                    '',
-                    '',
-                    '');
-                  const AttributesAdd().navigate();
+                  /*context.read<ProjectCubit>().getSelectedAttribute(
+                      'Select Material Name',
+                      'Select Type',
+                      'Select Size Capacity',
+                      '',
+                      '',
+                      '');*/
+                  BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(
+                    materialNameController: TextEditingController()..clear(),
+                    resourceTypeController: TextEditingController()..clear(),
+                    resourceCapacityController: TextEditingController()..clear(),
+                    requiredQtyController: TextEditingController()..clear(),
+                    pricePerUnitController: TextEditingController()..clear(),
+                    valueController: TextEditingController()..clear(),
+                    uomController: TextEditingController()..clear(),
+                  ));
+                  const AddDdeResources().navigate();
+                  // const AttributesAdd().navigate();
 
                 },
                 child: Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                   decoration: boxDecoration(
                     backgroundColor: ColorResources.white,
                     borderWidth: 1,
@@ -209,7 +228,7 @@ class _SuggestedProjectMilestoneDetailState
                         color: const Color(0xff6A0030), fontSize: 10),
                   ),
                 ),
-              )/*:const SizedBox.shrink():const SizedBox.shrink()*/
+              ):const SizedBox.shrink()
             ],
           ),
         ),
@@ -217,12 +236,12 @@ class _SuggestedProjectMilestoneDetailState
         SizedBox(
           height: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?265:0,
           child: customList(
-            padding: const EdgeInsets.only(left: 0),
-            axis: Axis.horizontal,
-            scrollPhysics: const BouncingScrollPhysics(),
-            list: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!,
-              child: (index) => state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].notRequired!=null?
-                const SizedBox.shrink():
+              padding: const EdgeInsets.only(left: 0),
+              axis: Axis.horizontal,
+              scrollPhysics: const BouncingScrollPhysics(),
+              list: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!,
+              child: (index) => state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].notRequired == 1?
+              const SizedBox.shrink():
               SizedBox(
                 height: 200,
                 width: screenWidth()-25,
@@ -238,7 +257,6 @@ class _SuggestedProjectMilestoneDetailState
 
                             10.verticalSpace(),
 
-                            widget.farmerLogin==null ?
                             widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -246,14 +264,15 @@ class _SuggestedProjectMilestoneDetailState
 
                                 InkWell(
                                     onTap: (){
-                                      AttributesEdit(index:index).navigate();
+                                      AttributesEditDdeResource(index:index).navigate();
+                                      // AttributesEdit(index:index).navigate();
                                       context.read<ProjectCubit>().getSelectedAttribute(
-                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceName??'',
-                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceType??'',
-                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceCapacity??'',
-                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceUom??'',
-                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize.toString()??'',
-                                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice.toString()??'',
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceName??'',
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceType??'',
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceCapacity??'',
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceUom??'',
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceSize.toString()??'',
+                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourcePrice.toString()??'',
                                       );
                                       state.valueController.text = state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceValue.toString()??'';
                                     },child: Image.asset(Images.editIcon,width: 24,height: 24,)),
@@ -268,7 +287,7 @@ class _SuggestedProjectMilestoneDetailState
                                     ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
 
                               ],
-                            ):const SizedBox.shrink():const SizedBox.shrink(),
+                            ):const SizedBox.shrink(),
                             10.verticalSpace(),
                             customAttribute("Material -",
                                 state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].resourceName??'':''),
@@ -319,6 +338,7 @@ class _SuggestedProjectMilestoneDetailState
                 style: figtreeMedium.copyWith(fontSize: 18),
               ),
 
+              widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
               InkWell(
                 onTap: (){
                   TextEditingController controller = TextEditingController();
@@ -372,7 +392,7 @@ class _SuggestedProjectMilestoneDetailState
                                               fontColor: 0xffFFFFFF,
                                               onTap: () {
                                                 BlocProvider.of<ProjectCubit>(context).addTaskApi(context,state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerId.toString(),state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId.toString(),state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
-                                                  controller.text,widget.milestoneId
+                                                    controller.text,widget.milestoneId
                                                 );
                                               },
                                               height: 60,
@@ -403,7 +423,8 @@ class _SuggestedProjectMilestoneDetailState
                         color: const Color(0xff6A0030), fontSize: 10),
                   ),
                 ),
-              )
+              ):
+              const SizedBox.shrink()
 
             ],
           ),
@@ -412,36 +433,36 @@ class _SuggestedProjectMilestoneDetailState
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
           child: customList(
-            list: List.generate(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!.length, (index) => null),
+              list: List.generate(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!.length, (index) => null),
               child: (int index) {
-            return Container(
-              height: 60,
-              margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(width: 1, color: ColorResources.grey),
-                  borderRadius: BorderRadius.circular(14)),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 5, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskName ?? '',
-                      style: figtreeMedium.copyWith(fontSize: 14),
-                    ),
+                return Container(
+                  height: 60,
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: ColorResources.grey),
+                      borderRadius: BorderRadius.circular(14)),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 5, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskName ?? '',
+                          style: figtreeMedium.copyWith(fontSize: 14),
+                        ),
 
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: InkWell(
-                          onTap: (){
-                            BlocProvider.of<ProjectCubit>(context).deleteTaskApi(context,
-                              state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].id.toString(),widget.milestoneId
-                            );
-                          }
-                          ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
-                    )
-                    /*Container(
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: InkWell(
+                              onTap: (){
+                                BlocProvider.of<ProjectCubit>(context).deleteTaskApi(context,
+                                    state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].id.toString(),widget.milestoneId
+                                );
+                              }
+                              ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
+                        )
+                        /*Container(
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
@@ -453,11 +474,11 @@ class _SuggestedProjectMilestoneDetailState
                         style: figtreeMedium.copyWith(fontSize: 14),
                       )),
                     )*/
-                  ],
-                ),
-              ),
-            );
-          }),
+                      ],
+                    ),
+                  ),
+                );
+              }),
         )
       ],
     );

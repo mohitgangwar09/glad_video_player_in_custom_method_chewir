@@ -72,6 +72,7 @@ class AppConstants {
   static const String addTaskApi = '/api/farmer-project/add-task';
   static const String deleteTaskApi = '/api/farmer-project/delete-task';
   static const String addMilestoneApi = '/api/farmer-project/add-milestone';
+  static const String farmerParticipationApi = '/api/farmer-project/farmer-participation-update';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

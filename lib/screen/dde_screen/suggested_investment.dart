@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
 import 'package:glad/screen/dde_screen/edit_project_milestone.dart';
 import 'package:glad/screen/dde_screen/project_kyc/kyc_update.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
@@ -87,7 +89,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                 onTap: () {
                                   const TrackProgress().navigate();
                                 },
-                                child: Center(child: 'Track Progress'.textSemiBold(fontSize: 18, color: ColorResources.maroon, underLine: TextDecoration.underline),)),
+                                child: Center(child: 'View Time Line'.textSemiBold(fontSize: 18, color: ColorResources.maroon, underLine: TextDecoration.underline),)),
                             20.verticalSpace(),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
@@ -455,7 +457,81 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             height: 30,
                           ),
                           kpiData[index].actionImage!=null?
-                          SvgPicture.asset(kpiData[index].actionImage.toString()):
+                          InkWell(
+                            onTap: (){
+                              if(kpiData[index].name.toString() == "Farmer Participation"){
+                                TextEditingController controller = TextEditingController();
+                                controller.text = kpiData[index].value.toString();
+                                modalBottomSheetMenu(context,
+                                    radius: 40,
+                                    child: StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return SizedBox(
+                                            height: 320,
+                                            child: Padding(
+                                              padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                              child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Center(
+                                                      child: Text(
+                                                        'Farmer Participation',
+                                                        style: figtreeMedium.copyWith(fontSize: 22),
+                                                      ),
+                                                    ),
+                                                    30.verticalSpace(),
+
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          'Participation Value',
+                                                          style: figtreeMedium.copyWith(fontSize: 12),
+                                                        ),
+                                                        5.verticalSpace(),
+                                                        TextField(
+                                                          controller: controller,
+                                                          maxLines: 1,
+                                                          keyboardType: TextInputType.number,
+                                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                                          minLines: 1,
+                                                          decoration: InputDecoration(
+                                                              hintText: 'Enter participation value',
+                                                              hintStyle:
+                                                              figtreeMedium.copyWith(fontSize: 18),
+                                                              border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(12),
+                                                                  borderSide: const BorderSide(
+                                                                    width: 1,
+                                                                    color: Color(0xff999999),
+                                                                  ))),
+                                                        ),
+                                                        30.verticalSpace(),
+                                                        Padding(
+                                                          padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                          child: customButton(
+                                                            'Submit',
+                                                            fontColor: 0xffFFFFFF,
+                                                            onTap: () {
+                                                              if(controller.text.isEmpty){
+                                                                showCustomToast(context, "Please enter participation value");
+                                                              }else{
+                                                                BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
+                                                              }
+                                                            },
+                                                            height: 60,
+                                                            width: screenWidth(),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ]),
+                                            ),
+                                          );
+                                        }
+                                    ));
+                              }
+                            }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
                           const SizedBox.shrink()
                         ],
                       ),
@@ -503,7 +579,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
           InkWell(
             onTap: (){
               BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(milestoneTitle: TextEditingController(text: ''),milestoneDuration: TextEditingController(text: ''),milestoneDescription: TextEditingController(text: '')));
-              AddProjectMileStone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId).navigate();
+              AddProjectMileStone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId,projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()).navigate();
             },
             child: Container(
               padding:
@@ -538,10 +614,15 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
               ),
               child: InkWell(
                 onTap: () {
-                  SuggestedProjectMilestoneDetail(milestoneId:
+                  DdeMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
-                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
+                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),navigateScreen:'',
+                    projectId: 0,
                   ).navigate();
+                  /*SuggestedProjectMilestoneDetail(milestoneId:
+                  state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
+                    projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
+                  ).navigate();*/
                 },
                 child: Stack(
                   children: [
@@ -625,7 +706,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                           InkWell(
                               onTap: (){
                                 BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(milestoneTitle: TextEditingController(text: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneTitle ?? ''),milestoneDuration: TextEditingController(text: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDuration.toString() ?? ''),milestoneDescription: TextEditingController(text: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDescription ?? '',),projectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id.toString()));
-                                EditProjectMilestone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId).navigate();
+                                EditProjectMilestone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId,
+                                    projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),).navigate();
                               },child: Image.asset(Images.editIcon,width: 24,height: 24,)),
 
                           Padding(
