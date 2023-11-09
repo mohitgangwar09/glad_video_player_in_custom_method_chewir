@@ -1,3 +1,6 @@
+import 'package:glad/data/model/dashboard_news_event.dart';
+import 'package:glad/data/model/dashboard_training.dart';
+
 class GuestDashboardModel {
   String? message;
   int? status;
@@ -25,8 +28,13 @@ class GuestDashboardModel {
 class Data {
   DairyDevelopmentExecutive? dairyDevelopmentExecutive;
   Enquiry? enquiry;
+  List<NewsEvent>? newsEvent;
+  List<dynamic>? community;
+  List<TrainingList>? trainingList;
 
-  Data({this.dairyDevelopmentExecutive, this.enquiry});
+  Data({this.dairyDevelopmentExecutive, this.enquiry, this.newsEvent,
+    this.community,
+    this.trainingList});
 
   Data.fromJson(Map<String, dynamic> json) {
     dairyDevelopmentExecutive = json['dairyDevelopmentExecutive'] != null
@@ -35,6 +43,24 @@ class Data {
         : null;
     enquiry =
     json['enquiry'] != null ? Enquiry.fromJson(json['enquiry']) : null;
+    if (json['newsEvent'] != null) {
+      newsEvent = <NewsEvent>[];
+      json['newsEvent'].forEach((v) {
+        newsEvent!.add(new NewsEvent.fromJson(v));
+      });
+    }
+    // if (json['community'] != null) {
+    //   community = <Null>[];
+    //   json['community'].forEach((v) {
+    //     community!.add(new Null.fromJson(v));
+    //   });
+    // }
+    if (json['trainingList'] != null) {
+      trainingList = <TrainingList>[];
+      json['trainingList'].forEach((v) {
+        trainingList!.add(new TrainingList.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {

@@ -57,13 +57,6 @@ class _AddTestimonialState extends State<AddTestimonial> {
                         fontSize: 20, color: Colors.black),
                     centerTitle: true,
                     leading: arrowBackButton(),
-                    action: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Save',
-                          style: figtreeMedium.copyWith(
-                              color: ColorResources.maroon, fontSize: 14),
-                        )),
                     description: 'Provide the following details',
                   ),
                   Expanded(

@@ -14,6 +14,7 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class OnlineTraining extends StatefulWidget {
   const OnlineTraining({super.key, required this.isBottomAppBar});
@@ -121,7 +122,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                   ) :
                   CustomAppBar(
                     context: context,
-                    titleText1: 'News and Events',
+                    titleText1: 'Online trainings',
                     centerTitle: true,
                     leading: arrowBackButton(),
                   ),
@@ -244,7 +245,11 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                       children: [
                         InkWell(
                           onTap: () {
-                            OnlineTrainingDetails(categoryId: state.responseTrainingList!.data![index].id.toString()).navigate();
+                            showDialog(
+                                context: context,
+                                builder: (context) => OverlayVideoPlayer(
+                                    url: state.responseTrainingList!.data![index].videoUrl ?? ''));
+                            // OnlineTrainingDetails(categoryId: state.responseTrainingList!.data![index].id.toString()).navigate();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 12.0),
@@ -335,5 +340,71 @@ class _OnlineTrainingState extends State<OnlineTraining> {
             ),
           )
         : const SizedBox.shrink();
+  }
+}
+
+class OverlayVideoPlayer extends StatefulWidget {
+  const OverlayVideoPlayer({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
+
+  final String url;
+
+  @override
+  State<OverlayVideoPlayer> createState() => _OverlayVideoPlayerState();
+}
+
+class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
+  YoutubePlayerController? controller;
+
+  @override
+  void initState() {
+    func();
+    super.initState();
+  }
+
+  func() async {
+    String videoId = YoutubePlayer.convertUrlToId(widget.url)
+        .toString();
+    controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    controller!.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: controller!,
+        topActions: [
+          arrowBackButton(color: Colors.white),
+        ],
+        // aspectRatio: 4/3,
+      ),
+      builder: (context, player) {
+        return player;
+      },
+      // onEnterFullScreen: () {
+      //   setState(() {
+      //     fullScreen = true;
+      //   });
+      // },
+      // onExitFullScreen: () {
+      //   setState(() {
+      //     fullScreen = false;
+      //   });
+      // },
+    );
   }
 }

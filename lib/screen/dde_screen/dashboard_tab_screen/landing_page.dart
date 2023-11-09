@@ -361,7 +361,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
               onTapShowAll: () {},
             ),
             10.verticalSpace(),
-            const FeaturedTrainings(),
+            FeaturedTrainings(trainingList: state.responseDdeDashboard!.data!.trainingList ?? [],),
             10.verticalSpace(),
             const MCCInArea(
               name: 'Begumanya Charles',
@@ -369,9 +369,11 @@ class _DDELandingPageState extends State<DDELandingPage> {
               address:
               'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
               image: '',
+              lat: 28.4986,
+              long: 77.3999,
             ),
             10.verticalSpace(),
-            const TrendingNewsAndEvents(),
+            TrendingNewsAndEvents(newsList: state.responseDdeDashboard!.data!.newsEvent ?? [],),
             100.verticalSpace(),
           ],
         ),

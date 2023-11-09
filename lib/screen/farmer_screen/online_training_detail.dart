@@ -177,7 +177,7 @@ class _OnlineTrainingDetailsState extends State<OnlineTrainingDetails> {
                                   ],
                                 ),
                               ) : const SizedBox.shrink(),
-                              if(!fullScreen && state.responseVideoStatistics != null)
+                              if(!fullScreen && state.responseVideoStatistics != null && state.responseVideoStatistics!.items != null && state.responseVideoStatistics!.items!.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(left: 20.0),
                                 child: Column(
