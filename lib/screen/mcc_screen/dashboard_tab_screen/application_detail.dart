@@ -594,7 +594,8 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                   // const MilestoneDetail().navigate();
                   SupplierMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
-                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
+                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
+                    projectId: 0,navigateScreen: '',
                   ).navigate();
                   /*SuggestedProjectMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,

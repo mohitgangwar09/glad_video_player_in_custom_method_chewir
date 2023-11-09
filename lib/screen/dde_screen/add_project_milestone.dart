@@ -209,7 +209,7 @@ class _AddProjectMileStoneState extends State<AddProjectMileStone> {
                         width: screenWidth(),
                         height: 60,
                         onTap: () {
-                          BlocProvider.of<ProjectCubit>(context).addMilestoneApi(context, widget.farmerId, widget.farmerProjectId, state.milestoneTitle.text, state.milestoneDescription.text, state.milestoneDuration.text,widget.projectId,widget.projectStatus);
+                          BlocProvider.of<ProjectCubit>(context).addMilestoneApi(context, widget.farmerId, widget.farmerProjectId, state.milestoneTitle.text, state.milestoneDescription.text, state.milestoneDuration.text,widget.projectId,widget.projectStatus,"add");
                         })
 
                   ],

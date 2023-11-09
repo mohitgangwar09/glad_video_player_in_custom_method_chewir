@@ -89,7 +89,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                 onTap: () {
                                   const TrackProgress().navigate();
                                 },
-                                child: Center(child: 'View Time Line'.textSemiBold(fontSize: 18, color: ColorResources.maroon, underLine: TextDecoration.underline),)),
+                                child: Center(child: 'View Timeline'.textSemiBold(fontSize: 16, color: ColorResources.maroon, underLine: TextDecoration.underline),)),
+
                             20.verticalSpace(),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
@@ -461,7 +462,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             onTap: (){
                               if(kpiData[index].name.toString() == "Farmer Participation"){
                                 TextEditingController controller = TextEditingController();
-                                controller.text = kpiData[index].value.toString();
+                                controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
                                 modalBottomSheetMenu(context,
                                     radius: 40,
                                     child: StatefulBuilder(

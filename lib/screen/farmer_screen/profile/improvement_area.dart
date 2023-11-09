@@ -251,7 +251,26 @@ class _ImprovementAreaState extends State<ImprovementArea> {
                                         CrossAxisAlignment.start,
                                         children: [
 
+                                          state.improvementAreaListResponse!
+                                              .data!
+                                              .improvementAreaList![
+                                          widget.index]
+                                              .id == 2?
                                           Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Suggested Pasture Area',
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 12,
+                                                      color: ColorResources
+                                                          .fieldGrey)),
+                                              5.verticalSpace(),
+                                              Text("${state.resultData!.suggestedPastureArea}",
+                                                  style: figtreeMedium.copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.black)),
+                                            ],
+                                          ):Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text('Total Distance Travelled',

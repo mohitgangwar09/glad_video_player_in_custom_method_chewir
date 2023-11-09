@@ -178,6 +178,7 @@ class FarmerImprovementArea {
 class Results {
   dynamic lossOfMilkPerCow;
   dynamic totalDistanceTravelled;
+  dynamic suggestedPastureArea;
   dynamic expectedYieldPerCow;
   dynamic incrementalProduction;
   dynamic incrementalEarning;
@@ -185,6 +186,7 @@ class Results {
   Results(
       {this.lossOfMilkPerCow,
         this.totalDistanceTravelled,
+        this.suggestedPastureArea,
         this.expectedYieldPerCow,
         this.incrementalProduction,
         this.incrementalEarning});
@@ -192,6 +194,7 @@ class Results {
   Results.fromJson(Map<String, dynamic> json) {
     lossOfMilkPerCow = json['lossOfMilkPerCow'];
     totalDistanceTravelled = json['totalDistanceTravelled'];
+    suggestedPastureArea = json['suggestedPastureArea'];
     expectedYieldPerCow = json['expectedYieldPerCow'];
     incrementalProduction = json['incrementalProduction'];
     incrementalEarning = json['incrementalEarning'];
@@ -201,6 +204,7 @@ class Results {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['lossOfMilkPerCow'] = lossOfMilkPerCow;
     data['totalDistanceTravelled'] = totalDistanceTravelled;
+    data['suggestedPastureArea'] = suggestedPastureArea;
     data['expectedYieldPerCow'] = expectedYieldPerCow;
     data['incrementalProduction'] = incrementalProduction;
     data['incrementalEarning'] = incrementalEarning;

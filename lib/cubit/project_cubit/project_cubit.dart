@@ -17,6 +17,7 @@ import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/screen/supplier_screen/accept_screen.dart';
+import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/reject_screen.dart';
 import 'package:glad/screen/supplier_screen/survey_finished.dart';
 import 'package:glad/utils/extension.dart';
@@ -542,6 +543,40 @@ class ProjectCubit extends Cubit<ProjectState> {
       String farmerProjectId,
       String milestoneTitle,
       String milestoneDescription,
+      String milestoneDuration,int projectId,String projectStatus,String add) async {
+
+    if(state.milestoneTitle.text.isEmpty){
+      showCustomToast(context, "Please enter milestone name");
+    }else if(state.milestoneDuration.text.isEmpty){
+      showCustomToast(context, "Please enter milestone duration");
+    }else if(state.milestoneDescription.text.isEmpty){
+      showCustomToast(context, "Please enter milestone description");
+    }else{
+      var response = await apiRepository.addMileStoneApi(farmerId, farmerProjectId, milestoneTitle, milestoneDescription, milestoneDuration,id: state.projectId.toString());
+
+      if (response.status == 200) {
+        showCustomToast(context, response.message.toString());
+        await farmerProjectDetailApi(context,projectId);
+        if(add == "add"){
+          DdeMilestoneDetail(milestoneId:
+          response.data!.id,
+              projectStatus:projectStatus,
+              navigateScreen: "add",projectId:projectId
+          ).navigate();
+        }else{
+          pressBack();
+        }
+      } else {
+        showCustomToast(context, response.message.toString());
+      }
+    }
+  }
+
+  // addMilestoneApi
+  Future<void> addSupplierMilestoneApi(context,String farmerId,
+      String farmerProjectId,
+      String milestoneTitle,
+      String milestoneDescription,
       String milestoneDuration,int projectId,String projectStatus) async {
 
     if(state.milestoneTitle.text.isEmpty){
@@ -556,11 +591,12 @@ class ProjectCubit extends Cubit<ProjectState> {
       if (response.status == 200) {
         showCustomToast(context, response.message.toString());
         await farmerProjectDetailApi(context,projectId);
-        DdeMilestoneDetail(milestoneId:
+        SupplierMilestoneDetail(milestoneId:
         response.data!.id,
             projectStatus:projectStatus,
-          navigateScreen: "add",projectId:projectId
-        ).navigate();
+            navigateScreen: "add",projectId:projectId,
+          selectedFilter: 'pending',
+        ).navigate(isRemove: true);
         // pressBack();
       } else {
         showCustomToast(context, response.message.toString());

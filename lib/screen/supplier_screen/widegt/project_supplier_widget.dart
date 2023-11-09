@@ -60,6 +60,7 @@ class ProjectSupplierWidget extends StatelessWidget {
             Row(
               children: [
                 category.textMedium(fontSize: 12, color: const Color(0xFF808080)),
+                selectedFilter == "completed"?
                 Visibility(
                   visible: status,
                   child: Align(
@@ -79,7 +80,7 @@ class ProjectSupplierWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ):const SizedBox(height: 30,)
               ],
             ),
             // 10.verticalSpace(),
