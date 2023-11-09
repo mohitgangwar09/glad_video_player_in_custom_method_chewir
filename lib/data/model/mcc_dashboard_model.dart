@@ -329,7 +329,7 @@ class FarmerMaster {
   String? ragRating;
   String? leadType;
   dynamic idealYield;
-  double? currentYield;
+  dynamic currentYield;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -728,7 +728,7 @@ class FarmerMaster {
 //   String? ragRating;
 //   String? leadType;
 //   dynamic idealYield;
-//   double? currentYield;
+//   dynamic currentYield;
 //   String? status;
 //   dynamic createdBy;
 //   dynamic updatedBy;
