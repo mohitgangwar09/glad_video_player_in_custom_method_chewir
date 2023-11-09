@@ -13,11 +13,14 @@ class MCCInArea extends StatefulWidget {
       required this.name,
       required this.phone,
       required this.address,
-      required this.image});
+      required this.image, required this.lat, required this.long});
   final String name;
   final String phone;
   final String address;
   final String? image;
+  final double? lat;
+  final double? long;
+
 
   @override
   State<MCCInArea> createState() => _MCCInAreaState();
@@ -51,9 +54,9 @@ class _MCCInAreaState extends State<MCCInArea> {
         ),
         Stack(
           children: [
-            const GMap(
-              lat: 28.4986,
-              lng: 77.3999,
+            GMap(
+              lat: widget.lat!,
+              lng: widget.long!,
               height: 350,
               zoomGesturesEnabled: false,
             ),

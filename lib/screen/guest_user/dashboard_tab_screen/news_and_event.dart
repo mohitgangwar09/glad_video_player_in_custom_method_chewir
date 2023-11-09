@@ -237,6 +237,10 @@ class _NewsAndEventState extends State<NewsAndEvent> {
             child: (index) {
               return InkWell(
                 onTap: () async {
+                  if(state.responseNewsList!.data![index].resource == null) {
+                    showCustomToast(context, 'No resource Url');
+                    return;
+                  }
                   if(state.responseNewsList!.data![index].resource!.originalUrl!.endsWith('pdf')) {
                     var dir = await getApplicationDocumentsDirectory();
                     await Permission.manageExternalStorage.request();

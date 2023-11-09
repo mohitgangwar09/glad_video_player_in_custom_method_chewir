@@ -106,6 +106,8 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
               address:
                   'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
               image: '',
+              lat: 28.4986,
+              long: 77.3999,
             ),
             10.verticalSpace(),
             DDEInArea(
@@ -130,9 +132,9 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
               onTapShowAll: () {},
             ),
             10.verticalSpace(),
-            const FeaturedTrainings(),
+            FeaturedTrainings(trainingList: state.guestDashboardResponse!.data!.trainingList ?? [],),
             10.verticalSpace(),
-            const TrendingNewsAndEvents(),
+            TrendingNewsAndEvents(newsList: state.guestDashboardResponse!.data!.newsEvent ?? [],),
             10.verticalSpace(),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),

@@ -40,7 +40,7 @@ class LandingPageState extends Equatable {
       guestDashboardResponse: null,
       currentPosition: null,
       followupRemarkListResponse: null,
-      responseDdeDashboard: ResponseDdeDashboard(),
+      responseDdeDashboard: null,
       responseFarmerVisitor: null,
       selectedFarmerVisitDate: DateTime.now(),
       responseSupplierDashboard: null,

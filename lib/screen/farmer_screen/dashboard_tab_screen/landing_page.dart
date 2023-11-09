@@ -79,7 +79,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                         child: SvgPicture.asset(Images.drawer)),
                     action: Row(
                       children: [
-                        phoneCall(256758711344),
+                        phoneCall(758711344),
                         7.horizontalSpace(),
                         InkWell(
                             onTap: () {
@@ -195,7 +195,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        '${state.response!.farmerMilkProduction![0].yieldPerCow} ltr.',
+                                        '${state.response!.farmerCowDetail!.yieldPerCow} ltr.',
                                         'Yield per cow',
                                         'Each day')),
                               ),
@@ -257,15 +257,17 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
             MCCInArea(
               name: state.response!.mcc!.name ?? '',
               phone: state.response!.mcc!.phone ?? '',
-              address: state.response!.mcc!.address ??
-                  '',
+              address:state.response!.mcc!.address != null ? state.response!.mcc!.address!.address ??
+                  '' : '',
               image: state.response!.mcc!.image ?? '',
+              lat : state.response!.mcc!.address != null ? state.response!.mcc!.address!.latitude ?? 28.4986 : 28.4986,
+              long: state.response!.mcc!.address != null ? state.response!.mcc!.address!.longitude ?? 77.3999 : 77.3999,
             ),
             35.verticalSpace(),
             DDEInArea(
               name: state.response!.dde!.name ?? '',
               phone: state.response!.dde!.phone ?? ' ',
-              image: state.response!.dde!.image ?? '',
+              image: state.response!.dde!.photo ?? '',
             ),
             topPerformingFarmer(state),
             30.verticalSpace(),
@@ -288,9 +290,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               },
             ),
             10.verticalSpace(),
-            const FeaturedTrainings(),
+            FeaturedTrainings(trainingList: state.response!.trainingList ?? [],),
             10.verticalSpace(),
-            const TrendingNewsAndEvents(),
+            TrendingNewsAndEvents(newsList: state.response!.newsEvent ?? [],),
             10.verticalSpace(),
             state.response!.testimonials!.isNotEmpty ?Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -474,12 +476,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                             color: const Color(0xff727272)),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: (state
-                                                  .response!
-                                                  .topPerformerFarmer![
-                                              index]
-                                                  .milkingCows ??
-                                                  '').toString(),
+                                              text: '',
                                               style: figtreeSemiBold.copyWith(
                                                   color:
                                                       const Color(0xff23262A))),
@@ -500,7 +497,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                         children: <TextSpan>[
                                           TextSpan(
                                               text:
-                                                  '${state.response!.topPerformerFarmer![index].yieldPerCow ?? 15} LTR',
+                                                  '${state.response!.topPerformerFarmer![index].currentYield ?? 0} LTR',
                                               style: figtreeSemiBold.copyWith(
                                                   color:
                                                       const Color(0xff23262A))),
