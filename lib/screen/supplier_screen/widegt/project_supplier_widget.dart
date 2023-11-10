@@ -35,9 +35,7 @@ class ProjectSupplierWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           SurveyDetails(projectId: projectId,selectedFilter:selectedFilter).navigate();
-          // DDeFarmerInvestmentDetails(projectId: projectId,
-          //   farmerDetail:farmerDetail
-          // ).navigate();
+
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

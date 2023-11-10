@@ -218,21 +218,21 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
               'Description',
               style: figtreeMedium.copyWith(fontSize: 18),
             ),
-            // 05.horizontalSpace(),
-            // Container(
-            //   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
-            //   decoration: boxDecoration(
-            //     borderWidth: 1,
-            //     borderRadius: 30,
-            //     borderColor: const Color(0xff6A0030),
-            //   ),
-            //   child: Text(
-            //     "Applied",
-            //     textAlign: TextAlign.center,
-            //     style: figtreeMedium.copyWith(
-            //         color: const Color(0xff6A0030), fontSize: 10),
-            //   ),
-            // )
+            05.horizontalSpace(),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+              decoration: boxDecoration(
+                borderWidth: 1,
+                borderRadius: 30,
+                borderColor: const Color(0xff6A0030),
+              ),
+              child: Text(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() ,
+                textAlign: TextAlign.center,
+                style: figtreeMedium.copyWith(
+                    color: const Color(0xff6A0030), fontSize: 10),
+              ),
+            )
           ],
         ),
         10.verticalSpace(),

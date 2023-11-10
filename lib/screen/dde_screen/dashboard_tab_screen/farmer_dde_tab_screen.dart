@@ -428,9 +428,12 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                       children: [
-                                                        '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
+                                                        double.parse(state.response!.farmerMAster![i].farmerProject![0].roiPerYear.toString()).toStringAsFixed(2).textSemiBold(
                                                             color: Colors.black,
                                                             fontSize: 16),
+                                                       /* '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
+                                                            color: Colors.black,
+                                                            fontSize: 16),*/
                                                         'ROI'.textMedium(
                                                             fontSize: 12,
                                                             color: const Color(

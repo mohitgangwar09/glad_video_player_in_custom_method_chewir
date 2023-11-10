@@ -77,11 +77,13 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
 
   @override
   void initState() {
-    BlocProvider.of<ProfileCubit>(context)
-        .getFarmerProfile(context, userId: widget.userId.toString());
-    BlocProvider.of<ProjectCubit>(context).ddeProjectsWithFarmerIdApi(context, widget.farmerId.toString());
-    getCountryCode();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<ProfileCubit>(context)
+          .getFarmerProfile(context, userId: widget.userId.toString());
+      BlocProvider.of<ProjectCubit>(context).ddeProjectsWithFarmerIdApi(context, widget.farmerId.toString());
+      getCountryCode();
+    });
   }
 
   @override
