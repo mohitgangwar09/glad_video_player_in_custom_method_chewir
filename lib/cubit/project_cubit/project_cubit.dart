@@ -183,7 +183,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     disposeProgress();
     if (response.status == 200) {
       // AddRemark(tag: ,).navigate();
-      AddLoanRemark(projectData: farmerProject,).navigate();
+      AddLoanRemark(projectData: farmerProject,farmerProjectId:farmerProjectId).navigate();
       // ThankYou(profileData: farmerProject,).navigate();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
@@ -217,14 +217,14 @@ class ProjectCubit extends Cubit<ProjectState> {
     // emit(state.copyWith(status: ProjectStatus.loading));
     var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
     disposeProgress();
-    await inviteExpertForSurveyDDe(context,
+   /* await inviteExpertForSurveyDDe(context,
         int.parse(projectId),
         date,
         remarks,
         selectStatus,
         farmerId.toString(),
         profileData
-    );
+    );*/
     if(response.status == 200){
 
       showCustomToast(context, "message");

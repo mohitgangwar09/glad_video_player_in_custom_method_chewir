@@ -18,16 +18,16 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../data/model/farmer_project_detail_model.dart';
 
 
-class AddLoanRemark extends StatefulWidget {
+class AddRemarkConfirmLoan extends StatefulWidget {
   FarmerMaster projectData;
-  final String farmerProjectId;
-  AddLoanRemark({super.key,required this.projectData,required this.farmerProjectId});
+  final int farmerProjectId;
+  AddRemarkConfirmLoan({super.key,required this.projectData,required this.farmerProjectId});
 
   @override
-  State<AddLoanRemark> createState() => _AddLoanRemarkState();
+  State<AddRemarkConfirmLoan> createState() => _AddRemarkConfirmLoanState();
 }
 
-class _AddLoanRemarkState extends State<AddLoanRemark> {
+class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
   int secondsRemaining = 20;
   bool enableResend = false;
   String date = '';
@@ -110,8 +110,6 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
           ],
         ),
 
-        20.verticalSpace(),
-
         TextField(
           maxLines: 5,
           minLines: 5,
@@ -130,24 +128,9 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: () {
 
-              istClickOnSendOtp = "click";
-
-              timer = Timer.periodic(const Duration(seconds: 1), (_) {
-                if (secondsRemaining != 0) {
-                  setState(() {
-                    secondsRemaining--;
-                  });
-                } else {
-                  setState(() {
-                    enableResend = true;
-                  });
-                }
-              });
-
               BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
                   widget.projectData.phone.toString()
               );
-
             }),
 
         30.verticalSpace(),
@@ -368,15 +351,15 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
               // const UploadProfilePicture().navigate();
             },
             onChanged: (value) {
-              if(value.length==4){
-                BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
-                    widget.farmerProjectId.toString(),
-                    date,
-                    controller.text ?? '',
-                    "loan",
-                    widget.projectData.id.toString(),widget.projectData);
 
-              }
+                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
+                      widget.farmerProjectId.toString(),
+                      date,
+                      controller.text ?? '',
+                      "verified",
+                      widget.projectData.id.toString(),widget.projectData);
+
+
               // setState(() {
               //   // currentText = value;
               // });

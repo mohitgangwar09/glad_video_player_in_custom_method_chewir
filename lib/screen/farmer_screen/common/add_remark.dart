@@ -20,7 +20,8 @@ import '../../../data/model/farmer_project_detail_model.dart';
 
 class AddRemark extends StatefulWidget {
   FarmerMaster projectData;
-  AddRemark({super.key,required this.projectData});
+  final int farmerProjectId;
+  AddRemark({super.key,required this.projectData,required this.farmerProjectId});
 
   @override
   State<AddRemark> createState() => _AddRemarkState();
@@ -494,14 +495,14 @@ class _AddRemarkState extends State<AddRemark> {
               if(value.length==4){
                 if(selectOption == "Not Interested"){
                   BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
-                      widget.projectData.id.toString(),
+                      widget.farmerProjectId.toString(),
                       date,
                       controller.text ?? '',
                       "not_interested",
                       widget.projectData.id.toString(),widget.projectData);
                 }else{
                   BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
-                      widget.projectData.id.toString(),
+                      widget.farmerProjectId.toString(),
                       date,
                       controller.text ?? '',
                       selectOption.toLowerCase().toString(),

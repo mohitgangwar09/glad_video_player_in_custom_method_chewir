@@ -81,6 +81,9 @@ class _AddSupplierMileStoneState extends State<AddSupplierMileStone> {
                               maxLines: 1,
                               controller: state.milestoneTitle,
                               onChanged: (value){
+                                setState(() {
+                                  click = true;
+                                });
                                 context.read<ProjectCubit>().milestoneId('');
                                 context.read<ProjectCubit>().searchMilestoneFilter(value, state.responseMilestoneName!);
                               },
@@ -114,15 +117,18 @@ class _AddSupplierMileStoneState extends State<AddSupplierMileStone> {
 
                       state.milestoneTitle.text.isNotEmpty?
                       state.filterMileStone!=null?
-                      Card(
-                        child: Flexible(
+                      SizedBox(
+                        height: click ==true ? 0:200,
+                        child: Card(
                           child: ListView.separated(
                               shrinkWrap: true,
                               padding: EdgeInsets.all(state.filterMileStone!.isNotEmpty?15:0),
                               itemBuilder: (context,index){
                                 return InkWell(
                                   onTap: (){
-                                    click = true;
+                                    setState(() {
+                                      click = true;
+                                    });
 
                                     state.milestoneTitle.text = state.filterMileStone![index].milestoneTitle.toString();
                                     state.milestoneDuration.text = state.filterMileStone![index].milestoneDuration.toString();
@@ -130,13 +136,11 @@ class _AddSupplierMileStoneState extends State<AddSupplierMileStone> {
                                     BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(projectId: state.filterMileStone![index].id.toString(),filterMileStone: []));
                                     // state.filterMileStone!.clear();
                                   },
-                                  child: Expanded(
-                                    child: Text(state.filterMileStone![index].milestoneTitle.toString(),
-                                      style: figtreeMedium.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                      ),),
-                                  ),
+                                  child: Text(state.filterMileStone![index].milestoneTitle.toString(),
+                                    style: figtreeMedium.copyWith(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),),
                                 );
                               },
                               separatorBuilder: (context,index){
