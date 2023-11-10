@@ -54,6 +54,7 @@ class _LanguagePermissionState extends State<LanguagePermission> {
                           ),
                           40.verticalSpace(),
                           customGrid(context,
+                              list: List.generate(AppConstants.languages.length, (index) => null),
                               crossAxisSpacing: 20,
                               mainAxisExtent: 155, child: (int index) {
                             return InkWell(
