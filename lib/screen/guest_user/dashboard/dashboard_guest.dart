@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/livestock_screen.dart';
@@ -23,7 +24,7 @@ class DashboardGuest extends StatelessWidget {
     final widgetOptions = [
       const GuestLandingPage(),
       const LiveStockScreen(),
-      const Text("Community"),
+      const CommunityPost(),
       const NewsAndEvent(isBottomAppBar: true,),
       const OnlineTraining(isBottomAppBar: true),
     ];

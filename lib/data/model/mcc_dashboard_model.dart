@@ -26,33 +26,24 @@ class MCCDashboardModel {
 }
 
 class Data {
-  List<FarmerProjetSurvey>? farmerProjetSurvey;
-  List<dynamic>? farmerProjet;
+  List<FarmerProjet>? farmerProjet;
   List<NewsEvent>? newsEvent;
   List<dynamic>? community;
   List<TrainingList>? trainingList;
   Mcc? mcc;
 
   Data(
-      {this.farmerProjetSurvey,
-        this.farmerProjet,
+      {this.farmerProjet,
         this.newsEvent,
         this.community,
         this.trainingList,
         this.mcc});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['farmerProjetSurvey'] != null) {
-      farmerProjetSurvey = <FarmerProjetSurvey>[];
-      json['farmerProjetSurvey'].forEach((v) {
-        farmerProjetSurvey!.add(new FarmerProjetSurvey.fromJson(v));
-      });
-    }
     if (json['farmerProjet'] != null) {
-      farmerProjet = <Null>[];
+      farmerProjet = <FarmerProjet>[];
       json['farmerProjet'].forEach((v) {
-        farmerProjet!.add(null);
-        // farmerProjet!.add(new Null.fromJson(v));
+        farmerProjet!.add(new FarmerProjet.fromJson(v));
       });
     }
     if (json['newsEvent'] != null) {
@@ -78,10 +69,6 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.farmerProjetSurvey != null) {
-      data['farmerProjetSurvey'] =
-          this.farmerProjetSurvey!.map((v) => v.toJson()).toList();
-    }
     if (this.farmerProjet != null) {
       data['farmerProjet'] = this.farmerProjet!.map((v) => v.toJson()).toList();
     }
@@ -98,20 +85,20 @@ class Data {
   }
 }
 
-class FarmerProjetSurvey {
-  String? surveyStatus;
+class FarmerProjet {
+  String? projectStatus;
   dynamic count;
 
-  FarmerProjetSurvey({this.surveyStatus, this.count});
+  FarmerProjet({this.projectStatus, this.count});
 
-  FarmerProjetSurvey.fromJson(Map<String, dynamic> json) {
-    surveyStatus = json['survey_status'];
+  FarmerProjet.fromJson(Map<String, dynamic> json) {
+    projectStatus = json['project_status'];
     count = json['count'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['survey_status'] = this.surveyStatus;
+    data['project_status'] = this.projectStatus;
     data['count'] = this.count;
     return data;
   }

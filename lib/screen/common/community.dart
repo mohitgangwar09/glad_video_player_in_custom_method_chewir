@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/common/community_post_add.dart';
 import 'package:glad/screen/common/community_post_detail.dart';
 import 'package:glad/screen/custom_widget/community_widget.dart';
@@ -11,6 +12,8 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
+import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -36,12 +39,18 @@ class CommunityPost extends StatelessWidget {
                 titleText1Style:
                     figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                 centerTitle: true,
-                leading: openDrawer(
+                leading: BlocProvider.of<ProfileCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'mcc' ?
+                const SizedBox.shrink()
+                    : openDrawer(
                     onTap: () {
                       if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'dde') {
                         ddeLandingKey.currentState?.openDrawer();
                       } else if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'farmer') {
                         farmerLandingKey.currentState?.openDrawer();
+                      } else if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'supplier') {
+                        supplierLandingKey.currentState?.openDrawer();
+                      } else if(!BlocProvider.of<LandingPageCubit>(context).sharedPreferences.containsKey(AppConstants.userType)) {
+                        landingKey.currentState?.openDrawer();
                       }
                     },
                     child: SvgPicture.asset(Images.drawer)),

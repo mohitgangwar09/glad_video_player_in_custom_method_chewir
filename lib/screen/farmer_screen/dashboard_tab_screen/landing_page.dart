@@ -22,7 +22,9 @@ import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/farmer_screen/dashboard/supplied_to_pdfl.dart';
 import 'package:glad/screen/farmer_screen/farmer_comparison.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -290,9 +292,13 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               },
             ),
             10.verticalSpace(),
-            FeaturedTrainings(trainingList: state.response!.trainingList ?? [],),
+            FeaturedTrainings(trainingList: state.response!.trainingList ?? [], onTapShowAll: () {
+              const OnlineTraining(isBottomAppBar: false).navigate();
+            },),
             10.verticalSpace(),
-            TrendingNewsAndEvents(newsList: state.response!.newsEvent ?? [],),
+            TrendingNewsAndEvents(newsList: state.response!.newsEvent ?? [], onTapShowAll: () {
+              const NewsAndEvent(isBottomAppBar: false,).navigate();
+            },),
             10.verticalSpace(),
             state.response!.testimonials!.isNotEmpty ?Column(
               crossAxisAlignment: CrossAxisAlignment.start,
