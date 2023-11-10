@@ -20,7 +20,8 @@ import '../../../data/model/farmer_project_detail_model.dart';
 
 class AddLoanRemark extends StatefulWidget {
   FarmerMaster projectData;
-  AddLoanRemark({super.key,required this.projectData});
+  final String farmerProjectId;
+  AddLoanRemark({super.key,required this.projectData,required this.farmerProjectId});
 
   @override
   State<AddLoanRemark> createState() => _AddLoanRemarkState();
@@ -369,7 +370,7 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
             onChanged: (value) {
               if(value.length==4){
                 BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
-                    widget.projectData.id.toString(),
+                    widget.farmerProjectId.toString(),
                     date,
                     controller.text ?? '',
                     "loan",

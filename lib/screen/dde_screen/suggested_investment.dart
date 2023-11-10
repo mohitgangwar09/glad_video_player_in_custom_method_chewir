@@ -100,7 +100,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               child: customButton('Farmer Feedback',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                 onTap: () {
-                                AddRemark(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!).navigate();
+                                AddRemark(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
                                 },
                               ),
                             ) :const SizedBox.shrink():const SizedBox.shrink(),
@@ -110,7 +110,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               child: customButton('Farmer Feedback',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                 onTap: () {
-                                  AddRemark(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,).navigate();
+                                  AddRemark(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
                                 },
                               ),
                             ) :const SizedBox.shrink():const SizedBox.shrink(),
