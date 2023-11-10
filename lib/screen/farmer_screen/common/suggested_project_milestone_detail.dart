@@ -181,7 +181,7 @@ class _SuggestedProjectMilestoneDetailState
               05.horizontalSpace(),
               // widget.farmerLogin==null ?
               // widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
-              InkWell(
+              /*InkWell(
                 onTap: () {
                   context.read<ProjectCubit>().getSelectedAttribute(
                     'Select Material Name',
@@ -209,7 +209,7 @@ class _SuggestedProjectMilestoneDetailState
                         color: const Color(0xff6A0030), fontSize: 10),
                   ),
                 ),
-              )/*:const SizedBox.shrink():const SizedBox.shrink()*/
+              )*//*:const SizedBox.shrink():const SizedBox.shrink()*/
             ],
           ),
         ),
@@ -319,7 +319,7 @@ class _SuggestedProjectMilestoneDetailState
                 style: figtreeMedium.copyWith(fontSize: 18),
               ),
 
-              InkWell(
+              /*InkWell(
                 onTap: (){
                   TextEditingController controller = TextEditingController();
                   modalBottomSheetMenu(context,
@@ -403,7 +403,7 @@ class _SuggestedProjectMilestoneDetailState
                         color: const Color(0xff6A0030), fontSize: 10),
                   ),
                 ),
-              )
+              )*/
 
             ],
           ),
@@ -431,7 +431,7 @@ class _SuggestedProjectMilestoneDetailState
                       style: figtreeMedium.copyWith(fontSize: 14),
                     ),
 
-                    Padding(
+                    /*Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InkWell(
                           onTap: (){
@@ -440,8 +440,8 @@ class _SuggestedProjectMilestoneDetailState
                             );
                           }
                           ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
-                    )
-                    /*Container(
+                    )*/
+                    Container(
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
@@ -452,7 +452,7 @@ class _SuggestedProjectMilestoneDetailState
                         '${index + 1}',
                         style: figtreeMedium.copyWith(fontSize: 14),
                       )),
-                    )*/
+                    )
                   ],
                 ),
               ),

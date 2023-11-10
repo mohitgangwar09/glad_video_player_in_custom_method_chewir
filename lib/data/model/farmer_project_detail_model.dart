@@ -55,6 +55,8 @@ class FarmerProject {
   dynamic category;
   String? description;
   String? projectStatus;
+  dynamic rejectStatus;
+  dynamic rejectRemark;
   String? projectSubStatus;
   dynamic suggestionRank;
   dynamic initialYield;
@@ -86,6 +88,7 @@ class FarmerProject {
   Kpi? kpi;
   FarmerMaster? farmerMaster;
   List<FarmerProjectLog>? farmerProjectLog;
+  FarmerProjectKycDocument? farmerProjectKycDocument;
 
   FarmerProject(
       {this.id,
@@ -124,9 +127,12 @@ class FarmerProject {
         this.farmerProjectMilestones,
         this.dairyDevelopMentExecutive,
         this.kpi,
+        this.rejectStatus,
+        this.rejectRemark,
         this.farmerMaster,
         this.farmerProjectPaymentTerms,
         this.farmerProjectLog,
+        this.farmerProjectKycDocument,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -135,6 +141,8 @@ class FarmerProject {
     farmerId = json['farmer_id'];
     projectId = json['project_id'];
     name = json['name'];
+    rejectStatus = json['reject_status'];
+    rejectRemark = json['reject_remarks'];
     category = json['category'];
     description = json['description'];
     projectStatus = json['project_status'];
@@ -185,9 +193,13 @@ class FarmerProject {
     if (json['farmer_project_log'] != null) {
       farmerProjectLog = <FarmerProjectLog>[];
       json['farmer_project_log'].forEach((v) {
-        farmerProjectLog!.add(new FarmerProjectLog.fromJson(v));
+        farmerProjectLog!.add(FarmerProjectLog.fromJson(v));
       });
     }
+    farmerProjectKycDocument = json['farmer_project_kyc_document'] != null
+        ? FarmerProjectKycDocument.fromJson(
+        json['farmer_project_kyc_document'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -197,6 +209,8 @@ class FarmerProject {
     data['farmer_id'] = farmerId;
     data['project_id'] = projectId;
     data['name'] = name;
+    data['reject_status'] = rejectStatus;
+    data['reject_remarks'] = rejectRemark;
     data['category'] = category;
     data['description'] = description;
     data['project_status'] = projectStatus;
@@ -246,6 +260,10 @@ class FarmerProject {
     if (farmerProjectLog != null) {
       data['farmer_project_log'] =
           farmerProjectLog!.map((v) => v.toJson()).toList();
+    }
+    if (farmerProjectKycDocument != null) {
+      data['farmer_project_kyc_document'] =
+          farmerProjectKycDocument!.toJson();
     }
     return data;
   }
@@ -1150,7 +1168,7 @@ class FarmerProjectLog {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['farmer_id'] = farmerId;
     data['farmer_project_id'] = farmerProjectId;
@@ -1172,6 +1190,505 @@ class FarmerProjectLog {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class FarmerProjectKycDocument {
+  int? id;
+  int? farmerId;
+  int? farmerProjectId;
+  dynamic addressDocumentName;
+  dynamic addressDocumentNumber;
+  dynamic addressExpiryDate;
+  dynamic idDocumentName;
+  dynamic idDocumentNumber;
+  dynamic idExpiryDate;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  List<AddressDocumentFile>? addressDocumentFile;
+  List<IdDocumentFile>? idDocumentFile;
+  dynamic projectFarmerPhoto;
+  List<Media>? media;
+
+  FarmerProjectKycDocument(
+      {this.id,
+        this.farmerId,
+        this.farmerProjectId,
+        this.addressDocumentName,
+        this.addressDocumentNumber,
+        this.addressExpiryDate,
+        this.idDocumentName,
+        this.idDocumentNumber,
+        this.idExpiryDate,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.addressDocumentFile,
+        this.idDocumentFile,
+        this.projectFarmerPhoto,
+        this.media});
+
+  FarmerProjectKycDocument.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    farmerProjectId = json['farmer_project_id'];
+    addressDocumentName = json['address_document_name'];
+    addressDocumentNumber = json['address_document_number'];
+    addressExpiryDate = json['address_expiry_date'];
+    idDocumentName = json['id_document_name'];
+    idDocumentNumber = json['id_document_number'];
+    idExpiryDate = json['id_expiry_date'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    if (json['address_document_file'] != null) {
+      addressDocumentFile = <AddressDocumentFile>[];
+      json['address_document_file'].forEach((v) {
+        addressDocumentFile!.add(AddressDocumentFile.fromJson(v));
+      });
+    }
+    if (json['id_document_file'] != null) {
+      idDocumentFile = <IdDocumentFile>[];
+      json['id_document_file'].forEach((v) {
+        idDocumentFile!.add(new IdDocumentFile.fromJson(v));
+      });
+    }
+    projectFarmerPhoto = json['project_farmer_photo'];
+    if (json['media'] != null) {
+      media = <Media>[];
+      json['media'].forEach((v) {
+        media!.add(new Media.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['farmer_project_id'] = farmerProjectId;
+    data['address_document_name'] = addressDocumentName;
+    data['address_document_number'] = addressDocumentNumber;
+    data['address_expiry_date'] = addressExpiryDate;
+    data['id_document_name'] = idDocumentName;
+    data['id_document_number'] = idDocumentNumber;
+    data['id_expiry_date'] = idExpiryDate;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (addressDocumentFile != null) {
+      data['address_document_file'] =
+          addressDocumentFile!.map((v) => v.toJson()).toList();
+    }
+    if (idDocumentFile != null) {
+      data['id_document_file'] =
+          idDocumentFile!.map((v) => v.toJson()).toList();
+    }
+    data['project_farmer_photo'] = projectFarmerPhoto;
+    if (media != null) {
+      data['media'] = media!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class AddressDocumentFile {
+  int? id;
+  String? modelType;
+  dynamic modelId;
+  dynamic uuid;
+  dynamic collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  dynamic disk;
+  dynamic conversionsDisk;
+  dynamic size;
+  dynamic manipulations;
+  dynamic customProperties;
+  dynamic generatedConversions;
+  dynamic responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  AddressDocumentFile(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  AddressDocumentFile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    if (json['manipulations'] != null) {
+      manipulations = <Null>[];
+      json['manipulations'].forEach((v) {
+        manipulations!.add(v);
+      });
+    }
+    if (json['custom_properties'] != null) {
+      customProperties = <Null>[];
+      json['custom_properties'].forEach((v) {
+        customProperties!.add(v);
+      });
+    }
+    if (json['generated_conversions'] != null) {
+      generatedConversions = <Null>[];
+      json['generated_conversions'].forEach((v) {
+        generatedConversions!.add(v);
+      });
+    }
+    if (json['responsive_images'] != null) {
+      responsiveImages = <Null>[];
+      json['responsive_images'].forEach((v) {
+        responsiveImages!.add(v);
+      });
+    }
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    if (manipulations != null) {
+      data['manipulations'] =
+          manipulations!.map((v) => v.toJson()).toList();
+    }
+    if (customProperties != null) {
+      data['custom_properties'] =
+          customProperties!.map((v) => v.toJson()).toList();
+    }
+    if (generatedConversions != null) {
+      data['generated_conversions'] =
+          generatedConversions!.map((v) => v.toJson()).toList();
+    }
+    if (responsiveImages != null) {
+      data['responsive_images'] =
+          responsiveImages!.map((v) => v.toJson()).toList();
+    }
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
+    return data;
+  }
+}
+
+class IdDocumentFile {
+  int? id;
+  String? modelType;
+  dynamic modelId;
+  dynamic uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  List<dynamic>? manipulations;
+  List<dynamic>? customProperties;
+  List<dynamic>? generatedConversions;
+  List<dynamic>? responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  IdDocumentFile(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  IdDocumentFile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    if (json['manipulations'] != null) {
+      manipulations = <Null>[];
+      json['manipulations'].forEach((v) {
+        manipulations!.add(v);
+      });
+    }
+    if (json['custom_properties'] != null) {
+      customProperties = <Null>[];
+      json['custom_properties'].forEach((v) {
+        customProperties!.add(v);
+      });
+    }
+    if (json['generated_conversions'] != null) {
+      generatedConversions = <Null>[];
+      json['generated_conversions'].forEach((v) {
+        generatedConversions!.add(v);
+      });
+    }
+    if (json['responsive_images'] != null) {
+      responsiveImages = <Null>[];
+      json['responsive_images'].forEach((v) {
+        responsiveImages!.add(v);
+      });
+    }
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    if (manipulations != null) {
+      data['manipulations'] =
+          manipulations!.map((v) => v.toJson()).toList();
+    }
+    if (customProperties != null) {
+      data['custom_properties'] =
+          customProperties!.map((v) => v.toJson()).toList();
+    }
+    if (generatedConversions != null) {
+      data['generated_conversions'] =
+          generatedConversions!.map((v) => v.toJson()).toList();
+    }
+    if (responsiveImages != null) {
+      data['responsive_images'] =
+          responsiveImages!.map((v) => v.toJson()).toList();
+    }
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
+    return data;
+  }
+}
+
+class Media {
+  int? id;
+  String? modelType;
+  dynamic modelId;
+  dynamic uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  List<dynamic>? manipulations;
+  List<dynamic>? customProperties;
+  List<dynamic>? generatedConversions;
+  List<dynamic>? responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  Media(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  Media.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    if (json['manipulations'] != null) {
+      manipulations = <Null>[];
+      json['manipulations'].forEach((v) {
+        manipulations!.add(v);
+      });
+    }
+    if (json['custom_properties'] != null) {
+      customProperties = <Null>[];
+      json['custom_properties'].forEach((v) {
+        customProperties!.add(v);
+      });
+    }
+    if (json['generated_conversions'] != null) {
+      generatedConversions = <Null>[];
+      json['generated_conversions'].forEach((v) {
+        generatedConversions!.add(v);
+      });
+    }
+    if (json['responsive_images'] != null) {
+      responsiveImages = <Null>[];
+      json['responsive_images'].forEach((v) {
+        responsiveImages!.add(v);
+      });
+    }
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    if (manipulations != null) {
+      data['manipulations'] =
+          manipulations!.map((v) => v.toJson()).toList();
+    }
+    if (customProperties != null) {
+      data['custom_properties'] =
+          customProperties!.map((v) => v.toJson()).toList();
+    }
+    if (generatedConversions != null) {
+      data['generated_conversions'] =
+          generatedConversions!.map((v) => v.toJson()).toList();
+    }
+    if (responsiveImages != null) {
+      data['responsive_images'] =
+          responsiveImages!.map((v) => v.toJson()).toList();
+    }
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
     return data;
   }
 }

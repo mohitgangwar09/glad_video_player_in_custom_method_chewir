@@ -10,6 +10,7 @@ class ProjectWidget extends StatelessWidget {
   final String name;
   final String category;
   final String projectStatus;
+  final dynamic rejectStatus;
   final String description;
   final dynamic investment;
   final dynamic revenue;
@@ -25,7 +26,7 @@ class ProjectWidget extends StatelessWidget {
   final int projectId;
   final FarmerMaster farmerDetail;
 
-  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail}) : super(key: key);
+  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,this.rejectStatus}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +90,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "$roi%".textSemiBold(color: Colors.black, fontSize: 16),
+                          "${double.parse(roi.toString()).toStringAsFixed(2)}%".textSemiBold(color: Colors.black, fontSize: 16),
                           "ROI".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
                         ],
@@ -216,7 +217,8 @@ class ProjectWidget extends StatelessWidget {
                 borderColor: const Color(0xff6A0030),
               ),
               child: Text(
-                projectStatus,
+                rejectStatus == 0 ? projectStatus:"Rejected",
+                // projectStatus,
                 textAlign: TextAlign.center,
                 style: figtreeMedium.copyWith(
                     color: const Color(0xff6A0030), fontSize: 10),

@@ -15,8 +15,10 @@ import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
 import 'package:glad/screen/dde_screen/edit_project_milestone.dart';
 import 'package:glad/screen/dde_screen/project_kyc/kyc_update.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
+import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
+import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -113,16 +115,59 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               ),
                             ) :const SizedBox.shrink():const SizedBox.shrink(),
 
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15.0),
+                              child: customProjectContainer(
+                                marginLeft: 0,
+                                marginTop: 0,
+                                borderRadius: 14,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Row(
+                                        children: [
+                                          Text("Reject Remarks:-  ",style: figtreeMedium.copyWith(
+                                            color: Colors.red
+                                          ),),
+
+                                          Expanded(
+                                            child: Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectRemark??'',style: figtreeMedium.copyWith(
+                                                color: Colors.black
+                                            ),),
+                                          ),
+
+                                        ],
+                                      ),
+                                ),
+                              ),
+                            ) :const SizedBox.shrink(),
+
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
                             Center(
                               child: customButton(
-                                'Apply for Loan',
+                                  state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                   onTap: (){
+                                  if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null){
+                                    /*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1){
+                                      ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
+                                          farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                          farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
+                                    }else{
+                                      ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!).navigate();
+                                    }*/
+                                    ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus).navigate();
+                                    /*ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
+                                        farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();*/
+                                  }else{
                                     ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
                                         farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
                                         farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
+                                  }
+
+                                    // KYCUpdate(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();
                                   }
                                   /*onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'not_available' ? () {
                                     // KYCUpdate(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();

@@ -13,9 +13,12 @@ import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/add_remark.dart';
 import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
+import 'package:glad/screen/dde_screen/project_kyc/add_loan_remarks.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
+import 'package:glad/screen/mcc_screen/thankyou_mcc.dart';
 import 'package:glad/screen/supplier_screen/accept_screen.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/reject_screen.dart';
@@ -109,6 +112,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     var response = await apiRepository.getFarmerProjectMilestoneDetailApi(milestoneId);
     if (response.status == 200) {
 
+      // response.data!.milestoneDetails.isNotEmpty
       if(response.data!.milestoneDetails![0].resourceQty!=null){
         state.requiredQtyController.text = response.data!.milestoneDetails![0].resourceQty.toString();
       }
@@ -179,7 +183,9 @@ class ProjectCubit extends Cubit<ProjectState> {
     var response = await apiRepository.projectKycApi(farmerId, farmerProjectId, addressDocName, addressDocNo, addressDocExpiryDate, documentFiles.map((e) => File(e)).toList(), idDocName, idDocTypeNo, idDocTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), File(farmerPhoto));
     disposeProgress();
     if (response.status == 200) {
-      ThankYou(profileData: farmerProject,).navigate();
+      // AddRemark(tag: ,).navigate();
+      AddLoanRemark(projectData: farmerProject,).navigate();
+      // ThankYou(profileData: farmerProject,).navigate();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       showCustomToast(context, response.message.toString());
@@ -208,27 +214,35 @@ class ProjectCubit extends Cubit<ProjectState> {
   Future<void> verifyProjectStatus(context,String otp,String projectId,
       String date,String remarks,String selectStatus,String farmerId,dde.FarmerMaster profileData) async{
 
-      customDialog(widget: launchProgress());
-      // emit(state.copyWith(status: ProjectStatus.loading));
-      var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
-      disposeProgress();
-      if(response.status == 200){
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+    disposeProgress();
+    await inviteExpertForSurveyDDe(context,
+        int.parse(projectId),
+        date,
+        remarks,
+        selectStatus,
+        farmerId.toString(),
+        profileData
+    );
+    if(response.status == 200){
 
-        showCustomToast(context, "message");
+      showCustomToast(context, "message");
 
-        await inviteExpertForSurveyDDe(context,
-            int.parse(projectId),
-            date,
-            remarks,
-            selectStatus,
-            farmerId.toString(),
+      await inviteExpertForSurveyDDe(context,
+          int.parse(projectId),
+          date,
+          remarks,
+          selectStatus,
+          farmerId.toString(),
           profileData
-        );
-      }
-      else
-      {
-        // emit(state.copyWith(status: ProjectStatus.error));
-        showCustomToast(context, response.message.toString());
+      );
+    }
+    else
+    {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
     }
   }
 
@@ -240,6 +254,7 @@ class ProjectCubit extends Cubit<ProjectState> {
         remark,projectStatus,farmerId);
     if (response.status == 200) {
 
+
       ThankYou(
           profileData:profileData
       ).navigate(isInfinity: true);
@@ -249,6 +264,25 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
     }
   }
+
+  Future<void> inviteExpertForSurveyMcc(context, int projectId, String date,
+      String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
+        remark,projectStatus,farmerId);
+    if (response.status == 200) {
+
+
+      ThankYouMcc(
+          profileData:profileData
+      ).navigate(isInfinity: true);
+      showCustomToast(context, response.data['message'], isSuccess: true);
+    } else {
+      emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 
   // void updateSuggestedProjectStatus(context, String status, int projectId) async {
   //   customDialog(widget: launchProgress());

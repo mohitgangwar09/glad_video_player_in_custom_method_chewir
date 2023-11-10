@@ -8,6 +8,8 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
+import 'package:glad/screen/mcc_screen/view_mcc_loan.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/supplier_farmer_detail.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -88,7 +90,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                             dde(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!):const SizedBox.shrink(),
                             projectMilestones(context,state),
                             6.verticalSpace(),
-                            customProjectContainer(
+                           /* customProjectContainer(
                                 marginLeft: 0,
                                 marginTop: 0,
                                 borderRadius: 14,
@@ -164,7 +166,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                                 style: figtreeMedium.copyWith(fontSize: 18),
                                 textAlign: TextAlign.center,
                               ),
-                            ),
+                            ),*/
 
 
                             widget.selectedFilter == "pending"?
@@ -177,62 +179,14 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                                       width: screenWidth(),
                                       child: customButton("Farmer Document",
                                           fontColor: 0xffffffff, onTap: () {
-                                            modalBottomSheetMenu(context,
-                                                radius: 40,
-                                                child: SizedBox(
-                                                  height: 320,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                                    child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Center(
-                                                            child: Text(
-                                                              'Remarks',
-                                                              style: figtreeMedium.copyWith(fontSize: 22),
-                                                            ),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          TextField(
-                                                            maxLines: 4,
-                                                            minLines: 4,
-                                                            controller: controller,
-                                                            decoration: InputDecoration(
-                                                                hintText: 'Write...',
-                                                                hintStyle:
-                                                                figtreeMedium.copyWith(fontSize: 18),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius: BorderRadius.circular(12),
-                                                                    borderSide: const BorderSide(
-                                                                      width: 1,
-                                                                      color: Color(0xff999999),
-                                                                    ))),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          Padding(
-                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                            child: customButton(
-                                                              'Submit',
-                                                              fontColor: 0xffFFFFFF,
-                                                              onTap: () {
-                                                                if(controller.text.isEmpty){
-                                                                  showCustomToast(context, "Please enter remarks");
-                                                                }else{
-                                                                  context.read<ProjectCubit>().surveyStatusApi(context,
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                                                      controller.text ?? '',
-                                                                      'survey_accepted',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0]);
-                                                                }
-                                                              },
-                                                              height: 60,
-                                                              width: screenWidth(),
-                                                            ),
-                                                          )
-                                                        ]),
-                                                  ),
-                                                ));
-                                          })),
+
+                                        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null){
+                                          ViewLoanKycMcc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,
+                                              farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!).navigate();
+                                        }else{
+                                          'There is no document available'.toast();
+                                        }
+                                      })),
                                 )
                               ],
                             ):const SizedBox.shrink(),

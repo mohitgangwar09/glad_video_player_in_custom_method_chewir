@@ -54,6 +54,7 @@ class ProjectList {
   dynamic category;
   String? description;
   String? projectStatus;
+  dynamic rejectStatus;
   dynamic suggestionRank;
   dynamic initialYield;
   dynamic targetYield;
@@ -116,6 +117,7 @@ class ProjectList {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
+        this.rejectStatus,
         this.farmerMaster,
         this.farmerImprovementArea,
         this.farmerProjectSurvey,
@@ -130,6 +132,7 @@ class ProjectList {
     category = json['category'];
     description = json['description'];
     projectStatus = json['project_status'];
+    rejectStatus = json['reject_status'];
     suggestionRank = json['suggestion_rank'];
     initialYield = json['initial_yield'];
     targetYield = json['target_yield'];
@@ -178,6 +181,7 @@ class ProjectList {
     data['category'] = category;
     data['description'] = description;
     data['project_status'] = projectStatus;
+    data['reject_status'] = rejectStatus;
     data['suggestion_rank'] = suggestionRank;
     data['initial_yield'] = initialYield;
     data['target_yield'] = targetYield;

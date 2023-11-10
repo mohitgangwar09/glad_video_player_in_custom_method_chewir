@@ -51,8 +51,10 @@ class _GladReviewState extends State<GladReview> {
 
   @override
   void initState() {
-    getThumbnail();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getThumbnail();
+    });
   }
 
   @override
