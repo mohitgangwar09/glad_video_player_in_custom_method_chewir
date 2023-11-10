@@ -651,7 +651,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
       15.verticalSpace(),
 
       customList(
-          list: List.generate(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length, (index) => null),
+          list: List.generate(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length, (index) => null),
           axis: Axis.vertical,
           child: (int index) {
             return Padding(

@@ -132,10 +132,12 @@ class _AddDdeResourcesState extends State<AddDdeResources> {
 
                 // state.materialNameController.text.isNotEmpty?
                 state.filterMaterialType!=null?
-                Card(
-                  child: Flexible(
+                SizedBox(
+                  height: 110,
+                  child: Card(
                     child: ListView.separated(
                         shrinkWrap: true,
+                        physics: const ScrollPhysics(),
                         padding: EdgeInsets.all(state.filterMaterialType!.isNotEmpty?15:0),
                         itemBuilder: (context,index){
                           return InkWell(

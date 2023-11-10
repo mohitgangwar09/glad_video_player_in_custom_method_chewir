@@ -225,8 +225,8 @@ class _AttributesEditDdeResourceState extends State<AttributesEditDdeResource> {
 
                 // state.materialNameController.text.isNotEmpty?
                 state.filterResourceType!=null?
-                Card(
-                  child: Flexible(
+                Flexible(
+                  child: Card(
                     child: ListView.separated(
                         shrinkWrap: true,
                         padding: EdgeInsets.all(state.filterResourceType!.isNotEmpty?15:0),
@@ -322,8 +322,8 @@ class _AttributesEditDdeResourceState extends State<AttributesEditDdeResource> {
 
                 // state.materialNameController.text.isNotEmpty?
                 state.filterResourceCapacityType!=null?
-                Card(
-                  child: Flexible(
+                Flexible(
+                  child: Card(
                     child: ListView.separated(
                         shrinkWrap: true,
                         padding: EdgeInsets.all(state.filterResourceCapacityType!.isNotEmpty?15:0),

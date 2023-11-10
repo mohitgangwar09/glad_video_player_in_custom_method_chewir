@@ -121,7 +121,6 @@ class ProjectCubit extends Cubit<ProjectState> {
         state.pricePerUnitController.text = response.data!.milestoneDetails![0].resourcePrice.toString();
       }
 
-      response.data!.milestoneDetails![0].farmerProjectResourcePrice!.length.toString().toast();
 
       emit(state.copyWith(status: ProjectStatus.success,
           responseFarmerProjectMilestoneDetail: response,

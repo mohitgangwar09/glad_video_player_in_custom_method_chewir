@@ -70,7 +70,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             kpi(context,state):const SizedBox.shrink(),
                             projectMilestones(context, state),
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() != "interested" ?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
                             inviteExpert(context, state):const SizedBox.shrink(),
                           ],
                         ),
