@@ -225,46 +225,43 @@ class _AttributesEditDdeResourceState extends State<AttributesEditDdeResource> {
 
                 // state.materialNameController.text.isNotEmpty?
                 state.filterResourceType!=null?
-                Flexible(
-                  child: Card(
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(state.filterResourceType!.isNotEmpty?15:0),
-                        itemBuilder: (context,index){
-                          return InkWell(
-                            onTap: (){
-                              BlocProvider.of<ProjectCubit>(context).emit(
-                                  state.copyWith(selectResourceType: state.filterResourceType![index].name!.toString(),
-                                      selectResourceTypeId: state.filterResourceType![index].id!.toString(),selectSizeCapacity: ''));
+                Card(
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.all(state.filterResourceType!.isNotEmpty?15:0),
+                      itemBuilder: (context,index){
+                        return InkWell(
+                          onTap: (){
+                            BlocProvider.of<ProjectCubit>(context).emit(
+                                state.copyWith(selectResourceType: state.filterResourceType![index].name!.toString(),
+                                    selectResourceTypeId: state.filterResourceType![index].id!.toString(),selectSizeCapacity: ''));
 
-                              state.resourceTypeController.text = state.filterResourceType![index].name!;
-                              state.resourceCapacityController.clear();
-                              BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,
-                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
-                                state.selectMaterialName,
-                                state.filterResourceType![index].name.toString(),
-                              );
+                            state.resourceTypeController.text = state.filterResourceType![index].name!;
+                            state.resourceCapacityController.clear();
+                            BlocProvider.of<ProjectCubit>(context).getResourceCapacityApi(context,
+                              state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
+                              state.selectMaterialName,
+                              state.filterResourceType![index].name.toString(),
+                            );
 
-                              BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
-                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
-                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
-                              );
-                              BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(filterResourceType: []));
-                            },
-                            child: Expanded(
-                              child: Text(state.filterResourceType![index].name.toString(),
-                                style: figtreeMedium.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                ),),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context,index){
-                          return const Divider(thickness: 1,height: 28,);
-                        },
-                        itemCount: state.filterResourceType!.length),
-                  ),
+                            BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                              state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                              state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
+                            );
+                            BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(filterResourceType: []));
+                          },
+                          child: Text(state.filterResourceType![index].name.toString(),
+                            style: figtreeMedium.copyWith(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),),
+                        );
+                      },
+                      separatorBuilder: (context,index){
+                        return const Divider(thickness: 1,height: 28,);
+                      },
+                      itemCount: state.filterResourceType!.length),
                 ):
                 const SizedBox.shrink(),
                 // : const SizedBox.shrink(),
@@ -322,38 +319,34 @@ class _AttributesEditDdeResourceState extends State<AttributesEditDdeResource> {
 
                 // state.materialNameController.text.isNotEmpty?
                 state.filterResourceCapacityType!=null?
-                Flexible(
-                  child: Card(
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(state.filterResourceCapacityType!.isNotEmpty?15:0),
-                        itemBuilder: (context,index){
-                          return InkWell(
-                            onTap: (){
-                              BlocProvider.of<ProjectCubit>(context).emit(
-                                  state.copyWith(selectSizeCapacity: state.filterResourceCapacityType![index].resourceCapacity!.toString(),
-                                      selectSizeCapacityId: state.filterResourceCapacityType![index].id!.toString()));
-                              state.resourceCapacityController.text = state.filterResourceCapacityType![index].resourceCapacity!.toString();
-                              BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
-                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
-                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
-                              );
-                              BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(filterResourceCapacityType: []));
-                            },
-                            child: Expanded(
-                              child: Text(state.filterResourceCapacityType![index].resourceCapacity.toString(),
-                                style: figtreeMedium.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                ),),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context,index){
-                          return const Divider(thickness: 1,height: 28,);
-                        },
-                        itemCount: state.filterResourceCapacityType!.length),
-                  ),
+                Card(
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(state.filterResourceCapacityType!.isNotEmpty?15:0),
+                      itemBuilder: (context,index){
+                        return InkWell(
+                          onTap: (){
+                            BlocProvider.of<ProjectCubit>(context).emit(
+                                state.copyWith(selectSizeCapacity: state.filterResourceCapacityType![index].resourceCapacity!.toString(),
+                                    selectSizeCapacityId: state.filterResourceCapacityType![index].id!.toString()));
+                            state.resourceCapacityController.text = state.filterResourceCapacityType![index].resourceCapacity!.toString();
+                            BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                              state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                              state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![0].milestoneId.toString(),
+                            );
+                            BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(filterResourceCapacityType: []));
+                          },
+                          child: Text(state.filterResourceCapacityType![index].resourceCapacity.toString(),
+                            style: figtreeMedium.copyWith(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),),
+                        );
+                      },
+                      separatorBuilder: (context,index){
+                        return const Divider(thickness: 1,height: 28,);
+                      },
+                      itemCount: state.filterResourceCapacityType!.length),
                 ):
                 const SizedBox.shrink(),
 
