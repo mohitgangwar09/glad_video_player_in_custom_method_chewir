@@ -2,10 +2,14 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/dashboard_training.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
@@ -13,8 +17,9 @@ import 'package:glad/utils/styles.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class FeaturedTrainings extends StatefulWidget {
-  const FeaturedTrainings({super.key, required this.trainingList});
+  const FeaturedTrainings({super.key, required this.trainingList, required this.onTapShowAll});
   final List<TrainingList> trainingList;
+  final Function() onTapShowAll;
 
   @override
   State<FeaturedTrainings> createState() => _FeaturedTrainingsState();
@@ -23,7 +28,9 @@ class FeaturedTrainings extends StatefulWidget {
 class _FeaturedTrainingsState extends State<FeaturedTrainings> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return
+      widget.trainingList.isEmpty ? const SizedBox.shrink() :
+    Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -34,10 +41,7 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
               Text('Featured Trainings',
                   style: figtreeMedium.copyWith(
                       fontSize: 18, color: Colors.black)),
-              ShowAllButton(onTap: () {
-                print("featued");
-                const OnlineTraining(isBottomAppBar: false,).navigate();
-              })
+              ShowAllButton(onTap: widget.onTapShowAll)
             ],
           ),
         ),

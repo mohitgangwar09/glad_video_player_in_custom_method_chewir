@@ -18,6 +18,8 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -246,7 +248,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                             decoration:
                                             const BoxDecoration(shape: BoxShape.circle),
                                             child: CachedNetworkImage(
-                                              imageUrl: detail.photo ?? '',
+                                              imageUrl: detail.farmerMaster != null ? detail.farmerMaster!.photo ?? '' : '',
                                               errorWidget: (_, __, ___) =>
                                                   Image.asset(Images.sampleUser),
                                               fit: BoxFit.cover,
@@ -257,7 +259,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(detail.name ?? '',
+                                            Text(detail.farmerMaster != null ? detail.farmerMaster!.name ?? '' : '',
                                                 style: figtreeMedium.copyWith(
                                                     fontSize: 16, color: Colors.black)),
                                             4.verticalSpace(),
@@ -271,7 +273,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                               children: [
                                                 'Project: '.textRegular(color: Colors.grey,
                                                     fontSize: 12),
-                                                Text(detail.farmerProject![0].name ?? '',
+                                                Text(detail.farmerProject != null ? detail.farmerProject!.name ?? '' : '',
                                                     style: figtreeRegular.copyWith(
                                                         fontSize: 12, color: Colors.black)),
                                               ],
@@ -289,7 +291,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                                   width:
                                                   screenWidth() * 0.5,
                                                   child: Text(
-                                                    detail.fAddress ?? '',
+                                                    detail.farmerMaster != null ? detail.farmerMaster!.fAddress ?? '' : '',
                                                     style: figtreeRegular.copyWith(
                                                       fontSize: 12,
                                                       color: Colors.black,
@@ -322,7 +324,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                               padding: const EdgeInsets.all(5),
                               child: AnimatedSmoothIndicator(
                                 activeIndex: activeIndex,
-                                count: 3,
+                                count: data.length,
                                 effect: const WormEffect(
                                     activeDotColor: ColorResources.maroon,
                                     dotHeight: 7,
@@ -358,10 +360,14 @@ class _DDELandingPageState extends State<DDELandingPage> {
               caption: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
-              onTapShowAll: () {},
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(4);
+              },
             ),
             10.verticalSpace(),
-            FeaturedTrainings(trainingList: state.responseDdeDashboard!.data!.trainingList ?? [],),
+            FeaturedTrainings(trainingList: state.responseDdeDashboard!.data!.trainingList ?? [], onTapShowAll: () {
+              OnlineTraining(isBottomAppBar: false).navigate();
+            },),
             10.verticalSpace(),
             const MCCInArea(
               name: 'Begumanya Charles',
@@ -373,7 +379,9 @@ class _DDELandingPageState extends State<DDELandingPage> {
               long: 77.3999,
             ),
             10.verticalSpace(),
-            TrendingNewsAndEvents(newsList: state.responseDdeDashboard!.data!.newsEvent ?? [],),
+            TrendingNewsAndEvents(newsList: state.responseDdeDashboard!.data!.newsEvent ?? [], onTapShowAll: () {
+              NewsAndEvent(isBottomAppBar: false,).navigate();
+            },),
             100.verticalSpace(),
           ],
         ),

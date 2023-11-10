@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -14,8 +18,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TrendingNewsAndEvents extends StatefulWidget {
-  const TrendingNewsAndEvents({super.key, required this.newsList});
+  const TrendingNewsAndEvents({super.key, required this.newsList, required this.onTapShowAll});
   final List<NewsEvent> newsList;
+  final Function() onTapShowAll;
 
   @override
   State<TrendingNewsAndEvents> createState() => _TrendingNewsAndEventsState();
@@ -24,7 +29,7 @@ class TrendingNewsAndEvents extends StatefulWidget {
 class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return widget.newsList.isEmpty ? const SizedBox.shrink() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -35,9 +40,7 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
               Text('Trending News & Events',
                   style: figtreeMedium.copyWith(
                       fontSize: 18, color: Colors.black)),
-              ShowAllButton(onTap: () {
-                const NewsAndEvent(isBottomAppBar: false,).navigate();
-              })
+              ShowAllButton(onTap: widget.onTapShowAll)
             ],
           ),
         ),

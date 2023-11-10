@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
@@ -115,15 +116,15 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                                 children: [
 
                                   state.responseMCCDashboard!.data!.farmerProjet![index].count.toString().textMedium(fontSize: 32,
-                                      color: const Color(0xffFC5E60)),
+                                      color: state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString() == 'applied' ? const Color(0xffFC5E60) : const Color(0xff12CE57)),
 
                                   12.verticalSpace(),
 
-                                  state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString().textMedium(fontSize: 16),
+                                  formatProjectStatus(state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString() == 'applied' ? 'pending' : 'Approved').textMedium(fontSize: 16),
 
                                   7.verticalSpace(),
 
-                                  "Loans pending for\n approval".textMedium(fontSize: 12,color: const Color(0xff727272),
+                              (state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString() == 'applied' ? "Loans pending for approval" : 'Loans approved').textMedium(fontSize: 12,color: const Color(0xff727272),
                                       maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
 
@@ -242,12 +243,24 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                   'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
-              onTapShowAll: () {},
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(2);
+              },
             ),
             10.verticalSpace(),
-            FeaturedTrainings(trainingList: state.responseMCCDashboard!.data!.trainingList ?? [],),
+            FeaturedTrainings(
+              trainingList: state.responseMCCDashboard!.data!.trainingList ?? [],
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(4);
+              },
+            ),
             10.verticalSpace(),
-            TrendingNewsAndEvents(newsList: state.responseMCCDashboard!.data!.newsEvent ?? [],),
+            TrendingNewsAndEvents(
+              newsList: state.responseMCCDashboard!.data!.newsEvent ?? [],
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+              },
+            ),
             100.verticalSpace(),
           ],
         ),

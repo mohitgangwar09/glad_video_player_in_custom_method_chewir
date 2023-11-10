@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
@@ -8,6 +9,8 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -117,122 +120,127 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 children: [
+                  if(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.isNotEmpty)
                   Expanded(
                     child: customShadowContainer(
                       margin: 0,
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 16),
-                            child: Column(
-                              children: [
-                                Text('Surveys',
-                                    style:
-                                        figtreeMedium.copyWith(fontSize: 16)),
-                                10.verticalSpace(),
-                                if(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.isNotEmpty)
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 140,
-                                      child: SfCircularChart(
-                                          palette: const [
-                                            ColorResources.maroon,
-                                            ColorResources.fieldGrey
-                                          ],
-                                          margin: EdgeInsets.zero,
-                                          series: <CircularSeries<_ChartData,
-                                              String>>[
-                                            DoughnutSeries<_ChartData, String>(
-                                                dataSource: List.generate(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.length, (index) => _ChartData(formatProjectStatus(state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].surveyStatus ?? ''), state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].count.toDouble())),
-                                                xValueMapper:
-                                                    (_ChartData data, _) =>
-                                                        data.x,
-                                                yValueMapper:
-                                                    (_ChartData data, _) =>
-                                                        data.y,
-                                                radius: '60',
-                                                innerRadius: '40',
-                                                selectionBehavior: SelectionBehavior(
-                                                  enable: true,
-                                                  unselectedOpacity: 0.7
-                                                ),
-                                                onPointTap: (detail) {
-                                                  surveyPercentage = ((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toInt();
-                                                  setState(() {});
-                                                })
-                                          ]),
-                                    ),
-                                    Positioned(
-                                        child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        surveyPercentage.toString().textBold(
-                                            color: Colors.black, fontSize: 26),
-                                        "%".textBold(
-                                            color: Colors.black, fontSize: 12)
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                                10.verticalSpace(),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 25),
-                                  child: Column(
+                      child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                        },
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 16),
+                              child: Column(
+                                children: [
+                                  Text('Surveys',
+                                      style:
+                                          figtreeMedium.copyWith(fontSize: 16)),
+                                  10.verticalSpace(),
+                                  Stack(
+                                    alignment: Alignment.center,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            height: 13,
-                                            width: 9,
-                                            decoration: BoxDecoration(
-                                                color: ColorResources.maroon,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                          ),
-                                          7.horizontalSpace(),
-                                          Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].surveyStatus}: ',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12)),
-                                          Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].count.toInt().toString(),
-                                              style: figtreeBold.copyWith(
-                                                  fontSize: 12)),
-                                        ],
+                                      SizedBox(
+                                        height: 140,
+                                        child: SfCircularChart(
+                                            palette: const [
+                                              ColorResources.maroon,
+                                              ColorResources.fieldGrey
+                                            ],
+                                            margin: EdgeInsets.zero,
+                                            series: <CircularSeries<_ChartData,
+                                                String>>[
+                                              DoughnutSeries<_ChartData, String>(
+                                                  dataSource: List.generate(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.length, (index) => _ChartData(formatProjectStatus(state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].surveyStatus ?? ''), state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].count.toDouble())),
+                                                  xValueMapper:
+                                                      (_ChartData data, _) =>
+                                                          data.x,
+                                                  yValueMapper:
+                                                      (_ChartData data, _) =>
+                                                          data.y,
+                                                  radius: '60',
+                                                  innerRadius: '40',
+                                                  selectionBehavior: SelectionBehavior(
+                                                    enable: true,
+                                                    unselectedOpacity: 0.7
+                                                  ),
+                                                  onPointTap: (detail) {
+                                                    surveyPercentage = ((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toInt();
+                                                    setState(() {});
+                                                  })
+                                            ]),
                                       ),
-                                      5.verticalSpace(),
-                                      Row(
+                                      Positioned(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Container(
-                                            height: 13,
-                                            width: 9,
-                                            decoration: BoxDecoration(
-                                                color: ColorResources.fieldGrey,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                          ),
-                                          7.horizontalSpace(),
-                                          Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].surveyStatus}: ',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12)),
-                                          Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].count.toInt().toString(),
-                                              style: figtreeBold.copyWith(
-                                                  fontSize: 12)),
+                                          surveyPercentage.toString().textBold(
+                                              color: Colors.black, fontSize: 26),
+                                          "%".textBold(
+                                              color: Colors.black, fontSize: 12)
                                         ],
-                                      )
+                                      )),
                                     ],
                                   ),
-                                ),
-                              ],
+                                  10.verticalSpace(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 25),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 13,
+                                              width: 9,
+                                              decoration: BoxDecoration(
+                                                  color: ColorResources.maroon,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10)),
+                                            ),
+                                            7.horizontalSpace(),
+                                            Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].surveyStatus}: ',
+                                                style: figtreeRegular.copyWith(
+                                                    fontSize: 12)),
+                                            Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].count.toInt().toString(),
+                                                style: figtreeBold.copyWith(
+                                                    fontSize: 12)),
+                                          ],
+                                        ),
+                                        5.verticalSpace(),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 13,
+                                              width: 9,
+                                              decoration: BoxDecoration(
+                                                  color: ColorResources.fieldGrey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10)),
+                                            ),
+                                            7.horizontalSpace(),
+                                            Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].surveyStatus}: ',
+                                                style: figtreeRegular.copyWith(
+                                                    fontSize: 12)),
+                                            Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].count.toInt().toString(),
+                                                style: figtreeBold.copyWith(
+                                                    fontSize: 12)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Positioned(
-                              right: 15,
-                              top: 15,
-                              child: SvgPicture.asset(Images.menuIcon))
-                        ],
+                            Positioned(
+                                right: 15,
+                                top: 15,
+                                child: SvgPicture.asset(Images.menuIcon))
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -240,110 +248,115 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                   Expanded(
                     child: customShadowContainer(
                       margin: 0,
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 16),
-                            child: Column(
-                              children: [
-                                Text('Projects',
-                                    style:
-                                        figtreeMedium.copyWith(fontSize: 16)),
-                                10.verticalSpace(),
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 140,
-                                      child: SfCircularChart(
-                                          palette: const [
-                                            ColorResources.maroon,
-                                            ColorResources.mustard
-                                          ],
-                                          margin: EdgeInsets.zero,
-                                          series: <CircularSeries<_ChartData,
-                                              String>>[
-                                            DoughnutSeries<_ChartData, String>(
-                                                dataSource: data2,
-                                                xValueMapper:
-                                                    (_ChartData data, _) =>
-                                                        data.x,
-                                                yValueMapper:
-                                                    (_ChartData data, _) =>
-                                                        data.y,
-                                                radius: '60',
-                                                innerRadius: '40')
-                                          ]),
-                                    ),
-                                    Positioned(
-                                        child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        "33".textBold(
-                                            color: Colors.black, fontSize: 26),
-                                        "%".textBold(
-                                            color: Colors.black, fontSize: 12)
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                                10.verticalSpace(),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 25),
-                                  child: Column(
+                      child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<DashboardCubit>(context).selectedIndex(2);
+                        },
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 16),
+                              child: Column(
+                                children: [
+                                  Text('Projects',
+                                      style:
+                                          figtreeMedium.copyWith(fontSize: 16)),
+                                  10.verticalSpace(),
+                                  Stack(
+                                    alignment: Alignment.center,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            height: 13,
-                                            width: 9,
-                                            decoration: BoxDecoration(
-                                                color: ColorResources.maroon,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                          ),
-                                          7.horizontalSpace(),
-                                          Text('${data2[0].x}: ',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12)),
-                                          Text(data2[0].y.toInt().toString(),
-                                              style: figtreeBold.copyWith(
-                                                  fontSize: 12)),
-                                        ],
+                                      SizedBox(
+                                        height: 140,
+                                        child: SfCircularChart(
+                                            palette: const [
+                                              ColorResources.maroon,
+                                              ColorResources.mustard
+                                            ],
+                                            margin: EdgeInsets.zero,
+                                            series: <CircularSeries<_ChartData,
+                                                String>>[
+                                              DoughnutSeries<_ChartData, String>(
+                                                  dataSource: data2,
+                                                  xValueMapper:
+                                                      (_ChartData data, _) =>
+                                                          data.x,
+                                                  yValueMapper:
+                                                      (_ChartData data, _) =>
+                                                          data.y,
+                                                  radius: '60',
+                                                  innerRadius: '40')
+                                            ]),
                                       ),
-                                      5.verticalSpace(),
-                                      Row(
+                                      Positioned(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Container(
-                                            height: 13,
-                                            width: 9,
-                                            decoration: BoxDecoration(
-                                                color: ColorResources.mustard,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                          ),
-                                          7.horizontalSpace(),
-                                          Text('${data2[1].x}: ',
-                                              style: figtreeRegular.copyWith(
-                                                  fontSize: 12)),
-                                          Text(data2[1].y.toInt().toString(),
-                                              style: figtreeBold.copyWith(
-                                                  fontSize: 12)),
+                                          "33".textBold(
+                                              color: Colors.black, fontSize: 26),
+                                          "%".textBold(
+                                              color: Colors.black, fontSize: 12)
                                         ],
-                                      )
+                                      )),
                                     ],
                                   ),
-                                ),
-                              ],
+                                  10.verticalSpace(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 25),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 13,
+                                              width: 9,
+                                              decoration: BoxDecoration(
+                                                  color: ColorResources.maroon,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10)),
+                                            ),
+                                            7.horizontalSpace(),
+                                            Text('${data2[0].x}: ',
+                                                style: figtreeRegular.copyWith(
+                                                    fontSize: 12)),
+                                            Text(data2[0].y.toInt().toString(),
+                                                style: figtreeBold.copyWith(
+                                                    fontSize: 12)),
+                                          ],
+                                        ),
+                                        5.verticalSpace(),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 13,
+                                              width: 9,
+                                              decoration: BoxDecoration(
+                                                  color: ColorResources.mustard,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10)),
+                                            ),
+                                            7.horizontalSpace(),
+                                            Text('${data2[1].x}: ',
+                                                style: figtreeRegular.copyWith(
+                                                    fontSize: 12)),
+                                            Text(data2[1].y.toInt().toString(),
+                                                style: figtreeBold.copyWith(
+                                                    fontSize: 12)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Positioned(
-                              right: 15,
-                              top: 15,
-                              child: SvgPicture.asset(Images.menuIcon))
-                        ],
+                            Positioned(
+                                right: 15,
+                                top: 15,
+                                child: SvgPicture.asset(Images.menuIcon))
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -441,12 +454,18 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                   'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
-              onTapShowAll: () {},
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(4);
+              },
             ),
             10.verticalSpace(),
-            FeaturedTrainings(trainingList: state.responseSupplierDashboard!.data!.trainingList ?? [],),
+            FeaturedTrainings(trainingList: state.responseSupplierDashboard!.data!.trainingList ?? [], onTapShowAll: () {
+              const OnlineTraining(isBottomAppBar: false).navigate();
+            },),
             10.verticalSpace(),
-            TrendingNewsAndEvents(newsList: state.responseSupplierDashboard!.data!.newsEvent ?? [],),
+            TrendingNewsAndEvents(newsList: state.responseSupplierDashboard!.data!.newsEvent ?? [], onTapShowAll: () {
+              const NewsAndEvent(isBottomAppBar: false).navigate();
+            },),
             100.verticalSpace(),
           ],
         ),

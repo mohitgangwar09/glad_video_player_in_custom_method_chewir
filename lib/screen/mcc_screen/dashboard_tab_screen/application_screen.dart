@@ -56,11 +56,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
                   titleText1Style: figtreeMedium.copyWith(
                       fontSize: 20, color: Colors.black),
                   centerTitle: true,
-                  leading: openDrawer(
-                      onTap: () {
-                        // farmerLandingKey.currentState?.openDrawer();
-                      },
-                      child: SvgPicture.asset(Images.arrowBack)),
+                  leading: const SizedBox.shrink(),
                 ),
 
                 10.verticalSpace(),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_forum.dart';
@@ -129,12 +130,18 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
                   'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
               video: '',
               timeAgo: '5 Hrs ago',
-              onTapShowAll: () {},
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(2);
+              },
             ),
             10.verticalSpace(),
-            FeaturedTrainings(trainingList: state.guestDashboardResponse!.data!.trainingList ?? [],),
+            FeaturedTrainings(trainingList: state.guestDashboardResponse!.data!.trainingList ?? [], onTapShowAll: () {
+              BlocProvider.of<DashboardCubit>(context).selectedIndex(4);
+            },),
             10.verticalSpace(),
-            TrendingNewsAndEvents(newsList: state.guestDashboardResponse!.data!.newsEvent ?? [],),
+            TrendingNewsAndEvents(newsList: state.guestDashboardResponse!.data!.newsEvent ?? [], onTapShowAll: () {
+              BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+            },),
             10.verticalSpace(),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),
