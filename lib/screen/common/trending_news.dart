@@ -109,7 +109,9 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
                                     '"${widget.newsList[index].title}"',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 14, color: Colors.white),
-                                    softWrap: true),
+                                    softWrap: true,
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis),
                                 5.verticalSpace(),
                                 Text(DateFormat('dd MMM, yyyy').format(DateTime.parse(widget.newsList[index].validFrom ?? '')),
                                     style: figtreeRegular.copyWith(

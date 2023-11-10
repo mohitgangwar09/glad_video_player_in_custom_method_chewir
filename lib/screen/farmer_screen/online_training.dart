@@ -237,7 +237,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
         ? Expanded(
             child: SingleChildScrollView(
               child: customList(
-                  padding: const EdgeInsets.fromLTRB(20, 17, 20, 20),
+                  padding: const EdgeInsets.fromLTRB(20, 17, 20, 120),
                   list: List.generate(state.responseTrainingList!.data!.length,
                       (index) => null),
                   child: (index) {

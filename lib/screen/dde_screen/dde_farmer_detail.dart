@@ -1068,7 +1068,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
   Widget projectList(){
     return BlocBuilder<ProjectCubit, ProjectState>(
       builder: (context,state) {
-        if(state.responseDdeProject!.data!
+        if(state.responseDdeProject == null || state.responseDdeProject!.data!
             .projectList==null||state.responseDdeProject!.data!
             .projectList!.isEmpty){
           return const SizedBox.shrink();

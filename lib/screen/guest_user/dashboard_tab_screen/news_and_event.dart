@@ -286,12 +286,12 @@ class _NewsAndEventState extends State<NewsAndEvent> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 7.0, top: 15),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    state.responseNewsList!.data![index].description!,
-                                    maxLines: 4,
+                                    state.responseNewsList!.data![index].title!,
+                                    maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: Colors.black),
