@@ -356,7 +356,7 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
                       widget.farmerProjectId.toString(),
                       date,
                       controller.text ?? '',
-                      "confirm",
+                      "verified",
                       widget.projectData.id.toString(),widget.projectData);
 
 
