@@ -146,26 +146,34 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "interested".toUpperCase() ?
                             Center(
                               child: customButton(
-                                  state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
+                                  state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0?"Apply for Loan":'View Document',
+                                  // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                   onTap: (){
-                                  if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null){
-                                    /*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1){
+                                    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0){
+                                      ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
+                                          farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                          farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
+                                    }else{
+                                      ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus).navigate();
+                                    }
+                                  /*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null){
+                                    *//*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1){
                                       ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
                                           farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
                                           farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
                                     }else{
                                       ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!).navigate();
-                                    }*/
+                                    }*//*
                                     ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus).navigate();
-                                    /*ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
+                                    *//*ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
                                         farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();*/
+                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();*//*
                                   }else{
                                     ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
                                         farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
                                         farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
-                                  }
+                                  }*/
 
                                     // KYCUpdate(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();
                                   }
@@ -184,6 +192,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                   },*/
                               ),
                             ):const SizedBox.shrink():const SizedBox.shrink(),
+
 
                             30.verticalSpace(),
                           ],
