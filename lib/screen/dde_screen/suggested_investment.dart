@@ -25,6 +25,7 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 import 'add_project_milestone.dart';
+import 'add_remark_confirm_loan.dart';
 
 class DDeFarmerInvestmentDetails extends StatefulWidget {
   const DDeFarmerInvestmentDetails({super.key,
@@ -193,6 +194,19 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               ),
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_completed".toUpperCase() ?
+                            Center(
+                              child: customButton(
+                                  'Confirm The Loan',
+                                  // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
+                                  style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                                  onTap: (){
+                                    AddRemarkConfirmLoan(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
+                                  }
+
+                              ),
+                            ):const SizedBox.shrink():const SizedBox.shrink(),
 
                             30.verticalSpace(),
                           ],
