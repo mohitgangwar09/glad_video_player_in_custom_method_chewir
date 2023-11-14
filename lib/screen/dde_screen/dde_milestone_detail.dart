@@ -338,6 +338,7 @@ class _DdeMilestoneDetailState
                 style: figtreeMedium.copyWith(fontSize: 18),
               ),
 
+
               widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
               InkWell(
                 onTap: (){
@@ -452,6 +453,7 @@ class _DdeMilestoneDetailState
                           style: figtreeMedium.copyWith(fontSize: 14),
                         ),
 
+                        widget.projectStatus.toString().toUpperCase() == "interested".toUpperCase()?
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: InkWell(
@@ -461,7 +463,7 @@ class _DdeMilestoneDetailState
                                 );
                               }
                               ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
-                        )
+                        ):const SizedBox.shrink()
                         /*Container(
                       height: 50,
                       width: 50,

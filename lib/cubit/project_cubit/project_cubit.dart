@@ -217,14 +217,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     // emit(state.copyWith(status: ProjectStatus.loading));
     var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
     disposeProgress();
-   /* await inviteExpertForSurveyDDe(context,
-        int.parse(projectId),
-        date,
-        remarks,
-        selectStatus,
-        farmerId.toString(),
-        profileData
-    );*/
+
     if(response.status == 200){
 
       showCustomToast(context, "message");

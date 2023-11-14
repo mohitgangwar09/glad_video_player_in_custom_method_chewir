@@ -128,9 +128,24 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: () {
 
+              istClickOnSendOtp = "click";
+
+              timer = Timer.periodic(const Duration(seconds: 1), (_) {
+                if (secondsRemaining != 0) {
+                  setState(() {
+                    secondsRemaining--;
+                  });
+                } else {
+                  setState(() {
+                    enableResend = true;
+                  });
+                }
+              });
+
               BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
                   widget.projectData.phone.toString()
               );
+
             }),
 
         30.verticalSpace(),
@@ -345,11 +360,6 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
               fieldHeight: 42,
               // fieldOuterPadding: 2.paddingAll(),
             ),
-            onCompleted: (v) {
-              // print("Completed");
-              // ThankYou(profileData:widget.profileData,improvementProfileData:widget.projectData).navigate();
-              // const UploadProfilePicture().navigate();
-            },
             onChanged: (value) {
 
                   BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
@@ -359,10 +369,6 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
                       "verified",
                       widget.projectData.id.toString(),widget.projectData);
 
-
-              // setState(() {
-              //   // currentText = value;
-              // });
             },
             beforeTextPaste: (text) {
               print("Allowing to paste $text");

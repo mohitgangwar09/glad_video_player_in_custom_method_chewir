@@ -215,14 +215,6 @@ class ThankYou extends StatelessWidget {
                 ),
               ],
             ),
-            /* 10.verticalSpace(),
-                        const Divider(),
-                        Text(
-                          'You may Call or WhatsApp to our experts for any query related to the farm.',
-                          textAlign: TextAlign.center,
-                          style: figtreeRegular.copyWith(fontSize: 12),
-                        ),
-                        10.verticalSpace(),*/
           ],
         ),
       ),
