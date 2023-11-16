@@ -42,6 +42,7 @@ class Data {
   String? createdAt;
   String? updatedAt;
   String? categoryName;
+  Youtube? youtube;
   String? image;
   Categories? categories;
 
@@ -60,6 +61,7 @@ class Data {
         this.createdAt,
         this.updatedAt,
         this.categoryName,
+        this.youtube,
         this.image,
         this.categories});
 
@@ -78,32 +80,63 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     categoryName = json['category_name'];
+    youtube =
+    json['youtube'] != null ? new Youtube.fromJson(json['youtube']) : null;
     image = json['image'];
     categories = json['categories'] != null
-        ? Categories.fromJson(json['categories'])
+        ? new Categories.fromJson(json['categories'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['video_url'] = videoUrl;
-    data['applicable_for'] = applicableFor;
-    data['valid_from'] = validFrom;
-    data['valid_to'] = validTo;
-    data['status'] = status;
-    data['category_id'] = categoryId;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['deleted_by'] = deletedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['category_name'] = categoryName;
-    data['image'] = image;
-    if (categories != null) {
-      data['categories'] = categories!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['video_url'] = this.videoUrl;
+    data['applicable_for'] = this.applicableFor;
+    data['valid_from'] = this.validFrom;
+    data['valid_to'] = this.validTo;
+    data['status'] = this.status;
+    data['category_id'] = this.categoryId;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['category_name'] = this.categoryName;
+    if (this.youtube != null) {
+      data['youtube'] = this.youtube!.toJson();
     }
+    data['image'] = this.image;
+    if (this.categories != null) {
+      data['categories'] = this.categories!.toJson();
+    }
+    return data;
+  }
+}
+
+class Youtube {
+  String? viewCount;
+  String? likeCount;
+  String? favoriteCount;
+  String? commentCount;
+
+  Youtube(
+      {this.viewCount, this.likeCount, this.favoriteCount, this.commentCount});
+
+  Youtube.fromJson(Map<String, dynamic> json) {
+    viewCount = json['viewCount'];
+    likeCount = json['likeCount'];
+    favoriteCount = json['favoriteCount'];
+    commentCount = json['commentCount'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['viewCount'] = this.viewCount;
+    data['likeCount'] = this.likeCount;
+    data['favoriteCount'] = this.favoriteCount;
+    data['commentCount'] = this.commentCount;
     return data;
   }
 }
@@ -143,16 +176,17 @@ class Categories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['type'] = type;
-    data['name'] = name;
-    data['status'] = status;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['deleted_by'] = deletedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['type'] = this.type;
+    data['name'] = this.name;
+    data['status'] = this.status;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
+
