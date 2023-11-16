@@ -203,15 +203,23 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
   }
 
   func() async {
-    String videoId = YoutubePlayer.convertUrlToId(widget.url)
-        .toString();
+    String? videoId = YoutubePlayer.convertUrlToId(widget.url);
     controller = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: videoId ?? '',
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: true,
       ),
     );
+    if(videoId == null) {
+
+      Future.delayed(const Duration(seconds: 2), () {
+        showCustomToast(context, 'Not a valid url');
+        print("pressBack");
+        pressBack();
+      });
+
+    }
   }
 
   @override

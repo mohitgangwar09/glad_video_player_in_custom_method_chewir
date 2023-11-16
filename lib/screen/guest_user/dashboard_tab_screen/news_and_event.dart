@@ -18,6 +18,9 @@ import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../farmer_screen/online_training.dart';
 
 class NewsAndEvent extends StatefulWidget {
   const NewsAndEvent({Key? key, required this.isBottomAppBar}) : super(key: key);
@@ -237,19 +240,29 @@ class _NewsAndEventState extends State<NewsAndEvent> {
             child: (index) {
               return InkWell(
                 onTap: () async {
-                  if(state.responseNewsList!.data![index].resource == null) {
-                    showCustomToast(context, 'No resource Url');
-                    return;
-                  }
-                  if(state.responseNewsList!.data![index].resource!.originalUrl!.endsWith('pdf')) {
-                    var dir = await getApplicationDocumentsDirectory();
-                    await Permission.manageExternalStorage.request();
-                    await Dio().download(state.responseNewsList!.data![index].resource!.originalUrl!, "${"${dir.path}/fileName"}.pdf");
-                    await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                  if(state.responseNewsList!.data![index].resource != null) {
+                    if(state.responseNewsList!.data![index].resource!.originalUrl!.endsWith('pdf')) {
+                      var dir = await getApplicationDocumentsDirectory();
+                      await Permission.manageExternalStorage.request();
+                      await Dio().download(state.responseNewsList!.data![index].resource!.originalUrl!, "${"${dir.path}/fileName"}.pdf");
+                      await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                    } else{
+                      Uri url = Uri.parse(state.responseNewsList!.data![index].resource!.originalUrl!);
+                      if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+                        throw Exception('Could not launch $url');
+                      }
+                    }
                   } else{
-                    Uri url = Uri.parse(state.responseNewsList!.data![index].resource!.originalUrl!);
-                    if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
-                      throw Exception('Could not launch $url');
+                    if(YoutubePlayer.convertUrlToId(state.responseNewsList!.data![index].webUrl ?? '') != null){
+                      showDialog(
+                          context: context,
+                          builder: (context) => OverlayVideoPlayer(
+                              url: state.responseNewsList!.data![index].webUrl ?? ''));
+                    } else{
+                      Uri url = Uri.parse(state.responseNewsList!.data![index].resource!.originalUrl!);
+                      if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+                        throw Exception('Could not launch $url');
+                      }
                     }
                   }
                 },
@@ -286,12 +299,12 @@ class _NewsAndEventState extends State<NewsAndEvent> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 7.0, top: 15),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    state.responseNewsList!.data![index].description!,
-                                    maxLines: 4,
+                                    state.responseNewsList!.data![index].title!,
+                                    maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: Colors.black),

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
+import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -16,6 +17,7 @@ import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TrendingNewsAndEvents extends StatefulWidget {
   const TrendingNewsAndEvents({super.key, required this.newsList, required this.onTapShowAll});
@@ -54,19 +56,29 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () async {
-                    if(widget.newsList[index].resource == null) {
-                      showCustomToast(context, 'No resource Url');
-                      return;
-                    }
-                    if(widget.newsList[index].resource!.originalUrl!.endsWith('pdf')) {
-                      var dir = await getApplicationDocumentsDirectory();
-                      await Permission.manageExternalStorage.request();
-                      await Dio().download(widget.newsList[index].resource!.originalUrl!, "${"${dir.path}/fileName"}.pdf");
-                      await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                    if(widget.newsList[index].resource != null) {
+                      if(widget.newsList[index].resource!.originalUrl!.endsWith('pdf')) {
+                        var dir = await getApplicationDocumentsDirectory();
+                        await Permission.manageExternalStorage.request();
+                        await Dio().download(widget.newsList[index].resource!.originalUrl!, "${"${dir.path}/fileName"}.pdf");
+                        await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                      } else{
+                        Uri url = Uri.parse(widget.newsList[index].resource!.originalUrl!);
+                        if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+                          throw Exception('Could not launch $url');
+                        }
+                      }
                     } else{
-                      Uri url = Uri.parse(widget.newsList[index].resource!.originalUrl!);
-                      if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
-                        throw Exception('Could not launch $url');
+                      if(YoutubePlayer.convertUrlToId(widget.newsList[index].webUrl ?? '') != null){
+                        showDialog(
+                            context: context,
+                            builder: (context) => OverlayVideoPlayer(
+                                url: widget.newsList[index].webUrl ?? ''));
+                      } else{
+                        Uri url = Uri.parse(widget.newsList[index].resource!.originalUrl!);
+                        if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+                          throw Exception('Could not launch $url');
+                        }
                       }
                     }
                   },
@@ -109,7 +121,9 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
                                     '"${widget.newsList[index].title}"',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 14, color: Colors.white),
-                                    softWrap: true),
+                                    softWrap: true,
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis),
                                 5.verticalSpace(),
                                 Text(DateFormat('dd MMM, yyyy').format(DateTime.parse(widget.newsList[index].validFrom ?? '')),
                                     style: figtreeRegular.copyWith(

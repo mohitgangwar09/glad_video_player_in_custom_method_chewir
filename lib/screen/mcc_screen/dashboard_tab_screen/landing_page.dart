@@ -99,41 +99,58 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
 
             Padding(
               padding: const EdgeInsets.only(right: 20.0,bottom: 25,left: 10),
-              child: customGrid(
-                  context,
-                  list: List.generate(state.responseMCCDashboard!.data!.farmerProjet!.length, (index) => null),
-                  mainAxisExtent: 160,
-                  crossAxisSpacing: 10,
-                  child: (int index) {
-                    return customProjectContainer(
-                        width: screenWidth(),
-                        child: Stack(
+              child: Row(children: [
+                Expanded(
+                  child: customProjectContainer(
+                      width: screenWidth(),
+                      height: 140,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
 
-                                  state.responseMCCDashboard!.data!.farmerProjet![index].count.toString().textMedium(fontSize: 32,
-                                      color: state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString() == 'applied' ? const Color(0xffFC5E60) : const Color(0xff12CE57)),
-
-                                  12.verticalSpace(),
-
-                                  formatProjectStatus(state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString() == 'applied' ? 'pending' : 'Approved').textMedium(fontSize: 16),
-
-                                  7.verticalSpace(),
-
-                              (state.responseMCCDashboard!.data!.farmerProjet![index].projectStatus.toString() == 'applied' ? "Loans pending for approval" : 'Loans approved').textMedium(fontSize: 12,color: const Color(0xff727272),
-                                      maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                            state.responseMCCDashboard!.data!.farmerProject!.pending.toString().textMedium(fontSize: 32,
+                                color: const Color(0xffFC5E60)),
+                            12.verticalSpace(),
+                            'Pending'.textMedium(fontSize: 16),
+                            7.verticalSpace(),
+                            "Loans pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
+                                maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
 
-                                ],
-                              ),
-                            ),
                           ],
-                        ));
-                  }),
+                        ),
+                      )),
+                ),
+
+                Expanded(
+                  child: customProjectContainer(
+                      height: 140,
+                      width: screenWidth(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+
+                            state.responseMCCDashboard!.data!.farmerProject!.approved.toString().textMedium(fontSize: 32,
+                                color: const Color(0xff12CE57)),
+
+                            12.verticalSpace(),
+
+                            'Approved'.textMedium(fontSize: 16),
+                            7.verticalSpace(),
+                            'Loans approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
+                                maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+
+                          ],
+                        ),
+                      )),
+                )
+              ],),
             ),
 
 
