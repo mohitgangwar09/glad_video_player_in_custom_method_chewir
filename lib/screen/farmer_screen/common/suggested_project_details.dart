@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +9,17 @@ import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/dde_screen/preview_screen.dart';
+import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
+import 'package:open_file_safe_plus/open_file_safe_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SuggestedProjectDetails extends StatefulWidget {
   const SuggestedProjectDetails({super.key, required this.projectId});
@@ -72,6 +79,163 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
                             inviteExpert(context, state):const SizedBox.shrink(),
+
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_completed".toUpperCase() ?
+                            Center(
+                              child: customButton(
+                                  'Confirm The Loan',
+                                  style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                                  onTap: (){
+                                    // AddRemarkConfirmLoan(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
+                                  }
+
+                              ),
+                            ):const SizedBox.shrink():const SizedBox.shrink(),
+
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "approved".toUpperCase() ?
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+                                customProjectContainer(
+                                    marginLeft: 0,
+                                    marginTop: 0,
+                                    borderRadius: 14,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 12),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.symmetric(horizontal: 8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Loan Document',
+                                                  style:
+                                                  figtreeMedium.copyWith(fontSize: 18),
+                                                ),
+                                                SvgPicture.asset(Images.drop)
+                                              ],
+                                            ),
+                                          ),
+                                          customList(
+                                              list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
+                                              child: (index){
+                                                return InkWell(
+                                                  onTap: (){
+
+                                                    PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
+
+                                                  },
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(top: 10),
+                                                    padding: const EdgeInsets.symmetric(
+                                                        vertical: 8, horizontal: 14),
+                                                    decoration: BoxDecoration(
+                                                        color: const Color(0xFFE4FFE3),
+                                                        borderRadius: BorderRadius.circular(10)),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
+                                                      children: [
+
+                                                        const Icon(Icons.file_copy,size: 22,
+                                                          color: Colors.grey,),
+
+                                                        5.horizontalSpace(),
+
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+
+                                                              Text(
+                                                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].documentName??"",
+                                                                style:
+                                                                figtreeMedium.copyWith(fontSize: 16),
+                                                              ),
+
+                                                              5.verticalSpace(),
+
+                                                              Text(
+                                                                DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].createdAt.toString())),
+                                                                style:
+                                                                figtreeMedium.copyWith(fontSize: 12),
+                                                              ),
+
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                        InkWell(
+                                                          onTap: ()async{
+                                                            var dir = await getApplicationDocumentsDirectory();
+                                                            await Permission.manageExternalStorage.request();
+                                                            await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
+                                                            await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+
+                                                          }, child: Container(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 20, vertical: 8),
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              borderRadius:
+                                                              BorderRadius.circular(30),
+                                                              border:
+                                                              Border.all(color: Colors.grey)),
+                                                          child: Text(
+                                                            'Download',
+                                                            style: figtreeMedium.copyWith(
+                                                                fontSize: 12),
+                                                          ),
+                                                        ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              })
+                                        ],
+                                      ),
+                                    )),
+
+                                20.verticalSpace(),
+
+                                Center(
+                                    child: Text(
+                                      'Tap below to read and agree to the terms and \nconditions of the loan agreement!',
+                                      textAlign: TextAlign.center,
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 10, color: ColorResources.fieldGrey),
+                                    )),
+
+                                10.verticalSpace(),
+
+                                Center(
+                                  child: SizedBox(
+                                    width: 230,
+                                    child: customButton(
+                                        'Terms and Conditions',
+                                        style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                                        onTap: (){
+                                          TermsAndCondition(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId,navigateFrom: "farmer").navigate();
+                                        }
+                                    ),
+                                  ),
+                                ),
+
+                                20.verticalSpace()
+
+                              ],
+                            ):const SizedBox.shrink():const SizedBox.shrink(),
+
                           ],
                         ),
                       ),
@@ -293,7 +457,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!=null){
       kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
           image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
+          // actionImage: Images.imageEdit,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!)));
     }
 
@@ -318,7 +482,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!=null){
       kpiData.add(FrontendKpiModel(name: 'Current Yield',
         image: Images.yieldKpi,
-        actionImage: Images.menuIcon,
+        // actionImage: Images.menuIcon,
         value: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!} Ltr.',
       ));
     }

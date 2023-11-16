@@ -228,7 +228,36 @@ class ProjectCubit extends Cubit<ProjectState> {
           remarks,
           selectStatus,
           farmerId.toString(),
-          profileData
+          profileData,'dde'
+      );
+    }
+    else
+    {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  ///// verifyProjectStatusApi /////
+  Future<void> verifyProjectStatusFarmerApi(context,String otp,String projectId,
+      String date,String remarks,String selectStatus,String farmerId,dde.FarmerMaster profileData) async{
+
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+    disposeProgress();
+
+    if(response.status == 200){
+
+      showCustomToast(context, "message");
+
+      await inviteExpertForSurveyDDe(context,
+          int.parse(projectId),
+          date,
+          remarks,
+          selectStatus,
+          farmerId.toString(),
+          profileData,'farmer'
       );
     }
     else
@@ -240,15 +269,14 @@ class ProjectCubit extends Cubit<ProjectState> {
 
 
   Future<void> inviteExpertForSurveyDDe(context, int projectId, String date,
-      String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData) async {
+      String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData,String navigateFrom) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
         remark,projectStatus,farmerId);
     if (response.status == 200) {
 
-
       ThankYou(
-          profileData:profileData
+          profileData:profileData,navigateFrom: navigateFrom
       ).navigate(isInfinity: true);
       showCustomToast(context, response.data['message'], isSuccess: true);
     } else {

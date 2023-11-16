@@ -89,6 +89,7 @@ class FarmerProject {
   FarmerMaster? farmerMaster;
   List<FarmerProjectLog>? farmerProjectLog;
   FarmerProjectKycDocument? farmerProjectKycDocument;
+  List<FarmerLoanDocument>? farmerLoanDocument;
 
   FarmerProject(
       {this.id,
@@ -133,6 +134,7 @@ class FarmerProject {
         this.farmerProjectPaymentTerms,
         this.farmerProjectLog,
         this.farmerProjectKycDocument,
+        this.farmerLoanDocument,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -184,6 +186,13 @@ class FarmerProject {
       json['farmer_project_payment_terms'].forEach((v) {
         farmerProjectPaymentTerms!
             .add(FarmerProjectPaymentTerms.fromJson(v));
+      });
+    }
+    if (json['farmer_loan_document'] != null) {
+      farmerLoanDocument = <FarmerLoanDocument>[];
+      json['farmer_loan_document'].forEach((v) {
+        farmerLoanDocument!
+            .add(FarmerLoanDocument.fromJson(v));
       });
     }
     dairyDevelopMentExecutive = json['dairy_develop_ment_executive'] != null
@@ -253,6 +262,10 @@ class FarmerProject {
     if (farmerProjectPaymentTerms != null) {
       data['farmer_project_payment_terms'] =
           farmerProjectPaymentTerms!.map((v) => v.toJson()).toList();
+    }
+    if (farmerLoanDocument != null) {
+      data['farmer_loan_document'] =
+          farmerLoanDocument!.map((v) => v.toJson()).toList();
     }
     if (farmerMaster != null) {
       data['farmer_master'] = farmerMaster!.toJson();
@@ -1261,14 +1274,14 @@ class FarmerProjectKycDocument {
     if (json['id_document_file'] != null) {
       idDocumentFile = <IdDocumentFile>[];
       json['id_document_file'].forEach((v) {
-        idDocumentFile!.add(new IdDocumentFile.fromJson(v));
+        idDocumentFile!.add(IdDocumentFile.fromJson(v));
       });
     }
     projectFarmerPhoto = json['project_farmer_photo'];
     if (json['media'] != null) {
       media = <Media>[];
       json['media'].forEach((v) {
-        media!.add(new Media.fromJson(v));
+        media!.add(Media.fromJson(v));
       });
     }
   }
@@ -1611,6 +1624,223 @@ class Media {
         this.previewUrl});
 
   Media.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    if (json['manipulations'] != null) {
+      manipulations = <Null>[];
+      json['manipulations'].forEach((v) {
+        manipulations!.add(v);
+      });
+    }
+    if (json['custom_properties'] != null) {
+      customProperties = <Null>[];
+      json['custom_properties'].forEach((v) {
+        customProperties!.add(v);
+      });
+    }
+    if (json['generated_conversions'] != null) {
+      generatedConversions = <Null>[];
+      json['generated_conversions'].forEach((v) {
+        generatedConversions!.add(v);
+      });
+    }
+    if (json['responsive_images'] != null) {
+      responsiveImages = <Null>[];
+      json['responsive_images'].forEach((v) {
+        responsiveImages!.add(v);
+      });
+    }
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    if (manipulations != null) {
+      data['manipulations'] =
+          manipulations!.map((v) => v.toJson()).toList();
+    }
+    if (customProperties != null) {
+      data['custom_properties'] =
+          customProperties!.map((v) => v.toJson()).toList();
+    }
+    if (generatedConversions != null) {
+      data['generated_conversions'] =
+          generatedConversions!.map((v) => v.toJson()).toList();
+    }
+    if (responsiveImages != null) {
+      data['responsive_images'] =
+          responsiveImages!.map((v) => v.toJson()).toList();
+    }
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
+    return data;
+  }
+}
+
+class FarmerLoanDocument {
+  dynamic id;
+  dynamic farmerId;
+  dynamic farmerProjectId;
+  String? documentName;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic addressDocumentFile;
+  dynamic projectFarmerPhoto;
+  dynamic idDocumentFile;
+  List<LoanDocumentFile>? loanDocumentFile;
+  List<Media>? media;
+
+  FarmerLoanDocument(
+      {this.id,
+        this.farmerId,
+        this.farmerProjectId,
+        this.documentName,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.addressDocumentFile,
+        this.projectFarmerPhoto,
+        this.idDocumentFile,
+        this.loanDocumentFile,
+        this.media});
+
+  FarmerLoanDocument.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    farmerProjectId = json['farmer_project_id'];
+    documentName = json['document_name'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    addressDocumentFile = json['address_document_file'];
+    projectFarmerPhoto = json['project_farmer_photo'];
+    idDocumentFile = json['id_document_file'];
+    if (json['loan_document_file'] != null) {
+      loanDocumentFile = <LoanDocumentFile>[];
+      json['loan_document_file'].forEach((v) {
+        loanDocumentFile!.add(LoanDocumentFile.fromJson(v));
+      });
+    }
+    if (json['media'] != null) {
+      media = <Media>[];
+      json['media'].forEach((v) {
+        media!.add(Media.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['farmer_project_id'] = farmerProjectId;
+    data['document_name'] = documentName;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['address_document_file'] = addressDocumentFile;
+    data['project_farmer_photo'] = projectFarmerPhoto;
+    data['id_document_file'] = idDocumentFile;
+    if (loanDocumentFile != null) {
+      data['loan_document_file'] =
+          loanDocumentFile!.map((v) => v.toJson()).toList();
+    }
+    if (media != null) {
+      data['media'] = media!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class LoanDocumentFile {
+  int? id;
+  String? modelType;
+  int? modelId;
+  String? uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  dynamic manipulations;
+  dynamic customProperties;
+  dynamic generatedConversions;
+  dynamic responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  LoanDocumentFile(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  LoanDocumentFile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     modelType = json['model_type'];
     modelId = json['model_id'];

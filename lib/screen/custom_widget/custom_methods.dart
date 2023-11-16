@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'dart:io' show File, Platform;
@@ -986,7 +987,9 @@ Widget documentImage(String image, Function() onTapCancel, {bool isPDF = false})
           await Permission.manageExternalStorage.request();
           var result = await OpenFilePlus.open(File(image).path);
           print(result.message);
-        } : () {},
+        } : () {
+          PreviewScreen(previewImage: image.toString(),).navigate();
+        },
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: const Color(0xFF819891)),
@@ -1043,7 +1046,9 @@ Widget viewDocumentImage(String image, {bool isPDF = false}) {
       await Permission.manageExternalStorage.request();
       await Dio().download(image, "${"${dir.path}/fileName"}.pdf");
       await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
-    } : () {},
+    } : () {
+      PreviewScreen(previewImage: image.toString(),).navigate();
+    },
     child: Container(
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF819891)),

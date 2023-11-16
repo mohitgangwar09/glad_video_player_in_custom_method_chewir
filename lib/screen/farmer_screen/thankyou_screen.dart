@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
+import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -10,7 +11,8 @@ import 'package:glad/utils/styles.dart';
 
 
 class ThankYou extends StatelessWidget {
-  const ThankYou({super.key,this.profileData});
+  const ThankYou({super.key,this.profileData,required this.navigateFrom});
+  final String navigateFrom;
   final FarmerMaster? profileData;
 
   @override
@@ -136,9 +138,11 @@ class ThankYou extends StatelessWidget {
 
                 40.verticalSpace(),
                 customButton("Go to Home", fontColor: 0xffffffff, onTap: () {
-                  // ddeLandingKey.currentState?.dispose();
-                  const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
-                  // BlocProvider.of<DashboardCubit>(context).selectedIndex(0);
+                  if(navigateFrom == "dde"){
+                    const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
+                  }else{
+                    const DashboardFarmer().navigate(isInfinity: true);
+                  }
                 })
               ],
             ),

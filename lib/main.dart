@@ -14,6 +14,7 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/cubit/training_cubit/training_cubit.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
+import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
 import 'cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'di_container.dart' as di;
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return const CowsAndYieldsSum();
-    // return ThankYou();
+    // return const TermsAndCondition();
     return const SplashScreen();
   }
 }

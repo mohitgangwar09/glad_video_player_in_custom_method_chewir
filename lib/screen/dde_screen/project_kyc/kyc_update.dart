@@ -17,6 +17,8 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
+import 'add_loan_remarks.dart';
+
 class ProjectKYC extends StatefulWidget {
   const ProjectKYC({super.key, required this.farmerId, required this.userId,required this.farmerMaster,required this.farmerProjectId});
   final  int farmerId;
@@ -540,6 +542,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
                         child: customButton(
                           'Save',
                           onTap: () {
+                            // AddLoanRemark(projectData: widget.farmerMaster,farmerProjectId:widget.farmerProjectId.toString()).navigate();
                             if (profilePicture.isEmpty) {
                               showCustomToast(
                                   context, 'Photo is required');

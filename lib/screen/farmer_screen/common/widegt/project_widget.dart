@@ -159,7 +159,7 @@ class ProjectWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "$roi%"
+                          "${double.parse(roi.toString()).toStringAsFixed(2)}%"
                               .textSemiBold(color: Colors.black, fontSize: 16),
                           "ROI".textMedium(
                             fontSize: 12,
