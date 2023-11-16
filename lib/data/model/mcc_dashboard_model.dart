@@ -26,26 +26,23 @@ class MCCDashboardModel {
 }
 
 class Data {
-  List<FarmerProjet>? farmerProjet;
+  FarmerProject? farmerProject;
   List<NewsEvent>? newsEvent;
   List<dynamic>? community;
   List<TrainingList>? trainingList;
   Mcc? mcc;
 
   Data(
-      {this.farmerProjet,
+      {this.farmerProject,
         this.newsEvent,
         this.community,
         this.trainingList,
         this.mcc});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['farmerProjet'] != null) {
-      farmerProjet = <FarmerProjet>[];
-      json['farmerProjet'].forEach((v) {
-        farmerProjet!.add(new FarmerProjet.fromJson(v));
-      });
-    }
+    farmerProject = json['farmerProject'] != null
+        ? new FarmerProject.fromJson(json['farmerProject'])
+        : null;
     if (json['newsEvent'] != null) {
       newsEvent = <NewsEvent>[];
       json['newsEvent'].forEach((v) {
@@ -69,9 +66,9 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.farmerProjet != null) {
-      data['farmerProjet'] = this.farmerProjet!.map((v) => v.toJson()).toList();
-    }
+    // if (this.farmerProject != null) {
+    //   data['farmerProject'] = this.farmerProject!.map((v) => v.toJson()).toList();
+    // }
     // if (this.newsEvent != null) {
     //   data['newsEvent'] = this.newsEvent!.map((v) => v.toJson()).toList();
     // }
@@ -85,26 +82,27 @@ class Data {
   }
 }
 
-class FarmerProjet {
-  String? projectStatus;
-  dynamic count;
+class FarmerProject {
+  dynamic pending;
+  dynamic approved;
 
-  FarmerProjet({this.projectStatus, this.count});
+  FarmerProject({this.pending, this.approved});
 
-  FarmerProjet.fromJson(Map<String, dynamic> json) {
-    projectStatus = json['project_status'];
-    count = json['count'];
+  FarmerProject.fromJson(Map<String, dynamic> json) {
+    pending = json['pending'];
+    approved = json['approved'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['project_status'] = this.projectStatus;
-    data['count'] = this.count;
+    data['pending'] = this.pending;
+    data['approved'] = this.approved;
     return data;
   }
 }
 
-class Mcc {
+
+  class Mcc {
   dynamic id;
   String? name;
   dynamic userId;

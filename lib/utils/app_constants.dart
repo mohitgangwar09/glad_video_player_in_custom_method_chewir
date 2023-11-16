@@ -62,6 +62,7 @@ class AppConstants {
   static const String ddeFarmerVisitorApi = '/api/dde/farmer-visitor';
   static const String notRequiredDataApi = '/api/farmer-project/fetch-not-required-data';
   static const String trainingListApi = '/api/training/list';
+  static const String guestTrainingListApi = '/api/training/guest-training';
   static const String trainingCategoryApi = '/api/training/category';
   static const String newsListApi = '/api/news-event/list';
   static const String newsCategoryApi = '/api/news-event/category';

@@ -26,32 +26,27 @@ class SupplierDashboardModel {
 }
 
 class Data {
-  List<FarmerProjetSurvey>? farmerProjetSurvey;
-  List<dynamic>? farmerProjet;
+  FarmerProjectSurvey? farmerProjectSurvey;
+  FarmerProject? farmerProject;
   List<NewsEvent>? newsEvent;
   List<dynamic>? community;
   List<TrainingList>? trainingList;
 
   Data(
-      {this.farmerProjetSurvey,
-        this.farmerProjet,
+      {this.farmerProjectSurvey,
+        this.farmerProject,
         this.newsEvent,
         this.community,
         this.trainingList});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['farmerProjetSurvey'] != null) {
-      farmerProjetSurvey = <FarmerProjetSurvey>[];
-      json['farmerProjetSurvey'].forEach((v) {
-        farmerProjetSurvey!.add(new FarmerProjetSurvey.fromJson(v));
-      });
-    }
-    // if (json['farmerProjet'] != null) {
-    //   farmerProjet = <Null>[];
-    //   json['farmerProjet'].forEach((v) {
-    //     farmerProjet!.add(new Null.fromJson(v));
-    //   });
-    // }
+    farmerProjectSurvey = json['farmerProjectSurvey'] != null
+        ? new FarmerProjectSurvey.fromJson(json['farmerProjectSurvey'])
+        : null;
+    farmerProject = json['farmerProject'] != null
+        ? new FarmerProject.fromJson(json['farmerProject'])
+        : null;
+
     if (json['newsEvent'] != null) {
       newsEvent = <NewsEvent>[];
       json['newsEvent'].forEach((v) {
@@ -74,10 +69,10 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.farmerProjetSurvey != null) {
-      data['farmerProjetSurvey'] =
-          this.farmerProjetSurvey!.map((v) => v.toJson()).toList();
-    }
+    // if (this.farmerProjetSurvey != null) {
+    //   data['farmerProjetSurvey'] =
+    //       this.farmerProjetSurvey!.map((v) => v.toJson()).toList();
+    // }
     // if (this.farmerProjet != null) {
     //   data['farmerProjet'] = this.farmerProjet!.map((v) => v.toJson()).toList();
     // }
@@ -94,21 +89,40 @@ class Data {
   }
 }
 
-class FarmerProjetSurvey {
-  String? surveyStatus;
-  dynamic count;
+class FarmerProjectSurvey {
+  int? pending;
+  int? completed;
 
-  FarmerProjetSurvey({this.surveyStatus, this.count});
+  FarmerProjectSurvey({this.pending, this.completed});
 
-  FarmerProjetSurvey.fromJson(Map<String, dynamic> json) {
-    surveyStatus = json['survey_status'];
-    count = json['count'];
+  FarmerProjectSurvey.fromJson(Map<String, dynamic> json) {
+    pending = json['pending'];
+    completed = json['completed'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['survey_status'] = this.surveyStatus;
-    data['count'] = this.count;
+    data['pending'] = this.pending;
+    data['completed'] = this.completed;
+    return data;
+  }
+}
+
+class FarmerProject {
+  int? active;
+  int? completed;
+
+  FarmerProject({this.active, this.completed});
+
+  FarmerProject.fromJson(Map<String, dynamic> json) {
+    active = json['active'];
+    completed = json['completed'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['active'] = this.active;
+    data['completed'] = this.completed;
     return data;
   }
 }

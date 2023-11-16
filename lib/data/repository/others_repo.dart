@@ -19,7 +19,7 @@ class OthersRepository {
     var data = {"category_id": categoryId};
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.trainingListApi, queryParameters: data,
+        .getApiResponse(sharedPreferences!.getString(AppConstants.userType) == "guest" ? AppConstants.guestTrainingListApi :AppConstants.trainingListApi, queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {

@@ -245,6 +245,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                       children: [
                         InkWell(
                           onTap: () {
+                            print(state.responseTrainingList!.data![index].videoUrl);
                             showDialog(
                                 context: context,
                                 builder: (context) => OverlayVideoPlayer(
@@ -364,16 +365,25 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
     super.initState();
   }
 
-  func() async {
-    String videoId = YoutubePlayer.convertUrlToId(widget.url)
-        .toString();
+  func() {
+    String? videoId = YoutubePlayer.convertUrlToId(widget.url);
     controller = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: videoId ?? '',
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: true,
       ),
     );
+
+    if(videoId == null) {
+
+      Future.delayed(Duration(seconds: 2), () {
+        showCustomToast(context, 'Not a valid url');
+        print("pressBack");
+        pressBack();
+      });
+
+    }
   }
 
   @override

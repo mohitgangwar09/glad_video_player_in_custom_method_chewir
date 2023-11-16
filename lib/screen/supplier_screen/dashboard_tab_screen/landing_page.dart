@@ -35,11 +35,14 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
   // ];
 
   int surveyPercentage = 0;
+  String surveyText = 'completed';
+  int projectPercentage = 0;
+  String projectText = 'completed';
 
-  List<_ChartData> data2 = [
-    _ChartData('Completed', 07),
-    _ChartData('Active', 15),
-  ];
+  // List<_ChartData> data2 = [
+  //   _ChartData('Completed', 07),
+  //   _ChartData('Active', 15),
+  // ];
 
   final List<SalesData> chartData = [
     SalesData(DateTime(2022, 11), 2),
@@ -52,7 +55,30 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
 
   @override
   void initState() {
-    BlocProvider.of<LandingPageCubit>(context).getSupplierDashboard(context);
+    BlocProvider.of<LandingPageCubit>(context).getSupplierDashboard(context).then((value) {
+      LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
+      if(state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt() != 0) {
+        projectPercentage =
+            (state.responseSupplierDashboard!.data!.farmerProject!.completed!
+                .toInt() +
+                state.responseSupplierDashboard!.data!.farmerProject!.active!
+                    .toInt()) ~/
+                state.responseSupplierDashboard!.data!.farmerProject!.completed!
+                    .toInt();
+      }
+      if(state.responseSupplierDashboard!.data!.farmerProjectSurvey!.completed!.toInt() != 0) {
+        surveyPercentage =
+            (state.responseSupplierDashboard!.data!.farmerProjectSurvey!
+                .completed!.toInt() +
+                state.responseSupplierDashboard!.data!.farmerProjectSurvey!
+                    .pending!.toInt()) ~/
+                state.responseSupplierDashboard!.data!.farmerProjectSurvey!
+                    .completed!.toInt();
+      }
+      setState(() {
+
+      });
+    });
     super.initState();
   }
 
@@ -120,7 +146,6 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 children: [
-                  if(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.isNotEmpty)
                   Expanded(
                     child: customShadowContainer(
                       margin: 0,
@@ -153,7 +178,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                             series: <CircularSeries<_ChartData,
                                                 String>>[
                                               DoughnutSeries<_ChartData, String>(
-                                                  dataSource: List.generate(state.responseSupplierDashboard!.data!.farmerProjetSurvey!.length, (index) => _ChartData(formatProjectStatus(state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].surveyStatus ?? ''), state.responseSupplierDashboard!.data!.farmerProjetSurvey![index].count.toDouble())),
+                                                  dataSource: [
+                                                    _ChartData('completed', state.responseSupplierDashboard!.data!.farmerProjectSurvey!.completed!.toDouble()),
+                                                    _ChartData('pending', state.responseSupplierDashboard!.data!.farmerProjectSurvey!.pending!.toDouble())
+                                                  ],
                                                   xValueMapper:
                                                       (_ChartData data, _) =>
                                                           data.x,
@@ -168,21 +196,32 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                   ),
                                                   onPointTap: (detail) {
                                                     surveyPercentage = ((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toInt();
+                                                    if(detail.pointIndex == 0) {
+                                                      surveyText = 'completed';
+                                                    } else{
+                                                      surveyText = 'pending';
+                                                    }
                                                     setState(() {});
                                                   })
                                             ]),
                                       ),
                                       Positioned(
-                                          child: Row(
+                                          child: Column(
+                                            children: [
+                                              Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                         children: [
-                                          surveyPercentage.toString().textBold(
-                                              color: Colors.black, fontSize: 26),
-                                          "%".textBold(
-                                              color: Colors.black, fontSize: 12)
+                                              surveyPercentage.toString().textBold(
+                                                  color: Colors.black, fontSize: 26),
+                                              "%".textBold(
+                                                  color: Colors.black, fontSize: 12)
                                         ],
-                                      )),
+                                      ),
+                                              surveyText.textRegular(
+                                                  color: Colors.black, fontSize: 10)
+                                            ],
+                                          )),
                                     ],
                                   ),
                                   10.verticalSpace(),
@@ -201,10 +240,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                       BorderRadius.circular(10)),
                                             ),
                                             7.horizontalSpace(),
-                                            Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].surveyStatus}: ',
+                                            Text('Completed: ',
                                                 style: figtreeRegular.copyWith(
                                                     fontSize: 12)),
-                                            Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![0].count.toInt().toString(),
+                                            Text(state.responseSupplierDashboard!.data!.farmerProjectSurvey!.completed!.toInt().toString(),
                                                 style: figtreeBold.copyWith(
                                                     fontSize: 12)),
                                           ],
@@ -221,10 +260,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                       BorderRadius.circular(10)),
                                             ),
                                             7.horizontalSpace(),
-                                            Text('${state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].surveyStatus}: ',
+                                            Text('Pending: ',
                                                 style: figtreeRegular.copyWith(
                                                     fontSize: 12)),
-                                            Text(state.responseSupplierDashboard!.data!.farmerProjetSurvey![1].count.toInt().toString(),
+                                            Text(state.responseSupplierDashboard!.data!.farmerProjectSurvey!.pending!.toInt().toString(),
                                                 style: figtreeBold.copyWith(
                                                     fontSize: 12)),
                                           ],
@@ -277,7 +316,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                             series: <CircularSeries<_ChartData,
                                                 String>>[
                                               DoughnutSeries<_ChartData, String>(
-                                                  dataSource: data2,
+                                                  dataSource: [
+                                                    _ChartData('completed', state.responseSupplierDashboard!.data!.farmerProject!.completed!.toDouble()),
+                                                    _ChartData('active', state.responseSupplierDashboard!.data!.farmerProject!.active!.toDouble())
+                                                  ],
                                                   xValueMapper:
                                                       (_ChartData data, _) =>
                                                           data.x,
@@ -285,20 +327,39 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                       (_ChartData data, _) =>
                                                           data.y,
                                                   radius: '60',
-                                                  innerRadius: '40')
+                                                  innerRadius: '40',
+                                                  selectionBehavior: SelectionBehavior(
+                                            enable: true,
+                                            unselectedOpacity: 0.7
+                                        ),
+                                                  onPointTap: (detail) {
+                                          projectPercentage = ((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toInt();
+                                          if(detail.pointIndex == 0) {
+                                            projectText = 'completed';
+                                          } else{
+                                            projectText = 'active';
+                                          }
+                                          setState(() {});
+                                        })
                                             ]),
                                       ),
                                       Positioned(
-                                          child: Row(
+                                          child: Column(
+                                            children: [
+                                              Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                         children: [
-                                          "33".textBold(
-                                              color: Colors.black, fontSize: 26),
-                                          "%".textBold(
-                                              color: Colors.black, fontSize: 12)
+                                              projectPercentage.toString().textBold(
+                                                  color: Colors.black, fontSize: 26),
+                                              "%".textBold(
+                                                  color: Colors.black, fontSize: 12)
                                         ],
-                                      )),
+                                      ),
+                                              projectText.textRegular(
+                                                  color: Colors.black, fontSize: 10)
+                                            ],
+                                          )),
                                     ],
                                   ),
                                   10.verticalSpace(),
@@ -317,10 +378,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                       BorderRadius.circular(10)),
                                             ),
                                             7.horizontalSpace(),
-                                            Text('${data2[0].x}: ',
+                                            Text('Completed: ',
                                                 style: figtreeRegular.copyWith(
                                                     fontSize: 12)),
-                                            Text(data2[0].y.toInt().toString(),
+                                            Text(state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt().toString(),
                                                 style: figtreeBold.copyWith(
                                                     fontSize: 12)),
                                           ],
@@ -337,10 +398,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                       BorderRadius.circular(10)),
                                             ),
                                             7.horizontalSpace(),
-                                            Text('${data2[1].x}: ',
+                                            Text('Active: ',
                                                 style: figtreeRegular.copyWith(
                                                     fontSize: 12)),
-                                            Text(data2[1].y.toInt().toString(),
+                                            Text(state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt().toString(),
                                                 style: figtreeBold.copyWith(
                                                     fontSize: 12)),
                                           ],

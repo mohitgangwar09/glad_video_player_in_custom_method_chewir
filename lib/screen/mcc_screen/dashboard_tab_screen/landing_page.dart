@@ -99,75 +99,58 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
 
             Padding(
               padding: const EdgeInsets.only(right: 20.0,bottom: 25,left: 10),
-              child: Builder(
-                builder: (context) {
-                  int pending = 0;
-                  int approved = 0;
-                  if(state.responseMCCDashboard!.data!.farmerProjet!.isEmpty) {
+              child: Row(children: [
+                Expanded(
+                  child: customProjectContainer(
+                      width: screenWidth(),
+                      height: 140,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
 
-                  } else if (state.responseMCCDashboard!.data!.farmerProjet![0].projectStatus == 'applied') {
-                    pending = state.responseMCCDashboard!.data!.farmerProjet![0].count;
-                  } else if (state.responseMCCDashboard!.data!.farmerProjet![0].projectStatus != 'applied') {
-                    approved = state.responseMCCDashboard!.data!.farmerProjet![0].count;
-                  } else if (state.responseMCCDashboard!.data!.farmerProjet![1].projectStatus == 'applied') {
-                    pending = state.responseMCCDashboard!.data!.farmerProjet![1].count;
-                  } else if (state.responseMCCDashboard!.data!.farmerProjet![1].projectStatus != 'applied') {
-                    approved = state.responseMCCDashboard!.data!.farmerProjet![1].count;
-                  }
-                  return Row(children: [
-                    Expanded(
-                      child: customProjectContainer(
-                          width: screenWidth(),
-                          height: 140,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-
-                                pending.toString().textMedium(fontSize: 32,
-                                    color: const Color(0xffFC5E60)),
-                                12.verticalSpace(),
-                                'Pending'.textMedium(fontSize: 16),
-                                7.verticalSpace(),
-                                "Loans pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
-                                    maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                            state.responseMCCDashboard!.data!.farmerProject!.pending.toString().textMedium(fontSize: 32,
+                                color: const Color(0xffFC5E60)),
+                            12.verticalSpace(),
+                            'Pending'.textMedium(fontSize: 16),
+                            7.verticalSpace(),
+                            "Loans pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
+                                maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
 
-                              ],
-                            ),
-                          )),
-                    ),
+                          ],
+                        ),
+                      )),
+                ),
 
-                    Expanded(
-                      child: customProjectContainer(
-                          height: 140,
-                          width: screenWidth(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                Expanded(
+                  child: customProjectContainer(
+                      height: 140,
+                      width: screenWidth(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
 
-                                approved.toString().textMedium(fontSize: 32,
-                                    color: const Color(0xff12CE57)),
+                            state.responseMCCDashboard!.data!.farmerProject!.approved.toString().textMedium(fontSize: 32,
+                                color: const Color(0xff12CE57)),
 
-                                12.verticalSpace(),
+                            12.verticalSpace(),
 
-                                'Approved'.textMedium(fontSize: 16),
-                                7.verticalSpace(),
-                                'Loans approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
-                                    maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                            'Approved'.textMedium(fontSize: 16),
+                            7.verticalSpace(),
+                            'Loans approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
+                                maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
-                              ],
-                            ),
-                          )),
-                    )
-                  ],);
-                }
-              ),
+                          ],
+                        ),
+                      )),
+                )
+              ],),
             ),
 
 
