@@ -90,7 +90,7 @@ class AllProjectFarmerWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          "$roi%".textSemiBold(color: Colors.black, fontSize: 16),
+                          "${double.parse(roi.toString()).toStringAsFixed(2)}%".textSemiBold(color: Colors.black, fontSize: 16),
                           "ROI".textMedium(
                               fontSize: 12, color: const Color(0xFF808080)),
                         ],

@@ -232,158 +232,7 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
                         ),
                       ),
                       40.verticalSpace(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: customButton(
-                          'Approve',
-                          onTap: () {
-                            TextEditingController controller = TextEditingController();
-                            modalBottomSheetMenu(context,
-                                radius: 40,
-                                child: StatefulBuilder(
-                                    builder: (context, setState) {
-                                      return SizedBox(
-                                        height: 320,
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
-                                          child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Center(
-                                                  child: Text(
-                                                    'Remarks',
-                                                    style: figtreeMedium.copyWith(fontSize: 22),
-                                                  ),
-                                                ),
-                                                15.verticalSpace(),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-
-                                                    /*Text(
-                                                      'Remarks',
-                                                      style: figtreeMedium.copyWith(fontSize: 12),
-                                                    ),*/
-                                                    5.verticalSpace(),
-                                                    TextField(
-                                                      controller: controller,
-                                                      maxLines: 4,
-                                                      minLines: 4,
-                                                      decoration: InputDecoration(
-                                                          hintText: 'Write...',
-                                                          hintStyle:
-                                                          figtreeMedium.copyWith(fontSize: 18),
-                                                          border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(12),
-                                                              borderSide: const BorderSide(
-                                                                width: 1,
-                                                                color: Color(0xff999999),
-                                                              ))),
-                                                    ),
-                                                    30.verticalSpace(),
-                                                    Padding(
-                                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                      child: customButton(
-                                                        'Submit',
-                                                        fontColor: 0xffFFFFFF,
-                                                        onTap: () {
-                                                          BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyMcc(context,widget.farmerDocuments.farmerProjectId!,'',controller.text,'doc_verified',widget.farmerDocuments.farmerId.toString(),widget.farmerMaster);
-                                                        },
-                                                        height: 60,
-                                                        width: screenWidth(),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )
-                                              ]),
-                                        ),
-                                      );
-                                    }
-                                ));
-                          },
-                          radius: 40,
-                          width: double.infinity,
-                          height: 60,
-                          style: figtreeMedium.copyWith(
-                              color: Colors.white, fontSize: 16),
-                        ),
-                      ),
-                      20.verticalSpace(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: customButton('Reject',
-                            onTap: () {
-                              TextEditingController controller = TextEditingController();
-                              modalBottomSheetMenu(context,
-                                  radius: 40,
-                                  child: StatefulBuilder(
-                                      builder: (context, setState) {
-                                        return SizedBox(
-                                          height: 320,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
-                                            child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      'Remarks',
-                                                      style: figtreeMedium.copyWith(fontSize: 22),
-                                                    ),
-                                                  ),
-                                                  15.verticalSpace(),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-
-                                                      /*Text(
-                                                      'Remarks',
-                                                      style: figtreeMedium.copyWith(fontSize: 12),
-                                                    ),*/
-                                                      5.verticalSpace(),
-                                                      TextField(
-                                                        controller: controller,
-                                                        maxLines: 4,
-                                                        minLines: 4,
-                                                        decoration: InputDecoration(
-                                                            hintText: 'Write...',
-                                                            hintStyle:
-                                                            figtreeMedium.copyWith(fontSize: 18),
-                                                            border: OutlineInputBorder(
-                                                                borderRadius: BorderRadius.circular(12),
-                                                                borderSide: const BorderSide(
-                                                                  width: 1,
-                                                                  color: Color(0xff999999),
-                                                                ))),
-                                                      ),
-                                                      30.verticalSpace(),
-                                                      Padding(
-                                                        padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                        child: customButton(
-                                                          'Submit',
-                                                          fontColor: 0xffFFFFFF,
-                                                          onTap: () {
-                                                            BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyMcc(context,widget.farmerDocuments.farmerProjectId!,'',controller.text,'rejected',widget.farmerDocuments.farmerId.toString(),widget.farmerMaster);
-                                                          },
-                                                          height: 60,
-                                                          width: screenWidth(),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                ]),
-                                          ),
-                                        );
-                                      }
-                                  ));
-                            },
-                            radius: 40,
-                            width: double.infinity,
-                            height: 60,
-                            style: figtreeMedium.copyWith(
-                                color: Colors.black, fontSize: 16),
-                            color: 0xFFDCDCDC),
-                      ),
+                      actionButton()
                     ],
                   ),
                 ),
@@ -394,4 +243,164 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
       ),
     );
   }
+
+  Widget actionButton(){
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: customButton(
+            'Approve',
+            onTap: () {
+              TextEditingController controller = TextEditingController();
+              modalBottomSheetMenu(context,
+                  radius: 40,
+                  child: StatefulBuilder(
+                      builder: (context, setState) {
+                        return SizedBox(
+                          height: 320,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      'Remarks',
+                                      style: figtreeMedium.copyWith(fontSize: 22),
+                                    ),
+                                  ),
+                                  15.verticalSpace(),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+
+                                      /*Text(
+                                                      'Remarks',
+                                                      style: figtreeMedium.copyWith(fontSize: 12),
+                                                    ),*/
+                                      5.verticalSpace(),
+                                      TextField(
+                                        controller: controller,
+                                        maxLines: 4,
+                                        minLines: 4,
+                                        decoration: InputDecoration(
+                                            hintText: 'Write...',
+                                            hintStyle:
+                                            figtreeMedium.copyWith(fontSize: 18),
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                  width: 1,
+                                                  color: Color(0xff999999),
+                                                ))),
+                                      ),
+                                      30.verticalSpace(),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                        child: customButton(
+                                          'Submit',
+                                          fontColor: 0xffFFFFFF,
+                                          onTap: () {
+                                            BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyMcc(context,widget.farmerDocuments.farmerProjectId!,'',controller.text,'doc_verified',widget.farmerDocuments.farmerId.toString(),widget.farmerMaster);
+                                          },
+                                          height: 60,
+                                          width: screenWidth(),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ]),
+                          ),
+                        );
+                      }
+                  ));
+            },
+            radius: 40,
+            width: double.infinity,
+            height: 60,
+            style: figtreeMedium.copyWith(
+                color: Colors.white, fontSize: 16),
+          ),
+        ),
+        20.verticalSpace(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: customButton('Reject',
+              onTap: () {
+                TextEditingController controller = TextEditingController();
+                modalBottomSheetMenu(context,
+                    radius: 40,
+                    child: StatefulBuilder(
+                        builder: (context, setState) {
+                          return SizedBox(
+                            height: 320,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        'Remarks',
+                                        style: figtreeMedium.copyWith(fontSize: 22),
+                                      ),
+                                    ),
+                                    15.verticalSpace(),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+
+                                        /*Text(
+                                                      'Remarks',
+                                                      style: figtreeMedium.copyWith(fontSize: 12),
+                                                    ),*/
+                                        5.verticalSpace(),
+                                        TextField(
+                                          controller: controller,
+                                          maxLines: 4,
+                                          minLines: 4,
+                                          decoration: InputDecoration(
+                                              hintText: 'Write...',
+                                              hintStyle:
+                                              figtreeMedium.copyWith(fontSize: 18),
+                                              border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                    width: 1,
+                                                    color: Color(0xff999999),
+                                                  ))),
+                                        ),
+                                        30.verticalSpace(),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                          child: customButton(
+                                            'Submit',
+                                            fontColor: 0xffFFFFFF,
+                                            onTap: () {
+                                              BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyMcc(context,widget.farmerDocuments.farmerProjectId!,'',controller.text,'rejected',widget.farmerDocuments.farmerId.toString(),widget.farmerMaster);
+                                            },
+                                            height: 60,
+                                            width: screenWidth(),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ]),
+                            ),
+                          );
+                        }
+                    ));
+              },
+              radius: 40,
+              width: double.infinity,
+              height: 60,
+              style: figtreeMedium.copyWith(
+                  color: Colors.black, fontSize: 16),
+              color: 0xFFDCDCDC),
+        ),
+      ],
+    );
+  }
+
 }

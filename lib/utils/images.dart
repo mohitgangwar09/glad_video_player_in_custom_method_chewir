@@ -90,6 +90,7 @@ class Images {
   static const String searchLeft = 'assets/images/search_icon.svg';
   static const String cross = 'assets/images/cross.svg';
   static const String add = 'assets/images/add.svg';
+  static const String congratulation = 'assets/images/congratulation.svg';
   static const String drop = 'assets/images/drop.svg';
   static const String done = 'assets/images/done.svg';
   static const String timer = 'assets/images/timer.svg';

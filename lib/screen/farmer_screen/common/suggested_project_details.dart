@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
@@ -87,7 +89,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   'Confirm The Loan',
                                   style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                   onTap: (){
-                                    // AddRemarkConfirmLoan(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
+                                    AddRemarkConfirmLoan(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
                                   }
 
                               ),
@@ -433,7 +435,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
   }
 
 /////////KPI///////////////////////
-  Widget kpi(context,ProjectState state) {
+  Widget kpi(contexts,ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
@@ -457,7 +459,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!=null){
       kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
           image: Images.farmerParticipationKpi,
-          // actionImage: Images.imageEdit,
+          actionImage: Images.imageEdit,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!)));
     }
 
@@ -553,8 +555,84 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             height: 30,
                           ),
                           kpiData[index].actionImage!=null?
+                          InkWell(
+                              onTap: (){
+                                TextEditingController controller = TextEditingController();
+                                controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
+                                if(kpiData[index].name.toString() == "Farmer Participation"){
+                                  modalBottomSheetMenu(context,
+                                      radius: 40,
+                                      child: StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return SizedBox(
+                                              height: 320,
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          'Farmer Participation',
+                                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                                        ),
+                                                      ),
+                                                      30.verticalSpace(),
+
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            'Participation Value',
+                                                            style: figtreeMedium.copyWith(fontSize: 12),
+                                                          ),
+                                                          5.verticalSpace(),
+                                                          TextField(
+                                                            controller: controller,
+                                                            maxLines: 1,
+                                                            keyboardType: TextInputType.number,
+                                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                                            minLines: 1,
+                                                            decoration: InputDecoration(
+                                                                hintText: 'Enter participation value',
+                                                                hintStyle:
+                                                                figtreeMedium.copyWith(fontSize: 18),
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.circular(12),
+                                                                    borderSide: const BorderSide(
+                                                                      width: 1,
+                                                                      color: Color(0xff999999),
+                                                                    ))),
+                                                          ),
+                                                          30.verticalSpace(),
+                                                          Padding(
+                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                            child: customButton(
+                                                              'Submit',
+                                                              fontColor: 0xffFFFFFF,
+                                                              onTap: () {
+                                                                if(controller.text.isEmpty){
+                                                                  showCustomToast(context, "Please enter participation value");
+                                                                }else{
+                                                                  BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
+                                                                }
+                                                              },
+                                                              height: 60,
+                                                              width: screenWidth(),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ]),
+                                              ),
+                                            );
+                                          }
+                                      ));
+                                }
+                              }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()
+                          /*kpiData[index].actionImage!=null?
                           SvgPicture.asset(kpiData[index].actionImage.toString()):
-                              const SizedBox.shrink()
+                              const SizedBox.shrink()*/
                         ],
                       ),
                       15.verticalSpace(),
@@ -647,7 +725,8 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                         color: ColorResources.fieldGrey),
                                   ),
                                   Text(
-                                    'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
+                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue!=null?getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue):'',
+                                    // 'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
                                     style: figtreeSemiBold.copyWith(
                                         fontSize: 16,
                                         color: ColorResources.maroon),
@@ -703,7 +782,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
   }
 
   /////////////InviteExpert/////////
-  Widget inviteExpert(BuildContext context, ProjectState  state) {
+  Widget inviteExpert(BuildContext contexts, ProjectState  state) {
     return Column(
       children: [
         Center(
