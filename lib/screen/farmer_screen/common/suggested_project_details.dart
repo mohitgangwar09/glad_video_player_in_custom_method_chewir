@@ -73,7 +73,6 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             description(state),
-                            30.verticalSpace(),
                             dde(context, state),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
@@ -257,6 +256,38 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
           );
         }
       }),
+    );
+  }
+
+  ///////DividerValue///////////
+  Widget dividerValue(ProjectState state) {
+    return Column(
+      children: [
+        const Divider(
+          thickness: 1,
+        ),
+        10.verticalSpace(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Value',
+              style: figtreeMedium.copyWith(fontSize: 14),
+            ),
+
+            Text(
+              getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!),
+              style: figtreeSemiBold.copyWith(
+                  fontSize: 16, color: ColorResources.maroon),
+            ),
+
+          ],
+        ),
+        10.verticalSpace(),
+        const Divider(
+          thickness: 1,
+        ),
+      ],
     );
   }
 

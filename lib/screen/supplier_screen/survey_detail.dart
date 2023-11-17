@@ -18,6 +18,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/model/farmer_project_detail_model.dart';
 
@@ -165,14 +166,15 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                 )):
                             const SizedBox.shrink(),
                             20.verticalSpace(),
+                            widget.selectedFilter != "completed"?
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 35.0),
                               child: Text(
-                                'This survey is required to be completed before 16 June, 2023.',
+                                'This survey is required to be completed before ${DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectSurvey![0].surveySubmitDate!.toString()).add(Duration(days: int.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectSurvey![0].projectSurveyDays.toString()))))}',
                                 style: figtreeMedium.copyWith(fontSize: 18),
                                 textAlign: TextAlign.center,
                               ),
-                            ),
+                            ):const SizedBox.shrink(),
 
 
                             actionButton(state)

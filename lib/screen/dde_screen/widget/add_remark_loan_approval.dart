@@ -360,14 +360,14 @@ class _AddRemarkLoanApprovalState extends State<AddRemarkLoanApproval> {
             onChanged: (value) {
               if(value.length == 4){
                 if(widget.navigateFrom == "dde"){
-                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
+                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatusLoanApprovalApi(context, value.toString(),
                       widget.farmerProjectId.toString(),
                       date,
                       controller.text ?? '',
                       "accepted",
                       widget.projectData.id.toString(), widget.projectData);
                 }else{
-                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerApi(context, value.toString(),
+                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerLoanApprovalApi(context, value.toString(),
                       widget.farmerProjectId.toString(),
                       date,
                       controller.text ?? '',

@@ -77,6 +77,30 @@ class TermsAndCondition extends StatelessWidget {
 
                   20.verticalSpace(),
 
+                  /*SwipeButton.expand(
+                    thumb: Icon(
+                      Icons.double_arrow_rounded,
+                      color: Colors.white,
+                    ),
+                    child: Text(
+                      "Swipe to ...",
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                    activeThumbColor: Colors.red,
+                    activeTrackColor: Colors.grey.shade300,
+                    onSwipe: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Swipped"),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    },
+                  ),
+*/
+
                   SwipeButton(
                     width: 287,
                     // trackPadding: EdgeInsets.all(6),

@@ -12,6 +12,7 @@ import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/repository/project_repo.dart';
+import 'package:glad/screen/common/congratulation_screen.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/add_remark.dart';
 import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
@@ -264,6 +265,81 @@ class ProjectCubit extends Cubit<ProjectState> {
     else
     {
       // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+
+  ///// verifyProjectStatusApi /////
+  Future<void> verifyProjectStatusLoanApprovalApi(context,String otp,String projectId,
+      String date,String remarks,String selectStatus,String farmerId,dde.FarmerMaster profileData) async{
+
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+    disposeProgress();
+
+    if(response.status == 200){
+
+      showCustomToast(context, "message");
+
+      await inviteExpertForSurveyDDeLoanApprovalApi(context,
+          int.parse(projectId),
+          date,
+          remarks,
+          selectStatus,
+          farmerId.toString(),
+          profileData,'dde'
+      );
+    }
+    else
+    {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  ///// verifyProjectStatusApi /////
+  Future<void> verifyProjectStatusFarmerLoanApprovalApi(context,String otp,String projectId,
+      String date,String remarks,String selectStatus,String farmerId,dde.FarmerMaster profileData) async{
+
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+    disposeProgress();
+
+    if(response.status == 200){
+
+      showCustomToast(context, "message");
+
+      await inviteExpertForSurveyDDeLoanApprovalApi(context,
+          int.parse(projectId),
+          date,
+          remarks,
+          selectStatus,
+          farmerId.toString(),
+          profileData,'farmer'
+      );
+    }
+    else
+    {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> inviteExpertForSurveyDDeLoanApprovalApi(context, int projectId, String date,
+      String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData,String navigateFrom) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
+        remark,projectStatus,farmerId);
+    if (response.status == 200) {
+
+      CongratulationScreen(navigateFrom: navigateFrom).navigate(isInfinity: true);
+
+      showCustomToast(context, response.data['message'], isSuccess: true);
+    } else {
+      emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
     }
   }
