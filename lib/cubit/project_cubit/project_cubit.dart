@@ -168,7 +168,7 @@ class ProjectCubit extends Cubit<ProjectState> {
         SurveyFinishedScreen(farmerProjectSurvey: projectSurvey,).navigate();
       }
       ddeProjectsApi(context, 'new', true);
-      farmerProjectDetailApi(context,projectId);
+      // farmerProjectDetailApi(context,projectId);
 
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
@@ -352,9 +352,11 @@ class ProjectCubit extends Cubit<ProjectState> {
         remark,projectStatus,farmerId);
     if (response.status == 200) {
 
-      ThankYou(
-          profileData:profileData,navigateFrom: navigateFrom
-      ).navigate(isInfinity: true);
+
+        ThankYou(
+            profileData:profileData,navigateFrom: navigateFrom,projectStatus:projectStatus
+        ).navigate(isInfinity: true);
+
       showCustomToast(context, response.data['message'], isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
@@ -372,7 +374,7 @@ class ProjectCubit extends Cubit<ProjectState> {
 
 
       ThankYouMcc(
-          profileData:profileData
+          profileData:profileData,projectStatus:projectStatus
       ).navigate(isInfinity: true);
       showCustomToast(context, response.data['message'], isSuccess: true);
 

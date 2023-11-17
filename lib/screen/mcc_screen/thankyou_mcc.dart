@@ -11,8 +11,9 @@ import 'package:glad/utils/styles.dart';
 
 
 class ThankYouMcc extends StatelessWidget {
-  const ThankYouMcc({super.key,this.profileData});
+  const ThankYouMcc({super.key,this.profileData,this.projectStatus});
   final FarmerMaster? profileData;
+  final String? projectStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +43,14 @@ class ThankYouMcc extends StatelessWidget {
                 'Thank you!'
                     .textMedium(fontSize: 30, color: ColorResources.black),
                 10.verticalSpace(),
+                if(projectStatus == 'rejected')
+                  Text(
+                      'Loan application has been rejected successfully.',
+                      textAlign: TextAlign.center,
+                      style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
+                else
                 Text(
-                    'Farmer feedback has been submitted successfully.',
+                    'Loan application has been approved successfully.',
                     textAlign: TextAlign.center,
                     style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
                 30.verticalSpace(),
@@ -55,7 +62,7 @@ class ThankYouMcc extends StatelessWidget {
                 40.verticalSpace(),
                 customButton("Go to Home", fontColor: 0xffffffff, onTap: () {
                   // ddeLandingKey.currentState?.dispose();
-                  const DashboardMCC().navigate(isInfinity: true);
+                  const DashboardMCC(navigateFrom:'thankyou').navigate(isInfinity: true);
                   // BlocProvider.of<DashboardCubit>(context).selectedIndex(0);
                 })
               ],

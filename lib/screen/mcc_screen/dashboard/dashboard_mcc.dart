@@ -12,11 +12,17 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/images.dart';
 
 class DashboardMCC extends StatelessWidget {
-  const DashboardMCC({Key? key}) : super(key: key);
+  const DashboardMCC({Key? key,this.navigateFrom}) : super(key: key);
+
+  final String? navigateFrom;
 
   @override
   Widget build(BuildContext context) {
     var provider = BlocProvider.of<DashboardCubit>(context);
+
+    if(navigateFrom==null){
+      provider.selectedIndex(0);
+    }
 
     final widgetOptions = [
       const MCCLandingPage(),

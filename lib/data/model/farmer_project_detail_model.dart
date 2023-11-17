@@ -86,6 +86,7 @@ class FarmerProject {
   List<FarmerProjectPaymentTerms>? farmerProjectPaymentTerms;
   DairyDevelopMentExecutive? dairyDevelopMentExecutive;
   Kpi? kpi;
+  FarmerImprovementArea? farmerImprovementArea;
   FarmerMaster? farmerMaster;
   List<FarmerProjectLog>? farmerProjectLog;
   FarmerProjectKycDocument? farmerProjectKycDocument;
@@ -137,6 +138,7 @@ class FarmerProject {
         this.farmerProjectKycDocument,
         this.farmerLoanDocument,
         this.farmerProjectSurvey,
+        this.farmerImprovementArea,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -176,6 +178,7 @@ class FarmerProject {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     kpi = json['kpi'] != null ? Kpi.fromJson(json['kpi']) : null;
+    farmerImprovementArea = json['farmer_improvement_area'] != null ? FarmerImprovementArea.fromJson(json['farmer_improvement_area']) : null;
     farmerMaster = json['farmer_master'] != null ? FarmerMaster.fromJson(json['farmer_master']) : null;
     if (json['farmer_project_milestones'] != null) {
       farmerProjectMilestones = <FarmerProjectMilestones>[];
@@ -267,6 +270,9 @@ class FarmerProject {
     }
     if (kpi != null) {
       data['kpi'] = kpi!.toJson();
+    }
+    if (farmerImprovementArea != null) {
+      data['farmer_improvement_area'] = farmerImprovementArea!.toJson();
     }
     if (farmerProjectPaymentTerms != null) {
       data['farmer_project_payment_terms'] =
@@ -2013,6 +2019,102 @@ class FarmerProjectSurvey {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class FarmerImprovementArea {
+  dynamic id;
+  dynamic improvementAreaId;
+  dynamic farmerId;
+  dynamic parameter;
+  String? value;
+  dynamic uom;
+  dynamic inputType;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  // ImprovementArea? improvementArea;
+
+  FarmerImprovementArea(
+      {this.id,
+        this.improvementAreaId,
+        this.farmerId,
+        this.parameter,
+        this.value,
+        this.uom,
+        this.inputType,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        // this.improvementArea
+      });
+
+  FarmerImprovementArea.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    improvementAreaId = json['improvement_area_id'];
+    farmerId = json['farmer_id'];
+    parameter = json['parameter'];
+    value = json['value'];
+    uom = json['uom'];
+    inputType = json['input_type'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    // improvementArea = json['improvement_area'] != null
+    //     ? ImprovementArea.fromJson(json['improvement_area'])
+    //     : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['improvement_area_id'] = improvementAreaId;
+    data['farmer_id'] = farmerId;
+    data['parameter'] = parameter;
+    data['value'] = value;
+    data['uom'] = uom;
+    data['input_type'] = inputType;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    // if (improvementArea != null) {
+    //   data['improvement_area'] = improvementArea!.toJson();
+    // }
+    return data;
+  }
+}
+
+class ImprovementArea {
+  dynamic id;
+  String? name;
+  dynamic image;
+
+  ImprovementArea({this.id, this.name, this.image});
+
+  ImprovementArea.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image'] = image;
     return data;
   }
 }
