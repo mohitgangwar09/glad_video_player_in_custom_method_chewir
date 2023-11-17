@@ -84,7 +84,9 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             description(state),
-                            30.verticalSpace(),
+                            20.verticalSpace(),
+                            dividerValue(state),
+                            20.verticalSpace(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!=null?
                             farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!):const SizedBox.shrink(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!=null?
@@ -173,205 +175,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                             ),
 
 
-                            widget.selectedFilter == "new"?
-                            Row(
-                              children: [
-                                /*Expanded(
-                                  child: Container(
-                                      margin: 18.marginAll(),
-                                      height: 55,
-                                      width: screenWidth(),
-                                      child: customButton("Reject",
-                                          fontColor: 0xffffffff,
-                                          color: 0xff999999,
-                                          onTap: () {
-                                            modalBottomSheetMenu(context,
-                                                radius: 40,
-                                                child: SizedBox(
-                                                  height: 320,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                                    child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Center(
-                                                            child: Text(
-                                                              'Remarks',
-                                                              style: figtreeMedium.copyWith(fontSize: 22),
-                                                            ),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          TextField(
-                                                            maxLines: 4,
-                                                            minLines: 4,
-                                                            controller: controller,
-                                                            decoration: InputDecoration(
-                                                                hintText: 'Write...',
-                                                                hintStyle:
-                                                                figtreeMedium.copyWith(fontSize: 18),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius: BorderRadius.circular(12),
-                                                                    borderSide: const BorderSide(
-                                                                      width: 1,
-                                                                      color: Color(0xff999999),
-                                                                    ))),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          Padding(
-                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                            child: customButton(
-                                                              'Submit',
-                                                              fontColor: 0xffFFFFFF,
-                                                              onTap: () {
-                                                                if(controller.text.isEmpty){
-                                                                  showCustomToast(context, "Please enter remarks");
-                                                                }else{
-                                                                  context.read<ProjectCubit>().surveyStatusApi(context,
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].projectId,
-                                                                      controller.text ?? '',
-                                                                      'survey_rejected',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0]);
-                                                                }
-                                                              },
-                                                              height: 60,
-                                                              width: screenWidth(),
-                                                            ),
-                                                          )
-                                                        ]),
-                                                  ),
-                                                ));
-                                          })),
-                                ),*/
-                                Expanded(
-                                  child: Container(
-                                      margin: 18.marginAll(),
-                                      height: 55,
-                                      width: screenWidth(),
-                                      child: customButton("Accept",
-                                          fontColor: 0xffffffff, onTap: () {
-                                            modalBottomSheetMenu(context,
-                                                radius: 40,
-                                                child: SizedBox(
-                                                  height: 320,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                                    child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Center(
-                                                            child: Text(
-                                                              'Remarks',
-                                                              style: figtreeMedium.copyWith(fontSize: 22),
-                                                            ),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          TextField(
-                                                            maxLines: 4,
-                                                            minLines: 4,
-                                                            controller: controller,
-                                                            decoration: InputDecoration(
-                                                                hintText: 'Write...',
-                                                                hintStyle:
-                                                                figtreeMedium.copyWith(fontSize: 18),
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius: BorderRadius.circular(12),
-                                                                    borderSide: const BorderSide(
-                                                                      width: 1,
-                                                                      color: Color(0xff999999),
-                                                                    ))),
-                                                          ),
-                                                          30.verticalSpace(),
-                                                          Padding(
-                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                            child: customButton(
-                                                              'Submit',
-                                                              fontColor: 0xffFFFFFF,
-                                                              onTap: () {
-                                                                if(controller.text.isEmpty){
-                                                                  showCustomToast(context, "Please enter remarks");
-                                                                }else{
-                                                                  context.read<ProjectCubit>().surveyStatusApi(context,
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                                                      controller.text ?? '',
-                                                                      'survey_accepted',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0]);
-                                                                }
-                                                              },
-                                                              height: 60,
-                                                              width: screenWidth(),
-                                                            ),
-                                                          )
-                                                        ]),
-                                                  ),
-                                                ));
-                                          })),
-                                )
-                              ],
-                            ):const SizedBox.shrink(),
-
-                            15.verticalSpace(),
-
-                            widget.selectedFilter == "pending"?
-                            Center(
-                              child: customButton("Submit Survey",
-                                  fontColor: 0xffffffff, onTap: () {
-                                    modalBottomSheetMenu(context,
-                                        radius: 40,
-                                        child: SizedBox(
-                                          height: 320,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                            child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      'Remarks',
-                                                      style: figtreeMedium.copyWith(fontSize: 22),
-                                                    ),
-                                                  ),
-                                                  30.verticalSpace(),
-                                                  TextField(
-                                                    maxLines: 4,
-                                                    minLines: 4,
-                                                    controller: controller,
-                                                    decoration: InputDecoration(
-                                                        hintText: 'Write...',
-                                                        hintStyle:
-                                                        figtreeMedium.copyWith(fontSize: 18),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(12),
-                                                            borderSide: const BorderSide(
-                                                              width: 1,
-                                                              color: Color(0xff999999),
-                                                            ))),
-                                                  ),
-                                                  30.verticalSpace(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                    child: customButton(
-                                                      'Submit',
-                                                      fontColor: 0xffFFFFFF,
-                                                      onTap: () {
-                                                        if(controller.text.isEmpty){
-                                                          showCustomToast(context, "Please enter remarks");
-                                                        }else{
-                                                          context.read<ProjectCubit>().surveyStatusApi(context,
-                                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                                              controller.text ?? '',
-                                                              'survey_completed',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                              state.responseFarmerProjectDetail!.data!.farmerProject![0]);
-                                                        }
-                                                      },
-                                                      height: 60,
-                                                      width: screenWidth(),
-                                                    ),
-                                                  )
-                                                ]),
-                                          ),
-                                        ));
-                                  }),
-                            ):const SizedBox.shrink()
+                            actionButton(state)
                           ],
                         ),
                       ),
@@ -392,6 +196,178 @@ class _SurveyDetailsState extends State<SurveyDetails> {
         }
         }
       ),
+    );
+  }
+
+  Widget actionButton(ProjectState state){
+    return Column(
+      children: [
+        widget.selectedFilter == "new"?
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                  margin: 18.marginAll(),
+                  height: 55,
+                  width: screenWidth(),
+                  child: customButton("Accept",
+                      fontColor: 0xffffffff, onTap: () {
+                        modalBottomSheetMenu(context,
+                            radius: 40,
+                            child: SizedBox(
+                              height: 320,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'Remarks',
+                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                        ),
+                                      ),
+                                      30.verticalSpace(),
+                                      TextField(
+                                        maxLines: 4,
+                                        minLines: 4,
+                                        controller: controller,
+                                        decoration: InputDecoration(
+                                            hintText: 'Write...',
+                                            hintStyle:
+                                            figtreeMedium.copyWith(fontSize: 18),
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                  width: 1,
+                                                  color: Color(0xff999999),
+                                                ))),
+                                      ),
+                                      30.verticalSpace(),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                        child: customButton(
+                                          'Submit',
+                                          fontColor: 0xffFFFFFF,
+                                          onTap: () {
+                                            if(controller.text.isEmpty){
+                                              showCustomToast(context, "Please enter remarks");
+                                            }else{
+                                              context.read<ProjectCubit>().surveyStatusApi(context,
+                                                  state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                  controller.text ?? '',
+                                                  'survey_accepted',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
+                                                  state.responseFarmerProjectDetail!.data!.farmerProject![0]);
+                                            }
+                                          },
+                                          height: 60,
+                                          width: screenWidth(),
+                                        ),
+                                      )
+                                    ]),
+                              ),
+                            ));
+                      })),
+            )
+          ],
+        ):const SizedBox.shrink(),
+
+        15.verticalSpace(),
+
+        widget.selectedFilter == "pending"?
+        Center(
+          child: customButton("Submit Survey",
+              fontColor: 0xffffffff, onTap: () {
+                modalBottomSheetMenu(context,
+                    radius: 40,
+                    child: SizedBox(
+                      height: 320,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Text(
+                                  'Remarks',
+                                  style: figtreeMedium.copyWith(fontSize: 22),
+                                ),
+                              ),
+                              30.verticalSpace(),
+                              TextField(
+                                maxLines: 4,
+                                minLines: 4,
+                                controller: controller,
+                                decoration: InputDecoration(
+                                    hintText: 'Write...',
+                                    hintStyle:
+                                    figtreeMedium.copyWith(fontSize: 18),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: const BorderSide(
+                                          width: 1,
+                                          color: Color(0xff999999),
+                                        ))),
+                              ),
+                              30.verticalSpace(),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                child: customButton(
+                                  'Submit',
+                                  fontColor: 0xffFFFFFF,
+                                  onTap: () {
+                                    if(controller.text.isEmpty){
+                                      showCustomToast(context, "Please enter remarks");
+                                    }else{
+                                      context.read<ProjectCubit>().surveyStatusApi(context,
+                                          state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                          controller.text ?? '',
+                                          'survey_completed',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
+                                          state.responseFarmerProjectDetail!.data!.farmerProject![0]);
+                                    }
+                                  },
+                                  height: 60,
+                                  width: screenWidth(),
+                                ),
+                              )
+                            ]),
+                      ),
+                    ));
+              }),
+        ):const SizedBox.shrink()
+      ],
+    );
+  }
+
+  ///////DividerValue///////////
+  Widget dividerValue(ProjectState state) {
+    return Column(
+      children: [
+        const Divider(
+          thickness: 1,
+        ),
+        10.verticalSpace(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Value',
+              style: figtreeMedium.copyWith(fontSize: 14),
+            ),
+
+            Text(
+              getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!),
+              style: figtreeSemiBold.copyWith(
+                  fontSize: 16, color: ColorResources.maroon),
+            ),
+
+          ],
+        ),
+        10.verticalSpace(),
+        const Divider(
+          thickness: 1,
+        ),
+      ],
     );
   }
 
@@ -811,7 +787,8 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                             color: ColorResources.fieldGrey),
                                       ),
                                       Text(
-                                        'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
+                                        state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue!=null?getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue):'',
+                                        // 'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
                                         style: figtreeSemiBold.copyWith(
                                             fontSize: 16,
                                             color: ColorResources.maroon),

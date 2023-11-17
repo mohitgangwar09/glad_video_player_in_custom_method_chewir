@@ -352,6 +352,30 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               ],
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "applied".toUpperCase() ?
+                            Column(
+                              children: [
+                                Center(
+                                  child: customButton(
+                                      'Revoke',
+                                      color: 0xffFC5E60,
+                                      // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
+                                      style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                                      onTap: (){
+                                        AddRemarkConfirmLoan(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
+                                      }
+
+                                  ),
+                                ),
+
+                                5.verticalSpace(),
+
+                                "Tap above to revoke the loan application.".textMedium(color: const Color(0xff727272)),
+
+                              ],
+                            ):const SizedBox.shrink():const SizedBox.shrink(),
+
                             30.verticalSpace(),
                           ],
                         ),
@@ -366,6 +390,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
       }),
     );
   }
+
 
 ///////DescriptionDetails///////////
   Widget description(ProjectState state) {
@@ -542,7 +567,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
   }
 
 /////////KPI///////////////////////
-  Widget kpi(context,ProjectState state) {
+  Widget kpi(contexts,ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
@@ -664,9 +689,9 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                           kpiData[index].actionImage!=null?
                           InkWell(
                             onTap: (){
+                              TextEditingController controller = TextEditingController();
+                              controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
                               if(kpiData[index].name.toString() == "Farmer Participation"){
-                                TextEditingController controller = TextEditingController();
-                                controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
                                 modalBottomSheetMenu(context,
                                     radius: 40,
                                     child: StatefulBuilder(
@@ -736,8 +761,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                         }
                                     ));
                               }
-                            }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
-                          const SizedBox.shrink()
+                            }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()
+
                         ],
                       ),
                       15.verticalSpace(),
@@ -872,7 +897,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                             color: ColorResources.fieldGrey),
                                       ),
                                       Text(
-                                        'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
+                                        state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue!=null?getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue):'',
                                         style: figtreeSemiBold.copyWith(
                                             fontSize: 16,
                                             color: ColorResources.maroon),

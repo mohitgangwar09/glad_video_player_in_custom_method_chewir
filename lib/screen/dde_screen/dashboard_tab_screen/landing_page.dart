@@ -16,6 +16,7 @@ import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
@@ -230,80 +231,88 @@ class _DDELandingPageState extends State<DDELandingPage> {
                             height: 130,
                             width: screenWidth(),
                             child: CarouselSlider(
-                                items: data.map((detail) => Container(
-                                  width: screenWidth(),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(12.0, 20, 12, 22),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(1000),
-                                          child: Container(
-                                            height: AppBar().preferredSize.height * 0.7,
-                                            width: AppBar().preferredSize.height * 0.7,
-                                            decoration:
-                                            const BoxDecoration(shape: BoxShape.circle),
-                                            child: CachedNetworkImage(
-                                              imageUrl: detail.farmerMaster != null ? detail.farmerMaster!.photo ?? '' : '',
-                                              errorWidget: (_, __, ___) =>
-                                                  Image.asset(Images.sampleUser),
-                                              fit: BoxFit.cover,
+                                items: data.map((detail) => InkWell(
+                                  onTap: (){
+                                    BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+                                    BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
+                                    DdeFarmerDetail(userId: detail.farmerMaster!.userId!,farmerId:detail.farmerMaster!.id!).navigate();
+                                  },
+
+                                  child: Container(
+                                    width: screenWidth(),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(12.0, 20, 12, 22),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(1000),
+                                            child: Container(
+                                              height: AppBar().preferredSize.height * 0.7,
+                                              width: AppBar().preferredSize.height * 0.7,
+                                              decoration:
+                                              const BoxDecoration(shape: BoxShape.circle),
+                                              child: CachedNetworkImage(
+                                                imageUrl: detail.farmerMaster != null ? detail.farmerMaster!.photo ?? '' : '',
+                                                errorWidget: (_, __, ___) =>
+                                                    Image.asset(Images.sampleUser),
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        15.horizontalSpace(),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(detail.farmerMaster != null ? detail.farmerMaster!.name ?? '' : '',
-                                                style: figtreeMedium.copyWith(
-                                                    fontSize: 16, color: Colors.black)),
-                                            4.verticalSpace(),
+                                          15.horizontalSpace(),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(detail.farmerMaster != null ? detail.farmerMaster!.name ?? '' : '',
+                                                  style: figtreeMedium.copyWith(
+                                                      fontSize: 16, color: Colors.black)),
+                                              4.verticalSpace(),
 
-                                            "Visit schedule for today".textRegular(fontSize: 12),
+                                              "Visit schedule for today".textRegular(fontSize: 12),
 
-                                            10.verticalSpace(),
+                                              10.verticalSpace(),
 
-                                            Row(
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-                                                'Project: '.textRegular(color: Colors.grey,
-                                                    fontSize: 12),
-                                                Text(detail.farmerProject != null ? detail.farmerProject!.name ?? '' : '',
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 12, color: Colors.black)),
-                                              ],
-                                            ),
-                                            4.verticalSpace(),
-                                            Row(
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-                                                const Icon(
-                                                  Icons.location_on,
-                                                  color: Colors.black,
-                                                  size: 16,
-                                                ),
-                                                SizedBox(
-                                                  width:
-                                                  screenWidth() * 0.5,
-                                                  child: Text(
-                                                    detail.farmerMaster != null ? detail.farmerMaster!.fAddress ?? '' : '',
-                                                    style: figtreeRegular.copyWith(
-                                                      fontSize: 12,
-                                                      color: Colors.black,
-                                                      overflow: TextOverflow.ellipsis,
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  'Project: '.textRegular(color: Colors.grey,
+                                                      fontSize: 12),
+                                                  Text(detail.farmerProject != null ? detail.farmerProject!.name ?? '' : '',
+                                                      style: figtreeRegular.copyWith(
+                                                          fontSize: 12, color: Colors.black)),
+                                                ],
+                                              ),
+                                              4.verticalSpace(),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.location_on,
+                                                    color: Colors.black,
+                                                    size: 16,
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                    screenWidth() * 0.5,
+                                                    child: Text(
+                                                      detail.farmerMaster != null ? detail.farmerMaster!.fAddress ?? '' : '',
+                                                      style: figtreeRegular.copyWith(
+                                                        fontSize: 12,
+                                                        color: Colors.black,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        )
-                                      ],
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 )).toList(),

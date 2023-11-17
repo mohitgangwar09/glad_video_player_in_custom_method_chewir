@@ -22,6 +22,8 @@ class DashboardFarmer extends StatelessWidget {
 
     var provider = BlocProvider.of<DashboardCubit>(context);
 
+    provider.selectedIndex(0);
+
 
     final widgetOptions = [
       const FarmerLandingPage(),

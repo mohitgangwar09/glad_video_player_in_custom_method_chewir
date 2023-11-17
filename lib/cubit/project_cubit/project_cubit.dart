@@ -83,7 +83,7 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // farmerProjectsApi
-  void ddeProjectsApi(context, String projectStatus, bool showLoader) async {
+  Future<void> ddeProjectsApi(context, String projectStatus, bool showLoader) async {
     if (showLoader) {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
@@ -166,6 +166,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       }else{
         SurveyFinishedScreen(farmerProjectSurvey: projectSurvey,).navigate();
       }
+      ddeProjectsApi(context, 'new', true);
       farmerProjectDetailApi(context,projectId);
 
     } else {
@@ -293,10 +294,14 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
 
 
+
       ThankYouMcc(
           profileData:profileData
       ).navigate(isInfinity: true);
       showCustomToast(context, response.data['message'], isSuccess: true);
+
+      await ddeProjectsApi(context, 'pending', true);
+
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());

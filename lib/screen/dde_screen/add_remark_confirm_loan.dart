@@ -362,7 +362,7 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
             ),
             onChanged: (value) {
 
-                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
+                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerApi(context, value.toString(),
                       widget.farmerProjectId.toString(),
                       date,
                       controller.text ?? '',

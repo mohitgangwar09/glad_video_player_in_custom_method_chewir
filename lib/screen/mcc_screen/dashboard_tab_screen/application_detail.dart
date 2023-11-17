@@ -83,7 +83,9 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             description(state),
-                            30.verticalSpace(),
+                            20.verticalSpace(),
+                            dividerValue(state),
+                            20.verticalSpace(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!=null?
                             farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!):const SizedBox.shrink(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!=null?
@@ -204,6 +206,38 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
         }
       }
       ),
+    );
+  }
+
+  ///////DividerValue///////////
+  Widget dividerValue(ProjectState state) {
+    return Column(
+      children: [
+        const Divider(
+          thickness: 1,
+        ),
+        10.verticalSpace(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Value',
+              style: figtreeMedium.copyWith(fontSize: 14),
+            ),
+
+            Text(
+              getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!),
+              style: figtreeSemiBold.copyWith(
+                  fontSize: 16, color: ColorResources.maroon),
+            ),
+
+          ],
+        ),
+        10.verticalSpace(),
+        const Divider(
+          thickness: 1,
+        ),
+      ],
     );
   }
 
@@ -592,7 +626,8 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                                         color: ColorResources.fieldGrey),
                                   ),
                                   Text(
-                                    'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
+                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue!=null?getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue):'',
+                                    // 'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
                                     style: figtreeSemiBold.copyWith(
                                         fontSize: 16,
                                         color: ColorResources.maroon),
