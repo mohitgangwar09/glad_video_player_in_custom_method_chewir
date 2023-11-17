@@ -751,7 +751,9 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (query.isNotEmpty) {
       List<DataMileStoneName> dummyListData = <DataMileStoneName>[];
       for (final item in dummySearchList) {
+        print(item.milestoneTitle);
         if (item.milestoneTitle!.toLowerCase().contains(query.toLowerCase())) {
+          print(item);
           dummyListData.add(item);
         }
       }

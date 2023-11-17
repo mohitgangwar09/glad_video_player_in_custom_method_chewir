@@ -80,7 +80,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                               child: CustomTextField(
                                 hint: 'Select Address Proof',
                                 enabled: false,
-                                controller: TextEditingController()..text = widget.farmerDocuments.docName!,
+                                controller: TextEditingController()..text = formatProjectStatus(widget.farmerDocuments.docName!),
                                 // itemList: const [
                                 //   "Utility Bill",
                                 //   "Bank Statement",
@@ -138,7 +138,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                                 for (DocumentFiles image in widget.farmerDocuments.documentFiles!)
                                   Row(
                                     children: [
-                                      viewDocumentImage(image.fullUrl!, isPDF: widget.farmerDocuments.docName == 'Bank Statement'),
+                                      viewDocumentImage(image.fullUrl!, isPDF: widget.farmerDocuments.docName == 'bank-statement'),
                                       10.horizontalSpace(),
                                     ],
                                   )
@@ -156,7 +156,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                               child: CustomTextField(
                                 hint: 'Select ID Proof',
                                 readOnly: true,
-                                controller: TextEditingController()..text = widget.farmerDocuments.docType!,
+                                controller: TextEditingController()..text = formatProjectStatus(widget.farmerDocuments.docType!),
                                 // dropdownValue: widget.farmerDocuments.docType,
                                 // itemList: const [
                                 //   // "Passport", "NIC"
