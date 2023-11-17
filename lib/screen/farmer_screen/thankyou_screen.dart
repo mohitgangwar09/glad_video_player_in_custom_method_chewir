@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
@@ -11,8 +13,8 @@ import 'package:glad/utils/styles.dart';
 
 
 class ThankYou extends StatelessWidget {
-  const ThankYou({super.key,this.profileData,required this.navigateFrom});
-  final String navigateFrom;
+  const ThankYou({super.key,this.profileData,required this.navigateFrom,required this.projectStatus});
+  final String navigateFrom,projectStatus;
   final FarmerMaster? profileData;
 
   @override
@@ -43,10 +45,16 @@ class ThankYou extends StatelessWidget {
                 'Thank you!'
                     .textMedium(fontSize: 30, color: ColorResources.black),
                 10.verticalSpace(),
-                Text(
-                  'Farmer feedback has been submitted successfully.',
-                  textAlign: TextAlign.center,
-                  style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
+                if(projectStatus == 'loan')
+                  Text(
+                      'The loan application has been submitted on behalf of the farmer',
+                      textAlign: TextAlign.center,
+                      style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
+                else
+                  Text(
+                      'Farmer feedback has been submitted successfully.',
+                      textAlign: TextAlign.center,
+                      style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
                   30.verticalSpace(),
 
 
@@ -182,6 +190,7 @@ class ThankYou extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
                     Text(profileData.name??'',
                         style: figtreeMedium.copyWith(
                             fontSize: 16, color: Colors.black)),

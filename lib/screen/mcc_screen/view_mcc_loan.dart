@@ -84,7 +84,7 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
                           children: [
                             Expanded(
                               child: CustomTextField(
-                                hint: 'Select Address Proof',
+                                hint: 'Recommendation Letter"',
                                 enabled: false,
                                 controller: TextEditingController()..text = widget.farmerDocuments.addressDocumentName!,
                                 // itemList: const [
@@ -162,7 +162,7 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
                           children: [
                             Expanded(
                               child: CustomTextField(
-                                hint: 'Select ID Proof',
+                                hint: 'ID Proof',
                                 readOnly: true,
                                 controller: TextEditingController()..text = widget.farmerDocuments.idDocumentName!,
                                 // dropdownValue: widget.farmerDocuments.docType,

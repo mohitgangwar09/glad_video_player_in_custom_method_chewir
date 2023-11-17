@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -67,11 +69,19 @@ class RejectScreen extends StatelessWidget {
                                 farmerProjectSurvey.name??"",
                                 style: figtreeMedium.copyWith(fontSize: 16),
                               ),
-                              Text(
+                              BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
+                                return Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea !=
+                                    null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea!
+                                    .parameter ?? '' : '',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 16, color: Colors.black));
+                              }
+                              ),
+                              /*Text(
                                 farmerProjectSurvey.category??"",
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: const Color(0xFF808080)),
-                              ),
+                              ),*/
                             ],
                           ),
                         ),
@@ -147,7 +157,7 @@ class RejectScreen extends StatelessWidget {
                 customButton("Go to Home",
                     fontColor: 0xffffffff,
                     onTap: () {
-                  const DashboardSupplier().navigate();
+                  const DashboardSupplier().navigate(isInfinity: true);
                     })
               ],
             ),

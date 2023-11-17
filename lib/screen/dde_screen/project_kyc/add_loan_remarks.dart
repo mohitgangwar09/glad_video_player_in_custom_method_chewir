@@ -369,6 +369,7 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
             },
             onChanged: (value) {
               if(value.length==4){
+
                 BlocProvider.of<ProjectCubit>(context).verifyProjectStatus(context, value.toString(),
                     widget.farmerProjectId.toString(),
                     date,

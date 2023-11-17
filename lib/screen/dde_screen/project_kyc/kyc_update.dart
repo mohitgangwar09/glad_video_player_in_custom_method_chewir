@@ -51,7 +51,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
             children: [
               CustomAppBar(
                 context: context,
-                titleText1: 'KYC documents',
+                titleText1: 'Farmer Documents',
                 titleText1Style:
                     figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                 centerTitle: true,
@@ -101,26 +101,6 @@ class _ProjectKYCState extends State<ProjectKYC> {
                         ),
                       ),
 
-                      /*InkWell(
-                            splashColor: Colors.transparent,
-                            onTap: () {
-                              showPicker(context, cameraFunction: () {
-                                var image = imgFromCamera();
-                                image.then((value) async{
-                                  context.read<ProfileCubit>().profilePicture(value);
-                                });
-                              }, galleryFunction: () {
-                                var image =  imgFromGallery();
-                                image.then((value) async{
-                                  context.read<ProfileCubit>().profilePicture(value);
-                                });
-                              });
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(18.0, 0, 18, 0),
-                              child: SvgPicture.asset(Images.uploadPP),
-                            )),*/
                       15.verticalSpace(),
                       RichText(
                           text: TextSpan(children: [
@@ -145,12 +125,13 @@ class _ProjectKYCState extends State<ProjectKYC> {
                           children: [
                             Expanded(
                               child: CustomDropdown(
-                                hint: 'Select Address Proof',
+                                hint: 'Recommendation Letter',
                                 dropdownValue: addressProof,
                                 itemList: const [
-                                  "Utility Bill",
+                                  "Recommendation from the LC"
+                                 /* "Utility Bill",
                                   "Bank Statement",
-                                  "Lease Agreement"
+                                  "Lease Agreement"*/
                                 ],
                                 onChanged: (String? value) {
                                   if(addressProof != value) {
@@ -361,7 +342,9 @@ class _ProjectKYCState extends State<ProjectKYC> {
                               child: CustomDropdown(
                                 hint: 'Select ID Proof',
                                 dropdownValue: idProof,
-                                itemList: const ["Passport", "NIC"],
+                                itemList: const
+                                ["National Card"],
+                                // ["Passport", "NIC"],
                                 onChanged: (String? value) {
                                   if(idProof != value) {
                                     setState(() {
