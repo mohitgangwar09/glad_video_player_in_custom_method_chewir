@@ -120,7 +120,7 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.viewCount.toString()), unit: '')} views',
+                                            '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.viewCount ?? "0"), unit: '')} views',
                                             style: figtreeMedium
                                                 .copyWith(fontSize: 12, color: Color(0xFF727272)),
                                           ),
@@ -133,7 +133,7 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
                                           ),
                                           8.horizontalSpace(),
                                           Text(
-                                            '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.commentCount.toString()), unit: '')} comments',
+                                            '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.commentCount ?? "0"), unit: '')} comments',
                                             style: figtreeMedium
                                                 .copyWith(fontSize: 12, color: Color(0xFF727272)),
                                           ),

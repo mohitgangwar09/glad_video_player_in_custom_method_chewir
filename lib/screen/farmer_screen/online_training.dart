@@ -311,7 +311,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    '${getCurrencyString(int.parse(state.responseTrainingList!.data![index].youtube!.viewCount.toString()), unit: '')} views',
+                                                    '${getCurrencyString(int.parse(state.responseTrainingList!.data![index].youtube!.viewCount ?? "0"), unit: '')} views',
                                                     style: figtreeMedium
                                                         .copyWith(fontSize: 12),
                                                   ),
@@ -324,7 +324,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                                   ),
                                                   8.horizontalSpace(),
                                                   Text(
-                                                    '${getAge(DateTime.parse(state.responseTrainingList!.data![index].validFrom.toString()))} ago',
+                                                    '${getAge(DateTime.parse(state.responseTrainingList!.data![index].validFrom ?? ''))} ago',
                                                     style: figtreeMedium
                                                         .copyWith(fontSize: 12),
                                                   ),
@@ -337,7 +337,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                                   ),
                                                   8.horizontalSpace(),
                                                   Text(
-                                                    '${getCurrencyString(int.parse(state.responseTrainingList!.data![index].youtube!.commentCount.toString()), unit: '')} comments',
+                                                    '${getCurrencyString(int.parse(state.responseTrainingList!.data![index].youtube!.commentCount ?? "0"), unit: '')} comments',
                                                     style: figtreeMedium
                                                         .copyWith(fontSize: 12),
                                                   ),
