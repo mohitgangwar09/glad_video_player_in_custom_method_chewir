@@ -307,6 +307,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                                 ],
                                               ),
                                               10.verticalSpace(),
+                                              if(state.responseTrainingList!.data![index].youtube !=null)
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
