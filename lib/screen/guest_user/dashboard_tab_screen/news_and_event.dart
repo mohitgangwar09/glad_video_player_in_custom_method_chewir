@@ -339,6 +339,12 @@ class _NewsAndEventState extends State<NewsAndEvent> {
               );
             }),
       ),
-    ) : const SizedBox.shrink();
+    ) : const Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('No data found'),
+      ],
+    );
   }
 }

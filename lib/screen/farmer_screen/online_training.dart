@@ -311,7 +311,33 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
                                                   Text(
+                                                    '${getCurrencyString(int.parse(state.responseTrainingList!.data![index].youtube!.viewCount.toString()), unit: '')} views',
+                                                    style: figtreeMedium
+                                                        .copyWith(fontSize: 12),
+                                                  ),
+                                                  8.horizontalSpace(),
+                                                  Container(
+                                                    height: 5,
+                                                    width: 5,
+                                                    decoration: const BoxDecoration(
+                                                        color: Colors.black, shape: BoxShape.circle),
+                                                  ),
+                                                  8.horizontalSpace(),
+                                                  Text(
                                                     '${getAge(DateTime.parse(state.responseTrainingList!.data![index].validFrom.toString()))} ago',
+                                                    style: figtreeMedium
+                                                        .copyWith(fontSize: 12),
+                                                  ),
+                                                  8.horizontalSpace(),
+                                                  Container(
+                                                    height: 5,
+                                                    width: 5,
+                                                    decoration: const BoxDecoration(
+                                                        color: Colors.black, shape: BoxShape.circle),
+                                                  ),
+                                                  8.horizontalSpace(),
+                                                  Text(
+                                                    '${getCurrencyString(int.parse(state.responseTrainingList!.data![index].youtube!.commentCount.toString()), unit: '')} comments',
                                                     style: figtreeMedium
                                                         .copyWith(fontSize: 12),
                                                   ),
@@ -340,7 +366,15 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                   }),
             ),
           )
-        : const SizedBox.shrink();
+        : const Center(
+          child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+          Text('No data found'),
+      ],
+    ),
+        );
   }
 }
 

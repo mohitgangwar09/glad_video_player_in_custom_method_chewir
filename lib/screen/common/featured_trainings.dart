@@ -46,7 +46,7 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 20, 0, 20),
+          padding: const EdgeInsets.fromLTRB(20.0, 20, 10, 20),
           child: SizedBox(
             height: 130,
             child: ListView.separated(
@@ -83,13 +83,13 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
                                   .image ??
                                   '',
                               fit: BoxFit.fitHeight,
-                              width: screenWidth() * 0.4,
+                              width: screenWidth() * 0.35,
                               height: screenHeight(),
                               errorWidget: (_, __, ___) {
                                 return Image.asset(
                                   Images.sampleLivestock,
                                   fit: BoxFit.fitHeight,
-                                  width: screenWidth() * 0.4,
+                                  width: screenWidth() * 0.35,
                                   height: screenHeight(),
                                 );
                               },
@@ -114,10 +114,31 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
                                           ),
                                           maxLines: 2,
                                           softWrap: true),
-                                      Text( '${getAge(DateTime.parse(widget.trainingList[index].validFrom.toString()))} ago',
-                                          style: figtreeMedium.copyWith(
-                                              color: const Color(0xFF727272),
-                                              fontSize: 12))
+                                      10.verticalSpace(),
+                                      if(widget.trainingList[index].youtube !=null)
+                                        Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.viewCount.toString()), unit: '')} views',
+                                            style: figtreeMedium
+                                                .copyWith(fontSize: 12, color: Color(0xFF727272)),
+                                          ),
+                                          8.horizontalSpace(),
+                                          Container(
+                                            height: 5,
+                                            width: 5,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.black, shape: BoxShape.circle),
+                                          ),
+                                          8.horizontalSpace(),
+                                          Text(
+                                            '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.commentCount.toString()), unit: '')} comments',
+                                            style: figtreeMedium
+                                                .copyWith(fontSize: 12, color: Color(0xFF727272)),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                   // Row(

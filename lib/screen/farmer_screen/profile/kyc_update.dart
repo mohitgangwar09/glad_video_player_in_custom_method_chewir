@@ -543,14 +543,22 @@ class _KYCUpdateState extends State<KYCUpdate> {
                             } else if (addressProof == null) {
                               showCustomToast(
                                   context, 'Address Proof is required');
-                            } else if (addressImg.length < 2 && !(addressProof == 'Bank Statement' && addressImg.length == 1)) {
+                            // } else if (addressImg.length < 2 && !(addressProof == 'Bank Statement' && addressImg.length == 1)) {
+                            //   showCustomToast(
+                            //         context, '${addressProof == 'Bank Statement' ? '' : '2'}Address Proof image required');
+                            // } else if (idProof == null) {
+                            //   showCustomToast(context, 'Id Proof is required');
+                            // } else if (idImg.length < 2) {
+                            //   showCustomToast(
+                            //       context, '2 Id Proof image required');
+                            } else if (addressImg.isEmpty) {
                               showCustomToast(
-                                    context, '${addressProof == 'Bank Statement' ? '' : '2'}Address Proof image required');
+                                  context, 'Address Proof image required');
                             } else if (idProof == null) {
                               showCustomToast(context, 'Id Proof is required');
-                            } else if (idImg.length < 2) {
+                            } else if (idImg.isEmpty) {
                               showCustomToast(
-                                  context, '2 Id Proof image required');
+                                  context, 'Id Proof image required');
                             } else {
                               BlocProvider.of<ProfileCubit>(context).updateFarmerKYC(context, widget.userId, widget.farmerId, addressProof!.toLowerCase().replaceAll(' ', '-'), addressDoc.text, addressDate.text, addressImg, idProof!.toLowerCase().replaceAll(' ', '-'), idDoc.text, idDate.text, idImg, profilePicture);
                             }
