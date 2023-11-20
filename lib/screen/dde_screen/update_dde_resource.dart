@@ -379,9 +379,9 @@ class _AttributesEditDdeResourceState extends State<AttributesEditDdeResource> {
                               maxLength: 10,
                               keyboardType: TextInputType.phone,
                               onChanged: (value){
-                                BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
-                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
-                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
+                                // BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                                //   state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
+                                //   state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
                                 if(value.isNotEmpty){
                                   double sums = double.parse(value.toString())*double.parse(state.pricePerUnitController.text.toString());
                                   state.valueController.text = sums.toStringAsFixed(2);
@@ -454,7 +454,7 @@ class _AttributesEditDdeResourceState extends State<AttributesEditDdeResource> {
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: state.pricePerUnitController,
                     maxLength: 10,
-                    enabled: true,
+                    enabled: false,
                     onChanged: (value){
                       if(value.isNotEmpty){
                         double sums = double.parse(state.requiredQtyController.text)*double.parse(value.toString());

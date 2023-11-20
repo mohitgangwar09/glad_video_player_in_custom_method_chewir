@@ -58,7 +58,13 @@ class _SupplierMilestoneDetailState
                     titleText1: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneTitle ?? '',
                     titleText1Style: figtreeMedium.copyWith(
                         fontSize: 20, color: Colors.black),
-                    leading: arrowBackButton(),
+
+                    // leading: arrowBackButton(),
+                    leading: InkWell(
+                        onTap: (){
+                          // arrowBackButton();
+                          pressBack();
+                          },child: const Icon(Icons.arrow_back)),
                     /*action: widget.selectedFilter == "pending"?InkWell(
                         onTap: () {
                           const EditMilestone().navigate();

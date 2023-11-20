@@ -82,10 +82,10 @@ class _AddSupplierMileStoneState extends State<AddSupplierMileStone> {
                               controller: state.milestoneTitle,
                               onChanged: (value){
                                 setState(() {
-                                  click = true;
+                                  click = false;
+                                  context.read<ProjectCubit>().milestoneId('');
+                                  context.read<ProjectCubit>().searchMilestoneFilter(value, state.responseMilestoneName!);
                                 });
-                                context.read<ProjectCubit>().milestoneId('');
-                                context.read<ProjectCubit>().searchMilestoneFilter(value, state.responseMilestoneName!);
                               },
                               decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -121,6 +121,7 @@ class _AddSupplierMileStoneState extends State<AddSupplierMileStone> {
                         height: click ==true ? 0:200,
                         child: Card(
                           child: ListView.separated(
+                              scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               padding: EdgeInsets.all(state.filterMileStone!.isNotEmpty?15:0),
                               itemBuilder: (context,index){
@@ -151,7 +152,6 @@ class _AddSupplierMileStoneState extends State<AddSupplierMileStone> {
                       ):
                       const SizedBox.shrink():
                       const SizedBox.shrink(),
-
                       25.verticalSpace(),
 
                       Align(
