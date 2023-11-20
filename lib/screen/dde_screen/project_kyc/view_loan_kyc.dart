@@ -50,11 +50,15 @@ class _ViewLoanKycState extends State<ViewLoanKyc> {
       List address = widget.farmerDocuments.addressDocumentName!.split('-');
       address =
           address.map((e) => e = e.toString().substring(0, 1).toUpperCase() + e.toString().substring(1)).toList();
+      if(widget.farmerDocuments.addressDocumentName == 'recommendation-from-the-lc'){
+        address[address.length - 1] = address[address.length - 1].toString().toUpperCase();
+      }
       addressProof = address.join(' ');
     } else{
       addressProof = widget.farmerDocuments.addressDocumentName!.substring(0, 1).toUpperCase() + widget.farmerDocuments.addressDocumentName!.substring(1);
     }
     print(widget.farmerDocuments.addressDocumentName);
+    print(addressProof);
     if(widget.farmerDocuments.idDocumentName!.contains('-')) {
       List address = widget.farmerDocuments.idDocumentName!.split('-');
       address =
@@ -179,7 +183,7 @@ class _ViewLoanKycState extends State<ViewLoanKyc> {
                                 hint: 'Recommendation Letter',
                                 dropdownValue: addressProof,
                                 itemList: const [
-                                  "Recommendation from the LC"
+                                  "Recommendation From The LC"
                                 ],
                                 onChanged: (String? value) {
                                   if(addressProof != value) {
@@ -729,17 +733,17 @@ class _ViewLoanKycState extends State<ViewLoanKyc> {
                               showCustomToast(
                                   context, 'Id Proof image required');
                             } else {
-                              BlocProvider.of<ProjectCubit>(context).projectKycApi(context,
-                                  widget.farmerId.toString(), widget.farmerProjectId.toString(),
+                              BlocProvider.of<ProjectCubit>(context).projectKycUpdateApi(context,
+                                  widget.farmerId.toString(), widget.farmerDocuments.id!, widget.farmerProjectId.toString(),
                                   addressProof!.toLowerCase().replaceAll(' ', '-'),
                                   addressDoc.text,
                                   addressDate.text,
-                                  addressImg,
+                                  isUrl(addressImg[0]) ? [] : addressImg,
                                   idProof!.toLowerCase().replaceAll(' ', '-'),
                                   idDoc.text,
                                   idDate.text,
-                                  idImg,
-                                  profilePicture,
+                                  isUrl(idImg[0]) ? [] : idImg,
+                                  isUrl(profilePicture) ? '' : profilePicture,
                                   widget.farmerMaster);
                             }
                           },

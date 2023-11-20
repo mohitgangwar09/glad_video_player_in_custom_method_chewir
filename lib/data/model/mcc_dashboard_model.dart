@@ -120,6 +120,7 @@ class FarmerProject {
   dynamic deletedBy;
   dynamic image;
   List<DairyDevelopmentExecutive>? dairyDevelopmentExecutive;
+  dynamic photo;
 
   Mcc(
       {this.id,
@@ -138,7 +139,8 @@ class FarmerProject {
         this.updatedBy,
         this.deletedBy,
         this.image,
-        this.dairyDevelopmentExecutive});
+        this.dairyDevelopmentExecutive,
+        this.photo});
 
   Mcc.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -157,6 +159,7 @@ class FarmerProject {
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     image = json['image'];
+    photo = json["photo"];
     if (json['dairy_development_executive'] != null) {
       dairyDevelopmentExecutive = <DairyDevelopmentExecutive>[];
       json['dairy_development_executive'].forEach((v) {

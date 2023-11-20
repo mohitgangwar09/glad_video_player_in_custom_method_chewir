@@ -193,6 +193,24 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  // updateProfilePicImage
+  Future<void> projectKycUpdateApi(context, String farmerId, int? id, String farmerProjectId, String addressDocName, String addressDocNo, String addressDocExpiryDate,
+      List<String> documentFiles,String idDocName,
+      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto,dde.FarmerMaster farmerProject) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.projectKycUpdateApi(farmerId, id, farmerProjectId, addressDocName, addressDocNo, addressDocExpiryDate, documentFiles.map((e) => File(e)).toList(), idDocName, idDocTypeNo, idDocTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), farmerPhoto);
+    disposeProgress();
+    if (response.status == 200) {
+      // AddRemark(tag: ,).navigate();
+      AddLoanRemark(projectData: farmerProject,farmerProjectId:farmerProjectId).navigate();
+      // ThankYou(profileData: farmerProject,).navigate();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+
 
   // sendProjectStatusOtpApi
   Future<void> sendProjectStatusOtpApi(context,String mobile) async{

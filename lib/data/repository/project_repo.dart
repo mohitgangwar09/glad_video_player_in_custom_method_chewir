@@ -149,6 +149,46 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// projectKycApi //////////
+  Future<ResponseOtpModel> projectKycUpdateApi(String farmerId, int? id, String farmerProjectId ,String addressDocName, String addressDocNo, String addressDocExpiryDate, List<File> documentFiles,
+      String idDocName, String idDocTypeNo, String idDocTypeExpiryDate, List<File> documentTypeFiles, String farmerPhoto) async {
+
+    FormData formData = FormData.fromMap(
+        {
+          'id': id,
+          "farmer_id": farmerId,
+          "farmer_project_id": farmerProjectId,
+          "address_document_name": addressDocName,
+          "address_document_number": addressDocNo,
+          "address_expiry_date": addressDocExpiryDate,
+          "id_document_name": idDocName,
+          "id_document_number": idDocTypeNo,
+          "id_expiry_date": idDocTypeExpiryDate,
+        });
+    if(farmerPhoto != ''){
+      formData.files.add(MapEntry("project_farmer_photo", await MultipartFile.fromFile(File(farmerPhoto).path)));
+    }
+    for(var e in documentFiles) {
+      formData.files.add(MapEntry("address_document_file[]", await MultipartFile.fromFile(e.path)));
+    }
+
+    for(var e in documentTypeFiles) {
+      formData.files.add(MapEntry("id_document_file[]", await MultipartFile.fromFile(e.path)));
+    }
+    print(formData.fields);
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.projectKycDocumentsUpdateApi, data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
   ///////////////// verifyStatusApi //////////
   Future<MobileLoginModel> verifyProjectStatusApi(String otp, String id) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

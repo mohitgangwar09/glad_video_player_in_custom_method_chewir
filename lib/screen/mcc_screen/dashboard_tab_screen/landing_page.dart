@@ -82,7 +82,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                                   const BoxDecoration(shape: BoxShape.circle),
                                   child: CachedNetworkImage(
                                     imageUrl:
-                                    (state.responseMCCDashboard!.data != null) ? (state.responseMCCDashboard!.data!.mcc!.image ?? '') : '',
+                                    (state.responseMCCDashboard!.data != null) ? (state.responseMCCDashboard!.data!.mcc!.photo ?? '') : '',
                                     errorWidget: (_, __, ___) =>
                                         SvgPicture.asset(Images.person),
                                     fit: BoxFit.cover,
