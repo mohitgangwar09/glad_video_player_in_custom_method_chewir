@@ -25,6 +25,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
 
   @override
   void initState() {
+    selectedFilter = BlocProvider.of<ProjectCubit>(context).state.selectedFilterMCCApplication!;
     BlocProvider.of<ProjectCubit>(context)
         .ddeProjectsApi(context, selectedFilter, true);
     super.initState();
@@ -83,6 +84,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
                               BlocProvider.of<ProjectCubit>(context)
                                   .ddeProjectsApi(
                                   context, selectedFilter, false);
+                              BlocProvider.of<ProjectCubit>(context).emit(BlocProvider.of<ProjectCubit>(context).state.copyWith(selectedFilterMCCApplication: 'pending'));
                             }
                           },
                           child: Container(
@@ -121,6 +123,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
                               BlocProvider.of<ProjectCubit>(context)
                                   .ddeProjectsApi(
                                   context, selectedFilter, false);
+                              BlocProvider.of<ProjectCubit>(context).emit(BlocProvider.of<ProjectCubit>(context).state.copyWith(selectedFilterMCCApplication: 'approved'));
                             }
                           },
                           child: Container(

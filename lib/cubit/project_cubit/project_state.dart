@@ -23,6 +23,7 @@ class ProjectState extends Equatable {
   final TextEditingController milestoneTitle,milestoneDescription,milestoneDuration;
   final TextEditingController materialNameController,resourceTypeController,resourceCapacityController,uomController;
   final String? projectId;
+  final String? selectedFilterMCCApplication;
 
 
   const ProjectState({
@@ -61,6 +62,7 @@ class ProjectState extends Equatable {
     required this.resourceTypeController,
     required this.resourceCapacityController,
     required this.uomController,
+    required this.selectedFilterMCCApplication,
   });
 
   factory ProjectState.initial() {
@@ -103,6 +105,7 @@ class ProjectState extends Equatable {
       primaryId: '',
       userIdForOtpValidate: '',
       projectId: '',
+      selectedFilterMCCApplication: 'pending',
     );
   }
 
@@ -126,7 +129,7 @@ class ProjectState extends Equatable {
     TextEditingController? requiredQtyController,pricePerUnitController,valueController,
     TextEditingController? milestoneTitle,mile,milestoneDuration,milestoneDescription,uomController,
     TextEditingController? materialNameController,resourceTypeController,resourceCapacityController,
-    String? projectId
+    String? projectId, selectedFilterMCCApplication,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -176,6 +179,7 @@ class ProjectState extends Equatable {
       resourceTypeController: resourceTypeController ?? this.resourceTypeController,
       resourceCapacityController: resourceCapacityController ?? this.resourceCapacityController,
       uomController: uomController ?? this.uomController,
+      selectedFilterMCCApplication: selectedFilterMCCApplication ?? this.selectedFilterMCCApplication
     );
   }
 
@@ -213,6 +217,7 @@ class ProjectState extends Equatable {
     resourceCapacityController,
     materialNameController,
     resourceTypeController,
-    uomController
+    uomController,
+    selectedFilterMCCApplication,
       ];
 }

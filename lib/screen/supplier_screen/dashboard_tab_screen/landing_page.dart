@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,9 +35,9 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
   //   _ChartData('Pending', 6),
   // ];
 
-  int surveyPercentage = 0;
+  String surveyPercentage = "0";
   String surveyText = 'completed';
-  int projectPercentage = 0;
+  String projectPercentage = "0";
   String projectText = 'completed';
 
   // List<_ChartData> data2 = [
@@ -57,27 +58,34 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
   void initState() {
     BlocProvider.of<LandingPageCubit>(context).getSupplierDashboard(context).then((value) {
       LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
-      if(state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt() != 0) {
-        projectPercentage =
-            (state.responseSupplierDashboard!.data!.farmerProject!.completed!
-                .toInt() +
-                state.responseSupplierDashboard!.data!.farmerProject!.active!
-                    .toInt()) ~/
-                state.responseSupplierDashboard!.data!.farmerProject!.completed!
-                    .toInt();
+      int projectsSum = state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt() +
+          state.responseSupplierDashboard!.data!.farmerProject!.active!.toInt();
+      int projectActive = state.responseSupplierDashboard!.data!.farmerProject!.active!.toInt();
+      int projectCompleted = state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt();
+      if(projectsSum != 0) {
+        if(projectCompleted != 0) {
+          projectPercentage = removeZeroesInFraction(((projectCompleted / projectsSum) * 100).toString());
+          projectText = 'completed';
+        } else {
+          projectPercentage = removeZeroesInFraction(((projectActive / projectsSum) * 100).toString());
+          projectText = "active";
+        }
       }
-      if(state.responseSupplierDashboard!.data!.farmerProjectSurvey!.completed!.toInt() != 0) {
-        surveyPercentage =
-            (state.responseSupplierDashboard!.data!.farmerProjectSurvey!
-                .completed!.toInt() +
-                state.responseSupplierDashboard!.data!.farmerProjectSurvey!
-                    .pending!.toInt()) ~/
-                state.responseSupplierDashboard!.data!.farmerProjectSurvey!
-                    .completed!.toInt();
-      }
-      setState(() {
 
-      });
+      int surveysSum = state.responseSupplierDashboard!.data!.farmerProjectSurvey!.completed!.toInt() +
+          state.responseSupplierDashboard!.data!.farmerProjectSurvey!.pending!.toInt();
+      int surveyPending = state.responseSupplierDashboard!.data!.farmerProjectSurvey!.pending!.toInt();
+      int surveyCompleted = state.responseSupplierDashboard!.data!.farmerProjectSurvey!.completed!.toInt();
+      if(surveysSum != 0) {
+        if(surveyCompleted != 0) {
+          surveyPercentage = removeZeroesInFraction(((surveyCompleted / surveysSum) * 100).toString());
+          surveyText = 'completed';
+        } else {
+          surveyPercentage = removeZeroesInFraction(((surveyPending / surveysSum) * 100).toString());
+          surveyText = 'pending';
+        }
+      }
+      setState(() {});
     });
     super.initState();
   }
@@ -118,7 +126,23 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                               onTap: () {
                                 const SupplierProfile().navigate();
                               },
-                              child: SvgPicture.asset(Images.person)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1000),
+                                child: Container(
+                                  height: AppBar().preferredSize.height * 0.7,
+                                  width: AppBar().preferredSize.height * 0.7,
+                                  decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                    // (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.!.image ?? '') :
+                                    '',
+                                    errorWidget: (_, __, ___) =>
+                                        SvgPicture.asset(Images.person),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )),
                           8.horizontalSpace(),
                         ],
                       ),
@@ -195,7 +219,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                                     unselectedOpacity: 0.7
                                                   ),
                                                   onPointTap: (detail) {
-                                                    surveyPercentage = ((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toInt();
+                                                    surveyPercentage = removeZeroesInFraction(((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toString());
                                                     if(detail.pointIndex == 0) {
                                                       surveyText = 'completed';
                                                     } else{
@@ -333,7 +357,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                             unselectedOpacity: 0.7
                                         ),
                                                   onPointTap: (detail) {
-                                          projectPercentage = ((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toInt();
+                                          projectPercentage = removeZeroesInFraction(((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt())) * 100).toString());
                                           if(detail.pointIndex == 0) {
                                             projectText = 'completed';
                                           } else{
@@ -401,7 +425,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                             Text('Active: ',
                                                 style: figtreeRegular.copyWith(
                                                     fontSize: 12)),
-                                            Text(state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt().toString(),
+                                            Text(state.responseSupplierDashboard!.data!.farmerProject!.active!.toInt().toString(),
                                                 style: figtreeBold.copyWith(
                                                     fontSize: 12)),
                                           ],

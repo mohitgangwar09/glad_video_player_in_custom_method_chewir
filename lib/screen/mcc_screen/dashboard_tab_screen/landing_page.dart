@@ -12,6 +12,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/mcc_screen/dashboard_tab_screen/application_screen.dart';
 import 'package:glad/screen/mcc_screen/profile/mcc_profile.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -72,7 +73,22 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                               onTap: () {
                                 const MccProfile().navigate();
                               },
-                              child: SvgPicture.asset(Images.person)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1000),
+                                child: Container(
+                                  height: AppBar().preferredSize.height * 0.7,
+                                  width: AppBar().preferredSize.height * 0.7,
+                                  decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                    (state.responseMCCDashboard!.data != null) ? (state.responseMCCDashboard!.data!.mcc!.image ?? '') : '',
+                                    errorWidget: (_, __, ___) =>
+                                        SvgPicture.asset(Images.person),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )),
                           8.horizontalSpace(),
                         ],
                       ),
@@ -101,54 +117,66 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
               padding: const EdgeInsets.only(right: 20.0,bottom: 25,left: 10),
               child: Row(children: [
                 Expanded(
-                  child: customProjectContainer(
-                      width: screenWidth(),
-                      height: 140,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                  child: InkWell(
+                    onTap: () {
+                    BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                    BlocProvider.of<ProjectCubit>(context).emit(BlocProvider.of<ProjectCubit>(context).state.copyWith(selectedFilterMCCApplication: 'pending'));
+                    },
+                    child: customProjectContainer(
+                        width: screenWidth(),
+                        height: 140,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
 
-                            state.responseMCCDashboard!.data!.farmerProject!.pending.toString().textMedium(fontSize: 32,
-                                color: const Color(0xffFC5E60)),
-                            12.verticalSpace(),
-                            'Pending'.textMedium(fontSize: 16),
-                            7.verticalSpace(),
-                            "Loans pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
-                                maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                              state.responseMCCDashboard!.data!.farmerProject!.pending.toString().textMedium(fontSize: 32,
+                                  color: const Color(0xffFC5E60)),
+                              12.verticalSpace(),
+                              'Pending'.textMedium(fontSize: 16),
+                              7.verticalSpace(),
+                              "Loans pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
+                                  maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
 
-                          ],
-                        ),
-                      )),
+                            ],
+                          ),
+                        )),
+                  ),
                 ),
 
                 Expanded(
-                  child: customProjectContainer(
-                      height: 140,
-                      width: screenWidth(),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                  child: InkWell(
+                    onTap: () {
+                      BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+                      BlocProvider.of<ProjectCubit>(context).emit(BlocProvider.of<ProjectCubit>(context).state.copyWith(selectedFilterMCCApplication: 'approved'));
+                    },
+                    child: customProjectContainer(
+                        height: 140,
+                        width: screenWidth(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
 
-                            state.responseMCCDashboard!.data!.farmerProject!.approved.toString().textMedium(fontSize: 32,
-                                color: const Color(0xff12CE57)),
+                              state.responseMCCDashboard!.data!.farmerProject!.approved.toString().textMedium(fontSize: 32,
+                                  color: const Color(0xff12CE57)),
 
-                            12.verticalSpace(),
+                              12.verticalSpace(),
 
-                            'Approved'.textMedium(fontSize: 16),
-                            7.verticalSpace(),
-                            'Loans approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
-                                maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                              'Approved'.textMedium(fontSize: 16),
+                              7.verticalSpace(),
+                              'Loans approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
+                                  maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
-                          ],
-                        ),
-                      )),
+                            ],
+                          ),
+                        )),
+                  ),
                 )
               ],),
             ),
@@ -386,7 +414,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                       const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24),
                           child: Divider(thickness: 1.2,color: Color(0xffDCDCDC))),
-
+                      if(state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.isNotEmpty)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -403,7 +431,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
 
                                 for(int i= 0; i < 3;i++)
                                   Padding(
-                                    padding: EdgeInsets.only(left: i > 0 ? 30.0 : 0),
+                                    padding: EdgeInsets.only(left: 30.0 * i),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(1000),
                                       child: Container(
@@ -420,10 +448,13 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                                       ),
                                     ),
                                   ),
-                                CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.yellow,
-                                  child: '+${state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.length - 3}'.textMedium(),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 30.0 * 3),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: Colors.yellow,
+                                    child: '+${state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.length - 3}'.textMedium(),
+                                  ),
                                 ),
                                 // Padding(
                                 //   padding: const EdgeInsets.only(left: 30.0),
@@ -447,7 +478,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                               children: [
                                 for(int i= 0; i < state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].farmerMaster!.length;i++)
                                   Padding(
-                                    padding: EdgeInsets.only(left: i > 0 ? 30.0 : 0),
+                                    padding: EdgeInsets.only(left: 30.0 * i),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(1000),
                                       child: Container(
