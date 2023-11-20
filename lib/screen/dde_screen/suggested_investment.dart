@@ -75,7 +75,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                 children: [
                   CustomAppBar(
                     context: context,
-                    titleText1: state.responseFarmerProjectDetail!.data!.farmerProject![0].name ?? '',
+                    titleText1: state.responseFarmerProjectDetail!.data!.farmerProject!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].name??'' : '',
+                    // titleText1: state.responseFarmerProjectDetail!.data!.farmerProject![0].name ?? '',
                     leading: arrowBackButton(),
                     centerTitle: true,
                     titleText1Style: figtreeMedium.copyWith(

@@ -24,8 +24,9 @@ class FarmerProjectDetailModel {
 
 class Data {
   List<FarmerProject>? farmerProject;
+  SupplierDetail? supplierDetail;
 
-  Data({this.farmerProject});
+  Data({this.farmerProject,this.supplierDetail});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['farmer-project'] != null) {
@@ -34,6 +35,8 @@ class Data {
         farmerProject!.add(FarmerProject.fromJson(v));
       });
     }
+
+    supplierDetail = json['supplier'] != null ? SupplierDetail.fromJson(json['supplier']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -41,6 +44,9 @@ class Data {
     if (farmerProject != null) {
       data['farmer-project'] =
           farmerProject!.map((v) => v.toJson()).toList();
+    }
+    if (supplierDetail != null) {
+      data['supplier'] = supplierDetail!.toJson();
     }
     return data;
   }
@@ -92,6 +98,7 @@ class FarmerProject {
   FarmerProjectKycDocument? farmerProjectKycDocument;
   List<FarmerLoanDocument>? farmerLoanDocument;
   List<FarmerProjectSurvey>? farmerProjectSurvey;
+
 
   FarmerProject(
       {this.id,
@@ -2119,3 +2126,71 @@ class ImprovementArea {
   }
 }
 
+class SupplierDetail {
+  dynamic id;
+  dynamic name;
+  dynamic userId;
+  dynamic mccId;
+  dynamic contactPerson;
+  dynamic phone;
+  String? email;
+  dynamic status;
+  int? createdBy;
+  int? updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic image;
+
+  SupplierDetail(
+      {this.id,
+        this.name,
+        this.userId,
+        this.mccId,
+        this.contactPerson,
+        this.phone,
+        this.email,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.image});
+
+  SupplierDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    userId = json['user_id'];
+    mccId = json['mcc_id'];
+    contactPerson = json['contact_person'];
+    phone = json['phone'];
+    email = json['email'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['user_id'] = userId;
+    data['mcc_id'] = mccId;
+    data['contact_person'] = contactPerson;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['image'] = image;
+    return data;
+  }
+}

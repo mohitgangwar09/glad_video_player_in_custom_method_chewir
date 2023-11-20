@@ -108,22 +108,28 @@ class CongratulationScreen extends StatelessWidget {
                           Positioned(
                               left: 0,
                               right: 0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(1000),
-                                child: Container(
-                                  height: 60,
-                                  width: 60,
-                                  margin: const EdgeInsets.only(left: 15),
-                                  decoration:
-                                  const BoxDecoration(shape: BoxShape.circle),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                    (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!= null) ? (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.photo ?? '') : '',
-                                    errorWidget: (_, __, ___) =>
-                                        SvgPicture.asset(Images.person),
-                                    fit: BoxFit.cover,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(1000),
+                                    child: Container(
+                                      height: 60,
+                                      width: 60,
+                                      margin: const EdgeInsets.only(left: 15),
+                                      decoration:
+                                      const BoxDecoration(shape: BoxShape.circle),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                        (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!= null) ? (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.photo ?? '') : '',
+                                        errorWidget: (_, __, ___) =>
+                                            SvgPicture.asset(Images.person),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               )),
                         ],
                       ),
@@ -146,7 +152,7 @@ class CongratulationScreen extends StatelessWidget {
                                     CrossAxisAlignment.start,
                                     children: [
                                       15.verticalSpace(),
-                                      Text('Hurton Elizabeth',
+                                      Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.name ?? '',
                                           style: figtreeMedium.copyWith(
                                               fontSize: 16,
                                               color: Colors.black)),
@@ -157,7 +163,7 @@ class CongratulationScreen extends StatelessWidget {
                                               fontSize: 12,
                                               color: Colors.black)),
                                       10.verticalSpace(),
-                                      Text('+256 758711344',
+                                      Text('+256 ${state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? ''}',
                                           style:
                                           figtreeRegular.copyWith(
                                               fontSize: 12,
@@ -167,7 +173,7 @@ class CongratulationScreen extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              "Luwum St. Rwoozi, Kampala...",
+                                              'not come',
                                               maxLines: 2,
                                               style:
                                               figtreeRegular.copyWith(
@@ -189,25 +195,32 @@ class CongratulationScreen extends StatelessWidget {
                           Positioned(
                               left: 0,
                               right: 0,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(1000),
-                                  child: Container(
-                                    height: 60,
-                                    margin: const EdgeInsets.only(left: 15),
-                                    width: 60,
-                                    decoration:
-                                    const BoxDecoration(shape: BoxShape.circle),
-                                    child: CachedNetworkImage(
-                                      imageUrl:'',
-                                      // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
-                                      errorWidget: (_, __, ___) =>
-                                          SvgPicture.asset(Images.person),
-                                      fit: BoxFit.cover,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(1000),
+                                      child: Container(
+                                        height: 60,
+                                        margin: const EdgeInsets.only(left: 15),
+                                        width: 60,
+                                        decoration:
+                                        const BoxDecoration(shape: BoxShape.circle),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                          (state.responseFarmerProjectDetail!.data!.supplierDetail!= null) ? (state.responseFarmerProjectDetail!.data!.supplierDetail!.image ?? '') : '',
+                                          // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
+                                          errorWidget: (_, __, ___) =>
+                                              SvgPicture.asset(Images.person),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               )),
                         ],
                       ),

@@ -213,6 +213,7 @@ class _SuggestedProjectMilestoneDetailState
             ],
           ),
         ),
+
         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?20.verticalSpace():0.verticalSpace(),
         SizedBox(
           height: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!.isNotEmpty?265:0,
@@ -221,7 +222,7 @@ class _SuggestedProjectMilestoneDetailState
             axis: Axis.horizontal,
             scrollPhysics: const BouncingScrollPhysics(),
             list: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!,
-              child: (index) => state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].notRequired!=null?
+              child: (index) => state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].notRequired==1?
                 const SizedBox.shrink():
               SizedBox(
                 height: 200,
