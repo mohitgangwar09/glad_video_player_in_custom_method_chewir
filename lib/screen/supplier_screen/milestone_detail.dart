@@ -64,6 +64,7 @@ class _SupplierMilestoneDetailState
                         onTap: (){
                           // arrowBackButton();
                           pressBack();
+                          context.read<ProjectCubit>().farmerProjectDetailApi(context,widget.projectId);
                           },child: const Icon(Icons.arrow_back)),
                     /*action: widget.selectedFilter == "pending"?InkWell(
                         onTap: () {
@@ -163,7 +164,7 @@ class _SupplierMilestoneDetailState
 
   ////////Attributes///////////
   Widget attributes(ProjectState state) {
-    print(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice);
+    // print(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice);
     return Column(
       children: [
         20.verticalSpace(),
@@ -281,6 +282,7 @@ class _SupplierMilestoneDetailState
                                       BlocProvider.of<ProjectCubit>(context).deleteAttributeApi(context,
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].id.toString(),
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
+                                        // widget.projectId
                                       );
                                     },child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
 

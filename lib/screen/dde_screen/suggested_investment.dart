@@ -849,7 +849,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                   DdeMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
                       projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),navigateScreen:'',
-                    projectId: 0,
+                    projectId: widget.projectId,
                   ).navigate();
                   /*SuggestedProjectMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,

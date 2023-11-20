@@ -322,9 +322,9 @@ class _AttributesEditState extends State<AttributesEdit> {
                             maxLength: 10,
                             keyboardType: TextInputType.phone,
                             onChanged: (value){
-                              BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
+                              /*BlocProvider.of<ProjectCubit>(context).getPriceAttributeApi(context,
                                 state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].projectId.toString(),
-                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);
+                                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![widget.index].milestoneId.toString(),);*/
                               if(value.isNotEmpty){
                                 double sums = double.parse(value.toString())*double.parse(state.pricePerUnitController.toString());
                                 state.valueController.text = sums.toStringAsFixed(2);

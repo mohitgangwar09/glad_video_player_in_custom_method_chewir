@@ -58,6 +58,7 @@ class _DdeMilestoneDetailState
                     leading: arrowBackButton(onTap: (){
                       if(widget.navigateScreen == ""){
                         pressBack();
+                        context.read<ProjectCubit>().farmerProjectDetailApi(context,widget.projectId);
                       }else{
                         DDeFarmerInvestmentDetails(projectId: widget.projectId,).navigate(isRemove: true);
                       }
@@ -89,7 +90,7 @@ class _DdeMilestoneDetailState
                               description(state),
                               dividerValue(state),
                               attributes(state),
-                              // state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice!=null?
+                              // state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice==0?
                               //  attributes(state) :const SizedBox.shrink(),
                               mileStoneDeliverable(state),
                             ],
@@ -282,6 +283,7 @@ class _DdeMilestoneDetailState
                                       BlocProvider.of<ProjectCubit>(context).deleteAttributeApi(context,
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].id.toString(),
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
+                                        // widget.projectId
                                       );
                                     }
                                     ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),

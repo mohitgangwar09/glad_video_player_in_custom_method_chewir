@@ -625,6 +625,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
 
       await farmerProjectMilestoneDetailApi(context, int.parse(mileStoneId));
+      // farmerProjectDetailApi(context, widget.projectId);
       showCustomToast(context, response.message.toString());
     } else {
       showCustomToast(context, response.message.toString());

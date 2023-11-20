@@ -264,6 +264,7 @@ class _SuggestedProjectMilestoneDetailState
                                       BlocProvider.of<ProjectCubit>(context).deleteAttributeApi(context,
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice![index].id.toString(),
                                         state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
+                                        // 0
                                       );
                                     }
                                     ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),

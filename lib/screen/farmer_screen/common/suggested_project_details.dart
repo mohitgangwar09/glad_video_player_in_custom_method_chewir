@@ -715,6 +715,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                   SuggestedProjectMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
                   projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
+                  // projectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id
                   ,farmerLogin:"farmer").navigate();
                 },
                 child: customProjectContainer(

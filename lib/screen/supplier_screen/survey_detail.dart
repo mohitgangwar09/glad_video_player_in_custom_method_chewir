@@ -718,9 +718,6 @@ class _SurveyDetailsState extends State<SurveyDetails> {
           widget.selectedFilter == "pending"?
           InkWell(
             onTap: () {
-              // const AddMilestone().navigate();
-              // BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(milestoneTitle: TextEditingController(text: ''),milestoneDuration: TextEditingController(text: ''),milestoneDescription: TextEditingController(text: '')));
-              // AddProjectMileStone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId,projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()).navigate();
               BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(milestoneTitle: TextEditingController(text: ''),milestoneDuration: TextEditingController(text: ''),milestoneDescription: TextEditingController(text: '')));
               AddSupplierMileStone(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),projectId:widget.projectId,projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()).navigate();
             },
@@ -744,7 +741,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                       projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
                       selectedFilter:widget.selectedFilter,
                     navigateScreen:'',
-                    projectId: 0,
+                    projectId: widget.projectId,
                   ).navigate();
                   /*SuggestedProjectMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,

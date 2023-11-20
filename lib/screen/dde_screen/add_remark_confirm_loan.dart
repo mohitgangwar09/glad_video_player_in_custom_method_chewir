@@ -361,13 +361,14 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
               // fieldOuterPadding: 2.paddingAll(),
             ),
             onChanged: (value) {
-
-                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerApi(context, value.toString(),
-                      widget.farmerProjectId.toString(),
-                      date,
-                      controller.text ?? '',
-                      "verified",
-                      widget.projectData.id.toString(),widget.projectData);
+              if(value.length == 4){
+                BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerApi(context, value.toString(),
+                    widget.farmerProjectId.toString(),
+                    date,
+                    controller.text ?? '',
+                    "verified",
+                    widget.projectData.id.toString(),widget.projectData);
+              }
 
             },
             beforeTextPaste: (text) {

@@ -125,7 +125,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
                           children: [
                             Expanded(
                               child: CustomDropdown(
-                                hint: 'Recommendation Letter',
+                                hint: 'Select Recommendation Letter',
                                 dropdownValue: addressProof,
                                 itemList: const [
                                   "Recommendation from the LC"
@@ -528,10 +528,10 @@ class _ProjectKYCState extends State<ProjectKYC> {
                             // AddLoanRemark(projectData: widget.farmerMaster,farmerProjectId:widget.farmerProjectId.toString()).navigate();
                             if (profilePicture.isEmpty) {
                               showCustomToast(
-                                  context, 'Photo is required');
+                                  context, 'Please upload your profile picture.');
                             } else if (addressProof == null) {
                               showCustomToast(
-                                  context, 'Address Proof is required');
+                                  context, 'Please select recommendation letter');
                             // } else if (addressImg.length < 2 && !(addressProof == 'Bank Statement' && addressImg.length == 1)) {
                             //   showCustomToast(
                             //         context, '${addressProof == 'Bank Statement' ? '' : '2'}Address Proof image required');
@@ -542,12 +542,12 @@ class _ProjectKYCState extends State<ProjectKYC> {
                             //       context, '2 Id Proof image required');
                             } else if (addressImg.isEmpty) {
                               showCustomToast(
-                                  context, 'Address Proof image required');
+                                  context, 'Please upload recommendation letter from lc');
                             } else if (idProof == null) {
-                              showCustomToast(context, 'Id Proof is required');
+                              showCustomToast(context, 'Please select id proof.');
                             } else if (idImg.isEmpty) {
                               showCustomToast(
-                                  context, 'Id Proof image required');
+                                  context, 'Please upload Id Proof image');
                             } else {
                               BlocProvider.of<ProjectCubit>(context).projectKycApi(context,
                                   widget.farmerId.toString(), widget.farmerProjectId.toString(),

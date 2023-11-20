@@ -81,7 +81,7 @@ class TrackProgress extends StatelessWidget {
                                                   border: Border.all(
                                                       color: ColorResources.maroon)),
                                               padding: const EdgeInsets.all(6),
-                                              child: Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].status.toString(),
+                                              child: Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].projectStatus.toString(),
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 12,
                                                       color: ColorResources.maroon)),
