@@ -70,7 +70,7 @@ class AppConstants {
   static const String newsCategoryApi = '/api/news-event/category';
   static const String trainingDetailApi = '/api/training/details';
   static const String projectKycDocumentsApi = '/api/farmer-project/project-kyc-document';
-  static const String projectKycDocumentsUpdateApi = '/api/farmer-project/project-kyc-document-update';
+  static const String projectKycDocumentsUpdateApi = '/api/farmer-project/project-kyc-update';
   //mileStoneApi
   static const String mileStoneDeleteAp = '/api/farmer-project/milestone-delete';
   static const String mileStoneNameApi = '/api/farmer-project/milestone-name-list';
