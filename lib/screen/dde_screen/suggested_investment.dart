@@ -158,14 +158,24 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                   state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0?"Apply for Loan":'View Document',
                                   // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-                                  onTap: (){
-                                    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0){
+                                  onTap: () {
+                                    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument !=null){
                                       ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
                                           farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
                                           farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
                                     }else{
-                                      ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus).navigate();
+                                      ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus,
+                                          farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!,
+                                          farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                          farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
                                     }
+                                    // if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0){
+                                    //   ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
+                                    //       farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                    //       farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
+                                    // }else{
+                                    //   ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus).navigate();
+                                    // }
                                   /*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null){
                                     *//*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1){
                                       ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
