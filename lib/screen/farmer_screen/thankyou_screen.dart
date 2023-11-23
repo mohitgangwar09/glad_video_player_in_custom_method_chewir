@@ -42,12 +42,24 @@ class ThankYou extends StatelessWidget {
                   width: 78,
                 ),
                 10.verticalSpace(),
+                projectStatus == 'revoked'?'Revoked!'
+                    .textMedium(fontSize: 30, color: Colors.red):
                 'Thank you!'
                     .textMedium(fontSize: 30, color: ColorResources.black),
                 10.verticalSpace(),
                 if(projectStatus == 'loan')
                   Text(
                       'The loan application has been submitted on behalf of the farmer',
+                      textAlign: TextAlign.center,
+                      style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
+                else if(projectStatus == 'verified')
+                  Text(
+                      'The loan application has been submitted successfully for final approval',
+                      textAlign: TextAlign.center,
+                      style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
+                else if(projectStatus == 'revoked')
+                  Text(
+                      'The loan application has been revoked on behalf of the farmer',
                       textAlign: TextAlign.center,
                       style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else

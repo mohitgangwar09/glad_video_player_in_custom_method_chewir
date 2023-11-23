@@ -22,6 +22,7 @@ import 'package:glad/screen/dde_screen/project_kyc/kyc_update.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
+import 'package:glad/screen/dde_screen/widget/add_remark_revoke.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
@@ -382,7 +383,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                       // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                       style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                       onTap: (){
-                                        AddRemarkConfirmLoan(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
+                                        AddRemarkRevoke(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
                                       }
 
                                   ),

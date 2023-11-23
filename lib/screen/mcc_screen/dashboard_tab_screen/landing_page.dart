@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
@@ -36,6 +37,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<ProjectCubit>(context)
           .ddeProjectsApi(context, "pending", true);
+      BlocProvider.of<ProfileCubit>(context).profileApi(context);
     });
   }
 
@@ -60,38 +62,42 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                 Column(
                   children: [
 
-                    CustomAppBar(
-                      context: context,
-                      titleText1: 'Welcome to ',
-                      titleText2: 'GLAD',
-                      leading: null,
-                      action: Row(
-                        children: [
-                          phoneCall(256758711344),
-                          7.horizontalSpace(),
-                          InkWell(
-                              onTap: () {
-                                const MccProfile().navigate();
-                              },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(1000),
-                                child: Container(
-                                  height: AppBar().preferredSize.height * 0.7,
-                                  width: AppBar().preferredSize.height * 0.7,
-                                  decoration:
-                                  const BoxDecoration(shape: BoxShape.circle),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                    (state.responseMCCDashboard!.data != null) ? (state.responseMCCDashboard!.data!.mcc!.photo ?? '') : '',
-                                    errorWidget: (_, __, ___) =>
-                                        SvgPicture.asset(Images.person),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              )),
-                          8.horizontalSpace(),
-                        ],
-                      ),
+                    BlocBuilder<ProfileCubit,ProfileCubitState>(
+                      builder: (context,states) {
+                        return CustomAppBar(
+                          context: context,
+                          titleText1: 'Welcome to ',
+                          titleText2: states.responseProfile!=null?states.responseProfile!.data!.user!.name.toString():'',
+                          leading: null,
+                          action: Row(
+                            children: [
+                              phoneCall(256758711344),
+                              7.horizontalSpace(),
+                              InkWell(
+                                  onTap: () {
+                                    const MccProfile().navigate();
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(1000),
+                                    child: Container(
+                                      height: AppBar().preferredSize.height * 0.7,
+                                      width: AppBar().preferredSize.height * 0.7,
+                                      decoration:
+                                      const BoxDecoration(shape: BoxShape.circle),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                        (state.responseMCCDashboard!.data != null) ? (state.responseMCCDashboard!.data!.mcc!.photo ?? '') : '',
+                                        errorWidget: (_, __, ___) =>
+                                            SvgPicture.asset(Images.person),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )),
+                              8.horizontalSpace(),
+                            ],
+                          ),
+                        );
+                      }
                     ),
                     landingPage(context, state),
                   ],

@@ -189,9 +189,9 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
       disposeProgress();
       pressBack();
+      showCustomToast(context, response.data['message'], isSuccess: true);
       farmerProjectsApi(context, 'Suggested', false);
       await farmerProjectDetailApi(context, projectId);
-      showCustomToast(context, response.data['message'], isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());

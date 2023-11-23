@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -88,6 +90,9 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
       setState(() {});
     });
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<ProfileCubit>(context).profileApi(context);
+    });
   }
 
   @override
@@ -109,43 +114,47 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                 landingBackground(),
                 Column(
                   children: [
-                    CustomAppBar(
-                      context: context,
-                      titleText1: 'Hello ',
-                      titleText2: 'Hurton,',
-                      leading: openDrawer(
-                          onTap: () {
-                            supplierLandingKey.currentState?.openDrawer();
-                          },
-                          child: SvgPicture.asset(Images.drawer)),
-                      action: Row(
-                        children: [
-                          phoneCall(256758711344),
-                          7.horizontalSpace(),
-                          InkWell(
+                    BlocBuilder<ProfileCubit,ProfileCubitState>(
+                      builder: (context,state) {
+                        return CustomAppBar(
+                          context: context,
+                          titleText1: 'Hello ',
+                          titleText2: state.responseProfile!=null?state.responseProfile!.data!.user!.name.toString():'',
+                          leading: openDrawer(
                               onTap: () {
-                                const SupplierProfile().navigate();
+                                supplierLandingKey.currentState?.openDrawer();
                               },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(1000),
-                                child: Container(
-                                  height: AppBar().preferredSize.height * 0.7,
-                                  width: AppBar().preferredSize.height * 0.7,
-                                  decoration:
-                                  const BoxDecoration(shape: BoxShape.circle),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                    // (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.!.image ?? '') :
-                                    '',
-                                    errorWidget: (_, __, ___) =>
-                                        SvgPicture.asset(Images.person),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              )),
-                          8.horizontalSpace(),
-                        ],
-                      ),
+                              child: SvgPicture.asset(Images.drawer)),
+                          action: Row(
+                            children: [
+                              phoneCall(256758711344),
+                              7.horizontalSpace(),
+                              InkWell(
+                                  onTap: () {
+                                    const SupplierProfile().navigate();
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(1000),
+                                    child: Container(
+                                      height: AppBar().preferredSize.height * 0.7,
+                                      width: AppBar().preferredSize.height * 0.7,
+                                      decoration:
+                                      const BoxDecoration(shape: BoxShape.circle),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                        // (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.!.image ?? '') :
+                                        '',
+                                        errorWidget: (_, __, ___) =>
+                                            SvgPicture.asset(Images.person),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )),
+                              8.horizontalSpace(),
+                            ],
+                          ),
+                        );
+                      }
                     ),
                     landingPage(state),
                   ],

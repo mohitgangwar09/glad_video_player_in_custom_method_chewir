@@ -51,13 +51,13 @@ class CustomAppBar extends StatelessWidget {
                           style: titleText1Style ??
                               figtreeRegular.copyWith(
                                   fontWeight: FontWeight.w100,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   color: Colors.black)),
                       TextSpan(
                           text: titleText2,
                           style: titleText2Style ??
                               figtreeMedium.copyWith(
-                                  fontSize: 20, color: Colors.black))
+                                  fontSize: 18, color: Colors.black))
                     ]), maxLines: 1, overflow: TextOverflow.ellipsis,),
                   ),
                   if (description != null)

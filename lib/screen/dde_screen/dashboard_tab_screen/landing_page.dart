@@ -74,7 +74,8 @@ class _DDELandingPageState extends State<DDELandingPage> {
                 color: ColorResources.maroon,
               ));
         } else if (state.responseDdeDashboard == null) {
-          return Center(child: Text("${state.responseDdeDashboard} Api Error"));
+          return const Center(child: Text("Low Connectivity. Please check your internet Connection"));
+          // return Center(child: Text("${state.responseDdeDashboard} Api Error"));
         } else {
           return Container(
             color: Colors.white,
