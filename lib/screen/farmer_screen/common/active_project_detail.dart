@@ -15,8 +15,10 @@ import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
+import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/farmer_screen/common/active_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
+import 'package:glad/screen/supplier_screen/dispute_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -80,25 +82,16 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                             dde(context, state),
                             20.verticalSpace(),
                             supplier(context, state),
+                            InkWell(
+                                onTap: () {
+                                  const TrackProgress().navigate();
+                                },
+                                child: Center(child: 'View Timeline'.textSemiBold(fontSize: 16, color: ColorResources.maroon, underLine: TextDecoration.underline),)),
+
+                            20.verticalSpace(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
                             projectMilestones(context, state),
-                            if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
-                              state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
-                              inviteExpert(context, state):const SizedBox.shrink(),
-
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_completed".toUpperCase() ?
-                            Center(
-                              child: customButton(
-                                  'Confirm The Loan',
-                                  style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-                                  onTap: (){
-                                    AddRemarkConfirmLoan(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
-                                  }
-
-                              ),
-                            ):const SizedBox.shrink():const SizedBox.shrink(),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "active".toUpperCase() ?
@@ -220,6 +213,91 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
 
                               ],
                             ):const SizedBox.shrink():const SizedBox.shrink(),
+
+                            40.verticalSpace(),
+                            Center(
+                              child: customButton("Raise dispute",
+                                  fontColor: 0xffffffff,
+                                  color: 0xFFFC5E60,
+                                  width: screenWidth(),
+                                  height: 60,
+                                  onTap: () {
+                                    TextEditingController controller = TextEditingController();
+                                    modalBottomSheetMenu(context,
+                                        radius: 40,
+                                        child: StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return SizedBox(
+                                                height: 320,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                  child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Center(
+                                                          child: Text(
+                                                            'Raise Dispute',
+                                                            style: figtreeMedium.copyWith(fontSize: 22),
+                                                          ),
+                                                        ),
+                                                        30.verticalSpace(),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+
+                                                            TextField(
+                                                              controller: controller,
+                                                              maxLines: 4,
+                                                              minLines: 4,
+                                                              decoration: InputDecoration(
+                                                                  hintText: 'Write...',
+                                                                  hintStyle:
+                                                                  figtreeMedium.copyWith(fontSize: 18),
+                                                                  border: OutlineInputBorder(
+                                                                      borderRadius: BorderRadius.circular(12),
+                                                                      borderSide: const BorderSide(
+                                                                        width: 1,
+                                                                        color: Color(0xff999999),
+                                                                      ))),
+                                                            ),
+                                                            30.verticalSpace(),
+                                                            Padding(
+                                                              padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                              child: customButton(
+                                                                'Submit',
+                                                                fontColor: 0xffFFFFFF,
+                                                                onTap: () {
+                                                                  context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                                      '',
+                                                                      controller.text ?? '',
+                                                                      'hold',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                                                  );
+                                                                },
+                                                                height: 60,
+                                                                width: screenWidth(),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ]),
+                                                ),
+                                              );
+                                            }
+                                        ));
+                                  }),
+                            ),
+                            10.verticalSpace(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                              child: Text(
+                                'Tap above to raise dispute on this project. Glad legal department will look into it.',
+                                style: figtreeRegular.copyWith(fontSize: 10,
+                                    color: ColorResources.fieldGrey),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            40.verticalSpace(),
 
                           ],
                         ),
@@ -673,6 +751,29 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
           image: Images.yieldKpi,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
       ));
+    }
+
+    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!=null){
+        kpiData.add(FrontendKpiModel(name: 'Repayment Start Date',
+            image: Images.yieldKpi,
+            value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
+        kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
+            image: Images.yieldKpi,
+            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
+        kpiData.add(FrontendKpiModel(name: 'Remaining EMI',
+            image: Images.yieldKpi,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
+        ));
+      }
     }
 
     return Column(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/dde_project_model.dart';
+import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/suggested_investment.dart';
@@ -29,8 +30,10 @@ class ProjectWidget extends StatelessWidget {
   final dynamic projectPercent;
   final int projectId;
   final FarmerMaster farmerDetail;
+  final List<FarmerProjectMilestones> milestones;
+  final String selectedFilter;
 
-  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,this.rejectStatus}) : super(key: key);
+  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,this.rejectStatus, required this.milestones, required this.selectedFilter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -142,75 +145,98 @@ class ProjectWidget extends StatelessWidget {
                   ],
                 ),
                 15.verticalSpace(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
-                        BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
-                        DdeFarmerDetail(userId: farmerDetail.userId!,farmerId:farmerDetail.id!).navigate();
-                      },
-                      child: Container(
-                        height: 70,
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        padding: 15.paddingHorizontal(),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            networkImage(text: farmerImage,height: 46,width: 46,radius: 40),
-                            10.horizontalSpace(),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  farmerName.textMedium(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis),
-                                  1.verticalSpace(),
-                                  farmerPhone.textRegular(
-                                      fontSize: 12, color: Colors.black),
-                                  4.verticalSpace(),
-                                  farmerAddress.textRegular(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis),
-                                ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+                          BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
+                          DdeFarmerDetail(userId: farmerDetail.userId!,farmerId:farmerDetail.id!).navigate();
+                        },
+                        child: Container(
+                          height: 70,
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          padding: 15.paddingHorizontal(),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              networkImage(text: farmerImage,height: 46,width: 46,radius: 40),
+                              10.horizontalSpace(),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    farmerName.textMedium(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis),
+                                    1.verticalSpace(),
+                                    farmerPhone.textRegular(
+                                        fontSize: 12, color: Colors.black),
+                                    4.verticalSpace(),
+                                    farmerAddress.textRegular(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    /*CircularPercentIndicator(
-                      radius: 30,
-                      percent: 0.25,
-                      progressColor: const Color(0xFF12CE57),
-                      backgroundColor: const Color(0xFFDCEAE5),
-                      center: RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: '$projectPercent',
-                              style: figtreeBold.copyWith(
-                                  color: Colors.black, fontSize: 16)),
-                          TextSpan(
-                              text: '%\n',
-                              style: figtreeBold.copyWith(
-                                  color: Colors.black, fontSize: 9)),
-                          TextSpan(
-                              text: 'completed',
-                              style: figtreeBold.copyWith(
-                                  color: const Color(0xFF808080), fontSize: 6))
-                        ]),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    1.horizontalSpace()*/
-                  ],
+                      if(selectedFilter == 'active')
+                      Builder(
+                          builder: (context) {
+                            int count = 0;
+                            for( FarmerProjectMilestones mile in milestones) {
+                              if(mile.milestoneStatus != "pending") {
+                                count++;
+                              }
+                            }
+                            return Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircularPercentIndicator(
+                                  radius: 30,
+                                  percent: count / milestones.length,
+                                  progressColor: const Color(0xFF12CE57),
+                                  backgroundColor: const Color(0xFFDCEAE5),
+                                ),
+                                RichText(
+                                  softWrap: false,
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: removeZeroesInFraction(((count / milestones.length) * 100).toString()),
+                                        style: figtreeBold.copyWith(
+                                            color: Colors.black,
+                                            fontSize: 16)),
+                                    TextSpan(
+                                        text: '%\n',
+                                        style: figtreeBold.copyWith(
+                                            color: Colors.black,
+                                            fontSize: 9)),
+                                    TextSpan(
+                                        text: 'completed',
+                                        style: figtreeBold.copyWith(
+                                            color:
+                                            const Color(0xFF808080),
+                                            fontSize: 6))
+                                  ]),
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            );
+                          }
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

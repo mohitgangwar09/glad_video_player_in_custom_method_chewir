@@ -1,14 +1,28 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
+import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class DisputeScreen extends StatelessWidget {
-  const DisputeScreen({super.key});
+class DisputeScreen extends StatefulWidget {
+  const DisputeScreen({super.key, required this.project});
+  final Data project;
 
+  @override
+  State<DisputeScreen> createState() => _DisputeScreenState();
+}
+
+class _DisputeScreenState extends State<DisputeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,11 +74,13 @@ class DisputeScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Dam Construction',
+                                widget.project.farmerProject![0].name ?? '',
                                 style: figtreeMedium.copyWith(fontSize: 16),
                               ),
                               Text(
-                                'Water Management',
+                                widget.project.farmerProject![0].farmerImprovementArea != null ? (widget.project.farmerProject![0].farmerImprovementArea!
+                                    .improvementArea != null ? widget.project.farmerProject![0].farmerImprovementArea!
+                                    .improvementArea!.name ?? '' : '') : '',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: const Color(0xFF808080)),
                               ),
@@ -72,57 +88,295 @@ class DisputeScreen extends StatelessWidget {
                           ),
                         ),
                         10.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(Images.sampleUser),
-                            15.horizontalSpace(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        Builder(
+                          builder: (context) {
+                            String type = context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)!;
+                            return Row(
                               children: [
-                                Text('Begumanya Charles',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 16, color: Colors.black)),
-                                10.verticalSpace(),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    const Icon(
-                                      Icons.call,
-                                      color: Colors.black,
-                                      size: 16,
-                                    ),
-                                    Text('+256 758711344',
-                                        style: figtreeRegular.copyWith(
-                                            fontSize: 12, color: Colors.black)),
-                                  ],
-                                ),
-                                4.verticalSpace(),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on,
-                                      color: Colors.black,
-                                      size: 16,
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.5,
-                                      child: Text(
-                                        'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
-                                        style: figtreeRegular.copyWith(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          overflow: TextOverflow.ellipsis,
+                                if(type != "farmer")
+                                Expanded(
+                                  child: Stack(
+                                    children: [
+                                      InkWell(
+                                        onTap: (){
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: 10.0),
+                                          child: customProjectContainer(
+                                            child: Padding(
+                                              padding:
+                                              const EdgeInsets.all(20),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  15.verticalSpace(),
+                                                  Text(widget.project.farmerProject![0].farmerMaster!.name.toString() ?? '',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 16,
+                                                          color: Colors.black)),
+
+                                                  5.verticalSpace(),
+
+                                                  Text('Farmer',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 12,
+                                                          color: Colors.black)),
+
+                                                  10.verticalSpace(),
+                                                  Text('+256 ${widget.project.farmerProject![0].farmerMaster!.phone.toString() ?? ''}',
+                                                      style:
+                                                      figtreeRegular.copyWith(
+                                                          fontSize: 12,
+                                                          color: Colors.black)),
+                                                  10.verticalSpace(),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          widget.project.farmerProject![0].farmerMaster!.address != null
+                                                              ? widget.project.farmerProject![0].farmerMaster!.address!.address != null
+                                                              && widget.project.farmerProject![0].farmerMaster!.address!.subCounty != null
+                                                              ? widget.project.farmerProject![0].farmerMaster!.address!.subCounty! +
+                                                              widget.project.farmerProject![0].farmerMaster!.address!.address
+                                                              : ''
+                                                              : '',
+                                                          maxLines: 2,
+                                                          style:
+                                                          figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: Colors.black,
+                                                            overflow:
+                                                            TextOverflow.ellipsis,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )
+                                      Positioned(
+                                          left: 0,
+                                          right: 0,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(1000),
+                                                child: Container(
+                                                  height: 60,
+                                                  width: 60,
+                                                  margin: const EdgeInsets.only(left: 15),
+                                                  decoration:
+                                                  const BoxDecoration(shape: BoxShape.circle),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                    (widget.project.farmerProject![0].farmerMaster!= null) ? (widget.project.farmerProject![0].farmerMaster!.photo ?? '') : '',
+                                                    errorWidget: (_, __, ___) =>
+                                                        SvgPicture.asset(Images.person),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                if(type != "dde")
+                                Expanded(
+                                  child: Stack(
+                                    children: [
+                                      InkWell(
+                                        onTap: (){
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: 10.0),
+                                          child: customProjectContainer(
+                                            child: Padding(
+                                              padding:
+                                              const EdgeInsets.all(20),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  15.verticalSpace(),
+                                                  Text(widget.project.farmerProject![0].dairyDevelopMentExecutive!.name.toString() ?? '',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 16,
+                                                          color: Colors.black)),
+
+                                                  5.verticalSpace(),
+
+                                                  Text('DDE',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 12,
+                                                          color: Colors.black)),
+
+                                                  10.verticalSpace(),
+                                                  Text('+256 ${widget.project.farmerProject![0].dairyDevelopMentExecutive!.phone.toString() ?? ''}',
+                                                      style:
+                                                      figtreeRegular.copyWith(
+                                                          fontSize: 12,
+                                                          color: Colors.black)),
+                                                  10.verticalSpace(),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          widget.project.farmerProject![0].dairyDevelopMentExecutive!.address != null
+                                                              ? widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
+                                                              && widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
+                                                              ? widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
+                                                              widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
+                                                              : ''
+                                                              : '',
+                                                          maxLines: 2,
+                                                          style:
+                                                          figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: Colors.black,
+                                                            overflow:
+                                                            TextOverflow.ellipsis,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                          left: 0,
+                                          right: 0,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(1000),
+                                                child: Container(
+                                                  height: 60,
+                                                  width: 60,
+                                                  margin: const EdgeInsets.only(left: 15),
+                                                  decoration:
+                                                  const BoxDecoration(shape: BoxShape.circle),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                    (widget.project.farmerProject![0].dairyDevelopMentExecutive!= null) ? (widget.project.farmerProject![0].dairyDevelopMentExecutive!.photo ?? '') : '',
+                                                    errorWidget: (_, __, ___) =>
+                                                        SvgPicture.asset(Images.person),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                if(type != "supplier")
+                                Expanded(
+                                  child: Stack(
+                                    children: [
+                                      InkWell(
+                                        onTap: (){
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: 10.0),
+                                          child: customProjectContainer(
+
+                                            child: Padding(
+                                              padding:
+                                              const EdgeInsets.all(20),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  15.verticalSpace(),
+                                                  Text(widget.project.supplierDetail!.name ?? '',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 16,
+                                                          color: Colors.black)),
+                                                  5.verticalSpace(),
+
+                                                  Text('Service Provider',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 12,
+                                                          color: Colors.black)),
+                                                  10.verticalSpace(),
+                                                  Text('+256 ${widget.project.supplierDetail!.phone ?? ''}',
+                                                      style:
+                                                      figtreeRegular.copyWith(
+                                                          fontSize: 12,
+                                                          color: Colors.black)),
+                                                  10.verticalSpace(),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          widget.project.supplierDetail!.address["address"] ?? '',
+                                                          maxLines: 2,
+                                                          style:
+                                                          figtreeRegular.copyWith(
+                                                            fontSize: 12,
+                                                            color: Colors.black,
+                                                            overflow:
+                                                            TextOverflow.ellipsis,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                          left: 0,
+                                          right: 0,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(1000),
+                                                  child: Container(
+                                                    height: 60,
+                                                    margin: const EdgeInsets.only(left: 15),
+                                                    width: 60,
+                                                    decoration:
+                                                    const BoxDecoration(shape: BoxShape.circle),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: widget.project.supplierDetail != null ? (widget.project.supplierDetail!.image == false ? '' : widget.project.supplierDetail!.image ?? '') : '',
+                                                      // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
+                                                      errorWidget: (_, __, ___) =>
+                                                          SvgPicture.asset(Images.person),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
-                            ),
-                          ],
+                            );
+                          }
                         ),
                       ],
                     ),
@@ -142,6 +396,14 @@ class DisputeScreen extends StatelessWidget {
                 customButton("Go to Home",
                     fontColor: 0xffffffff,
                     onTap: () {
+                      String type = context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)!;
+                      if(type == "dde"){
+                        const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
+                      }else if(type == "farmer"){
+                        const DashboardFarmer().navigate(isInfinity: true);
+                      } else {
+                        const DashboardSupplier().navigate(isInfinity: true);
+                      }
                     })
               ],
             ),

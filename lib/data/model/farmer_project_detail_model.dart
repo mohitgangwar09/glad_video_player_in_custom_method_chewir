@@ -1,6 +1,6 @@
 class FarmerProjectDetailModel {
   String? message;
-  int? status;
+  dynamic status;
   Data? data;
 
   FarmerProjectDetailModel({this.message, this.status, this.data});
@@ -838,11 +838,17 @@ class Kpi {
   dynamic farmerParticipation;
   dynamic loan;
   dynamic repayment;
+  dynamic repaymentStartDate;
   dynamic emi;
+  dynamic paidEmis;
+  dynamic remainingEmiValue;
   dynamic currentYield;
   dynamic expectedYield;
   dynamic idealYield;
   dynamic targetFarmProduction;
+  dynamic supplierPaidAmount;
+  dynamic supplierDueAmount;
+  dynamic supplierPendingAmount;
 
   Kpi(
       {this.investment,
@@ -851,11 +857,17 @@ class Kpi {
         this.farmerParticipation,
         this.loan,
         this.repayment,
+        this.repaymentStartDate,
         this.emi,
+        this.paidEmis,
+        this.remainingEmiValue,
         this.currentYield,
         this.expectedYield,
         this.idealYield,
-        this.targetFarmProduction});
+        this.targetFarmProduction,
+        this.supplierPaidAmount,
+        this.supplierDueAmount,
+        this.supplierPendingAmount});
 
   Kpi.fromJson(Map<String, dynamic> json) {
     investment = json['investment'];
@@ -864,33 +876,46 @@ class Kpi {
     farmerParticipation = json['farmer_participation'];
     loan = json['loan'];
     repayment = json['repayment'];
+    repaymentStartDate = json['repayment_start_date'];
     emi = json['emi'];
+    paidEmis = json['paid_emis'];
+    remainingEmiValue = json['remaining_emi_value'];
     currentYield = json['current_yield'];
     expectedYield = json['expected_yield'];
     idealYield = json['ideal_yield'];
     targetFarmProduction = json['target_farm_production'];
+    supplierPaidAmount = json['supplier_paid_amount'];
+    supplierDueAmount = json['supplier_due_amount'];
+    supplierPendingAmount = json['supplier_pending_amount'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['investment'] = investment;
-    data['revenue'] = revenue;
-    data['roi'] = roi;
-    data['farmer_participation'] = farmerParticipation;
-    data['loan'] = loan;
-    data['repayment'] = repayment;
-    data['emi'] = emi;
-    data['current_yield'] = currentYield;
-    data['expected_yield'] = expectedYield;
-    data['ideal_yield'] = idealYield;
-    data['target_farm_production'] = targetFarmProduction;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['investment'] = this.investment;
+    data['revenue'] = this.revenue;
+    data['roi'] = this.roi;
+    data['farmer_participation'] = this.farmerParticipation;
+    data['loan'] = this.loan;
+    data['repayment'] = this.repayment;
+    data['repayment_start_date'] = this.repaymentStartDate;
+    data['emi'] = this.emi;
+    data['paid_emis'] = this.paidEmis;
+    data['remaining_emi_value'] = this.remainingEmiValue;
+    data['current_yield'] = this.currentYield;
+    data['expected_yield'] = this.expectedYield;
+    data['ideal_yield'] = this.idealYield;
+    data['target_farm_production'] = this.targetFarmProduction;
+    data['supplier_paid_amount'] = this.supplierPaidAmount;
+    data['supplier_due_amount'] = this.supplierDueAmount;
+    data['supplier_pending_amount'] = this.supplierPendingAmount;
     return data;
   }
 }
 
+
 class FarmerMaster {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   String? name;
   String? email;
   String? fAddress;
@@ -1038,8 +1063,8 @@ class FarmerMaster {
 }
 
 class Address {
-  int? id;
-  int? addressableId;
+  dynamic id;
+  dynamic addressableId;
   String? addressableType;
   String? name;
   String? mobile;
@@ -1183,9 +1208,9 @@ class Address {
 }
 
 class FarmerProjectPaymentTerms {
-  int? id;
-  int? farmerId;
-  int? farmerProjectId;
+  dynamic id;
+  dynamic farmerId;
+  dynamic farmerProjectId;
   dynamic farmerMilestoneId;
   dynamic paymentTerm;
   dynamic paymentPercentage;
@@ -1341,9 +1366,9 @@ class FarmerProjectLog {
 }
 
 class FarmerProjectKycDocument {
-  int? id;
-  int? farmerId;
-  int? farmerProjectId;
+  dynamic id;
+  dynamic farmerId;
+  dynamic farmerProjectId;
   dynamic addressDocumentName;
   dynamic addressDocumentNumber;
   dynamic addressExpiryDate;
@@ -1453,7 +1478,7 @@ class FarmerProjectKycDocument {
 }
 
 class AddressDocumentFile {
-  int? id;
+  dynamic id;
   String? modelType;
   dynamic modelId;
   dynamic uuid;
@@ -1582,7 +1607,7 @@ class AddressDocumentFile {
 }
 
 class IdDocumentFile {
-  int? id;
+  dynamic id;
   String? modelType;
   dynamic modelId;
   dynamic uuid;
@@ -1711,7 +1736,7 @@ class IdDocumentFile {
 }
 
 class Media {
-  int? id;
+  dynamic id;
   String? modelType;
   dynamic modelId;
   dynamic uuid;
@@ -1928,9 +1953,9 @@ class FarmerLoanDocument {
 }
 
 class LoanDocumentFile {
-  int? id;
+  dynamic id;
   String? modelType;
-  int? modelId;
+  dynamic modelId;
   String? uuid;
   String? collectionName;
   String? name;
@@ -2242,8 +2267,8 @@ class SupplierDetail {
   dynamic phone;
   String? email;
   dynamic status;
-  int? createdBy;
-  int? updatedBy;
+  dynamic createdBy;
+  dynamic updatedBy;
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;

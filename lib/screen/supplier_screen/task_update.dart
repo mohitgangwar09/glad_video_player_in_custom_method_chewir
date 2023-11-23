@@ -60,8 +60,8 @@ class _TaskUpdateState extends State<TaskUpdate> {
                             widget.task.taskStatus == 'pending' ? Text(
                               formatProjectStatus(widget.task.taskStatus ?? ''),
                               style: figtreeMedium.copyWith(fontSize: 14, color: const Color(0xFFFC5E60)),
-                            ) : widget.task.taskStatus == 'In-progress' ? Text(
-                              formatProjectStatus(widget.task.taskStatus ?? ''),
+                            ) : widget.task.taskStatus == 'inprogress' ? Text(
+                              'In-progress',
                               style: figtreeMedium.copyWith(fontSize: 14, color: const Color(0xFFF6B51D)),
                             ) : const SizedBox.shrink(),
                             30.verticalSpace(),
@@ -267,7 +267,7 @@ class _TaskUpdateState extends State<TaskUpdate> {
                                         widget.task.id,
                                         selectOption!.toLowerCase().replaceAllMapped(' ', (match) => ''),
                                         controller.text,
-                                        images);
+                                        images, '');
                                   }
                                     })),
                             40.verticalSpace(),
