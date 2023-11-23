@@ -17,6 +17,7 @@ import 'package:glad/screen/common/trending_news.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
+import 'package:glad/screen/dde_screen/suggested_investment.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
@@ -37,6 +38,7 @@ class DDELandingPage extends StatefulWidget {
   @override
   State<DDELandingPage> createState() => _DDELandingPageState();
 }
+
 
 class _DDELandingPageState extends State<DDELandingPage> {
 
@@ -235,7 +237,11 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                   onTap: (){
                                     BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
                                     BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
-                                    DdeFarmerDetail(userId: detail.farmerMaster!.userId!,farmerId:detail.farmerMaster!.id!).navigate();
+                                    DDeFarmerInvestmentDetails(projectId: detail.farmerProject!.id,
+                                      // farmerDetail:farmerDetail
+                                    ).navigate();
+
+                                    // DdeFarmerDetail(userId: detail.farmerMaster!.userId!,farmerId:detail.farmerMaster!.id!).navigate();
                                   },
 
                                   child: Container(
