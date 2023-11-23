@@ -32,7 +32,7 @@ class CongratulationScreen extends StatelessWidget {
 
                 10.verticalSpace(),
 
-                "The project '${state.responseFarmerProjectDetail!.data!.farmerProject![0].name ?? ''}' has been approved on behalf of the farmer. Our designated service provider will start the work as per schedule.".textRegular(fontSize: 16,
+                "The project '${state.responseFarmerProjectDetail!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].name:'' ?? ''}' has been approved on behalf of the farmer. Our designated service provider will start the work as per schedule.".textRegular(fontSize: 16,
                 textAlign: TextAlign.center),
 
                 /*const SizedBox(height: 210,
@@ -211,7 +211,7 @@ class CongratulationScreen extends StatelessWidget {
                                         const BoxDecoration(shape: BoxShape.circle),
                                         child: CachedNetworkImage(
                                           imageUrl:
-                                          (state.responseFarmerProjectDetail!.data!.supplierDetail!= null) ? (state.responseFarmerProjectDetail!.data!.supplierDetail!.image ?? '') : '',
+                                          (state.responseFarmerProjectDetail!.data!.supplierDetail.toString()!= null) ? (state.responseFarmerProjectDetail!.data!.supplierDetail!.image.toString() ?? '') : '',
                                           // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
                                           errorWidget: (_, __, ___) =>
                                               SvgPicture.asset(Images.person),
