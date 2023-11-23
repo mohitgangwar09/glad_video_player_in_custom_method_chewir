@@ -11,6 +11,7 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
+import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
@@ -97,9 +98,14 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             30.verticalSpace(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!=null?
                             farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!):const SizedBox.shrink(),
+                            20.verticalSpace(),
+                            if(state.responseFarmerProjectDetail!.data!.supplierDetail != null)
+                            supplier(context, state),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
-                            projectMilestones(context, state),
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'active' || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'hold'
+                                ? activeProjectMilestones(context, state)
+                                : projectMilestones(context, state),
                             InkWell(
                                 onTap: () {
                                   const TrackProgress().navigate();
@@ -417,25 +423,74 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Description',
-              style: figtreeMedium.copyWith(fontSize: 18),
+            Row(
+              children: [
+                Text(
+                  'Description',
+                  style: figtreeMedium.copyWith(fontSize: 18),
+                ),
+                05.horizontalSpace(),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+                  decoration: boxDecoration(
+                    borderWidth: 1,
+                    borderRadius: 30,
+                    borderColor: const Color(0xff6A0030),
+                  ),
+                  child: Text(
+                    formatProjectStatus(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus ?? '') ,
+                    textAlign: TextAlign.center,
+                    style: figtreeMedium.copyWith(
+                        color: const Color(0xff6A0030), fontSize: 10),
+                  ),
+                )
+              ],
             ),
-            05.horizontalSpace(),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
-              decoration: boxDecoration(
-                borderWidth: 1,
-                borderRadius: 30,
-                borderColor: const Color(0xff6A0030),
-              ),
-              child: Text(
-                state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() ,
-                textAlign: TextAlign.center,
-                style: figtreeMedium.copyWith(
-                    color: const Color(0xff6A0030), fontSize: 10),
-              ),
+            if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'active' || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'hold')
+            Builder(
+                builder: (context) {
+                  int count = 0;
+                  for(FarmerProjectMilestones mile in state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!) {
+                    if(mile.milestoneStatus != "pending") {
+                      count++;
+                    }
+                  }
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircularPercentIndicator(
+                        radius: 30,
+                        percent: count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length,
+                        progressColor: const Color(0xFF12CE57),
+                        backgroundColor: const Color(0xFFDCEAE5),
+                      ),
+                      RichText(
+                        softWrap: false,
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: removeZeroesInFraction(((count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length) * 100).toString()),
+                              style: figtreeBold.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 16)),
+                          TextSpan(
+                              text: '%\n',
+                              style: figtreeBold.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 9)),
+                          TextSpan(
+                              text: 'completed',
+                              style: figtreeBold.copyWith(
+                                  color:
+                                  const Color(0xFF808080),
+                                  fontSize: 6))
+                        ]),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  );
+                }
             )
           ],
         ),
@@ -447,6 +502,124 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
           style: figtreeMedium.copyWith(fontSize: 14),
           collapseText: 'Show Less',
         )
+      ],
+    );
+  }
+
+  ///////////SupplierContainerTimeline/////////////
+  Widget supplier(context, ProjectState state) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(height: 150, width: screenWidth()),
+        Container(
+          height: 100,
+          width: screenWidth(),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: ColorResources.grey)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                    radius: 30,
+                    child: CachedNetworkImage(
+                      imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.image ==false ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.image ?? '',
+                      errorWidget: (_, __, ___) {
+                        return Image.asset(
+                          Images.sampleUser,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        );
+                      },
+                      fit: BoxFit.cover,
+                      width: 80,
+                      height: 80,
+                    )),
+                15.horizontalSpace(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.name ?? '',
+                        style: figtreeMedium.copyWith(
+                            fontSize: 16, color: Colors.black)),
+                    10.verticalSpace(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          Icons.call,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                        Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '',
+                            style: figtreeRegular.copyWith(
+                                fontSize: 12, color: Colors.black)),
+                      ],
+                    ),
+                    4.verticalSpace(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width *
+                              0.5,
+                          child: Text(
+                            state.responseFarmerProjectDetail!.data!.supplierDetail!.address != null
+                                ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"] != null
+                                && state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] != null
+                                ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] +
+                                state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"]
+                                : ''
+                                : '',
+                            style: figtreeRegular.copyWith(
+                              fontSize: 12,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+            top: -5,
+            left: 0,
+            child: Text(
+              'Supplier',
+              style: figtreeMedium.copyWith(fontSize: 20),
+            )),
+        Positioned(
+            top: 0,
+            right: 10,
+            child: Row(
+              children: [
+                InkWell(
+                    onTap: (){
+                      callOnMobile(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  await launchWhatsApp(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
+                },child: SvgPicture.asset(Images.whatsapp)),
+                6.horizontalSpace(),
+              ],
+            )),
       ],
     );
   }
@@ -984,6 +1157,191 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
 
                   ],
                 ),
+              ),
+            );
+          }),
+      // 20.verticalSpace(),
+      // Center(
+      //     child: Padding(
+      //   padding: const EdgeInsets.only(left: 50, right: 50),
+      //   child: customButton('Revoke',
+      //       width: screenWidth(),
+      //       style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+      //       onTap: () {
+      //     const AddRemark().navigate();
+      //   }, radius: 88, color: 0xffFC5E60),
+      // )),
+      // 05.verticalSpace(),
+      // Center(
+      //     child: Text(
+      //   'Tap above to revoke the loan application.',
+      //   style: figtreeMedium.copyWith(
+      //       fontSize: 10, color: ColorResources.fieldGrey),
+      // )),
+      20.verticalSpace(),
+    ]);
+  }
+
+  ///////////ProjectMilestones///////////
+  Widget activeProjectMilestones(context, ProjectState state) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      30.verticalSpace(),
+      Text(
+        'Project milestones',
+        style: figtreeMedium.copyWith(fontSize: 18),
+      ),
+
+      15.verticalSpace(),
+
+      customList(
+          list: List.generate(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length, (index) => null),
+          axis: Axis.vertical,
+          child: (int index) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20,
+              ),
+              child: InkWell(
+                onTap: () {
+                  DdeMilestoneDetail(milestoneId:
+                  state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
+                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),navigateScreen:'',
+                    projectId: widget.projectId,
+                  ).navigate();
+                  /*SuggestedProjectMilestoneDetail(milestoneId:
+                  state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
+                    projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
+                  ).navigate();*/
+                },
+                child: customShadowContainer(
+                    margin: 0,
+                    color: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending" ? Color(0xFFFFF3F4) : Colors.white,
+                    backColor: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending" ? ColorResources.maroon : ColorResources.grey,
+                    // backColor: ColorResources.grey,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneTitle ?? '',
+                                style: figtreeMedium.copyWith(fontSize: 18),
+                              ),
+                              state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending"
+                                  ? checkBox2(value: true)
+                                  :  Builder(
+                                  builder: (context) {
+                                    int count = 0;
+                                    for(FarmerProjectTask task in state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!) {
+                                      if(task.taskStatus!.toLowerCase() == "completed" || task.taskStatus!.toLowerCase() == "approved") {
+                                        count++;
+                                      }
+                                    }
+                                    return Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        CircularPercentIndicator(
+                                          radius: 30,
+                                          percent: count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!.length,
+                                          progressColor: const Color(0xFF12CE57),
+                                          backgroundColor: const Color(0xFFDCEAE5),
+                                        ),
+                                        RichText(
+                                          softWrap: false,
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                                text: removeZeroesInFraction(((count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!.length) * 100).toString()),
+                                                style: figtreeBold.copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 16)),
+                                            TextSpan(
+                                                text: '%\n',
+                                                style: figtreeBold.copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 9)),
+                                            TextSpan(
+                                                text: 'completed',
+                                                style: figtreeBold.copyWith(
+                                                    color:
+                                                    const Color(0xFF808080),
+                                                    fontSize: 6))
+                                          ]),
+                                          textAlign: TextAlign.center,
+                                        )
+                                      ],
+                                    );
+                                  }
+                              )
+                            ],
+                          ),
+                          Text(
+                            '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
+                            style: figtreeMedium.copyWith(fontSize: 12),
+                          ),
+                          20.verticalSpace(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Value',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.fieldGrey),
+                                  ),
+                                  Text(
+                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue!=null?getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue):'',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 16,
+                                        color: ColorResources.maroon),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Duration',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.fieldGrey),
+                                  ),
+                                  Text(
+                                    '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDuration ?? ''} Days',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 16,
+                                        color: ColorResources.black),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Due Date',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.fieldGrey),
+                                  ),
+                                  Text(
+                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDueDate != null ? DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDueDate.toString())) : '',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 16,
+                                        color: ColorResources.black),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )),
               ),
             );
           }),

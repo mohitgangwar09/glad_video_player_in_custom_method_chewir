@@ -82,6 +82,7 @@ class ProjectList {
   FarmerMaster? farmerMaster;
   FarmerImprovementArea? farmerImprovementArea;
   List<FarmerProjectSurvey>? farmerProjectSurvey;
+  List<FarmerProjectMilestones>? farmerProjectMilestones;
 
 
   ProjectList(
@@ -121,6 +122,7 @@ class ProjectList {
         this.farmerMaster,
         this.farmerImprovementArea,
         this.farmerProjectSurvey,
+        this.farmerProjectMilestones,
       });
 
   ProjectList.fromJson(Map<String, dynamic> json) {
@@ -157,6 +159,12 @@ class ProjectList {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    if (json['farmer_project_milestones'] != null) {
+      farmerProjectMilestones = <FarmerProjectMilestones>[];
+      json['farmer_project_milestones'].forEach((v) {
+        farmerProjectMilestones!.add(new FarmerProjectMilestones.fromJson(v));
+      });
+    }
     farmerMaster = json['farmer_master'] != null
         ? FarmerMaster.fromJson(json['farmer_master'])
         : null;
@@ -353,6 +361,103 @@ class FarmerMaster {
     if (address != null) {
       data['address'] = address!.toJson();
     }
+    return data;
+  }
+}
+
+class FarmerProjectMilestones {
+  dynamic id;
+  dynamic farmerId;
+  dynamic farmerProjectId;
+  dynamic projectId;
+  dynamic projectMilestoneId;
+  String? milestoneTitle;
+  String? milestoneDescription;
+  dynamic milestoneDuration;
+  dynamic milestoneValue;
+  String? milestoneStatus;
+  dynamic milestoneDueDate;
+  dynamic approvalDate;
+  dynamic approvalRemarks;
+  String? status;
+  dynamic notRequired;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic farmerProjectTaskCount;
+
+  FarmerProjectMilestones(
+      {this.id,
+        this.farmerId,
+        this.farmerProjectId,
+        this.projectId,
+        this.projectMilestoneId,
+        this.milestoneTitle,
+        this.milestoneDescription,
+        this.milestoneDuration,
+        this.milestoneValue,
+        this.milestoneStatus,
+        this.milestoneDueDate,
+        this.approvalDate,
+        this.approvalRemarks,
+        this.status,
+        this.notRequired,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.farmerProjectTaskCount});
+
+  FarmerProjectMilestones.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    farmerProjectId = json['farmer_project_id'];
+    projectId = json['project_id'];
+    projectMilestoneId = json['project_milestone_id'];
+    milestoneTitle = json['milestone_title'];
+    milestoneDescription = json['milestone_description'];
+    milestoneDuration = json['milestone_duration'];
+    milestoneValue = json['milestone_value'];
+    milestoneStatus = json['milestone_status'];
+    milestoneDueDate = json['milestone_due_date'];
+    approvalDate = json['approval_date'];
+    approvalRemarks = json['approval_remarks'];
+    status = json['status'];
+    notRequired = json['not_required'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    farmerProjectTaskCount = json['farmer_project_task_count'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['farmer_id'] = this.farmerId;
+    data['farmer_project_id'] = this.farmerProjectId;
+    data['project_id'] = this.projectId;
+    data['project_milestone_id'] = this.projectMilestoneId;
+    data['milestone_title'] = this.milestoneTitle;
+    data['milestone_description'] = this.milestoneDescription;
+    data['milestone_duration'] = this.milestoneDuration;
+    data['milestone_value'] = this.milestoneValue;
+    data['milestone_status'] = this.milestoneStatus;
+    data['milestone_due_date'] = this.milestoneDueDate;
+    data['approval_date'] = this.approvalDate;
+    data['approval_remarks'] = this.approvalRemarks;
+    data['status'] = this.status;
+    data['not_required'] = this.notRequired;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['farmer_project_task_count'] = this.farmerProjectTaskCount;
     return data;
   }
 }

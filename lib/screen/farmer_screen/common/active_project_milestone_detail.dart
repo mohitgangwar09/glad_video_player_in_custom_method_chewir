@@ -599,23 +599,23 @@ class _ActiveProjectMilestoneDetailState
 
   ////////Uploaded Pictures//////////////
   Widget uploadedPictures(ProjectState state) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Uploaded pictures',
-            style: figtreeMedium.copyWith(fontSize: 18),
-          ),
-          20.verticalSpace(),
-          Builder(
-              builder: (context) {
-                List<Media> images = [];
-                for(FarmerProjectTask task in state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!) {
-                  images.addAll(task.media as Iterable<Media>);
-                }
-                return customGrid(context,
+    return Builder(
+        builder: (context) {
+          List<Media> images = [];
+          for(FarmerProjectTask task in state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!) {
+            images.addAll(task.media as Iterable<Media>);
+          }
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Uploaded pictures',
+                  style: figtreeMedium.copyWith(fontSize: 18),
+                ),
+                20.verticalSpace(),
+                customGrid(context,
                     mainAxisSpacing: 20,
                     crossAxisSpacing: 10,
                     childAspectRatio: 1.2,
@@ -644,12 +644,12 @@ class _ActiveProjectMilestoneDetailState
                           ],
                         ),
                       );
-                    });
-              }
-          ),
-          20.verticalSpace()
-        ],
-      ),
+                    }),
+                20.verticalSpace()
+              ],
+            ),
+          );
+        }
     );
   }
 

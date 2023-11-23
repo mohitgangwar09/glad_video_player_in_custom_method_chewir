@@ -364,7 +364,9 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                     farmerDetail: state.responseDdeProject!.data!
                                         .projectList![i].farmerMaster!,
                                   rejectStatus: state.responseDdeProject!.data!
-                                      .projectList![i].rejectStatus ?? ''
+                                      .projectList![i].rejectStatus ?? '', milestones: state.responseDdeProject!.data!
+                                    .projectList![i].farmerProjectMilestones!,
+                                  selectedFilter: selectedFilter,
                                 ),
                                 width: screenWidth()),
                           );
