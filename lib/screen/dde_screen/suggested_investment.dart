@@ -11,6 +11,7 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
+import 'package:glad/screen/common/add_remarks_dispute_screen.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -26,6 +27,7 @@ import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
+import 'package:glad/screen/supplier_screen/dispute_screen.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -400,6 +402,33 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
 
                               ],
                             ):const SizedBox.shrink():const SizedBox.shrink(),
+
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "active".toUpperCase() ?
+                            Column(children: [
+                              40.verticalSpace(),
+                              Center(
+                                child: customButton("Raise dispute",
+                                    fontColor: 0xffffffff,
+                                    color: 0xFFFC5E60,
+                                    width: screenWidth(),
+                                    height: 60,
+                                    onTap: () {
+                                      AddRemarkDisputeScreen(project: state.responseFarmerProjectDetail!.data!.farmerProject![0], farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id).navigate();
+                                    }),
+                              ),
+                              10.verticalSpace(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                                child: Text(
+                                  'Tap above to raise dispute on this project. Glad legal department will look into it.',
+                                  style: figtreeRegular.copyWith(fontSize: 10,
+                                      color: ColorResources.fieldGrey),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              40.verticalSpace(),
+                            ],):const SizedBox.shrink():const SizedBox.shrink(),
 
                             30.verticalSpace(),
                           ],
@@ -840,6 +869,29 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
       ));
     }
+
+   if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!=null){
+       kpiData.add(FrontendKpiModel(name: 'Repayment Start Date',
+           image: Images.yieldKpi,
+           value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
+       ));
+     }
+
+     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
+       kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
+           image: Images.yieldKpi,
+           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
+       ));
+     }
+
+     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
+       kpiData.add(FrontendKpiModel(name: 'Remaining EMI',
+           image: Images.yieldKpi,
+           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
+       ));
+     }
+   }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,

@@ -6,7 +6,10 @@ import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/approve_task.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
+import 'package:glad/screen/dde_screen/reject_task.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
@@ -110,16 +113,107 @@ class TaskDetail extends StatelessWidget {
                                     child: customButton("Accept",
                                         fontColor: 0xffffffff,
                                         onTap: () {
-                                          BlocProvider.of<ProjectCubit>(context)
-                                              .farmerProjectMilestoneTaskUpdateApi(
-                                              context,
-                                              task.farmerId,
-                                              task.farmerProjectId,
-                                              task.farmerMilestoneId,
-                                              task.id,
-                                              'approved',
-                                              '',
-                                              []);
+                                          if(BlocProvider.of<ProjectCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde") {
+                                            ApproveTaskDDE(projectData: BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                                farmerProjectId: task
+                                                    .farmerProjectId, task: task,).navigate();
+                                          } else {
+                                            TextEditingController controller = TextEditingController();
+                                            modalBottomSheetMenu(context,
+                                                radius: 40,
+                                                child: StatefulBuilder(
+                                                    builder: (context,
+                                                        setState) {
+                                                      return SizedBox(
+                                                        height: 320,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                              23, 20, 25, 10),
+                                                          child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                Center(
+                                                                  child: Text(
+                                                                    'Remarks',
+                                                                    style: figtreeMedium
+                                                                        .copyWith(
+                                                                        fontSize: 22),
+                                                                  ),
+                                                                ),
+                                                                15
+                                                                    .verticalSpace(),
+                                                                Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+
+                                                                    /*Text(
+                                                      'Remarks',
+                                                      style: figtreeMedium.copyWith(fontSize: 12),
+                                                    ),*/
+                                                                    5
+                                                                        .verticalSpace(),
+                                                                    TextField(
+                                                                      controller: controller,
+                                                                      maxLines: 4,
+                                                                      minLines: 4,
+                                                                      decoration: InputDecoration(
+                                                                          hintText: 'Write...',
+                                                                          hintStyle:
+                                                                          figtreeMedium
+                                                                              .copyWith(
+                                                                              fontSize: 18),
+                                                                          border: OutlineInputBorder(
+                                                                              borderRadius: BorderRadius
+                                                                                  .circular(
+                                                                                  12),
+                                                                              borderSide: const BorderSide(
+                                                                                width: 1,
+                                                                                color: Color(
+                                                                                    0xff999999),
+                                                                              ))),
+                                                                    ),
+                                                                    30
+                                                                        .verticalSpace(),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          28, 0,
+                                                                          29,
+                                                                          0),
+                                                                      child: customButton(
+                                                                        'Submit',
+                                                                        fontColor: 0xffFFFFFF,
+                                                                        onTap: () async {
+                                                                          await BlocProvider
+                                                                              .of<
+                                                                              ProjectCubit>(
+                                                                              context)
+                                                                              .farmerProjectMilestoneTaskUpdateApi(
+                                                                              context,
+                                                                              task.farmerId,
+                                                                              task.farmerProjectId,
+                                                                              task.farmerMilestoneId,
+                                                                              task.id,
+                                                                              'approved', controller.text,
+                                                                              [], '');
+                                                                          pressBack();
+                                                                        },
+                                                                        height: 60,
+                                                                        width: screenWidth(),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              ]),
+                                                        ),
+                                                      );
+                                                    }
+                                                ));
+                                          }
+
                                         })),
                                 // 20.verticalSpace(),
                                 Container(
@@ -130,16 +224,86 @@ class TaskDetail extends StatelessWidget {
                                         fontColor: 0xff000000,
                                         color: 0xFFDCDCDC,
                                         onTap: () {
-                                          BlocProvider.of<ProjectCubit>(context)
-                                              .farmerProjectMilestoneTaskUpdateApi(
-                                              context,
-                                              task.farmerId,
-                                              task.farmerProjectId,
-                                              task.farmerMilestoneId,
-                                              task.id,
-                                              'rejected',
-                                              '',
-                                              []);
+                                          if(BlocProvider.of<ProjectCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                            RejectTaskDDE(projectData: BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                              farmerProjectId: task
+                                                  .farmerProjectId, task: task,).navigate();
+                                          } else {
+                                            TextEditingController controller = TextEditingController();
+                                            modalBottomSheetMenu(context,
+                                                radius: 40,
+                                                child: StatefulBuilder(
+                                                    builder: (context, setState) {
+                                                      return SizedBox(
+                                                        height: 320,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                                                          child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Center(
+                                                                  child: Text(
+                                                                    'Remarks',
+                                                                    style: figtreeMedium.copyWith(fontSize: 22),
+                                                                  ),
+                                                                ),
+                                                                15.verticalSpace(),
+                                                                Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+
+                                                                    /*Text(
+                                                      'Remarks',
+                                                      style: figtreeMedium.copyWith(fontSize: 12),
+                                                    ),*/
+                                                                    5.verticalSpace(),
+                                                                    TextField(
+                                                                      controller: controller,
+                                                                      maxLines: 4,
+                                                                      minLines: 4,
+                                                                      decoration: InputDecoration(
+                                                                          hintText: 'Write...',
+                                                                          hintStyle:
+                                                                          figtreeMedium.copyWith(fontSize: 18),
+                                                                          border: OutlineInputBorder(
+                                                                              borderRadius: BorderRadius.circular(12),
+                                                                              borderSide: const BorderSide(
+                                                                                width: 1,
+                                                                                color: Color(0xff999999),
+                                                                              ))),
+                                                                    ),
+                                                                    30.verticalSpace(),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                                      child: customButton(
+                                                                        'Submit',
+                                                                        fontColor: 0xffFFFFFF,
+                                                                        onTap: () async{
+                                                                          await BlocProvider.of<ProjectCubit>(
+                                                                              context)
+                                                                              .farmerProjectMilestoneTaskUpdateApi(
+                                                                              context,
+                                                                              task.farmerId,
+                                                                              task.farmerProjectId,
+                                                                              task.farmerMilestoneId,
+                                                                              task.id,
+                                                                              'rejected',
+                                                                              controller.text,
+                                                                              [], '');
+                                                                          pressBack();
+                                                                        },
+                                                                        height: 60,
+                                                                        width: screenWidth(),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              ]),
+                                                        ),
+                                                      );
+                                                    }
+                                                ));
+                                          }
                                         })),
                               ],
                             )

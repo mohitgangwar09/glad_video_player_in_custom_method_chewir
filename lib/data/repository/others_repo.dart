@@ -46,8 +46,6 @@ class OthersRepository {
 
   ///////////////// getTrainingCategoryApi //////////
   Future<TrainingAndNewsCategoryModel> getTrainingCategoryApi() async {
-    print(sharedPreferences!.containsKey(AppConstants.userType));
-    print(getUserToken());
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestTrainingCategoryApi : AppConstants.trainingCategoryApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});

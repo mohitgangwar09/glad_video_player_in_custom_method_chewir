@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
+import 'package:glad/screen/common/approve_milestone.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/farmer_screen/common/add_attribute.dart';
 import 'package:glad/screen/farmer_screen/common/attributes_edit.dart';
+import 'package:glad/screen/supplier_screen/dispute_screen.dart';
 import 'package:glad/screen/supplier_screen/task_detail.dart';
 import 'package:glad/screen/supplier_screen/task_update.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -91,6 +93,7 @@ class _ActiveProjectMilestoneDetailState
                               //  attributes(state) :const SizedBox.shrink(),
                               mileStoneDeliverable(state),
                               uploadedPictures(state),
+                              40.verticalSpace(),
                             ],
                           )))
                 ],
@@ -405,7 +408,7 @@ class _ActiveProjectMilestoneDetailState
               child: (int index) {
                 return InkWell(
                   onTap: () {
-                    if(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskStatus != 'approved') {
+                    if(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskStatus != 'completed') {
                       TaskDetail(
                           task: state.responseFarmerProjectMilestoneDetail!
                               .data!.milestoneDetails![0]
@@ -512,75 +515,9 @@ class _ActiveProjectMilestoneDetailState
                 child: customButton("Approve Milestone",
                     fontColor: 0xffffffff,
                     onTap: () {
-                      TextEditingController controller = TextEditingController();
-                      modalBottomSheetMenu(context,
-                          radius: 40,
-                          child: StatefulBuilder(
-                              builder: (context, setState) {
-                                return SizedBox(
-                                  height: 320,
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
-                                    child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Center(
-                                            child: Text(
-                                              'Remarks',
-                                              style: figtreeMedium.copyWith(fontSize: 22),
-                                            ),
-                                          ),
-                                          15.verticalSpace(),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-
-                                              /*Text(
-                                                      'Remarks',
-                                                      style: figtreeMedium.copyWith(fontSize: 12),
-                                                    ),*/
-                                              5.verticalSpace(),
-                                              TextField(
-                                                controller: controller,
-                                                maxLines: 4,
-                                                minLines: 4,
-                                                decoration: InputDecoration(
-                                                    hintText: 'Write...',
-                                                    hintStyle:
-                                                    figtreeMedium.copyWith(fontSize: 18),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(12),
-                                                        borderSide: const BorderSide(
-                                                          width: 1,
-                                                          color: Color(0xff999999),
-                                                        ))),
-                                              ),
-                                              30.verticalSpace(),
-                                              Padding(
-                                                padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                child: customButton(
-                                                  'Submit',
-                                                  fontColor: 0xffFFFFFF,
-                                                  onTap: () {
-                                                    BlocProvider.of<ProjectCubit>(context)
-                                                        .farmerProjectMilestoneApproveApi(
-                                                        context,
-                                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerId,
-                                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId,
-                                                        state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id,
-                                                        'approved', controller.text);
-                                                  },
-                                                  height: 60,
-                                                  width: screenWidth(),
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ]),
-                                  ),
-                                );
-                              }
-                          ));
+                      ApproveMilestone(projectData: BlocProvider.of<ProjectCubit>(context).state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                        farmerProjectId: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId,
+                        milestone: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0],).navigate();
                     })) :
             Container(
             margin: 20.marginAll(),
@@ -604,6 +541,9 @@ class _ActiveProjectMilestoneDetailState
           List<Media> images = [];
           for(FarmerProjectTask task in state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!) {
             images.addAll(task.media as Iterable<Media>);
+          }
+          if(images.isEmpty) {
+            return SizedBox.shrink();
           }
           return Padding(
             padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),

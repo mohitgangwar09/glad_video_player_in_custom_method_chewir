@@ -8,6 +8,7 @@ import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
+import 'package:glad/screen/common/add_remarks_dispute_screen.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -167,63 +168,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                               width: screenWidth(),
                               height: 60,
                               onTap: () {
-                                modalBottomSheetMenu(context,
-                                    radius: 40,
-                                    child: SizedBox(
-                                      height: 320,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            23, 30, 25, 10),
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .start,
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  'Raise dispute',
-                                                  style: figtreeMedium.copyWith(
-                                                      fontSize: 22),
-                                                ),
-                                              ),
-                                              30.verticalSpace(),
-                                              'Reason of dispute'.textMedium(
-                                                  color: Colors.black,
-                                                  fontSize: 12),
-                                              TextField(
-                                                maxLines: 4,
-                                                minLines: 4,
-                                                decoration: InputDecoration(
-                                                    hintText: 'Write...',
-                                                    hintStyle:
-                                                    figtreeMedium.copyWith(
-                                                        fontSize: 18),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius
-                                                            .circular(12),
-                                                        borderSide: const BorderSide(
-                                                          width: 1,
-                                                          color: Color(
-                                                              0xff999999),
-                                                        ))),
-                                              ),
-                                              30.verticalSpace(),
-                                              Padding(
-                                                padding: const EdgeInsets
-                                                    .fromLTRB(28, 0, 29, 0),
-                                                child: customButton(
-                                                  'Submit',
-                                                  fontColor: 0xffFFFFFF,
-                                                  onTap: () {
-                                                    const DisputeScreen()
-                                                        .navigate();
-                                                  },
-                                                  height: 60,
-                                                  width: screenWidth(),
-                                                ),
-                                              )
-                                            ]),
-                                      ),
-                                    ));
+                                AddRemarkDisputeScreen(project: state.responseFarmerProjectDetail!.data!.farmerProject![0], farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id).navigate();
+
                               }),
                         ),
                         10.verticalSpace(),
@@ -644,7 +590,6 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   /////////KPI///////////////////////
   Widget kpi(contexts,ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
-
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
       kpiData.add(FrontendKpiModel(name: 'Project Value',
           image: Images.investmentKpi,
@@ -663,6 +608,29 @@ class _ProjectDetailsState extends State<ProjectDetails> {
           image: Images.loanKpi,
           // actionImage: Images.imageEdit,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment - state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!)));
+    }
+
+    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPaidAmount!=null){
+        kpiData.add(FrontendKpiModel(name: 'Supplier Paid Amount',
+            image: Images.yieldKpi,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPaidAmount!)
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!=null){
+        kpiData.add(FrontendKpiModel(name: 'Supplier Due Amount',
+            image: Images.yieldKpi,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!)
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPendingAmount!=null){
+        kpiData.add(FrontendKpiModel(name: 'Supplier Pending Amount',
+            image: Images.yieldKpi,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPendingAmount!)
+        ));
+      }
     }
 
     return Column(

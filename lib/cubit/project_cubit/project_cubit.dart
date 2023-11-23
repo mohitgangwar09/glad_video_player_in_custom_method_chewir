@@ -22,6 +22,7 @@ import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_det
 import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
 import 'package:glad/screen/mcc_screen/thankyou_mcc.dart';
 import 'package:glad/screen/supplier_screen/accept_screen.dart';
+import 'package:glad/screen/supplier_screen/dispute_screen.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/reject_screen.dart';
 import 'package:glad/screen/supplier_screen/survey_finished.dart';
@@ -151,32 +152,76 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  Future<void> farmerProjectMilestoneTaskUpdateApi(context, int farmerId, int farmerProjectId, int farmerMilestoneId, int taskId, String taskStatus, String remarks, List<String> pictures) async {
-    customDialog(widget: launchProgress());
-    var response = await apiRepository.getFarmerProjectMilestoneTaskUpdateApi(farmerId, farmerProjectId, farmerMilestoneId, taskId, taskStatus, remarks, pictures);
-    if (response.status == 200) {
-      farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
-      farmerProjectDetailApi(context, farmerProjectId);
-      disposeProgress();
-      pressBack();
-      showCustomToast(context, response.message.toString());
+  Future<void> farmerProjectMilestoneTaskUpdateApi(context, int farmerId, int farmerProjectId, int farmerMilestoneId, int taskId, String taskStatus, String remarks, List<String> pictures, String otp) async {
+
+    if (sharedPreferences.getString(AppConstants.userType) == 'dde') {
+      customDialog(widget: launchProgress());
+      var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+      if(response.status == 200) {
+        showCustomToast(context, "message");
+        var response = await apiRepository.getFarmerProjectMilestoneTaskUpdateApi(
+            farmerId,
+            farmerProjectId,
+            farmerMilestoneId,
+            taskId,
+            taskStatus,
+            remarks,
+            pictures);
+        if (response.status == 200) {
+          farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
+          farmerProjectDetailApi(context, farmerProjectId);
+          disposeProgress();
+          pressBack();
+          pressBack();
+          showCustomToast(context, response.message.toString(), isSuccess: true);
+        } else {
+          disposeProgress();
+          showCustomToast(context, response.message.toString());
+        }
+      }
+      else {
+        showCustomToast(context, response.message.toString());
+      }
     } else {
-      disposeProgress();
-      showCustomToast(context, response.message.toString());
+      customDialog(widget: launchProgress());
+      var response = await apiRepository.getFarmerProjectMilestoneTaskUpdateApi(
+          farmerId,
+          farmerProjectId,
+          farmerMilestoneId,
+          taskId,
+          taskStatus,
+          remarks,
+          pictures);
+      if (response.status == 200) {
+        farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
+        farmerProjectDetailApi(context, farmerProjectId);
+        disposeProgress();
+        pressBack();
+        showCustomToast(context, response.message.toString(), isSuccess: true);
+      } else {
+        disposeProgress();
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
-  Future<void> farmerProjectMilestoneApproveApi(context, int farmerId, int farmerProjectId, int farmerMilestoneId, String milestoneStatus, String remarks) async {
-    customDialog(widget: launchProgress());
-    var response = await apiRepository.getFarmerProjectMilestoneApproveApi(farmerId, farmerProjectId, farmerMilestoneId, milestoneStatus, remarks);
-    if (response.status == 200) {
-      farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
-      farmerProjectDetailApi(context, farmerProjectId);
-      disposeProgress();
-      pressBack();
-      showCustomToast(context, response.message.toString(), isSuccess: true);
-    } else {
-      disposeProgress();
+  Future<void> farmerProjectMilestoneApproveApi(context, int farmerId, int farmerProjectId, int farmerMilestoneId, String milestoneStatus, String remarks, String otp) async {
+    var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+    if(response.status == 200) {
+      showCustomToast(context, "message");
+      var response = await apiRepository.getFarmerProjectMilestoneApproveApi(farmerId, farmerProjectId, farmerMilestoneId, milestoneStatus, remarks);
+      if (response.status == 200) {
+        farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
+        farmerProjectDetailApi(context, farmerProjectId);
+        disposeProgress();
+        pressBack();
+        showCustomToast(context, response.message.toString(), isSuccess: true);
+      } else {
+        disposeProgress();
+        showCustomToast(context, response.message.toString());
+      }
+    }
+    else {
       showCustomToast(context, response.message.toString());
     }
   }
@@ -188,9 +233,13 @@ class ProjectCubit extends Cubit<ProjectState> {
         remark,projectStatus,farmerId);
     if (response.status == 200) {
       disposeProgress();
-      pressBack();
-      farmerProjectsApi(context, 'Suggested', false);
-      await farmerProjectDetailApi(context, projectId);
+      if(projectStatus == "hold") {
+        DisputeScreen(project: state.responseFarmerProjectDetail!.data!).navigate();
+      } else {
+        pressBack();
+        farmerProjectsApi(context, 'Suggested', false);
+        await farmerProjectDetailApi(context, projectId);
+      }
       showCustomToast(context, response.data['message'], isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
