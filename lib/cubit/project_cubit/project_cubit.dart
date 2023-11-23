@@ -233,6 +233,7 @@ class ProjectCubit extends Cubit<ProjectState> {
         remark,projectStatus,farmerId);
     if (response.status == 200) {
       disposeProgress();
+      showCustomToast(context, response.data['message'], isSuccess: true);
       if(projectStatus == "hold") {
         DisputeScreen(project: state.responseFarmerProjectDetail!.data!).navigate();
       } else {
@@ -240,7 +241,7 @@ class ProjectCubit extends Cubit<ProjectState> {
         farmerProjectsApi(context, 'Suggested', false);
         await farmerProjectDetailApi(context, projectId);
       }
-      showCustomToast(context, response.data['message'], isSuccess: true);
+
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());

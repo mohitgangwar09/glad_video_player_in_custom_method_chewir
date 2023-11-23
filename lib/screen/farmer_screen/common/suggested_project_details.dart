@@ -242,6 +242,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                               ],
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().capitalized() == "not_interested".capitalized()?
+                            inviteExpert(context, state) :const SizedBox.shrink():const SizedBox.shrink(),
+
                           ],
                         ),
                       ),
