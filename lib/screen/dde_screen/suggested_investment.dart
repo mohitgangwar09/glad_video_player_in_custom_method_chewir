@@ -628,7 +628,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
           ),
         ),
         Positioned(
-            top: -5,
+            top: -1,
             left: 0,
             child: Text(
               'Supplier',

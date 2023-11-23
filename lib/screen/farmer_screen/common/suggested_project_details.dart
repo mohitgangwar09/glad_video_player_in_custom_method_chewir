@@ -448,7 +448,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
           ),
         ),
         Positioned(
-            top: -5,
+            top: -1,
             left: 0,
             child: Text(
               'DDE',
@@ -921,12 +921,25 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                         'Submit',
                                         fontColor: 0xffFFFFFF,
                                         onTap: () {
-                                          context.read<ProjectCubit>().inviteExpertForSurvey(context,
-                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                              date,
-                                              controller.text ?? '',
-                                              'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
-                                          );
+                                          if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "not_interested" ){
+                                            context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                                state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                date,
+                                                controller.text ?? '',
+                                                'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                            );
+                                          }else{
+                                          if(date == ""){
+                                            showCustomToast(context, "Please select date");
+                                          }else{
+                                            context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                                state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                date,
+                                                controller.text ?? '',
+                                                'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                            );
+                                          }}
+
                                         },
                                         height: 60,
                                         width: screenWidth(),

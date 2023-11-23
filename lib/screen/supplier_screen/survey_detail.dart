@@ -696,7 +696,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                   ),
                 ),
                 Positioned(
-                    top: -5,
+                    top: -1,
                     left: 0,
                     child: Text(
                       'DDE',
