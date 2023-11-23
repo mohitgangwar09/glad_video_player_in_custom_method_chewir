@@ -169,13 +169,13 @@ class _AddRemarkDisputeScreenState extends State<AddRemarkDisputeScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    context.read<ProjectCubit>().state.responseFarmerProjectDetail!.data!.supplierDetail!.image!=null?
+                    context.read<ProjectCubit>().state.responseFarmerProjectDetail!.data!.supplierDetail!.photo!=null?
                     CircleAvatar(
                         radius: 33,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(40),
                           child: CachedNetworkImage(
-                            imageUrl: context.read<ProjectCubit>().state.responseFarmerProjectDetail!.data!.supplierDetail!.image == false ? '' : context.read<ProjectCubit>().state.responseFarmerProjectDetail!.data!.supplierDetail!.image ?? '',
+                            imageUrl: context.read<ProjectCubit>().state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() == false.toString() ? '' : context.read<ProjectCubit>().state.responseFarmerProjectDetail!.data!.supplierDetail!.photo ?? '',
                             errorWidget: (_, __, ___) {
                               return Image.asset(
                                 Images.sampleUser,

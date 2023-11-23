@@ -115,11 +115,11 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                 Column(
                   children: [
                     BlocBuilder<ProfileCubit,ProfileCubitState>(
-                      builder: (context,state) {
+                      builder: (context,stateprofile) {
                         return CustomAppBar(
                           context: context,
                           titleText1: 'Hello ',
-                          titleText2: state.responseProfile!=null?state.responseProfile!.data!.user!.name.toString():'',
+                          titleText2: stateprofile.responseProfile!=null?stateprofile.responseProfile!.data!.user!.name.toString():'',
                           leading: openDrawer(
                               onTap: () {
                                 supplierLandingKey.currentState?.openDrawer();
@@ -142,8 +142,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                       const BoxDecoration(shape: BoxShape.circle),
                                       child: CachedNetworkImage(
                                         imageUrl:
-                                        // (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.!.image ?? '') :
-                                        '',
+                                        (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.supplier!.photo ?? '') : '',
                                         errorWidget: (_, __, ___) =>
                                             SvgPicture.asset(Images.person),
                                         fit: BoxFit.cover,

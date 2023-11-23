@@ -2272,7 +2272,8 @@ class SupplierDetail {
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
-  dynamic image;
+  // dynamic image;
+  dynamic photo;
   dynamic address;
 
   SupplierDetail(
@@ -2289,7 +2290,8 @@ class SupplierDetail {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.image,
+        this.photo,
+        // this.image,
         this.address});
 
   SupplierDetail.fromJson(Map<String, dynamic> json) {
@@ -2306,7 +2308,8 @@ class SupplierDetail {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    image = json['image'];
+    photo = json['photo'];
+    // image = json['image'];
     address = json['address'];
   }
 
@@ -2325,7 +2328,7 @@ class SupplierDetail {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
-    data['image'] = image;
+    // data['image'] = image;
     return data;
   }
 }

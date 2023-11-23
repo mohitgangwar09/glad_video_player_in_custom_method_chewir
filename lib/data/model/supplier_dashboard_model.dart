@@ -31,13 +31,15 @@ class Data {
   List<NewsEvent>? newsEvent;
   List<dynamic>? community;
   List<TrainingList>? trainingList;
+  Supplier? supplier;
 
   Data(
       {this.farmerProjectSurvey,
         this.farmerProject,
         this.newsEvent,
         this.community,
-        this.trainingList});
+        this.trainingList,
+        this.supplier});
 
   Data.fromJson(Map<String, dynamic> json) {
     farmerProjectSurvey = json['farmerProjectSurvey'] != null
@@ -46,7 +48,9 @@ class Data {
     farmerProject = json['farmerProject'] != null
         ? new FarmerProject.fromJson(json['farmerProject'])
         : null;
-
+    supplier = json['supplier'] != null
+        ? new Supplier.fromJson(json['supplier'])
+        : null;
     if (json['newsEvent'] != null) {
       newsEvent = <NewsEvent>[];
       json['newsEvent'].forEach((v) {
@@ -89,9 +93,81 @@ class Data {
   }
 }
 
+class Supplier {
+  dynamic id;
+  String? name;
+  dynamic userId;
+  dynamic mccId;
+  String? contactPerson;
+  String? phone;
+  String? email;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic? image;
+  dynamic photo;
+
+  Supplier(
+      {this.id,
+        this.name,
+        this.userId,
+        this.mccId,
+        this.contactPerson,
+        this.phone,
+        this.email,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.image,
+      this.photo});
+
+  Supplier.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    userId = json['user_id'];
+    mccId = json['mcc_id'];
+    contactPerson = json['contact_person'];
+    phone = json['phone'];
+    email = json['email'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    image = json['image'];
+    photo = json['photo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['user_id'] = this.userId;
+    data['mcc_id'] = this.mccId;
+    data['contact_person'] = this.contactPerson;
+    data['phone'] = this.phone;
+    data['email'] = this.email;
+    data['status'] = this.status;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['image'] = this.image;
+    return data;
+  }
+}
+
 class FarmerProjectSurvey {
-  int? pending;
-  int? completed;
+  dynamic pending;
+  dynamic completed;
 
   FarmerProjectSurvey({this.pending, this.completed});
 
@@ -109,8 +185,8 @@ class FarmerProjectSurvey {
 }
 
 class FarmerProject {
-  int? active;
-  int? completed;
+  dynamic active;
+  dynamic completed;
 
   FarmerProject({this.active, this.completed});
 

@@ -360,7 +360,7 @@ class _DisputeScreenState extends State<DisputeScreen> {
                                                     decoration:
                                                     const BoxDecoration(shape: BoxShape.circle),
                                                     child: CachedNetworkImage(
-                                                      imageUrl: widget.project.supplierDetail != null ? (widget.project.supplierDetail!.image == false ? '' : widget.project.supplierDetail!.image ?? '') : '',
+                                                      imageUrl: widget.project.supplierDetail != null ? (widget.project.supplierDetail!.photo.toString() == false.toString() ? '' : widget.project.supplierDetail!.photo ?? '') : '',
                                                       // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
                                                       errorWidget: (_, __, ___) =>
                                                           SvgPicture.asset(Images.person),

@@ -211,7 +211,7 @@ class CongratulationScreen extends StatelessWidget {
                                         const BoxDecoration(shape: BoxShape.circle),
                                         child: CachedNetworkImage(
                                           imageUrl:
-                                          (state.responseFarmerProjectDetail!.data!.supplierDetail.toString()!= null) ? (state.responseFarmerProjectDetail!.data!.supplierDetail!.image.toString() ?? '') : '',
+                                          (state.responseFarmerProjectDetail!.data!.supplierDetail!.photo!= null) ? (state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() ?? '') : '',
                                           // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
                                           errorWidget: (_, __, ___) =>
                                               SvgPicture.asset(Images.person),

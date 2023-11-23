@@ -557,7 +557,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                 CircleAvatar(
                     radius: 30,
                     child: CachedNetworkImage(
-                      imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.image ==false ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.image ?? '',
+                      imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() == false.toString() ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.photo ?? '',
                       errorWidget: (_, __, ___) {
                         return Image.asset(
                           Images.sampleUser,
