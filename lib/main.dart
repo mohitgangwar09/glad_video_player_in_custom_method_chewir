@@ -14,6 +14,7 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/cubit/training_cubit/training_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/screen/auth_screen/create_password.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/screen/common/congratulation_screen.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // return const CowsAndYieldsSum();
     // return  TermsAndCondition(projectData: FarmerMaster(), farmerProjectId: 1, navigateFrom: 'navigateFrom');
+    // return const CreatePassword('');
     return const SplashScreen();
   }
 }

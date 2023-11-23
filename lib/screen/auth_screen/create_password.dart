@@ -211,12 +211,12 @@ class _CreatePasswordState extends State<CreatePassword> {
 
               Center(
                   child: customButton("Submit", style:figtreeSemiBold.copyWith(
-                      color: Colors.black
-                  ),onTap: (){
-                    context.read<AuthCubit>().createPasswordAPi(context,widget.id.toString(),widget.tagForgotPassword.toString());
-                  },
-                      borderColor: 0xFF6A0030,
-                      color: 0x00000000)
+                    color: Colors.white
+                  ),onTap: () {
+                    context.read<AuthCubit>().createPasswordAPi(
+                        context, widget.id.toString(),
+                        widget.tagForgotPassword.toString());
+                  })
               ),
 
 

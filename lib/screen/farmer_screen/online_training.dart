@@ -367,15 +367,20 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                   }),
             ),
           )
-        : const Center(
-          child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-          Text('No data found'),
-      ],
-    ),
-        );
+        : SizedBox(
+      width: screenWidth(),
+      height: 350,
+      child: Padding(
+        padding: EdgeInsets.only(top: screenWidth() / 2),
+        child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('No data found'),
+          ],
+        ),
+      ),
+    );
   }
 }
 
