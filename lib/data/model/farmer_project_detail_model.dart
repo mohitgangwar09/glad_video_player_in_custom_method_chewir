@@ -602,6 +602,7 @@ class FarmerProjectMilestones {
   dynamic resourceUom;
   dynamic milestoneValue;
   String? milestoneStatus;
+  dynamic milestoneDueDate;
   dynamic completionDate;
   dynamic approvalDate;
   String? status;
@@ -611,6 +612,7 @@ class FarmerProjectMilestones {
   String? createdAt;
   String? updatedAt;
   dynamic farmerProjectTaskCount;
+  List<FarmerProjectTask>? farmerProjectTask;
 
   FarmerProjectMilestones(
       {this.id,
@@ -635,7 +637,9 @@ class FarmerProjectMilestones {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.farmerProjectTaskCount});
+        this.farmerProjectTaskCount,
+        this.milestoneDueDate,
+        this.farmerProjectTask});
 
   FarmerProjectMilestones.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -661,6 +665,13 @@ class FarmerProjectMilestones {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     farmerProjectTaskCount = json['farmer_project_task_count'];
+    milestoneDueDate = json['milestone_due_date'];
+    if (json['farmer_project_task'] != null) {
+      farmerProjectTask = <FarmerProjectTask>[];
+      json['farmer_project_task'].forEach((v) {
+        farmerProjectTask!.add(FarmerProjectTask.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -692,23 +703,119 @@ class FarmerProjectMilestones {
   }
 }
 
+class FarmerProjectTask {
+  dynamic id;
+  dynamic farmerId;
+  dynamic farmerProjectId;
+  dynamic farmerMilestoneId;
+  String? taskName;
+  dynamic taskPicture;
+  String? taskStatus;
+  String? remarks;
+  dynamic taskCompletionDate;
+  dynamic taskApproveRejectDate;
+  dynamic approveRejectRemarks;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  String? pictures;
+  List<Media>? media;
+
+  FarmerProjectTask(
+      {this.id,
+        this.farmerId,
+        this.farmerProjectId,
+        this.farmerMilestoneId,
+        this.taskName,
+        this.taskPicture,
+        this.taskStatus,
+        this.remarks,
+        this.taskCompletionDate,
+        this.taskApproveRejectDate,
+        this.approveRejectRemarks,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.pictures,
+        this.media});
+
+  FarmerProjectTask.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerId = json['farmer_id'];
+    farmerProjectId = json['farmer_project_id'];
+    farmerMilestoneId = json['farmer_milestone_id'];
+    taskName = json['task_name'];
+    taskPicture = json['task_picture'];
+    taskStatus = json['task_status'];
+    remarks = json['remarks'];
+    taskCompletionDate = json['task_completion_date'];
+    taskApproveRejectDate = json['task_approve_reject_date'];
+    approveRejectRemarks = json['approve_reject_remarks'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    pictures = json['pictures'];
+    if (json['media'] != null) {
+      media = <Media>[];
+      json['media'].forEach((v) {
+        media!.add(Media.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_id'] = farmerId;
+    data['farmer_project_id'] = farmerProjectId;
+    data['farmer_milestone_id'] = farmerMilestoneId;
+    data['task_name'] = taskName;
+    data['task_picture'] = taskPicture;
+    data['task_status'] = taskStatus;
+    data['remarks'] = remarks;
+    data['task_completion_date'] = taskCompletionDate;
+    data['task_approve_reject_date'] = taskApproveRejectDate;
+    data['approve_reject_remarks'] = approveRejectRemarks;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['pictures'] = pictures;
+    if (media != null) {
+      data['media'] = media!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
 class DairyDevelopMentExecutive {
   dynamic id;
   dynamic userId;
   String? name;
   String? phone;
-  dynamic image;
+  String? photo;
   dynamic address;
 
   DairyDevelopMentExecutive(
-      {this.id, this.userId, this.name, this.phone, this.image, this.address});
+      {this.id, this.userId, this.name, this.phone, this.photo, this.address});
 
   DairyDevelopMentExecutive.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     name = json['name'];
     phone = json['phone'];
-    image = json['image'];
+    photo = json['photo'];
     address = json['address'];
   }
 
@@ -718,7 +825,7 @@ class DairyDevelopMentExecutive {
     data['user_id'] = userId;
     data['name'] = name;
     data['phone'] = phone;
-    data['image'] = image;
+    data['photo'] = photo;
     data['address'] = address;
     return data;
   }
@@ -2044,7 +2151,7 @@ class FarmerImprovementArea {
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
-  // ImprovementArea? improvementArea;
+  ImprovementArea? improvementArea;
 
   FarmerImprovementArea(
       {this.id,
@@ -2060,7 +2167,7 @@ class FarmerImprovementArea {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        // this.improvementArea
+        this.improvementArea
       });
 
   FarmerImprovementArea.fromJson(Map<String, dynamic> json) {
@@ -2077,9 +2184,9 @@ class FarmerImprovementArea {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    // improvementArea = json['improvement_area'] != null
-    //     ? ImprovementArea.fromJson(json['improvement_area'])
-    //     : null;
+    improvementArea = json['improvement_area'] != null
+        ? ImprovementArea.fromJson(json['improvement_area'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -2141,6 +2248,7 @@ class SupplierDetail {
   String? createdAt;
   String? updatedAt;
   dynamic image;
+  dynamic address;
 
   SupplierDetail(
       {this.id,
@@ -2156,7 +2264,8 @@ class SupplierDetail {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.image});
+        this.image,
+        this.address});
 
   SupplierDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -2173,6 +2282,7 @@ class SupplierDetail {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     image = json['image'];
+    address = json['address'];
   }
 
   Map<String, dynamic> toJson() {

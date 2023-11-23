@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/farmer_screen/common/active_project_detail.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_details.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -19,6 +20,7 @@ class ProjectWidget extends StatelessWidget {
   final String image;
   final String status;
   final int projectId;
+  final String selectedFilter;
 
   const ProjectWidget(
       {Key? key,
@@ -33,7 +35,8 @@ class ProjectWidget extends StatelessWidget {
       required this.category,
       required this.image,
       required this.status,
-      required this.projectId})
+      required this.projectId,
+      required this.selectedFilter})
       : super(key: key);
 
   @override
@@ -44,7 +47,11 @@ class ProjectWidget extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: InkWell(
             onTap: () {
-              SuggestedProjectDetails(projectId: projectId).navigate();
+              if(status == "Active") {
+                ActiveProjectDetails(projectId: projectId).navigate();
+              } else {
+                SuggestedProjectDetails(projectId: projectId).navigate();
+              }
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

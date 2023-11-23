@@ -79,6 +79,7 @@ class ProjectList {
   String? createdAt;
   String? updatedAt;
   FarmerImprovementArea? farmerImprovementArea;
+  dynamic project;
 
   ProjectList(
       {this.id,
@@ -114,6 +115,7 @@ class ProjectList {
         this.createdAt,
         this.updatedAt,
         this.farmerImprovementArea,
+        this.project,
       });
 
   ProjectList.fromJson(Map<String, dynamic> json) {
@@ -149,6 +151,7 @@ class ProjectList {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    project = json["project"];
     farmerImprovementArea = json['farmer_improvement_area'] != null
         ? FarmerImprovementArea.fromJson(json['farmer_improvement_area'])
         : null;

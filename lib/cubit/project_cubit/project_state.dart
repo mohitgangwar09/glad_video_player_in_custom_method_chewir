@@ -6,6 +6,7 @@ class ProjectState extends Equatable {
   final ProjectStatus status;
   final FarmerProjectModel? responseFarmerProject;
   final DdeProjectModel? responseDdeProject;
+  final SupplierProjectModel? responseSupplierProject;
   final dde.FarmerProjectDetailModel? responseFarmerProjectDetail;
   final FarmerProjectMilestoneDetailModel? responseFarmerProjectMilestoneDetail;
   final List<DataResourceType>? responseResourceType;
@@ -62,6 +63,7 @@ class ProjectState extends Equatable {
     required this.resourceTypeController,
     required this.resourceCapacityController,
     required this.uomController,
+    required this.responseSupplierProject,
     required this.selectedFilterMCCApplication,
   });
 
@@ -106,6 +108,7 @@ class ProjectState extends Equatable {
       userIdForOtpValidate: '',
       projectId: '',
       selectedFilterMCCApplication: 'pending',
+      responseSupplierProject: null,
     );
   }
 
@@ -130,6 +133,7 @@ class ProjectState extends Equatable {
     TextEditingController? milestoneTitle,mile,milestoneDuration,milestoneDescription,uomController,
     TextEditingController? materialNameController,resourceTypeController,resourceCapacityController,
     String? projectId, selectedFilterMCCApplication,
+    SupplierProjectModel? responseSupplierProject,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -179,7 +183,8 @@ class ProjectState extends Equatable {
       resourceTypeController: resourceTypeController ?? this.resourceTypeController,
       resourceCapacityController: resourceCapacityController ?? this.resourceCapacityController,
       uomController: uomController ?? this.uomController,
-      selectedFilterMCCApplication: selectedFilterMCCApplication ?? this.selectedFilterMCCApplication
+      selectedFilterMCCApplication: selectedFilterMCCApplication ?? this.selectedFilterMCCApplication,
+      responseSupplierProject: responseSupplierProject ?? this.responseSupplierProject,
     );
   }
 
@@ -219,5 +224,6 @@ class ProjectState extends Equatable {
     resourceTypeController,
     uomController,
     selectedFilterMCCApplication,
+    responseSupplierProject,
       ];
 }

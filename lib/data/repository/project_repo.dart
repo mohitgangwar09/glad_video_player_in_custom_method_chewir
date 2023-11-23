@@ -13,6 +13,7 @@ import 'package:glad/data/model/response_not_required.dart';
 import 'package:glad/data/model/response_price_attribute.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
+import 'package:glad/data/model/supplier_project_model.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
@@ -67,6 +68,19 @@ class ProjectRepository {
   }
 
   ///////////////// getDdeProjectsApi //////////
+  Future<SupplierProjectModel> getSupplierProjectsApi(String projectFilter) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.farmerProjectListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_status': projectFilter});
+
+    if (apiResponse.status) {
+      return SupplierProjectModel.fromJson(apiResponse.response!.data);
+    } else {
+      return SupplierProjectModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getDdeProjectsApi //////////
   Future<FarmerProjectDetailModel> getFarmerProjectDetailApi(int projectId) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerProjectDetailApi,
@@ -91,6 +105,55 @@ class ProjectRepository {
       return FarmerProjectMilestoneDetailModel(status: 422, message: apiResponse.msg);
     }
   }
+
+  ///////////////// getDdeProjectsApi //////////
+  Future<ResponseOtpModel> getFarmerProjectMilestoneTaskUpdateApi(int farmerId, int farmerProjectId, int farmerMilestoneId, int taskId, String taskStatus, String remarks, List<String> pictures) async {
+    FormData formData = FormData.fromMap(
+        {
+          "farmer_id": farmerId,
+          "farmer_project_id": farmerProjectId,
+          "task_id": taskId,
+          "task_status": taskStatus,
+          "remarks": remarks,
+          "farmer_milestone_id": farmerMilestoneId,
+        });
+    for(String e in pictures) {
+      formData.files.add(MapEntry("pictures[]", await MultipartFile.fromFile(e)));
+    }
+    print(formData.fields);
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.farmerProjectMilestoneUpdateTaskApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: formData);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getDdeProjectsApi //////////
+  Future<ResponseOtpModel> getFarmerProjectMilestoneApproveApi(int farmerId, int farmerProjectId, int farmerMilestoneId, String milestoneStatus, String remarks) async {
+    FormData formData = FormData.fromMap(
+        {
+          "farmer_id": farmerId,
+          "farmer_project_id": farmerProjectId,
+          "milestone_status": milestoneStatus,
+          "remarks": remarks,
+          "farmer_milestone_id": farmerMilestoneId,
+        });
+    print(formData.fields);
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.farmerProjectMilestoneApproveApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: formData);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
 
   ///////////////// getDdeProjectsApi //////////
   Future<ResponseOtpModel> inviteExpertForSurveyApi(int projectId, String date,

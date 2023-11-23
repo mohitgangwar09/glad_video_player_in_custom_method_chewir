@@ -231,8 +231,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                     return customProjectContainer(
                         child: ProjectWidget(
                           showStatus: false,
-                          status: '',
-                          image: '',
+                          status: state.response!.farmerProject![i].projectStatus ?? '',
+                          image: state.response!.farmerProject![i].photo ?? '',
                           name: state.response!.farmerProject![i].name ?? '',
                           targetYield:
                               state.response!.farmerProject![i].targetYield ??
@@ -246,11 +246,15 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                           index: i + 1,
                           incrementalProduction: state.response!
                                   .farmerProject![i].incrementalProduction ??
-                              180,
+                              0,
                           roi:
                               state.response!.farmerProject![i].roiPerYear ?? 0,
-                          category: state.response!.farmerProject![i].categoeryName ?? '',
+                          category: state.response!.farmerProject![i].farmerImprovementArea !=
+                              null ? (state.response!.farmerProject![i].farmerImprovementArea!
+                              .improvementArea != null ? state.response!.farmerProject![i].farmerImprovementArea!
+                              .improvementArea!.name ?? '' : '') : '',
                           projectId: state.response!.farmerProject![i].id ?? 0,
+                          selectedFilter: "suggested",
                         ),
                         width: screenWidth() - 53);
                   }),

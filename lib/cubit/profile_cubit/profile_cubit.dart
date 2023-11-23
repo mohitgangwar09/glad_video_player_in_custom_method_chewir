@@ -163,8 +163,8 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     disposeProgress();
     if (response.status == 200) {
       getFarmerProfile(context, userId: userId);
-      // pressBack();
-      const AddRemark(tag: "loan",).navigate();
+      pressBack();
+      // const AddRemark(tag: "loan",).navigate();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));

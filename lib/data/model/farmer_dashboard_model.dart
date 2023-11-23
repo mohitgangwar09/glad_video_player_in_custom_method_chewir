@@ -39,6 +39,7 @@ class Data {
   List<TrainingList>? trainingList;
   List<dynamic>? community;
 
+
   Data(
       {this.dde,
         this.mcc,
@@ -780,6 +781,7 @@ class FarmerProject {
   String? updatedAt;
   String? categoeryName;
   String? projectFilter;
+  FarmerImprovementArea? farmerImprovementArea;
 
   FarmerProject(
       {this.id,
@@ -823,7 +825,8 @@ class FarmerProject {
         this.createdAt,
         this.updatedAt,
         this.categoeryName,
-        this.projectFilter});
+        this.projectFilter,
+        this.farmerImprovementArea});
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -868,6 +871,9 @@ class FarmerProject {
     updatedAt = json['updated_at'];
     categoeryName = json['categoery_name'];
     projectFilter = json['project_filter'];
+    farmerImprovementArea = json['farmer_improvement_area'] != null
+        ? FarmerImprovementArea.fromJson(json['farmer_improvement_area'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {

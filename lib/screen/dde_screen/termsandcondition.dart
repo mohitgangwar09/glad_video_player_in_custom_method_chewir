@@ -9,11 +9,19 @@ import 'package:glad/utils/styles.dart';
 import 'add_remark_confirm_loan.dart';
 import '../../../data/model/farmer_project_detail_model.dart';
 
-class TermsAndCondition extends StatelessWidget {
+class TermsAndCondition extends StatefulWidget {
   FarmerMaster projectData;
   final int farmerProjectId;
   final String navigateFrom;
   TermsAndCondition({super.key,required this.projectData,required this.farmerProjectId,required this.navigateFrom});
+
+  @override
+  State<TermsAndCondition> createState() => _TermsAndConditionState();
+}
+
+class _TermsAndConditionState extends State<TermsAndCondition> {
+
+  bool swipe = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +85,67 @@ class TermsAndCondition extends StatelessWidget {
 
                   20.verticalSpace(),
 
+                  swipe == false?
+                  SwipeButton(
+                    width: 287,
+                    // trackPadding: EdgeInsets.all(6),
+                    activeTrackColor: const Color(0xff6A0030),
+                    activeThumbColor: const Color(0xffFC5E60),
+                    // elevationThumb: 2,
+                    child: Text(
+                        "Swipe right to agree!",
+                        style: figtreeMedium.copyWith(
+                            fontSize: 16,
+                            color: Colors.white
+                        )
+                    ),
+                    onSwipe: () {
+                      setState(() {
+                        swipe = true;
+                      });
+
+                      /*ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Swipped"),
+                          backgroundColor: Colors.green,
+                        ),
+                      );*/
+                    },
+                  ):
+                  InkWell(
+                    onTap: (){
+                      AddRemarkLoanApproval(projectData: widget.projectData,farmerProjectId:widget.farmerProjectId,navigateFrom: widget.navigateFrom).navigate();
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: 58,
+                          width: 300,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: const Color(0xffF6B51D)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                height: 52,
+                                width: 55,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.white
+                                ),
+                                child: const Icon(Icons.arrow_forward),
+                              ),
+                              3.horizontalSpace()
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 300,height:58,child: Center(child: Text("I agree!")))
+                      ],
+                    ),
+                  ),
+
                   /*SwipeButton.expand(
                     thumb: Icon(
                       Icons.double_arrow_rounded,
@@ -101,6 +170,7 @@ class TermsAndCondition extends StatelessWidget {
                   ),
 */
 
+                  /*swipe == false?
                   SwipeButton(
                     width: 287,
                     // trackPadding: EdgeInsets.all(6),
@@ -115,15 +185,39 @@ class TermsAndCondition extends StatelessWidget {
                       )
                     ),
                     onSwipe: () {
+                      *//*setState(() {
+                        swipe = true;
+                      });*//*
                       AddRemarkLoanApproval(projectData: projectData,farmerProjectId:farmerProjectId,navigateFrom: navigateFrom).navigate();
-                      /*ScaffoldMessenger.of(context).showSnackBar(
+                      *//*ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text("Swipped"),
                           backgroundColor: Colors.green,
                         ),
-                      );*/
+                      );*//*
                     },
-                  )
+                  ):
+                      Container(
+                        height: 58,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(80),
+                          color: const Color(0xffF6B51D)
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 55,
+                              width: 55,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.white
+                              ),
+                              child: const Icon(Icons.arrow_forward),
+                            ),
+                          ],
+                        ),
+                      )*/
 
                 ],
               ),

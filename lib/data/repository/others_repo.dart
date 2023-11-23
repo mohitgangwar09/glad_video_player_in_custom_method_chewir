@@ -19,7 +19,7 @@ class OthersRepository {
     var data = {"category_id": categoryId};
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(sharedPreferences!.getString(AppConstants.userType) == "guest" ? AppConstants.guestTrainingListApi : AppConstants.trainingListApi, queryParameters: data,
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestTrainingListApi : AppConstants.trainingListApi, queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
@@ -46,8 +46,10 @@ class OthersRepository {
 
   ///////////////// getTrainingCategoryApi //////////
   Future<TrainingAndNewsCategoryModel> getTrainingCategoryApi() async {
+    print(sharedPreferences!.containsKey(AppConstants.userType));
+    print(getUserToken());
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(sharedPreferences!.getString(AppConstants.userType) == "guest" ? AppConstants.guestTrainingListApi : AppConstants.trainingCategoryApi,
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestTrainingCategoryApi : AppConstants.trainingCategoryApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {

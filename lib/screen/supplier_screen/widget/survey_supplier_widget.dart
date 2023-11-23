@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:glad/data/model/dde_project_model.dart';
+import 'package:glad/data/model/supplier_project_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/survey_detail.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
-class ProjectSupplierWidget extends StatelessWidget {
+class SurveySupplierWidget extends StatelessWidget {
   final bool status;
   final String name;
   final String category;
@@ -23,10 +23,9 @@ class ProjectSupplierWidget extends StatelessWidget {
   final String farmerAddress;
   final dynamic projectPercent;
   final int projectId;
-  final FarmerMaster farmerDetail;
   final String selectedFilter;
 
-  const ProjectSupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,required this.selectedFilter}) : super(key: key);
+  const SurveySupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.selectedFilter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +34,7 @@ class ProjectSupplierWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           SurveyDetails(projectId: projectId,selectedFilter:selectedFilter).navigate();
-
-        },
+          },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -78,7 +76,8 @@ class ProjectSupplierWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                ):const SizedBox(height: 30,)
+                )
+                    :const SizedBox(height: 30,)
               ],
             ),
             // 10.verticalSpace(),

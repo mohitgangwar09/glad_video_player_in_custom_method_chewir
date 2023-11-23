@@ -1147,7 +1147,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                     projectId: state.responseDdeProject!.data!
                                         .projectList![i].id ?? 0,
                                     farmerDetail: state.responseDdeProject!.data!
-                                        .projectList![i].farmerMaster!
+                                        .projectList![i].farmerMaster
 
                                 ),
                                 width: screenWidth()),

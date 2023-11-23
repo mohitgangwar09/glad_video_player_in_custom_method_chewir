@@ -56,7 +56,7 @@ class _OnlineTrainingDetailsState extends State<OnlineTrainingDetails> {
   func() async {
     await BlocProvider.of<TrainingCubit>(context)
         .trainingDetailApi(context, widget.categoryId);
-    String videoId = YoutubePlayer.convertUrlToId(
+    String videoId = getYoutubeVideoId(
         BlocProvider.of<TrainingCubit>(context)
             .state
             .responseTrainingDetail!
@@ -70,7 +70,6 @@ class _OnlineTrainingDetailsState extends State<OnlineTrainingDetails> {
       initialVideoId: videoId,
       flags: const YoutubePlayerFlags(
         autoPlay: true,
-        mute: true,
       ),
     );
   }

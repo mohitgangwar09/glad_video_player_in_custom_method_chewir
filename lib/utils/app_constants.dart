@@ -47,6 +47,8 @@ class AppConstants {
   static const String ddeProjectListApi = '/api/dairy-executives/project-list';
   static const String farmerProjectDetailApi = '/api/farmer-project/details';
   static const String farmerProjectMilestoneDetailApi = '/api/farmer-project/milestone-details';
+  static const String farmerProjectMilestoneUpdateTaskApi = '/api/farmer-project/update-task';
+  static const String farmerProjectMilestoneApproveApi = '/api/farmer-project/approve-milestone';
   static const String addInviteExpertForSurveyApi = '/api/farmer-project/add-invite-expert';
   // static const String updateProjectStatusApi = '/api/farmer-project/update-status';
   static const String validateCountry = '/api/address/check-country';

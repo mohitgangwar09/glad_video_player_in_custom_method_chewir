@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
 import 'package:glad/screen/dde_screen/edit_project_milestone.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
@@ -22,6 +25,7 @@ import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -261,8 +265,12 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                               list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
                                               child: (index){
                                                 return InkWell(
-                                                  onTap: (){
-                                                    PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
+                                                  onTap: () async{
+                                                    var dir = await getApplicationDocumentsDirectory();
+                                                    await Permission.manageExternalStorage.request();
+                                                    await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
+                                                    await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                                                    // PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
                                                   },
                                                   child: Container(
                                                     margin: const EdgeInsets.only(top: 10),
@@ -354,7 +362,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                         'Terms and Conditions',
                                         style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                         onTap: (){
-                                          TermsAndCondition(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId,navigateFrom: "dde").navigate();
+                                          TermsAndCondition(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId,navigateFrom: context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)!).navigate();
                                         }
                                     ),
                                   ),
@@ -449,99 +457,106 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
       alignment: Alignment.center,
       children: [
         SizedBox(height: 150, width: screenWidth()),
-        Container(
-          height: 100,
-          width: screenWidth(),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: ColorResources.grey)),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    farmerDetail.photo!=null?
-                    CircleAvatar(
-                        radius: 33,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(40),
-                          child: CachedNetworkImage(
-                            imageUrl: farmerDetail.photo ?? '',
-                            errorWidget: (_, __, ___) {
-                              return Image.asset(
-                                Images.sampleUser,
-                                fit: BoxFit.cover,
-                                width: 80,
-                                height: 80,
-                              );
-                            },
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
-                          ),
-                        )) :
-                    CircleAvatar(
-                      radius: 30,
-                          child: Image.asset(
-                            Images.sampleUser,
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
-                          ),
-                        ),
-                    15.horizontalSpace(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(farmerDetail.name ?? '',
-                            style: figtreeMedium.copyWith(
-                                fontSize: 16, color: Colors.black)),
-                        10.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.call,
-                              color: Colors.black,
-                              size: 16,
+        InkWell(
+          onTap: () {
+            BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+            BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
+            DdeFarmerDetail(userId: farmerDetail.userId!,farmerId:farmerDetail.id!).navigate();
+          },
+          child: Container(
+            height: 100,
+            width: screenWidth(),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: ColorResources.grey)),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      farmerDetail.photo!=null?
+                      CircleAvatar(
+                          radius: 33,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40),
+                            child: CachedNetworkImage(
+                              imageUrl: farmerDetail.photo ?? '',
+                              errorWidget: (_, __, ___) {
+                                return Image.asset(
+                                  Images.sampleUser,
+                                  fit: BoxFit.cover,
+                                  width: 80,
+                                  height: 80,
+                                );
+                              },
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
                             ),
-                            Text(farmerDetail.phone ?? '',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                          ],
-                        ),
-                        4.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: Colors.black,
-                              size: 16,
+                          )) :
+                      CircleAvatar(
+                        radius: 30,
+                            child: Image.asset(
+                              Images.sampleUser,
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.5,
-                              child: Text(farmerDetail.address!=null?
-                              farmerDetail.address!.address!=null ?farmerDetail.address!.address!.toString():"":"",
-                                style: figtreeRegular.copyWith(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  overflow: TextOverflow.ellipsis,
+                          ),
+                      15.horizontalSpace(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(farmerDetail.name ?? '',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 16, color: Colors.black)),
+                          10.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.call,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              Text(farmerDetail.phone ?? '',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ],
+                          ),
+                          4.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.5,
+                                child: Text(farmerDetail.address!=null?
+                                farmerDetail.address!.address!=null ?farmerDetail.address!.address!.toString():"":"",
+                                  style: figtreeRegular.copyWith(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
 
-                      ],
-                    )
-                  ],
-                ),
-              ],
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

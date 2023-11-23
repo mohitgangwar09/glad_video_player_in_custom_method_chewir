@@ -6,6 +6,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
+import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -69,7 +70,7 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
                         }
                       }
                     } else{
-                      if(YoutubePlayer.convertUrlToId(widget.newsList[index].webUrl ?? '') != null){
+                      if(getYoutubeVideoId(widget.newsList[index].webUrl ?? '') != null){
                         showDialog(
                             context: context,
                             builder: (context) => OverlayVideoPlayer(

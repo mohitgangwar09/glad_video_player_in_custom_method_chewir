@@ -34,6 +34,7 @@ Widget customButton(String text,
     double height = 50,
     double? width,
     TextStyle? style,
+    double opacity = 1,
     // int ? borderColor=0xff18444B,
     int borderColor = 0x00000000,
     LinearGradient? greenGradient,
@@ -52,7 +53,7 @@ Widget customButton(String text,
             Radius.circular(radius),
           ),
           border: Border.all(color: Color(borderColor)),
-          color: Color(color),
+          color: Color(color).withOpacity(opacity),
           gradient: enableGradient ? greenGradient : null),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,7 +72,7 @@ Widget customButton(String text,
           Text(
             text,
             style: style ??
-                figtreeSemiBold.copyWith(color: Color(fontColor), fontSize: 16),
+                figtreeSemiBold.copyWith(color: Color(fontColor).withOpacity(opacity), fontSize: 16),
           ),
           Visibility(
             visible: enableLast,
@@ -383,6 +384,18 @@ Widget checkBox({bool value = false, ValueChanged<bool?>? onChanged}) {
   );
 }
 
+Widget checkBox2({bool value = false, ValueChanged<bool?>? onChanged, double opacity = 1}) {
+  return Container(
+    height: 30,
+    width: 30,
+    decoration: BoxDecoration(border: Border.all(color: ColorResources.maroon.withOpacity(opacity), width: 2), borderRadius: BorderRadius.circular(8)),
+    child: value ? Icon(Icons.check, color: ColorResources.maroon.withOpacity(opacity)) : const SizedBox.shrink(),
+  );
+}
+
+String getYoutubeVideoId(String url) {
+  return url == '' ? '' : url.split('v=')[1];
+}
 /*ratingBar(int count,{double itemSize=20,double initialRating=3.0}) {
   return  RatingBar.builder(
     itemSize: itemSize,
@@ -1363,6 +1376,7 @@ String getCurrencyString(dynamic value, {String unit = 'UGX '}){
 }
 
 removeZeroesInFraction(String value){
+  value = double.parse(value).toStringAsFixed(2);
   if(int.parse(value.split('.')[1]) == 0){
     return value.split('.')[0];
   }else if(int.parse(value.split('.')[1]) % 10 == 0) {
@@ -1389,8 +1403,16 @@ String formatProjectStatus(String status) {
   if(status.contains('_')) {
     List sta = status.split('_');
     formattedStatus = sta.map((e) => e = e.toString().substring(0, 1).toUpperCase() + e.toString().substring(1)).toList().join(' ');
+  } else if(status.contains('-')) {
+    List sta = status.split('-');
+    sta = sta.map((e) => e = e.toString().substring(0, 1).toUpperCase() + e.toString().substring(1)).toList();
+    if(status == 'recommendation-from-the-lc'){
+      sta[sta.length - 1] = sta[sta.length - 1].toString().toUpperCase();
+    }
+    formattedStatus = sta.join(' ');
   } else{
     formattedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
   }
+
   return formattedStatus;
 }

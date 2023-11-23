@@ -33,6 +33,7 @@ class NewsAndEvent extends StatefulWidget {
 class _NewsAndEventState extends State<NewsAndEvent> {
   @override
   void initState() {
+    print(formatProjectStatus('recommendation-from-the-lc'));
     BlocProvider.of<NewsCubit>(context).newsCategoriesApi(context);
     super.initState();
   }
@@ -253,7 +254,7 @@ class _NewsAndEventState extends State<NewsAndEvent> {
                       }
                     }
                   } else{
-                    if(YoutubePlayer.convertUrlToId(state.responseNewsList!.data![index].webUrl ?? '') != null){
+                    if(getYoutubeVideoId(state.responseNewsList!.data![index].webUrl ?? '') != null){
                       showDialog(
                           context: context,
                           builder: (context) => OverlayVideoPlayer(

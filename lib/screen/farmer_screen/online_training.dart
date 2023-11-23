@@ -401,12 +401,11 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
   }
 
   func() {
-    String? videoId = YoutubePlayer.convertUrlToId(widget.url);
+    String? videoId = getYoutubeVideoId(widget.url);
     controller = YoutubePlayerController(
       initialVideoId: videoId ?? '',
       flags: const YoutubePlayerFlags(
         autoPlay: true,
-        mute: true,
       ),
     );
 

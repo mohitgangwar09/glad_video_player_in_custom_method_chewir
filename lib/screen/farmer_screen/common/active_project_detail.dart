@@ -6,15 +6,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
+import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
+import 'package:glad/screen/farmer_screen/common/active_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
-import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -24,16 +26,16 @@ import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class SuggestedProjectDetails extends StatefulWidget {
-  const SuggestedProjectDetails({super.key, required this.projectId});
+class ActiveProjectDetails extends StatefulWidget {
+  const ActiveProjectDetails({super.key, required this.projectId});
   final int projectId;
 
   @override
-  State<SuggestedProjectDetails> createState() =>
-      _SuggestedProjectDetailsState();
+  State<ActiveProjectDetails> createState() =>
+      _ActiveProjectDetailsState();
 }
 
-class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
+class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
   @override
   void initState() {
     BlocProvider.of<ProjectCubit>(context)
@@ -48,8 +50,8 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         if (state.status == ProjectStatus.loading) {
           return const Center(
               child: CircularProgressIndicator(
-            color: ColorResources.maroon,
-          ));
+                color: ColorResources.maroon,
+              ));
         } else if (state.responseFarmerProjectDetail == null) {
           return Center(child: Text("${state.responseFarmerProjectDetail} Api Error"));
         } else {
@@ -76,12 +78,14 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             description(state),
                             20.verticalSpace(),
                             dde(context, state),
+                            20.verticalSpace(),
+                            supplier(context, state),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
                             projectMilestones(context, state),
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
-                            inviteExpert(context, state):const SizedBox.shrink(),
+                              state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
+                              inviteExpert(context, state):const SizedBox.shrink(),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_completed".toUpperCase() ?
@@ -97,7 +101,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "approved".toUpperCase() ?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "active".toUpperCase() ?
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,7 +136,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
                                               child: (index){
                                                 return InkWell(
-                                                  onTap: () async{
+                                                  onTap: ()async{
                                                     var dir = await getApplicationDocumentsDirectory();
                                                     await Permission.manageExternalStorage.request();
                                                     await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
@@ -214,31 +218,6 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
                                 20.verticalSpace(),
 
-                                Center(
-                                    child: Text(
-                                      'Tap below to read and agree to the terms and \nconditions of the loan agreement!',
-                                      textAlign: TextAlign.center,
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 10, color: ColorResources.fieldGrey),
-                                    )),
-
-                                10.verticalSpace(),
-
-                                Center(
-                                  child: SizedBox(
-                                    width: 230,
-                                    child: customButton(
-                                        'Terms and Conditions',
-                                        style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-                                        onTap: (){
-                                          TermsAndCondition(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId,navigateFrom: context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)!).navigate();
-                                        }
-                                    ),
-                                  ),
-                                ),
-
-                                20.verticalSpace()
-
                               ],
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
@@ -302,25 +281,73 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Description',
-              style: figtreeMedium.copyWith(fontSize: 18),
+            Row(
+              children: [
+                Text(
+                  'Description',
+                  style: figtreeMedium.copyWith(fontSize: 18),
+                ),
+                05.horizontalSpace(),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+                  decoration: boxDecoration(
+                    borderWidth: 1,
+                    borderRadius: 30,
+                    borderColor: const Color(0xff6A0030),
+                  ),
+                  child: Text(
+                    formatProjectStatus(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus ?? ''),
+                    textAlign: TextAlign.center,
+                    style: figtreeMedium.copyWith(
+                        color: const Color(0xff6A0030), fontSize: 10),
+                  ),
+                )
+              ],
             ),
-            05.horizontalSpace(),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
-              decoration: boxDecoration(
-                borderWidth: 1,
-                borderRadius: 30,
-                borderColor: const Color(0xff6A0030),
-              ),
-              child: Text(
-                formatProjectStatus(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus ?? '') ,
-                textAlign: TextAlign.center,
-                style: figtreeMedium.copyWith(
-                    color: const Color(0xff6A0030), fontSize: 10),
-              ),
+            Builder(
+                builder: (context) {
+                  int count = 0;
+                  for( FarmerProjectMilestones mile in state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!) {
+                    if(mile.milestoneStatus != "pending" && mile.milestoneStatus != 'In progress') {
+                      count++;
+                    }
+                  }
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircularPercentIndicator(
+                        radius: 30,
+                        percent: count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length,
+                        progressColor: const Color(0xFF12CE57),
+                        backgroundColor: const Color(0xFFDCEAE5),
+                      ),
+                      RichText(
+                        softWrap: false,
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: removeZeroesInFraction(((count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length) * 100).toString()),
+                              style: figtreeBold.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 16)),
+                          TextSpan(
+                              text: '%\n',
+                              style: figtreeBold.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 9)),
+                          TextSpan(
+                              text: 'completed',
+                              style: figtreeBold.copyWith(
+                                  color:
+                                  const Color(0xFF808080),
+                                  fontSize: 6))
+                        ]),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  );
+                }
             )
           ],
         ),
@@ -341,9 +368,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(height: 200, width: screenWidth()),
+        SizedBox(height: 150, width: screenWidth()),
         Container(
-          height: 150,
+          height: 100,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -351,93 +378,77 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               border: Border.all(color: ColorResources.grey)),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
-            child: Column(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                        radius: 30,
-                        child: CachedNetworkImage(
-                          imageUrl: state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.photo ?? '',
-                          errorWidget: (_, __, ___) {
-                            return Image.asset(
-                              Images.sampleUser,
-                              fit: BoxFit.cover,
-                              width: 80,
-                              height: 80,
-                            );
-                          },
+                CircleAvatar(
+                    radius: 30,
+                    child: CachedNetworkImage(
+                      imageUrl: state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.photo ?? '',
+                      errorWidget: (_, __, ___) {
+                        return Image.asset(
+                          Images.sampleUser,
                           fit: BoxFit.cover,
                           width: 80,
                           height: 80,
-                        )),
-                    15.horizontalSpace(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                        );
+                      },
+                      fit: BoxFit.cover,
+                      width: 80,
+                      height: 80,
+                    )),
+                15.horizontalSpace(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.name ?? '',
+                        style: figtreeMedium.copyWith(
+                            fontSize: 16, color: Colors.black)),
+                    10.verticalSpace(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.name ?? '',
-                            style: figtreeMedium.copyWith(
-                                fontSize: 16, color: Colors.black)),
-                        10.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.call,
-                              color: Colors.black,
-                              size: 16,
-                            ),
-                            Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.phone ?? '',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                          ],
+                        const Icon(
+                          Icons.call,
+                          color: Colors.black,
+                          size: 16,
                         ),
-                        4.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: Colors.black,
-                              size: 16,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.5,
-                              child: Text(
-                                state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                    : ''
-                                    : '',
-                                style: figtreeRegular.copyWith(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
+                        Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.phone ?? '',
+                            style: figtreeRegular.copyWith(
+                                fontSize: 12, color: Colors.black)),
                       ],
-                    )
+                    ),
+                    4.verticalSpace(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width *
+                              0.5,
+                          child: Text(
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
+                                ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
+                                && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
+                                ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
+                                state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
+                                : ''
+                                : '',
+                            style: figtreeRegular.copyWith(
+                              fontSize: 12,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
                   ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 15.0),
-                  child: Divider(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15.0),
-                  child: Text(
-                    'You may contact our Dairy Development Executive (DDE) for any assistance related to application processing.',
-                    style: figtreeRegular.copyWith(fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
                 )
               ],
             ),
@@ -456,12 +467,130 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: (){
-                    callOnMobile(state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.phone ?? '');
-                  }, child: SvgPicture.asset(Images.callPrimary)),
+                    onTap: (){
+                      callOnMobile(state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
                 6.horizontalSpace(),
                 InkWell(onTap: ()async{
                   await launchWhatsApp(state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.phone ?? '');
+                },child: SvgPicture.asset(Images.whatsapp)),
+                6.horizontalSpace(),
+              ],
+            )),
+      ],
+    );
+  }
+
+  ///////////SupplierContainerTimeline/////////////
+  Widget supplier(context, ProjectState state) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(height: 150, width: screenWidth()),
+        Container(
+          height: 100,
+          width: screenWidth(),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: ColorResources.grey)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                    radius: 30,
+                    child: CachedNetworkImage(
+                      imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.image ==false ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.image ?? '',
+                      errorWidget: (_, __, ___) {
+                        return Image.asset(
+                          Images.sampleUser,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        );
+                      },
+                      fit: BoxFit.cover,
+                      width: 80,
+                      height: 80,
+                    )),
+                15.horizontalSpace(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.name ?? '',
+                        style: figtreeMedium.copyWith(
+                            fontSize: 16, color: Colors.black)),
+                    10.verticalSpace(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          Icons.call,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                        Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '',
+                            style: figtreeRegular.copyWith(
+                                fontSize: 12, color: Colors.black)),
+                      ],
+                    ),
+                    4.verticalSpace(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width *
+                              0.5,
+                          child: Text(
+                            state.responseFarmerProjectDetail!.data!.supplierDetail!.address != null
+                                ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"] != null
+                                && state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] != null
+                                ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] +
+                                state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"]
+                                : ''
+                                : '',
+                            style: figtreeRegular.copyWith(
+                              fontSize: 12,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+            top: -5,
+            left: 0,
+            child: Text(
+              'Supplier',
+              style: figtreeMedium.copyWith(fontSize: 20),
+            )),
+        Positioned(
+            top: 0,
+            right: 10,
+            child: Row(
+              children: [
+                InkWell(
+                    onTap: (){
+                      callOnMobile(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  await launchWhatsApp(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
                 },child: SvgPicture.asset(Images.whatsapp)),
                 6.horizontalSpace(),
               ],
@@ -475,9 +604,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     List<FrontendKpiModel> kpiData = [];
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
-       kpiData.add(FrontendKpiModel(name: 'Investment',
-           image: Images.investmentKpi,
-           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!)));
+      kpiData.add(FrontendKpiModel(name: 'Investment',
+          image: Images.investmentKpi,
+          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!)));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.revenue!=null){
@@ -701,14 +830,14 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
   ///////////ProjectMilestones///////////
   Widget projectMilestones(context, ProjectState state) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      50.verticalSpace(),
+      30.verticalSpace(),
       Text(
         'Project milestones',
         style: figtreeMedium.copyWith(fontSize: 18),
       ),
       15.verticalSpace(),
       customList(
-        list: List.generate(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!.length, (index) => null),
+          list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones!,
           axis: Axis.vertical,
           child: (int index) {
             return Padding(
@@ -717,40 +846,91 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               ),
               child: InkWell(
                 onTap: () {
-                  SuggestedProjectMilestoneDetail(milestoneId:
+                  // SupplierProjectMilestoneDetail(milestoneId:
+                  // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
+                  //   projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
+                  //   selectedFilter:widget.selectedFilter,
+                  //   navigateScreen:'',
+                  //   projectId: widget.projectId,
+                  // ).navigate();
+
+                  ActiveProjectMilestoneDetail(milestoneId:
                   state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].id,
-                  projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
-                  // projectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id
-                  ,farmerLogin:"farmer").navigate();
+                      projectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString()
+                      // projectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id
+                      ,farmerLogin:"farmer").navigate();
                 },
-                child: customProjectContainer(
-                    marginLeft: 0,
-                    marginTop: 0,
-                    borderRadius: 14,
+                child: customShadowContainer(
+                    margin: 0,
+                    color: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending" ? Color(0xFFFFF3F4) : Colors.white,
+                    backColor: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending" ? ColorResources.maroon : ColorResources.grey,
+                    // backColor: ColorResources.grey,
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneTitle ?? '',
                                 style: figtreeMedium.copyWith(fontSize: 18),
                               ),
-                              // checkBox(
-                              //   value: true,
-                              // )
+                              state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending"
+                                  ? checkBox2(value: true)
+                                  :  Builder(
+                                  builder: (context) {
+                                    int count = 0;
+                                    for(FarmerProjectTask task in state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!) {
+                                      if(task.taskStatus!.toLowerCase() == "completed" || task.taskStatus!.toLowerCase() == "approved") {
+                                        count++;
+                                      }
+                                    }
+                                    return Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        CircularPercentIndicator(
+                                          radius: 30,
+                                          percent: count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!.length,
+                                          progressColor: const Color(0xFF12CE57),
+                                          backgroundColor: const Color(0xFFDCEAE5),
+                                        ),
+                                        RichText(
+                                          softWrap: false,
+                                          text: TextSpan(children: [
+                                            TextSpan(
+                                                text: removeZeroesInFraction(((count / state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!.length) * 100).toString()),
+                                                style: figtreeBold.copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 16)),
+                                            TextSpan(
+                                                text: '%\n',
+                                                style: figtreeBold.copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 9)),
+                                            TextSpan(
+                                                text: 'completed',
+                                                style: figtreeBold.copyWith(
+                                                    color:
+                                                    const Color(0xFF808080),
+                                                    fontSize: 6))
+                                          ]),
+                                          textAlign: TextAlign.center,
+                                        )
+                                      ],
+                                    );
+                                  }
+                              )
                             ],
                           ),
-                          5.verticalSpace(),
                           Text(
                             '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
                             style: figtreeMedium.copyWith(fontSize: 12),
                           ),
                           20.verticalSpace(),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -763,14 +943,12 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   ),
                                   Text(
                                     state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue!=null?getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue):'',
-                                    // 'UGX ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneValue ?? ''}',
                                     style: figtreeSemiBold.copyWith(
                                         fontSize: 16,
                                         color: ColorResources.maroon),
                                   )
                                 ],
                               ),
-                              40.horizontalSpace(),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -788,6 +966,23 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   )
                                 ],
                               ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Due Date',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.fieldGrey),
+                                  ),
+                                  Text(
+                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDueDate != null ? DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneDueDate.toString())) : '',
+                                    style: figtreeSemiBold.copyWith(
+                                        fontSize: 16,
+                                        color: ColorResources.black),
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ],
@@ -796,25 +991,6 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               ),
             );
           }),
-      // 20.verticalSpace(),
-      // Center(
-      //     child: Padding(
-      //   padding: const EdgeInsets.only(left: 50, right: 50),
-      //   child: customButton('Revoke',
-      //       width: screenWidth(),
-      //       style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-      //       onTap: () {
-      //     const AddRemark().navigate();
-      //   }, radius: 88, color: 0xffFC5E60),
-      // )),
-      // 05.verticalSpace(),
-      // Center(
-      //     child: Text(
-      //   'Tap above to revoke the loan application.',
-      //   style: figtreeMedium.copyWith(
-      //       fontSize: 10, color: ColorResources.fieldGrey),
-      // )),
-      20.verticalSpace(),
     ]);
   }
 
@@ -824,244 +1000,244 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       children: [
         Center(
             child: Padding(
-          padding: const EdgeInsets.only(left: 50, right: 50),
-          child: customButton(
-            'Invite expert for survey',
-            width: screenWidth(),
-            style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-            onTap: () {
-              TextEditingController controller = TextEditingController();
-              String date = '';
-              modalBottomSheetMenu(context,
-                  radius: 40,
-                  child: StatefulBuilder(
-                    builder: (context, setState) {
-                      return SizedBox(
-                        height: 450,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Center(
-                                  child: Text(
-                                    'Farmer feedback',
-                                    style: figtreeMedium.copyWith(fontSize: 22),
-                                  ),
-                                ),
-                                30.verticalSpace(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomTextField2(
-                                      title: 'Preferred date',
-                                      image2: Images.calender,
-                                      image2Colors: ColorResources.maroon,
-                                      readOnly: true,
-                                      controller: TextEditingController()..text = date,
-                                        onTap: () async{
-                                          var selectDate = await selectedFutureDate(context);
-                                          date = "${selectDate.year}/${selectDate.month}/${selectDate.day}";
-                                          setState(() {});
-                                        },
-                                      focusNode: FocusNode(),
-                                    ),
-                                    20.verticalSpace(),
-                                    Text(
-                                      'Remarks',
-                                      style: figtreeMedium.copyWith(fontSize: 12),
-                                    ),
-                                    5.verticalSpace(),
-                                    TextField(
-                                      controller: controller,
-                                      maxLines: 4,
-                                      minLines: 4,
-                                      decoration: InputDecoration(
-                                          hintText: 'Write...',
-                                          hintStyle:
-                                              figtreeMedium.copyWith(fontSize: 18),
-                                          border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                width: 1,
-                                                color: Color(0xff999999),
-                                              ))),
-                                    ),
-                                    30.verticalSpace(),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                      child: customButton(
-                                        'Submit',
-                                        fontColor: 0xffFFFFFF,
-                                        onTap: () {
-                                          context.read<ProjectCubit>().inviteExpertForSurvey(context,
-                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                              date,
-                                              controller.text ?? '',
-                                              'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
-                                          );
-                                        },
-                                        height: 60,
-                                        width: screenWidth(),
+              padding: const EdgeInsets.only(left: 50, right: 50),
+              child: customButton(
+                'Invite expert for survey',
+                width: screenWidth(),
+                style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                onTap: () {
+                  TextEditingController controller = TextEditingController();
+                  String date = '';
+                  modalBottomSheetMenu(context,
+                      radius: 40,
+                      child: StatefulBuilder(
+                          builder: (context, setState) {
+                            return SizedBox(
+                              height: 450,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'Farmer feedback',
+                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                        ),
                                       ),
-                                    )
-                                  ],
-                                )
-                              ]),
-                        ),
-                      );
-                    }
-                  ));
-            },
-          ),
-        )),
+                                      30.verticalSpace(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          CustomTextField2(
+                                            title: 'Preferred date',
+                                            image2: Images.calender,
+                                            image2Colors: ColorResources.maroon,
+                                            readOnly: true,
+                                            controller: TextEditingController()..text = date,
+                                            onTap: () async{
+                                              var selectDate = await selectedFutureDate(context);
+                                              date = "${selectDate.year}/${selectDate.month}/${selectDate.day}";
+                                              setState(() {});
+                                            },
+                                            focusNode: FocusNode(),
+                                          ),
+                                          20.verticalSpace(),
+                                          Text(
+                                            'Remarks',
+                                            style: figtreeMedium.copyWith(fontSize: 12),
+                                          ),
+                                          5.verticalSpace(),
+                                          TextField(
+                                            controller: controller,
+                                            maxLines: 4,
+                                            minLines: 4,
+                                            decoration: InputDecoration(
+                                                hintText: 'Write...',
+                                                hintStyle:
+                                                figtreeMedium.copyWith(fontSize: 18),
+                                                border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      width: 1,
+                                                      color: Color(0xff999999),
+                                                    ))),
+                                          ),
+                                          30.verticalSpace(),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                            child: customButton(
+                                              'Submit',
+                                              fontColor: 0xffFFFFFF,
+                                              onTap: () {
+                                                context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                    date,
+                                                    controller.text ?? '',
+                                                    'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                                );
+                                              },
+                                              height: 60,
+                                              width: screenWidth(),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ]),
+                              ),
+                            );
+                          }
+                      ));
+                },
+              ),
+            )),
         20.verticalSpace(),
         if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() != "not_interested")
-        InkWell(
-          onTap: () {
-            TextEditingController controller = TextEditingController();
-            modalBottomSheetMenu(context,
-                radius: 40,
-                child: StatefulBuilder(
-                    builder: (context, setState) {
-                      return SizedBox(
-                        height: 450,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Center(
-                                  child: Text(
-                                    'Farmer feedback',
-                                    style: figtreeMedium.copyWith(fontSize: 22),
-                                  ),
-                                ),
-                                30.verticalSpace(),
-                                Column(
+          InkWell(
+              onTap: () {
+                TextEditingController controller = TextEditingController();
+                modalBottomSheetMenu(context,
+                    radius: 40,
+                    child: StatefulBuilder(
+                        builder: (context, setState) {
+                          return SizedBox(
+                            height: 450,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                              child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomTextField2(
-                                      title: 'Preferred date',
-                                      image2: Images.calender,
-                                      image2Colors: ColorResources.maroon,
-                                      readOnly: true,
-                                      enabled: false,
-                                      controller: TextEditingController(),
-                                      onTap: () async{
-                                        // var selectDate = await selectedFutureDate(context);
-                                        // date = "${selectDate.year}/${selectDate.month}/${selectDate.day}";
-                                        // setState(() {});
-                                      },
-                                      focusNode: FocusNode(),
-                                    ),
-                                    20.verticalSpace(),
-                                    Text(
-                                      'Remarks',
-                                      style: figtreeMedium.copyWith(fontSize: 12),
-                                    ),
-                                    5.verticalSpace(),
-                                    TextField(
-                                      controller: controller,
-                                      maxLines: 4,
-                                      minLines: 4,
-                                      decoration: InputDecoration(
-                                          hintText: 'Write...',
-                                          hintStyle:
-                                          figtreeMedium.copyWith(fontSize: 18),
-                                          border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                width: 1,
-                                                color: Color(0xff999999),
-                                              ))),
+                                    Center(
+                                      child: Text(
+                                        'Farmer feedback',
+                                        style: figtreeMedium.copyWith(fontSize: 22),
+                                      ),
                                     ),
                                     30.verticalSpace(),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                      child: customButton(
-                                        'Submit',
-                                        fontColor: 0xffFFFFFF,
-                                        onTap: () {
-                                          context.read<ProjectCubit>().inviteExpertForSurvey(context,
-                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                              '',
-                                              '',
-                                              'not_interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
-                                          );
-                                        },
-                                        height: 60,
-                                        width: screenWidth(),
-                                      ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomTextField2(
+                                          title: 'Preferred date',
+                                          image2: Images.calender,
+                                          image2Colors: ColorResources.maroon,
+                                          readOnly: true,
+                                          enabled: false,
+                                          controller: TextEditingController(),
+                                          onTap: () async{
+                                            // var selectDate = await selectedFutureDate(context);
+                                            // date = "${selectDate.year}/${selectDate.month}/${selectDate.day}";
+                                            // setState(() {});
+                                          },
+                                          focusNode: FocusNode(),
+                                        ),
+                                        20.verticalSpace(),
+                                        Text(
+                                          'Remarks',
+                                          style: figtreeMedium.copyWith(fontSize: 12),
+                                        ),
+                                        5.verticalSpace(),
+                                        TextField(
+                                          controller: controller,
+                                          maxLines: 4,
+                                          minLines: 4,
+                                          decoration: InputDecoration(
+                                              hintText: 'Write...',
+                                              hintStyle:
+                                              figtreeMedium.copyWith(fontSize: 18),
+                                              border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                    width: 1,
+                                                    color: Color(0xff999999),
+                                                  ))),
+                                        ),
+                                        30.verticalSpace(),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                          child: customButton(
+                                            'Submit',
+                                            fontColor: 0xffFFFFFF,
+                                            onTap: () {
+                                              context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                                  state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                  '',
+                                                  '',
+                                                  'not_interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                              );
+                                            },
+                                            height: 60,
+                                            width: screenWidth(),
+                                          ),
+                                        )
+                                      ],
                                     )
-                                  ],
-                                )
-                              ]),
-                        ),
-                      );
-                    }
-                ));
-            // customDialog(
-            //     widget: Center(
-            //       child: Material(
-            //         borderRadius: BorderRadius.circular(15),
-            //         child: Container(
-            //           height: 135,
-            //           width: screenWidth()-30,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(15),
-            //           ),
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.center,
-            //             children: [
-            //
-            //               "Are you sure u are not interested?".textMedium(
-            //                   fontSize: 19,
-            //                   color: Colors.black
-            //               ),
-            //
-            //               20.verticalSpace(),
-            //
-            //               Row(
-            //                 children: [
-            //
-            //                   20.horizontalSpace(),
-            //
-            //                   Expanded(
-            //                     child: customButton("No",
-            //                         borderColor: 0xFF6A0030,
-            //                         color: 0xFFffffff,onTap: (){
-            //                           pressBack();
-            //                         }),
-            //                   ),
-            //
-            //                   20.horizontalSpace(),
-            //
-            //                   Expanded(
-            //                     child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
-            //                       // context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
-            //                       context.read<ProjectCubit>().inviteExpertForSurvey(context,
-            //                           state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-            //                           '',
-            //                           '',
-            //                           'Not Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
-            //                       );
-            //                     }),
-            //                   ),
-            //
-            //                   20.horizontalSpace(),
-            //
-            //                 ],
-            //               ),
-            //
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //     )
-            // );
-          },
-            child: Text('Not Interested', style: figtreeMedium.copyWith(fontSize: 16, color: Colors.grey, decoration: TextDecoration.underline), )),
+                                  ]),
+                            ),
+                          );
+                        }
+                    ));
+                // customDialog(
+                //     widget: Center(
+                //       child: Material(
+                //         borderRadius: BorderRadius.circular(15),
+                //         child: Container(
+                //           height: 135,
+                //           width: screenWidth()-30,
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(15),
+                //           ),
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //
+                //               "Are you sure u are not interested?".textMedium(
+                //                   fontSize: 19,
+                //                   color: Colors.black
+                //               ),
+                //
+                //               20.verticalSpace(),
+                //
+                //               Row(
+                //                 children: [
+                //
+                //                   20.horizontalSpace(),
+                //
+                //                   Expanded(
+                //                     child: customButton("No",
+                //                         borderColor: 0xFF6A0030,
+                //                         color: 0xFFffffff,onTap: (){
+                //                           pressBack();
+                //                         }),
+                //                   ),
+                //
+                //                   20.horizontalSpace(),
+                //
+                //                   Expanded(
+                //                     child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
+                //                       // context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
+                //                       context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                //                           state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                //                           '',
+                //                           '',
+                //                           'Not Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                //                       );
+                //                     }),
+                //                   ),
+                //
+                //                   20.horizontalSpace(),
+                //
+                //                 ],
+                //               ),
+                //
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     )
+                // );
+              },
+              child: Text('Not Interested', style: figtreeMedium.copyWith(fontSize: 16, color: Colors.grey, decoration: TextDecoration.underline), )),
         20.verticalSpace(),
       ],
     );

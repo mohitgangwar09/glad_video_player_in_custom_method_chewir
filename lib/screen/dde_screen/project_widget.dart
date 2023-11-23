@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/suggested_investment.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
@@ -141,38 +145,45 @@ class ProjectWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 70,
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      padding: 15.paddingHorizontal(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          networkImage(text: farmerImage,height: 46,width: 46,radius: 40),
-                          10.horizontalSpace(),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                farmerName.textMedium(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis),
-                                1.verticalSpace(),
-                                farmerPhone.textRegular(
-                                    fontSize: 12, color: Colors.black),
-                                4.verticalSpace(),
-                                farmerAddress.textRegular(
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis),
-                              ],
+                    InkWell(
+                      onTap: () {
+                        BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+                        BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
+                        DdeFarmerDetail(userId: farmerDetail.userId!,farmerId:farmerDetail.id!).navigate();
+                      },
+                      child: Container(
+                        height: 70,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        padding: 15.paddingHorizontal(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            networkImage(text: farmerImage,height: 46,width: 46,radius: 40),
+                            10.horizontalSpace(),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  farmerName.textMedium(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
+                                  1.verticalSpace(),
+                                  farmerPhone.textRegular(
+                                      fontSize: 12, color: Colors.black),
+                                  4.verticalSpace(),
+                                  farmerAddress.textRegular(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     /*CircularPercentIndicator(

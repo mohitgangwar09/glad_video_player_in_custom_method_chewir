@@ -11,6 +11,7 @@ import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
+import 'package:glad/data/model/supplier_project_model.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/common/congratulation_screen.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -24,6 +25,7 @@ import 'package:glad/screen/supplier_screen/accept_screen.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/reject_screen.dart';
 import 'package:glad/screen/supplier_screen/survey_finished.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,6 +99,20 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  // supplierProjectsApi
+  Future<void> supplierProjectsApi(context, String projectStatus, bool showLoader) async {
+    if (showLoader) {
+      emit(state.copyWith(status: ProjectStatus.loading));
+    }
+    var response = await apiRepository.getSupplierProjectsApi(projectStatus);
+    if (response.status == 200) {
+      emit(state.copyWith(status: ProjectStatus.success, responseSupplierProject: response));
+    } else {
+      emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   Future<void> farmerProjectDetailApi(context, int projectId) async {
     emit(state.copyWith(status: ProjectStatus.loading));
     var response = await apiRepository.getFarmerProjectDetailApi(projectId);
@@ -135,6 +151,36 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  Future<void> farmerProjectMilestoneTaskUpdateApi(context, int farmerId, int farmerProjectId, int farmerMilestoneId, int taskId, String taskStatus, String remarks, List<String> pictures) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.getFarmerProjectMilestoneTaskUpdateApi(farmerId, farmerProjectId, farmerMilestoneId, taskId, taskStatus, remarks, pictures);
+    if (response.status == 200) {
+      farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
+      farmerProjectDetailApi(context, farmerProjectId);
+      disposeProgress();
+      pressBack();
+      showCustomToast(context, response.message.toString());
+    } else {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> farmerProjectMilestoneApproveApi(context, int farmerId, int farmerProjectId, int farmerMilestoneId, String milestoneStatus, String remarks) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.getFarmerProjectMilestoneApproveApi(farmerId, farmerProjectId, farmerMilestoneId, milestoneStatus, remarks);
+    if (response.status == 200) {
+      farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
+      farmerProjectDetailApi(context, farmerProjectId);
+      disposeProgress();
+      pressBack();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    } else {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   void inviteExpertForSurvey(context, int projectId, String date,
       String remark,String projectStatus,String farmerId) async {
     customDialog(widget: launchProgress());
@@ -154,7 +200,7 @@ class ProjectCubit extends Cubit<ProjectState> {
 
   // surveyStatusApi
   void surveyStatusApi(context, int projectId,
-      String remark,String projectStatus,String farmerId,dde.FarmerProject projectSurvey) async {
+      String remark,String projectStatus,String farmerId,dde.FarmerProject projectSurvey, String selectedFilter) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, "",
         remark,projectStatus,farmerId);
@@ -167,7 +213,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       }else{
         SurveyFinishedScreen(farmerProjectSurvey: projectSurvey,).navigate();
       }
-      ddeProjectsApi(context, 'new', true);
+      supplierProjectsApi(context, selectedFilter, true);
       // farmerProjectDetailApi(context,projectId);
 
     } else {
@@ -248,7 +294,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           remarks,
           selectStatus,
           farmerId.toString(),
-          profileData,'dde'
+          profileData,sharedPreferences.getString(AppConstants.userType)!
       );
     }
     else
@@ -277,7 +323,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           remarks,
           selectStatus,
           farmerId.toString(),
-          profileData,'farmer'
+          profileData,sharedPreferences.getString(AppConstants.userType)!
       );
     }
     else
@@ -307,7 +353,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           remarks,
           selectStatus,
           farmerId.toString(),
-          profileData,'dde'
+          profileData,sharedPreferences.getString(AppConstants.userType)!
       );
     }
     else
@@ -336,7 +382,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           remarks,
           selectStatus,
           farmerId.toString(),
-          profileData,'farmer'
+          profileData,sharedPreferences.getString(AppConstants.userType)!
       );
     }
     else

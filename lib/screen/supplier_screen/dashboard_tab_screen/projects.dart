@@ -8,7 +8,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
-import 'package:glad/screen/supplier_screen/widegt/project_supplier_widget.dart';
+import 'package:glad/screen/supplier_screen/widget/project_supplier_widget.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -22,12 +22,12 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  String selectedFilter = 'pending';
+  String selectedFilter = 'active';
 
   @override
   void initState() {
     BlocProvider.of<ProjectCubit>(context)
-        .ddeProjectsApi(context, selectedFilter, true);
+        .supplierProjectsApi(context, selectedFilter, true);
     super.initState();
   }
 
@@ -41,8 +41,8 @@ class _ProjectsState extends State<Projects> {
             child: CircularProgressIndicator(
               color: ColorResources.maroon,
             ));
-      } else if (state.responseDdeProject == null) {
-        return Center(child: Text("${state.responseDdeProject} Api Error"));
+      } else if (state.responseSupplierProject == null) {
+        return Center(child: Text("${state.responseSupplierProject} Api Error"));
       } else {
         return Stack(
           children: [
@@ -164,11 +164,11 @@ class _ProjectsState extends State<Projects> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              if (selectedFilter != 'pending') {
-                                selectedFilter = 'pending';
+                              if (selectedFilter != 'active') {
+                                selectedFilter = 'active';
                                 setState(() {});
                                 BlocProvider.of<ProjectCubit>(context)
-                                    .ddeProjectsApi(
+                                    .supplierProjectsApi(
                                     context, selectedFilter, false);
                               }
                             },
@@ -176,7 +176,7 @@ class _ProjectsState extends State<Projects> {
                               height: screenHeight(),
                               margin: const EdgeInsets.all(6),
                               decoration: boxDecoration(
-                                  backgroundColor: selectedFilter == 'pending'
+                                  backgroundColor: selectedFilter == 'active'
                                       ? const Color(0xff6A0030)
                                       : Colors.white,
                                   borderRadius: 62),
@@ -185,14 +185,14 @@ class _ProjectsState extends State<Projects> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   "Active".textMedium(
-                                      color: selectedFilter == 'pending'
+                                      color: selectedFilter == 'active'
                                           ? Colors.white
                                           : ColorResources.black,
                                       fontSize: 14),
                                   5.horizontalSpace(),
-                                  SvgPicture.asset(selectedFilter == 'pending'
-                                      ? Images.pendingSelected
-                                      : Images.pending)
+                                  SvgPicture.asset(selectedFilter == 'active'
+                                      ? Images.activeSelected
+                                      : Images.active)
                                 ],
                               ),
                             ),
@@ -201,11 +201,11 @@ class _ProjectsState extends State<Projects> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              if (selectedFilter != 'completed') {
-                                selectedFilter = 'completed';
+                              if (selectedFilter != 'completed_project') {
+                                selectedFilter = 'completed_project';
                                 setState(() {});
                                 BlocProvider.of<ProjectCubit>(context)
-                                    .ddeProjectsApi(
+                                    .supplierProjectsApi(
                                     context, selectedFilter, false);
                               }
                             },
@@ -213,7 +213,7 @@ class _ProjectsState extends State<Projects> {
                               height: screenHeight(),
                               margin: const EdgeInsets.all(6),
                               decoration: boxDecoration(
-                                  backgroundColor: selectedFilter == 'completed'
+                                  backgroundColor: selectedFilter == 'completed_project'
                                       ? const Color(0xff6A0030)
                                       : Colors.white,
                                   borderRadius: 62),
@@ -222,12 +222,12 @@ class _ProjectsState extends State<Projects> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   "Completed".textMedium(
-                                      color: selectedFilter == 'completed'
+                                      color: selectedFilter == 'completed_project'
                                           ? Colors.white
                                           : ColorResources.black,
                                       fontSize: 14),
                                   5.horizontalSpace(),
-                                  SvgPicture.asset(selectedFilter == 'completed'
+                                  SvgPicture.asset(selectedFilter == 'completed_project'
                                       ? Images.completedSelected
                                       : Images.completed)
                                 ],
@@ -239,64 +239,66 @@ class _ProjectsState extends State<Projects> {
                     ),
                   ),
                 ),
-                state.responseDdeProject!.data!.projectList!.isNotEmpty
+                state.responseSupplierProject!.data!.projectList!.isNotEmpty
                     ? Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 120, left: 10),
                     child: customList(
-                        list: List.generate(state.responseDdeProject!.data!
+                        list: List.generate(state.responseSupplierProject!.data!
                             .projectList!.length, (index) => null),
                         child: (int i) {
-
                           return Padding(
                             padding: const EdgeInsets.only(right: 20.0),
                             child: customProjectContainer(
                                 child: ProjectSupplierWidget(
                                     status: true,
-                                    projectStatus: formatProjectStatus(state.responseDdeProject!.data!
+                                    projectStatus: formatProjectStatus(state.responseSupplierProject!.data!
                                         .projectList![i].projectStatus ?? ''),
-                                    name: state.responseDdeProject!.data!
+                                    name: state.responseSupplierProject!.data!
                                         .projectList![i].name ?? '',
-                                    category: state.responseDdeProject!.data!
+                                    category: state.responseSupplierProject!.data!
                                         .projectList![i].farmerImprovementArea !=
-                                        null ? state.responseDdeProject!.data!
+                                        null ? state.responseSupplierProject!.data!
                                         .projectList![i].farmerImprovementArea!
-                                        .improvementArea!.name ?? '' : '',
-                                    description: state.responseDdeProject!.data!
+                                        .improvementArea != null ? state.responseSupplierProject!.data!
+                                        .projectList![i].farmerImprovementArea!
+                                        .improvementArea!.name ?? '' : '' : '',
+                                    description: state.responseSupplierProject!.data!
                                         .projectList![i].description ?? '',
-                                    investment: state.responseDdeProject!.data!
+                                    investment: state.responseSupplierProject!.data!
                                         .projectList![i].investmentAmount ?? 0,
-                                    revenue: state.responseDdeProject!.data!
+                                    revenue: state.responseSupplierProject!.data!
                                         .projectList![i].revenuePerYear ?? 0,
-                                    roi: state.responseDdeProject!.data!
+                                    roi: state.responseSupplierProject!.data!
                                         .projectList![i].roiPerYear ?? 0.0,
-                                    loan: state.responseDdeProject!.data!
+                                    loan: state.responseSupplierProject!.data!
                                         .projectList![i].loanAmount ?? 0,
-                                    emi: state.responseDdeProject!.data!
+                                    emi: state.responseSupplierProject!.data!
                                         .projectList![i].emiAmount ?? 0,
                                     balance: 0,
-                                    farmerName: state.responseDdeProject!.data!
-                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                    farmerName: state.responseSupplierProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
                                         .projectList![i].farmerMaster!.name ?? '' : '',
-                                    farmerAddress:  state.responseDdeProject!.data!
-                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
-                                        .projectList![i].farmerMaster!.address!=null?state.responseDdeProject!.data!
+                                    farmerAddress:  state.responseSupplierProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                        .projectList![i].farmerMaster!.address!=null?state.responseSupplierProject!.data!
                                         .projectList![i].farmerMaster!.address!.address.toString():"" ??
                                         '' : '',
-                                    farmerImage:  state.responseDdeProject!.data!
-                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                    farmerImage:  state.responseSupplierProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
                                         .projectList![i].farmerMaster!.photo ??
                                         ''  : '',
-                                    farmerPhone:  state.responseDdeProject!.data!
-                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                    farmerPhone:  state.responseSupplierProject!.data!
+                                        .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
                                         .projectList![i].farmerMaster!.phone ??
                                         ''  : '',
                                     projectPercent: 0,
-                                    projectId: state.responseDdeProject!.data!
+                                    projectId: state.responseSupplierProject!.data!
                                         .projectList![i].id ?? 0,
-                                    farmerDetail: state.responseDdeProject!.data!
+                                    farmerDetail: state.responseSupplierProject!.data!
                                         .projectList![i].farmerMaster!,
-                                  selectedFilter: "",
+                                  selectedFilter: selectedFilter,
+                                  milestones: state.responseSupplierProject!.data!.projectList![i].farmerProjectMilestones!,
 
                                 ),
                                 width: screenWidth()),

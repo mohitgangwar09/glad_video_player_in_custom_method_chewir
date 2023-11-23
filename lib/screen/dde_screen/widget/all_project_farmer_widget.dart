@@ -23,7 +23,7 @@ class AllProjectFarmerWidget extends StatelessWidget {
   final String farmerAddress;
   final dynamic projectPercent;
   final int projectId;
-  final FarmerMaster farmerDetail;
+  final FarmerMaster? farmerDetail;
 
   const AllProjectFarmerWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail}) : super(key: key);
 

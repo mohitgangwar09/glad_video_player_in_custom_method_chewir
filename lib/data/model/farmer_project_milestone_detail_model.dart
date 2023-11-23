@@ -61,6 +61,7 @@ class MilestoneDetails {
   dynamic resourceQty;
   dynamic resourceUom;
   dynamic milestoneValue;
+  dynamic milestoneDueDate;
   String? milestoneStatus;
   dynamic completionDate;
   dynamic approvalDate;
@@ -98,7 +99,8 @@ class MilestoneDetails {
         this.createdAt,
         this.updatedAt,
         this.farmerProjectResourcePrice,
-        this.farmerProjectTask});
+        this.farmerProjectTask,
+        this.milestoneDueDate});
 
   MilestoneDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -124,6 +126,7 @@ class MilestoneDetails {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    milestoneDueDate = json['milestone_due_date'];
     if (json['farmer_project_resources'] != null) {
       farmerProjectResourcePrice = <FarmerProjectResources>[];
       json['farmer_project_resources'].forEach((v) {
@@ -272,14 +275,18 @@ class FarmerProjectTask {
   String? taskName;
   dynamic taskPicture;
   String? taskStatus;
+  String? remarks;
   dynamic taskCompletionDate;
-  dynamic taskApprovalDate;
+  dynamic taskApproveRejectDate;
+  dynamic approveRejectRemarks;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
-  dynamic createdAt;
-  dynamic updatedAt;
+  String? createdAt;
+  String? updatedAt;
+  String? pictures;
+  List<Media>? media;
 
   FarmerProjectTask(
       {this.id,
@@ -289,14 +296,18 @@ class FarmerProjectTask {
         this.taskName,
         this.taskPicture,
         this.taskStatus,
+        this.remarks,
         this.taskCompletionDate,
-        this.taskApprovalDate,
+        this.taskApproveRejectDate,
+        this.approveRejectRemarks,
         this.status,
         this.createdBy,
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.pictures,
+        this.media});
 
   FarmerProjectTask.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -306,14 +317,23 @@ class FarmerProjectTask {
     taskName = json['task_name'];
     taskPicture = json['task_picture'];
     taskStatus = json['task_status'];
+    remarks = json['remarks'];
     taskCompletionDate = json['task_completion_date'];
-    taskApprovalDate = json['task_approval_date'];
+    taskApproveRejectDate = json['task_approve_reject_date'];
+    approveRejectRemarks = json['approve_reject_remarks'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    pictures = json['pictures'];
+    if (json['media'] != null) {
+      media = <Media>[];
+      json['media'].forEach((v) {
+        media!.add(Media.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -325,14 +345,105 @@ class FarmerProjectTask {
     data['task_name'] = taskName;
     data['task_picture'] = taskPicture;
     data['task_status'] = taskStatus;
+    data['remarks'] = remarks;
     data['task_completion_date'] = taskCompletionDate;
-    data['task_approval_date'] = taskApprovalDate;
+    data['task_approve_reject_date'] = taskApproveRejectDate;
+    data['approve_reject_remarks'] = approveRejectRemarks;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['pictures'] = pictures;
+    if (media != null) {
+      data['media'] = media!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Media {
+  dynamic id;
+  String? modelType;
+  dynamic modelId;
+  String? uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  List<dynamic>? manipulations;
+  List<dynamic>? customProperties;
+  List<dynamic>? generatedConversions;
+  List<dynamic>? responsiveImages;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? originalUrl;
+  String? previewUrl;
+
+  Media(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.originalUrl,
+        this.previewUrl});
+
+  Media.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
     return data;
   }
 }

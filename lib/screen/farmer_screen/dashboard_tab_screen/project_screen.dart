@@ -163,7 +163,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                   status: formatProjectStatus(state.responseFarmerProject!.data!
                                       .projectList![i].projectStatus ?? ''),
                                   image: state.responseFarmerProject!.data!
-                                      .projectList![i].photo ?? '',
+                                      .projectList![i].project['image'] ?? '',
                                   name: state.responseFarmerProject!.data!
                                       .projectList![i].name ?? '',
                                   targetYield: state.responseFarmerProject!
@@ -186,6 +186,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       .improvementArea!.name ?? '') : '',
                                   projectId: state.responseFarmerProject!.data!
                                       .projectList![i].id ?? 0,
+                                  selectedFilter: selectedFilter,
                                 ),
                                 width: screenWidth()),
                           );

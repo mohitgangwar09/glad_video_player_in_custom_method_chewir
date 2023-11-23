@@ -71,8 +71,7 @@ class AcceptScreen extends StatelessWidget {
                               ),
                               BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
                                 return Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea !=
-                                    null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea!
-                                    .parameter ?? '' : '',
+                                    null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea!.improvementArea != null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea!.improvementArea!.name ?? '' : '' : '',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: Colors.black));
                               }

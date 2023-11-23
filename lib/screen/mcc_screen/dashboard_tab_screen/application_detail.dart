@@ -305,13 +305,13 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            dde.image!=null?
+                            dde.photo!=null?
                             CircleAvatar(
                                 radius: 33,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(40),
                                   child: CachedNetworkImage(
-                                    imageUrl: dde.image ?? '',
+                                    imageUrl: dde.photo ?? '',
                                     errorWidget: (_, __, ___) {
                                       return Image.asset(
                                         Images.sampleUser,
@@ -368,7 +368,9 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                                       width: MediaQuery.of(context).size.width *
                                           0.5,
                                       child: Text(
-                                        dde.address??"",
+                                        dde.address != null ?
+                                        dde.address["address"] != null && dde.address["sub_county"] != null
+                                            ? dde.address["sub_county"] + dde.address["address"] : '' : '',
                                         style: figtreeRegular.copyWith(
                                           fontSize: 12,
                                           color: Colors.black,
