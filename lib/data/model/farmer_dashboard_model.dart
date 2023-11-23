@@ -782,6 +782,7 @@ class FarmerProject {
   String? categoeryName;
   String? projectFilter;
   FarmerImprovementArea? farmerImprovementArea;
+  dynamic project;
 
   FarmerProject(
       {this.id,
@@ -826,7 +827,8 @@ class FarmerProject {
         this.updatedAt,
         this.categoeryName,
         this.projectFilter,
-        this.farmerImprovementArea});
+        this.farmerImprovementArea,
+        this.project});
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -871,6 +873,7 @@ class FarmerProject {
     updatedAt = json['updated_at'];
     categoeryName = json['categoery_name'];
     projectFilter = json['project_filter'];
+    project = json["project"];
     farmerImprovementArea = json['farmer_improvement_area'] != null
         ? FarmerImprovementArea.fromJson(json['farmer_improvement_area'])
         : null;

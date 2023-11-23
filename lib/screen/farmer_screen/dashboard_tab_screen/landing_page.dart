@@ -232,7 +232,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                         child: ProjectWidget(
                           showStatus: false,
                           status: state.response!.farmerProject![i].projectStatus ?? '',
-                          image: state.response!.farmerProject![i].photo ?? '',
+                          image: state.response!.farmerProject![i].project != null ? state.response!.farmerProject![i].project['image'] ?? '' : '',
                           name: state.response!.farmerProject![i].name ?? '',
                           targetYield:
                               state.response!.farmerProject![i].targetYield ??
