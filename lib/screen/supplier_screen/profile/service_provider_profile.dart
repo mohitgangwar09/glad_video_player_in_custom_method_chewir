@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -350,12 +351,14 @@ class _SupplierProfileState extends State<SupplierProfile> {
                   showPicker(context, cameraFunction: () async{
                     var image =  imgFromCamera();
                     image.then((value) async{
-                      context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                      await context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                      context.read<LandingPageCubit>().getSupplierDashboard(context);
                     });
                   }, galleryFunction: () async{
                     var image = imgFromGallery();
                     image.then((value) async{
-                      context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                     await  context.read<ProfileCubit>().updateProfilePicImage(context,value);
+                     context.read<LandingPageCubit>().getSupplierDashboard(context);
                     });
                   });
                 },
