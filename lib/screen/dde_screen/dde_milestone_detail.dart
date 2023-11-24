@@ -245,7 +245,7 @@ class _DdeMilestoneDetailState
 
 ///////DividerValue///////////
   Widget dividerValue(ProjectState state) {
-    return Padding(
+    return widget.projectStatus == 'active' ? Padding(
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
       child: Column(
         children: [
@@ -296,6 +296,49 @@ class _DdeMilestoneDetailState
                     style: figtreeSemiBold.copyWith(fontSize: 16),
                   ),
                 ],
+              ),
+            ],
+          ),
+          10.verticalSpace(),
+          const Divider(
+            thickness: 1,
+          ),
+        ],
+      ),
+    ) : Padding(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+      child: Column(
+        children: [
+          30.verticalSpace(),
+          const Divider(
+            thickness: 1,
+          ),
+          10.verticalSpace(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Value',
+                style: figtreeMedium.copyWith(fontSize: 14),
+              ),
+              Text(
+                'Duration',
+                style: figtreeMedium.copyWith(fontSize: 14),
+              ),
+            ],
+          ),
+          05.verticalSpace(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                getCurrencyString(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneValue ?? 0),
+                style: figtreeSemiBold.copyWith(
+                    fontSize: 16, color: ColorResources.maroon),
+              ),
+              Text(
+                '${state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneDuration ?? ''} days',
+                style: figtreeSemiBold.copyWith(fontSize: 16),
               ),
             ],
           ),
