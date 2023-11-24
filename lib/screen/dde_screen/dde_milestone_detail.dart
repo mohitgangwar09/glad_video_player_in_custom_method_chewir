@@ -624,7 +624,7 @@ class _DdeMilestoneDetailState
               ),
 
               // widget.farmerLogin==null ?
-              widget.selectedFilter.toString() == "pending"?
+              widget.projectStatus.toString() == "interested"?
               InkWell(
                 onTap: (){
                   TextEditingController controller = TextEditingController();
@@ -739,7 +739,7 @@ class _DdeMilestoneDetailState
                           state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskName ?? '',
                           style: figtreeMedium.copyWith(fontSize: 14),
                         ),
-                        widget.selectedFilter == "pending"?
+                        widget.projectStatus == "interested"?
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: InkWell(
