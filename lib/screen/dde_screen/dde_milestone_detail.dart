@@ -100,6 +100,7 @@ class _DdeMilestoneDetailState
                               // state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectResourcePrice==0?
                               //  attributes(state) :const SizedBox.shrink(),
                               mileStoneDeliverable(state),
+                              if(widget.projectStatus == 'active')
                               uploadedPictures(state),
                             ],
                           )))
@@ -193,6 +194,7 @@ class _DdeMilestoneDetailState
               )
             ],
           ),
+          if(widget.projectStatus == 'active')
           Builder(
               builder: (context) {
                 int count = 0;
@@ -458,7 +460,7 @@ class _DdeMilestoneDetailState
 
   ////////Milestone Deliverable//////////////
   Widget mileStoneDeliverable(ProjectState state) {
-    return Column(
+    return widget.projectStatus == 'active' ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         30.verticalSpace(),
@@ -605,6 +607,155 @@ class _DdeMilestoneDetailState
               }
           ),
 
+      ],
+    )
+        : Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        30.verticalSpace(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Milestone deliverables',
+                style: figtreeMedium.copyWith(fontSize: 18),
+              ),
+
+              // widget.farmerLogin==null ?
+              widget.selectedFilter.toString() == "pending"?
+              InkWell(
+                onTap: (){
+                  TextEditingController controller = TextEditingController();
+                  modalBottomSheetMenu(context,
+                      radius: 40,
+                      child: StatefulBuilder(
+                          builder: (context, setState) {
+                            return SizedBox(
+                              height: 320,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'Add Task',
+                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                        ),
+                                      ),
+                                      30.verticalSpace(),
+
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Task Name',
+                                            style: figtreeMedium.copyWith(fontSize: 12),
+                                          ),
+                                          5.verticalSpace(),
+                                          TextField(
+                                            controller: controller,
+                                            maxLines: 1,
+                                            minLines: 1,
+                                            decoration: InputDecoration(
+                                                hintText: 'Enter task name',
+                                                hintStyle:
+                                                figtreeMedium.copyWith(fontSize: 18),
+                                                border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      width: 1,
+                                                      color: Color(0xff999999),
+                                                    ))),
+                                          ),
+                                          30.verticalSpace(),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                            child: customButton(
+                                              'Submit',
+                                              fontColor: 0xffFFFFFF,
+                                              onTap: () {
+                                                BlocProvider.of<ProjectCubit>(context).addTaskApi(context,state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerId.toString(),state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectId.toString(),state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].id.toString(),
+                                                    controller.text,widget.milestoneId
+                                                );
+                                              },
+                                              height: 60,
+                                              width: screenWidth(),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ]),
+                              ),
+                            );
+                          }
+                      ));
+                },
+                child: Container(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                  decoration: boxDecoration(
+                    backgroundColor: ColorResources.white,
+                    borderWidth: 1,
+                    borderRadius: 160,
+                    borderColor: const Color(0xff6A0030),
+                  ),
+                  child: Text(
+                    "Add",
+                    textAlign: TextAlign.center,
+                    style: figtreeMedium.copyWith(
+                        color: const Color(0xff6A0030), fontSize: 10),
+                  ),
+                ),
+              )
+                  :
+              const SizedBox.shrink()
+                  // :const SizedBox.shrink()
+
+            ],
+          ),
+        ),
+        10.verticalSpace(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: customList(
+              list: List.generate(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!.length, (index) => null),
+              child: (int index) {
+                return Container(
+                  height: 60,
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: ColorResources.grey),
+                      borderRadius: BorderRadius.circular(14)),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 5, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskName ?? '',
+                          style: figtreeMedium.copyWith(fontSize: 14),
+                        ),
+                        widget.selectedFilter == "pending"?
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: InkWell(
+                              onTap: (){
+                                BlocProvider.of<ProjectCubit>(context).deleteTaskApi(context,
+                                    state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].id.toString(),widget.milestoneId
+                                );
+                              }
+                              ,child: Image.asset(Images.deleteIcon,width: 24,height: 24,)),
+                        ):const SizedBox.shrink()
+                      ],
+                    ),
+                  ),
+                );
+              }),
+        )
       ],
     );
   }
