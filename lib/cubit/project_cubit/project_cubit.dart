@@ -158,7 +158,6 @@ class ProjectCubit extends Cubit<ProjectState> {
       customDialog(widget: launchProgress());
       var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
       if(response.status == 200) {
-        showCustomToast(context, "message");
         var response = await apiRepository.getFarmerProjectMilestoneTaskUpdateApi(
             farmerId,
             farmerProjectId,
@@ -208,7 +207,6 @@ class ProjectCubit extends Cubit<ProjectState> {
   Future<void> farmerProjectMilestoneApproveApi(context, int farmerId, int farmerProjectId, int farmerMilestoneId, String milestoneStatus, String remarks, String otp) async {
     var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
     if(response.status == 200) {
-      showCustomToast(context, "message");
       var response = await apiRepository.getFarmerProjectMilestoneApproveApi(farmerId, farmerProjectId, farmerMilestoneId, milestoneStatus, remarks);
       if (response.status == 200) {
         farmerProjectMilestoneDetailApi(context, farmerMilestoneId);
@@ -336,8 +334,6 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     if(response.status == 200){
 
-      showCustomToast(context, "message");
-
       await inviteExpertForSurveyDDe(context,
           int.parse(projectId),
           date,
@@ -365,8 +361,6 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     if(response.status == 200){
 
-      showCustomToast(context, "message");
-
       await inviteExpertForSurveyDDe(context,
           int.parse(projectId),
           date,
@@ -391,11 +385,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     customDialog(widget: launchProgress());
     // emit(state.copyWith(status: ProjectStatus.loading));
     var response = await apiRepository.verifyProjectStatusApi(otp, state.userIdForOtpValidate.toString());
+
     disposeProgress();
 
     if(response.status == 200){
-
-      showCustomToast(context, "message");
 
       await inviteExpertForSurveyDDeLoanApprovalApi(context,
           int.parse(projectId),
@@ -424,8 +417,6 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     if(response.status == 200){
 
-      showCustomToast(context, "message");
-
       await inviteExpertForSurveyDDeLoanApprovalApi(context,
           int.parse(projectId),
           date,
@@ -451,7 +442,7 @@ class ProjectCubit extends Cubit<ProjectState> {
 
       CongratulationScreen(navigateFrom: navigateFrom).navigate(isInfinity: true);
 
-      showCustomToast(context, response.data['message'], isSuccess: true);
+      showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
@@ -471,7 +462,7 @@ class ProjectCubit extends Cubit<ProjectState> {
             profileData:profileData,navigateFrom: navigateFrom,projectStatus:projectStatus
         ).navigate(isInfinity: true);
 
-      showCustomToast(context, response.data['message'], isSuccess: true);
+      showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
@@ -490,7 +481,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       ThankYouMcc(
           profileData:profileData,projectStatus:projectStatus
       ).navigate(isInfinity: true);
-      showCustomToast(context, response.data['message'], isSuccess: true);
+      showCustomToast(context, response.message.toString(), isSuccess: true);
 
       await ddeProjectsApi(context, 'pending', true);
 
@@ -866,9 +857,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (query.isNotEmpty) {
       List<DataMileStoneName> dummyListData = <DataMileStoneName>[];
       for (final item in dummySearchList) {
-        print(item.milestoneTitle);
         if (item.milestoneTitle!.toLowerCase().contains(query.toLowerCase())) {
-          print(item);
           dummyListData.add(item);
         }
       }

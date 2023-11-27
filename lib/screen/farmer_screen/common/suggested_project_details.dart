@@ -13,6 +13,7 @@ import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
+import 'package:glad/screen/dde_screen/widget/add_remark_revoke.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -245,6 +246,35 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().capitalized() == "not_interested".capitalized()?
                             inviteExpert(context, state) :const SizedBox.shrink():const SizedBox.shrink(),
+
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "applied".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "doc_verified".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_requested".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_accepted".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_completed".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "verified".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "approved".toUpperCase() ?
+                            Column(
+                              children: [
+                                Center(
+                                  child: customButton(
+                                      'Revoke',
+                                      color: 0xffFC5E60,
+                                      style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                                      onTap: (){
+                                        AddRemarkRevoke(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
+                                      }
+
+                                  ),
+                                ),
+
+                                5.verticalSpace(),
+
+                                "Tap above to revoke the loan application.".textMedium(color: const Color(0xff727272)),
+
+                              ],
+                            ):const SizedBox.shrink():const SizedBox.shrink(),
 
                           ],
                         ),
@@ -823,24 +853,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               ),
             );
           }),
-      // 20.verticalSpace(),
-      // Center(
-      //     child: Padding(
-      //   padding: const EdgeInsets.only(left: 50, right: 50),
-      //   child: customButton('Revoke',
-      //       width: screenWidth(),
-      //       style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
-      //       onTap: () {
-      //     const AddRemark().navigate();
-      //   }, radius: 88, color: 0xffFC5E60),
-      // )),
-      // 05.verticalSpace(),
-      // Center(
-      //     child: Text(
-      //   'Tap above to revoke the loan application.',
-      //   style: figtreeMedium.copyWith(
-      //       fontSize: 10, color: ColorResources.fieldGrey),
-      // )),
+
       20.verticalSpace(),
     ]);
   }

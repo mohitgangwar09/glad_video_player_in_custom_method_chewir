@@ -381,14 +381,19 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "applied".toUpperCase() ?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "applied".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "doc_verified".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_requested".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_accepted".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "survey_completed".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "verified".toUpperCase()
+                                || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "approved".toUpperCase() ?
                             Column(
                               children: [
                                 Center(
                                   child: customButton(
                                       'Revoke',
                                       color: 0xffFC5E60,
-                                      // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                       style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                       onTap: (){
                                         AddRemarkRevoke(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId).navigate();
