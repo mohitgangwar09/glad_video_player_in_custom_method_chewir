@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
+import 'package:glad/screen/dde_screen/dde_earning_statement.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
@@ -51,7 +52,9 @@ class DdeDrawer extends StatelessWidget {
       child: Column(
         children: [
           navigationBarItem(image: Images.myEarning, onTap: (){
-            const Earnings().navigate();
+            pressBack();
+            const DdeEarningDetails().navigate();
+            // const Earnings().navigate();
           },text: 'My earnings'),
           20.verticalSpace(),
           navigationBarItem(

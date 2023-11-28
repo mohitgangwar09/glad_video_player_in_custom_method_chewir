@@ -598,13 +598,38 @@ class ProjectRepository {
   }
 
   ///////////////// accountStatementApi //////////
-  Future<ResponseAccountStatement> accountStatementApi(String paymentStatus) async {
+  Future<ResponseAccountStatement> accountStatementProjectDetailApi(String paymentStatus,String userRoleId,String farmerProjectId) async {
 
 
     var data = {
       "user_role" : sharedPreferences!.getString(AppConstants.userType),
       "user_role_id" : sharedPreferences!.getString(AppConstants.userRoleId),
       "payment_status" : paymentStatus,
+      "farmer_project_id" : farmerProjectId,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.accountStatementApi,
+      queryParameters: data,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseAccountStatement.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseAccountStatement(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// accountStatementApi //////////
+  Future<ResponseAccountStatement> accountStatementApi(String paymentStatus,String farmerProjectId) async {
+
+
+    var data = {
+      "user_role" : sharedPreferences!.getString(AppConstants.userType),
+      "user_role_id" : sharedPreferences!.getString(AppConstants.userRoleId),
+      "payment_status" : paymentStatus,
+      // "farmer_project_id" : farmerProjectId,
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
