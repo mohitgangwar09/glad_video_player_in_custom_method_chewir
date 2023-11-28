@@ -23,6 +23,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<ProjectCubit>(context).statusColor('');
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
     });
     super.initState();
@@ -76,6 +77,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
                 Expanded(
                   child: InkWell(
                     onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).statusColor('paid');
                       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'paid');
                     },
                     child: Container(
@@ -83,7 +85,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              width: 1, color: ColorResources.paidGreen),
+                              width: state.statusLoan == 'paid'?2:1, color: state.statusLoan == 'paid'?ColorResources.paidGreen:const Color(0xffDCDCDC)),
                           borderRadius: BorderRadius.circular(15)),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,6 +113,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
                 Expanded(
                   child: InkWell(
                     onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).statusColor('due');
                       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
                     },
                     child: Container(
@@ -118,7 +121,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              width: 1, color: ColorResources.paidGreen),
+                              width: state.statusLoan == 'due'?1:1, color: state.statusLoan == 'due'?const Color(0xffF6B51D):const Color(0xffDCDCDC)),
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,6 +149,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
                 Expanded(
                   child: InkWell(
                     onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).statusColor('pending');
                       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'pending');
                     },
                     child: Container(
@@ -153,7 +157,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              width: 1, color: ColorResources.paidGreen),
+                              width: state.statusLoan == 'pending'?1:1, color: state.statusLoan == 'pending'?const Color(0xff6A0030):const Color(0xffDCDCDC)),
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -223,9 +227,21 @@ class _FarmerStatementState extends State<FarmerStatement> {
                                             state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!.name.toString().textSemiBold(
                                                 fontSize: 18,
                                                 color: ColorResources.black),
-                                            state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
-                                                fontSize: 14,
-                                                color: ColorResources.black),
+
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
+                                                    fontSize: 14,
+                                                    color: ColorResources.black),
+
+                                                state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString().textMedium(
+                                                  color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'pending'?const Color(0xff6A0030):
+                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'paid'?const Color(0xff12CE57):const Color(0xff6A0030)
+                                                )
+
+                                              ],
+                                            )
                                           ],
                                         ),
                                         15.verticalSpace(),

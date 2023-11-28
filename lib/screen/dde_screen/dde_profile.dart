@@ -6,9 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
+import 'package:glad/screen/dde_screen/dde_earning_statement.dart';
+import 'package:glad/screen/farmer_screen/dashboard_tab_screen/statement.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -30,6 +33,7 @@ class _DDEProfileState extends State<DDEProfile> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
+      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
     });
   }
 
@@ -120,151 +124,172 @@ class _DDEProfileState extends State<DDEProfile> {
 
   ///////////EarningCardDetails/////////
   Widget earningCardDetails(BuildContext context,ProfileCubitState state) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-          child: Text(
-            'Earning (30 days)',
-            style: figtreeMedium.copyWith(fontSize: 18),
-          ),
-        ),
-        10.verticalSpace(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 0, 24, 0),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    height: 152,
+    return BlocBuilder<ProjectCubit,ProjectState>(
+        builder: (context,state) {
+          if (state.status == ProjectStatus.loading) {
+            return const Center(
+                child: CircularProgressIndicator(
+                  color: ColorResources.maroon,
+                ));
+          } else if (state.responseAccountStatement == null) {
+            return const Center(child: Text("Please check your internet connection"));
+          }else{
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                  child: Text(
+                    'Earning',
+                    style: figtreeMedium.copyWith(fontSize: 18),
+                  ),
+                ),
+                10.verticalSpace(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 0, 24, 0),
+                  child: InkWell(
+                    onTap: (){
+                      const DdeEarningDetails().navigate();
+                    },
                     child: Column(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(.100),
-                                blurRadius: 15),
-                          ]),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            color: const Color(0xffFFB300),
-                            child: Column(children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        Stack(
+                          children: [
+                            SizedBox(
+                              height: 170,
+                              child: Column(
                                 children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                    child: Text(
-                                      'UGX 3.2M',
-                                      style: figtreeBold.copyWith(fontSize: 28),
-                                    ),
-                                  ),
-                                  SvgPicture.asset(Images.arrowPercent)
-                                ],
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 10, 20, 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 82,
-                                          height: 38,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: Colors.white),
-                                              color: const Color(0xff12CE57),
-                                              borderRadius:
-                                                  BorderRadius.circular(40)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                3, 0, 4, 0),
-                                            child: Row(
-                                              children: [
-                                                const Icon(Icons.trending_up,
-                                                    size: 25, color: Colors.white),
-                                                Text(
-                                                  '+5.0%',
-                                                  style: figtreeBold.copyWith(
-                                                      fontSize: 13, color: Colors.white),
-                                                )
-                                              ],
+                                  Container(
+                                    // padding: const EdgeInsets.only(left: 10),
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(.100),
+                                          blurRadius: 15),
+                                    ]),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)),
+                                      color: const Color(0xffFFB300),
+                                      child: Column(children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                              child: Text(
+                                                getCurrencyString(state.responseAccountStatement!.data!.summary!.totalAmount!=null?state.responseAccountStatement!.data!.summary!.totalAmount!:0),
+                                                style: figtreeBold.copyWith(fontSize: 28),
+                                              ),
                                             ),
+                                            SvgPicture.asset(Images.arrowPercent)
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 82,
+                                              height: 38,
+                                              margin: const EdgeInsets.only(left: 10),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      width: 2,
+                                                      color: Colors.white),
+                                                  color: const Color(0xff12CE57),
+                                                  borderRadius:
+                                                  BorderRadius.circular(40)),
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    3, 0, 4, 0),
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(Icons.trending_up,
+                                                        size: 25, color: Colors.white),
+                                                    Text(
+                                                      '+5.0%',
+                                                      style: figtreeBold.copyWith(
+                                                          fontSize: 13, color: Colors.white),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        5.verticalSpace(),
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(10, 10, 20, 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Due:',
+                                                        style: figtreeSemiBold.copyWith(
+                                                            fontSize: 14),
+                                                      ),
+                                                      05.horizontalSpace(),
+                                                      Text(
+                                                        getCurrencyString(state.responseAccountStatement!.data!.summary!.dueAmount!=null?state.responseAccountStatement!.data!.summary!.dueAmount!:0),
+                                                        style: figtreeSemiBold.copyWith(
+                                                            fontSize: 14),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  10.horizontalSpace(),
+                                                  const CircleAvatar(
+                                                    radius: 4,
+                                                    backgroundColor: Colors.black,
+                                                  ),
+                                                  10.horizontalSpace(),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Pending:',
+                                                        style: figtreeSemiBold.copyWith(
+                                                            fontSize: 14),
+                                                      ),
+                                                      05.horizontalSpace(),
+                                                      Text(
+                                                        getCurrencyString(state.responseAccountStatement!.data!.summary!.pendingAmount!=null?state.responseAccountStatement!.data!.summary!.pendingAmount!:0),
+                                                        style: figtreeSemiBold.copyWith(
+                                                            fontSize: 14),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
+                                      ]),
                                     ),
-                                    Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Due:',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 14),
-                                            ),
-                                            05.horizontalSpace(),
-                                            Text(
-                                              '150K',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
-                                        10.horizontalSpace(),
-                                        const CircleAvatar(
-                                          radius: 4,
-                                          backgroundColor: Colors.black,
-                                        ),
-                                        10.horizontalSpace(),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Pending:',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 14),
-                                            ),
-                                            05.horizontalSpace(),
-                                            Text(
-                                              '150K',
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 14),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ]),
-                          ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 10,
+                              left: 10,
+                              child: SvgPicture.asset(Images.cardImage),
+                            )
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 10,
-                    left: 10,
-                    child: SvgPicture.asset(Images.cardImage),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+                ),
+              ],
+            );
+          }
+      }
     );
   }
 
