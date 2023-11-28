@@ -81,12 +81,14 @@ class AppConstants {
   static const String deleteTaskApi = '/api/farmer-project/delete-task';
   static const String addMilestoneApi = '/api/farmer-project/add-milestone';
   static const String farmerParticipationApi = '/api/farmer-project/farmer-participation-update';
+  static const String accountStatementApi = '/api/financial/account-statement';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
   static const String token = 'token';
   static const String userId = 'userId';
   static const String userType = 'userType';
+  static const String userRoleId = 'userRoleId';
   static const String deviceImeiId = 'deviceImeiId';
   static const String countryCode = 'countryCode';
 

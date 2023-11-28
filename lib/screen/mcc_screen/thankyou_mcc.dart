@@ -60,7 +60,7 @@ class ThankYouMcc extends StatelessWidget {
                 profileDataWidget(profileData!,context):const SizedBox.shrink(),
 
                 40.verticalSpace(),
-                customButton("Go to Home", fontColor: 0xffffffff, onTap: () {
+                customButton("Back to Home", fontColor: 0xffffffff, onTap: () {
                   // ddeLandingKey.currentState?.dispose();
                   const DashboardMCC(navigateFrom:'thankyou').navigate(isInfinity: true);
                   // BlocProvider.of<DashboardCubit>(context).selectedIndex(0);

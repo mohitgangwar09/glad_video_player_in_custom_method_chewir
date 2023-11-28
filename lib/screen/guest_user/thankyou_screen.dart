@@ -144,7 +144,7 @@ class ThankYou extends StatelessWidget {
                 ),
 
                 40.verticalSpace(),
-                customButton("Go to Home", fontColor: 0xffffffff, onTap: () {
+                customButton("Back to Home", fontColor: 0xffffffff, onTap: () {
                   const DashboardGuest().navigate(isInfinity: true);
                 })
               ],

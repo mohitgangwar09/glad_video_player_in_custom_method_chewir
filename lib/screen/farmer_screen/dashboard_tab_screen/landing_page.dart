@@ -102,7 +102,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                   fit: BoxFit.cover,
                                 ):SvgPicture.asset(Images.person),
                               ),
-                            )*/ClipRRect(
+                            )*/
+                            ClipRRect(
                               borderRadius: BorderRadius.circular(1000),
                               child: Container(
                                 height: AppBar().preferredSize.height * 0.7,

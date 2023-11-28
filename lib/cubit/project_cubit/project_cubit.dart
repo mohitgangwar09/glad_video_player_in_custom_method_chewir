@@ -7,6 +7,7 @@ import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart' as dde;
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/response_account_statement.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_resource_name.dart';
@@ -776,6 +777,23 @@ class ProjectCubit extends Cubit<ProjectState> {
       disposeProgress();
       showCustomToast(context, response.message.toString());
       await farmerProjectDetailApi(context,projectId);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // accountStatementApi
+  Future<void> accountStatementApi(context,String paymentStatus) async {
+
+    emit(state.copyWith(status: ProjectStatus.loading));
+
+    var response = await apiRepository.accountStatementApi(paymentStatus);
+
+    if (response.status == 200) {
+
+      emit(state.copyWith(status: ProjectStatus.success,responseAccountStatement: response,paidAmount: response.data!.summary!.paidAmount??0,
+          pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0));
+
     } else {
       showCustomToast(context, response.message.toString());
     }

@@ -5,6 +5,7 @@ import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/response_account_statement.dart';
 import 'package:glad/data/model/response_add_value.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
@@ -593,6 +594,29 @@ class ProjectRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// accountStatementApi //////////
+  Future<ResponseAccountStatement> accountStatementApi(String paymentStatus) async {
+
+
+    var data = {
+      "user_role" : sharedPreferences!.getString(AppConstants.userType),
+      "user_role_id" : sharedPreferences!.getString(AppConstants.userRoleId),
+      "payment_status" : paymentStatus,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.accountStatementApi,
+      queryParameters: data,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseAccountStatement.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseAccountStatement(status: 422, message: apiResponse.msg);
     }
   }
 

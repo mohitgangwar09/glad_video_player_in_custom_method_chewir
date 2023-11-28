@@ -42,7 +42,7 @@ class _ProjectsState extends State<Projects> {
               color: ColorResources.maroon,
             ));
       } else if (state.responseSupplierProject == null) {
-        return Center(child: Text("${state.responseSupplierProject} Api Error"));
+        return const Center(child: Text("Please check your internet connection"));
       } else {
         return Stack(
           children: [

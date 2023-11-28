@@ -390,6 +390,9 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                 || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "approved".toUpperCase() ?
                             Column(
                               children: [
+
+                                20.verticalSpace(),
+
                                 Center(
                                   child: customButton(
                                       'Revoke',
@@ -841,6 +844,29 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!} MO"));
     }
 
+    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!=null){
+        kpiData.add(FrontendKpiModel(name: 'Repayment Start Date',
+            image: Images.yieldKpi,
+            value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
+        kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
+            image: Images.yieldKpi,
+            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
+        kpiData.add(FrontendKpiModel(name: 'Remaining EMI',
+            image: Images.yieldKpi,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
+        ));
+      }
+    }
+
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null){
       kpiData.add(FrontendKpiModel(name: 'EMI',
           image: Images.emiKpi,
@@ -876,28 +902,6 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
       ));
     }
 
-   if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
-     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!=null){
-       kpiData.add(FrontendKpiModel(name: 'Repayment Start Date',
-           image: Images.yieldKpi,
-           value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
-       ));
-     }
-
-     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
-       kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
-           image: Images.yieldKpi,
-           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
-       ));
-     }
-
-     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
-       kpiData.add(FrontendKpiModel(name: 'Remaining EMI',
-           image: Images.yieldKpi,
-           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
-       ));
-     }
-   }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,

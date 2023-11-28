@@ -18,6 +18,7 @@ class ProjectState extends Equatable {
   final List<DataResourceName>? filterMaterialType;
   final List<DataMileStoneName>? responseMilestoneName;
   final List<DataMileStoneName>? filterMileStone;
+  final ResponseAccountStatement? responseAccountStatement;
   final String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialName,primaryId;
   final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialId,userIdForOtpValidate;
   final TextEditingController requiredQtyController,pricePerUnitController,valueController;
@@ -25,6 +26,7 @@ class ProjectState extends Equatable {
   final TextEditingController materialNameController,resourceTypeController,resourceCapacityController,uomController;
   final String? projectId;
   final String? selectedFilterMCCApplication;
+  final dynamic paidAmount,dueAmount,pendingAmount;
 
 
   const ProjectState({
@@ -63,8 +65,12 @@ class ProjectState extends Equatable {
     required this.resourceTypeController,
     required this.resourceCapacityController,
     required this.uomController,
+    required this.responseAccountStatement,
     required this.responseSupplierProject,
     required this.selectedFilterMCCApplication,
+    required this.paidAmount,
+    required this.pendingAmount,
+    required this.dueAmount,
   });
 
   factory ProjectState.initial() {
@@ -109,6 +115,10 @@ class ProjectState extends Equatable {
       projectId: '',
       selectedFilterMCCApplication: 'pending',
       responseSupplierProject: null,
+      responseAccountStatement: null,
+      paidAmount: null,
+      dueAmount: null,
+      pendingAmount: null,
     );
   }
 
@@ -127,6 +137,7 @@ class ProjectState extends Equatable {
     List<DataResourceName>? filterMaterialType,
     List<DataMileStoneName>? responseMilestoneName,
     List<DataMileStoneName>? filterMileStone,
+    ResponseAccountStatement? responseAccountStatement,
     String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialId,primaryId,userIdForOtpValidate,
     String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialName,
     TextEditingController? requiredQtyController,pricePerUnitController,valueController,
@@ -134,6 +145,8 @@ class ProjectState extends Equatable {
     TextEditingController? materialNameController,resourceTypeController,resourceCapacityController,
     String? projectId, selectedFilterMCCApplication,
     SupplierProjectModel? responseSupplierProject,
+    dynamic paidAmount,dueAmount,pendingAmount
+
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -183,8 +196,12 @@ class ProjectState extends Equatable {
       resourceTypeController: resourceTypeController ?? this.resourceTypeController,
       resourceCapacityController: resourceCapacityController ?? this.resourceCapacityController,
       uomController: uomController ?? this.uomController,
+      responseAccountStatement: responseAccountStatement ?? this.responseAccountStatement,
       selectedFilterMCCApplication: selectedFilterMCCApplication ?? this.selectedFilterMCCApplication,
       responseSupplierProject: responseSupplierProject ?? this.responseSupplierProject,
+      paidAmount: paidAmount ?? this.paidAmount,
+      dueAmount: dueAmount ?? this.dueAmount,
+      pendingAmount: pendingAmount ?? this.pendingAmount,
     );
   }
 
@@ -225,5 +242,9 @@ class ProjectState extends Equatable {
     uomController,
     selectedFilterMCCApplication,
     responseSupplierProject,
+    responseAccountStatement,
+    paidAmount,
+    pendingAmount,
+    dueAmount
       ];
 }

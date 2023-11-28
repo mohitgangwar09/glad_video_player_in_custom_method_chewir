@@ -30,6 +30,7 @@ class Data {
   dynamic middleName;
   dynamic lastName;
   String? userType;
+  int? userRoleId;
   dynamic userCode;
   int? hasPassword;
   dynamic mobile;
@@ -61,6 +62,7 @@ class Data {
         this.middleName,
         this.lastName,
         this.userType,
+        this.userRoleId,
         this.userCode,
         this.hasPassword,
         this.mobile,
@@ -92,6 +94,7 @@ class Data {
     middleName = json['middle_name'];
     lastName = json['last_name'];
     userType = json['user_type'];
+    userRoleId = json['user_role_id'];
     userCode = json['user_code'];
     hasPassword = json['has_password'];
     mobile = json['mobile'];
@@ -124,6 +127,7 @@ class Data {
     data['middle_name'] = middleName;
     data['last_name'] = lastName;
     data['user_type'] = userType;
+    data['user_role_id'] = userRoleId;
     data['user_code'] = userCode;
     data['has_password'] = hasPassword;
     data['mobile'] = mobile;

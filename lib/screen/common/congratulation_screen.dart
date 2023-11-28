@@ -233,7 +233,7 @@ class CongratulationScreen extends StatelessWidget {
                 "You can track the status of your application from project section.".textRegular(fontSize: 14,textAlign: TextAlign.center),
                 40.verticalSpace(),
 
-                customButton("Go to Home", fontColor: 0xffffffff, onTap: () {
+                customButton("Back to Home", fontColor: 0xffffffff, onTap: () {
                   if(navigateFrom == "dde"){
                     const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
                   }else{

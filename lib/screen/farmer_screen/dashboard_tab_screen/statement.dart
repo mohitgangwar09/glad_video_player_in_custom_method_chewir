@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
@@ -8,157 +11,319 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class FarmerStatement extends StatelessWidget {
+class FarmerStatement extends StatefulWidget {
   const FarmerStatement({super.key});
+
+  @override
+  State<FarmerStatement> createState() => _FarmerStatementState();
+}
+
+class _FarmerStatementState extends State<FarmerStatement> {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          landingBackground(),
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Loan statement',
-                titleText1Style: figtreeMedium.copyWith(
-                    fontSize: 20, color: Colors.black),
-                centerTitle: true,
-                leading: openDrawer(
-                    onTap: () {
-                      farmerLandingKey.currentState?.openDrawer();
-                      }, child: SvgPicture.asset(Images.drawer)),
-                action: InkWell(
-                    onTap: () {}, child: SvgPicture.asset(Images.filter2)),
-              ),
-              listviewDetails(),
-            ],
-          ),
-        ],
+      body: BlocBuilder<ProjectCubit,ProjectState>(
+        builder: (context,state) {
+          return Stack(
+              children: [
+                landingBackground(),
+                Column(
+                  children: [
+                    CustomAppBar(
+                      context: context,
+                      titleText1: 'Loan statement',
+                      titleText1Style: figtreeMedium.copyWith(
+                          fontSize: 20, color: Colors.black),
+                      centerTitle: true,
+                      leading: openDrawer(
+                          onTap: () {
+                            farmerLandingKey.currentState?.openDrawer();
+                          }, child: SvgPicture.asset(Images.drawer)),
+                      action: InkWell(
+                          onTap: () {},
+                          child: SvgPicture.asset(Images.filter2)),
+                    ),
+                    listviewDetails(state),
+                  ],
+                ),
+              ],
+            );
+        }
       ),
     );
   }
 
-  Widget listviewDetails() {
+  Widget listviewDetails(ProjectState state) {
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            20.verticalSpace(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          20.verticalSpace(),
+          Padding(
+            padding: const EdgeInsets.only(left: 1.0,right: 1.0),
+            child: Row(
               children: [
-                for (int i in [1, 2, 3])
-                  Container(
-                    margin: i == 3
-                        ? const EdgeInsets.only(right: 12)
-                        : i==1 ? const EdgeInsets.only(left: 12) : null,
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            width: 1, color: ColorResources.paidGreen),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'UGX 400K',
-                            style: figtreeSemiBold.copyWith(fontSize: 18),
-                          ),
-                          05.verticalSpace(),
-                          Text(
-                            'Paid',
-                            style: figtreeMedium.copyWith(
-                                fontSize: 14, color: ColorResources.fieldGrey),
-                          )
-                        ]),
+                // for (int i in [1, 2, 3]),
+                10.horizontalSpace(),
+                Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'paid');
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              width: 1, color: ColorResources.paidGreen),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BlocBuilder<ProjectCubit,ProjectState>(
+                                builder: (context,state) {
+                                  return Text(
+                                    getCurrencyString(state.paidAmount??0),
+                                    style: figtreeSemiBold.copyWith(fontSize: 15),
+                                  );
+                              }
+                            ),
+                            05.verticalSpace(),
+                            Text(
+                              'Paid',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 14, color: ColorResources.fieldGrey),
+                            )
+                          ]),
+                    ),
                   ),
+                ),
+                10.horizontalSpace(),
+                Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              width: 1, color: ColorResources.paidGreen),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BlocBuilder<ProjectCubit,ProjectState>(
+                                builder: (context,state) {
+                                  return Text(
+                                    getCurrencyString(state.dueAmount??0),
+                                    style: figtreeSemiBold.copyWith(fontSize: 15),
+                                  );
+                                }
+                            ),
+                            05.verticalSpace(),
+                            Text(
+                              'Due',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 14, color: ColorResources.fieldGrey),
+                            )
+                          ]),
+                    ),
+                  ),
+                ),
+                10.horizontalSpace(),
+                Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'pending');
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              width: 1, color: ColorResources.paidGreen),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BlocBuilder<ProjectCubit,ProjectState>(
+                                builder: (context,state) {
+                                  return Text(
+                                    getCurrencyString(state.pendingAmount??0),
+                                    style: figtreeSemiBold.copyWith(fontSize: 15),
+                                  );
+                                }
+                            ),
+                            05.verticalSpace(),
+                            Text(
+                              'Pending',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 14, color: ColorResources.fieldGrey),
+                            )
+                          ]),
+                    ),
+                  ),
+                ),
+                10.horizontalSpace(),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: ColorResources.grey),
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white),
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        padding: 0.paddingAll(),
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final color = index % 2 == 0
-                              ? Colors.white
-                              : ColorResources.pinkMain;
-                          return Container(
-                            color: color,
-                            margin: const EdgeInsets.only(left: 20, right: 20),
-                            padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+          ),
+          BlocBuilder<ProjectCubit,ProjectState>(
+            builder: (context,state) {
+              if (state.status == ProjectStatus.loading) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                      color: ColorResources.maroon,
+                    ));
+              } else if (state.responseAccountStatement == null) {
+                return const Center(child: Text("Please check your internet connection"));
+              }else{
+                return Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(25),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: const Color(0xffDCDCDC)),
+                                borderRadius: BorderRadius.circular(20)),
                             child: Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'Dam construction',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: figtreeMedium.copyWith(
-                                            fontSize: 16),
-                                      ),
-                                    ),
-                                    Text(
-                                      'UGX 100K',
-                                      style: figtreeSemiBold.copyWith(
-                                          fontSize: 18),
-                                    ),
-                                  ],
-                                ),
-                                5.verticalSpace(),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '01/04/2023',
-                                      style:
-                                          figtreeMedium.copyWith(fontSize: 12),
-                                    ),
-                                    Text(
-                                      'Paid',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 12,
-                                          color: ColorResources.paidGreenText),
-                                    ),
-                                  ],
-                                ),
+                                state.responseAccountStatement!.data!.farmerProjectFinancial!.isNotEmpty?
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: state.responseAccountStatement!.data!.farmerProjectFinancial!.length,
+                                  controller: ScrollController(),
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) => Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!.name.toString().textSemiBold(
+                                                fontSize: 18,
+                                                color: ColorResources.black),
+                                            state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
+                                                fontSize: 14,
+                                                color: ColorResources.black),
+                                          ],
+                                        ),
+                                        15.verticalSpace(),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius: BorderRadius.circular(1000),
+                                                  child: Container(
+                                                    height: AppBar().preferredSize.height * 0.7,
+                                                    width: AppBar().preferredSize.height * 0.7,
+                                                    decoration:
+                                                    const BoxDecoration(shape: BoxShape.circle),
+                                                    child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!=null?CachedNetworkImage(
+                                                      imageUrl:
+                                                      state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!.toString(),
+                                                      errorWidget: (_, __, ___) =>
+                                                          SvgPicture.asset(Images.person),
+                                                      fit: BoxFit.cover,
+                                                    ):SvgPicture.asset(Images.person),
+                                                  ),
+                                                ),
+                                                10.horizontalSpace(),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.name.toString()
+                                                        .textMedium(
+                                                        fontSize: 14,
+                                                        color:
+                                                        ColorResources
+                                                            .black),
+                                                    state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.address!.address.toString()
+                                                        .textMedium(
+                                                        fontSize: 14,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color:
+                                                        ColorResources
+                                                            .black),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            Container(
+                                              padding: const EdgeInsets.all(12),
+                                              decoration: boxDecoration(
+                                                  backgroundColor:
+                                                  const Color(0xFFFFF3F4),
+                                                  borderColor:
+                                                  const Color(0xffF6B51D),
+                                                  borderRadius: 40,
+                                                  borderWidth: 1),
+                                              child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount??0).toString().textBold(
+                                                  fontSize: 18,
+                                                  color:
+                                                  ColorResources.black),
+                                            )
+                                          ],
+                                        ),
+                                      ]),
+                                  separatorBuilder: (context, index) =>
+                                  const Padding(
+                                    padding:
+                                    EdgeInsets.symmetric(vertical: 10.0),
+                                    child: Divider(),
+                                  ),
+                                ):
+                                SizedBox(width: screenWidth(),height: 300,
+                                  child: const Center(child: Text("No data found")),),
+                                /*const Padding(
+                                padding:
+                                EdgeInsets.symmetric(vertical: 10.0),
+                                child: Divider(),
+                              ),*/
+                                /*'Show more'.textSemiBold(
+                                  fontSize: 16,
+                                  color: ColorResources.maroon,
+                                  underLine: TextDecoration.underline),*/
                               ],
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            child: SizedBox(
-                                height: 0, width: 30, child: horizontalPaint()),
-                          );
-                        },
-                        itemCount: 8),
+                          ),
+                          20.verticalSpace(),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
-              ),
-            ),
-            100.verticalSpace(),
-          ],
-        ),
+                );
+              }
+            }
+          ),
+          100.verticalSpace(),
+        ],
       ),
     );
   }
