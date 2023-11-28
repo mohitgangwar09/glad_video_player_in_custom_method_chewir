@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<ProjectCubit>()),
       BlocProvider(create: (context) => di.sl<TrainingCubit>()),
       BlocProvider(create: (context) => di.sl<NewsCubit>()),
+      BlocProvider(create: (context) => di.sl<CommunityCubit>()),
     ],
     child: const GetMaterialApp(
         debugShowCheckedModeBanner: false, home: MyApp()),

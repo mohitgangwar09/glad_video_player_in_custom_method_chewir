@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'package:glad/cubit/cowsandyieldsum/cowsandyieldcubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
@@ -53,6 +54,7 @@ Future<void> init() async {
   sl.registerFactory(() => CowsAndYieldCubitTest(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => TrainingCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => NewsCubit(apiRepository: sl(),sharedPreferences: sl()));
+  sl.registerFactory(() => CommunityCubit(apiRepository: sl(),sharedPreferences: sl()));
 
   // External
   var sharedPreferences = await SharedPreferences.getInstance();

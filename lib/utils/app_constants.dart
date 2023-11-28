@@ -66,6 +66,14 @@ class AppConstants {
   static const String notRequiredDataApi = '/api/farmer-project/fetch-not-required-data';
   static const String trainingListApi = '/api/training/list';
   static const String guestTrainingListApi = '/api/training/guest-training';
+  static const String communityListApi = '/api/community/community-list';
+  static const String guestCommunityListApi = '/api/community/guest-community-list';
+  static const String likeListApi = '/api/community/like-list';
+  static const String guestLikeListApi = '/api/community/guest-like-list';
+  static const String commentListApi = '/api/community/comment-list';
+  static const String addCommentApi = '/api/community/comment';
+  static const String guestCommentListApi = '/api/community/guest-comment-list';
+  static const String addPostApi = '/api/community/store';
   static const String trainingCategoryApi = '/api/training/category';
   static const String guestTrainingCategoryApi = '/api/training/guest-category';
   static const String newsListApi = '/api/news-event/list';
