@@ -86,6 +86,7 @@ class FarmerProject {
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
+  dynamic farmerParticipationStatus;
   String? createdAt;
   String? updatedAt;
   List<FarmerProjectMilestones>? farmerProjectMilestones;
@@ -146,6 +147,7 @@ class FarmerProject {
         this.farmerLoanDocument,
         this.farmerProjectSurvey,
         this.farmerImprovementArea,
+        this.farmerParticipationStatus,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -184,6 +186,7 @@ class FarmerProject {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    farmerParticipationStatus = json['farmer_participation_status'];
     kpi = json['kpi'] != null ? Kpi.fromJson(json['kpi']) : null;
     farmerImprovementArea = json['farmer_improvement_area'] != null ? FarmerImprovementArea.fromJson(json['farmer_improvement_area']) : null;
     farmerMaster = json['farmer_master'] != null ? FarmerMaster.fromJson(json['farmer_master']) : null;
@@ -251,6 +254,7 @@ class FarmerProject {
     data['revenue_per_year'] = revenuePerYear;
     data['roi_per_year'] = roiPerYear;
     data['farmer_participation'] = farmerParticipation;
+    data['farmer_participation_status'] = farmerParticipationStatus;
     data['glad_commision_percentage'] = gladCommisionPercentage;
     data['glad_commision_amount'] = gladCommisionAmount;
     data['dde_commision_percentage'] = ddeCommisionPercentage;

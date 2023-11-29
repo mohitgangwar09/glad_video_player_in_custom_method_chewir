@@ -13,7 +13,9 @@ import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/project_detail_statement.dart';
+import 'package:glad/screen/dde_screen/project_kyc/add_loan_remarks.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
+import 'package:glad/screen/supplier_screen/add_confirm_remarks_supplier.dart';
 import 'package:glad/screen/supplier_screen/dispute_screen.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/milestone_project_detail.dart';
@@ -691,82 +693,18 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                               width: 30,
                               height: 30,
                             ),
-                            // kpiData[index].actionImage!=null?
-                            // InkWell(
-                            //     onTap: (){
-                            //       TextEditingController controller = TextEditingController();
-                            //       controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
-                            //       if(kpiData[index].name.toString() == "Farmer Participation"){
-                            //         modalBottomSheetMenu(context,
-                            //             radius: 40,
-                            //             child: StatefulBuilder(
-                            //                 builder: (context, setState) {
-                            //                   return SizedBox(
-                            //                     height: 320,
-                            //                     child: Padding(
-                            //                       padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                            //                       child: Column(
-                            //                           crossAxisAlignment: CrossAxisAlignment.start,
-                            //                           children: [
-                            //                             Center(
-                            //                               child: Text(
-                            //                                 'Farmer Participation',
-                            //                                 style: figtreeMedium.copyWith(fontSize: 22),
-                            //                               ),
-                            //                             ),
-                            //                             30.verticalSpace(),
-                            //
-                            //                             Column(
-                            //                               crossAxisAlignment: CrossAxisAlignment.start,
-                            //                               children: [
-                            //                                 Text(
-                            //                                   'Participation Value',
-                            //                                   style: figtreeMedium.copyWith(fontSize: 12),
-                            //                                 ),
-                            //                                 5.verticalSpace(),
-                            //                                 TextField(
-                            //                                   controller: controller,
-                            //                                   maxLines: 1,
-                            //                                   keyboardType: TextInputType.number,
-                            //                                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                            //                                   minLines: 1,
-                            //                                   decoration: InputDecoration(
-                            //                                       hintText: 'Enter participation value',
-                            //                                       hintStyle:
-                            //                                       figtreeMedium.copyWith(fontSize: 18),
-                            //                                       border: OutlineInputBorder(
-                            //                                           borderRadius: BorderRadius.circular(12),
-                            //                                           borderSide: const BorderSide(
-                            //                                             width: 1,
-                            //                                             color: Color(0xff999999),
-                            //                                           ))),
-                            //                                 ),
-                            //                                 30.verticalSpace(),
-                            //                                 Padding(
-                            //                                   padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                            //                                   child: customButton(
-                            //                                     'Submit',
-                            //                                     fontColor: 0xffFFFFFF,
-                            //                                     onTap: () {
-                            //                                       if(controller.text.isEmpty){
-                            //                                         showCustomToast(context, "Please enter participation value");
-                            //                                       }else{
-                            //                                         BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
-                            //                                       }
-                            //                                     },
-                            //                                     height: 60,
-                            //                                     width: screenWidth(),
-                            //                                   ),
-                            //                                 )
-                            //                               ],
-                            //                             )
-                            //                           ]),
-                            //                     ),
-                            //                   );
-                            //                 }
-                            //             ));
-                            //       }
-                            //     }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()
+
+                            kpiData[index].actionImage!=null?
+                            SvgPicture.asset(kpiData[index].actionImage.toString()):
+                            kpiData[index].name.toString() == "Farmer Participation" ?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
+                            InkWell(onTap: (){
+
+                              AddConfirmSupplier(projectData:state.responseFarmerProjectDetail!.data!.supplierDetail!,
+                                  farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
+                              // AddLoanRemark(projectData: null,).navigate();
+                            },child: "Confirm".toString().textMedium(underLine: TextDecoration.underline),):const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,)):Visibility(visible: false,child: ''.toString().textMedium())
+                            // const SizedBox.shrink()
 
                           ],
                         ),

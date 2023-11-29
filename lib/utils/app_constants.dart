@@ -90,6 +90,7 @@ class AppConstants {
   static const String addMilestoneApi = '/api/farmer-project/add-milestone';
   static const String farmerParticipationApi = '/api/farmer-project/farmer-participation-update';
   static const String accountStatementApi = '/api/financial/account-statement';
+  static const String farmerParticipationStatusApi = '/api/financial/update-farmer-participation-status';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
