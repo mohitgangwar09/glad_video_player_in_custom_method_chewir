@@ -787,6 +787,23 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // accountStatementApi
+  Future<void> accountStatementSupplierProjectDetailApi(context,String paymentStatus,String farmerProjectId) async {
+
+    emit(state.copyWith(status: ProjectStatus.loading));
+
+    var response = await apiRepository.accountStatementSupplierProjectDetailApi(paymentStatus,farmerProjectId);
+
+    if (response.status == 200) {
+
+      emit(state.copyWith(status: ProjectStatus.success,responseAccountStatement: response,paidAmount: response.data!.summary!.paidAmount??0,
+          pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0));
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // accountStatementApi
   Future<void> accountStatementProjectDetailApi(context,String paymentStatus,String userRoleId,String farmerProjectId) async {
 
     emit(state.copyWith(status: ProjectStatus.loading));

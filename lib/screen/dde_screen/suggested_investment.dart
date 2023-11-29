@@ -852,10 +852,20 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
             value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
         ));
       }
+    }
+
+    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null){
+        kpiData.add(FrontendKpiModel(name: 'EMI',
+            image: Images.emiKpi,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!)));
+      }
 
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
         kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
             image: Images.yieldKpi,
+            actionImage: Images.menuIcon,
             value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
         ));
       }
@@ -863,15 +873,10 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
         kpiData.add(FrontendKpiModel(name: 'Remaining Payable',
             image: Images.yieldKpi,
+            actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
         ));
       }
-    }
-
-    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null){
-      kpiData.add(FrontendKpiModel(name: 'EMI',
-          image: Images.emiKpi,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!)));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!=null){
@@ -928,7 +933,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
 
                   if(kpiData[index].name.toString() == "Paid EMIs"){
                     ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
-                  }else if(kpiData[index].name.toString() == "Remaining EMI"){
+                  }else if(kpiData[index].name.toString() == "Remaining Payable"){
                     ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'remaining',).navigate();
                   }
                   // if(kpiData[index].name.toString() == "Paid EMIs"||kpiData[index].name.toString() == "Remaining EMI"){
