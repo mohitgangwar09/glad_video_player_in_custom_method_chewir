@@ -170,7 +170,6 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             Center(
                               child: customButton(
                                   state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0?"Apply for Loan":'View Document',
-                                  // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                   onTap: () {
                                     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument ==null){
@@ -183,46 +182,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                           farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
                                           farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
                                     }
-                                    // if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0){
-                                    //   ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
-                                    //       farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                    //       farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
-                                    // }else{
-                                    //   ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus).navigate();
-                                    // }
-                                  /*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null){
-                                    *//*if(state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1){
-                                      ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
-                                          farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                          farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
-                                    }else{
-                                      ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!).navigate();
-                                    }*//*
-                                    ViewLoanKyc(farmerDocuments: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!,rejectStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus).navigate();
-                                    *//*ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
-                                        farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();*//*
-                                  }else{
-                                    ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
-                                        farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
-                                  }*/
-
-                                    // KYCUpdate(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();
                                   }
-                                  /*onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'not_available' ? () {
-                                    // KYCUpdate(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString()).navigate();
-                                    ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
-                                    farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
-                                  } : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'pending' ? () {
-                                    ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
-                                        farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
-                                  } : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.kycStatus == 'verified' ? () {
-                                  } : () {
-
-                                  },*/
                               ),
                             ):const SizedBox.shrink():const SizedBox.shrink(),
 
