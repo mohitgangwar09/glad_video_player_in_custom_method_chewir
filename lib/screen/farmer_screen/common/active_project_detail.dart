@@ -267,12 +267,17 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                                                                 'Submit',
                                                                 fontColor: 0xffFFFFFF,
                                                                 onTap: () {
-                                                                  context.read<ProjectCubit>().inviteExpertForSurvey(context,
-                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                                                      '',
-                                                                      controller.text ?? '',
-                                                                      'hold',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
-                                                                  );
+                                                                  if(controller.text.isEmpty){
+                                                                      showCustomToast(context, "Please enter remarks");
+                                                                  }else {
+          context.read<ProjectCubit>().inviteExpertForSurvey(context,
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+              '',
+              controller.text ?? '',
+              'hold', state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                  .farmerId.toString()
+          );
+        }
                                                                 },
                                                                 height: 60,
                                                                 width: screenWidth(),
@@ -984,7 +989,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                                   builder: (context) {
                                     int count = 0;
                                     for(FarmerProjectTask task in state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!) {
-                                      if(task.taskStatus!.toLowerCase() == "completed" || task.taskStatus!.toLowerCase() == "approved") {
+                                      if(task.taskStatus!.toLowerCase() == "approved") {
                                         count++;
                                       }
                                     }

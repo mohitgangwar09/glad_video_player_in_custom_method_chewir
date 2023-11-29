@@ -1313,7 +1313,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                   builder: (context) {
                                     int count = 0;
                                     for(FarmerProjectTask task in state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTask!) {
-                                      if(task.taskStatus!.toLowerCase() == "completed" || task.taskStatus!.toLowerCase() == "approved") {
+                                      if(task.taskStatus!.toLowerCase() == "approved") {
                                         count++;
                                       }
                                     }

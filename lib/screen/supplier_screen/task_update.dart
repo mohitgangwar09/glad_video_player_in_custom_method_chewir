@@ -10,6 +10,7 @@ import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -63,6 +64,9 @@ class _TaskUpdateState extends State<TaskUpdate> {
                             ) : widget.task.taskStatus == 'inprogress' ? Text(
                               'In-progress',
                               style: figtreeMedium.copyWith(fontSize: 14, color: const Color(0xFFF6B51D)),
+                            ) : widget.task.taskStatus == 'rejected' ? Text(
+                              'Not Approved',
+                              style: figtreeMedium.copyWith(fontSize: 14, color: const Color(0xFFFC5E60)),
                             ) : const SizedBox.shrink(),
                             30.verticalSpace(),
                             Container(

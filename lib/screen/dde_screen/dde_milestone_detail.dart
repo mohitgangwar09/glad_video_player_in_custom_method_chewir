@@ -199,7 +199,7 @@ class _DdeMilestoneDetailState
               builder: (context) {
                 int count = 0;
                 for( FarmerProjectTask mile in state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask!) {
-                  if(mile.taskStatus == "completed" || mile.taskStatus == 'approved') {
+                  if(mile.taskStatus == 'approved') {
                     count++;
                   }
                 }
@@ -554,8 +554,7 @@ class _DdeMilestoneDetailState
                                 state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskName ?? '',
                                 style: figtreeMedium.copyWith(fontSize: 14),
                               ),
-                              checkBox2(value: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskStatus != 'pending' &&
-                                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskStatus != 'inprogress', opacity: 0.4)
+                              checkBox2(value: state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskStatus == 'approved', opacity: 0.4)
                               // widget.selectedFilter == "pending"?
                               // Padding(
                               //   padding: const EdgeInsets.all(10.0),
