@@ -18,6 +18,7 @@ import 'package:glad/screen/supplier_screen/dispute_screen.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/milestone_project_detail.dart';
 import 'package:glad/screen/supplier_screen/supplier_farmer_detail.dart';
+import 'package:glad/screen/supplier_screen/supplier_project_detail_statement.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -612,22 +613,25 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 
     if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPaidAmount!=null){
-        kpiData.add(FrontendKpiModel(name: 'Supplier Paid Amount',
+        kpiData.add(FrontendKpiModel(name: 'Earned',
             image: Images.yieldKpi,
+            actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPaidAmount!)
         ));
       }
 
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!=null){
-        kpiData.add(FrontendKpiModel(name: 'Supplier Due Amount',
+        kpiData.add(FrontendKpiModel(name: 'Due',
             image: Images.yieldKpi,
+            actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!)
         ));
       }
 
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPendingAmount!=null){
-        kpiData.add(FrontendKpiModel(name: 'Supplier Pending Amount',
+        kpiData.add(FrontendKpiModel(name: 'Pending',
             image: Images.yieldKpi,
+            actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPendingAmount!)
         ));
       }
@@ -654,12 +658,12 @@ class _ProjectDetailsState extends State<ProjectDetails> {
             child: (index){
               return InkWell(
                 onTap: (){
-                  if(kpiData[index].name == "Supplier Paid Amount"){
-                    ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'paid').navigate();
-                  }else if(kpiData[index].name == "Supplier Due Amount"){
-                    ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'due').navigate();
-                  }else{
-                    ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'pending').navigate();
+                  if(kpiData[index].name == "Earned"){
+                    SupplierProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'paid').navigate();
+                  }else if(kpiData[index].name == "Due"){
+                    SupplierProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'due').navigate();
+                  }else if(kpiData[index].name == "Pending"){
+                    SupplierProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'pending').navigate();
                   }
                 },
                 child: Container(
