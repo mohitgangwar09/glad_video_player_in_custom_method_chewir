@@ -170,6 +170,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             Center(
                               child: customButton(
                                   state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 0?"Apply for Loan":'View Document',
+                                  // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                 style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
                                   onTap: () {
                                     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument ==null){
@@ -894,7 +895,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                   if(kpiData[index].name.toString() == "Paid EMIs"){
                     ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
                   }else if(kpiData[index].name.toString() == "Remaining Payable"){
-                    ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'remaining',).navigate();
+                    ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
                   }
                   // if(kpiData[index].name.toString() == "Paid EMIs"||kpiData[index].name.toString() == "Remaining EMI"){
                   //   ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),).navigate();
@@ -926,6 +927,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               height: 30,
                             ),
                             kpiData[index].actionImage!=null?
+                            kpiData[index].name.toString() == "Farmer Participation"?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'paid'?const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,)) :
                             InkWell(
                               onTap: (){
                                 TextEditingController controller = TextEditingController();
@@ -1000,7 +1003,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                           }
                                       ));
                                 }
-                              }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()
+                              }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
 
                           ],
                         ),
