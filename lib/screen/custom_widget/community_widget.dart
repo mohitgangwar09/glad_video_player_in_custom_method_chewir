@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -13,8 +14,10 @@ class CommunityWidget extends StatefulWidget {
   final String caption;
   final String video;
   final String timeAgo;
-  final bool showAll;
+  final int likeCount;
+  final int commentCount;
   final void Function()? onTap;
+
   const CommunityWidget(
       {super.key,
       required this.name,
@@ -23,7 +26,9 @@ class CommunityWidget extends StatefulWidget {
       required this.caption,
       required this.video,
       required this.timeAgo,
-      required this.showAll, this.onTap});
+      this.onTap,
+      required this.likeCount,
+      required this.commentCount});
 
   @override
   State<CommunityWidget> createState() => _CommunityWidgetState();
@@ -33,8 +38,8 @@ class _CommunityWidgetState extends State<CommunityWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-          right: 12.0, left: 12, bottom: widget.showAll ? 20 : 0),
+      padding: const EdgeInsets.only(
+          right: 12.0, left: 12, bottom: 20),
       child: Stack(
         children: [
           InkWell(
@@ -51,7 +56,21 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Image.asset(Images.sampleUser),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(1000),
+                              child: Container(
+                                height: AppBar().preferredSize.height * 0.7,
+                                width: AppBar().preferredSize.height * 0.7,
+                                decoration:
+                                const BoxDecoration(shape: BoxShape.circle),
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.image,
+                                  errorWidget: (_, __, ___) =>
+                                      Image.asset(Images.sampleUser),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
                             15.horizontalSpace(),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,9 +81,12 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                 4.verticalSpace(),
                                 Row(
                                   children: [
-                                    Text(widget.location,
-                                        style: figtreeMedium.copyWith(
-                                            fontSize: 12, color: Colors.black)),
+                                    SizedBox(
+                                      width: screenWidth() * 0.5,
+                                      child: Text(widget.location,
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 12, color: Colors.black)),
+                                    ),
                                     10.horizontalSpace(),
                                     Text(widget.timeAgo,
                                         style: figtreeMedium.copyWith(
@@ -79,12 +101,17 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                       10.verticalSpace(),
                       Padding(
                         padding: const EdgeInsets.only(left: 17.0, right: 17),
-                        child: Text(
-                          widget.caption,
-                          maxLines: 3,
-                          style: figtreeRegular.copyWith(
-                              fontSize: 16, color: Colors.black),
-                          softWrap: true,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.caption,
+                              maxLines: 3,
+                              style: figtreeRegular.copyWith(
+                                  fontSize: 16, color: Colors.black),
+                              softWrap: true,
+                            ),
+                          ],
                         ),
                       ),
                       10.verticalSpace(),
@@ -93,8 +120,14 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                         height: 244,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            Images.sampleVideo,
+                          child: CachedNetworkImage(
+                            imageUrl: widget.video,
+                            errorWidget: (_, __, ___) =>
+                                Image.asset(
+                                  Images.sampleVideo,
+                                  width: screenWidth(),
+                                  fit: BoxFit.cover,
+                                ),
                             width: screenWidth(),
                             fit: BoxFit.cover,
                           ),
@@ -119,7 +152,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                         color: const Color(0xFF727272)),
                                     softWrap: true,
                                   ),
-                                  widget.showAll ? RichText(
+                                  widget.likeCount != 0 ? RichText(
                                       text: TextSpan(children: [
                                     TextSpan(
                                       text: ':',
@@ -128,7 +161,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                           color: const Color(0xFF727272)),
                                     ),
                                     TextSpan(
-                                      text: ' 09',
+                                      text: ' ${widget.likeCount}',
                                       style: figtreeSemiBold.copyWith(
                                           fontSize: 14, color: Colors.black),
                                     ),
@@ -146,7 +179,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                         color: const Color(0xFF727272)),
                                     softWrap: true,
                                   ),
-                                  widget.showAll ? RichText(
+                                  widget.commentCount != 0 ? RichText(
                                       text: TextSpan(children: [
                                         TextSpan(
                                           text: ':',
@@ -155,7 +188,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                               color: const Color(0xFF727272)),
                                         ),
                                         TextSpan(
-                                          text: ' 30',
+                                          text: ' ${widget.commentCount}',
                                           style: figtreeSemiBold.copyWith(
                                               fontSize: 14, color: Colors.black),
                                         ),
@@ -188,15 +221,15 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                   ),
                 )),
           ),
-          widget.showAll
-              ? Positioned(
-                  right: 20,
-                  top: 20,
-                  child: 'Add as Friend'.textMedium(
-                      color: ColorResources.maroon,
-                      fontSize: 12,
-                      underLine: TextDecoration.underline))
-              : const SizedBox.shrink(),
+          // widget.showAll
+          //     ? Positioned(
+          //         right: 20,
+          //         top: 20,
+          //         child: 'Add as Friend'.textMedium(
+          //             color: ColorResources.maroon,
+          //             fontSize: 12,
+          //             underLine: TextDecoration.underline))
+          //     : const SizedBox.shrink(),
         ],
       ),
     );

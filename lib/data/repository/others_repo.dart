@@ -1,6 +1,10 @@
 
 import 'package:dio/dio.dart';
+import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/news_list_model.dart';
+import 'package:glad/data/model/response_community_comment_list.dart';
+import 'package:glad/data/model/response_community_like_list.dart';
+import 'package:glad/data/model/response_community_list_model.dart';
 import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
@@ -56,6 +60,7 @@ class OthersRepository {
       return TrainingAndNewsCategoryModel(status: 422, message: apiResponse.msg);
     }
   }
+
   ///////////////// getTrainingCategoryApi //////////
   Future<YoutubeVideoStatisticsModel?> getVideoStatisticsApi(String videoId) async {
     String apiKey = 'AIzaSyDdkM0EySEulkkwqqB0c5Z29ddPYaY3FU0';
@@ -70,6 +75,7 @@ class OthersRepository {
       return null;
     }
   }
+
   ///////////////// getNewsListApi //////////
   Future<NewsListModel> getNewsListApi(String categoryId) async {
     var data = {"category_id": categoryId};
@@ -85,7 +91,6 @@ class OthersRepository {
     }
   }
 
-
   ///////////////// getTrainingCategoryApi //////////
   Future<TrainingAndNewsCategoryModel> getNewsCategoryApi() async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
@@ -98,6 +103,82 @@ print(apiResponse.response!.data);
       return TrainingAndNewsCategoryModel(status: 422, message: apiResponse.msg);
     }
   }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseCommunityList> getCommunityListApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestCommunityListApi : AppConstants.communityListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseCommunityList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseCommunityList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseCommunityLikeList> getLikeListApi(String communityId) async {
+    var data = {'id': communityId};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestLikeListApi : AppConstants.likeListApi, queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseCommunityLikeList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseCommunityLikeList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseCommunityCommentList> getCommentListApi(String communityId) async {
+    var data = {'id': communityId};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestCommentListApi : AppConstants.commentListApi, queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseCommunityCommentList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseCommunityCommentList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseOtpModel> addCommentApi(String communityId, String comment) async {
+    var data = {'community_id': communityId, 'comment': comment};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addCommentApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+ ///////////////// getCommunityListApi //////////
+  Future<ResponseOtpModel> addPostApi(String remark, String path) async {
+      var data = FormData.fromMap({'remark': remark});
+      data.files.add(MapEntry(
+          'community_document_files[]', await MultipartFile.fromFile(path)));
+
+      api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+          .getPostApiResponse(AppConstants.addPostApi, data: data,
+          headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+      if (apiResponse.status) {
+        return ResponseOtpModel.fromJson(apiResponse.response!.data);
+      } else {
+        return ResponseOtpModel(status: 422, message: apiResponse.msg);
+      }
+    }
 
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);

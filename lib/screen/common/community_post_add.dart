@@ -1,16 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class CommunityPostAdd extends StatelessWidget {
+class CommunityPostAdd extends StatefulWidget {
   const CommunityPostAdd({super.key});
+
+  @override
+  State<CommunityPostAdd> createState() => _CommunityPostAddState();
+}
+
+class _CommunityPostAddState extends State<CommunityPostAdd> {
+  TextEditingController description = TextEditingController();
+  String? path;
 
   @override
   Widget build(BuildContext context) {
@@ -44,123 +57,161 @@ class CommunityPostAdd extends StatelessWidget {
           child: Column(
             children: [
               20.verticalSpace(),
-              const CustomTextField2(
+              CustomTextField2(
                 title: 'What do you want to talk about...',
                 hint: 'Write..',
                 maxLine: 7,
                 minLine: 7,
+                height: null,
+                controller: description,
               ),
               20.verticalSpace(),
-              Row(
-                children: [
-                  5.horizontalSpace(),
-                  'Add Photo (s)'.textMedium(color: Colors.black, fontSize: 12),
-                ],
+              Visibility(
+                  visible: path == null,
+                child: Row(
+                  children: [
+                    5.horizontalSpace(),
+                    'Add Photo'.textMedium(color: Colors.black, fontSize: 12),
+                  ],
+                ),
               ),
               5.verticalSpace(),
-              Stack(
-                children: [
-                  ContainerBorder(
-                    margin: 0.marginVertical(),
-                    padding: 10.paddingOnly(top: 15, bottom: 15),
-                    borderColor: 0xffD9D9D9,
-                    backColor: 0xffFFFFFF,
-                    radius: 10,
-                    widget: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        5.horizontalSpace(),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, top: 2, bottom: 2),
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: 'Choose ',
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 16,
-                                              color:
-                                              const Color(0xFFFC5E60))),
-                                      TextSpan(
-                                          text: 'your file here',
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 16,
-                                              color: ColorResources
-                                                  .fieldGrey))
-                                    ])),
-                                Text('Max size 20 MB',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources
-                                            .fieldGrey))
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (null != null)
-                    Visibility(
-                      visible: '' == '' ? false : true,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 5.0, top: 7),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              Images.errorIcon,
-                              width: 20,
-                              height: 20,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 7.0),
-                                child: Text(
-                                  ''.toString(),
-                                  style: figtreeRegular.copyWith(
-                                    color: const Color(0xff929292),
-                                  ),
-                                ),
+              Visibility(
+                visible: path == null,
+                child: Stack(
+                  children: [
+                    ContainerBorder(
+                      margin: 0.marginVertical(),
+                      padding:
+                      10.paddingOnly(top: 15, bottom: 15),
+                      borderColor: 0xffD9D9D9,
+                      backColor: 0xffFFFFFF,
+                      radius: 10,
+                      widget: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        children: [
+                          5.horizontalSpace(),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0, top: 2, bottom: 2),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                      text: TextSpan(children: [
+                                        TextSpan(
+                                            text: 'Choose ',
+                                            style: figtreeMedium
+                                                .copyWith(
+                                                fontSize: 16,
+                                                color: const Color(
+                                                    0xFFFC5E60))),
+                                        TextSpan(
+                                            text: 'you file here',
+                                            style: figtreeMedium
+                                                .copyWith(
+                                                fontSize: 16,
+                                                color:
+                                                ColorResources
+                                                    .fieldGrey))
+                                      ])),
+                                  Text('Max size 5 MB',
+                                      style:
+                                      figtreeMedium.copyWith(
+                                          fontSize: 12,
+                                          color:
+                                          ColorResources
+                                              .fieldGrey))
+                                ],
                               ),
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 13,
+                      top: 0,
+                      bottom: 0,
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                                path = await imgFromGallery();
+                                setState(() {});
+                            },
+                            child: SvgPicture.asset(
+                              Images.attachment,
+                              colorFilter: const ColorFilter.mode(
+                                  ColorResources.fieldGrey,
+                                  BlendMode.srcIn),
+                            ),
+                          ),
+                            Row(children: [
+                              10.horizontalSpace(),
+                              InkWell(
+                                onTap: () async{
+                                  path = await imgFromCamera();
+                                  setState(() {});
+                                },
+                                child: SvgPicture.asset(
+                                  Images.camera,
+                                  colorFilter: const ColorFilter.mode(
+                                      ColorResources.fieldGrey,
+                                      BlendMode.srcIn),
+                                ),
+                              )
+                            ],),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              20.verticalSpace(),
+              path != null ?
+              Stack(
+                children: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.file(File(path!), fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
+                  Positioned(
+                    right: 5,
+                    top: 5,
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          path = null;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(200),
+                            color: Colors.white),
+                        child: SvgPicture.asset(
+                          Images.cancelImage,
                         ),
                       ),
                     ),
-                  Positioned(
-                    right: 13,
-                    top: 0,
-                    bottom: 0,
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          Images.attachment,
-                          colorFilter: const ColorFilter.mode(
-                              ColorResources.fieldGrey,
-                              BlendMode.srcIn),
-                        ),
-                        10.horizontalSpace(),
-                        SvgPicture.asset(
-                          Images.camera,
-                          colorFilter: const ColorFilter.mode(
-                              ColorResources.fieldGrey,
-                              BlendMode.srcIn),
-                        )
-                      ],
-                    ),
                   ),
                 ],
-              ),
+              ) : const SizedBox.shrink(),
               40.verticalSpace(),
-              customButton('Post', onTap: (){}, fontColor: 0xFFFFFFFF, width: screenWidth(), height: 60)
+              customButton('Post', onTap: (){
+                  if(description.text.isEmpty) {
+                    showCustomToast(context, 'Description required');
+                  } else if(path == null) {
+                    showCustomToast(context, 'Photo required');
+                  } else {
+                    context.read<CommunityCubit>()
+                        .addPostApi(context, description.text, path!);
+                  }
+              }, fontColor: 0xFFFFFFFF, width: screenWidth(), height: 60)
             ],
           ),
         ),

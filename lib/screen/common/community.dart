@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -15,57 +16,99 @@ import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class CommunityPost extends StatelessWidget {
+class CommunityPost extends StatefulWidget {
   const CommunityPost({super.key});
 
+  @override
+  State<CommunityPost> createState() => _CommunityPostState();
+}
+
+class _CommunityPostState extends State<CommunityPost> {
+
+  @override
+  void initState() {
+    BlocProvider.of<CommunityCubit>(context).communityListApi(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
     BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
 
     return Scaffold(
-      body: Stack(
-        children: [
-          landingBackground(),
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Community',
-                titleText1Style:
-                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-                centerTitle: true,
-                leading: BlocProvider.of<ProfileCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'mcc' ?
-                const SizedBox.shrink()
-                    : openDrawer(
-                    onTap: () {
-                      if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'dde') {
-                        ddeLandingKey.currentState?.openDrawer();
-                      } else if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'farmer') {
-                        farmerLandingKey.currentState?.openDrawer();
-                      } else if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'supplier') {
-                        supplierLandingKey.currentState?.openDrawer();
-                      } else if(!BlocProvider.of<LandingPageCubit>(context).sharedPreferences.containsKey(AppConstants.userType)) {
-                        landingKey.currentState?.openDrawer();
-                      }
-                    },
-                    child: SvgPicture.asset(Images.drawer)),
-                // action: InkWell(
-                //     onTap: () {}, child: SvgPicture.asset(Images.filter2)),
-              ),
-              listviewDetails(),
-            ],
-          ),
-        ],
+      body: BlocBuilder<CommunityCubit, CommunityCubitState>(
+        builder: (context, state) {
+      if (state.status == CommunityStatus.submit) {
+        return const Center(
+            child: CircularProgressIndicator(
+              color: ColorResources.maroon,
+            ));
+      } else if (state.responseCommunityList == null) {
+        return Center(
+            child: Text("${state.responseCommunityList} Api Error"));
+      } else {
+        return Stack(
+          children: [
+            landingBackground(),
+            Column(
+              children: [
+                CustomAppBar(
+                  context: context,
+                  titleText1: 'Community',
+                  titleText1Style:
+                  figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                  centerTitle: true,
+                  leading: BlocProvider
+                      .of<ProfileCubit>(context)
+                      .sharedPreferences
+                      .getString(AppConstants.userType) == 'mcc' ?
+                  const SizedBox.shrink()
+                      : openDrawer(
+                      onTap: () {
+                        if (BlocProvider
+                            .of<LandingPageCubit>(context)
+                            .sharedPreferences
+                            .getString(AppConstants.userType) == 'dde') {
+                          ddeLandingKey.currentState?.openDrawer();
+                        } else if (BlocProvider
+                            .of<LandingPageCubit>(context)
+                            .sharedPreferences
+                            .getString(AppConstants.userType) == 'farmer') {
+                          farmerLandingKey.currentState?.openDrawer();
+                        } else if (BlocProvider
+                            .of<LandingPageCubit>(context)
+                            .sharedPreferences
+                            .getString(AppConstants.userType) == 'supplier') {
+                          supplierLandingKey.currentState?.openDrawer();
+                        } else if (!BlocProvider
+                            .of<LandingPageCubit>(context)
+                            .sharedPreferences
+                            .containsKey(AppConstants.userType)) {
+                          landingKey.currentState?.openDrawer();
+                        }
+                      },
+                      child: SvgPicture.asset(Images.drawer)),
+                  // action: InkWell(
+                  //     onTap: () {}, child: SvgPicture.asset(Images.filter2)),
+                ),
+                listviewDetails(state),
+              ],
+            ),
+          ],
+        );
+      }
+        }
       ),
     );
   }
 
-  Widget listviewDetails() {
+  Widget listviewDetails(CommunityCubitState state) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -92,18 +135,24 @@ class CommunityPost extends StatelessWidget {
             ),
             20.verticalSpace(),
             customList(
-              list: [1, 2, 3, 4, 5, 6, 7],
+              list: state.responseCommunityList!.data ?? [],
               child: (index) => CommunityWidget(
-                name: 'Begumanya Charles',
-                location: 'Kampala, Uganda',
-                image: '',
-                caption:
-                    'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
-                video: '',
-                timeAgo: '5 Hrs ago',
-                showAll: true,
+                name: state.responseCommunityList!.data![index].user!.name ?? '',
+                location: state.responseCommunityList!.data![index].user!.address != null
+                    ? state.responseCommunityList!.data![index].user!.address!.address != null
+                    && state.responseCommunityList!.data![index].user!.address!.subCounty != null
+                    ? state.responseCommunityList!.data![index].user!.address!.subCounty! +
+                    state.responseCommunityList!.data![index].user!.address!.address!
+                    : ''
+                    : '',
+                image: state.responseCommunityList!.data![index].user!.profilePic ?? '',
+                caption: state.responseCommunityList!.data![index].remark ?? '',
+                video: state.responseCommunityList!.data![index].communityDocumentFiles![0].originalUrl ?? '',
+                timeAgo: '${getAge(DateTime.parse(state.responseCommunityList!.data![index].createdAt ?? ''))} ago',
+                likeCount: state.responseCommunityList!.data![index].communityLikesCount ?? 0,
+                commentCount: state.responseCommunityList!.data![index].communityCommentsCount ?? 0,
                 onTap: () {
-                  const CommunityPostDetail().navigate();
+                  CommunityPostDetail(data: state.responseCommunityList!.data![index]).navigate();
                 },
               ),
             ),

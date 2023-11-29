@@ -1,14 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:glad/data/model/response_community_list_model.dart';
 
 class CommunityPostDetail extends StatelessWidget {
-  const CommunityPostDetail({super.key});
+  const CommunityPostDetail({super.key, required this.data});
+  final Data data;
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +32,44 @@ class CommunityPostDetail extends StatelessWidget {
                     children: [
                       arrowBackButton(),
                       14.horizontalSpace(),
-                      Image.asset(Images.sampleUser),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(1000),
+                        child: Container(
+                          height: AppBar().preferredSize.height * 0.7,
+                          width: AppBar().preferredSize.height * 0.7,
+                          decoration:
+                          const BoxDecoration(shape: BoxShape.circle),
+                          child: CachedNetworkImage(
+                            imageUrl: data.user!.profilePic ?? '',
+                            errorWidget: (_, __, ___) =>
+                                Image.asset(Images.sampleUser),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       10.horizontalSpace(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Begumanya Charles',
+                          Text(data.user!.name ?? '',
                               style: figtreeMedium.copyWith(
                                   fontSize: 18, color: Colors.black)),
                           Row(
                             children: [
-                              Text('Kampala, Uganda',
-                                  style: figtreeRegular.copyWith(
-                                      fontSize: 12, color: Colors.black)),
+                              SizedBox(
+                                width: screenWidth() * 0.3,
+                                child: Text(data.user!.address != null
+                                    ? data.user!.address!.address != null && data.user!.address!.subCounty != null
+                                    ? data.user!.address!.subCounty! + data.user!.address!.address!
+                                    : ''
+                                    : '',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12, color: Colors.black),
+                                    maxLines: 1,),
+                              ),
                               10.horizontalSpace(),
-                              Text('5 Hrs ago',
+                              Text('${getAge(DateTime.parse(data.createdAt ?? ''))} ago',
                                   style: figtreeMedium.copyWith(
                                       fontSize: 12, color: Colors.black)),
                             ],
@@ -57,7 +83,7 @@ class CommunityPostDetail extends StatelessWidget {
               ),
             ),
           ),
-          listviewDetails(),
+          listviewDetails(data),
           Container(
             height: AppBar().preferredSize.height * 1.4,
             width: screenWidth(),
@@ -79,18 +105,23 @@ class CommunityPostDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    SvgPicture.asset(Images.commentButton, color: Colors.white,),
-                    4.horizontalSpace(),
-                    Text(
-                      'Comment',
-                      style: figtreeRegular.copyWith(
-                          fontSize: 14,
-                          color: Colors.white),
-                      softWrap: true,
-                    ),
-                  ],
+                InkWell(
+                  onTap: () {
+                    CommunityCommentList(communityId: data.id.toString()).navigate();
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(Images.commentButton, color: Colors.white,),
+                      4.horizontalSpace(),
+                      Text(
+                        'Comment',
+                        style: figtreeRegular.copyWith(
+                            fontSize: 14,
+                            color: Colors.white),
+                        softWrap: true,
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
@@ -118,7 +149,7 @@ class CommunityPostDetail extends StatelessWidget {
     );
   }
 
-  Widget listviewDetails() {
+  Widget listviewDetails(Data data) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -126,29 +157,40 @@ class CommunityPostDetail extends StatelessWidget {
             20.verticalSpace(),
             Stack(
               children: [
-                Image.asset(
-                  Images.sampleVideo,
+                CachedNetworkImage(
+                  imageUrl: data.communityDocumentFiles![0].originalUrl ?? '',
+                  errorWidget: (_, __, ___) =>
+                      Image.asset(
+                        Images.sampleVideo,
+                        width: screenWidth(),
+                        fit: BoxFit.cover,
+                      ),
                   width: screenWidth(),
                   fit: BoxFit.cover,
                 ),
-                Positioned(
-                  right: 10,
-                    top: 10,
-                    child: customButton(
-                  'Add as Friend',
-                  onTap: () {},
-                  width: 110,
-                  height: 30,
-                      style: figtreeMedium.copyWith(color: Colors.white, fontSize: 12)
-                ))
+                // Positioned(
+                //   right: 10,
+                //     top: 10,
+                //     child: customButton(
+                //   'Add as Friend',
+                //   onTap: () {},
+                //   width: 110,
+                //   height: 30,
+                //       style: figtreeMedium.copyWith(color: Colors.white, fontSize: 12)
+                // ))
               ],
             ),
             20.verticalSpace(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child:
-                  """Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.Lorem Ipsum has been the industry's.Standard dummy text ever since the 1500s, when an unknown printer took a galley."""
-                      .textRegular(fontSize: 16, color: Colors.black),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child:
+                      data.remark.toString()
+                          .textRegular(fontSize: 16, color: Colors.black),
+                ),
+              ],
             )
           ],
         ),
