@@ -602,8 +602,10 @@ class ProjectRepository {
 
 
     var data = {
+      /*"user_role" : sharedPreferences!.getString(AppConstants.userType),
+      "user_role_id" : sharedPreferences!.getString(AppConstants.userRoleId),*/
       "user_role" : sharedPreferences!.getString(AppConstants.userType),
-      "user_role_id" : sharedPreferences!.getString(AppConstants.userRoleId),
+      "user_role_id" : userRoleId,
       "payment_status" : paymentStatus,
       "farmer_project_id" : farmerProjectId,
     };
