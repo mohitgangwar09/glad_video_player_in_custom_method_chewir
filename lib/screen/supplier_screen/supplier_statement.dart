@@ -301,7 +301,7 @@ class _SupplierStatementState extends State<SupplierStatement> {
                                                     const Color(0xffF6B51D),
                                                     borderRadius: 40,
                                                     borderWidth: 1),
-                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount??0).toString().textBold(
+                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount??0+state.responseAccountStatement!.data!.farmerProjectFinancial![index].receivableAmount??0).toString().textBold(
                                                     fontSize: 18,
                                                     color:
                                                     ColorResources.black),

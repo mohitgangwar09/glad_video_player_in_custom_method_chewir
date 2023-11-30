@@ -295,8 +295,8 @@ class _ProjectsState extends State<Projects> {
                                     projectPercent: 0,
                                     projectId: state.responseSupplierProject!.data!
                                         .projectList![i].id ?? 0,
-                                    farmerDetail: state.responseSupplierProject!.data!
-                                        .projectList![i].farmerMaster!,
+                                    // farmerDetail: state.responseSupplierProject!.data!
+                                    //     .projectList![i].farmerMaster!,
                                   selectedFilter: selectedFilter,
                                   milestones: state.responseSupplierProject!.data!.projectList![i].farmerProjectMilestones!,
 

@@ -725,6 +725,27 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// farmerParticipationApi //////////
+  Future<ResponseOtpModel> farmerParticipationStatusApi(String farmerProjectId
+      ) async {
+
+    var data = {
+      'farmer_project_id' : farmerProjectId
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.farmerParticipationStatusApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: data);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+
+  }
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

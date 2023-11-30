@@ -25,11 +25,11 @@ class ProjectSupplierWidget extends StatelessWidget {
   final String farmerAddress;
   final dynamic projectPercent;
   final int projectId;
-  final FarmerMaster farmerDetail;
+  // final FarmerMaster farmerDetail;
   final String selectedFilter;
   final List<FarmerProjectMilestones> milestones;
-
-  const ProjectSupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,required this.selectedFilter, required this.milestones}) : super(key: key);
+  // ,required this.farmerDetail
+  const ProjectSupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.selectedFilter, required this.milestones}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

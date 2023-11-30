@@ -595,8 +595,8 @@ class _SupplierProjectMilestoneDetailState
                           ) : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskCompletionDate ?? '')),
+                              Text(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskCompletionDate!=null?
+                                DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].farmerProjectTask![index].taskCompletionDate ?? '')):'',
                                 style: figtreeMedium.copyWith(fontSize: 14, color: Colors.black),
                               ),
                               10.verticalSpace(),

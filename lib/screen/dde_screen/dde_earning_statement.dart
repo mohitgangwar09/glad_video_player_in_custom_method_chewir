@@ -74,6 +74,7 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                 Expanded(
                   child: InkWell(
                     onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).statusColor('paid');
                       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'paid');
                     },
                     child: Container(
@@ -81,7 +82,7 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              width: 1, color: ColorResources.paidGreen),
+                              width: state.statusLoan == 'paid'?2:1, color: state.statusLoan == 'paid'?ColorResources.paidGreen:const Color(0xffDCDCDC)),
                           borderRadius: BorderRadius.circular(15)),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,6 +110,7 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                 Expanded(
                   child: InkWell(
                     onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).statusColor('due');
                       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
                     },
                     child: Container(
@@ -116,7 +118,7 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              width: 1, color: ColorResources.paidGreen),
+                              width: state.statusLoan == 'due'?2:1, color: state.statusLoan == 'due'?const Color(0xffF6B51D):const Color(0xffDCDCDC)),
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,6 +146,7 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                 Expanded(
                   child: InkWell(
                     onTap: (){
+                      BlocProvider.of<ProjectCubit>(context).statusColor('pending');
                       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'pending');
                     },
                     child: Container(
@@ -151,7 +154,7 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              width: 1, color: ColorResources.paidGreen),
+                              width: state.statusLoan == 'pending'?2:1, color: state.statusLoan == 'pending'?const Color(0xff6A0030):const Color(0xffDCDCDC)),
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -294,7 +297,7 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                                                     const Color(0xffF6B51D),
                                                     borderRadius: 40,
                                                     borderWidth: 1),
-                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount??0).toString().textBold(
+                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount??0+state.responseAccountStatement!.data!.farmerProjectFinancial![index].receivableAmount??0).toString().textBold(
                                                     fontSize: 18,
                                                     color:
                                                     ColorResources.black),

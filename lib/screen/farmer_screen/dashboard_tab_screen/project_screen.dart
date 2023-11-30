@@ -179,11 +179,13 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       0,
                                   roi: state.responseFarmerProject!.data!
                                       .projectList![i].roiPerYear ?? 0,
-                                  category: state.responseFarmerProject!.data!
+                                  category: state.responseDdeProject!.data!
                                       .projectList![i].farmerImprovementArea !=
-                                      null ? (state.responseFarmerProject!.data!
+                                      null ? state.responseDdeProject!.data!
                                       .projectList![i].farmerImprovementArea!
-                                      .improvementArea!.name ?? '') : '',
+                                      .improvementArea!=null?state.responseDdeProject!.data!
+                                      .projectList![i].farmerImprovementArea!
+                                      .improvementArea!.name ?? '':'' : '',
                                   projectId: state.responseFarmerProject!.data!
                                       .projectList![i].id ?? 0,
                                   selectedFilter: selectedFilter,

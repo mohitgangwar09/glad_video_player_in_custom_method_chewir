@@ -680,7 +680,8 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                               width: 30,
                               height: 30,
                             ),
-                            kpiData[index].actionImage!=null?
+                            /*kpiData[index].actionImage!=null?
+
                             InkWell(
                                 onTap: (){
                                   TextEditingController controller = TextEditingController();
@@ -755,7 +756,90 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                             }
                                         ));
                                   }
-                                }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()
+                                }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()*/
+
+                            kpiData[index].actionImage!=null?
+                            kpiData[index].name.toString() == "Farmer Participation"?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?
+                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.watch_later,color: Colors.amber,size: 20,)):
+                            InkWell(
+                                onTap: (){
+                                  TextEditingController controller = TextEditingController();
+                                  controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
+                                  if(kpiData[index].name.toString() == "Farmer Participation"){
+                                    modalBottomSheetMenu(context,
+                                        radius: 40,
+                                        child: StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return SizedBox(
+                                                height: 320,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                  child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Center(
+                                                          child: Text(
+                                                            'Farmer Participation',
+                                                            style: figtreeMedium.copyWith(fontSize: 22),
+                                                          ),
+                                                        ),
+                                                        30.verticalSpace(),
+
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              'Participation Value',
+                                                              style: figtreeMedium.copyWith(fontSize: 12),
+                                                            ),
+                                                            5.verticalSpace(),
+                                                            TextField(
+                                                              controller: controller,
+                                                              maxLines: 1,
+                                                              keyboardType: TextInputType.number,
+                                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                                              minLines: 1,
+                                                              decoration: InputDecoration(
+                                                                  hintText: 'Enter participation value',
+                                                                  hintStyle:
+                                                                  figtreeMedium.copyWith(fontSize: 18),
+                                                                  border: OutlineInputBorder(
+                                                                      borderRadius: BorderRadius.circular(12),
+                                                                      borderSide: const BorderSide(
+                                                                        width: 1,
+                                                                        color: Color(0xff999999),
+                                                                      ))),
+                                                            ),
+                                                            30.verticalSpace(),
+                                                            Padding(
+                                                              padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                              child: customButton(
+                                                                'Submit',
+                                                                fontColor: 0xffFFFFFF,
+                                                                onTap: () {
+                                                                  if(controller.text.isEmpty){
+                                                                    showCustomToast(context, "Please enter participation value");
+                                                                  }else{
+                                                                    BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
+                                                                  }
+                                                                },
+                                                                height: 60,
+                                                                width: screenWidth(),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ]),
+                                                ),
+                                              );
+                                            }
+                                        ));
+                                  }
+                                }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
+                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
+                                :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
                             /*kpiData[index].actionImage!=null?
                             SvgPicture.asset(kpiData[index].actionImage.toString()):
                                 const SizedBox.shrink()*/

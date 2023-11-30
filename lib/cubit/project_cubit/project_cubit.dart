@@ -27,6 +27,7 @@ import 'package:glad/screen/supplier_screen/dispute_screen.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/reject_screen.dart';
 import 'package:glad/screen/supplier_screen/survey_finished.dart';
+import 'package:glad/screen/supplier_screen/thankyou_confirm_participation.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -1019,6 +1020,25 @@ class ProjectCubit extends Cubit<ProjectState> {
 
       showCustomToast(context, response.message.toString());
       await farmerProjectMilestoneDetailApi(context,milestoneId);
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // farmerParticipationStatusApi
+  void farmerParticipationStatusApi(context,String farmerProjectId) async {
+
+    customDialog(widget: launchProgress());
+
+    var response = await apiRepository.farmerParticipationStatusApi(farmerProjectId);
+
+    disposeProgress();
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+      const ThankYouConfirm().navigate(isInfinity: true);
 
     } else {
       showCustomToast(context, response.message.toString());
