@@ -164,26 +164,30 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                             )):
                         const SizedBox.shrink(),
                         40.verticalSpace(),
-                        Center(
-                          child: customButton("Raise dispute",
-                              fontColor: 0xffffffff,
-                              color: 0xFFFC5E60,
-                              width: screenWidth(),
-                              height: 60,
-                              onTap: () {
-                                AddRemarkDisputeScreen(project: state.responseFarmerProjectDetail!.data!.farmerProject![0], farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id).navigate();
-
-                              }),
-                        ),
-                        10.verticalSpace(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                          child: Text(
-                            'Tap above to raise dispute on this project. Glad legal department will look into it.',
-                            style: figtreeRegular.copyWith(fontSize: 10,
-                                color: ColorResources.fieldGrey),
-                            textAlign: TextAlign.center,
-                          ),
+                        state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?const SizedBox.shrink():
+                        Column(
+                          children: [
+                            Center(
+                              child: customButton("Raise dispute",
+                                  fontColor: 0xffffffff,
+                                  color: 0xFFFC5E60,
+                                  width: screenWidth(),
+                                  height: 60,
+                                  onTap: () {
+                                    AddRemarkDisputeScreen(project: state.responseFarmerProjectDetail!.data!.farmerProject![0], farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id).navigate();
+                                  }),
+                            ),
+                            10.verticalSpace(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                              child: Text(
+                                'Tap above to raise dispute on this project. Glad legal department will look into it.',
+                                style: figtreeRegular.copyWith(fontSize: 10,
+                                    color: ColorResources.fieldGrey),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
                         40.verticalSpace(),
                       ],
@@ -625,6 +629,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!=null){
         kpiData.add(FrontendKpiModel(name: 'Due',
             image: Images.yieldKpi,
+            // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == 'completed'?null:
             actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!)
         ));
@@ -660,6 +665,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
             child: (index){
               return InkWell(
                 onTap: (){
+                  // if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"){}else{
                   if(kpiData[index].name == "Earned"){
                     SupplierProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'paid').navigate();
                   }else if(kpiData[index].name == "Due"){
@@ -667,6 +673,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   }else if(kpiData[index].name == "Pending"){
                     SupplierProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status:'pending').navigate();
                   }
+                // }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -694,16 +701,21 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                               height: 30,
                             ),
 
+                            // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == 'completed'?const SizedBox.shrink():
                             kpiData[index].actionImage!=null?
                             SvgPicture.asset(kpiData[index].actionImage.toString()):
                             kpiData[index].name.toString() == "Farmer Participation" ?
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?
+                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.watch_later,color: Colors.amber,size: 20,)):
                             InkWell(onTap: (){
 
                               AddConfirmSupplier(projectData:state.responseFarmerProjectDetail!.data!.supplierDetail!,
                                   farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
                               // AddLoanRemark(projectData: null,).navigate();
-                            },child: "Confirm".toString().textMedium(underLine: TextDecoration.underline),):const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,)):Visibility(visible: false,child: ''.toString().textMedium())
+                            },child: "Confirm".toString().textMedium(underLine: TextDecoration.underline),):
+                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
+                                :Visibility(visible: false,child: ''.toString().textMedium())
                             // const SizedBox.shrink()
 
                           ],

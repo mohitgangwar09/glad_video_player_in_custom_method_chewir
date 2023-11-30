@@ -897,9 +897,6 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                   }else if(kpiData[index].name.toString() == "Remaining Payable"){
                     ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
                   }
-                  // if(kpiData[index].name.toString() == "Paid EMIs"||kpiData[index].name.toString() == "Remaining EMI"){
-                  //   ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),).navigate();
-                  // }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -928,7 +925,9 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             ),
                             kpiData[index].actionImage!=null?
                             kpiData[index].name.toString() == "Farmer Participation"?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'paid'?const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,)) :
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?
+                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.watch_later,color: Colors.amber,size: 20,)):
                             InkWell(
                               onTap: (){
                                 TextEditingController controller = TextEditingController();
@@ -1003,7 +1002,9 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                           }
                                       ));
                                 }
-                              }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
+                              }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
+                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
+                                :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
 
                           ],
                         ),
