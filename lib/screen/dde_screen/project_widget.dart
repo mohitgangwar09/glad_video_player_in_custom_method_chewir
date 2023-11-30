@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/dde_project_model.dart';
@@ -8,6 +9,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/suggested_investment.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class ProjectWidget extends StatelessWidget {
@@ -191,6 +193,8 @@ class ProjectWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+                      selectedFilter == "completed"?
+                      SvgPicture.asset(Images.paid):const SizedBox.shrink(),
                       if(selectedFilter == 'active')
                       Builder(
                           builder: (context) {

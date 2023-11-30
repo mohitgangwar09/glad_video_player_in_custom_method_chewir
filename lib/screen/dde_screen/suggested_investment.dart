@@ -5,6 +5,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -101,7 +102,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             description(state),
                             30.verticalSpace(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!=null?
-                            farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!):const SizedBox.shrink(),
+                            farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,state):const SizedBox.shrink(),
                             20.verticalSpace(),
                             if(state.responseFarmerProjectDetail!.data!.supplierDetail != null)
                             supplier(context, state),
@@ -492,6 +493,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                   );
                 }
             )
+            else if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed")
+            SvgPicture.asset(Images.paid)
           ],
         ),
         10.verticalSpace(),
@@ -508,7 +511,198 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
 
   ///////////SupplierContainerTimeline/////////////
   Widget supplier(context, ProjectState state) {
-    return Stack(
+    return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
+    Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(height: 230, width: screenWidth()),
+        Container(
+          height: 170,
+          width: screenWidth(),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: ColorResources.grey)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                        radius: 30,
+                        child: CachedNetworkImage(
+                          imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() == false.toString() ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.photo ?? '',
+                          errorWidget: (_, __, ___) {
+                            return Image.asset(
+                              Images.sampleUser,
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            );
+                          },
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        )),
+                    15.horizontalSpace(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.name ?? '',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 16, color: Colors.black)),
+                        10.verticalSpace(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.call,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                            Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 12, color: Colors.black)),
+                          ],
+                        ),
+                        4.verticalSpace(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.location_on,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width *
+                                  0.5,
+                              child: Text(
+                                state.responseFarmerProjectDetail!.data!.supplierDetail!.address != null
+                                    ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"] != null
+                                    && state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] != null
+                                    ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] +
+                                    state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"]
+                                    : ''
+                                    : '',
+                                style: figtreeRegular.copyWith(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      ],
+                    )
+                  ],
+                ),
+
+                /*Column(
+                  children: [
+                    20.verticalSpace(),
+                    Container(
+                      decoration: boxDecoration(
+                          borderRadius: 15,
+                          backgroundColor: const Color(0xffFFF3F4),
+                          borderColor: const Color(0xff6A0030)
+                        // c: const Color(0xff6A0030),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                        child: Text('Give your feedback',
+                          style: figtreeSemiBold.copyWith(
+                              color: const Color(0xff000000),
+                              fontSize: 14
+                          ),),
+                      ),
+                    ),
+                  ],
+                ),*/
+
+                Container(
+                  width: screenWidth(),
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(right: 12,top: 5),
+                  decoration: boxDecoration(
+                    backgroundColor: const Color(0xffFFF3F4),
+                    borderRadius: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          "Your feedback:".toString().textMedium(
+                              color: Colors.black,
+                              fontSize: 14
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: RatingBar.builder(
+                              initialRating: 4,
+                              minRating: 0,
+                              itemSize: 20,
+                              direction: Axis.horizontal,
+                              allowHalfRating: false,
+                              itemCount: 5,
+                              itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Color(0xffFFAA00),
+                              ),
+                              onRatingUpdate: (ratings) {
+                                // print(ratings);
+                                // onRatingUpdate!(ratings);
+                                // rating = ratings.toString();
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                      4.verticalSpace(),
+                      "Many desktop publishing packages and web page editors...dd fd fd fd".textRegular(fontSize: 12,
+                      maxLines: 2,overflow: TextOverflow.ellipsis)
+                    ],
+                  ),
+                )
+
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+            top: -1,
+            left: 0,
+            child: Text(
+              'Supplier',
+              style: figtreeMedium.copyWith(fontSize: 20),
+            )),
+        Positioned(
+            top: 0,
+            right: 10,
+            child: Row(
+              children: [
+                InkWell(
+                    onTap: (){
+                      callOnMobile(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  await launchWhatsApp(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
+                },child: SvgPicture.asset(Images.whatsapp)),
+                6.horizontalSpace(),
+              ],
+            )),
+      ],
+    ):
+    Stack(
       alignment: Alignment.center,
       children: [
         SizedBox(height: 150, width: screenWidth()),
@@ -625,8 +819,328 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
   }
 
 ///////////farmerDetail/////////////
-  Widget farmerDetail(context, FarmerMaster farmerDetail) {
-    return Stack(
+  Widget farmerDetail(context, FarmerMaster farmerDetail,ProjectState state) {
+    return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
+    Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(height: 210, width: screenWidth()),
+        InkWell(
+          onTap: () {
+            BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+            BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
+            DdeFarmerDetail(userId: farmerDetail.userId!,farmerId:farmerDetail.id!).navigate();
+          },
+          child: Container(
+            height: 150,
+            width: screenWidth(),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: ColorResources.grey)),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      farmerDetail.photo!=null?
+                      CircleAvatar(
+                          radius: 33,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40),
+                            child: CachedNetworkImage(
+                              imageUrl: farmerDetail.photo ?? '',
+                              errorWidget: (_, __, ___) {
+                                return Image.asset(
+                                  Images.sampleUser,
+                                  fit: BoxFit.cover,
+                                  width: 80,
+                                  height: 80,
+                                );
+                              },
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            ),
+                          )) :
+                      CircleAvatar(
+                        radius: 30,
+                        child: Image.asset(
+                          Images.sampleUser,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        ),
+                      ),
+                      15.horizontalSpace(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(farmerDetail.name ?? '',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 16, color: Colors.black)),
+                          10.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.call,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              Text(farmerDetail.phone ?? '',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ],
+                          ),
+                          4.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.5,
+                                child: Text(farmerDetail.address!=null?
+                                farmerDetail.address!.address!=null ?farmerDetail.address!.address!.toString():"":"",
+                                  style: figtreeRegular.copyWith(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      )
+                    ],
+                  ),
+
+                  Column(
+                  children: [
+                    20.verticalSpace(),
+                    InkWell(
+                      onTap: (){
+                        TextEditingController controller = TextEditingController();
+                        String date = '';
+                        modalBottomSheetMenu(context,
+                            radius: 40,
+                            child: StatefulBuilder(
+                                builder: (context, setState) {
+                                  return SizedBox(
+                                    height: 450,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                      child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Center(
+                                              child: Text(
+                                                'Give your feedback',
+                                                style: figtreeMedium.copyWith(fontSize: 22),
+                                              ),
+                                            ),
+                                            30.verticalSpace(),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 10.0),
+                                                  child: RatingBar.builder(
+                                                    initialRating: 4,
+                                                    minRating: 0,
+                                                    itemSize: 40,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: false,
+                                                    itemCount: 5,
+                                                    itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                                    itemBuilder: (context, _) => const Icon(
+                                                      Icons.star,
+                                                      color: Color(0xffFFAA00),
+                                                    ),
+                                                    onRatingUpdate: (ratings) {
+                                                      // print(ratings);
+                                                      // onRatingUpdate!(ratings);
+                                                      // rating = ratings.toString();
+                                                    },
+                                                  ),
+                                                ),
+                                                20.verticalSpace(),
+                                                Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(
+                                                    'Tell us more',
+                                                    style: figtreeMedium.copyWith(fontSize: 15),
+                                                  ),
+                                                ),
+                                                5.verticalSpace(),
+                                                TextField(
+                                                  controller: controller,
+                                                  maxLines: 4,
+                                                  minLines: 4,
+                                                  decoration: InputDecoration(
+                                                      hintText: 'Write...',
+                                                      hintStyle:
+                                                      figtreeMedium.copyWith(fontSize: 18),
+                                                      border: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(12),
+                                                          borderSide: const BorderSide(
+                                                            width: 1,
+                                                            color: Color(0xff999999),
+                                                          ))),
+                                                ),
+                                                30.verticalSpace(),
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                  child: customButton(
+                                                    'Submit',
+                                                    fontColor: 0xffFFFFFF,
+                                                    onTap: () {
+                                                      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "not_interested" ){
+                                                        context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                                            state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                            date,
+                                                            controller.text ?? '',
+                                                            'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                                        );
+                                                      }else{
+                                                        if(date == ""){
+                                                          showCustomToast(context, "Please select date");
+                                                        }else{
+                                                          context.read<ProjectCubit>().inviteExpertForSurvey(context,
+                                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                                              date,
+                                                              controller.text ?? '',
+                                                              'interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
+                                                          );
+                                                        }}
+
+                                                    },
+                                                    height: 60,
+                                                    width: screenWidth(),
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          ]),
+                                    ),
+                                  );
+                                }
+                            ));
+                      },
+                      child: Container(
+                        decoration: boxDecoration(
+                            borderRadius: 15,
+                            backgroundColor: const Color(0xffFFF3F4),
+                            borderColor: const Color(0xff6A0030)
+                          // c: const Color(0xff6A0030),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                          child: Text('Give your feedback',
+                            style: figtreeSemiBold.copyWith(
+                                color: const Color(0xff000000),
+                                fontSize: 14
+                            ),),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                  /*Container(
+                    width: screenWidth(),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(right: 12,top: 5),
+                    decoration: boxDecoration(
+                      backgroundColor: const Color(0xffFFF3F4),
+                      borderRadius: 10,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            "Your feedback:".toString().textMedium(
+                                color: Colors.black,
+                                fontSize: 14
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: RatingBar.builder(
+                                initialRating: 4,
+                                minRating: 0,
+                                itemSize: 20,
+                                direction: Axis.horizontal,
+                                allowHalfRating: false,
+                                itemCount: 5,
+                                itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Color(0xffFFAA00),
+                                ),
+                                onRatingUpdate: (ratings) {
+                                  // print(ratings);
+                                  // onRatingUpdate!(ratings);
+                                  // rating = ratings.toString();
+                                },
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        4.verticalSpace(),
+                        "Many desktop publishing packages and web page editors...dd fd fd fd".textRegular(fontSize: 12,
+                            maxLines: 2,overflow: TextOverflow.ellipsis)
+                      ],
+                    ),
+                  )*/
+                ],
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+            top: -5,
+            left: 0,
+            child: Text(
+              'Farmer',
+              style: figtreeMedium.copyWith(fontSize: 20),
+            )),
+        Positioned(
+            top: 0,
+            right: 10,
+            child: Row(
+              children: [
+                InkWell(
+                    onTap: (){
+                      callOnMobile(farmerDetail.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  await launchWhatsApp(farmerDetail.phone ?? '');
+                },child: SvgPicture.asset(Images.whatsapp)),
+
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  // await launchWhatsApp(farmerDetail.phone ?? '');
+                },child: SvgPicture.asset(Images.redirectLocation)),
+                6.horizontalSpace(),
+              ],
+            )),
+      ],
+    )
+    :Stack(
       alignment: Alignment.center,
       children: [
         SizedBox(height: 150, width: screenWidth()),
