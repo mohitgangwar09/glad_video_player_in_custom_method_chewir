@@ -180,6 +180,21 @@ print(apiResponse.response!.data);
       }
     }
 
+  ///////////////// addLikeApi //////////
+  Future<ResponseOtpModel> addLikeApi(String communityId) async {
+    var data = {'community_id': communityId};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addLikeApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

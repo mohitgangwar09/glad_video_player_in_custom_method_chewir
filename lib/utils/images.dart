@@ -107,6 +107,7 @@ class Images {
   static const String placeHolder = 'assets/images/profileplaceholder.jpeg';
   static const String deleteField = 'assets/images/deleteField.svg';
   static const String chat = 'assets/images/chat.svg';
+  static const String thumbsUp = 'assets/images/thumbs-up.svg';
 
   static const String active = 'assets/images/active.svg';
   static const String activeSelected = 'assets/images/active_selected.svg';
