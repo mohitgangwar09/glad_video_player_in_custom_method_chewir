@@ -842,6 +842,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
               padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
               child: Column(
                 children: [
+
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1053,9 +1054,8 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                             ),),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ),],
+                  ),
 
                   /*Container(
                     width: screenWidth(),
