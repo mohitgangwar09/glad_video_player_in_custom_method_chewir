@@ -25,7 +25,7 @@ class ProjectState extends Equatable {
   final TextEditingController milestoneTitle,milestoneDescription,milestoneDuration;
   final TextEditingController materialNameController,resourceTypeController,resourceCapacityController,uomController;
   final String? projectId;
-  final String? selectedFilterMCCApplication,statusLoan;
+  final String? selectedFilterMCCApplication,statusLoan,roiFilter;
   final dynamic paidAmount,dueAmount,pendingAmount;
 
 
@@ -72,6 +72,7 @@ class ProjectState extends Equatable {
     required this.pendingAmount,
     required this.dueAmount,
     required this.statusLoan,
+    required this.roiFilter,
   });
 
   factory ProjectState.initial() {
@@ -121,6 +122,7 @@ class ProjectState extends Equatable {
       dueAmount: null,
       pendingAmount: null,
       statusLoan: null,
+      roiFilter: null,
     );
   }
 
@@ -148,7 +150,7 @@ class ProjectState extends Equatable {
     String? projectId, selectedFilterMCCApplication,
     SupplierProjectModel? responseSupplierProject,
     dynamic paidAmount,dueAmount,pendingAmount,
-    String? statusLoan
+    String? statusLoan,roiFilter
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -205,6 +207,7 @@ class ProjectState extends Equatable {
       dueAmount: dueAmount ?? this.dueAmount,
       statusLoan: statusLoan ?? this.statusLoan,
       pendingAmount: pendingAmount ?? this.pendingAmount,
+      roiFilter: roiFilter ?? this.roiFilter,
     );
   }
 
@@ -249,6 +252,7 @@ class ProjectState extends Equatable {
     paidAmount,
     pendingAmount,
     dueAmount,
-    statusLoan
+    statusLoan,
+    roiFilter
       ];
 }
