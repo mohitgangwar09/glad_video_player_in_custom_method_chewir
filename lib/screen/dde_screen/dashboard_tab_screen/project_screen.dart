@@ -63,6 +63,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     children: [
                       InkWell(
                           onTap: () {
+                            List<String> roiList = [
+                              'ROI Highest to Lowest',
+                              'ROI Lowest to Highest',
+                              'Revenue Highest to Lowest',
+                              'Revenue Lowest to Highest',
+                              'Investment Highest to Lowest',
+                              'Investment Lowest to Highest',
+                            ];
                             modalBottomSheetMenu(context,
                                 child: SizedBox(
                                   height: screenHeight() * 0.65,
@@ -100,26 +108,16 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       ),
                                       Expanded(
                                         child: customList(
-                                            list: [
-                                              1,
-                                              2,
-                                              22,
-                                              2,
-                                              22,
-                                              2,
-                                              2,
-                                              22,
-                                              2
-                                            ],
+                                            list: roiList,
                                             child: (index) {
                                               return Padding(
                                                   padding: const EdgeInsets
-                                                      .only(
+                                                      .only (
                                                       left: 30,
                                                       right: 30,
                                                       top: 30,
                                                       bottom: 10),
-                                                  child: "ROI Highest to Lowest"
+                                                  child: roiList[index].toString()
                                                       .textRegular(
                                                       fontSize: 16));
                                             }),

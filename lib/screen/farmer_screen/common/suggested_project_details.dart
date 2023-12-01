@@ -27,6 +27,8 @@ import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../project_farmer_statment.dart';
+
 class SuggestedProjectDetails extends StatefulWidget {
   const SuggestedProjectDetails({super.key, required this.projectId});
   final int projectId;
@@ -650,9 +652,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               return InkWell(
                 onTap: (){
                   if(kpiData[index].name.toString() == "Paid EMIs"){
-                    ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
+                    ProjectDetailFarmerStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
                   }else if(kpiData[index].name.toString() == "Remaining Payable"){
-                    ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
+                    ProjectDetailFarmerStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
                   }
                 },
                 child: Container(

@@ -27,7 +27,7 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<ProjectCubit>(context).statusColor(widget.status);
-      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, widget.status,widget.userRoleId.toString(),widget.farmerProjectId.toString());
+      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDdeDetailApi(context, widget.status,widget.userRoleId.toString(),widget.farmerProjectId.toString());
     });
     super.initState();
   }
@@ -78,7 +78,7 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                   child: InkWell(
                     onTap: (){
                       BlocProvider.of<ProjectCubit>(context).statusColor('paid');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, 'paid',widget.userRoleId.toString(),widget.farmerProjectId.toString());
+                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDdeDetailApi(context, 'paid',widget.userRoleId.toString(),widget.farmerProjectId.toString());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -114,7 +114,7 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                   child: InkWell(
                     onTap: (){
                       BlocProvider.of<ProjectCubit>(context).statusColor('due');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, 'due',widget.userRoleId.toString(),widget.farmerProjectId.toString());
+                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDdeDetailApi(context, 'due',widget.userRoleId.toString(),widget.farmerProjectId.toString());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -150,7 +150,7 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                   child: InkWell(
                     onTap: (){
                       BlocProvider.of<ProjectCubit>(context).statusColor('pending');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, 'pending',widget.userRoleId.toString(),widget.farmerProjectId.toString());
+                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDdeDetailApi(context, 'pending',widget.userRoleId.toString(),widget.farmerProjectId.toString());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -300,7 +300,7 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                                                     const Color(0xffF6B51D),
                                                     borderRadius: 40,
                                                     borderWidth: 1),
-                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount??0+state.responseAccountStatement!.data!.farmerProjectFinancial![index].receivableAmount??0).toString().textBold(
+                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount+state.responseAccountStatement!.data!.farmerProjectFinancial![index].receivableAmount).toString().textBold(
                                                     fontSize: 18,
                                                     color:
                                                     ColorResources.black),

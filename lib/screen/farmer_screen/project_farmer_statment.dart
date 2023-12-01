@@ -6,26 +6,28 @@ import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
-import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class SupplierStatement extends StatefulWidget {
-  const SupplierStatement({super.key});
+class ProjectDetailFarmerStatement extends StatefulWidget {
+  const ProjectDetailFarmerStatement({super.key,required this.userRoleId,required this.farmerProjectId,required this.status});
+  final String userRoleId;
+  final String farmerProjectId;
+  final String status;
 
   @override
-  State<SupplierStatement> createState() => _SupplierStatementState();
+  State<ProjectDetailFarmerStatement> createState() => _ProjectDetailFarmerStatementState();
 }
 
-class _SupplierStatementState extends State<SupplierStatement> {
+class _ProjectDetailFarmerStatementState extends State<ProjectDetailFarmerStatement> {
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<ProjectCubit>(context).statusColor('');
-      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
+      BlocProvider.of<ProjectCubit>(context).statusColor(widget.status);
+      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, widget.status,widget.userRoleId.toString(),widget.farmerProjectId.toString());
     });
     super.initState();
   }
@@ -42,14 +44,11 @@ class _SupplierStatementState extends State<SupplierStatement> {
                   children: [
                     CustomAppBar(
                       context: context,
-                      titleText1: 'My Earnings',
+                      titleText1: 'Loan statement',
                       titleText1Style: figtreeMedium.copyWith(
                           fontSize: 20, color: Colors.black),
                       centerTitle: true,
-                      leading: openDrawer(
-                          onTap: () {
-                            supplierLandingKey.currentState?.openDrawer();
-                          }, child: SvgPicture.asset(Images.drawer)),
+                      leading: arrowBackButton(),
                       action: InkWell(
                           onTap: () {},
                           child: SvgPicture.asset(Images.filter2)),
@@ -79,7 +78,7 @@ class _SupplierStatementState extends State<SupplierStatement> {
                   child: InkWell(
                     onTap: (){
                       BlocProvider.of<ProjectCubit>(context).statusColor('paid');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'paid');
+                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, 'paid',widget.userRoleId.toString(),widget.farmerProjectId.toString());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -102,7 +101,7 @@ class _SupplierStatementState extends State<SupplierStatement> {
                             ),
                             05.verticalSpace(),
                             Text(
-                              'Earned',
+                              'Paid',
                               style: figtreeMedium.copyWith(
                                   fontSize: 14, color: ColorResources.fieldGrey),
                             )
@@ -115,7 +114,7 @@ class _SupplierStatementState extends State<SupplierStatement> {
                   child: InkWell(
                     onTap: (){
                       BlocProvider.of<ProjectCubit>(context).statusColor('due');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
+                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, 'due',widget.userRoleId.toString(),widget.farmerProjectId.toString());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -151,7 +150,7 @@ class _SupplierStatementState extends State<SupplierStatement> {
                   child: InkWell(
                     onTap: (){
                       BlocProvider.of<ProjectCubit>(context).statusColor('pending');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'pending');
+                      BlocProvider.of<ProjectCubit>(context).accountStatementProjectDetailApi(context, 'pending',widget.userRoleId.toString(),widget.farmerProjectId.toString());
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -237,8 +236,8 @@ class _SupplierStatementState extends State<SupplierStatement> {
                                                       color: ColorResources.black),
 
                                                   state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString().textMedium(
-                                                      color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString() == 'pending'?const Color(0xff6A0030):
-                                                      state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString() == 'due'?const Color(0xff12CE57):Colors.black
+                                                      color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'pending'?const Color(0xff6A0030):
+                                                      state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'paid'?const Color(0xff12CE57):const Color(0xff6A0030)
                                                   )
 
                                                 ],
@@ -318,15 +317,6 @@ class _SupplierStatementState extends State<SupplierStatement> {
                                   ):
                                   SizedBox(width: screenWidth(),height: 300,
                                     child: const Center(child: Text("No data found")),),
-                                  /*const Padding(
-                                padding:
-                                EdgeInsets.symmetric(vertical: 10.0),
-                                child: Divider(),
-                              ),*/
-                                  /*'Show more'.textSemiBold(
-                                  fontSize: 16,
-                                  color: ColorResources.maroon,
-                                  underLine: TextDecoration.underline),*/
                                 ],
                               ),
                             ),
@@ -339,7 +329,7 @@ class _SupplierStatementState extends State<SupplierStatement> {
                 }
               }
           ),
-          100.verticalSpace(),
+          // 100.verticalSpace(),
         ],
       ),
     );

@@ -179,9 +179,9 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       0,
                                   roi: state.responseFarmerProject!.data!
                                       .projectList![i].roiPerYear ?? 0,
-                                  category: state.responseDdeProject!.data!
+                                  category: state.responseFarmerProject!.data!
                                       .projectList![i].farmerImprovementArea !=
-                                      null ? state.responseDdeProject!.data!
+                                      null ? state.responseFarmerProject!.data!
                                       .projectList![i].farmerImprovementArea!
                                       .improvementArea!=null?state.responseDdeProject!.data!
                                       .projectList![i].farmerImprovementArea!
