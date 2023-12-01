@@ -38,6 +38,7 @@ class Data {
   dynamic likedBy;
   dynamic comment;
   String? status;
+  dynamic isLiked;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
@@ -67,7 +68,8 @@ class Data {
         this.communityLikesCount,
         this.communityCommentsCount,
         this.communityDocumentFiles,
-        this.user});
+        this.user,
+        this.isLiked});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -85,6 +87,7 @@ class Data {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    isLiked = json['is_liked'];
     communityLikesCount = json['community_likes_count'];
     communityCommentsCount = json['community_comments_count'];
     if (json['community_document_files'] != null) {

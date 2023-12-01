@@ -90,7 +90,10 @@ class _CommunityForumState extends State<CommunityForum> {
                     video: widget.video,
                     timeAgo: widget.timeAgo,
                     likeCount: 0,
-                    commentCount: 0,))
+                    commentCount: 0,
+                    isLiked: 0,
+                    id: 0,
+                    index: 0))
                 .toList(),
             options: CarouselOptions(
               autoPlay: true,

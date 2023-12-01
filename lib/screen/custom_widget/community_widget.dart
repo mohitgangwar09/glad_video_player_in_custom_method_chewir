@@ -1,11 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/community_cubit/community_cubit.dart';
+import 'package:glad/screen/common/community_comment_list.dart';
+import 'package:glad/screen/common/community_like_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:like_button/like_button.dart';
 
 class CommunityWidget extends StatefulWidget {
   final String name;
@@ -16,7 +21,10 @@ class CommunityWidget extends StatefulWidget {
   final String timeAgo;
   final int likeCount;
   final int commentCount;
+  final int isLiked;
+  final int id;
   final void Function()? onTap;
+  final int index;
 
   const CommunityWidget(
       {super.key,
@@ -28,7 +36,9 @@ class CommunityWidget extends StatefulWidget {
       required this.timeAgo,
       this.onTap,
       required this.likeCount,
-      required this.commentCount});
+      required this.commentCount,
+      required this.isLiked,
+      required this.id, required this.index});
 
   @override
   State<CommunityWidget> createState() => _CommunityWidgetState();
@@ -134,88 +144,152 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                         ),
                       ),
                       10.verticalSpace(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: .0),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: .0, left: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+                      BlocBuilder<CommunityCubit, CommunityCubitState>(
+                        builder: (context, state) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: .0),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: .0, left: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SvgPicture.asset(Images.likeButton),
-                                  4.horizontalSpace(),
-                                  Text(
-                                    'Like',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 14,
-                                        color: const Color(0xFF727272)),
-                                    softWrap: true,
-                                  ),
-                                  widget.likeCount != 0 ? RichText(
-                                      text: TextSpan(children: [
-                                    TextSpan(
-                                      text: ':',
-                                      style: figtreeRegular.copyWith(
-                                          fontSize: 14,
-                                          color: const Color(0xFF727272)),
+                                  // Row(
+                                  //   children: [
+                                  //     SvgPicture.asset(Images.likeButton),
+                                  //     4.horizontalSpace(),
+                                  //     Text(
+                                  //       'Like',
+                                  //       style: figtreeRegular.copyWith(
+                                  //           fontSize: 14,
+                                  //           color: const Color(0xFF727272)),
+                                  //       softWrap: true,
+                                  //     ),
+                                  //     widget.likeCount != 0 ? RichText(
+                                  //         text: TextSpan(children: [
+                                  //       TextSpan(
+                                  //         text: ':',
+                                  //         style: figtreeRegular.copyWith(
+                                  //             fontSize: 14,
+                                  //             color: const Color(0xFF727272)),
+                                  //       ),
+                                  //       TextSpan(
+                                  //         text: ' ${widget.likeCount}',
+                                  //         style: figtreeSemiBold.copyWith(
+                                  //             fontSize: 14, color: Colors.black),
+                                  //       ),
+                                  //     ])) : const SizedBox.shrink(),
+                                  //   ],
+                                  // ),
+                                  LikeButton(
+                                    size: 18,
+                                    circleColor:
+                                    const CircleColor(start: Colors.blue, end: Colors.blueAccent),
+                                    bubblesColor: const BubblesColor(
+                                      dotPrimaryColor: Colors.blue,
+                                      dotSecondaryColor: Colors.blueAccent,
                                     ),
-                                    TextSpan(
-                                      text: ' ${widget.likeCount}',
-                                      style: figtreeSemiBold.copyWith(
-                                          fontSize: 14, color: Colors.black),
-                                    ),
-                                  ])) : const SizedBox.shrink(),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(Images.commentButton),
-                                  4.horizontalSpace(),
-                                  Text(
-                                    'Comment',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 14,
-                                        color: const Color(0xFF727272)),
-                                    softWrap: true,
-                                  ),
-                                  widget.commentCount != 0 ? RichText(
-                                      text: TextSpan(children: [
-                                        TextSpan(
-                                          text: ':',
+                                    isLiked: state.responseCommunityList!.data![widget.index].isLiked > 0,
+                                    likeBuilder: (bool isLiked) {
+                                      return SvgPicture.asset(
+                                          Images.likeButton,
+                                          colorFilter: ColorFilter.mode(
+                                              isLiked ? const Color(0xFFFFB300) : Colors.grey,
+                                              BlendMode.srcIn)
+                                      );
+                                    },
+                                    likeCount: state.responseCommunityList!.data![widget.index].communityLikesCount,
+                                    countBuilder: (int? count, bool isLiked, String text) {
+                                      Widget result;
+                                      if (count == 0) {
+                                        result = Text(
+                                          "Like",
                                           style: figtreeRegular.copyWith(
                                               fontSize: 14,
                                               color: const Color(0xFF727272)),
+                                        );
+                                      } else {
+                                        result = InkWell(
+                                          onTap: () {
+                                            CommunityLikeList(communityId: widget.id.toString()).navigate();
+                                          },
+                                          child: RichText(
+                                              text: TextSpan(children: [
+                                                TextSpan(
+                                                  text: 'Like:',
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 14,
+                                                      color: const Color(0xFF727272)),
+                                                ),
+                                                TextSpan(
+                                                  text: ' $text',
+                                                  style: figtreeSemiBold.copyWith(
+                                                      fontSize: 14, color: Colors.black),
+                                                ),
+                                              ])),
+                                        );
+                                      }
+                                      return result;
+                                    },
+                                    onTap: (tap) async{
+                                      context.read<CommunityCubit>().addLikeApi(context, widget.id.toString());
+                                      return tap;
+                                    },
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      CommunityCommentList(communityId: widget.id.toString()).navigate();
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(Images.commentButton),
+                                        4.horizontalSpace(),
+                                        Text(
+                                          'Comment',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14,
+                                              color: const Color(0xFF727272)),
+                                          softWrap: true,
                                         ),
-                                        TextSpan(
-                                          text: ' ${widget.commentCount}',
-                                          style: figtreeSemiBold.copyWith(
-                                              fontSize: 14, color: Colors.black),
-                                        ),
-                                      ])) : const SizedBox.shrink(),
+                                        state.responseCommunityList!.data![widget.index].communityCommentsCount != 0 ? RichText(
+                                            text: TextSpan(children: [
+                                              TextSpan(
+                                                text: ':',
+                                                style: figtreeRegular.copyWith(
+                                                    fontSize: 14,
+                                                    color: const Color(0xFF727272)),
+                                              ),
+                                              TextSpan(
+                                                text: ' ${state.responseCommunityList!.data![widget.index].communityCommentsCount}',
+                                                style: figtreeSemiBold.copyWith(
+                                                    fontSize: 14, color: Colors.black),
+                                              ),
+                                            ])) : const SizedBox.shrink(),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.share_outlined,
+                                        color: Color(0xFF727272),
+                                        size: 19,
+                                      ),
+                                      4.horizontalSpace(),
+                                      Text(
+                                        'Share',
+                                        style: figtreeRegular.copyWith(
+                                            fontSize: 14,
+                                            color: const Color(0xFF727272)),
+                                        softWrap: true,
+                                      ),
+                                    ],
+                                  ),
+                                  0.horizontalSpace(),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.share_outlined,
-                                    color: Color(0xFF727272),
-                                    size: 19,
-                                  ),
-                                  4.horizontalSpace(),
-                                  Text(
-                                    'Share',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 14,
-                                        color: const Color(0xFF727272)),
-                                    softWrap: true,
-                                  ),
-                                ],
-                              ),
-                              0.horizontalSpace(),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        }
                       ),
                     ],
                   ),

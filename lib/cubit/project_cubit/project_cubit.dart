@@ -8,6 +8,7 @@ import 'package:glad/data/model/farmer_project_detail_model.dart' as dde;
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/response_account_statement.dart';
+import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_resource_name.dart';
@@ -59,13 +60,31 @@ class ProjectCubit extends Cubit<ProjectState> {
 
   }
 
+  void roiFilter(String filter){
+    emit(state.copyWith(roiFilter: filter));
+  }
+
+  void roiFilterClear(){
+    emit(state.copyWith(
+      roiFromController: TextEditingController(text: ''),
+      roiUpToController: TextEditingController(text: ''),
+      revenueFromController: TextEditingController(text: ''),
+      revenueToController: TextEditingController(text: ''),
+      investmentFromController: TextEditingController(text: ''),
+      investmentUpToController: TextEditingController(text: ''),
+      loanAmountFromController: TextEditingController(text: ''),
+      loanAmountUpToController: TextEditingController(text: ''),
+      filterImprovementAreaName: ''
+    ));
+  }
+
   // farmerProjectsApi
   void farmerProjectsApi(context, String projectFilter, bool showLoader) async {
     if (showLoader) {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
     // customDialog(widget: launchProgress());
-    var response = await apiRepository.getFarmerProjectsApi(projectFilter);
+    var response = await apiRepository.getFarmerProjectsApi(projectFilter,state.roiFilter.toString());
     if (response.status == 200) {
       // disposeProgress();
       emit(state.copyWith(status: ProjectStatus.success, responseFarmerProject: response));
@@ -93,7 +112,18 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (showLoader) {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
-    var response = await apiRepository.getDdeProjectsApi(projectStatus);
+    var response = await apiRepository.getDdeProjectsApi(projectStatus,
+        orderBy:state.roiFilter.toString(),
+      revenueFromController: state.revenueFromController.text,
+      revenueUpToController: state.revenueToController.text,
+      investmentFromController: state.investmentFromController.text,
+      investmentUpToController: state.investmentUpToController.text,
+      roiFromController: state.roiFromController.text,
+      roiUpToController: state.roiUpToController.text,
+      loanAmountFromController: state.loanAmountFromController.text,
+      loanAmountUpToController: state.loanAmountUpToController.text,
+      improvementArea: state.filterImprovementAreaName
+    );
     if (response.status == 200) {
       emit(state.copyWith(status: ProjectStatus.success, responseDdeProject: response));
     } else {
@@ -1056,6 +1086,20 @@ class ProjectCubit extends Cubit<ProjectState> {
 
       showCustomToast(context, response.message.toString());
       const ThankYouConfirm().navigate(isInfinity: true);
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // responseAreaImprovementListApi
+  void responseAreaImprovementListApi(context) async {
+
+    var response = await apiRepository.improvementAreaFilterListApi();
+
+    if (response.status == 200) {
+
+      emit(state.copyWith(responseImprovementAreaFilterList: response));
 
     } else {
       showCustomToast(context, response.message.toString());

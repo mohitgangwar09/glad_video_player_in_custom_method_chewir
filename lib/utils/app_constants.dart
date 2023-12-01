@@ -74,6 +74,7 @@ class AppConstants {
   static const String addCommentApi = '/api/community/comment';
   static const String guestCommentListApi = '/api/community/guest-comment-list';
   static const String addPostApi = '/api/community/store';
+  static const String addLikeApi = '/api/community/like';
   static const String trainingCategoryApi = '/api/training/category';
   static const String guestTrainingCategoryApi = '/api/training/guest-category';
   static const String newsListApi = '/api/news-event/list';
@@ -91,6 +92,7 @@ class AppConstants {
   static const String farmerParticipationApi = '/api/farmer-project/farmer-participation-update';
   static const String accountStatementApi = '/api/financial/account-statement';
   static const String farmerParticipationStatusApi = '/api/financial/update-farmer-participation-status';
+  static const String improvementAreaFilterListApi = '/api/improvement/improvementarea-list';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

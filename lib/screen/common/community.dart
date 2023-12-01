@@ -148,12 +148,15 @@ class _CommunityPostState extends State<CommunityPost> {
                 image: state.responseCommunityList!.data![index].user!.profilePic ?? '',
                 caption: state.responseCommunityList!.data![index].remark ?? '',
                 video: state.responseCommunityList!.data![index].communityDocumentFiles![0].originalUrl ?? '',
-                timeAgo: '${getAge(DateTime.parse(state.responseCommunityList!.data![index].createdAt ?? ''))} ago',
+                timeAgo: getPostAge(DateTime.parse(state.responseCommunityList!.data![index].createdAt ?? '')),
                 likeCount: state.responseCommunityList!.data![index].communityLikesCount ?? 0,
                 commentCount: state.responseCommunityList!.data![index].communityCommentsCount ?? 0,
                 onTap: () {
-                  CommunityPostDetail(data: state.responseCommunityList!.data![index]).navigate();
+                  CommunityPostDetail(data: state.responseCommunityList!.data![index], index: index).navigate();
                 },
+                id: state.responseCommunityList!.data![index].id ?? 0,
+                isLiked: state.responseCommunityList!.data![index].isLiked ?? 0,
+                index: index,
               ),
             ),
             100.verticalSpace(),

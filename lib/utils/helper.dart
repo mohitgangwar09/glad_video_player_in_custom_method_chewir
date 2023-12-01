@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 double getStatusBarHeight(BuildContext context) {
   return MediaQuery.of(context).padding.top;
@@ -118,6 +119,29 @@ String getAge(DateTime date) {
     return '1 day';
   } else{
     return '';
+  }
+}
+
+String getPostAge(DateTime date) {
+  DateDuration duration = AgeCalculator.dateDifference(fromDate: date, toDate: DateTime.now());
+  if(duration.years > 0) {
+    return DateFormat('dd MMM, yyyy').format(date);
+  } else if(duration.months > 0) {
+    return DateFormat('dd MMM, yyyy').format(date);
+  } else if(duration.days > 7) {
+    return DateFormat('dd MMM, yyyy').format(date);
+  } else if(duration.days == 1) {
+    return '${duration.days} day ago';
+  } else if(duration.days > 0) {
+    return '${duration.days} days ago';
+  } else if(DateTime.now().difference(date).inHours == 1) {
+    return '${DateTime.now().difference(date).inHours} hour ago';
+  } else if(DateTime.now().difference(date).inHours > 1) {
+    return '${DateTime.now().difference(date).inHours} hours ago';
+  } else if(DateTime.now().difference(date).inMinutes > 10) {
+    return '${DateTime.now().difference(date).inMinutes} mins ago';
+  } else{
+    return 'just now';
   }
 }
 

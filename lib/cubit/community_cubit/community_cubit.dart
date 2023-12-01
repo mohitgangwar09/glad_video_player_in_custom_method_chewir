@@ -18,15 +18,17 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
   CommunityCubit({required this.apiRepository,required this.sharedPreferences}) : super(CommunityCubitState.initial());
 
   // communityListApi
-  Future<void> communityListApi(context) async{
-    customDialog(widget: launchProgress());
+  Future<void> communityListApi(context, {bool isLoaderRequired = true}) async{
+    if(isLoaderRequired) {
+      emit(state.copyWith(status: CommunityStatus.submit));
+      // customDialog(widget: launchProgress());
+    }
+
     var response = await apiRepository.getCommunityListApi();
     if (response.status == 200) {
-      disposeProgress();
       emit(state.copyWith(status: CommunityStatus.success, responseCommunityList: response));
     }
     else {
-      disposeProgress();
       emit(state.copyWith(status: CommunityStatus.error));
       showCustomToast(context, response.message.toString());
     }
@@ -68,7 +70,7 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
 
     if (response.status == 200) {
       commentListApi(context, communityId);
-      communityListApi(context);
+      communityListApi(context, isLoaderRequired: false);
     }
     else {
       showCustomToast(context, response.message.toString());
@@ -81,10 +83,23 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
     var response = await apiRepository.addPostApi(remark, path);
 
     if (response.status == 200) {
-      communityListApi(context);
+      communityListApi(context, isLoaderRequired: false);
       disposeProgress();
       pressBack();
       showCustomToast(context, response.message.toString(), isSuccess: true);
+    }
+    else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // addLikeApi
+  Future<void> addLikeApi(context, String communityId) async{
+    var response = await apiRepository.addLikeApi(communityId);
+
+    if (response.status == 200) {
+      communityListApi(context, isLoaderRequired: false);
+      // showCustomToast(context, response.message.toString(), isSuccess: true);
     }
     else {
       showCustomToast(context, response.message.toString());
