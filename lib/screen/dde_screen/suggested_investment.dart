@@ -150,7 +150,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                   padding: const EdgeInsets.all(10),
                                   child: Row(
                                         children: [
-                                          Text("Reject Remarks:-  ",style: figtreeMedium.copyWith(
+                                          Text("Rejection Remarks:-  ",style: figtreeMedium.copyWith(
                                             color: Colors.red
                                           ),),
 
