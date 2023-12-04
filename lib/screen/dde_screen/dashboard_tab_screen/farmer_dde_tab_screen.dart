@@ -561,7 +561,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
                                         decoration: boxDecoration(
                                             borderRadius: 10,
-                                            backgroundColor: ragColor(state.response!.farmerMAster![i].farmerRagRating!=null?state.response!.farmerMAster![i].farmerRagRating!.ragRating!.toLowerCase():"1")),
+                                            backgroundColor: ragColor(state.response!.farmerMAster![i].ragRating!=null?state.response!.farmerMAster![i].ragRating!.toLowerCase():"1")),
                                       )
                                     ],
                                   ),
