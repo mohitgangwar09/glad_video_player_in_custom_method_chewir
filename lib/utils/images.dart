@@ -32,6 +32,8 @@ class Images {
   static const String callPrimary = 'assets/images/call_primary.svg';
   static const String whatsapp = 'assets/images/whatsapp.svg';
   static const String cart = 'assets/images/cart.svg';
+  static const String addQuant = 'assets/images/add_quant.svg';
+  static const String minusQuant = 'assets/images/minus_quant.svg';
   static const String redirectLocation = 'assets/images/redirect_location.svg';
   static const String sampleLivestock = 'assets/images/livestock_sample.png';
   static const String messageChat = 'assets/images/messagechat.png';

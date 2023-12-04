@@ -117,184 +117,195 @@ class _AddLivestockState extends State<AddLivestock> {
                               ),
 
                               20.verticalSpace(),
-                              Visibility(
-                                visible: path == null,
-                                child: Row(
-                                  children: [
-                                    5.horizontalSpace(),
-                                    'Add Photo'.textMedium(color: Colors.black, fontSize: 12),
-                                  ],
-                                ),
+                              Row(
+                                children: [
+                                  5.horizontalSpace(),
+                                  'Add Photo'.textMedium(color: Colors.black, fontSize: 12),
+                                ],
                               ),
                               5.verticalSpace(),
-                              Visibility(
-                                visible: path == null,
-                                child: Stack(
-                                  children: [
-                                    ContainerBorder(
-                                      margin: 0.marginVertical(),
-                                      padding:
-                                      10.paddingOnly(top: 15, bottom: 15),
-                                      borderColor: 0xffD9D9D9,
-                                      backColor: 0xffFFFFFF,
-                                      radius: 10,
-                                      widget: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        children: [
-                                          5.horizontalSpace(),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0, top: 2, bottom: 2),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  RichText(
-                                                      text: TextSpan(children: [
-                                                        TextSpan(
-                                                            text: 'Choose ',
-                                                            style: figtreeMedium
-                                                                .copyWith(
-                                                                fontSize: 16,
-                                                                color: const Color(
-                                                                    0xFFFC5E60))),
-                                                        TextSpan(
-                                                            text: 'you file here',
-                                                            style: figtreeMedium
-                                                                .copyWith(
-                                                                fontSize: 16,
-                                                                color:
-                                                                ColorResources
-                                                                    .fieldGrey))
-                                                      ])),
-                                                  Text('Max size 5 MB',
-                                                      style:
-                                                      figtreeMedium.copyWith(
-                                                          fontSize: 12,
-                                                          color:
-                                                          ColorResources
-                                                              .fieldGrey))
-                                                ],
-                                              ),
+                              Stack(
+                                children: [
+                                  ContainerBorder(
+                                    margin: 0.marginVertical(),
+                                    padding:
+                                    10.paddingOnly(top: 15, bottom: 15),
+                                    borderColor: 0xffD9D9D9,
+                                    backColor: 0xffFFFFFF,
+                                    radius: 10,
+                                    widget: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        5.horizontalSpace(),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0, top: 2, bottom: 2),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                RichText(
+                                                    text: TextSpan(children: [
+                                                      TextSpan(
+                                                          text: 'Choose ',
+                                                          style: figtreeMedium
+                                                              .copyWith(
+                                                              fontSize: 16,
+                                                              color: const Color(
+                                                                  0xFFFC5E60))),
+                                                      TextSpan(
+                                                          text: 'you file here',
+                                                          style: figtreeMedium
+                                                              .copyWith(
+                                                              fontSize: 16,
+                                                              color:
+                                                              ColorResources
+                                                                  .fieldGrey))
+                                                    ])),
+                                                Text('Max size 5 MB',
+                                                    style:
+                                                    figtreeMedium.copyWith(
+                                                        fontSize: 12,
+                                                        color:
+                                                        ColorResources
+                                                            .fieldGrey))
+                                              ],
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    Positioned(
-                                      right: 13,
-                                      top: 0,
-                                      bottom: 0,
-                                      child: Row(
-                                        children: [
+                                  ),
+                                  Positioned(
+                                    right: 13,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            path.add(await imgFromGallery());
+                                            setState(() {});
+                                          },
+                                          child: SvgPicture.asset(
+                                            Images.attachment,
+                                            colorFilter: const ColorFilter.mode(
+                                                ColorResources.fieldGrey,
+                                                BlendMode.srcIn),
+                                          ),
+                                        ),
+                                        Row(children: [
+                                          10.horizontalSpace(),
                                           InkWell(
-                                            onTap: () async {
-                                              path.add(await imgFromGallery());
+                                            onTap: () async{
+                                              path.add(await imgFromCamera());
                                               setState(() {});
                                             },
                                             child: SvgPicture.asset(
-                                              Images.attachment,
+                                              Images.camera,
                                               colorFilter: const ColorFilter.mode(
                                                   ColorResources.fieldGrey,
                                                   BlendMode.srcIn),
                                             ),
-                                          ),
-                                          Row(children: [
-                                            10.horizontalSpace(),
-                                            InkWell(
-                                              onTap: () async{
-                                                path.add(await imgFromCamera());
-                                                setState(() {});
-                                              },
-                                              child: SvgPicture.asset(
-                                                Images.camera,
-                                                colorFilter: const ColorFilter.mode(
-                                                    ColorResources.fieldGrey,
-                                                    BlendMode.srcIn),
-                                              ),
-                                            )
-                                          ],),
-                                        ],
-                                      ),
+                                          )
+                                        ],),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               20.verticalSpace(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Column(
-                                  children: [
-                                    20.verticalSpace(),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
+                              Column(
+                                children: [
+                                  20.verticalSpace(),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
 
-                                        for (String image in path)
-                                          Row(
-                                            children: [
-                                              Stack(
-                                                children: [
-                                                  InkWell(
-                                                    onTap:() {
-                                                      PreviewScreen(previewImage: image.toString(),).navigate();
+                                      for (String image in path)
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                InkWell(
+                                                  onTap:() {
+                                                    PreviewScreen(previewImage: image.toString(),).navigate();
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(color: const Color(0xFF819891)),
+                                                      borderRadius: BorderRadius.circular(200),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(4.0),
+                                                      child: ClipRRect(
+                                                        borderRadius: BorderRadius.circular(200),
+                                                        child: isUrl(image) ? CachedNetworkImage(
+                                                            imageUrl: image, fit: BoxFit.fill,
+                                                            height: 70,
+                                                            width: 70, errorWidget: (_, __, ___) => Image.asset(
+                                                          Images.sampleVideo,
+                                                          fit: BoxFit.fill,
+                                                          height: 70,
+                                                          width: 70,)) : Image.file(File(image), fit: BoxFit.fill,
+                                                            height: 70,
+                                                            width: 70, errorBuilder: (_, __, ___) => Image.asset(
+                                                              Images.sampleVideo,
+                                                              fit: BoxFit.fill,
+                                                              height: 70,
+                                                              width: 70,
+                                                            )),),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: 0,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      path.remove(image);
+                                                      setState(() {
+
+                                                      });
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(
-                                                        border: Border.all(color: const Color(0xFF819891)),
-                                                        borderRadius: BorderRadius.circular(200),
-                                                      ),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(4.0),
-                                                        child: ClipRRect(
                                                           borderRadius: BorderRadius.circular(200),
-                                                          child: isUrl(image) ? CachedNetworkImage(
-                                                              imageUrl: image, fit: BoxFit.fill,
-                                                              height: 70,
-                                                              width: 70, errorWidget: (_, __, ___) => Image.asset(
-                                                            Images.sampleVideo,
-                                                            fit: BoxFit.fill,
-                                                            height: 70,
-                                                            width: 70,)) : Image.file(File(image), fit: BoxFit.fill,
-                                                              height: 70,
-                                                              width: 70, errorBuilder: (_, __, ___) => Image.asset(
-                                                                Images.sampleVideo,
-                                                                fit: BoxFit.fill,
-                                                                height: 70,
-                                                                width: 70,
-                                                              )),),
+                                                          color: Colors.white),
+                                                      child: SvgPicture.asset(
+                                                        Images.cancelImage,
                                                       ),
                                                     ),
                                                   ),
-                                                  Positioned(
-                                                    right: 0,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        path.remove(image);
-                                                      },
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(200),
-                                                            color: Colors.white),
-                                                        child: SvgPicture.asset(
-                                                          Images.cancelImage,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              10.horizontalSpace(),
-                                            ],
-                                          )
-                                      ],
-                                    ),
-                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            10.horizontalSpace(),
+                                          ],
+                                        )
+                                    ],
+                                  ),
+                                ],
+                              ),
+
+                              20.verticalSpace(),
+
+                              Container(
+                                height: 55,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white
                                 ),
+                                width: screenWidth(),
+                                child: Row(children: [
+                                    SvgPicture.asset(Images.addQuant),
+                                    '01'.textMedium(fontSize: 16, color: Colors.black),
+                                    SvgPicture.asset(Images.minusQuant),
+                                ],),
                               ),
                             ],
                           ),
