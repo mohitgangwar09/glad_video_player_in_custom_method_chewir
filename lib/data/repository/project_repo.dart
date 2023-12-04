@@ -26,12 +26,13 @@ class ProjectRepository {
   ProjectRepository({this.sharedPreferences});
 
   ///////////////// getFarmerProjectsApi //////////
-  Future<FarmerProjectModel> getFarmerProjectsApi(String projectFilter,String orderBy) async {
+  Future<FarmerProjectModel> getFarmerProjectsApi(String projectFilter,String orderBy,{String? search}) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerProjectListApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {
           'project_status': projectFilter,
           'order_by': orderBy,
+          'search': search
         });
 
     if (apiResponse.status) {
@@ -61,7 +62,7 @@ class ProjectRepository {
     String? revenueFromController,revenueUpToController,
     String? investmentFromController,investmentUpToController,
     String? roiFromController,roiUpToController,
-    String? loanAmountFromController,loanAmountUpToController,improvementArea
+    String? loanAmountFromController,loanAmountUpToController,improvementArea,searchQuery
   }) async {
 
     var data = {
@@ -76,6 +77,7 @@ class ProjectRepository {
       'loan_amount_from': loanAmountFromController,
       'loan_amount_to': loanAmountUpToController,
       'improvement_area': improvementArea,
+      'search': searchQuery
     };
 
     print(data);

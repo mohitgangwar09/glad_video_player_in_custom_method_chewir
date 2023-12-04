@@ -386,7 +386,7 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     ));
   }
 
-  void getFarmer(context, String ragRatingType, bool showLoader) async{
+  void getFarmer(context, String ragRatingType, bool showLoader,{String? searchQuery}) async{
     // customDialog(widget: launchProgress());
     if (showLoader){
       emit(state.copyWith(status: DdeFarmerStatus.loading));
@@ -403,6 +403,7 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     herdSizeFrom: state.herdSizeFromController.text,
     yieldPerCowFrom: state.yieldPerCowFromController.text,
     yieldPerCowTo: state.yieldPerUpToController.text,
+      searchQuery: searchQuery
     );
     if(response.status == 200){
       // disposeProgress();

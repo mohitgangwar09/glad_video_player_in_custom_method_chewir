@@ -21,6 +21,8 @@ class ProjectScreen extends StatefulWidget {
 class _ProjectScreenState extends State<ProjectScreen> {
 
   String selectedFilter = 'suggested';
+  bool search = false;
+  TextEditingController searchEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -51,15 +53,75 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       child: SvgPicture.asset(Images.drawer)),
                 ),
 
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xffDCDCDC))
+                search == true?
+                Positioned(
+                  bottom: 6,
+                  left: 8,right: 8,
+                  child: Stack(
+                    children: [
+                      Container(
+                        /*margin: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 13, top: 23),*/
+                        height: 50,
+                        decoration: boxDecoration(
+                            borderColor: Colors.grey,
+                            borderRadius: 62,
+                            backgroundColor: Colors.white),
+                        width: screenWidth(),
+                        child: Row(
+                          children: [
+                            13.horizontalSpace(),
+                            SvgPicture.asset(Images.searchLeft),
+                            13.horizontalSpace(),
+                            Expanded(
+                                child: TextField(
+                                  controller: searchEditingController,
+                                  onChanged: (value){
+                                    BlocProvider.of<ProjectCubit>(context).farmerProjectsApi(context, selectedFilter, false,searchQuery:value.toString());
+                                  },
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none, hintText: "Search"),
+                                )),
+                          ],
+                        ),
+                      ),
+                      Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              search = false;
+                              searchEditingController.text = '';
+                              BlocProvider.of<ProjectCubit>(context).farmerProjectsApi(context, selectedFilter, false,searchQuery:'');
+                            });
+                          },
+                          icon: const Icon(Icons.clear)))
+                    ],
                   ),
-                  child: const Icon(Icons.search)
-                )
+                ):const SizedBox.shrink(),
+
+                search == false?
+                Positioned(
+                  bottom: 13,
+                  right: 20,
+                  child: InkWell(
+                    onTap: (){
+                      setState(() {
+                        search = true;
+                      });
+                    },
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: const Color(0xffDCDCDC))
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(Images.search,width: 23,height: 23,),
+                      )
+                    ),
+                  ),
+                ):const SizedBox.shrink()
               ],
             ),
 
