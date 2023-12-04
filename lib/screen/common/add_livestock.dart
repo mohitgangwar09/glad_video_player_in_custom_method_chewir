@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
@@ -31,6 +32,15 @@ class AddLivestock extends StatefulWidget {
 class _AddLivestockState extends State<AddLivestock> {
 
   List<String> path = [];
+
+  int quantity = 1;
+
+  TextEditingController price = TextEditingController();
+  TextEditingController controller = TextEditingController();
+  TextEditingController age = TextEditingController();
+  TextEditingController milk = TextEditingController();
+  String? lactation = '';
+  String? pregnant = '';
 
   @override
   void initState() {
@@ -218,80 +228,89 @@ class _AddLivestockState extends State<AddLivestock> {
                                   ),
                                 ],
                               ),
-                              20.verticalSpace(),
                               Column(
                                 children: [
                                   20.verticalSpace(),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-
-                                      for (String image in path)
-                                        Row(
-                                          children: [
-                                            Stack(
-                                              children: [
-                                                InkWell(
-                                                  onTap:() {
-                                                    PreviewScreen(previewImage: image.toString(),).navigate();
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(color: const Color(0xFF819891)),
-                                                      borderRadius: BorderRadius.circular(200),
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(4.0),
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(200),
-                                                        child: isUrl(image) ? CachedNetworkImage(
-                                                            imageUrl: image, fit: BoxFit.fill,
-                                                            height: 70,
-                                                            width: 70, errorWidget: (_, __, ___) => Image.asset(
-                                                          Images.sampleVideo,
-                                                          fit: BoxFit.fill,
-                                                          height: 70,
-                                                          width: 70,)) : Image.file(File(image), fit: BoxFit.fill,
-                                                            height: 70,
-                                                            width: 70, errorBuilder: (_, __, ___) => Image.asset(
-                                                              Images.sampleVideo,
-                                                              fit: BoxFit.fill,
-                                                              height: 70,
-                                                              width: 70,
-                                                            )),),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  right: 0,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      path.remove(image);
-                                                      setState(() {
-
-                                                      });
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        for (String image in path)
+                                          Row(
+                                            children: [
+                                              Stack(
+                                                children: [
+                                                  InkWell(
+                                                    onTap:() {
+                                                      PreviewScreen(previewImage: image.toString(),).navigate();
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(
+                                                        border: Border.all(color: const Color(0xFF819891)),
+                                                        borderRadius: BorderRadius.circular(200),
+                                                      ),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(4.0),
+                                                        child: ClipRRect(
                                                           borderRadius: BorderRadius.circular(200),
-                                                          color: Colors.white),
-                                                      child: SvgPicture.asset(
-                                                        Images.cancelImage,
+                                                          child: isUrl(image) ? CachedNetworkImage(
+                                                              imageUrl: image, fit: BoxFit.fill,
+                                                              height: 70,
+                                                              width: 70, errorWidget: (_, __, ___) => Image.asset(
+                                                            Images.sampleVideo,
+                                                            fit: BoxFit.fill,
+                                                            height: 70,
+                                                            width: 70,)) : Image.file(File(image), fit: BoxFit.fill,
+                                                              height: 70,
+                                                              width: 70, errorBuilder: (_, __, ___) => Image.asset(
+                                                                Images.sampleVideo,
+                                                                fit: BoxFit.fill,
+                                                                height: 70,
+                                                                width: 70,
+                                                              )),),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            10.horizontalSpace(),
-                                          ],
-                                        )
-                                    ],
+                                                  Positioned(
+                                                    right: 0,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        path.remove(image);
+                                                        setState(() {
+
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(200),
+                                                            color: Colors.white),
+                                                        child: SvgPicture.asset(
+                                                          Images.cancelImage,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              10.horizontalSpace(),
+                                            ],
+                                          )
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
 
                               20.verticalSpace(),
+
+                              Row(
+                                children: [
+                                  5.horizontalSpace(),
+                                  'Available Quantity'.textMedium(color: Colors.black, fontSize: 12),
+                                ],
+                              ),
+                              5.verticalSpace(),
 
                               Container(
                                 height: 55,
@@ -301,11 +320,311 @@ class _AddLivestockState extends State<AddLivestock> {
                                     color: Colors.white
                                 ),
                                 width: screenWidth(),
-                                child: Row(children: [
-                                    SvgPicture.asset(Images.addQuant),
-                                    '01'.textMedium(fontSize: 16, color: Colors.black),
-                                    SvgPicture.asset(Images.minusQuant),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        if(quantity == 1) {
+                                          return;
+                                        }
+                                        quantity--;
+                                        setState(() {
+
+                                        });
+                                      },
+                                        child: SvgPicture.asset(Images.minusQuant)),
+                                    quantity.toString().textMedium(fontSize: 16, color: Colors.black),
+                                    InkWell(
+                                        onTap: () {
+                                            quantity++;
+                                            setState(() {
+
+                                            });
+                                        },
+                                        child: SvgPicture.asset(Images.addQuant)),
+
                                 ],),
+                              ),
+
+                              20.verticalSpace(),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: "Cow Price".textMedium(color: Colors.black, fontSize: 12),
+                              ),
+
+                              5.verticalSpace(),
+
+                              Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                width: screenWidth(),
+                                child: TextField(
+                                  maxLines: 1,
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                  controller: price,
+                                  maxLength: 10,
+                                  enabled: false,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      counterText: '',
+                                      contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                  ),
+                                ),
+                              ),
+
+                              20.verticalSpace(),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "Age (Years)".textMedium(color: Colors.black, fontSize: 12),
+
+                                        5.verticalSpace(),
+
+                                        Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                              borderRadius: BorderRadius.circular(10)
+                                          ),
+                                          width: screenWidth(),
+                                          child: TextField(
+                                            maxLines: 1,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            controller: age,
+                                            maxLength: 10,
+                                            enabled: false,
+                                            keyboardType: TextInputType.phone,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                              counterText: '',
+                                              contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  10.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "Lactation (Months)".textMedium(color: Colors.black, fontSize: 12),
+
+                                        5.verticalSpace(),
+
+                                        Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                              borderRadius: BorderRadius.circular(10),
+                                              color: Colors.white
+                                          ),
+                                          width: screenWidth(),
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButton2<int>(
+                                              isExpanded: true,
+                                              isDense: true,
+                                              hint: Text(
+                                                lactation.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Theme.of(context).hintColor,
+                                                ),
+                                              ),
+                                              items: lactation == null ? null : List<int>.generate(10, (i) => i + 1)
+                                                  .map((int item) => DropdownMenuItem<int>(
+                                                value: item,
+                                                child: Text(
+                                                  item.toString(),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              )).toList(),
+                                              // value: state.counties![0].name!,
+                                              onChanged: (int? value) {
+                                                setState(() {
+                                                lactation = value!.toString();
+                                                });
+                                              },
+                                              buttonStyleData: const ButtonStyleData(
+                                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                                height: 40,
+                                                width: 140,
+                                              ),
+                                              menuItemStyleData: const MenuItemStyleData(
+                                                height: 40,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+
+                              20.verticalSpace(),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "Pregnant (Months)".textMedium(color: Colors.black, fontSize: 12),
+
+                                        5.verticalSpace(),
+
+                                        Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                              borderRadius: BorderRadius.circular(10),
+                                              color: Colors.white
+                                          ),
+                                          width: screenWidth(),
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButton2<int>(
+                                              isExpanded: true,
+                                              isDense: true,
+                                              hint: Text(
+                                                pregnant.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Theme.of(context).hintColor,
+                                                ),
+                                              ),
+                                              items: pregnant == null ? null : List<int>.generate(10, (i) => i)
+                                                  .map((int item) => DropdownMenuItem<int>(
+                                                value: item,
+                                                child: Text(
+                                                  item.toString(),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              )).toList(),
+                                              // value: state.counties![0].name!,
+                                              onChanged: (int? value) {
+                                                setState(() {
+                                                  pregnant = value!.toString();
+                                                });
+                                              },
+                                              buttonStyleData: const ButtonStyleData(
+                                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                                height: 40,
+                                                width: 140,
+                                              ),
+                                              menuItemStyleData: const MenuItemStyleData(
+                                                height: 40,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  10.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "Milk (Per day)".textMedium(color: Colors.black, fontSize: 12),
+
+                                        5.verticalSpace(),
+
+                                        Container(
+                                          height: 55,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                              borderRadius: BorderRadius.circular(10)
+                                          ),
+                                          width: screenWidth(),
+                                          child: TextField(
+                                            maxLines: 1,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            controller: price,
+                                            maxLength: 10,
+                                            enabled: false,
+                                            keyboardType: TextInputType.phone,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                              counterText: '',
+                                              contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              
+                              20.verticalSpace(),
+
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: "Description".textMedium(color: Colors.black, fontSize: 12),
+                              ),
+
+                              5.verticalSpace(),
+
+                              TextField(
+                                controller: controller,
+                                maxLines: 7,
+                                minLines: 7,
+                                decoration: InputDecoration(
+                                    hintText: 'Write...',
+                                    hintStyle:
+                                    figtreeMedium.copyWith(fontSize: 18),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: const BorderSide(
+                                          width: 1,
+                                          color: Color(0xff999999),
+                                        ))),
+                              ),
+                              40.verticalSpace(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: customButton(
+                                  'Save',
+                                  onTap: () {
+                                    // BlocProvider.of<ProfileCubit>(context)
+                                    //     .addressUpdateApi(context,widget.userId,
+                                    //     lat.toString(),long.toString());
+                                  },
+                                  radius: 40,
+                                  width: double.infinity,
+                                  height: 60,
+                                  style: figtreeMedium.copyWith(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                              20.verticalSpace(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: customButton('Cancel',
+                                    style: figtreeMedium.copyWith(fontSize: 16),
+                                    onTap: () {},
+                                    width: screenWidth(),
+                                    height: 60,
+                                    color: 0xffDCDCDC),
                               ),
                             ],
                           ),
