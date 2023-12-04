@@ -10,6 +10,7 @@ import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/news_cubit/news_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -45,6 +46,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<TrainingCubit>()),
       BlocProvider(create: (context) => di.sl<NewsCubit>()),
       BlocProvider(create: (context) => di.sl<CommunityCubit>()),
+      BlocProvider(create: (context) => di.sl<LivestockCubit>()),
     ],
     child: const GetMaterialApp(
         debugShowCheckedModeBanner: false, home: MyApp()),

@@ -998,7 +998,7 @@ Widget documentImage(String image, Function() onTapCancel, {bool isPDF = false})
       InkWell(
         onTap: isPDF ? () async {
           await Permission.manageExternalStorage.request();
-          var result = await OpenFilePlus.open(File(image).path);
+          var result = await OpenFileSafePlus.open(File(image).path);
           print(result.message);
         } : () {
           PreviewScreen(previewImage: image.toString(),).navigate();
@@ -1058,7 +1058,7 @@ Widget viewDocumentImage(String image, {bool isPDF = false}) {
       var dir = await getApplicationDocumentsDirectory();
       await Permission.manageExternalStorage.request();
       await Dio().download(image, "${"${dir.path}/fileName"}.pdf");
-      await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+      await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
     } : () {
       PreviewScreen(previewImage: image.toString(),).navigate();
     },

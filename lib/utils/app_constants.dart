@@ -81,6 +81,7 @@ class AppConstants {
   static const String newsListApi = '/api/news-event/list';
   static const String newsCategoryApi = '/api/news-event/category';
   static const String trainingDetailApi = '/api/training/details';
+  static const String livestockBreedApi = '/api/live-stock/cow-breed-list';
   static const String projectKycDocumentsApi = '/api/farmer-project/project-kyc-document';
   static const String projectKycDocumentsUpdateApi = '/api/farmer-project/project-kyc-update';
   //mileStoneApi

@@ -62,7 +62,7 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
                         var dir = await getApplicationDocumentsDirectory();
                         await Permission.manageExternalStorage.request();
                         await Dio().download(widget.newsList[index].resource!.originalUrl!, "${"${dir.path}/fileName"}.pdf");
-                        await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                        await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
                       } else{
                         Uri url = Uri.parse(widget.newsList[index].resource!.originalUrl!);
                         if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {

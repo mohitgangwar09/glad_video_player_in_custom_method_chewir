@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/news_list_model.dart';
+import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_community_comment_list.dart';
 import 'package:glad/data/model/response_community_like_list.dart';
 import 'package:glad/data/model/response_community_list_model.dart';
@@ -96,7 +97,7 @@ class OthersRepository {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.newsCategoryApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
-print(apiResponse.response!.data);
+
     if (apiResponse.status) {
       return TrainingAndNewsCategoryModel.fromJson(apiResponse.response!.data);
     } else {
@@ -209,6 +210,20 @@ print(apiResponse.response!.data);
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getLivestockBreedApi //////////
+  Future<ResponseBreed> getLivestockBreedApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.livestockBreedApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseBreed.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseBreed(status: 422, message: apiResponse.msg);
     }
   }
 

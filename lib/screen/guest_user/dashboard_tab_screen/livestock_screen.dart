@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/screen/common/my_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
@@ -43,11 +44,13 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                     child: SvgPicture.asset(Images.drawer)),
                 action: Row(
                   children: [
-
+                    InkWell(
+                        onTap: () {},
+                        child: SvgPicture.asset(Images.cart)),
                     13.horizontalSpace(),
                     InkWell(
-                        onTap: () {
-                        }, child: SvgPicture.asset(Images.filter1)),
+                        onTap: () {},
+                        child: SvgPicture.asset(Images.filter1)),
                     18.horizontalSpace(),
                   ],
                 ),
@@ -81,7 +84,9 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
-                      onTap: (){},
+                      onTap: (){
+                        const MyLiveStockScreen().navigate();
+                      },
                       child: Container(
                         margin: const EdgeInsets.only(right: 12, left: 0),
                         padding: const EdgeInsets.all(10),

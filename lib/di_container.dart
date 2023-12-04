@@ -8,6 +8,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/drawer_cubit/drawer_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/news_cubit/news_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -55,6 +56,8 @@ Future<void> init() async {
   sl.registerFactory(() => TrainingCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => NewsCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => CommunityCubit(apiRepository: sl(),sharedPreferences: sl()));
+  sl.registerFactory(() => LivestockCubit(apiRepository: sl(),sharedPreferences: sl()));
+
 
   // External
   var sharedPreferences = await SharedPreferences.getInstance();

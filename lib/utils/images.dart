@@ -31,9 +31,11 @@ class Images {
   static const String profileDemo = 'assets/images/profile_demo.png';
   static const String callPrimary = 'assets/images/call_primary.svg';
   static const String whatsapp = 'assets/images/whatsapp.svg';
+  static const String cart = 'assets/images/cart.svg';
   static const String redirectLocation = 'assets/images/redirect_location.svg';
   static const String sampleLivestock = 'assets/images/livestock_sample.png';
   static const String messageChat = 'assets/images/messagechat.png';
+  static const String addLivestock = 'assets/images/add_livestock.svg';
   static const String chatBubble = 'assets/images/chat_bubble.svg';
   static const String emailPhone = 'assets/images/email.svg';
   static const String password = 'assets/images/password.svg';
