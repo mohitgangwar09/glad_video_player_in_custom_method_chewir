@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/community_cubit/community_cubit.dart';
+import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/common/community_like_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -15,215 +17,264 @@ import 'package:glad/utils/styles.dart';
 import 'package:glad/data/model/response_community_list_model.dart';
 import 'package:like_button/like_button.dart';
 
-class CommunityPostDetail extends StatelessWidget {
-  const CommunityPostDetail({super.key, required this.data, required this.index});
-  final Data data;
-  final int index;
+class CommunityPostDetail extends StatefulWidget {
+  const CommunityPostDetail({super.key, required this.id});
+  final String id;
 
+  @override
+  State<CommunityPostDetail> createState() => _CommunityPostDetailState();
+}
+
+class _CommunityPostDetailState extends State<CommunityPostDetail> {
+
+  @override
+  void initState() {
+    BlocProvider.of<CommunityCubit>(context).communityDetailApi(context, widget.id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-            child: Container(
-              height: AppBar().preferredSize.height,
-              width: screenWidth(),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      arrowBackButton(),
-                      14.horizontalSpace(),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(1000),
-                        child: Container(
-                          height: AppBar().preferredSize.height * 0.7,
-                          width: AppBar().preferredSize.height * 0.7,
-                          decoration:
-                          const BoxDecoration(shape: BoxShape.circle),
-                          child: CachedNetworkImage(
-                            imageUrl: data.user!.profilePic ?? '',
-                            errorWidget: (_, __, ___) =>
-                                Image.asset(Images.sampleUser),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      10.horizontalSpace(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(data.user!.name ?? '',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 18, color: Colors.black)),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: screenWidth() * 0.3,
-                                child: Text(data.user!.address != null
-                                    ? data.user!.address!.address != null && data.user!.address!.subCounty != null
-                                    ? data.user!.address!.subCounty! + data.user!.address!.address!
-                                    : ''
-                                    : '',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 12, color: Colors.black),
-                                    maxLines: 1,),
-                              ),
-                              10.horizontalSpace(),
-                              Text('${getAge(DateTime.parse(data.createdAt ?? ''))} ago',
-                                  style: figtreeMedium.copyWith(
-                                      fontSize: 12, color: Colors.black)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SvgPicture.asset(Images.chat),
-                ],
-              ),
-            ),
-          ),
-          listviewDetails(data),
-          BlocBuilder<CommunityCubit, CommunityCubitState>(
-              builder: (context, state) {
-              return Container(
-                height: AppBar().preferredSize.height * 1.4,
+      body: BlocBuilder<CommunityCubit, CommunityCubitState>(
+        builder: (context, state) {
+      if (state.status == CommunityStatus.submit) {
+        return const Center(
+            child: CircularProgressIndicator(
+              color: ColorResources.maroon,
+            ));
+      } else if (state.responseCommunityDetailList == null) {
+        return Center(
+            child: Text("${state.responseCommunityDetailList} Api Error"));
+      } else {
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: getStatusBarHeight(context)),
+              child: Container(
+                height: AppBar().preferredSize.height,
                 width: screenWidth(),
-                color: ColorResources.maroon,
-                padding: const EdgeInsets.symmetric(horizontal: 40),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Row(
-                    //   children: [
-                    //     SvgPicture.asset(Images.likeButton, color: Colors.white,),
-                    //     4.horizontalSpace(),
-                    //     Text(
-                    //       'Like',
-                    //       style: figtreeRegular.copyWith(
-                    //           fontSize: 14,
-                    //           color: Colors.white),
-                    //       softWrap: true,
-                    //     ),
-                    //   ],
-                    // ),
-                    LikeButton(
-                      size: 20,
-                      circleColor:
-                      const CircleColor(start: Colors.blue, end: Colors.blueAccent),
-                      bubblesColor: const BubblesColor(
-                        dotPrimaryColor: Colors.blue,
-                        dotSecondaryColor: Colors.blueAccent,
-                      ),
-                      isLiked: state.responseCommunityList!.data![index].isLiked > 0,
-                      likeBuilder: (bool isLiked) {
-                        return SvgPicture.asset(
-                            Images.likeButton,
-                            colorFilter: ColorFilter.mode(
-                                isLiked ? const Color(0xFFFFB300) : Colors.grey,
-                                BlendMode.srcIn)
-                        );
-                      },
-                      likeCount: state.responseCommunityList!.data![index].communityLikesCount,
-                      countBuilder: (int? count, bool isLiked, String text) {
-                        Widget result;
-                        if (count == 0) {
-                          result = Text(
-                            "Like",
-                            style: figtreeRegular.copyWith(
-                                fontSize: 14,
-                                color: Colors.white),
-                          );
-                        } else {
-                          result = InkWell(
-                            onTap: () {
-                              CommunityLikeList(communityId: data.id.toString()).navigate();
-                            },
-                            child: RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                    text: 'Like:',
-                                    style: figtreeRegular.copyWith(
-                                        fontSize: 14,
-                                        color: Colors.white),
-                                  ),
-                                  TextSpan(
-                                    text: ' $text',
-                                    style: figtreeSemiBold.copyWith(
-                                        fontSize: 14, color: Colors.white),
-                                  ),
-                                ])),
-                          );
-                        }
-                        return result;
-                      },
-                      onTap: (tap) async{
-                        context.read<CommunityCubit>().addLikeApi(context, data.id.toString());
-                        return tap;
-                      },
-                    ),
-                    InkWell(
-                      onTap: () {
-                        CommunityCommentList(communityId: data.id.toString()).navigate();
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(Images.commentButton, color: Colors.white,),
-                          4.horizontalSpace(),
-                          Text(
-                            'Comment',
-                            style: figtreeRegular.copyWith(
-                                fontSize: 14,
-                                color: Colors.white),
-                            softWrap: true,
-                          ),
-                          state.responseCommunityList!.data![index].communityCommentsCount != 0 ? RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                  text: ':',
-                                  style: figtreeRegular.copyWith(
-                                      fontSize: 14,
-                                      color: Colors.white),
-                                ),
-                                TextSpan(
-                                  text: ' ${state.responseCommunityList!.data![index].communityCommentsCount}',
-                                  style: figtreeSemiBold.copyWith(
-                                      fontSize: 14, color: Colors.white),
-                                ),
-                              ])) : const SizedBox.shrink(),
-                        ],
-                      ),
-                    ),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.share_outlined,
-                          color: Colors.white,
-                          size: 19,
+                        arrowBackButton(),
+                        14.horizontalSpace(),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(1000),
+                          child: Container(
+                            height: AppBar().preferredSize.height * 0.7,
+                            width: AppBar().preferredSize.height * 0.7,
+                            decoration:
+                            const BoxDecoration(shape: BoxShape.circle),
+                            child: CachedNetworkImage(
+                              imageUrl: state.responseCommunityDetailList!.data![0].user!.profilePic ?? '',
+                              errorWidget: (_, __, ___) =>
+                                  Image.asset(Images.sampleUser),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                        4.horizontalSpace(),
-                        Text(
-                          'Share',
-                          style: figtreeRegular.copyWith(
-                              fontSize: 14,
-                              color: Colors.white),
-                          softWrap: true,
+                        10.horizontalSpace(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(state.responseCommunityDetailList!.data![0].user!.name ?? '',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 18, color: Colors.black)),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: screenWidth() * 0.4,
+                                  child: Text(state.responseCommunityDetailList!.data![0].user!.address != null
+                                      ? state.responseCommunityDetailList!.data![0].user!.address!.address != null &&
+                                      state.responseCommunityDetailList!.data![0].user!.address!.subCounty != null
+                                      ? state.responseCommunityDetailList!.data![0].user!.address!.subCounty! +
+                                      state.responseCommunityDetailList!.data![0].user!.address!.address!
+                                      : ''
+                                      : '',
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12, color: Colors.black),
+                                    maxLines: 2,),
+                                ),
+                                10.horizontalSpace(),
+                                Text(getPostAge(
+                                    DateTime.parse(state.responseCommunityDetailList!.data![0].createdAt ?? '')),
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),
-
+                    SvgPicture.asset(Images.chat),
                   ],
                 ),
-              );
-            }
-          ),
-        ],
+              ),
+            ),
+            listviewDetails(state.responseCommunityDetailList!.data![0]),
+            BlocBuilder<CommunityCubit, CommunityCubitState>(
+                builder: (context, state) {
+                  return Container(
+                    height: AppBar().preferredSize.height * 1.4,
+                    width: screenWidth(),
+                    color: ColorResources.maroon,
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Row(
+                        //   children: [
+                        //     SvgPicture.asset(Images.likeButton, color: Colors.white,),
+                        //     4.horizontalSpace(),
+                        //     Text(
+                        //       'Like',
+                        //       style: figtreeRegular.copyWith(
+                        //           fontSize: 14,
+                        //           color: Colors.white),
+                        //       softWrap: true,
+                        //     ),
+                        //   ],
+                        // ),
+                        LikeButton(
+                          size: 20,
+                          circleColor:
+                          const CircleColor(
+                              start: Colors.blue, end: Colors.blueAccent),
+                          bubblesColor: const BubblesColor(
+                            dotPrimaryColor: Colors.blue,
+                            dotSecondaryColor: Colors.blueAccent,
+                          ),
+                          isLiked: (state.responseCommunityDetailList!.data![0].isLiked ?? 0) > 0,
+                          likeBuilder: (bool isLiked) {
+                            return SvgPicture.asset(
+                                Images.likeButton,
+                                colorFilter: ColorFilter.mode(
+                                    isLiked ? const Color(0xFFFFB300) : Colors
+                                        .white,
+                                    BlendMode.srcIn)
+                            );
+                          },
+                          likeCount: state.responseCommunityDetailList!.data![0].communityLikesCount,
+                          countBuilder: (int? count, bool isLiked,
+                              String text) {
+                            Widget result;
+                            if (count == 0) {
+                              result = Text(
+                                "Like",
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.white),
+                              );
+                            } else {
+                              result = InkWell(
+                                onTap: () {
+                                  if (!context
+                                      .read<CommunityCubit>()
+                                      .sharedPreferences
+                                      .containsKey(AppConstants.userType)) {
+                                    const LoginWithPassword().navigate();
+                                  } else {
+                                    CommunityLikeList(
+                                        communityId: state.responseCommunityDetailList!.data![0].id.toString())
+                                        .navigate();
+                                  }
+                                },
+                                child: RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                        text: 'Like:',
+                                        style: figtreeRegular.copyWith(
+                                            fontSize: 14,
+                                            color: Colors.white),
+                                      ),
+                                      TextSpan(
+                                        text: ' $text',
+                                        style: figtreeSemiBold.copyWith(
+                                            fontSize: 14, color: Colors.white),
+                                      ),
+                                    ])),
+                              );
+                            }
+                            return result;
+                          },
+                          onTap: (tap) async {
+                            if (!context
+                                .read<CommunityCubit>()
+                                .sharedPreferences
+                                .containsKey(AppConstants.userType)) {
+                              const LoginWithPassword().navigate();
+                            } else {
+                              context.read<CommunityCubit>().addLikeApi(
+                                  context, state.responseCommunityDetailList!.data![0].id.toString());
+                            }
+                            return tap;
+                          },
+                        ),
+                        InkWell(
+                          onTap: () {
+                            CommunityCommentList(
+                                communityId: state.responseCommunityDetailList!.data![0].id.toString()).navigate();
+                          },
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                Images.commentButton, color: Colors.white,),
+                              4.horizontalSpace(),
+                              Text(
+                                'Comment',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.white),
+                                softWrap: true,
+                              ),
+                              state.responseCommunityDetailList!.data![0].communityCommentsCount != 0 ? RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      text: ':',
+                                      style: figtreeRegular.copyWith(
+                                          fontSize: 14,
+                                          color: Colors.white),
+                                    ),
+                                    TextSpan(
+                                      text: ' ${state.responseCommunityDetailList!.data![0].communityCommentsCount}',
+                                      style: figtreeSemiBold.copyWith(
+                                          fontSize: 14, color: Colors.white),
+                                    ),
+                                  ])) : const SizedBox.shrink(),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.share_outlined,
+                              color: Colors.white,
+                              size: 19,
+                            ),
+                            4.horizontalSpace(),
+                            Text(
+                              'Share',
+                              style: figtreeRegular.copyWith(
+                                  fontSize: 14,
+                                  color: Colors.white),
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  );
+                }
+            ),
+          ],
+        );
+      }
+        }
       ),
     );
   }
@@ -270,11 +321,13 @@ class CommunityPostDetail extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child:
-                      data.remark.toString()
-                          .textRegular(fontSize: 16, color: Colors.black),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child:
+                        data.remark.toString()
+                            .textRegular(fontSize: 16, color: Colors.black),
+                  ),
                 ),
               ],
             )

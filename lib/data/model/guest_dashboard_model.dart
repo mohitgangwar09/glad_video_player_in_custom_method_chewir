@@ -1,3 +1,4 @@
+import 'package:glad/data/model/dashboard_community.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/data/model/dashboard_training.dart';
 
@@ -29,7 +30,7 @@ class Data {
   DairyDevelopmentExecutive? dairyDevelopmentExecutive;
   Enquiry? enquiry;
   List<NewsEvent>? newsEvent;
-  List<dynamic>? community;
+  List<Community>? community;
   List<TrainingList>? trainingList;
 
   Data({this.dairyDevelopmentExecutive, this.enquiry, this.newsEvent,
@@ -46,19 +47,19 @@ class Data {
     if (json['newsEvent'] != null) {
       newsEvent = <NewsEvent>[];
       json['newsEvent'].forEach((v) {
-        newsEvent!.add(new NewsEvent.fromJson(v));
+        newsEvent!.add(NewsEvent.fromJson(v));
       });
     }
-    // if (json['community'] != null) {
-    //   community = <Null>[];
-    //   json['community'].forEach((v) {
-    //     community!.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['community'] != null) {
+      community = <Community>[];
+      json['community'].forEach((v) {
+        community!.add(Community.fromJson(v));
+      });
+    }
     if (json['trainingList'] != null) {
       trainingList = <TrainingList>[];
       json['trainingList'].forEach((v) {
-        trainingList!.add(new TrainingList.fromJson(v));
+        trainingList!.add(TrainingList.fromJson(v));
       });
     }
   }

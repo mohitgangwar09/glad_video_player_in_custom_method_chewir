@@ -1,3 +1,4 @@
+import 'package:glad/data/model/dashboard_community.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/data/model/dashboard_training.dart';
 
@@ -37,7 +38,7 @@ class Data {
   List<TopPerformerFarmer>? topPerformerFarmer;
   List<NewsEvent>? newsEvent;
   List<TrainingList>? trainingList;
-  List<dynamic>? community;
+  List<Community>? community;
 
 
   Data(
@@ -100,12 +101,12 @@ class Data {
         trainingList!.add(TrainingList.fromJson(v));
       });
     }
-    // if (json['community'] != null) {
-    //   community = <Null>[];
-    //   json['community'].forEach((v) {
-    //     community!.add(Null.fromJson(v));
-    //   });
-    // }
+    if (json['community'] != null) {
+      community = <Community>[];
+      json['community'].forEach((v) {
+        community!.add(Community.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {

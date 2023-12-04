@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/community_cubit/community_cubit.dart';
+import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/common/community_like_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/utils/color_resources.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -25,6 +26,7 @@ class CommunityWidget extends StatefulWidget {
   final int id;
   final void Function()? onTap;
   final int index;
+  final bool fromHome;
 
   const CommunityWidget(
       {super.key,
@@ -38,7 +40,7 @@ class CommunityWidget extends StatefulWidget {
       required this.likeCount,
       required this.commentCount,
       required this.isLiked,
-      required this.id, required this.index});
+      required this.id, required this.index, required this.fromHome});
 
   @override
   State<CommunityWidget> createState() => _CommunityWidgetState();
@@ -92,10 +94,11 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                      width: screenWidth() * 0.5,
+                                      width: screenWidth() * 0.37,
                                       child: Text(widget.location,
                                           style: figtreeMedium.copyWith(
-                                              fontSize: 12, color: Colors.black)),
+                                              fontSize: 12, color: Colors.black),
+                                      maxLines: 1,),
                                     ),
                                     10.horizontalSpace(),
                                     Text(widget.timeAgo,
@@ -114,12 +117,14 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.caption,
-                              maxLines: 3,
-                              style: figtreeRegular.copyWith(
-                                  fontSize: 16, color: Colors.black),
-                              softWrap: true,
+                            Expanded(
+                              child: Text(
+                                widget.caption,
+                                maxLines: 2,
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 16, color: Colors.black),
+                                softWrap: true,
+                              ),
                             ),
                           ],
                         ),
@@ -153,33 +158,6 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Row(
-                                  //   children: [
-                                  //     SvgPicture.asset(Images.likeButton),
-                                  //     4.horizontalSpace(),
-                                  //     Text(
-                                  //       'Like',
-                                  //       style: figtreeRegular.copyWith(
-                                  //           fontSize: 14,
-                                  //           color: const Color(0xFF727272)),
-                                  //       softWrap: true,
-                                  //     ),
-                                  //     widget.likeCount != 0 ? RichText(
-                                  //         text: TextSpan(children: [
-                                  //       TextSpan(
-                                  //         text: ':',
-                                  //         style: figtreeRegular.copyWith(
-                                  //             fontSize: 14,
-                                  //             color: const Color(0xFF727272)),
-                                  //       ),
-                                  //       TextSpan(
-                                  //         text: ' ${widget.likeCount}',
-                                  //         style: figtreeSemiBold.copyWith(
-                                  //             fontSize: 14, color: Colors.black),
-                                  //       ),
-                                  //     ])) : const SizedBox.shrink(),
-                                  //   ],
-                                  // ),
                                   LikeButton(
                                     size: 18,
                                     circleColor:
@@ -188,7 +166,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                       dotPrimaryColor: Colors.blue,
                                       dotSecondaryColor: Colors.blueAccent,
                                     ),
-                                    isLiked: state.responseCommunityList!.data![widget.index].isLiked > 0,
+                                    isLiked: widget.isLiked > 0,
                                     likeBuilder: (bool isLiked) {
                                       return SvgPicture.asset(
                                           Images.likeButton,
@@ -197,7 +175,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                               BlendMode.srcIn)
                                       );
                                     },
-                                    likeCount: state.responseCommunityList!.data![widget.index].communityLikesCount,
+                                    likeCount: widget.likeCount,
                                     countBuilder: (int? count, bool isLiked, String text) {
                                       Widget result;
                                       if (count == 0) {
@@ -210,7 +188,13 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                       } else {
                                         result = InkWell(
                                           onTap: () {
-                                            CommunityLikeList(communityId: widget.id.toString()).navigate();
+                                            if(!context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType)) {
+                                              const LoginWithPassword().navigate();
+                                            } else {
+                                              CommunityLikeList(
+                                                  communityId: widget.id
+                                                      .toString()).navigate();
+                                            }
                                           },
                                           child: RichText(
                                               text: TextSpan(children: [
@@ -231,7 +215,11 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                       return result;
                                     },
                                     onTap: (tap) async{
-                                      context.read<CommunityCubit>().addLikeApi(context, widget.id.toString());
+                                      if(!context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType)) {
+                                        const LoginWithPassword().navigate();
+                                      } else {
+                                        context.read<CommunityCubit>().addLikeApi(context, widget.id.toString());
+                                      }
                                       return tap;
                                     },
                                   ),
@@ -250,7 +238,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                               color: const Color(0xFF727272)),
                                           softWrap: true,
                                         ),
-                                        state.responseCommunityList!.data![widget.index].communityCommentsCount != 0 ? RichText(
+                                        widget.commentCount != 0 ? RichText(
                                             text: TextSpan(children: [
                                               TextSpan(
                                                 text: ':',
@@ -259,7 +247,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                                     color: const Color(0xFF727272)),
                                               ),
                                               TextSpan(
-                                                text: ' ${state.responseCommunityList!.data![widget.index].communityCommentsCount}',
+                                                text: ' ${widget.commentCount}',
                                                 style: figtreeSemiBold.copyWith(
                                                     fontSize: 14, color: Colors.black),
                                               ),
@@ -291,6 +279,8 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                           );
                         }
                       ),
+                      if(!widget.fromHome)
+                        10.verticalSpace(),
                     ],
                   ),
                 )),

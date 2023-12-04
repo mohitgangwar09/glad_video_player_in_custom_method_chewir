@@ -118,6 +118,23 @@ print(apiResponse.response!.data);
     }
   }
 
+  ///////////////// getCommunityDetailApi //////////
+  Future<ResponseCommunityList> getCommunityDetailApi(String id) async {
+    Map<String, dynamic> param = {
+      'id': id
+    };
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.communityDetailApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        queryParameters: param);
+
+    if (apiResponse.status) {
+      return ResponseCommunityList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseCommunityList(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// getCommunityListApi //////////
   Future<ResponseCommunityLikeList> getLikeListApi(String communityId) async {
     var data = {'id': communityId};

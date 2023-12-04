@@ -28,8 +28,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       {required this.apiRepository, required this.sharedPreferences})
       : super(LandingPageState.initial());
 
-  void getFarmerDashboard(context) async {
-    emit(state.copyWith(status: LandingPageStatus.loading));
+  void getFarmerDashboard(context, {bool isLoaderRequired = true}) async {
+    if(isLoaderRequired) {
+      emit(state.copyWith(status: LandingPageStatus.loading));
+    }
     // customDialog(widget: launchProgress());
     var response = await apiRepository.getFarmerDashboardApi();
     if (response.status == 200) {
@@ -138,8 +140,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     }
   }
 
-  Future<void> getSupplierDashboard(context) async {
-    emit(state.copyWith(status: LandingPageStatus.loading));
+  Future<void> getSupplierDashboard(context, {bool isLoaderRequired = true}) async {
+    if (isLoaderRequired) {
+      emit(state.copyWith(status: LandingPageStatus.loading));
+    }
     // customDialog(widget: launchProgress());
     var response = await apiRepository.getSupplierDashboardApi();
     if (response.status == 200) {
@@ -152,8 +156,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
     }
   }
 
-  Future<void> getMCCDashboard(context) async {
-    emit(state.copyWith(status: LandingPageStatus.loading));
+  Future<void> getMCCDashboard(context, {bool isLoaderRequired = true}) async {
+    if (isLoaderRequired) {
+      emit(state.copyWith(status: LandingPageStatus.loading));
+    }
     // customDialog(widget: launchProgress());
     var response = await apiRepository.getMCCDashboardApi();
     if (response.status == 200) {
@@ -167,8 +173,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
   }
 
   // ddeDashboardApi
-  Future<void> ddeDashboardApi(context) async {
-    emit(state.copyWith(status: LandingPageStatus.loading));
+  Future<void> ddeDashboardApi(context, {bool isLoaderRequired = true}) async {
+    if(isLoaderRequired) {
+      emit(state.copyWith(status: LandingPageStatus.loading));
+    }
     var response = await apiRepository.ddeDashboardApi();
     if (response.status == 200) {
       await ddeFarmerVisitorApi(context);

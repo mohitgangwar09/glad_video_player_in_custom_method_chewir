@@ -5,6 +5,7 @@ import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_post_add.dart';
 import 'package:glad/screen/common/community_post_detail.dart';
 import 'package:glad/screen/custom_widget/community_widget.dart';
@@ -127,7 +128,11 @@ class _CommunityPostState extends State<CommunityPost> {
                     hintOnly: true,
                     focusNode: FocusNode(),
                     onTap: () {
-                      const CommunityPostAdd().navigate();
+                      if(context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType)) {
+                        const CommunityPostAdd().navigate();
+                      } else {
+                        const LoginWithPassword().navigate();
+                      }
                     },
                   ))
                 ],
@@ -152,11 +157,12 @@ class _CommunityPostState extends State<CommunityPost> {
                 likeCount: state.responseCommunityList!.data![index].communityLikesCount ?? 0,
                 commentCount: state.responseCommunityList!.data![index].communityCommentsCount ?? 0,
                 onTap: () {
-                  CommunityPostDetail(data: state.responseCommunityList!.data![index], index: index).navigate();
+                  CommunityPostDetail(id: state.responseCommunityList!.data![index].id.toString()).navigate();
                 },
                 id: state.responseCommunityList!.data![index].id ?? 0,
                 isLiked: state.responseCommunityList!.data![index].isLiked ?? 0,
                 index: index,
+                fromHome: false,
               ),
             ),
             100.verticalSpace(),

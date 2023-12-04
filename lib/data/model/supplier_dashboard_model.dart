@@ -1,3 +1,4 @@
+import 'package:glad/data/model/dashboard_community.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/data/model/dashboard_training.dart';
 
@@ -11,11 +12,11 @@ class SupplierDashboardModel {
   SupplierDashboardModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['message'] = this.message;
     data['status'] = this.status;
     if (this.data != null) {
@@ -29,7 +30,7 @@ class Data {
   FarmerProjectSurvey? farmerProjectSurvey;
   FarmerProject? farmerProject;
   List<NewsEvent>? newsEvent;
-  List<dynamic>? community;
+  List<Community>? community;
   List<TrainingList>? trainingList;
   Supplier? supplier;
 
@@ -43,36 +44,36 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     farmerProjectSurvey = json['farmerProjectSurvey'] != null
-        ? new FarmerProjectSurvey.fromJson(json['farmerProjectSurvey'])
+        ? FarmerProjectSurvey.fromJson(json['farmerProjectSurvey'])
         : null;
     farmerProject = json['farmerProject'] != null
-        ? new FarmerProject.fromJson(json['farmerProject'])
+        ? FarmerProject.fromJson(json['farmerProject'])
         : null;
     supplier = json['supplier'] != null
-        ? new Supplier.fromJson(json['supplier'])
+        ? Supplier.fromJson(json['supplier'])
         : null;
     if (json['newsEvent'] != null) {
       newsEvent = <NewsEvent>[];
       json['newsEvent'].forEach((v) {
-        newsEvent!.add(new NewsEvent.fromJson(v));
+        newsEvent!.add(NewsEvent.fromJson(v));
       });
     }
-    // if (json['community'] != null) {
-    //   community = <Null>[];
-    //   json['community'].forEach((v) {
-    //     community!.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['community'] != null) {
+      community = <Community>[];
+      json['community'].forEach((v) {
+        community!.add(Community.fromJson(v));
+      });
+    }
     if (json['trainingList'] != null) {
       trainingList = <TrainingList>[];
       json['trainingList'].forEach((v) {
-        trainingList!.add(new TrainingList.fromJson(v));
+        trainingList!.add(TrainingList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     // if (this.farmerProjetSurvey != null) {
     //   data['farmerProjetSurvey'] =
     //       this.farmerProjetSurvey!.map((v) => v.toJson()).toList();
@@ -146,7 +147,7 @@ class Supplier {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
     data['user_id'] = this.userId;
@@ -177,7 +178,7 @@ class FarmerProjectSurvey {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['pending'] = this.pending;
     data['completed'] = this.completed;
     return data;
@@ -196,7 +197,7 @@ class FarmerProject {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['active'] = this.active;
     data['completed'] = this.completed;
     return data;

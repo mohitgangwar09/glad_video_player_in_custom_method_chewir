@@ -1,3 +1,4 @@
+import 'package:glad/data/model/dashboard_community.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/data/model/dashboard_training.dart';
 
@@ -31,7 +32,7 @@ class Data {
   RagratingTypeStatus? ragratingTypeStatus;
   List<NewsEvent>? newsEvent;
   List<TrainingList>? trainingList;
-  List<dynamic>? community;
+  List<Community>? community;
 
   Data(
       {this.dde,
@@ -59,12 +60,12 @@ class Data {
         trainingList!.add(TrainingList.fromJson(v));
       });
     }
-  //   if (json['community'] != null) {
-  //     community = <dynamic>[];
-  //     json['community'].forEach((v) {
-  //       community!.add(dynamic.fromJson(v));
-  //     });
-  //   }
+    if (json['community'] != null) {
+      community = <Community>[];
+      json['community'].forEach((v) {
+        community!.add(Community.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -241,7 +242,7 @@ class Mcc {
     data['landline_no'] = landlineNo;
     data['email'] = email;
     data['type'] = type;
-    data['service_radius'] = this.serviceRadius;
+    data['service_radius'] = serviceRadius;
     data['status'] = status;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;

@@ -151,7 +151,7 @@ class _CommunityCommentListState extends State<CommunityCommentList> {
                               ],
                             ),
                           )),
-
+                if(context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType))
                       Container(
                         height: AppBar().preferredSize.height * 1.5,
                         width: screenWidth(),
@@ -171,7 +171,7 @@ class _CommunityCommentListState extends State<CommunityCommentList> {
                                     border: InputBorder.none,
                                     focusedBorder: InputBorder.none,
                                     enabledBorder: InputBorder.none,
-                                    hintText: 'Followup remarks...'),
+                                    hintText: 'Write comments...'),
                                 onSubmitted: (value) {
                                   if(value.isNotEmpty) {
                                     context
