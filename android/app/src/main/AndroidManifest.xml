@@ -9,7 +9,7 @@
     <application
         android:label="GLAD"
         android:name="${applicationName}"
-        android:useseartextTraffic="true"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

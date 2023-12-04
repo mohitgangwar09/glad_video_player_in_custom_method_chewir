@@ -241,7 +241,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                                     var dir = await getApplicationDocumentsDirectory();
                                                     await Permission.manageExternalStorage.request();
                                                     await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
-                                                    await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                                                    await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
                                                     // PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
                                                   },
                                                   child: Container(
@@ -289,7 +289,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                                                             var dir = await getApplicationDocumentsDirectory();
                                                             await Permission.manageExternalStorage.request();
                                                             await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
-                                                            await OpenFilePlus.open("${"${dir.path}/fileName"}.pdf");
+                                                            await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
                                                           }, child: Container(
                                                           padding: const EdgeInsets.symmetric(
                                                               horizontal: 20, vertical: 8),

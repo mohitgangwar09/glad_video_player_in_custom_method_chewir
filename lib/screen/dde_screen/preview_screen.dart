@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -28,7 +30,7 @@ class PreviewScreen extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 40.0,left: 15,right: 15),
-              child: networkImage(text: previewImage),
+              child: isUrl(previewImage) ? networkImage(text: previewImage): Image.file(File(previewImage)),
             ),
           ),
 

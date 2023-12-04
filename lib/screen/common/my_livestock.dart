@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
-import 'package:glad/screen/common/my_livestock.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/screen/common/add_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
@@ -12,147 +13,70 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class LiveStockScreen extends StatefulWidget {
-  const LiveStockScreen({Key? key}) : super(key: key);
+class MyLiveStockScreen extends StatefulWidget {
+  const MyLiveStockScreen({Key? key}) : super(key: key);
 
   @override
-  State<LiveStockScreen> createState() => _LiveStockScreenState();
+  State<MyLiveStockScreen> createState() => _MyLiveStockScreenState();
 }
 
-class _LiveStockScreenState extends State<LiveStockScreen> {
+class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Stack(
-        children: [
-          landingBackground(),
-          Column(
-            children: [
-              CustomAppBar(
-                context: context,
-                titleText1: 'Livestock',
-                centerTitle: true,
-                leading: openDrawer(
-                    onTap: () {
-                      if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) == 'farmer') {
-                        farmerLandingKey.currentState?.openDrawer();
-                      } else {
-                        landingKey.currentState?.openDrawer();
-                      }
-                    },
-                    child: SvgPicture.asset(Images.drawer)),
-                action: Row(
-                  children: [
-                    InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(Images.cart)),
-                    13.horizontalSpace(),
-                    InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(Images.filter1)),
-                    18.horizontalSpace(),
-                  ],
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Stack(
+          children: [
+            landingBackground(),
+            Column(
+              children: [
+                CustomAppBar(
+                  context: context,
+                  titleText1: 'My Livestock Ads',
+                  centerTitle: true,
+                  leading: arrowBackButton(),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(
-                    left: 20, right: 20, bottom: 13, top: 23),
-                height: 50,
-                decoration: boxDecoration(
-                    borderColor: Colors.grey,
-                    borderRadius: 62,
-                    backgroundColor: Colors.white),
-                width: screenWidth(),
-                child: Row(
-                  children: [
-                    13.horizontalSpace(),
-                    SvgPicture.asset(Images.searchLeft),
-                    13.horizontalSpace(),
-                    const Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none, hintText: "Search by..."),
-                        )),
-                  ],
+                Container(
+                  margin: const EdgeInsets.only(
+                      left: 20, right: 20, bottom: 13, top: 23),
+                  height: 50,
+                  decoration: boxDecoration(
+                      borderColor: Colors.grey,
+                      borderRadius: 62,
+                      backgroundColor: Colors.white),
+                  width: screenWidth(),
+                  child: Row(
+                    children: [
+                      13.horizontalSpace(),
+                      SvgPicture.asset(Images.searchLeft),
+                      13.horizontalSpace(),
+                      const Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none, hintText: "Search by..."),
+                          )),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: (){
-                        const MyLiveStockScreen().navigate();
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 12, left: 0),
-                        padding: const EdgeInsets.all(10),
-                        decoration: boxDecoration(
-                            borderColor: const Color(0xffDCDCDC),
-                            borderWidth: 1,
-                            borderRadius: 62,
-                            backgroundColor: Colors.white),
-                        child: 'My Livestock Ads'.textMedium(fontSize: 12, color: Colors.black),
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          /*modalBottomSheetMenu(
-                              context, child:
-                          SizedBox(
-                            height: screenHeight()*0.65,
-                            child: Column(
-                              children: [
-
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0,right: 8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-
-                                      TextButton(onPressed: (){
-                                        pressBack();
-                                      }, child: "Cancel".textMedium(color: const Color(0xff6A0030),fontSize: 14)),
-
-                                      "Sort By".textMedium(fontSize: 22),
-
-                                      TextButton(onPressed: (){},child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
-
-                                    ],
-                                  ),
-                                ),
-
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 20.0,right: 20),
-                                  child: Divider(),
-                                ),
-
-                                Expanded(
-                                  child: customList(list: [1,2,22,2,22,2,2,22,2],child: (index){
-                                    return Padding(padding: const EdgeInsets.only(left: 30,right: 30,top:30,bottom: 10),
-                                        child: "ROI Highest to Lowest".textRegular(fontSize: 16));
-                                  }),
-                                ),
-
-                                10.verticalSpace(),
-
-                                Container(margin: 20.marginAll(),height: 55,width: screenWidth(),child: customButton("Apply",fontColor: 0xffffffff, onTap: (){}))
-
-
-                              ],
-                            ),
-                          ));*/
-                        }, child: SvgPicture.asset(Images.filter2)),
-                  ],
-                ),
-              ),
-              landingPage(context),
-            ],
-          ),
-        ],
+                landingPage(context),
+              ],
+            ),
+            Positioned(
+                bottom: 0,
+                right: 0,
+                child: InkWell(
+                  onTap: () {
+                    const AddLivestock().navigate();
+                  },
+                  child: SvgPicture.asset(
+                    Images.addLivestock,
+                    width: 100,
+                    height: 100,
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -161,7 +85,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
     return Expanded(
       child: customGrid(
           padding: const EdgeInsets.fromLTRB(13,13,13,120),
-          list: [1, 2, 3, 4, 5, 6, 7],
+          list: [1, 2],
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
           mainAxisExtent: 250,
