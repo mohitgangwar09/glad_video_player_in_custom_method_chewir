@@ -29,7 +29,7 @@ class DashboardMCC extends StatelessWidget {
       const ApplicationScreen(),
       const CommunityPost(),
       const NewsAndEvent(isBottomAppBar: true),
-      const OnlineTraining(isBottomAppBar: true,),
+      // const OnlineTraining(isBottomAppBar: true,),
     ];
 
     return BlocBuilder<DashboardCubit, DashboardState>(
@@ -79,9 +79,9 @@ class DashboardMCC extends StatelessWidget {
               10.horizontalSpace(),
               bottomNavigationItem('News', Images.newsBottom, context,
                   state.selectedIndex, 3, Images.selectedNewsBottom),
-              10.horizontalSpace(),
-              bottomNavigationItem('Training', Images.trainingBottom, context,
-                  state.selectedIndex, 4, Images.selectedTrainingBottom),
+              // 10.horizontalSpace(),
+              // bottomNavigationItem('Training', Images.trainingBottom, context,
+              //     state.selectedIndex, 4, Images.selectedTrainingBottom),
             ],
           ),
         ),

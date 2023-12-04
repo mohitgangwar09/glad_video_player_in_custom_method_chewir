@@ -67,6 +67,7 @@ class AppConstants {
   static const String trainingListApi = '/api/training/list';
   static const String guestTrainingListApi = '/api/training/guest-training';
   static const String communityListApi = '/api/community/community-list';
+  static const String communityDetailApi = '/api/community/community-detail';
   static const String guestCommunityListApi = '/api/community/guest-community-list';
   static const String likeListApi = '/api/community/like-list';
   static const String guestLikeListApi = '/api/community/guest-like-list';

@@ -11,9 +11,14 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class LiveStockScreen extends StatelessWidget {
+class LiveStockScreen extends StatefulWidget {
   const LiveStockScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LiveStockScreen> createState() => _LiveStockScreenState();
+}
+
+class _LiveStockScreenState extends State<LiveStockScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,6 +43,56 @@ class LiveStockScreen extends StatelessWidget {
                     child: SvgPicture.asset(Images.drawer)),
                 action: Row(
                   children: [
+
+                    13.horizontalSpace(),
+                    InkWell(
+                        onTap: () {
+                        }, child: SvgPicture.asset(Images.filter1)),
+                    18.horizontalSpace(),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(
+                    left: 20, right: 20, bottom: 13, top: 23),
+                height: 50,
+                decoration: boxDecoration(
+                    borderColor: Colors.grey,
+                    borderRadius: 62,
+                    backgroundColor: Colors.white),
+                width: screenWidth(),
+                child: Row(
+                  children: [
+                    13.horizontalSpace(),
+                    SvgPicture.asset(Images.searchLeft),
+                    13.horizontalSpace(),
+                    const Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none, hintText: "Search by..."),
+                        )),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: (){},
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 12, left: 0),
+                        padding: const EdgeInsets.all(10),
+                        decoration: boxDecoration(
+                            borderColor: const Color(0xffDCDCDC),
+                            borderWidth: 1,
+                            borderRadius: 62,
+                            backgroundColor: Colors.white),
+                        child: 'My Livestock Ads'.textMedium(fontSize: 12, color: Colors.black),
+                      ),
+                    ),
                     InkWell(
                         onTap: () {
                           /*modalBottomSheetMenu(
@@ -86,33 +141,6 @@ class LiveStockScreen extends StatelessWidget {
                             ),
                           ));*/
                         }, child: SvgPicture.asset(Images.filter2)),
-                    13.horizontalSpace(),
-                    InkWell(
-                        onTap: () {
-                        }, child: SvgPicture.asset(Images.filter1)),
-                    18.horizontalSpace(),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(
-                    left: 20, right: 20, bottom: 13, top: 23),
-                height: 50,
-                decoration: boxDecoration(
-                    borderColor: Colors.grey,
-                    borderRadius: 62,
-                    backgroundColor: Colors.white),
-                width: screenWidth(),
-                child: Row(
-                  children: [
-                    13.horizontalSpace(),
-                    SvgPicture.asset(Images.searchLeft),
-                    13.horizontalSpace(),
-                    const Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none, hintText: "Search by..."),
-                        )),
                   ],
                 ),
               ),
@@ -237,5 +265,4 @@ class LiveStockScreen extends StatelessWidget {
       }),
     );
   }
-
 }

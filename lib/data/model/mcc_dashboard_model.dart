@@ -1,3 +1,4 @@
+import 'package:glad/data/model/dashboard_community.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/data/model/dashboard_training.dart';
 
@@ -11,11 +12,11 @@ class MCCDashboardModel {
   MCCDashboardModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['message'] = this.message;
     data['status'] = this.status;
     if (this.data != null) {
@@ -28,7 +29,7 @@ class MCCDashboardModel {
 class Data {
   FarmerProject? farmerProject;
   List<NewsEvent>? newsEvent;
-  List<dynamic>? community;
+  List<Community>? community;
   List<TrainingList>? trainingList;
   Mcc? mcc;
 
@@ -41,31 +42,31 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     farmerProject = json['farmerProject'] != null
-        ? new FarmerProject.fromJson(json['farmerProject'])
+        ? FarmerProject.fromJson(json['farmerProject'])
         : null;
     if (json['newsEvent'] != null) {
       newsEvent = <NewsEvent>[];
       json['newsEvent'].forEach((v) {
-        newsEvent!.add(new NewsEvent.fromJson(v));
+        newsEvent!.add(NewsEvent.fromJson(v));
       });
     }
-    mcc = json['mcc'] != null ? new Mcc.fromJson(json['mcc']) : null;
-    // if (json['community'] != null) {
-    //   community = <Null>[];
-    //   json['community'].forEach((v) {
-    //     community!.add(new Null.fromJson(v));
-    //   });
-    // }
+    mcc = json['mcc'] != null ? Mcc.fromJson(json['mcc']) : null;
+    if (json['community'] != null) {
+      community = <Community>[];
+      json['community'].forEach((v) {
+        community!.add(Community.fromJson(v));
+      });
+    }
     if (json['trainingList'] != null) {
       trainingList = <TrainingList>[];
       json['trainingList'].forEach((v) {
-        trainingList!.add(new TrainingList.fromJson(v));
+        trainingList!.add(TrainingList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     // if (this.farmerProject != null) {
     //   data['farmerProject'] = this.farmerProject!.map((v) => v.toJson()).toList();
     // }
@@ -94,7 +95,7 @@ class FarmerProject {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['pending'] = this.pending;
     data['approved'] = this.approved;
     return data;
@@ -164,13 +165,13 @@ class FarmerProject {
       dairyDevelopmentExecutive = <DairyDevelopmentExecutive>[];
       json['dairy_development_executive'].forEach((v) {
         dairyDevelopmentExecutive!
-            .add(new DairyDevelopmentExecutive.fromJson(v));
+            .add(DairyDevelopmentExecutive.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
     data['user_id'] = this.userId;
@@ -259,13 +260,13 @@ class DairyDevelopmentExecutive {
     if (json['farmer_master'] != null) {
       farmerMaster = <FarmerMaster>[];
       json['farmer_master'].forEach((v) {
-        farmerMaster!.add(new FarmerMaster.fromJson(v));
+        farmerMaster!.add(FarmerMaster.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
     data['user_id'] = this.userId;
@@ -393,7 +394,7 @@ class FarmerMaster {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['user_id'] = this.userId;
     data['name'] = this.name;

@@ -123,13 +123,6 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
             ),
             10.verticalSpace(),
             CommunityForum(
-              name: 'Begumanya Charles',
-              location: 'Kampala, Uganda',
-              image: '',
-              caption:
-                  'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley.',
-              video: '',
-              timeAgo: '5 Hrs ago',
               onTapShowAll: () {
                 BlocProvider.of<DashboardCubit>(context).selectedIndex(2);
               },

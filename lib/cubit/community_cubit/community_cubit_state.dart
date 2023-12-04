@@ -5,6 +5,7 @@ enum CommunityStatus{initial,submit,success,error}
 class CommunityCubitState extends Equatable{
   final CommunityStatus status;
   final ResponseCommunityList? responseCommunityList;
+  final ResponseCommunityList? responseCommunityDetailList;
   final ResponseCommunityLikeList? responseCommunityLikeList;
   final ResponseCommunityCommentList? responseCommunityCommentList;
 
@@ -13,6 +14,7 @@ class CommunityCubitState extends Equatable{
       required this.responseCommunityList,
       required this.responseCommunityLikeList,
       required this.responseCommunityCommentList,
+      required this.responseCommunityDetailList,
   });
 
   factory CommunityCubitState.initial() {
@@ -21,12 +23,14 @@ class CommunityCubitState extends Equatable{
       responseCommunityList: null,
       responseCommunityLikeList: null,
       responseCommunityCommentList: null,
+      responseCommunityDetailList: null,
     );
   }
 
   CommunityCubitState copyWith({
     CommunityStatus? status,
     ResponseCommunityList? responseCommunityList,
+    ResponseCommunityList? responseCommunityDetailList,
     ResponseCommunityLikeList? responseCommunityLikeList,
     ResponseCommunityCommentList? responseCommunityCommentList
   }) {
@@ -35,6 +39,7 @@ class CommunityCubitState extends Equatable{
         responseCommunityList: responseCommunityList ?? this.responseCommunityList,
         responseCommunityLikeList: responseCommunityLikeList ?? this.responseCommunityLikeList,
         responseCommunityCommentList: responseCommunityCommentList ?? this.responseCommunityCommentList,
+        responseCommunityDetailList: responseCommunityDetailList ?? this.responseCommunityDetailList,
     );
   }
 
@@ -44,6 +49,7 @@ class CommunityCubitState extends Equatable{
     responseCommunityList,
     responseCommunityLikeList,
     responseCommunityCommentList,
+    responseCommunityDetailList,
   ];
 
 }
