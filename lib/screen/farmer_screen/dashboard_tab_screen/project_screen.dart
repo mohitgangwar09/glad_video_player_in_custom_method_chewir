@@ -36,18 +36,33 @@ class _ProjectScreenState extends State<ProjectScreen> {
         Column(
           children: [
 
-            CustomAppBar(
-              context: context,
-              titleText1: 'Projects',
-              titleText1Style:
-              figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-              centerTitle: true,
-              leading: openDrawer(
-                  onTap: () {
-                    farmerLandingKey.currentState?.openDrawer();
-                  },
-                  child: SvgPicture.asset(Images.drawer)),
+            Stack(
+              children: [
+                CustomAppBar(
+                  context: context,
+                  titleText1: 'Projects',
+                  titleText1Style:
+                  figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                  centerTitle: true,
+                  leading: openDrawer(
+                      onTap: () {
+                        farmerLandingKey.currentState?.openDrawer();
+                      },
+                      child: SvgPicture.asset(Images.drawer)),
+                ),
+
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xffDCDCDC))
+                  ),
+                  child: const Icon(Icons.search)
+                )
+              ],
             ),
+
             10.verticalSpace(),
             Container(
               height: 50,
