@@ -49,9 +49,6 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                           fontSize: 20, color: Colors.black),
                       centerTitle: true,
                       leading: arrowBackButton(),
-                      action: InkWell(
-                          onTap: () {},
-                          child: SvgPicture.asset(Images.filter2)),
                     ),
                     listviewDetails(state),
                   ],
@@ -224,12 +221,13 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                             children: [
-                                              state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!.name.toString().textSemiBold(
+
+                                              /*state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!.name.toString().textSemiBold(
                                                   fontSize: 18,
-                                                  color: ColorResources.black),
+                                                  color: ColorResources.black),*/
 
                                               Column(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
                                                       fontSize: 14,
@@ -241,10 +239,25 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                                                   )
 
                                                 ],
+                                              ),
+
+                                              Container(
+                                                padding: const EdgeInsets.all(12),
+                                                decoration: boxDecoration(
+                                                    backgroundColor:
+                                                    const Color(0xFFFFF3F4),
+                                                    borderColor:
+                                                    const Color(0xffF6B51D),
+                                                    borderRadius: 40,
+                                                    borderWidth: 1),
+                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount+state.responseAccountStatement!.data!.farmerProjectFinancial![index].receivableAmount).toString().textBold(
+                                                    fontSize: 18,
+                                                    color:
+                                                    ColorResources.black),
                                               )
                                             ],
                                           ),
-                                          15.verticalSpace(),
+                                          /*15.verticalSpace(),
                                           Row(
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -306,7 +319,7 @@ class _ProjectDetailStatementState extends State<ProjectDetailStatement> {
                                                     ColorResources.black),
                                               )
                                             ],
-                                          ),
+                                          ),*/
                                         ]),
                                     separatorBuilder: (context, index) =>
                                     const Padding(

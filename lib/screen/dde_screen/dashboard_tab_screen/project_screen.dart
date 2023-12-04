@@ -23,6 +23,8 @@ class ProjectScreen extends StatefulWidget {
 
 class _ProjectScreenState extends State<ProjectScreen> {
   String selectedFilter = 'suggested';
+  bool search = false;
+  TextEditingController searchEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   titleText1: 'Projects',
                   titleText1Style:
                   figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-                  centerTitle: true,
+                  // centerTitle: true,
                   leading: openDrawer(
                       onTap: () {
                         ddeLandingKey.currentState?.openDrawer();
@@ -178,6 +180,66 @@ class _ProjectScreenState extends State<ProjectScreen> {
                           },
                           child: SvgPicture.asset(Images.filter1)),
                       18.horizontalSpace(),
+                      search == true?
+                      Stack(
+                        children: [
+                          Container(
+                            height: 50,
+                            decoration: boxDecoration(
+                                borderColor: Colors.grey,
+                                borderRadius: 62,
+                                backgroundColor: Colors.white),
+                            width: screenWidth()-16,
+                            child: Row(
+                              children: [
+                                13.horizontalSpace(),
+                                SvgPicture.asset(Images.searchLeft),
+                                13.horizontalSpace(),
+                                Expanded(
+                                    child: TextField(
+                                      controller: searchEditingController,
+                                      onChanged: (value){
+                                        BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, selectedFilter, false,searchQuery:value.toString());
+                                      },
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none, hintText: "Search"),
+                                    )),
+                              ],
+                            ),
+                          ),
+                          Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  search = false;
+                                  searchEditingController.clear();
+                                  BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, selectedFilter, false,searchQuery:'');
+                                });
+                              },
+                              icon: const Icon(Icons.clear)))
+                        ],
+                      ):const SizedBox.shrink(),
+
+                      search == false?
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            search = true;
+                            // BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, selectedFilter, false,searchQuery:'');
+                          });
+                        },
+                        child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: const Color(0xffDCDCDC))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(Images.search,width: 23,height: 23,),
+                            )
+                        ),
+                      ):const SizedBox.shrink()
                     ],
                   ),
                 ),
@@ -399,7 +461,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                     farmerDetail: state.responseDdeProject!.data!
                                         .projectList![i].farmerMaster!,
                                   rejectStatus: state.responseDdeProject!.data!
-                                      .projectList![i].rejectStatus ?? '', milestones: state.responseDdeProject!.data!
+                                      .projectList![i].rejectStatus ?? '',
+                                  milestones: state.responseDdeProject!.data!
                                     .projectList![i].farmerProjectMilestones!,
                                   selectedFilter: selectedFilter,
                                 ),

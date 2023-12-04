@@ -79,12 +79,12 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // farmerProjectsApi
-  void farmerProjectsApi(context, String projectFilter, bool showLoader) async {
+  void farmerProjectsApi(context, String projectFilter, bool showLoader,{String? searchQuery}) async {
     if (showLoader) {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
     // customDialog(widget: launchProgress());
-    var response = await apiRepository.getFarmerProjectsApi(projectFilter,state.roiFilter.toString());
+    var response = await apiRepository.getFarmerProjectsApi(projectFilter,state.roiFilter.toString(),search: searchQuery);
     if (response.status == 200) {
       // disposeProgress();
       emit(state.copyWith(status: ProjectStatus.success, responseFarmerProject: response));
@@ -108,7 +108,7 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // farmerProjectsApi
-  Future<void> ddeProjectsApi(context, String projectStatus, bool showLoader) async {
+  Future<void> ddeProjectsApi(context, String projectStatus, bool showLoader,{String? searchQuery}) async {
     if (showLoader) {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
@@ -122,7 +122,8 @@ class ProjectCubit extends Cubit<ProjectState> {
       roiUpToController: state.roiUpToController.text,
       loanAmountFromController: state.loanAmountFromController.text,
       loanAmountUpToController: state.loanAmountUpToController.text,
-      improvementArea: state.filterImprovementAreaName
+      improvementArea: state.filterImprovementAreaName,
+      searchQuery:searchQuery
     );
     if (response.status == 200) {
       emit(state.copyWith(status: ProjectStatus.success, responseDdeProject: response));

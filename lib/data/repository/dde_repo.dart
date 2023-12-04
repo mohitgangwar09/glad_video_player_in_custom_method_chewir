@@ -26,6 +26,7 @@ class DdeRepository {
   String? farmSizeTo,
   String? herdSizeFrom,
   String? herdSizeTo,
+  String? searchQuery,
   }
 ) async {
     Map<String,dynamic> param;
@@ -42,7 +43,8 @@ class DdeRepository {
         "farm_size_from": farmSizeFrom,
         "farm_size_upto": farmSizeTo,
         "herd_size_from": herdSizeFrom,
-        "herd_size_upto": herdSizeTo
+        "herd_size_upto": herdSizeTo,
+        "search": searchQuery
       };
     }else{
       param = {
@@ -56,7 +58,8 @@ class DdeRepository {
         "farm_size_from": farmSizeFrom,
         "farm_size_upto": farmSizeTo,
         "herd_size_from": herdSizeFrom,
-        "herd_size_upto": herdSizeTo
+        "herd_size_upto": herdSizeTo,
+        "search": searchQuery,
       };
     }
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(

@@ -28,6 +28,8 @@ class FarmerDdeTabScreen extends StatefulWidget {
 class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
   String countryCode = "";
+  bool search = false;
+  TextEditingController searchEditingController = TextEditingController();
 
   void getCountryCode() async{
     String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
@@ -46,7 +48,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
       case 'critical' : return const Color(0xffFC5E60);
       case 'average' : return const Color(0xffF6B51D);
       case 'satisfactory' : return const Color(0xff12CE57);
-      case 'mature' : return ColorResources.maroon;
+      // case 'mature' : return ColorResources.maroon;
       default: return Colors.white;
     }
   }
@@ -172,6 +174,66 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                             const FilterDDEFarmer().navigate();
                           }, child: SvgPicture.asset(Images.filter1)),
                       18.horizontalSpace(),
+                      search == true?
+                      Stack(
+                        children: [
+                          Container(
+                            height: 50,
+                            decoration: boxDecoration(
+                                borderColor: Colors.grey,
+                                borderRadius: 62,
+                                backgroundColor: Colors.white),
+                            width: screenWidth()-16,
+                            child: Row(
+                              children: [
+                                13.horizontalSpace(),
+                                SvgPicture.asset(Images.searchLeft),
+                                13.horizontalSpace(),
+                                Expanded(
+                                    child: TextField(
+                                      controller: searchEditingController,
+                                      onChanged: (value){
+                                        BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false,searchQuery: value.toString());
+                                      },
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none, hintText: "Search"),
+                                    )),
+                              ],
+                            ),
+                          ),
+                          Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  search = false;
+                                  searchEditingController.clear();
+                                  BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false,searchQuery: '');
+                                });
+                              },
+                              icon: const Icon(Icons.clear)))
+                        ],
+                      ):const SizedBox.shrink(),
+
+                      search == false?
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            search = true;
+                            // BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, selectedFilter, false,searchQuery:'');
+                          });
+                        },
+                        child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: const Color(0xffDCDCDC))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(Images.search,width: 23,height: 23,),
+                            )
+                        ),
+                      ):const SizedBox.shrink()
                     ],
                   ),
                   leading: openDrawer(
@@ -179,9 +241,8 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                         ddeLandingKey.currentState?.openDrawer();
                       },
                       child: SvgPicture.asset(Images.drawer)),
-                  centerTitle: true,
                 ),
-                Container(
+                /*Container(
                   margin: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 13, top: 23),
                   height: 50,
@@ -202,7 +263,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                           )),
                     ],
                   ),
-                ),
+                ),*/
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Container(
@@ -213,7 +274,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                         ragRatingButton(context, 'Critical', state.response!.ragRatingCount!.critical.toString(), state.selectedRagRatingType == 'critical', const Color(0xffFC5E60)),
                         ragRatingButton(context, 'Average', state.response!.ragRatingCount!.average.toString(), state.selectedRagRatingType == 'average', const Color(0xffF6B51D)),
                         ragRatingButton(context, 'Satisfactory', state.response!.ragRatingCount!.satisfactory.toString(), state.selectedRagRatingType == 'satisfactory', const Color(0xff12CE57)),
-                        ragRatingButton(context, 'Mature', state.response!.ragRatingCount!.mature.toString(), state.selectedRagRatingType == 'mature', ColorResources.maroon),
+                        // ragRatingButton(context, 'Mature', state.response!.ragRatingCount!.mature.toString(), state.selectedRagRatingType == 'mature', ColorResources.maroon),
                       ],
                     ),
                   ),
@@ -391,7 +452,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                         ),
                                       ),
                                       20.verticalSpace(),
-                                      state.response!.farmerMAster![i].farmerProject!.isNotEmpty ? Padding(
+                                      /*state.response!.farmerMAster![i].farmerProject!.isNotEmpty ? Padding(
                                         padding: const EdgeInsets.only(right:15),
                                         child: InkWell(
                                           onTap: () {
@@ -476,9 +537,9 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                                         double.parse(state.response!.farmerMAster![i].farmerProject![0].roiPerYear.toString()).toStringAsFixed(2).textSemiBold(
                                                             color: Colors.black,
                                                             fontSize: 16),
-                                                       /* '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
+                                                       *//* '${state.response!.farmerMAster![i].farmerProject![0].roiPerYear}%'.textSemiBold(
                                                             color: Colors.black,
-                                                            fontSize: 16),*/
+                                                            fontSize: 16),*//*
                                                         'ROI'.textMedium(
                                                             fontSize: 12,
                                                             color: const Color(
@@ -491,9 +552,9 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                             ),
                                           ),
                                         ),
-                                      ) : const SizedBox.shrink(),
+                                      ) : const SizedBox.shrink(),*/
 
-                                      15.verticalSpace(),
+                                      // 15.verticalSpace(),
                                       Container(
                                         width: 140,
                                         height: 3,
