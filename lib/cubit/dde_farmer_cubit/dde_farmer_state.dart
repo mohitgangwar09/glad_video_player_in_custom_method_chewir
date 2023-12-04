@@ -28,7 +28,9 @@ class DdeState extends Equatable {
   final List<DataBreed> ? breedResponse;
   final List<DataBreed> ? searchBreedList;
   final List<bool>? showQties;
-  final String? selectedRagRatingType;
+  final String? selectedRagRatingType,breedFilter;
+  final TextEditingController milkingCowFromController,milkingCowToController,milkSupplyFromController,
+      milkSupplyUpToController,yieldPerCowFromController,yieldPerUpToController,farmSizeFromController,farmSizeUpToController,herdSizeFromController,herdSizeToController;
 
   const DdeState({
     required this.focusTag,
@@ -61,6 +63,17 @@ class DdeState extends Equatable {
     required this.bullCalfController,
     required this.totalMilkingCow,
     required this.selectedRagRatingType,
+    required this.breedFilter,
+    required this.milkingCowFromController,
+    required this.milkingCowToController,
+    required this.milkSupplyFromController,
+    required this.milkSupplyUpToController,
+    required this.yieldPerCowFromController,
+    required this.yieldPerUpToController,
+    required this.farmSizeFromController,
+    required this.farmSizeUpToController,
+    required this.herdSizeFromController,
+    required this.herdSizeToController,
   });
 
   factory DdeState.initial(){
@@ -88,6 +101,17 @@ class DdeState extends Equatable {
       suppliedToPdfController: TextEditingController(),
       suppliedToOtherPdfController: TextEditingController(),
       selfUseController: TextEditingController(),
+      milkingCowToController: TextEditingController(),
+      milkingCowFromController: TextEditingController(),
+      milkSupplyFromController: TextEditingController(),
+      milkSupplyUpToController: TextEditingController(),
+      yieldPerUpToController: TextEditingController(),
+      yieldPerCowFromController: TextEditingController(),
+      farmSizeFromController: TextEditingController(),
+      farmSizeUpToController: TextEditingController(),
+      herdSizeToController: TextEditingController(),
+      herdSizeFromController: TextEditingController(),
+      breedFilter: '',
       breedResponse: null,
       searchBreedList: null,
       breedId: '',
@@ -117,7 +141,9 @@ class DdeState extends Equatable {
     List<DateWiseData> ? dateWise,
     List<DataBreed> ? searchBreedList,
     List<bool>? showQties,
-    String? selectedRagRatingType,
+    String? selectedRagRatingType,breedFilter,
+    TextEditingController? milkingCowFromController,milkingCowToController,milkSupplyFromController,
+    milkSupplyUpToController,yieldPerCowFromController,yieldPerUpToController,farmSizeFromController,farmSizeUpToController,herdSizeFromController,herdSizeToController
   }) {
     return DdeState(
       focusTag: focusTag ?? this.focusTag,
@@ -150,6 +176,17 @@ class DdeState extends Equatable {
       totalHerdSize: totalHerdSize ?? this.totalHerdSize,
       sumOfMilkingSize: sumOfMilkingSize ?? this.sumOfMilkingSize,
       selectedRagRatingType: selectedRagRatingType ?? this.selectedRagRatingType,
+      breedFilter: breedFilter ?? this.breedFilter,
+      milkingCowFromController: milkingCowFromController ?? this.milkingCowFromController,
+      milkingCowToController: milkingCowToController ?? this.milkingCowToController,
+      milkSupplyFromController: milkSupplyFromController ?? this.milkSupplyFromController,
+      milkSupplyUpToController: milkSupplyUpToController ?? this.milkSupplyUpToController,
+      yieldPerCowFromController: yieldPerCowFromController ?? this.yieldPerCowFromController,
+      yieldPerUpToController: yieldPerUpToController ?? this.yieldPerUpToController,
+      farmSizeFromController: farmSizeFromController ?? this.farmSizeFromController,
+      farmSizeUpToController: farmSizeUpToController ?? this.farmSizeUpToController,
+      herdSizeFromController: herdSizeFromController ?? this.herdSizeFromController,
+      herdSizeToController: herdSizeToController ?? this.herdSizeToController,
     );
   }
 
@@ -184,7 +221,18 @@ class DdeState extends Equatable {
     sumOfMilkingSize,
     sumOfHerd,
     totalMilkingCow,
-    selectedRagRatingType
+    selectedRagRatingType,
+    breedFilter,
+    milkSupplyFromController,
+    milkingCowToController,
+    milkSupplyFromController,
+    milkSupplyUpToController,
+    yieldPerCowFromController,
+    yieldPerUpToController,
+    farmSizeFromController,
+    farmSizeUpToController,
+    herdSizeToController,
+    herdSizeFromController,
   ];
 
 }

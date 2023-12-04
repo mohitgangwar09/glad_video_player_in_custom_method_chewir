@@ -19,14 +19,17 @@ class ProjectState extends Equatable {
   final List<DataMileStoneName>? responseMilestoneName;
   final List<DataMileStoneName>? filterMileStone;
   final ResponseAccountStatement? responseAccountStatement;
+  final ResponseImprovementAreaFilterList? responseImprovementAreaFilterList;
   final String? selectResourceType, selectSizeCapacity,selectProjectUOM,selectMaterialName,primaryId;
   final String? selectResourceTypeId, selectSizeCapacityId,selectProjectUOMId,selectMaterialId,userIdForOtpValidate;
   final TextEditingController requiredQtyController,pricePerUnitController,valueController;
   final TextEditingController milestoneTitle,milestoneDescription,milestoneDuration;
   final TextEditingController materialNameController,resourceTypeController,resourceCapacityController,uomController;
   final String? projectId;
-  final String? selectedFilterMCCApplication,statusLoan;
+  final String? selectedFilterMCCApplication,statusLoan,roiFilter,filterImprovementAreaName;
   final dynamic paidAmount,dueAmount,pendingAmount;
+  final TextEditingController revenueFromController,revenueToController,investmentFromController,
+      investmentUpToController,roiFromController,roiUpToController,loanAmountFromController,loanAmountUpToController;
 
 
   const ProjectState({
@@ -72,6 +75,17 @@ class ProjectState extends Equatable {
     required this.pendingAmount,
     required this.dueAmount,
     required this.statusLoan,
+    required this.roiFilter,
+    required this.revenueFromController,
+    required this.revenueToController,
+    required this.investmentFromController,
+    required this.investmentUpToController,
+    required this.roiFromController,
+    required this.roiUpToController,
+    required this.loanAmountFromController,
+    required this.loanAmountUpToController,
+    required this.responseImprovementAreaFilterList,
+    required this.filterImprovementAreaName,
   });
 
   factory ProjectState.initial() {
@@ -111,6 +125,14 @@ class ProjectState extends Equatable {
       resourceTypeController: TextEditingController(),
       resourceCapacityController: TextEditingController(),
       uomController: TextEditingController(),
+      revenueFromController: TextEditingController(),
+      revenueToController: TextEditingController(),
+      investmentFromController: TextEditingController(),
+      investmentUpToController: TextEditingController(),
+      roiFromController: TextEditingController(),
+      roiUpToController: TextEditingController(),
+      loanAmountFromController: TextEditingController(),
+      loanAmountUpToController: TextEditingController(),
       primaryId: '',
       userIdForOtpValidate: '',
       projectId: '',
@@ -121,6 +143,9 @@ class ProjectState extends Equatable {
       dueAmount: null,
       pendingAmount: null,
       statusLoan: null,
+      roiFilter: '',
+      responseImprovementAreaFilterList: null,
+      filterImprovementAreaName: ''
     );
   }
 
@@ -148,7 +173,10 @@ class ProjectState extends Equatable {
     String? projectId, selectedFilterMCCApplication,
     SupplierProjectModel? responseSupplierProject,
     dynamic paidAmount,dueAmount,pendingAmount,
-    String? statusLoan
+    String? statusLoan,roiFilter,filterImprovementAreaName,
+    TextEditingController? revenueFromController,revenueToController,investmentFromController,
+    investmentUpToController,roiFromController,roiUpToController,loanAmountFromController,loanAmountUpToController,
+    ResponseImprovementAreaFilterList? responseImprovementAreaFilterList,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -190,6 +218,7 @@ class ProjectState extends Equatable {
       milestoneDescription: milestoneDescription ?? this.milestoneDescription,
       filterMileStone: filterMileStone ?? this.filterMileStone,
       projectId: projectId ?? this.projectId,
+      responseImprovementAreaFilterList: responseImprovementAreaFilterList ?? this.responseImprovementAreaFilterList,
       responseMilestoneName: responseMilestoneName ?? this.responseMilestoneName,
       filterResourceType: filterResourceType ?? this.filterResourceType,
       filterMaterialType: filterMaterialType ?? this.filterMaterialType,
@@ -198,6 +227,14 @@ class ProjectState extends Equatable {
       resourceTypeController: resourceTypeController ?? this.resourceTypeController,
       resourceCapacityController: resourceCapacityController ?? this.resourceCapacityController,
       uomController: uomController ?? this.uomController,
+      revenueToController: revenueToController ?? this.revenueToController,
+      revenueFromController: revenueFromController ?? this.revenueFromController,
+      investmentFromController: investmentFromController ?? this.investmentFromController,
+      investmentUpToController: investmentUpToController ?? this.investmentUpToController,
+      roiFromController: roiFromController ?? this.roiFromController,
+      roiUpToController: roiUpToController ?? this.roiUpToController,
+      loanAmountUpToController: loanAmountUpToController ?? this.loanAmountUpToController,
+      loanAmountFromController: loanAmountFromController ?? this.loanAmountFromController,
       responseAccountStatement: responseAccountStatement ?? this.responseAccountStatement,
       selectedFilterMCCApplication: selectedFilterMCCApplication ?? this.selectedFilterMCCApplication,
       responseSupplierProject: responseSupplierProject ?? this.responseSupplierProject,
@@ -205,16 +242,18 @@ class ProjectState extends Equatable {
       dueAmount: dueAmount ?? this.dueAmount,
       statusLoan: statusLoan ?? this.statusLoan,
       pendingAmount: pendingAmount ?? this.pendingAmount,
+      roiFilter: roiFilter ?? this.roiFilter,
+      filterImprovementAreaName: filterImprovementAreaName ?? this.filterImprovementAreaName,
     );
   }
 
   @override
   List<Object?> get props => [
-        status,
-        responseFarmerProject,
-        responseDdeProject,
-        responseFarmerProjectDetail,
-        responseFarmerProjectMilestoneDetail,
+    status,
+    responseFarmerProject,
+    responseDdeProject,
+    responseFarmerProjectDetail,
+    responseFarmerProjectMilestoneDetail,
     responseResourceType,
     responseResourceCapacityType,
     responseProjectUOM,
@@ -249,6 +288,17 @@ class ProjectState extends Equatable {
     paidAmount,
     pendingAmount,
     dueAmount,
-    statusLoan
-      ];
+    statusLoan,
+    roiFilter,
+    revenueToController,
+    revenueFromController,
+    investmentFromController,
+    investmentUpToController,
+    roiFromController,
+    roiUpToController,
+    loanAmountFromController,
+    loanAmountUpToController,
+    responseImprovementAreaFilterList,
+    filterImprovementAreaName
+  ];
 }

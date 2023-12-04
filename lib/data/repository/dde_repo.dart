@@ -14,10 +14,55 @@ class DdeRepository {
   ///////////////// farmersList //////////
 
 
-  Future<FarmersList> getFarmersList(String ragRatingType) async {
-    Map<String,dynamic> param = {'rag_rating_type': ragRatingType};
+  Future<FarmersList> getFarmersList(String ragRatingType,
+  {String? orderBy,
+  String? milkingCowsFrom,
+  String? milkingCowsTo,
+  String? milkSupplyFrom,
+  String? milkSupplyTo,
+  String? yieldPerCowFrom,
+  String? yieldPerCowTo,
+  String? farmSizeFrom,
+  String? farmSizeTo,
+  String? herdSizeFrom,
+  String? herdSizeTo,
+  }
+) async {
+    Map<String,dynamic> param;
+    if(ragRatingType != ''){
+      param = {
+        'rag_rating_type': ragRatingType,
+        "order_by": orderBy,
+        "milking_cows_from": milkingCowsFrom,
+        "milking_cows_upto": milkingCowsTo,
+        "milk_supply_from": milkSupplyFrom,
+        "milk_supply_upto": milkSupplyTo,
+        "yield_per_cow_from": yieldPerCowFrom,
+        "yield_per_cow_upto": yieldPerCowTo,
+        "farm_size_from": farmSizeFrom,
+        "farm_size_upto": farmSizeTo,
+        "herd_size_from": herdSizeFrom,
+        "herd_size_upto": herdSizeTo
+      };
+    }else{
+      param = {
+        "order_by": orderBy,
+        "milking_cows_from": milkingCowsFrom,
+        "milking_cows_upto": milkingCowsTo,
+        "milk_supply_from": milkSupplyFrom,
+        "milk_supply_upto": milkSupplyTo,
+        "yield_per_cow_from": yieldPerCowFrom,
+        "yield_per_cow_upto": yieldPerCowTo,
+        "farm_size_from": farmSizeFrom,
+        "farm_size_upto": farmSizeTo,
+        "herd_size_from": herdSizeFrom,
+        "herd_size_upto": herdSizeTo
+      };
+    }
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getApiResponse(
-        AppConstants.farmerList, headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: ragRatingType != '' ? param : {});
+        AppConstants.farmerList, headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        queryParameters: param);
+        // queryParameters: ragRatingType != '' ? param : {});
     if (apiResponse.status) {
       return FarmersList.fromJson(apiResponse.response!.data);
     } {

@@ -5,6 +5,7 @@ import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
@@ -75,50 +76,94 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                     children: [
                       InkWell(
                           onTap: () {
+
+                            List<String> breedFilterList = [
+                              'Default',
+                              'Yield Per Cow Highest to Lowest',
+                              'Yield Per Cow Lowest to Highest',
+                              'Dairy Area Highest to Lowest',
+                              'Dairy Area Lowest to Highest',
+                              'Farm Size Highest to Lowest',
+                              'Farm Size Lowest to Highest',
+                              'Milk Supply Highest to Lowest',
+                              'Milk Supply Lowest to Highest',
+                              'Milking Cow Highest to Lowest',
+                              'Milking Cow Lowest to Highest',
+                            ];
+                            List<String> breedRequestToApi = [
+                              '',
+                              'yield_per_cow_desc',
+                              'yield_per_cow_asc',
+                              'dairy_area_desc',
+                              'dairy_area_asc',
+                              'farm_size_desc',
+                              'farm_size_asc',
+                              'milk_supply_desc',
+                              'milk_supply_asc',
+                              'milking_cows_desc',
+                              'milking_cows_asc'
+                            ];
+
                             modalBottomSheetMenu(
                                 context, child:
-                            SizedBox(
-                              height: screenHeight()*0.65,
-                              child: Column(
-                                children: [
+                            StatefulBuilder(
+                              builder: (BuildContext contexts, void Function(void Function()) setState) {
+                                return SizedBox(
+                                  height: screenHeight()*0.65,
+                                  child: Column(
+                                    children: [
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0,right: 8),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0,right: 8),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
 
-                                        TextButton(onPressed: (){
-                                          pressBack();
-                                        }, child: "Cancel".textMedium(color: const Color(0xff6A0030),fontSize: 14)),
+                                            TextButton(onPressed: (){
+                                              pressBack();
+                                            }, child: "Cancel".textMedium(color: const Color(0xff6A0030),fontSize: 14)),
 
-                                        "Sort By".textMedium(fontSize: 22),
+                                            "Sort By".textMedium(fontSize: 22),
 
-                                        TextButton(onPressed: (){},child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
+                                            TextButton(onPressed: (){},child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
 
-                                      ],
-                                    ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 20.0,right: 20),
+                                        child: Divider(),
+                                      ),
+
+                                      Expanded(
+                                        child: customList(list: breedFilterList,child: (index){
+                                          return Padding(padding: const EdgeInsets.only(left: 30,right: 30,top:30,bottom: 10),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  InkWell(onTap: (){
+                                                    setState(() {});
+                                                    BlocProvider.of<DdeFarmerCubit>(context).breedOrderByFilter(breedRequestToApi[index].toString());
+                                                    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false);
+                                                    pressBack();
+                                                  },child: breedFilterList[index].toString().textRegular(fontSize: 16)),
+                                                  state.breedFilter == breedRequestToApi[index].toString()?
+                                                  const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
+                                                ],
+                                              ));
+                                        }),
+                                      ),
+
+                                      10.verticalSpace(),
+
+                                      Container(margin: 20.marginAll(),height: 55,width: screenWidth(),child: customButton("Apply",fontColor: 0xffffffff, onTap: (){}))
+
+
+                                    ],
                                   ),
-
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 20.0,right: 20),
-                                    child: Divider(),
-                                  ),
-
-                                  Expanded(
-                                    child: customList(list: [1,2,22,2,22,2,2,22,2],child: (index){
-                                      return Padding(padding: const EdgeInsets.only(left: 30,right: 30,top:30,bottom: 10),
-                                          child: "ROI Highest to Lowest".textRegular(fontSize: 16));
-                                    }),
-                                  ),
-
-                                  10.verticalSpace(),
-
-                                  Container(margin: 20.marginAll(),height: 55,width: screenWidth(),child: customButton("Apply",fontColor: 0xffffffff, onTap: (){}))
-
-
-                                ],
-                              ),
+                                );
+                              },
                             ));
                           }, child: SvgPicture.asset(Images.filter2)),
                       13.horizontalSpace(),

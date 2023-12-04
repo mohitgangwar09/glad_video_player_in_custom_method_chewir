@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
-class FilterDDEFarmer extends StatelessWidget {
-  const FilterDDEFarmer({Key? key}) : super(key: key);
+class ProjectFilter extends StatelessWidget {
+  const ProjectFilter(this.selectedFilter,{Key? key,}) : super(key: key);
+  final String selectedFilter;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocBuilder<DdeFarmerCubit,DdeState>(builder: (context, state) {
+      body: BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -26,19 +27,24 @@ class FilterDDEFarmer extends StatelessWidget {
                 titleText1Style: figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                 leading: TextButton(
                     onPressed: () {
-                      BlocProvider.of<DdeFarmerCubit>(context).breedFilterClear();
-                      BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false);
+                      BlocProvider.of<ProjectCubit>(context).roiFilterClear();
+                      BlocProvider.of<ProjectCubit>(context)
+                          .ddeProjectsApi(
+                          context, selectedFilter, false);
                       pressBack();
                     },
                     child: "Cancel"
                         .textMedium(color: ColorResources.maroon, fontSize: 12)),
                 action: TextButton(
                     onPressed: () {
-                      BlocProvider.of<DdeFarmerCubit>(context).breedFilterClear();
-                      BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false);
+                      BlocProvider.of<ProjectCubit>(context).roiFilterClear();
+                      BlocProvider.of<ProjectCubit>(context)
+                          .ddeProjectsApi(
+                          context, selectedFilter, false);
+
                       pressBack();
-                    },
-                    child: "Reset"
+
+                    }, child: "Reset"
                         .textMedium(color: ColorResources.maroon, fontSize: 12)),
               ),
               Expanded(
@@ -48,327 +54,38 @@ class FilterDDEFarmer extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        "Improvement areas".textMedium(fontSize: 18),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            "Milking Cows".textMedium(fontSize: 18),
-                            "Numbers".textSemiBold(
-                                fontSize: 12, color: const Color(0xff727272))
-                          ],
-                        ),
+                        15.verticalSpace(),
 
-                        customProjectContainer(
-                            marginLeft: 0,
-                            marginTop: 8,
-                            height: 124,
-                            child: Row(
-                              children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.milkingCowFromController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                              counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "UpTo".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.milkingCowToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                31.horizontalSpace(),
-                              ],
-                            )),
+                        state.responseImprovementAreaFilterList!=null?
+                        Wrap(
+                          children: state.responseImprovementAreaFilterList!.data!.map((item) => InkWell(
+                            onTap: (){
+                              context.read<ProjectCubit>().emit(state.copyWith(
+                                  filterImprovementAreaName: item.name));
+                            },
+                            child: Container(
+                                margin: 5.marginAll(),
+                                padding: const EdgeInsets.only(
+                                    left: 14, right: 14, bottom: 10, top: 10),
+                                decoration: boxDecoration(
+                                    borderColor: state.filterImprovementAreaName == item.name ?
+                                    const Color(0xff6A0030):const Color(0xffDCDCDC),
+                                    backgroundColor: state.filterImprovementAreaName == item.name ?const Color(0xffFFF3F4):Colors.transparent,
+                                    borderRadius: 30),
+                                child: Text(item.name.toString())),
+                          ))
+                              .toList()
+                              .cast<Widget>(),
+                        ):const SizedBox.shrink(),
 
                         33.verticalSpace(),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            "Milk Supply".textMedium(fontSize: 18),
-                            "In litre".textSemiBold(
-                                fontSize: 12, color: const Color(0xff727272))
-                          ],
-                        ),
-
-                        customProjectContainer(
-                            marginLeft: 0,
-                            marginTop: 8,
-                            height: 124,
-                            child: Row(
-                              children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.milkSupplyFromController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "UpTo".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.milkSupplyUpToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                31.horizontalSpace(),
-                              ],
-                            )),
-
-                        33.verticalSpace(),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            "Yield Per Cow".textMedium(fontSize: 18),
-                            "In litre".textSemiBold(
-                                fontSize: 12, color: const Color(0xff727272))
-                          ],
-                        ),
-
-                        customProjectContainer(
-                            marginLeft: 0,
-                            marginTop: 8,
-                            height: 124,
-                            child: Row(
-                              children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.yieldPerCowFromController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "UpTo".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.yieldPerUpToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                31.horizontalSpace(),
-                              ],
-                            )),
-
-                        33.verticalSpace(),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            "Farm size".textMedium(fontSize: 18),
-                            "In Acres".textSemiBold(
-                                fontSize: 12, color: const Color(0xff727272))
-                          ],
-                        ),
-
-                        customProjectContainer(
-                            marginLeft: 0,
-                            marginTop: 8,
-                            height: 124,
-                            child: Row(
-                              children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child:  TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            maxLength: 12,
-                                            controller: state.farmSizeFromController,
-                                            decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "UpTo".textSemiBold(
-                                        fontSize: 14,
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.farmSizeUpToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                31.horizontalSpace(),
-                              ],
-                            )),
-
-                        33.verticalSpace(),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            "Herd size".textMedium(fontSize: 18),
+                            "Revenue".textMedium(fontSize: 18),
                             "In Numbers".textSemiBold(
                                 fontSize: 12, color: const Color(0xff727272))
                           ],
@@ -399,11 +116,167 @@ class FilterDDEFarmer extends StatelessWidget {
                                           child: TextField(
                                             keyboardType: TextInputType.phone,
                                             maxLines: 1,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                             maxLength: 12,
-                                            controller: state.herdSizeFromController,
+                                            controller: state.revenueFromController,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                             decoration: const InputDecoration(
-                                                counterText: '',
+                                                border: InputBorder.none,
+                                              counterText: ''
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                18.horizontalSpace(),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      "To".textSemiBold(
+                                        fontSize: 14,
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          margin: const EdgeInsets.only(top: 5),
+                                          decoration: boxDecoration(
+                                              borderRadius: 10,
+                                              borderColor: const Color(0xff767676)),
+                                          height: 50,
+                                          child: TextField(
+                                            keyboardType: TextInputType.phone,
+                                            maxLines: 1,
+                                            maxLength: 12,
+                                            controller: state.revenueToController,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: ''),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                31.horizontalSpace(),
+                              ],
+                            )),
+
+                        33.verticalSpace(),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            "Investment".textMedium(fontSize: 18),
+                            "In Number".textSemiBold(
+                                fontSize: 12, color: const Color(0xff727272))
+                          ],
+                        ),
+
+                        customProjectContainer(
+                            marginLeft: 0,
+                            marginTop: 8,
+                            height: 124,
+                            child: Row(
+                              children: [
+                                31.horizontalSpace(),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      "From".textSemiBold(
+                                        fontSize: 14,
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(left: 10),
+                                          decoration: boxDecoration(
+                                              borderRadius: 10,
+                                              borderColor: const Color(0xff767676)),
+                                          height: 50,
+                                          child: TextField(
+                                            keyboardType: TextInputType.phone,
+                                            maxLines: 1,
+                                            controller: state.investmentFromController,
+                                            maxLength: 12,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                18.horizontalSpace(),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      "UpTo".textSemiBold(
+                                        fontSize: 14,
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          margin: const EdgeInsets.only(top: 5),
+                                          decoration: boxDecoration(
+                                              borderRadius: 10,
+                                              borderColor: const Color(0xff767676)),
+                                          height: 50,
+                                          child: TextField(
+                                            keyboardType: TextInputType.phone,
+                                            maxLines: 1,
+                                            controller: state.investmentUpToController,
+                                            maxLength: 12,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                31.horizontalSpace(),
+                              ],
+                            )),
+
+                        33.verticalSpace(),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            "ROI".textMedium(fontSize: 18),
+                            "In Numbers".textSemiBold(
+                                fontSize: 12, color: const Color(0xff727272))
+                          ],
+                        ),
+
+                        customProjectContainer(
+                            marginLeft: 0,
+                            marginTop: 8,
+                            height: 124,
+                            child: Row(
+                              children: [
+                                31.horizontalSpace(),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      "From".textSemiBold(
+                                        fontSize: 14,
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(left: 10),
+                                          decoration: boxDecoration(
+                                              borderRadius: 10,
+                                              borderColor: const Color(0xff767676)),
+                                          height: 50,
+                                          child: TextField(
+                                            keyboardType: TextInputType.phone,
+                                            maxLines: 1,
+                                            maxLength: 12,
+                                            controller: state.roiFromController,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            decoration: const InputDecoration(
+                                              counterText: '',
                                                 border: InputBorder.none),
                                           ))
                                     ],
@@ -427,13 +300,12 @@ class FilterDDEFarmer extends StatelessWidget {
                                           height: 50,
                                           child: TextField(
                                             keyboardType: TextInputType.phone,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                             maxLines: 1,
                                             maxLength: 12,
-                                            controller: state.herdSizeToController,
+                                            controller: state.roiUpToController,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                             decoration: const InputDecoration(
-                                                counterText: '',
-                                                border: InputBorder.none),
+                                                border: InputBorder.none,counterText: '',),
                                           ))
                                     ],
                                   ),
@@ -442,8 +314,84 @@ class FilterDDEFarmer extends StatelessWidget {
                               ],
                             )),
 
-                        32.verticalSpace(),
+                        33.verticalSpace(),
 
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            "Loan Amount".textMedium(fontSize: 18),
+                            "In Numbers".textSemiBold(
+                                fontSize: 12, color: const Color(0xff727272))
+                          ],
+                        ),
+
+                        customProjectContainer(
+                            marginLeft: 0,
+                            marginTop: 8,
+                            height: 124,
+                            child: Row(
+                              children: [
+                                31.horizontalSpace(),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      "From".textSemiBold(
+                                        fontSize: 14,
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(left: 10),
+                                          decoration: boxDecoration(
+                                              borderRadius: 10,
+                                              borderColor: const Color(0xff767676)),
+                                          height: 50,
+                                          child: TextField(
+                                            keyboardType: TextInputType.phone,
+                                            maxLines: 1,
+                                            maxLength: 12,
+                                            controller: state.loanAmountFromController,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                18.horizontalSpace(),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      "UpTo".textSemiBold(
+                                        fontSize: 14,
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          margin: const EdgeInsets.only(top: 5),
+                                          decoration: boxDecoration(
+                                              borderRadius: 10,
+                                              borderColor: const Color(0xff767676)),
+                                          height: 50,
+                                          child: TextField(
+                                            keyboardType: TextInputType.phone,
+                                            maxLines: 1,
+                                            maxLength: 12,
+                                            controller: state.loanAmountUpToController,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                                31.horizontalSpace(),
+                              ],
+                            )),
+
+                        10.verticalSpace(),
 
                         Container(
                             margin: 20.marginAll(),
@@ -451,7 +399,9 @@ class FilterDDEFarmer extends StatelessWidget {
                             width: screenWidth(),
                             child: customButton("Apply",
                                 fontColor: 0xffffffff, onTap: () {
-                                  BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+                                  BlocProvider.of<ProjectCubit>(context)
+                                      .ddeProjectsApi(
+                                      context, selectedFilter, false);
                                   pressBack();
                                 }))
 

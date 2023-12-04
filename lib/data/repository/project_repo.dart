@@ -7,6 +7,7 @@ import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/response_account_statement.dart';
 import 'package:glad/data/model/response_add_value.dart';
+import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
@@ -25,11 +26,12 @@ class ProjectRepository {
   ProjectRepository({this.sharedPreferences});
 
   ///////////////// getFarmerProjectsApi //////////
-  Future<FarmerProjectModel> getFarmerProjectsApi(String projectFilter) async {
+  Future<FarmerProjectModel> getFarmerProjectsApi(String projectFilter,String orderBy) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerProjectListApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {
-          'project_status': projectFilter
+          'project_status': projectFilter,
+          'order_by': orderBy,
         });
 
     if (apiResponse.status) {
@@ -55,11 +57,33 @@ class ProjectRepository {
   }
 
   ///////////////// getDdeProjectsApi //////////
-  Future<DdeProjectModel> getDdeProjectsApi(String projectFilter) async {
+  Future<DdeProjectModel> getDdeProjectsApi(String projectFilter,{String? orderBy,
+    String? revenueFromController,revenueUpToController,
+    String? investmentFromController,investmentUpToController,
+    String? roiFromController,roiUpToController,
+    String? loanAmountFromController,loanAmountUpToController,improvementArea
+  }) async {
+
+    var data = {
+      'project_status': projectFilter,
+      'order_by': orderBy,
+      'revenue_from': revenueFromController,
+      'revenue_to': revenueUpToController,
+      'investment_from': investmentFromController,
+      'investment_to': investmentUpToController,
+      'roi_from': roiFromController,
+      'roi_to': roiUpToController,
+      'loan_amount_from': loanAmountFromController,
+      'loan_amount_to': loanAmountUpToController,
+      'improvement_area': improvementArea,
+    };
+
+    print(data);
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         // .getApiResponse(AppConstants.ddeProjectListApi,
         .getApiResponse(AppConstants.farmerProjectListApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_status': projectFilter});
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: data);
 
     if (apiResponse.status) {
       return DdeProjectModel.fromJson(apiResponse.response!.data);
@@ -621,6 +645,29 @@ class ProjectRepository {
   }
 
   ///////////////// accountStatementApi //////////
+  Future<ResponseAccountStatement> accountStatementProjectDdeDetailApi(String paymentStatus,String userRoleId,String farmerProjectId) async {
+
+    var data = {
+      "user_role" : 'farmer',
+      "user_role_id" : userRoleId,
+      "payment_status" : paymentStatus,
+      "farmer_project_id" : farmerProjectId,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.accountStatementApi,
+      queryParameters: data,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseAccountStatement.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseAccountStatement(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// accountStatementApi //////////
   Future<ResponseAccountStatement> accountStatementProjectDetailApi(String paymentStatus,String userRoleId,String farmerProjectId) async {
 
     var data = {
@@ -742,6 +789,22 @@ class ProjectRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+
+  }
+
+  ///////////////// improvementAreaFilterListApi //////////
+  Future<ResponseImprovementAreaFilterList> improvementAreaFilterListApi(
+      ) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.improvementAreaFilterListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},);
+
+    if (apiResponse.status) {
+      return ResponseImprovementAreaFilterList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseImprovementAreaFilterList(status: 422, message: apiResponse.msg);
     }
 
   }

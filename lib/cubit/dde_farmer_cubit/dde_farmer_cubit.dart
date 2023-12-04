@@ -366,12 +366,44 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
   }
 
+  void breedOrderByFilter(String filter){
+    emit(state.copyWith(breedFilter: filter));
+  }
+
+  void breedFilterClear(){
+    emit(state.copyWith(
+        milkingCowToController: TextEditingController(text: ''),
+        milkingCowFromController: TextEditingController(text: ''),
+        milkSupplyFromController: TextEditingController(text: ''),
+        milkSupplyUpToController: TextEditingController(text: ''),
+        yieldPerUpToController: TextEditingController(text: ''),
+        yieldPerCowFromController: TextEditingController(text: ''),
+        farmSizeFromController: TextEditingController(text: ''),
+        farmSizeUpToController: TextEditingController(text: ''),
+        herdSizeFromController: TextEditingController(text: ''),
+        herdSizeToController: TextEditingController(text: ''),
+
+    ));
+  }
+
   void getFarmer(context, String ragRatingType, bool showLoader) async{
     // customDialog(widget: launchProgress());
     if (showLoader){
       emit(state.copyWith(status: DdeFarmerStatus.loading));
     }
-    var response = await apiRepository.getFarmersList(ragRatingType);
+    var response = await apiRepository.getFarmersList(ragRatingType,
+    orderBy: state.breedFilter,
+    milkingCowsFrom: state.milkingCowFromController.text,
+    milkingCowsTo: state.milkingCowToController.text,
+    milkSupplyFrom: state.milkSupplyFromController.text,
+    milkSupplyTo: state.milkSupplyUpToController.text,
+    farmSizeFrom: state.farmSizeFromController.text,
+    farmSizeTo: state.farmSizeUpToController.text,
+    herdSizeTo: state.herdSizeToController.text,
+    herdSizeFrom: state.herdSizeFromController.text,
+    yieldPerCowFrom: state.yieldPerCowFromController.text,
+    yieldPerCowTo: state.yieldPerUpToController.text,
+    );
     if(response.status == 200){
       // disposeProgress();
       emit(state.copyWith(status: DdeFarmerStatus.success, response: response.data, selectedRagRatingType: ragRatingType));

@@ -7,6 +7,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_filter.dart';
+import 'package:glad/screen/dde_screen/project_filter.dart';
 import 'package:glad/screen/dde_screen/project_widget.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -63,84 +64,117 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     children: [
                       InkWell(
                           onTap: () {
+                            List<String> roiList = [
+                              'Default',
+                              'ROI Highest to Lowest',
+                              'ROI Lowest to Highest',
+                              'Revenue Highest to Lowest',
+                              'Revenue Lowest to Highest',
+                              'Investment Highest to Lowest',
+                              'Investment Lowest to Highest',
+                            ];
+                            List<String> roiRequestToApi = [
+                             '',
+                             'roi_highest_desc',
+                              'roi_lowest_asc',
+                              'revenue_highest_desc',
+                              'revenue_lowest_asc',
+                              'investment_highest_desc',
+                              'investment_lowest_asc'
+                            ];
                             modalBottomSheetMenu(context,
-                                child: SizedBox(
-                                  height: screenHeight() * 0.65,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0, right: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  pressBack();
-                                                },
-                                                child: "Cancel".textMedium(
-                                                    color:
-                                                    const Color(0xff6A0030),
-                                                    fontSize: 14)),
-                                            "Sort By".textMedium(fontSize: 22),
-                                            TextButton(
-                                                onPressed: () {},
-                                                child: "Reset".textMedium(
-                                                    color:
-                                                    const Color(0xff6A0030),
-                                                    fontSize: 14))
-                                          ],
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 20.0, right: 20),
-                                        child: Divider(),
-                                      ),
-                                      Expanded(
-                                        child: customList(
-                                            list: [
-                                              1,
-                                              2,
-                                              22,
-                                              2,
-                                              22,
-                                              2,
-                                              2,
-                                              22,
-                                              2
+                                child: StatefulBuilder(builder: (context, setStates) {
+                                  return SizedBox(
+                                    height: screenHeight() * 0.65,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, right: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    pressBack();
+                                                  },
+                                                  child: "Cancel".textMedium(
+                                                      color:
+                                                      const Color(0xff6A0030),
+                                                      fontSize: 14)),
+                                              "Sort By".textMedium(fontSize: 22),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    setState(() {});
+                                                    BlocProvider.of<ProjectCubit>(context).roiFilter('');
+                                                    BlocProvider.of<ProjectCubit>(context)
+                                                        .ddeProjectsApi(
+                                                        context, selectedFilter, false);
+                                                    pressBack();
+                                                  },
+                                                  child: "Reset".textMedium(
+                                                      color:
+                                                      const Color(0xff6A0030),
+                                                      fontSize: 14))
                                             ],
-                                            child: (index) {
-                                              return Padding(
-                                                  padding: const EdgeInsets
-                                                      .only(
-                                                      left: 30,
-                                                      right: 30,
-                                                      top: 30,
-                                                      bottom: 10),
-                                                  child: "ROI Highest to Lowest"
-                                                      .textRegular(
-                                                      fontSize: 16));
-                                            }),
-                                      ),
-                                      10.verticalSpace(),
-                                      Container(
-                                          margin: 20.marginAll(),
-                                          height: 55,
-                                          width: screenWidth(),
-                                          child: customButton("Apply",
-                                              fontColor: 0xffffffff,
-                                              onTap: () {}))
-                                    ],
-                                  ),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 20.0, right: 20),
+                                          child: Divider(),
+                                        ),
+                                        Expanded(
+                                          child: customList(
+                                              list: roiList,
+                                              child: (index) {
+                                                return Padding(
+                                                    padding: const EdgeInsets
+                                                        .only (
+                                                        left: 30,
+                                                        right: 30,
+                                                        top: 30,
+                                                        bottom: 10),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        InkWell(onTap: (){
+                                                          setState(() {});
+                                                          BlocProvider.of<ProjectCubit>(context).roiFilter(roiRequestToApi[index].toString());
+                                                          BlocProvider.of<ProjectCubit>(context)
+                                                              .ddeProjectsApi(
+                                                              context, selectedFilter, false);
+                                                          pressBack();
+                                                        }, child: roiList[index].toString()
+                                                            .textRegular(
+                                                            fontSize: 16)),
+                                                        state.roiFilter == roiRequestToApi[index].toString()?
+                                                        const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
+                                                      ],
+                                                    ));
+                                              }),
+                                        ),
+                                        10.verticalSpace(),
+                                        Container(
+                                            margin: 20.marginAll(),
+                                            height: 55,
+                                            width: screenWidth(),
+                                            child: customButton("Apply",
+                                                fontColor: 0xffffffff,
+                                                onTap: () {}))
+                                      ],
+                                    ),
+                                  );
+                                },
                                 ));
                           },
                           child: SvgPicture.asset(Images.filter2)),
                       13.horizontalSpace(),
                       InkWell(
                           onTap: () {
-                            const FilterDDEFarmer().navigate();
+                            BlocProvider.of<ProjectCubit>(context).responseAreaImprovementListApi(context);
+                            ProjectFilter(selectedFilter).navigate();
                           },
                           child: SvgPicture.asset(Images.filter1)),
                       18.horizontalSpace(),
@@ -153,7 +187,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   child: Container(
                     height: 50,
                     margin: 20.marginLeft(),
-                    // width: screenWidth(),
                     decoration: boxDecoration(
                         borderRadius: 62,
                         borderColor: const Color(0xffDCDCDC),
