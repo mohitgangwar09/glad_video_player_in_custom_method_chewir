@@ -4,33 +4,8 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>sms</string>
-      <string>tel</string>
-    </array>
-    <key>CFBundleExecutable</key>
-    <string>$(EXECUTABLE_NAME)</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Your location is required for Twiker benefits for you</string>
-    <key>NSLocationUsageDescription</key>
-    <string>Need location access for updating nearby friends</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location to get the current location address, location for search preferecnce, and for delivery location purpose.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Needed to access location always when the app is open.</string>
-    <key>CFBundleIdentifier</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSCameraUsageDescription</key>
-    <string>Please grant camera access</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Please grant microphone access</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Please grant photo gallery access</string>
 	<key>CFBundleDisplayName</key>
 	<string>GLAD</string>
 	<key>CFBundleExecutable</key>
@@ -40,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>glad</string>
+	<string>GLAD</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -49,12 +24,36 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>sms</string>
+		<string>tel</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please grant camera access</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Needed to access location always when the app is open.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Need location access for updating nearby friends</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location to get the current location address, location for search preferecnce, and for delivery location purpose.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Please grant microphone access</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please grant photo gallery access</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen.storyboard</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
