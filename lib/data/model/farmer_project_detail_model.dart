@@ -25,14 +25,64 @@ class FarmerProjectDetailModel {
 class Data {
   List<FarmerProject>? farmerProject;
   SupplierDetail? supplierDetail;
+  List<ProjectRating>? supplierRatingForDde;
+  List<ProjectRating>? supplierRatingForFarmer;
+  List<ProjectRating>? farmerRatingForDde;
+  List<ProjectRating>? farmerRatingForSupplier;
+  List<ProjectRating>? ddeRatingForSupplier;
+  List<ProjectRating>? ddeRatingForFarmer;
 
-  Data({this.farmerProject,this.supplierDetail});
+  Data({this.farmerProject,this.supplierDetail,
+  this.supplierRatingForDde,this.supplierRatingForFarmer,this.farmerRatingForDde,this.farmerRatingForSupplier,
+  this.ddeRatingForSupplier,this.ddeRatingForFarmer});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['farmer-project'] != null) {
       farmerProject = <FarmerProject>[];
       json['farmer-project'].forEach((v) {
         farmerProject!.add(FarmerProject.fromJson(v));
+      });
+    }
+
+    if (json['supplierRatingForDde'] != null) {
+      supplierRatingForDde = <ProjectRating>[];
+      json['supplierRatingForDde'].forEach((v) {
+        supplierRatingForDde!.add(ProjectRating.fromJson(v));
+      });
+    }
+
+    if (json['supplierRatingForFarmer'] != null) {
+      supplierRatingForFarmer = <ProjectRating>[];
+      json['supplierRatingForFarmer'].forEach((v) {
+        supplierRatingForFarmer!.add(ProjectRating.fromJson(v));
+      });
+    }
+
+    if (json['farmerRatingForDde'] != null) {
+      farmerRatingForDde = <ProjectRating>[];
+      json['farmerRatingForDde'].forEach((v) {
+        farmerRatingForDde!.add(ProjectRating.fromJson(v));
+      });
+    }
+
+    if (json['farmerRatingForSupplier'] != null) {
+      farmerRatingForSupplier = <ProjectRating>[];
+      json['farmerRatingForSupplier'].forEach((v) {
+        farmerRatingForSupplier!.add(ProjectRating.fromJson(v));
+      });
+    }
+
+    if (json['ddeRatingForSupplier'] != null) {
+      ddeRatingForSupplier = <ProjectRating>[];
+      json['ddeRatingForSupplier'].forEach((v) {
+        ddeRatingForSupplier!.add(ProjectRating.fromJson(v));
+      });
+    }
+
+    if (json['ddeRatingForFarmer'] != null) {
+      ddeRatingForFarmer = <ProjectRating>[];
+      json['ddeRatingForFarmer'].forEach((v) {
+        ddeRatingForFarmer!.add(ProjectRating.fromJson(v));
       });
     }
 
@@ -44,6 +94,30 @@ class Data {
     if (farmerProject != null) {
       data['farmer-project'] =
           farmerProject!.map((v) => v.toJson()).toList();
+    }
+    if (supplierRatingForDde != null) {
+      data['supplierRatingForDde'] =
+          supplierRatingForDde!.map((v) => v.toJson()).toList();
+    }
+    if (supplierRatingForFarmer != null) {
+      data['supplierRatingForFarmer'] =
+          supplierRatingForFarmer!.map((v) => v.toJson()).toList();
+    }
+    if (farmerRatingForDde != null) {
+      data['farmerRatingForDde'] =
+          farmerRatingForDde!.map((v) => v.toJson()).toList();
+    }
+    if (farmerRatingForSupplier != null) {
+      data['farmerRatingForSupplier'] =
+          farmerRatingForSupplier!.map((v) => v.toJson()).toList();
+    }
+    if (ddeRatingForSupplier != null) {
+      data['ddeRatingForSupplier'] =
+          ddeRatingForSupplier!.map((v) => v.toJson()).toList();
+    }
+    if (ddeRatingForFarmer != null) {
+      data['ddeRatingForFarmer'] =
+          ddeRatingForFarmer!.map((v) => v.toJson()).toList();
     }
     if (supplierDetail != null) {
       data['supplier'] = supplierDetail!.toJson();
@@ -895,23 +969,23 @@ class Kpi {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['investment'] = this.investment;
-    data['revenue'] = this.revenue;
-    data['roi'] = this.roi;
-    data['farmer_participation'] = this.farmerParticipation;
-    data['loan'] = this.loan;
-    data['repayment'] = this.repayment;
-    data['repayment_start_date'] = this.repaymentStartDate;
-    data['emi'] = this.emi;
-    data['paid_emis'] = this.paidEmis;
-    data['remaining_emi_value'] = this.remainingEmiValue;
-    data['current_yield'] = this.currentYield;
-    data['expected_yield'] = this.expectedYield;
-    data['ideal_yield'] = this.idealYield;
-    data['target_farm_production'] = this.targetFarmProduction;
-    data['supplier_paid_amount'] = this.supplierPaidAmount;
-    data['supplier_due_amount'] = this.supplierDueAmount;
-    data['supplier_pending_amount'] = this.supplierPendingAmount;
+    data['investment'] = investment;
+    data['revenue'] = revenue;
+    data['roi'] = roi;
+    data['farmer_participation'] = farmerParticipation;
+    data['loan'] = loan;
+    data['repayment'] = repayment;
+    data['repayment_start_date'] = repaymentStartDate;
+    data['emi'] = emi;
+    data['paid_emis'] = paidEmis;
+    data['remaining_emi_value'] = remainingEmiValue;
+    data['current_yield'] = currentYield;
+    data['expected_yield'] = expectedYield;
+    data['ideal_yield'] = idealYield;
+    data['target_farm_production'] = targetFarmProduction;
+    data['supplier_paid_amount'] = supplierPaidAmount;
+    data['supplier_due_amount'] = supplierDueAmount;
+    data['supplier_pending_amount'] = supplierPendingAmount;
     return data;
   }
 }
@@ -2336,3 +2410,23 @@ class SupplierDetail {
     return data;
   }
 }
+
+class ProjectRating {
+  dynamic rating;
+  String? feedback;
+
+  ProjectRating({this.rating, this.feedback});
+
+  ProjectRating.fromJson(Map<String, dynamic> json) {
+    rating = json['rating'];
+    feedback = json['feedback'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rating'] = rating;
+    data['feedback'] = feedback;
+    return data;
+  }
+}
+

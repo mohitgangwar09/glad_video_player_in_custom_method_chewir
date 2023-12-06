@@ -811,6 +811,32 @@ class ProjectRepository {
 
   }
 
+  ///////////////// projectRatingApi //////////
+  Future<ResponseOtpModel> projectRatingApi(
+      String farmerProjectId,String ratedFor,String ratedForId,String rating,String feedback
+      ) async {
+
+    var data = {
+      "farmer_project_id": farmerProjectId,
+      "rated_for": ratedFor,
+      "rated_for_id": ratedForId,
+      "rating": rating,
+      "feedback": feedback,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.projectRatingApi,
+      data: data,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+
+  }
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

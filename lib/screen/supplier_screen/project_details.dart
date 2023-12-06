@@ -3,6 +3,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -88,9 +89,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         kpi(context, state),
                         20.verticalSpace(),
                         state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!=null?
-                        farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!):const SizedBox.shrink(),
+                        farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,state):const SizedBox.shrink(),
                         state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!=null?
-                        dde(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!):const SizedBox.shrink(),
+                        dde(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!,state):const SizedBox.shrink(),
                         projectMilestones(context, state),
                         20.verticalSpace(),
                         state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms!.isNotEmpty?
@@ -302,8 +303,340 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   }
 
 ///////////DDEContainerTimeline/////////////
-  Widget dde(context,DairyDevelopMentExecutive dde) {
-    return Column(
+  Widget dde(context,DairyDevelopMentExecutive dde,ProjectState state) {
+    return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
+    Column(
+      children: [
+        Column(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(height: state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null?190:
+                state.responseFarmerProjectDetail!.data!.supplierRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?160:210,
+                    // height: state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?190:
+                    // state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?160:225,
+                    width: screenWidth()),
+                Container(
+                  height: state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null?140:
+                  state.responseFarmerProjectDetail!.data!.supplierRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?100:160,
+                  width: screenWidth(),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: ColorResources.grey)),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 20, 0, 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            dde.photo!=null?
+                            CircleAvatar(
+                                radius: 33,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(40),
+                                  child: CachedNetworkImage(
+                                    imageUrl: dde.photo ?? '',
+                                    errorWidget: (_, __, ___) {
+                                      return Image.asset(
+                                        Images.sampleUser,
+                                        fit: BoxFit.cover,
+                                        width: 80,
+                                        height: 80,
+                                      );
+                                    },
+                                    fit: BoxFit.cover,
+                                    width: 80,
+                                    height: 80,
+                                  ),
+                                )) :
+                            CircleAvatar(
+                              radius: 30,
+                              child: Image.asset(
+                                Images.sampleUser,
+                                fit: BoxFit.cover,
+                                width: 80,
+                                height: 80,
+                              ),
+                            ),
+                            15.horizontalSpace(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(dde.name!=null?dde.name!.toString():"",
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 16, color: Colors.black)),
+                                10.verticalSpace(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    const Icon(
+                                      Icons.call,
+                                      color: Colors.black,
+                                      size: 16,
+                                    ),
+                                    Text('+256 ${dde.phone!}',
+                                        style: figtreeRegular.copyWith(
+                                            fontSize: 12, color: Colors.black)),
+                                  ],
+                                ),
+                                4.verticalSpace(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    const Icon(
+                                      Icons.location_on,
+                                      color: Colors.black,
+                                      size: 16,
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
+                                      child: Text(
+                                        dde.address != null ?
+                                        dde.address["address"] != null && dde.address["sub_county"] != null
+                                            ? dde.address["sub_county"] + dde.address["address"] : '' : '',
+                                        style: figtreeRegular.copyWith(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+
+                        if(state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null )
+                          Column(
+                            children: [
+                              12.verticalSpace(),
+                              InkWell(
+                                onTap: (){
+                                  TextEditingController controller = TextEditingController();
+                                  double rating = 1;
+                                  modalBottomSheetMenu(context,
+                                      radius: 40,
+                                      child: StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return SizedBox(
+                                              height: 450,
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          'Give your feedback',
+                                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                                        ),
+                                                      ),
+                                                      30.verticalSpace(),
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: RatingBar.builder(
+                                                              initialRating: 1,
+                                                              minRating: 0,
+                                                              itemSize: 40,
+                                                              direction: Axis.horizontal,
+                                                              allowHalfRating: false,
+                                                              itemCount: 5,
+                                                              itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                                              itemBuilder: (context, _) => const Icon(
+                                                                Icons.star,
+                                                                color: Color(0xffFFAA00),
+                                                              ),
+                                                              onRatingUpdate: (ratings) {
+                                                                rating = ratings;
+                                                                // print(ratings);
+                                                                // onRatingUpdate!(ratings);
+                                                                // rating = ratings.toString();
+                                                              },
+                                                            ),
+                                                          ),
+                                                          20.verticalSpace(),
+                                                          Align(
+                                                            alignment: Alignment.centerLeft,
+                                                            child: Text(
+                                                              'Tell us more',
+                                                              style: figtreeMedium.copyWith(fontSize: 15),
+                                                            ),
+                                                          ),
+                                                          5.verticalSpace(),
+                                                          TextField(
+                                                            controller: controller,
+                                                            maxLines: 4,
+                                                            minLines: 4,
+                                                            decoration: InputDecoration(
+                                                                hintText: 'Write...',
+                                                                hintStyle:
+                                                                figtreeMedium.copyWith(fontSize: 18),
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.circular(12),
+                                                                    borderSide: const BorderSide(
+                                                                      width: 1,
+                                                                      color: Color(0xff999999),
+                                                                    ))),
+                                                          ),
+                                                          30.verticalSpace(),
+                                                          Padding(
+                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                            child: customButton(
+                                                              'Submit',
+                                                              fontColor: 0xffFFFFFF,
+                                                              onTap: () {
+                                                                if(rating == 0){
+                                                                  showCustomToast(context, 'Please give rating',isSuccess: true);
+                                                                }else if(controller.text.isEmpty){
+                                                                  showCustomToast(context, 'Please enter your feedback');
+                                                                }else{
+                                                                  context.read<ProjectCubit>().projectRatingApi(context, widget.projectId.toString(),'dde' ,dde.id.toString() ,rating.toString() , controller.text.toString());
+                                                                }
+                                                              },
+                                                              height: 60,
+                                                              width: screenWidth(),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ]),
+                                              ),
+                                            );
+                                          }
+                                      ));
+                                },
+                                child: Container(
+                                  decoration: boxDecoration(
+                                      borderRadius: 15,
+                                      backgroundColor: const Color(0xffFFF3F4),
+                                      borderColor: const Color(0xff6A0030)
+                                    // c: const Color(0xff6A0030),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                                    child: Text('Give your feedback',
+                                      style: figtreeSemiBold.copyWith(
+                                          color: const Color(0xff000000),
+                                          fontSize: 14
+                                      ),),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        else if(state.responseFarmerProjectDetail!.data!.supplierRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null)
+                          const SizedBox.shrink()
+                        else
+                          Container(
+                            width: screenWidth(),
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.only(right: 12,top: 5),
+                            decoration: boxDecoration(
+                              backgroundColor: const Color(0xffFFF3F4),
+                              borderRadius: 10,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    "Feedback for you:".toString().textMedium(
+                                        color: Colors.black,
+                                        fontSize: 14
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10.0),
+                                      child: RatingBar.builder(
+                                        initialRating: double.parse(state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].rating!=null?state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].rating!.toString():'0'),
+                                        minRating: 0,
+                                        tapOnlyMode: false,
+                                        updateOnDrag: false,
+                                        itemSize: 20,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: false,
+                                        itemCount: 5,
+                                        itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                        itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Color(0xffFFAA00),
+                                        ),
+                                        onRatingUpdate: (ratings) {
+                                          // print(ratings);
+                                          // onRatingUpdate!(ratings);
+                                          // rating = ratings.toString();
+                                        },
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                                4.verticalSpace(),
+                                state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].feedback!=null?state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].feedback.toString().textRegular(fontSize: 12,
+                                    maxLines: 2,overflow: TextOverflow.ellipsis):const SizedBox.shrink()
+                              ],
+                            ),
+                          ),
+
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                    top: -5,
+                    left: 0,
+                    child: Text(
+                      'DDE',
+                      style: figtreeMedium.copyWith(fontSize: 20),
+                    )),
+                Positioned(
+                    top: 0,
+                    right: 10,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(Images.callPrimary),
+                        6.horizontalSpace(),
+                        SvgPicture.asset(Images.whatsapp),
+                        6.horizontalSpace(),
+                        SvgPicture.asset(Images.redirectLocation),
+                        6.horizontalSpace(),
+                      ],
+                    )),
+                Positioned(
+                    bottom: -2,
+                    child: InkWell(
+                      onTap: () {
+                        // const ProjectTimeline().navigate();
+                        const TrackProgress().navigate();
+                      },
+                      child: Text(
+                        'View Timeline',
+                        style: figtreeSemiBold.copyWith(
+                            fontSize: 14,
+                            color: ColorResources.maroon,
+                            decoration: TextDecoration.underline,
+                            decorationColor: ColorResources.maroon,
+                            decorationThickness: 3.0),
+                      ),
+                    ))
+              ],
+            ),
+          ],
+        ),
+      ],
+    )
+    :Column(
       children: [
         Column(
           children: [
@@ -454,8 +787,328 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   }
 
   ///////////farmerDetail/////////////
-  Widget farmerDetail(context, FarmerMaster farmerDetail) {
-    return Stack(
+  Widget farmerDetail(context, FarmerMaster farmerDetail,ProjectState state) {
+
+    return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
+    Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(
+            height: state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?190:
+            state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?160:225,
+            width: screenWidth()),
+        InkWell(
+          onTap: (){
+            BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+            BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
+            SupplierFarmerDetail(userId: farmerDetail.userId!,farmerId:farmerDetail.id!).navigate();
+          },
+          child: Container(
+            height: state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?140:
+            state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?100:175,
+            width: screenWidth(),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: ColorResources.grey)),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      farmerDetail.photo!=null?
+                      CircleAvatar(
+                          radius: 33,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40),
+                            child: CachedNetworkImage(
+                              imageUrl: farmerDetail.photo ?? '',
+                              errorWidget: (_, __, ___) {
+                                return Image.asset(
+                                  Images.sampleUser,
+                                  fit: BoxFit.cover,
+                                  width: 80,
+                                  height: 80,
+                                );
+                              },
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            ),
+                          )) :
+                      CircleAvatar(
+                        radius: 30,
+                        child: Image.asset(
+                          Images.sampleUser,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        ),
+                      ),
+                      15.horizontalSpace(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(farmerDetail.name ?? '',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 16, color: Colors.black)),
+                          10.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.call,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              Text(farmerDetail.phone ?? '',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ],
+                          ),
+                          4.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.5,
+                                child: Text(farmerDetail.address!=null?
+                                farmerDetail.address!.address!=null ?farmerDetail.address!.address!.toString():"":"",
+                                  style: figtreeRegular.copyWith(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      )
+                    ],
+                  ),
+
+                  if(state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null )
+                    Column(
+                      children: [
+                        18.verticalSpace(),
+                        InkWell(
+                          onTap: (){
+                            TextEditingController controller = TextEditingController();
+                            double rating = 1;
+                            modalBottomSheetMenu(context,
+                                radius: 40,
+                                child: StatefulBuilder(
+                                    builder: (context, setState) {
+                                      return SizedBox(
+                                        height: 450,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                          child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Center(
+                                                  child: Text(
+                                                    'Give your feedback',
+                                                    style: figtreeMedium.copyWith(fontSize: 22),
+                                                  ),
+                                                ),
+                                                30.verticalSpace(),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: RatingBar.builder(
+                                                        initialRating: 1,
+                                                        minRating: 0,
+                                                        itemSize: 40,
+                                                        direction: Axis.horizontal,
+                                                        allowHalfRating: false,
+                                                        itemCount: 5,
+                                                        itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                                        itemBuilder: (context, _) => const Icon(
+                                                          Icons.star,
+                                                          color: Color(0xffFFAA00),
+                                                        ),
+                                                        onRatingUpdate: (ratings) {
+                                                          rating = ratings;
+                                                          // print(ratings);
+                                                          // onRatingUpdate!(ratings);
+                                                          // rating = ratings.toString();
+                                                        },
+                                                      ),
+                                                    ),
+                                                    20.verticalSpace(),
+                                                    Align(
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Text(
+                                                        'Tell us more',
+                                                        style: figtreeMedium.copyWith(fontSize: 15),
+                                                      ),
+                                                    ),
+                                                    5.verticalSpace(),
+                                                    TextField(
+                                                      controller: controller,
+                                                      maxLines: 4,
+                                                      minLines: 4,
+                                                      decoration: InputDecoration(
+                                                          hintText: 'Write...',
+                                                          hintStyle:
+                                                          figtreeMedium.copyWith(fontSize: 18),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(12),
+                                                              borderSide: const BorderSide(
+                                                                width: 1,
+                                                                color: Color(0xff999999),
+                                                              ))),
+                                                    ),
+                                                    30.verticalSpace(),
+                                                    Padding(
+                                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                      child: customButton(
+                                                        'Submit',
+                                                        fontColor: 0xffFFFFFF,
+                                                        onTap: () {
+                                                          if(rating == 0){
+                                                            showCustomToast(context, 'Please give rating',isSuccess: true);
+                                                          }else if(controller.text.isEmpty){
+                                                            showCustomToast(context, 'Please enter your feedback');
+                                                          }else{
+                                                            context.read<ProjectCubit>().projectRatingApi(context, widget.projectId.toString(),'farmer' ,farmerDetail.id.toString() ,rating.toString() , controller.text.toString());
+                                                          }
+                                                        },
+                                                        height: 60,
+                                                        width: screenWidth(),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ]),
+                                        ),
+                                      );
+                                    }
+                                ));
+                          },
+                          child: Container(
+                            decoration: boxDecoration(
+                                borderRadius: 15,
+                                backgroundColor: const Color(0xffFFF3F4),
+                                borderColor: const Color(0xff6A0030)
+                              // c: const Color(0xff6A0030),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                              child: Text('Give your feedback',
+                                style: figtreeSemiBold.copyWith(
+                                    color: const Color(0xff000000),
+                                    fontSize: 14
+                                ),),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  else if(state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
+                      const SizedBox.shrink()
+                  else
+                      Container(
+                        width: screenWidth(),
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.only(right: 12,top: 5),
+                        decoration: boxDecoration(
+                          backgroundColor: const Color(0xffFFF3F4),
+                          borderRadius: 10,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                "Feedback for you:".toString().textMedium(
+                                    color: Colors.black,
+                                    fontSize: 14
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: RatingBar.builder(
+                                    initialRating: double.parse(state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier![0].rating!=null?state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier![0].rating!.toString():'0'),
+                                    minRating: 0,
+                                    tapOnlyMode: false,
+                                    updateOnDrag: false,
+                                    itemSize: 20,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: false,
+                                    itemCount: 5,
+                                    itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Color(0xffFFAA00),
+                                    ),
+                                    onRatingUpdate: (ratings) {
+                                      // print(ratings);
+                                      // onRatingUpdate!(ratings);
+                                      // rating = ratings.toString();
+                                    },
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                            4.verticalSpace(),
+                            state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier![0].feedback!=null?state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier![0].feedback.toString().textRegular(fontSize: 12,
+                                maxLines: 2,overflow: TextOverflow.ellipsis):const SizedBox.shrink()
+                          ],
+                        ),
+                      ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+            top: -5,
+            left: 0,
+            child: Text(
+              'Farmer',
+              style: figtreeMedium.copyWith(fontSize: 20),
+            )),
+        Positioned(
+            top: 0,
+            right: 10,
+            child: Row(
+              children: [
+                InkWell(
+                    onTap: (){
+                      callOnMobile(farmerDetail.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  await launchWhatsApp(farmerDetail.phone ?? '');
+                },child: SvgPicture.asset(Images.whatsapp)),
+
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+
+                },child: SvgPicture.asset(Images.redirectLocation)),
+                6.horizontalSpace(),
+              ],
+            )),
+      ],
+    ):
+    Stack(
       alignment: Alignment.center,
       children: [
         SizedBox(height: 150, width: screenWidth()),

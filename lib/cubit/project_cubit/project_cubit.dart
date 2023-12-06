@@ -1107,4 +1107,18 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  // projectRatingApi
+  void projectRatingApi(context,String farmerProjectId,String ratedFor,String ratedForId,String rating,String feedback) async {
+
+    var response = await apiRepository.projectRatingApi(farmerProjectId, ratedFor, ratedForId, rating, feedback);
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 }
