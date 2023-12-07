@@ -515,9 +515,11 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
     Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(height: 230, width: screenWidth()),
+        SizedBox(height: state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?
+        state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null?170:200:242, width: screenWidth()),
         Container(
-          height: 170,
+          height: state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?
+          state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null?110:138:178,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -527,6 +529,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
             padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
             child: Column(
               children: [
+
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -602,176 +605,182 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                   ],
                 ),
 
-                /*Column(
-                  children: [
-                    33.verticalSpace(),
-                    InkWell(
-                      onTap: (){
-                        TextEditingController controller = TextEditingController();
-                        double rating = 1;
-                        modalBottomSheetMenu(context,
-                            radius: 40,
-                            child: StatefulBuilder(
-                                builder: (context, setState) {
-                                  return SizedBox(
-                                    height: 450,
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                      child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Center(
-                                              child: Text(
-                                                'Give your feedback',
-                                                style: figtreeMedium.copyWith(fontSize: 22),
-                                              ),
-                                            ),
-                                            30.verticalSpace(),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: 10.0),
-                                                  child: RatingBar.builder(
-                                                    initialRating: 1,
-                                                    minRating: 0,
-                                                    itemSize: 40,
-                                                    direction: Axis.horizontal,
-                                                    allowHalfRating: false,
-                                                    itemCount: 5,
-                                                    itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
-                                                    itemBuilder: (context, _) => const Icon(
-                                                      Icons.star,
-                                                      color: Color(0xffFFAA00),
-                                                    ),
-                                                    onRatingUpdate: (ratings) {
-                                                      rating = ratings;
-                                                      // print(ratings);
-                                                      // onRatingUpdate!(ratings);
-                                                      // rating = ratings.toString();
-                                                    },
-                                                  ),
-                                                ),
-                                                20.verticalSpace(),
-                                                Align(
-                                                  alignment: Alignment.centerLeft,
-                                                  child: Text(
-                                                    'Tell us more',
-                                                    style: figtreeMedium.copyWith(fontSize: 15),
-                                                  ),
-                                                ),
-                                                5.verticalSpace(),
-                                                TextField(
-                                                  controller: controller,
-                                                  maxLines: 4,
-                                                  minLines: 4,
-                                                  decoration: InputDecoration(
-                                                      hintText: 'Write...',
-                                                      hintStyle:
-                                                      figtreeMedium.copyWith(fontSize: 18),
-                                                      border: OutlineInputBorder(
-                                                          borderRadius: BorderRadius.circular(12),
-                                                          borderSide: const BorderSide(
-                                                            width: 1,
-                                                            color: Color(0xff999999),
-                                                          ))),
-                                                ),
-                                                30.verticalSpace(),
-                                                Padding(
-                                                  padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                  child: customButton(
-                                                    'Submit',
-                                                    fontColor: 0xffFFFFFF,
-                                                    onTap: () {
-                                                      if(rating == 0){
-                                                        showCustomToast(context, 'Please give rating',isSuccess: true);
-                                                      }else if(controller.text.isEmpty){
-                                                        showCustomToast(context, 'Please enter your feedback');
-                                                      }else{
-                                                        context.read<ProjectCubit>().projectRatingApi(context, widget.projectId.toString(),'supplier' ,state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString() ,rating.toString() , controller.text.toString());
-                                                      }
-                                                    },
-                                                    height: 60,
-                                                    width: screenWidth(),
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ]),
-                                    ),
-                                  );
-                                }
-                            ));
-                      },
-                      child: Container(
-                        decoration: boxDecoration(
-                            borderRadius: 15,
-                            backgroundColor: const Color(0xffFFF3F4),
-                            borderColor: const Color(0xff6A0030)
-                          // c: const Color(0xff6A0030),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-                          child: Text('Give your feedback',
-                            style: figtreeSemiBold.copyWith(
-                                color: const Color(0xff000000),
-                                fontSize: 14
-                            ),),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),*/
-
-                Container(
-                  width: screenWidth(),
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.only(right: 12,top: 5),
-                  decoration: boxDecoration(
-                    backgroundColor: const Color(0xffFFF3F4),
-                    borderRadius: 10,
-                  ),
-                  child: Column(
+                if(state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null )
+                  Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          "Feedback for you:".toString().textMedium(
-                              color: Colors.black,
-                              fontSize: 14
+                      17.verticalSpace(),
+                      InkWell(
+                        onTap: (){
+                          TextEditingController controller = TextEditingController();
+                          double rating = 1;
+                          modalBottomSheetMenu(context,
+                              radius: 40,
+                              child: StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return SizedBox(
+                                      height: 450,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  'Give your feedback',
+                                                  style: figtreeMedium.copyWith(fontSize: 22),
+                                                ),
+                                              ),
+                                              30.verticalSpace(),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                    child: RatingBar.builder(
+                                                      initialRating: 1,
+                                                      minRating: 0,
+                                                      itemSize: 40,
+                                                      direction: Axis.horizontal,
+                                                      allowHalfRating: false,
+                                                      itemCount: 5,
+                                                      itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                                      itemBuilder: (context, _) => const Icon(
+                                                        Icons.star,
+                                                        color: Color(0xffFFAA00),
+                                                      ),
+                                                      onRatingUpdate: (ratings) {
+                                                        rating = ratings;
+                                                        // print(ratings);
+                                                        // onRatingUpdate!(ratings);
+                                                        // rating = ratings.toString();
+                                                      },
+                                                    ),
+                                                  ),
+                                                  20.verticalSpace(),
+                                                  Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      'Tell us more',
+                                                      style: figtreeMedium.copyWith(fontSize: 15),
+                                                    ),
+                                                  ),
+                                                  5.verticalSpace(),
+                                                  TextField(
+                                                    controller: controller,
+                                                    maxLines: 4,
+                                                    minLines: 4,
+                                                    decoration: InputDecoration(
+                                                        hintText: 'Write...',
+                                                        hintStyle:
+                                                        figtreeMedium.copyWith(fontSize: 18),
+                                                        border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(12),
+                                                            borderSide: const BorderSide(
+                                                              width: 1,
+                                                              color: Color(0xff999999),
+                                                            ))),
+                                                  ),
+                                                  30.verticalSpace(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                    child: customButton(
+                                                      'Submit',
+                                                      fontColor: 0xffFFFFFF,
+                                                      onTap: () {
+                                                        if(rating == 0){
+                                                          showCustomToast(context, 'Please give rating',isSuccess: true);
+                                                        }else if(controller.text.isEmpty){
+                                                          showCustomToast(context, 'Please enter your feedback');
+                                                        }else{
+                                                          context.read<ProjectCubit>().projectRatingApi(context, widget.projectId.toString(),'supplier' ,state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString() ,rating.toString() , controller.text.toString());
+                                                        }
+                                                      },
+                                                      height: 60,
+                                                      width: screenWidth(),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ]),
+                                      ),
+                                    );
+                                  }
+                              ));
+                        },
+                        child: Container(
+                          decoration: boxDecoration(
+                              borderRadius: 15,
+                              backgroundColor: const Color(0xffFFF3F4),
+                              borderColor: const Color(0xff6A0030)
+                            // c: const Color(0xff6A0030),
                           ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: RatingBar.builder(
-                              initialRating: 4,
-                              minRating: 0,
-                              itemSize: 20,
-                              direction: Axis.horizontal,
-                              allowHalfRating: false,
-                              itemCount: 5,
-                              itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Color(0xffFFAA00),
-                              ),
-                              onRatingUpdate: (ratings) {
-                                // print(ratings);
-                                // onRatingUpdate!(ratings);
-                                // rating = ratings.toString();
-                              },
-                            ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                            child: Text('Give your feedback',
+                              style: figtreeSemiBold.copyWith(
+                                  color: const Color(0xff000000),
+                                  fontSize: 14
+                              ),),
                           ),
-
-                        ],
+                        ),
                       ),
-                      4.verticalSpace(),
-                      "Many desktop publishing packages and web page editors...dd fd fd fd".textRegular(fontSize: 12,
-                      maxLines: 2,overflow: TextOverflow.ellipsis)
                     ],
-                  ),
-                )
+                  )
+                else if (state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null)
+                  const SizedBox.shrink()
+                else
+                  Container(
+                    width: screenWidth(),
+                    height: 80,
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(right: 12,top: 5),
+                    decoration: boxDecoration(
+                      backgroundColor: const Color(0xffFFF3F4),
+                      borderRadius: 10,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            "Feedback for you:".toString().textMedium(
+                                color: Colors.black,
+                                fontSize: 14
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: RatingBar.builder(
+                                initialRating: double.parse(state.responseFarmerProjectDetail!.data!.supplierRatingForDde![0].rating!=null?state.responseFarmerProjectDetail!.data!.supplierRatingForDde![0].rating!.toString():'0'),
+                                minRating: 0,
+                                itemSize: 20,
+                                direction: Axis.horizontal,
+                                allowHalfRating: false,
+                                itemCount: 5,
+                                ignoreGestures: true,
+                                itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Color(0xffFFAA00),
+                                ),
+                                onRatingUpdate: (ratings) {
+                                  // print(ratings);
+                                  // onRatingUpdate!(ratings);
+                                  // rating = ratings.toString();
+                                },
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        4.verticalSpace(),
+                        state.responseFarmerProjectDetail!.data!.supplierRatingForDde![0].feedback.toString().textRegular(fontSize: 12,
+                            maxLines: 2,overflow: TextOverflow.ellipsis)
+                      ],
+                    ),
+                  )
 
               ],
             ),

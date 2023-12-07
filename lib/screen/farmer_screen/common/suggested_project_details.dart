@@ -387,10 +387,12 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       alignment: Alignment.center,
       children: [
         SizedBox(
-            height: state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?230:230,
+            height: state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?
+            state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?170:170:230,
             width: screenWidth()),
         Container(
-          height: 170,
+          height: state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?
+          state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?110:10:170,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -475,10 +477,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                   ],
                 ),
 
-                if(state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
+                if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null)
                   Column(
                     children: [
-                      33.verticalSpace(),
+                      15.verticalSpace(),
                       InkWell(
                         onTap: (){
                           TextEditingController controller = TextEditingController();
@@ -597,129 +599,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                       ),
                     ],
                   )
-                /*else if(state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
-                  Column(
-                    children: [
-                      33.verticalSpace(),
-                      InkWell(
-                        onTap: (){
-                          TextEditingController controller = TextEditingController();
-                          double rating = 1;
-                          modalBottomSheetMenu(context,
-                              radius: 40,
-                              child: StatefulBuilder(
-                                  builder: (context, setState) {
-                                    return SizedBox(
-                                      height: 450,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  'Give your feedback',
-                                                  style: figtreeMedium.copyWith(fontSize: 22),
-                                                ),
-                                              ),
-                                              30.verticalSpace(),
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 10.0),
-                                                    child: RatingBar.builder(
-                                                      initialRating: 1,
-                                                      minRating: 0,
-                                                      itemSize: 40,
-                                                      direction: Axis.horizontal,
-                                                      allowHalfRating: false,
-                                                      itemCount: 5,
-                                                      itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
-                                                      itemBuilder: (context, _) => const Icon(
-                                                        Icons.star,
-                                                        color: Color(0xffFFAA00),
-                                                      ),
-                                                      onRatingUpdate: (ratings) {
-                                                        rating = ratings;
-                                                        // print(ratings);
-                                                        // onRatingUpdate!(ratings);
-                                                        // rating = ratings.toString();
-                                                      },
-                                                    ),
-                                                  ),
-                                                  20.verticalSpace(),
-                                                  Align(
-                                                    alignment: Alignment.centerLeft,
-                                                    child: Text(
-                                                      'Tell us more',
-                                                      style: figtreeMedium.copyWith(fontSize: 15),
-                                                    ),
-                                                  ),
-                                                  5.verticalSpace(),
-                                                  TextField(
-                                                    controller: controller,
-                                                    maxLines: 4,
-                                                    minLines: 4,
-                                                    decoration: InputDecoration(
-                                                        hintText: 'Write...',
-                                                        hintStyle:
-                                                        figtreeMedium.copyWith(fontSize: 18),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(12),
-                                                            borderSide: const BorderSide(
-                                                              width: 1,
-                                                              color: Color(0xff999999),
-                                                            ))),
-                                                  ),
-                                                  30.verticalSpace(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                    child: customButton(
-                                                      'Submit',
-                                                      fontColor: 0xffFFFFFF,
-                                                      onTap: () {
-                                                        if(rating == 0){
-                                                          showCustomToast(context, 'Please give rating',isSuccess: true);
-                                                        }else if(controller.text.isEmpty){
-                                                          showCustomToast(context, 'Please enter your feedback');
-                                                        }else{
-                                                          context.read<ProjectCubit>().projectRatingApi(context, widget.projectId.toString(),'supplier' ,state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString() ,rating.toString() , controller.text.toString());
-                                                        }
-                                                      },
-                                                      height: 60,
-                                                      width: screenWidth(),
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            ]),
-                                      ),
-                                    );
-                                  }
-                              ));
-                        },
-                        child: Container(
-                          decoration: boxDecoration(
-                              borderRadius: 15,
-                              backgroundColor: const Color(0xffFFF3F4),
-                              borderColor: const Color(0xff6A0030)
-                            // c: const Color(0xff6A0030),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-                            child: Text('Give your feedback',
-                              style: figtreeSemiBold.copyWith(
-                                  color: const Color(0xff000000),
-                                  fontSize: 14
-                              ),),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )*/
-                else if(state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
+                else if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
                     const SizedBox.shrink()
                 else
                     Container(
@@ -743,7 +623,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10.0),
                                 child: RatingBar.builder(
-                                  initialRating: double.parse(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer![0].rating.toString()),
+                                  initialRating: double.parse(state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer![0].rating.toString()),
                                   minRating: 0,
                                   itemSize: 20,
                                   direction: Axis.horizontal,
@@ -767,8 +647,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             ],
                           ),
                           4.verticalSpace(),
-                          "Many desktop publishing packages and web page editors...dd fd fd fd".textRegular(fontSize: 12,
-                              maxLines: 2,overflow: TextOverflow.ellipsis)
+
+
+                          state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer![0].feedback!=null?state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer![0].feedback.toString().textRegular(fontSize: 12,
+                              maxLines: 2,overflow: TextOverflow.ellipsis):const SizedBox.shrink()
                         ],
                       ),
                     ),
@@ -927,9 +809,11 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(height: 265, width: screenWidth()),
+        SizedBox(height: state.responseFarmerProjectDetail!.data!.farmerRatingForDde == null?
+        state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?210:240:265, width: screenWidth()),
         Container(
-          height: 215,
+          height: state.responseFarmerProjectDetail!.data!.farmerRatingForDde==null?
+          state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?150:180:215,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -1026,10 +910,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                   ),
                 ),
 
-                if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null && state.responseFarmerProjectDetail!.data!.farmerRatingForDde == null)
+                if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null)
                   Column(
                     children: [
-                      33.verticalSpace(),
+                      13.verticalSpace(),
                       InkWell(
                         onTap: (){
                           TextEditingController controller = TextEditingController();
@@ -1149,132 +1033,11 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                     ],
                   )
                  else if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForDde == null)
-                  Column(
-                    children: [
-                      33.verticalSpace(),
-                      InkWell(
-                        onTap: (){
-                          TextEditingController controller = TextEditingController();
-                          double rating = 1;
-                          modalBottomSheetMenu(context,
-                              radius: 40,
-                              child: StatefulBuilder(
-                                  builder: (context, setState) {
-                                    return SizedBox(
-                                      height: 450,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                        child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  'Give your feedbssack',
-                                                  style: figtreeMedium.copyWith(fontSize: 22),
-                                                ),
-                                              ),
-                                              30.verticalSpace(),
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 10.0),
-                                                    child: RatingBar.builder(
-                                                      initialRating: 1,
-                                                      minRating: 0,
-                                                      itemSize: 40,
-                                                      direction: Axis.horizontal,
-                                                      allowHalfRating: false,
-                                                      itemCount: 5,
-                                                      itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
-                                                      itemBuilder: (context, _) => const Icon(
-                                                        Icons.star,
-                                                        color: Color(0xffFFAA00),
-                                                      ),
-                                                      onRatingUpdate: (ratings) {
-                                                        rating = ratings;
-                                                        // print(ratings);
-                                                        // onRatingUpdate!(ratings);
-                                                        // rating = ratings.toString();
-                                                      },
-                                                    ),
-                                                  ),
-                                                  20.verticalSpace(),
-                                                  Align(
-                                                    alignment: Alignment.centerLeft,
-                                                    child: Text(
-                                                      'Tell us more',
-                                                      style: figtreeMedium.copyWith(fontSize: 15),
-                                                    ),
-                                                  ),
-                                                  5.verticalSpace(),
-                                                  TextField(
-                                                    controller: controller,
-                                                    maxLines: 4,
-                                                    minLines: 4,
-                                                    decoration: InputDecoration(
-                                                        hintText: 'Write...',
-                                                        hintStyle:
-                                                        figtreeMedium.copyWith(fontSize: 18),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(12),
-                                                            borderSide: const BorderSide(
-                                                              width: 1,
-                                                              color: Color(0xff999999),
-                                                            ))),
-                                                  ),
-                                                  30.verticalSpace(),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                    child: customButton(
-                                                      'Submit',
-                                                      fontColor: 0xffFFFFFF,
-                                                      onTap: () {
-                                                        if(rating == 0){
-                                                          showCustomToast(context, 'Please give rating',isSuccess: true);
-                                                        }else if(controller.text.isEmpty){
-                                                          showCustomToast(context, 'Please enter your feedback');
-                                                        }else{
-                                                          context.read<ProjectCubit>().projectRatingApi(context, widget.projectId.toString(),'dde' ,state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.id.toString() ,rating.toString() , controller.text.toString());
-                                                        }
-                                                      },
-                                                      height: 60,
-                                                      width: screenWidth(),
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            ]),
-                                      ),
-                                    );
-                                  }
-                              ));
-                        },
-                        child: Container(
-                          decoration: boxDecoration(
-                              borderRadius: 15,
-                              backgroundColor: const Color(0xffFFF3F4),
-                              borderColor: const Color(0xff6A0030)
-                            // c: const Color(0xff6A0030),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-                            child: Text('Give your feedback',
-                              style: figtreeSemiBold.copyWith(
-                                  color: const Color(0xff000000),
-                                  fontSize: 14
-                              ),),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                else if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null && state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null)
                   const SizedBox.shrink()
                 else
                   Container(
                     width: screenWidth(),
+                    height: 73,
                     padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.only(right: 12,top: 5),
                     decoration: boxDecoration(
@@ -1296,13 +1059,13 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                             Padding(
                               padding: const EdgeInsets.only(right: 10.0),
                               child: RatingBar.builder(
-                                initialRating: double.parse(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer![0].rating.toString()),
+                                initialRating: double.parse(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer![0].rating!=null?state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer![0].rating!.toString():'0'),
                                 minRating: 0,
                                 itemSize: 20,
                                 direction: Axis.horizontal,
                                 allowHalfRating: false,
                                 itemCount: 5,
-                                updateOnDrag: false,
+                                ignoreGestures: true,
                                 itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
                                 itemBuilder: (context, _) => const Icon(
                                   Icons.star,
@@ -1319,8 +1082,8 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                           ],
                         ),
                         4.verticalSpace(),
-                        state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer![0].feedback.toString().textRegular(fontSize: 12,
-                            maxLines: 2,overflow: TextOverflow.ellipsis)
+                        state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer![0].feedback!=null?state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer![0].feedback!.toString().textRegular(fontSize: 12,
+                            maxLines: 2,overflow: TextOverflow.ellipsis):const SizedBox.shrink()
                       ],
                     ),
                   )

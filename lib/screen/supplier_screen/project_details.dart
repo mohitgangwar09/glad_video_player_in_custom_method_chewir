@@ -313,13 +313,13 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               alignment: Alignment.center,
               children: [
                 SizedBox(height: state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null?190:
-                state.responseFarmerProjectDetail!.data!.supplierRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?160:210,
+                state.responseFarmerProjectDetail!.data!.supplierRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?160:228,
                     // height: state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?190:
                     // state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?160:225,
                     width: screenWidth()),
                 Container(
                   height: state.responseFarmerProjectDetail!.data!.supplierRatingForDde == null?140:
-                  state.responseFarmerProjectDetail!.data!.supplierRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?100:160,
+                  state.responseFarmerProjectDetail!.data!.supplierRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier == null?100:178,
                   width: screenWidth(),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -539,6 +539,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         else
                           Container(
                             width: screenWidth(),
+                            height: 74,
                             padding: const EdgeInsets.all(10),
                             margin: const EdgeInsets.only(right: 12,top: 5),
                             decoration: boxDecoration(
@@ -566,6 +567,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                         itemSize: 20,
                                         direction: Axis.horizontal,
                                         allowHalfRating: false,
+                                        ignoreGestures: true,
                                         itemCount: 5,
                                         itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
                                         itemBuilder: (context, _) => const Icon(
