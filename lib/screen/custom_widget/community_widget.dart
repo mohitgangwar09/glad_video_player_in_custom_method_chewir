@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/community_cubit/community_cubit.dart';
@@ -9,9 +12,14 @@ import 'package:glad/screen/common/community_like_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:like_button/like_button.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart'as path;
 
 class CommunityWidget extends StatefulWidget {
   final String name;
@@ -255,22 +263,27 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                       ],
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.share_outlined,
-                                        color: Color(0xFF727272),
-                                        size: 19,
-                                      ),
-                                      4.horizontalSpace(),
-                                      Text(
-                                        'Share',
-                                        style: figtreeRegular.copyWith(
-                                            fontSize: 14,
-                                            color: const Color(0xFF727272)),
-                                        softWrap: true,
-                                      ),
-                                    ],
+                                  InkWell(
+                                    onTap: () async {
+                                      sharePost(widget.video, widget.caption, widget.name);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.share_outlined,
+                                          color: Color(0xFF727272),
+                                          size: 19,
+                                        ),
+                                        4.horizontalSpace(),
+                                        Text(
+                                          'Share',
+                                          style: figtreeRegular.copyWith(
+                                              fontSize: 14,
+                                              color: const Color(0xFF727272)),
+                                          softWrap: true,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   0.horizontalSpace(),
                                 ],

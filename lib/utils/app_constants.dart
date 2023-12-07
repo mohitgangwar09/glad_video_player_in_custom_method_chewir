@@ -68,6 +68,7 @@ class AppConstants {
   static const String guestTrainingListApi = '/api/training/guest-training';
   static const String communityListApi = '/api/community/community-list';
   static const String communityDetailApi = '/api/community/community-detail';
+  static const String guestCommunityDetailApi = '/api/community/guest-community-detail';
   static const String guestCommunityListApi = '/api/community/guest-community-list';
   static const String likeListApi = '/api/community/like-list';
   static const String guestLikeListApi = '/api/community/guest-like-list';
@@ -81,7 +82,6 @@ class AppConstants {
   static const String newsListApi = '/api/news-event/list';
   static const String newsCategoryApi = '/api/news-event/category';
   static const String trainingDetailApi = '/api/training/details';
-  static const String livestockBreedApi = '/api/live-stock/cow-breed-list';
   static const String projectKycDocumentsApi = '/api/farmer-project/project-kyc-document';
   static const String projectKycDocumentsUpdateApi = '/api/farmer-project/project-kyc-update';
   //mileStoneApi
@@ -95,6 +95,17 @@ class AppConstants {
   static const String accountStatementApi = '/api/financial/account-statement';
   static const String farmerParticipationStatusApi = '/api/financial/update-farmer-participation-status';
   static const String improvementAreaFilterListApi = '/api/improvement/improvementarea-list';
+
+  //Livestock
+  static const String livestockBreedApi = '/api/live-stock/cow-breed-list';
+  static const String livestockAddApi = '/api/live-stock/add-live-stock';
+  static const String myLivestockListApi = '/api/live-stock/my-livestock';
+  static const String livestockListApi = '/api/live-stock/list';
+  static const String livestockDetailApi = '/api/live-stock/cow-detail';
+  static const String livestockUpdateApi = '/api/live-stock/update';
+
+
+  static const String deleteMediaApi = '/api/delete-media';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

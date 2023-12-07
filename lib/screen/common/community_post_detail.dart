@@ -89,11 +89,7 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                                 SizedBox(
                                   width: screenWidth() * 0.4,
                                   child: Text(state.responseCommunityDetailList!.data![0].user!.address != null
-                                      ? state.responseCommunityDetailList!.data![0].user!.address!.address != null &&
-                                      state.responseCommunityDetailList!.data![0].user!.address!.subCounty != null
-                                      ? state.responseCommunityDetailList!.data![0].user!.address!.subCounty! +
-                                      state.responseCommunityDetailList!.data![0].user!.address!.address!
-                                      : ''
+                                      ? state.responseCommunityDetailList!.data![0].user!.address!.address ?? ''
                                       : '',
                                     style: figtreeRegular.copyWith(
                                         fontSize: 12, color: Colors.black),
@@ -248,22 +244,27 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                             ],
                           ),
                         ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.share_outlined,
-                              color: Colors.white,
-                              size: 19,
-                            ),
-                            4.horizontalSpace(),
-                            Text(
-                              'Share',
-                              style: figtreeRegular.copyWith(
-                                  fontSize: 14,
-                                  color: Colors.white),
-                              softWrap: true,
-                            ),
-                          ],
+                        InkWell(
+                          onTap: () {
+                            sharePost(state.responseCommunityDetailList!.data![0].communityDocumentFiles![0].originalUrl ?? '', state.responseCommunityDetailList!.data![0].remark ?? '', state.responseCommunityDetailList!.data![0].user!.name ?? '');
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.share_outlined,
+                                color: Colors.white,
+                                size: 19,
+                              ),
+                              4.horizontalSpace(),
+                              Text(
+                                'Share',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.white),
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
                         ),
 
                       ],

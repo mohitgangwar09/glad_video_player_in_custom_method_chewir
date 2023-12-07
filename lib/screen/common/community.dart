@@ -144,11 +144,7 @@ class _CommunityPostState extends State<CommunityPost> {
               child: (index) => CommunityWidget(
                 name: state.responseCommunityList!.data![index].user!.name ?? '',
                 location: state.responseCommunityList!.data![index].user!.address != null
-                    ? state.responseCommunityList!.data![index].user!.address!.address != null
-                    && state.responseCommunityList!.data![index].user!.address!.subCounty != null
-                    ? state.responseCommunityList!.data![index].user!.address!.subCounty! +
-                    state.responseCommunityList!.data![index].user!.address!.address!
-                    : ''
+                    ? state.responseCommunityList!.data![index].user!.address!.address ?? ''
                     : '',
                 image: state.responseCommunityList!.data![index].user!.profilePic ?? '',
                 caption: state.responseCommunityList!.data![index].remark ?? '',

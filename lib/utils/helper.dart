@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart'  as http;
+import 'package:share_plus/share_plus.dart';
 
 double getStatusBarHeight(BuildContext context) {
   return MediaQuery.of(context).padding.top;
@@ -157,4 +159,9 @@ bool checkDate(DateTime dateTime){
   final expirationDate = DateTime(dateTime.year, dateTime.month);
   final bool isExpired = expirationDate.isBefore(now);
   return isExpired;
+}
+
+Future sharePost(String image, String caption, String name) async {
+  var response = await http.get(Uri.parse(image));
+  await Share.shareXFiles([XFile.fromData(response.bodyBytes, mimeType: 'image/png')], text: caption, subject: 'GLAD community post by $name');
 }

@@ -1,7 +1,10 @@
 
 import 'package:dio/dio.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
+import 'package:glad/data/model/livestock_detail.dart';
+import 'package:glad/data/model/livestock_list_model.dart';
 import 'package:glad/data/model/news_list_model.dart';
+import 'package:glad/data/model/response_add_livestock.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_community_comment_list.dart';
 import 'package:glad/data/model/response_community_like_list.dart';
@@ -10,6 +13,7 @@ import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
 import 'package:glad/data/model/youtube_video_statistics_model.dart';
+import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
@@ -125,7 +129,7 @@ class OthersRepository {
       'id': id
     };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.communityDetailApi,
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestCommunityListApi : AppConstants.communityDetailApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'},
         queryParameters: param);
 
@@ -224,6 +228,125 @@ class OthersRepository {
       return ResponseBreed.fromJson(apiResponse.response!.data);
     } else {
       return ResponseBreed(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getLivestockBreedApi //////////
+  Future<LivestockList> getLivestockListApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.livestockListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return LivestockList.fromJson(apiResponse.response!.data);
+    } else {
+      return LivestockList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getLivestockBreedApi //////////
+  Future<LivestockList> getMyLivestockListApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.myLivestockListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return LivestockList.fromJson(apiResponse.response!.data);
+    } else {
+      return LivestockList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getLivestockBreedApi //////////
+  Future<LivestockDetail> getLivestockDetailApi(String id) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.livestockDetailApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'id': id});
+
+    if (apiResponse.status) {
+      return LivestockDetail.fromJson(apiResponse.response!.data);
+    } else {
+      return LivestockDetail(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseAddLivestock> addLivestockApi(String breedId, List<String> paths, String milk, String lactation, String price, String pregnant, String cowQty, String age, String description) async {
+    FormData data = FormData.fromMap({
+    'cow_breed_id': breedId,
+    'yield': milk,
+    'age': age,
+    'lactation': lactation,
+    'price': price,
+    'pregnant': pregnant,
+    'cow_qty': cowQty,
+    'description': description,
+    });
+
+    for(String path in paths){
+      data.files.add(MapEntry(
+        'live_stock_document_files[]', await MultipartFile.fromFile(path)));
+    }
+
+    print(data.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.livestockAddApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseAddLivestock.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseAddLivestock(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseAddLivestock> updateLivestockApi(String id, String breedId, List<String> paths, String milk, String lactation, String price, String pregnant, String cowQty, String age, String description) async {
+    FormData data = FormData.fromMap({
+      'id': id,
+      'cow_breed_id': breedId,
+      'yield': milk,
+      'age': age,
+      'lactation': lactation,
+      'price': price,
+      'pregnant': pregnant,
+      'cow_qty': cowQty,
+      'description': description,
+    });
+
+    for(String path in paths){
+      data.files.add(MapEntry(
+          'live_stock_document_files[]', await MultipartFile.fromFile(path)));
+    }
+
+    print(data.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.livestockUpdateApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseAddLivestock.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseAddLivestock(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseOtpModel> deleteMediaApi(String id) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .deleteApiResponse(AppConstants.deleteMediaApi, data: {'id': id},
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
   }
 

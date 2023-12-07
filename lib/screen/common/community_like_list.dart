@@ -109,7 +109,7 @@ class _CommunityLikeListState extends State<CommunityLikeList> {
                                                       width: screenWidth() * 0.5,
                                                       child: Text(state.responseCommunityLikeList!.data![index].user!.address != null ? state.responseCommunityLikeList!.data![index].user!.address!.address ?? '' : '',
                                                           style: figtreeRegular.copyWith(
-                                                              fontSize: 12, color: Color(0xFF727272))),
+                                                              fontSize: 12, color: const Color(0xFF727272))),
                                                     ),
 
                                                     // Column(
