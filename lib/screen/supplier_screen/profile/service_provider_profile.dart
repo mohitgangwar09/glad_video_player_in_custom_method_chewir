@@ -329,11 +329,12 @@ class _SupplierProfileState extends State<SupplierProfile> {
               ),
               10.verticalSpace(),
               RatingBar.builder(
-                  initialRating: 0,
+                  initialRating: double.parse(state.responseUserRating!.data![0].rating!=null?state.responseUserRating!.data![0].rating!.toString():0.toString()),
                   glowColor: Colors.amber,
                   minRating: 1,
                   allowHalfRating: true,
                   itemCount: 5,
+                  ignoreGestures: true,
                   itemBuilder: (context, _) =>
                       const Icon(Icons.star, color: Color(0xffF6B51D)),
                   onRatingUpdate: (rating) {

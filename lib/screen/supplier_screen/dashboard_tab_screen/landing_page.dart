@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -15,6 +16,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
+import 'package:glad/screen/supplier_screen/widget/survey_supplier_widget.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -58,6 +60,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
 
   @override
   void initState() {
+    BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
     BlocProvider.of<LandingPageCubit>(context).getSupplierDashboard(context).then((value) {
       LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
       int projectsSum = state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt() +
@@ -87,11 +90,14 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
           surveyText = 'pending';
         }
       }
+
       setState(() {});
     });
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
+      BlocProvider.of<ProjectCubit>(context)
+          .supplierProjectsApi(context, 'new', true);
     });
   }
 
@@ -456,7 +462,95 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                 ],
               ),
             ),
-            20.verticalSpace(),
+            BlocBuilder<ProjectCubit, ProjectState>(
+              builder: (contexts, state){
+                if (state.responseSupplierProject == null) {
+                  return const SizedBox.shrink();
+                }else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      23.verticalSpace(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0),
+                        child: Text('New Survey',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 18, color: Colors.black)),
+                      ),
+                      Container(
+                        height: 240,
+                        margin: const EdgeInsets.only(left: 12,right: 6),
+                        child: customList(
+                          padding: const EdgeInsets.all(0),
+                            axis: Axis.horizontal,
+                            list: List.generate(state.responseSupplierProject!.data!
+                                .projectList!.length, (index) => null),
+                            child: (int i) {
+
+                              return state.responseSupplierProject!.data!
+                                  .projectList![i].farmerProjectSurvey!.isNotEmpty?
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: customProjectContainer(
+                                  marginTop: 10,
+                                    child: SurveySupplierWidget(
+                                        status: state.responseSupplierProject!.data!
+                                            .projectList![i].farmerProjectSurvey![0].surveyStatus==null?false:true,
+                                        projectStatus: formatProjectStatus(state.responseSupplierProject!.data!
+                                            .projectList![i].projectStatus ?? ''),
+                                        name: state.responseSupplierProject!.data!
+                                            .projectList![i].name ?? '',
+                                        category: state.responseSupplierProject!.data!
+                                            .projectList![i].farmerImprovementArea !=
+                                            null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerImprovementArea!
+                                            .improvementArea != null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerImprovementArea!
+                                            .improvementArea!.name ?? '' : '' : '',
+                                        description: state.responseSupplierProject!.data!
+                                            .projectList![i].description ?? '',
+                                        investment: state.responseSupplierProject!.data!
+                                            .projectList![i].investmentAmount ?? 0,
+                                        revenue: state.responseSupplierProject!.data!
+                                            .projectList![i].revenuePerYear ?? 0,
+                                        roi: state.responseSupplierProject!.data!
+                                            .projectList![i].roiPerYear ?? 0.0,
+                                        loan: state.responseSupplierProject!.data!
+                                            .projectList![i].loanAmount ?? 0,
+                                        emi: state.responseSupplierProject!.data!
+                                            .projectList![i].emiAmount ?? 0,
+                                        balance: 0,
+                                        farmerName: state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.name ?? '' : '',
+                                        farmerAddress:  state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.address!=null?state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.address!.address.toString():"" ??
+                                            '' : '',
+                                        farmerImage:  state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.photo ??
+                                            ''  : '',
+                                        farmerPhone:  state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.phone ??
+                                            ''  : '',
+                                        projectPercent: 0,
+                                        projectId: state.responseSupplierProject!.data!
+                                            .projectList![i].id ?? 0,
+                                        selectedFilter: 'new'
+
+                                    ),
+                                    width: screenWidth()-60),
+                              ):const SizedBox.shrink();
+                            }),
+                      ),
+                    ],
+                  );
+                }
+              }
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Stack(

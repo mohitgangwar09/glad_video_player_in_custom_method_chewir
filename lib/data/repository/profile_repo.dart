@@ -9,6 +9,7 @@ import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/response_sub_county.dart';
+import 'package:glad/data/model/response_user_rating.dart';
 import 'package:glad/data/model/response_validate_country.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +35,25 @@ class ProfileRepository {
     }else
     {
       return ResponseProfile(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// userRatingApi //////////
+
+  Future<ResponseUserRating> userRatingApi({String? userRoleId}) async {
+
+    var data = {"user_role_id": userRoleId ?? sharedPreferences?.getString(AppConstants.userRoleId)};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.userRatingApi,
+        queryParameters: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseUserRating.fromJson(apiResponse.response!.data);
+    }else
+    {
+      return ResponseUserRating(status: 422, message: apiResponse.msg);
     }
   }
 

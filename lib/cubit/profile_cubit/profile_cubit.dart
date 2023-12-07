@@ -9,6 +9,7 @@ import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
 import 'package:glad/data/model/response_sub_county.dart';
+import 'package:glad/data/model/response_user_rating.dart';
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/add_remark.dart';
@@ -102,6 +103,32 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
           status: ProfileStatus.success, responseProfile: response));
     } else {
       print(response.message.toString());
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // userRatingApi
+  Future<void> userRatingApi(context) async {
+    var response = await apiRepository.userRatingApi();
+    if (response.status == 200) {
+
+      emit(state.copyWith(responseUserRating: response));
+
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // userRatingApi
+  Future<void> userRatingFarmerDetailApi(context,String farmerId) async {
+    var response = await apiRepository.userRatingApi(userRoleId: farmerId);
+    if (response.status == 200) {
+
+      emit(state.copyWith(responseFarmerDetailRating: response));
+
+    } else {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());
     }

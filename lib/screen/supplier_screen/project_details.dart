@@ -562,11 +562,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                       child: RatingBar.builder(
                                         initialRating: double.parse(state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].rating!=null?state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].rating!.toString():'0'),
                                         minRating: 0,
-                                        tapOnlyMode: false,
-                                        updateOnDrag: false,
                                         itemSize: 20,
                                         direction: Axis.horizontal,
-                                        allowHalfRating: false,
                                         ignoreGestures: true,
                                         itemCount: 5,
                                         itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
@@ -1048,11 +1045,10 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                   child: RatingBar.builder(
                                     initialRating: double.parse(state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier![0].rating!=null?state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier![0].rating!.toString():'0'),
                                     minRating: 0,
-                                    tapOnlyMode: false,
-                                    updateOnDrag: false,
                                     itemSize: 20,
                                     direction: Axis.horizontal,
                                     allowHalfRating: false,
+                                    ignoreGestures: true,
                                     itemCount: 5,
                                     itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
                                     itemBuilder: (context, _) => const Icon(

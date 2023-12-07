@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
@@ -90,6 +91,8 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                             farmerDetail(context, state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!):const SizedBox.shrink(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!=null?
                             dde(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!):const SizedBox.shrink(),
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
+                            kpi(context,state):const SizedBox.shrink(),
                             projectMilestones(context,state),
                             6.verticalSpace(),
                            /* customProjectContainer(
@@ -206,6 +209,97 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
         }
       }
       ),
+    );
+  }
+
+  /////////KPI///////////////////////
+  Widget kpi(contexts,ProjectState state) {
+    List<FrontendKpiModel> kpiData = [];
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplySixMonth!=null){
+      kpiData.add(FrontendKpiModel(name: 'Milk Supply Six Month',
+          image: Images.investmentKpi,
+          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplySixMonth!)));
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyOneMonth!=null){
+      kpiData.add(FrontendKpiModel(name: 'Milk Supply One Month',
+          image: Images.revenueKpi,
+          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyOneMonth!)));
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyTwoWeek!=null){
+      kpiData.add(FrontendKpiModel(name: 'Milk Supply Two Week',
+          image: Images.roiKpi,
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyTwoWeek!}%"));
+    }
+
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "KPI's",
+          style: figtreeMedium.copyWith(
+            fontSize: 18,
+          ),
+        ),
+        10.verticalSpace(),
+
+        customGrid(context,
+            list: kpiData,
+            crossAxisCount: 3,
+            mainAxisSpacing: 15,
+            crossAxisSpacing: 13,
+            mainAxisExtent: 123,
+            child: (index){
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                  boxShadow:[
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        blurRadius: 2.0,
+                        offset: const Offset(0, 2))],
+                ),
+                child: Padding(
+                  // padding: 0.paddingAll(),
+                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset(
+                        kpiData[index].image.toString(),
+                        width: 30,
+                        height: 30,
+                      ),
+                      15.verticalSpace(),
+                      Text(
+                        '${kpiData[index].value}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: figtreeMedium.copyWith(fontSize: 14.3),
+                      ),
+                      05.verticalSpace(),
+                      Text(
+                        kpiData[index].name.toString(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: figtreeRegular.copyWith(
+                          fontSize: 12.5,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }),
+
+
+      ],
     );
   }
 

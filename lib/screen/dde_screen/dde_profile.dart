@@ -311,12 +311,14 @@ class _DDEProfileState extends State<DDEProfile> {
                   style: figtreeSemiBold.copyWith(fontSize: 22),
                 ),
               ),
+
               RatingBar.builder(
-                  initialRating: 0,
+                  initialRating: double.parse(state.responseUserRating!.data![0].rating!=null?state.responseUserRating!.data![0].rating!.toString():0.toString()),
                   glowColor: Colors.amber,
                   minRating: 1,
                   allowHalfRating: true,
                   itemCount: 5,
+                  ignoreGestures: true,
                   itemBuilder: (context, _) =>
                       const Icon(Icons.star, color: Color(0xffF6B51D)),
                   onRatingUpdate: (rating) {

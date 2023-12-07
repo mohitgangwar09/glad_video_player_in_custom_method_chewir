@@ -387,12 +387,12 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       alignment: Alignment.center,
       children: [
         SizedBox(
-            height: state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?
-            state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?170:170:230,
+            height: state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?
+            state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?170:200:242,
             width: screenWidth()),
         Container(
-          height: state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?
-          state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?110:10:170,
+          height: state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?
+          state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?110:138:178,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -477,7 +477,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                   ],
                 ),
 
-                if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null)
+                if(state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
                   Column(
                     children: [
                       15.verticalSpace(),
@@ -599,11 +599,12 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                       ),
                     ],
                   )
-                else if(state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer != null && state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
+                else if(state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null)
                     const SizedBox.shrink()
                 else
                     Container(
                       width: screenWidth(),
+                      height: 72,
                       padding: const EdgeInsets.all(10),
                       margin: const EdgeInsets.only(right: 12,top: 5),
                       decoration: boxDecoration(
@@ -611,6 +612,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                         borderRadius: 10,
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -629,6 +631,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   direction: Axis.horizontal,
                                   allowHalfRating: false,
                                   itemCount: 5,
+                                  ignoreGestures: true,
                                   tapOnlyMode: false,
                                   updateOnDrag: false,
                                   itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
