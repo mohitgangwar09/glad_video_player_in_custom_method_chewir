@@ -199,6 +199,40 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
+  // supplierKycDocumentApi
+  Future<void> supplierKycDocumentApi(context,int supplierId,
+      String doc1Name, String doc2Name, String doc3Name,
+      String doc4Name,String doc5Name,String doc6Name,
+      String doc1Number,String doc2Number,String doc3Number,
+      String doc4Number,String doc5Number,String doc6Number,
+      String doc1Expiry,String doc2Expiry,String doc3Expiry,
+      String doc4Expiry,String doc5Expiry,String doc6Expiry,
+      List<String> doc1File, List<String> doc2File,
+      List<String> doc3File, List<String> doc4File,
+      List<String> doc5File, List<String> doc6File,) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.supplierKycDocumentApi(supplierId, doc1Name, doc2Name,
+        doc3Name, doc4Name, doc5Name, doc6Name, doc1Number, doc2Number, doc3Number,
+        doc4Number, doc5Number, doc6Number, doc1Expiry, doc2Expiry, doc3Expiry,
+        doc4Expiry, doc5Expiry, doc6Expiry, doc1File.map((e) => File(e)).toList(),
+        doc2File.map((e) => File(e)).toList(),
+        doc3File.map((e) => File(e)).toList(),
+        doc4File.map((e) => File(e)).toList(),
+        doc5File.map((e) => File(e)).toList(),
+        doc6File.map((e) => File(e)).toList());
+
+    disposeProgress();
+
+    if (response.status == 200) {
+      // pressBack();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+      await profileApi(context);
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   // updateProfilePicImage
   Future<void> updateProfilePicImage(context, String image) async {
     customDialog(widget: launchProgress());

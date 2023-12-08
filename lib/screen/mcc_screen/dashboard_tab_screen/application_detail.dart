@@ -207,8 +207,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
             ],
           );
         }
-      }
-      ),
+      }),
     );
   }
 

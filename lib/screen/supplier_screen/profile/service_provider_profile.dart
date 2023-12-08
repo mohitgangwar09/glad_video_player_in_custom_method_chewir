@@ -339,14 +339,16 @@ class _SupplierProfileState extends State<SupplierProfile> {
                       const Icon(Icons.star, color: Color(0xffF6B51D)),
                   onRatingUpdate: (rating) {
                     print(rating);
-                  })
+                  }),
             ],
           ),
-          SvgPicture.asset(
-            Images.silver,
-            height: 55,
-            width: 55,
-          )
+          if(state.responseProfile!.data!.user!.badge!=null)
+            if(state.responseProfile!.data!.user!.badge.toString() == 'silver')
+              SvgPicture.asset(
+                Images.silver,
+                height: 55,
+                width: 55,
+              )
         ],
       ),
     ):sizeBox();

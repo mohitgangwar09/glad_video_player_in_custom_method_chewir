@@ -116,7 +116,6 @@ class FcmHelper {
       msyBackgroundMessageHandler,
     );
 
-    "fdfd".toast();
     //Needed by iOS only
     if (Platform.isIOS) {
       _firebaseMessaging.requestPermission(
@@ -128,7 +127,7 @@ class FcmHelper {
     //Getting the token from FCM
     FirebaseMessaging.instance.getToken().then((value) async{
       print("fcmToken---- $value");
-      value.toString().toast();
+      // value.toString().toast();
       await SharedPrefManager.savePrefString(AppConstants.fcmToken, value.toString());
     });
   }

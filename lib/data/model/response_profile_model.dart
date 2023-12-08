@@ -45,6 +45,7 @@ class User {
   String? firstName;
   dynamic middleName;
   dynamic lastName;
+
   String? userType;
   dynamic userCode;
   int? hasPassword;
@@ -68,6 +69,7 @@ class User {
   int? isFirst;
   String? name;
   dynamic profilePic;
+  dynamic badge;
   List<Roles>? roles;
   Address? address;
 
@@ -99,6 +101,7 @@ class User {
         this.name,
         this.profilePic,
         this.roles,
+        this.badge,
         this.address});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -127,6 +130,7 @@ class User {
     deletedBy = json['deleted_by'];
     isFirst = json['is_first'];
     name = json['name'];
+    badge = json['badge'];
     profilePic = json['profile_pic'];
     if (json['roles'] != null) {
       roles = <Roles>[];
@@ -164,6 +168,7 @@ class User {
     data['deleted_by'] = deletedBy;
     data['is_first'] = isFirst;
     data['name'] = name;
+    data['badge'] = name;
     data['profile_pic'] = profilePic;
     if (roles != null) {
       data['roles'] = roles!.map((v) => v.toJson()).toList();
