@@ -61,6 +61,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
+      BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
     });
   }
 
@@ -146,7 +147,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const LandingCarousel(),
+            LandingCarousel(todayMilkPrice:state.responseDdeDashboard!.data!.todayMilkPrice!=null?state.responseDdeDashboard!.data!.todayMilkPrice!.milkPrice??0:0),
             10.verticalSpace(),
 
           farmersNearMe(context, state),

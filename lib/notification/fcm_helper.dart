@@ -27,40 +27,38 @@ Future showNotificationWithSound(body, message) async {
   print("notification 1");
   if (flutterLocalNotificationsPlugin == null) {
     initNotification();
+    "dsdsds".toast();
   }
 
-  // BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
-  //   message, htmlFormatBigText: true,
-  //   contentTitle: body, htmlFormatContentTitle: true,
-  // );
+  BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
+    message, htmlFormatBigText: true,
+    contentTitle: body, htmlFormatContentTitle: true,
+  );
 
-  /*var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+  var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
       'Order Channel', 'Order updates',
       importance: Importance.defaultImportance,
-      styleInformation: bigTextStyleInformation,
       priority: Priority.high,
-  );*/
+  );
 
   flutterLocalNotificationsPlugin?.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(
     alert: true,
     badge: true,
     sound: true,
   );
-  var platformChannelSpecifics = const NotificationDetails(
-      // android: androidPlatformChannelSpecifics
+  var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics
   );
 
+  message.toString().toast();
   await flutterLocalNotificationsPlugin?.show(0,
     message,
     body,
     platformChannelSpecifics,
-    // payload: pageToken,
   );
 }
 
 void initNotification() {
-
-  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   var initializationSettingsAndroid = const AndroidInitializationSettings('app_icon');
   var initializationSettings = InitializationSettings(
@@ -116,7 +114,6 @@ class FcmHelper {
       msyBackgroundMessageHandler,
     );
 
-    "fdfd".toast();
     //Needed by iOS only
     if (Platform.isIOS) {
       _firebaseMessaging.requestPermission(
@@ -128,7 +125,7 @@ class FcmHelper {
     //Getting the token from FCM
     FirebaseMessaging.instance.getToken().then((value) async{
       print("fcmToken---- $value");
-      value.toString().toast();
+      // value.toString().toast();
       await SharedPrefManager.savePrefString(AppConstants.fcmToken, value.toString());
     });
   }

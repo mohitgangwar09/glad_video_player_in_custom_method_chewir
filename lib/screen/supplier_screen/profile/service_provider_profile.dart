@@ -12,6 +12,7 @@ import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/screen/dde_screen/dde_earning_statement.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/screen/supplier_screen/profile/kyc_update.dart';
+import 'package:glad/screen/supplier_screen/supplier_update_kyc.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -308,44 +309,164 @@ class _SupplierProfileState extends State<SupplierProfile> {
               ),
               10.verticalSpace(),
               InkWell(
-                onTap: () => const KYCUpdate().navigate(),
+                onTap: () {
+                  if(state.responseProfile!.data!.user!.kycStatus!=null){
+                    if(state.responseProfile!.data!.user!.kycStatus == "pending"){
+                      const KYCUpdate().navigate();
+                    }else {
+                      if(state.responseProfile!.data!.user!.kycStatus == "verified"){}else{
+                        const SupplierUpdateKyc().navigate();
+                      }
+                    }
+                  }else{
+                    const KYCUpdate().navigate();
+                  }
+
+                  },
                 child: Row(
                   children: [
-                    SvgPicture.asset(Images.kyc),
-                    05.horizontalSpace(),
-                    Text(
-                      'KYC not verified',
-                      style: figtreeMedium.copyWith(
-                          fontSize: 12, color: ColorResources.black),
-                    ),
-                    10.horizontalSpace(),
-                    Text(
-                      'Upload Documents',
-                      style: figtreeMedium.copyWith(
-                          fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
-                    )
+                    if(state.responseProfile!.data!.user!.kycStatus == null)
+                      Row(
+                        children: [
+                          SvgPicture.asset(Images.kyc),
+                          05.horizontalSpace(),
+                          Text(
+                            'KYC not verified',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: ColorResources.black),
+                          ),
+                          10.horizontalSpace(),
+                          Text(
+                            'Upload Documents',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                          )
+                        ],
+                      )
+                    else if(state.responseProfile!.data!.user!.kycStatus == "pending")
+                      Row(
+                        children: [
+                          // SvgPicture.asset(Images.doneTimelineIcon),
+                          SvgPicture.asset(Images.kyc),
+                          05.horizontalSpace(),
+                          Text(
+                            'KYC is pending',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: ColorResources.black),
+                          ),
+                          10.horizontalSpace(),
+                          Text(
+                            'Upload Documents',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                          )
+                        ],
+                      )
+                    else if(state.responseProfile!.data!.user!.kycStatus == "applied")
+                      Row(
+                        children: [
+                          const Icon(Icons.watch_later,size: 15,color: Colors.grey,),
+                          05.horizontalSpace(),
+                          Text(
+                            'KYC not verified',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: ColorResources.black),
+                          ),
+                          10.horizontalSpace(),
+                          Text(
+                            'Documents',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                          )
+                        ],
+                      )
+                    else if(state.responseProfile!.data!.user!.kycStatus == "verified")
+                      Row(
+                          children: [
+                            SvgPicture.asset(Images.verified),
+                            05.horizontalSpace(),
+                            Text(
+                              'KYC verified',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: ColorResources.black),
+                            ),
+                            10.horizontalSpace(),
+                            Text(
+                              'Documents',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                            )
+                          ],
+                        )
+                    else if(state.responseProfile!.data!.user!.kycStatus == "expired")
+                      Row(
+                            children: [
+
+                              05.horizontalSpace(),
+                              Text(
+                                'KYC expired',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: ColorResources.black),
+                              ),
+                              10.horizontalSpace(),
+                              Text(
+                                'Upload Documents',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                              )
+                            ],
+                          )
                   ],
                 ),
               ),
               10.verticalSpace(),
-              RatingBar.builder(
-                  initialRating: 0,
-                  glowColor: Colors.amber,
-                  minRating: 1,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemBuilder: (context, _) =>
-                      const Icon(Icons.star, color: Color(0xffF6B51D)),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  })
+              if(state.responseUserRating!.data![0].rating!=null)
+                Row(
+                  children: [
+                    RatingBar.builder(
+                        initialRating: double.parse(state.responseUserRating!.data![0].rating!=null?state.responseUserRating!.data![0].rating!.toString():0.toString()),
+                        glowColor: Colors.amber,
+                        minRating: 1,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        ignoreGestures: true,
+                        itemBuilder: (context, _) =>
+                        const Icon(Icons.star, color: Color(0xffF6B51D)),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        }),
+
+                    "{${state.responseUserRating!.data![0].totalRatings!=null?
+                    state.responseUserRating!.data![0].totalRatings!:""}}".textRegular()
+                  ],
+                ),
             ],
           ),
-          SvgPicture.asset(
-            Images.silver,
-            height: 55,
-            width: 55,
-          )
+          if(state.responseProfile!.data!.user!.badge!=null)
+            if(state.responseProfile!.data!.user!.badge.toString() == 'silver')
+              SvgPicture.asset(
+                Images.silver,
+                height: 55,
+                width: 55,
+              )
+         else if(state.responseProfile!.data!.user!.badge.toString() == 'diamond')
+            SvgPicture.asset(
+              Images.diamond,
+              height: 55,
+              width: 55,
+            )
+         else if(state.responseProfile!.data!.user!.badge.toString() == 'gold')
+           SvgPicture.asset(
+             Images.gold,
+             height: 55,
+             width: 55,
+           )
+         else if(state.responseProfile!.data!.user!.badge.toString() == 'platinum')
+           SvgPicture.asset(
+             Images.platinum,
+             height: 55,
+             width: 55,
+           )
         ],
       ),
     ):sizeBox();

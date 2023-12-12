@@ -449,7 +449,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                 )
               ],
             ),
-            if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'active' || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'hold')
+            if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'active' || state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'hold'||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == 'completed')
             Builder(
                 builder: (context) {
                   int count = 0;

@@ -7,16 +7,15 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class LandingCarousel extends StatefulWidget {
+class MccLandingCarousel extends StatefulWidget {
 
-  const LandingCarousel({super.key,this.todayMilkPrice});
-  final dynamic todayMilkPrice;
+  const MccLandingCarousel({super.key});
 
   @override
-  State<LandingCarousel> createState() => _LandingCarouselState();
+  State<MccLandingCarousel> createState() => _MccLandingCarouselState();
 }
 
-class _LandingCarouselState extends State<LandingCarousel> {
+class _MccLandingCarouselState extends State<MccLandingCarousel> {
   int activeIndex = 0;
 
   @override
@@ -26,30 +25,6 @@ class _LandingCarouselState extends State<LandingCarousel> {
         20.verticalSpace(),
         CarouselSlider(
             items: [
-              Stack(
-                  children: [
-                    Image.asset(Images.milkPrice),
-                    Container(
-                      margin: const EdgeInsets.only(top: 35),
-                      width: screenWidth()-40,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-
-                          Text("Today's Milk Price",style: figtreeRegular.copyWith(
-                              fontSize: 16
-                          ),),
-
-                          Text('UGX ${widget.todayMilkPrice}/Ltr.',style: figtreeBold.copyWith(
-                              fontSize: 30
-                          ),),
-
-                        ],
-                      ),
-                    )
-
-                  ],
-                ),
               Image.asset(Images.weather),
               Image.asset(Images.training),
               Image.asset(Images.livestock),
@@ -71,7 +46,7 @@ class _LandingCarouselState extends State<LandingCarousel> {
             padding: const EdgeInsets.all(5),
             child: AnimatedSmoothIndicator(
               activeIndex: activeIndex,
-              count: 5,
+              count: 4,
               effect: const WormEffect(
                   activeDotColor: ColorResources.maroon,
                   dotHeight: 7,

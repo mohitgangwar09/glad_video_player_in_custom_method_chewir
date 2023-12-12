@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -71,6 +72,8 @@ class _FarmerProfileState extends State<FarmerProfile> {
     super.initState();
 
     BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+    BlocProvider.of<ProfileCubit>(context)
+        .userRatingApi(context);
     getCountryCode();
   }
 
@@ -271,6 +274,34 @@ class _FarmerProfileState extends State<FarmerProfile> {
                 )),
           ],
         ),
+        10.verticalSpace(),
+        if(state.responseUserRating!=null)
+          if(state.responseUserRating!.data![0].rating!=null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  RatingBar.builder(
+                      initialRating: double.parse(state.responseUserRating!.data![0].rating!=null?state.responseUserRating!.data![0].rating!.toString():0.toString()),
+                      glowColor: Colors.amber,
+                      minRating: 1,
+                      itemSize: 18,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      ignoreGestures: true,
+                      itemBuilder: (context, _) =>
+                      const Icon(Icons.star, color: Color(0xffF6B51D)),
+                      onRatingUpdate: (rating) {
+                        // print(rating);
+                      }),
+
+                  "{${state.responseUserRating!.data![0].totalRatings!=null?
+                  state.responseUserRating!.data![0].totalRatings!:""}}".textRegular(),
+
+                ],
+              ),
+            ),
+
         10.verticalSpace(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

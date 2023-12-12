@@ -24,17 +24,22 @@ class ResponseProfile {
 
 class Data {
   User? user;
+  SupplierDocument? supplierDocument;
 
-  Data({this.user});
+  Data({this.user,this.supplierDocument});
 
   Data.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? User.fromJson(json['user']) : null;
+    supplierDocument = json['supplierKycDocument'] != null ? SupplierDocument.fromJson(json['supplierKycDocument']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (user != null) {
       data['user'] = user!.toJson();
+    }
+    if (supplierDocument != null) {
+      data['supplierKycDocument'] = supplierDocument!.toJson();
     }
     return data;
   }
@@ -45,6 +50,7 @@ class User {
   String? firstName;
   dynamic middleName;
   dynamic lastName;
+
   String? userType;
   dynamic userCode;
   int? hasPassword;
@@ -68,6 +74,9 @@ class User {
   int? isFirst;
   String? name;
   dynamic profilePic;
+  dynamic badge;
+  dynamic kycStatus;
+  dynamic kycRemarks;
   List<Roles>? roles;
   Address? address;
 
@@ -99,6 +108,9 @@ class User {
         this.name,
         this.profilePic,
         this.roles,
+        this.badge,
+        this.kycStatus,
+        this.kycRemarks,
         this.address});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -127,6 +139,9 @@ class User {
     deletedBy = json['deleted_by'];
     isFirst = json['is_first'];
     name = json['name'];
+    badge = json['badge'];
+    kycStatus = json['kyc_status'];
+    kycRemarks = json['kyc_remarks'];
     profilePic = json['profile_pic'];
     if (json['roles'] != null) {
       roles = <Roles>[];
@@ -164,6 +179,9 @@ class User {
     data['deleted_by'] = deletedBy;
     data['is_first'] = isFirst;
     data['name'] = name;
+    data['badge'] = name;
+    data['kyc_remarks'] = kycRemarks;
+    data['kyc_status'] = kycStatus;
     data['profile_pic'] = profilePic;
     if (roles != null) {
       data['roles'] = roles!.map((v) => v.toJson()).toList();
@@ -340,6 +358,325 @@ class Address {
     data['type'] = type;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class SupplierDocument {
+  int? id;
+  int? supplierId;
+  String? doc1Name;
+  String? doc1No;
+  String? doc1ExpiryDate;
+  String? doc2Name;
+  String? doc2No;
+  String? doc2ExpiryDate;
+  String? doc3Name;
+  String? doc3No;
+  String? doc3ExpiryDate;
+  String? doc4Name;
+  String? doc4No;
+  String? doc4ExpiryDate;
+  String? doc5Name;
+  String? doc5No;
+  String? doc5ExpiryDate;
+  String? doc6Name;
+  String? doc6No;
+  String? doc6ExpiryDate;
+  String? status;
+  int? createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  List<DocFile1>? docFile1;
+  List<DocFile1>? docFile2;
+  List<DocFile1>? docFile3;
+  List<DocFile1>? docFile4;
+  List<DocFile1>? docFile5;
+  List<DocFile1>? docFile6;
+  List<DocFile1>? media;
+
+  SupplierDocument(
+      {this.id,
+        this.supplierId,
+        this.doc1Name,
+        this.doc1No,
+        this.doc1ExpiryDate,
+        this.doc2Name,
+        this.doc2No,
+        this.doc2ExpiryDate,
+        this.doc3Name,
+        this.doc3No,
+        this.doc3ExpiryDate,
+        this.doc4Name,
+        this.doc4No,
+        this.doc4ExpiryDate,
+        this.doc5Name,
+        this.doc5No,
+        this.doc5ExpiryDate,
+        this.doc6Name,
+        this.doc6No,
+        this.doc6ExpiryDate,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.docFile1,
+        this.docFile2,
+        this.docFile3,
+        this.docFile4,
+        this.docFile5,
+        this.docFile6,
+        this.media});
+
+  SupplierDocument.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    supplierId = json['supplier_id'];
+    doc1Name = json['doc_1_name'];
+    doc1No = json['doc_1_no'];
+    doc1ExpiryDate = json['doc_1_expiry_date'];
+    doc2Name = json['doc_2_name'];
+    doc2No = json['doc_2_no'];
+    doc2ExpiryDate = json['doc_2_expiry_date'];
+    doc3Name = json['doc_3_name'];
+    doc3No = json['doc_3_no'];
+    doc3ExpiryDate = json['doc_3_expiry_date'];
+    doc4Name = json['doc_4_name'];
+    doc4No = json['doc_4_no'];
+    doc4ExpiryDate = json['doc_4_expiry_date'];
+    doc5Name = json['doc_5_name'];
+    doc5No = json['doc_5_no'];
+    doc5ExpiryDate = json['doc_5_expiry_date'];
+    doc6Name = json['doc_6_name'];
+    doc6No = json['doc_6_no'];
+    doc6ExpiryDate = json['doc_6_expiry_date'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    if (json['doc_file_1'] != null) {
+      docFile1 = <DocFile1>[];
+      json['doc_file_1'].forEach((v) {
+        docFile1!.add(DocFile1.fromJson(v));
+      });
+    }
+    if (json['doc_file_2'] != null) {
+      docFile2 = <DocFile1>[];
+      json['doc_file_2'].forEach((v) {
+        docFile2!.add(DocFile1.fromJson(v));
+      });
+    }
+    if (json['doc_file_3'] != null) {
+      docFile3 = <DocFile1>[];
+      json['doc_file_3'].forEach((v) {
+        docFile3!.add(DocFile1.fromJson(v));
+      });
+    }
+    if (json['doc_file_4'] != null) {
+      docFile4 = <DocFile1>[];
+      json['doc_file_4'].forEach((v) {
+        docFile4!.add(DocFile1.fromJson(v));
+      });
+    }
+    if (json['doc_file_5'] != null) {
+      docFile5 = <DocFile1>[];
+      json['doc_file_5'].forEach((v) {
+        docFile5!.add(DocFile1.fromJson(v));
+      });
+    }
+    if (json['doc_file_6'] != null) {
+      docFile6 = <DocFile1>[];
+      json['doc_file_6'].forEach((v) {
+        docFile6!.add(DocFile1.fromJson(v));
+      });
+    }
+    if (json['media'] != null) {
+      media = <DocFile1>[];
+      json['media'].forEach((v) {
+        media!.add(DocFile1.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['supplier_id'] = supplierId;
+    data['doc_1_name'] = doc1Name;
+    data['doc_1_no'] = doc1No;
+    data['doc_1_expiry_date'] = doc1ExpiryDate;
+    data['doc_2_name'] = doc2Name;
+    data['doc_2_no'] = doc2No;
+    data['doc_2_expiry_date'] = doc2ExpiryDate;
+    data['doc_3_name'] = doc3Name;
+    data['doc_3_no'] = doc3No;
+    data['doc_3_expiry_date'] = doc3ExpiryDate;
+    data['doc_4_name'] = doc4Name;
+    data['doc_4_no'] = doc4No;
+    data['doc_4_expiry_date'] = doc4ExpiryDate;
+    data['doc_5_name'] = doc5Name;
+    data['doc_5_no'] = doc5No;
+    data['doc_5_expiry_date'] = doc5ExpiryDate;
+    data['doc_6_name'] = doc6Name;
+    data['doc_6_no'] = doc6No;
+    data['doc_6_expiry_date'] = doc6ExpiryDate;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (docFile1 != null) {
+      data['doc_file_1'] = docFile1!.map((v) => v.toJson()).toList();
+    }
+    if (docFile2 != null) {
+      data['doc_file_2'] = docFile2!.map((v) => v.toJson()).toList();
+    }
+    if (docFile3 != null) {
+      data['doc_file_3'] = docFile3!.map((v) => v.toJson()).toList();
+    }
+    if (docFile4 != null) {
+      data['doc_file_4'] = docFile4!.map((v) => v.toJson()).toList();
+    }
+    if (docFile5 != null) {
+      data['doc_file_5'] = docFile5!.map((v) => v.toJson()).toList();
+    }
+    if (docFile6 != null) {
+      data['doc_file_6'] = docFile6!.map((v) => v.toJson()).toList();
+    }
+    if (media != null) {
+      data['media'] = media!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class DocFile1 {
+  int? id;
+  String? modelType;
+  int? modelId;
+  String? uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  int? size;
+  dynamic manipulations;
+  dynamic customProperties;
+  dynamic generatedConversions;
+  dynamic responsiveImages;
+  int? orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? originalUrl;
+  String? previewUrl;
+
+  DocFile1(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.manipulations,
+        this.customProperties,
+        this.generatedConversions,
+        this.responsiveImages,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.originalUrl,
+        this.previewUrl});
+
+  DocFile1.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    if (json['manipulations'] != null) {
+      manipulations = <String>[];
+      json['manipulations'].forEach((v) {
+        manipulations!.add(v);
+      });
+    }
+    if (json['custom_properties'] != null) {
+      customProperties = <String>[];
+      json['custom_properties'].forEach((v) {
+        customProperties!.add(v);
+      });
+    }
+    if (json['generated_conversions'] != null) {
+      generatedConversions = <String>[];
+      json['generated_conversions'].forEach((v) {
+        generatedConversions!.add(v);
+      });
+    }
+    if (json['responsive_images'] != null) {
+      responsiveImages = <Null>[];
+      json['responsive_images'].forEach((v) {
+        responsiveImages!.add(v);
+      });
+    }
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    if (manipulations != null) {
+      data['manipulations'] =
+          manipulations!.map((v) => v).toList();
+    }
+    if (customProperties != null) {
+      data['custom_properties'] =
+          customProperties!.map((v) => v).toList();
+    }
+    if (generatedConversions != null) {
+      data['generated_conversions'] =
+          generatedConversions!.map((v) => v).toList();
+    }
+    if (responsiveImages != null) {
+      data['responsive_images'] =
+          responsiveImages!.map((v) => v).toList();
+    }
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
     return data;
   }
 }

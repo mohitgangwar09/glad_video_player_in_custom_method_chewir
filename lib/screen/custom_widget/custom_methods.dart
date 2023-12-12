@@ -1018,12 +1018,12 @@ Widget documentImage(String image, Function() onTapCancel, {bool isPDF = false})
                   width: 70,
                 ) : isUrl(image) ? CachedNetworkImage(
                   imageUrl: image, fit: BoxFit.fill,
-  height: 70,
-  width: 70, errorWidget: (_, __, ___) => Image.asset(
-  Images.sampleVideo,
-  fit: BoxFit.fill,
-  height: 70,
-  width: 70,)) : Image.file(File(image), fit: BoxFit.fill,
+                    height: 70,
+                    width: 70, errorWidget: (_, __, ___) => Image.asset(
+                  Images.sampleVideo,
+                  fit: BoxFit.fill,
+                  height: 70,
+                  width: 70,)) : Image.file(File(image), fit: BoxFit.fill,
                     height: 70,
                     width: 70, errorBuilder: (_, __, ___) => Image.asset(
                   Images.sampleVideo,

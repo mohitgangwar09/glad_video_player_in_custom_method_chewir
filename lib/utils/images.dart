@@ -135,6 +135,10 @@ class Images {
   static const String arrowDown = 'assets/images/arrow_down.svg';
 
   static const String pdfLogo = 'assets/images/pdf.png';
+  static const String diamond = 'assets/images/diamond.svg';
+  static const String gold = 'assets/images/gold.svg';
+  static const String platinum = 'assets/images/platinum.svg';
+  static const String verified = 'assets/images/verified.svg';
 
 
 

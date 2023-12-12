@@ -27,6 +27,7 @@ class ProfileCubitState extends Equatable{
   final TextEditingController districtController;
   final bool passwordVisible,confirmVisible;
   final ResponseProfile? responseProfile;
+  final ResponseUserRating? responseUserRating,responseFarmerDetailRating;
   final farmer_profile.Data? responseFarmerProfile;
   final List<DistrictData> ? districtResponse;
   final List<DistrictData> ? searchDistrictList;
@@ -89,6 +90,8 @@ class ProfileCubitState extends Equatable{
     required this.selectCounty,
     required this.selectSubCounty,
     required this.areaControllers,
+    required this.responseUserRating,
+    required this.responseFarmerDetailRating,
   });
 
   factory ProfileCubitState.initial() {
@@ -109,6 +112,7 @@ class ProfileCubitState extends Equatable{
       gender: null,
       selectDistrict: '',
       responseProfile: null,
+      responseUserRating: null,
       id: '',
       selectDob: '0000-00-00',
       farmerSince: '0000-00-00',
@@ -139,6 +143,7 @@ class ProfileCubitState extends Equatable{
       responseCountyList: ResponseCountyList(),
       responseSubCounty: ResponseSubCounty(),
       areaControllers: const [],
+      responseFarmerDetailRating: null
     );
   }
 
@@ -177,6 +182,7 @@ class ProfileCubitState extends Equatable{
     String? selectCounty,
     String? selectSubCounty,
     List<TextEditingController>? areaControllers,
+    ResponseUserRating? responseUserRating,responseFarmerDetailRating
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -225,6 +231,8 @@ class ProfileCubitState extends Equatable{
         selectCounty: selectCounty ?? this.selectCounty,
         selectSubCounty: selectSubCounty ?? this.selectSubCounty,
       areaControllers: areaControllers ?? this.areaControllers,
+      responseUserRating: responseUserRating ?? this.responseUserRating,
+      responseFarmerDetailRating: responseFarmerDetailRating ?? this.responseFarmerDetailRating,
     );
   }
 
@@ -275,6 +283,8 @@ class ProfileCubitState extends Equatable{
     selectCounty,
     selectSubCounty,
     areaControllers,
+    responseUserRating,
+    responseFarmerDetailRating
   ];
 
 }

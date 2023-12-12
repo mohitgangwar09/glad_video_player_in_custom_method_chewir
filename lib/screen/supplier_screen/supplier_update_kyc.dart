@@ -14,14 +14,14 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
-class KYCUpdate extends StatefulWidget {
-  const KYCUpdate({super.key});
+class SupplierUpdateKyc extends StatefulWidget {
+  const SupplierUpdateKyc({super.key});
 
   @override
-  State<KYCUpdate> createState() => _KYCUpdateState();
+  State<SupplierUpdateKyc> createState() => _SupplierUpdateKycState();
 }
 
-class _KYCUpdateState extends State<KYCUpdate> {
+class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
 
   String type = 'company';
   String docOne= 'Certificate of Incorporation';
@@ -46,38 +46,88 @@ class _KYCUpdateState extends State<KYCUpdate> {
   TextEditingController docExpirySixController = TextEditingController();
 
   List<String> docOneFile = [];
+  String docOneSelectedFile = '';
   List<String> docTwoFile = [];
+  String docTwoSelectedFile = '';
   List<String> docThreeFile = [];
+  String docThreeSelectedFile = '';
   List<String> docFourFile = [];
+  String docFourSelectedFile = '';
   List<String> docFiveFile = [];
+  String docFiveSelectedFile = '';
   List<String> docSixFile = [];
+  String docSixSelectedFile = '';
 
+  @override
+  void initState() {
+    super.initState();
+
+    docOneController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc1No.toString();
+    docTwoController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc2No.toString();
+    docThreeController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc3No.toString();
+    docFourController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc4No.toString();
+    docFiveController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc5No.toString();
+    docSixController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc6No.toString();
+
+    docExpiryOneController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc1ExpiryDate.toString() == "0000-00-00"?'':BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc1ExpiryDate.toString();
+    docExpiryTwoController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc2ExpiryDate.toString()== "0000-00-00"?'':BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc2ExpiryDate.toString();
+    docExpiryThreeController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc3ExpiryDate.toString()== "0000-00-00"?'':BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc3ExpiryDate.toString();
+    docExpiryFourController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc4ExpiryDate.toString()== "0000-00-00"?'':BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc4ExpiryDate.toString();
+    docExpiryFiveController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc5ExpiryDate.toString()== "0000-00-00"?'':BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc5ExpiryDate.toString();
+    docExpirySixController.text = BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc6ExpiryDate.toString()== "0000-00-00"?'':BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.doc6ExpiryDate.toString();
+
+    for(var doc1 in BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.docFile1! ){
+      docOneFile.add(doc1.originalUrl.toString());
+    }
+
+    for(var doc2 in BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.docFile2! ){
+      docTwoFile.add(doc2.originalUrl.toString());
+    }
+
+    for(var doc3 in BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.docFile3! ){
+      docThreeFile.add(doc3.originalUrl.toString());
+    }
+
+    for(var doc4 in BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.docFile4! ){
+      docFourFile.add(doc4.originalUrl.toString());
+    }
+
+    for(var doc5 in BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.docFile5! ){
+      docFiveFile.add(doc5.originalUrl.toString());
+    }
+
+    for(var doc6 in BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.supplierDocument!.docFile6! ){
+      docSixFile.add(doc6.originalUrl.toString());
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ProfileCubit,ProfileCubitState>(
-        builder: (context,state) {
-          return Stack(
-            children: [
-              landingBackground(),
-              Column(
-                children: [
-                  CustomAppBar(
-                    context: context,
-                    titleText1: 'KYC documents',
-                    titleText1Style:
-                        figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-                    centerTitle: true,
-                    leading: arrowBackButton(),
-                    description: 'Provide the following details',
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          // 20.verticalSpace(),
-                          /*Padding(
+       body: BlocBuilder<ProfileCubit,ProfileCubitState>(
+          builder: (context,state) {
+
+            return Stack(
+              children: [
+                landingBackground(),
+                Column(
+                  children: [
+                    CustomAppBar(
+                      context: context,
+                      titleText1: 'KYC documents',
+                      titleText1Style:
+                      figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                      centerTitle: true,
+                      leading: arrowBackButton(),
+                      description: 'Provide the following details',
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            // 20.verticalSpace(),
+                            /*Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,66 +222,71 @@ class _KYCUpdateState extends State<KYCUpdate> {
                               ],
                             ),
                           ),*/
-                          company(),
-                          // if (type == 'company') company(),
-                          // if (type == 'director') director(),
-                          40.verticalSpace(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: customButton(
-                              type == 'director' ? 'Save' : 'Continue',
-                              onTap: () {
-                                if(docOneFile.isEmpty) {
-                                  showCustomToast(
-                                      context, 'Please upload certificate of incorporation');
-                                }else if(docTwoFile.isEmpty){
-                                  showCustomToast(
-                                      context, 'Please upload trade license');
-                                }else if(docThreeFile.isEmpty){
-                                  showCustomToast(
-                                      context, 'Please upload latest annual return');
-                                }else if(docFourFile.isEmpty){
-                                  showCustomToast(
-                                      context, 'Please upload bank statement');
-                                }else if(docFiveFile.isEmpty){
-                                  showCustomToast(
-                                      context, 'Please upload MOA & AOA');
-                                }else if(docSixFile.isEmpty){
-                                  showCustomToast(
-                                      context, 'Please upload select iD proof');
-                                }else{
-                                  BlocProvider.of<ProfileCubit>(context).supplierKycDocumentApi(context, state.responseProfile!.data!.user!.id!, docOne, docTwo, docThree, docFour, docFive, docSix, docOneController.text, docTwoController.text, docThreeController.text, docFourController.text, docFiveController.text, docSixController.text, docExpiryOneController.text, docExpiryTwoController.text, docExpiryThreeController.text, docExpiryFourController.text, docExpiryFiveController.text, docExpirySixController.text, docOneFile, docTwoFile, docThreeFile, docFourFile, docFiveFile, docSixFile,);
-                                }
-                              },
-                              radius: 40,
-                              width: double.infinity,
-                              height: 60,
-                              style: figtreeMedium.copyWith(
-                                  color: Colors.white, fontSize: 16),
-                            ),
-                          ),
-                          20.verticalSpace(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: customButton('Cancel',
-                                onTap: () {},
+                            company(),
+                            // if (type == 'company') company(),
+                            // if (type == 'director') director(),
+                            40.verticalSpace(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: customButton(
+                                type == 'director' ? 'Save' : 'Continue',
+                                onTap: () {
+                                  if(docOneFile.isEmpty) {
+                                    showCustomToast(
+                                        context, 'Please upload certificate of incorporation');
+                                  }else if(docTwoFile.isEmpty){
+                                    showCustomToast(
+                                        context, 'Please upload trade license');
+                                  }else if(docThreeFile.isEmpty){
+                                    showCustomToast(
+                                        context, 'Please upload latest annual return');
+                                  }else if(docFourFile.isEmpty){
+                                    showCustomToast(
+                                        context, 'Please upload bank statement');
+                                  }else if(docFiveFile.isEmpty){
+                                    showCustomToast(
+                                        context, 'Please upload MOA & AOA');
+                                  }else if(docSixFile.isEmpty){
+                                    showCustomToast(
+                                        context, 'Please upload select iD proof');
+                                  }else{
+                                    BlocProvider.of<ProfileCubit>(context).supplierKycDocumentUpdateApi(context,state.responseProfile!.data!.supplierDocument!.id! ,state.responseProfile!.data!.user!.id!, docOne, docTwo, docThree, docFour, docFive, docSix, docOneController.text, docTwoController.text, docThreeController.text, docFourController.text, docFiveController.text, docSixController.text, docExpiryOneController.text, docExpiryTwoController.text, docExpiryThreeController.text, docExpiryFourController.text, docExpiryFiveController.text, docExpirySixController.text,
+                                        docOneFile, docTwoFile, docThreeFile, docFourFile, docFiveFile, docSixFile,
+                                      docOneSelectedFile,docTwoSelectedFile,docThreeSelectedFile,docFourSelectedFile,docFiveSelectedFile,docSixSelectedFile
+                                    );
+                                  }
+                                },
                                 radius: 40,
                                 width: double.infinity,
                                 height: 60,
                                 style: figtreeMedium.copyWith(
-                                    color: Colors.black, fontSize: 16),
-                                color: 0xFFDCDCDC),
-                          ),
-                          20.verticalSpace()
-                        ],
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                            20.verticalSpace(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: customButton('Cancel',
+                                  onTap: () {
+                                pressBack();
+                                  },
+                                  radius: 40,
+                                  width: double.infinity,
+                                  height: 60,
+                                  style: figtreeMedium.copyWith(
+                                      color: Colors.black, fontSize: 16),
+                                  color: 0xFFDCDCDC),
+                            ),
+                            20.verticalSpace()
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          );
-        }
+                    )
+                  ],
+                ),
+              ],
+            );
+          }
       ),
     );
   }
@@ -289,8 +344,8 @@ class _KYCUpdateState extends State<KYCUpdate> {
                         lastDate: DateTime(2100))
                         .then((value) {
                       setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
+                        docExpiryOneController.text =
+                        "${value!.year}/${value.month}/${value.day}";
                       });
                     });
                   },
@@ -305,6 +360,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Stack(
             children: [
+
               ContainerBorder(
                 margin: 0.marginVertical(),
                 padding: 10.paddingOnly(top: 15, bottom: 15),
@@ -359,8 +415,10 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     InkWell(
                       onTap: () async{
+                        docOneFile.clear();
                         var image = await imgFromGallery();
                         docOneFile.add(image);
+                        docOneSelectedFile = 'selected';
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -373,7 +431,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
+                        docOneFile.clear();
                         var image = await imgFromCamera();
+                        docOneSelectedFile = 'selected';
                         docOneFile.add(image);
                         setState(() {});
                       },
@@ -536,8 +596,11 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     InkWell(
                       onTap: () async{
+                        docTwoFile.clear();
                         var image = await imgFromGallery();
+                        docTwoSelectedFile = 'selected';
                         docTwoFile.add(image);
+
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -550,7 +613,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
+                        docTwoFile.clear();
                         var image = await imgFromCamera();
+                        docTwoSelectedFile = 'selected';
                         docTwoFile.add(image);
                         setState(() {});
                       },
@@ -713,7 +778,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     InkWell(
                       onTap: () async{
+                        docThreeFile.clear();
                         var image = await imgFromGallery();
+                        docThreeSelectedFile = 'selected';
                         docThreeFile.add(image);
                         setState(() {});
                       },
@@ -727,7 +794,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
+                        docThreeFile.clear();
                         var image = await imgFromCamera();
+                        docThreeSelectedFile = 'selected';
                         docThreeFile.add(image);
                         setState(() {});
                       },
@@ -892,7 +961,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     InkWell(
                       onTap: () async{
+                        docFourFile.clear();
                         var image = await imgFromGallery();
+                        docFourSelectedFile = 'selected';
                         docFourFile.add(image);
                         setState(() {});
                       },
@@ -906,7 +977,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
+                        docFourFile.clear();
                         var image = await imgFromCamera();
+                        docFourSelectedFile = 'selected';
                         docFourFile.add(image);
                         setState(() {});
                       },
@@ -1068,7 +1141,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     InkWell(
                       onTap: () async{
+                        docFiveFile.clear();
                         var image = await imgFromGallery();
+                        docFiveSelectedFile = 'selected';
                         docFiveFile.add(image);
                         setState(() {});
                       },
@@ -1082,7 +1157,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
+                        docFiveFile.clear();
                         var image = await imgFromCamera();
+                        docFiveSelectedFile = 'selected';
                         docFiveFile.add(image);
                         setState(() {});
                       },
@@ -1246,7 +1323,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                   children: [
                     InkWell(
                       onTap: () async{
+                        docSixFile.clear();
                         var image = await imgFromGallery();
+                        docSixSelectedFile = 'selected';
                         docSixFile.add(image);
                         setState(() {});
                       },
@@ -1260,7 +1339,9 @@ class _KYCUpdateState extends State<KYCUpdate> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
+                        docSixFile.clear();
                         var image = await imgFromCamera();
+                        docSixSelectedFile = 'selected';
                         docSixFile.add(image);
                         setState(() {});
                       },
@@ -1676,15 +1757,15 @@ class _KYCUpdateState extends State<KYCUpdate> {
         children: [
           RichText(
               text: TextSpan(children: [
-            TextSpan(
-                text: type,
-                style:
+                TextSpan(
+                    text: type,
+                    style:
                     figtreeMedium.copyWith(fontSize: 16, color: Colors.black)),
-            TextSpan(
-                text: ' ${description ?? ''}',
-                style:
+                TextSpan(
+                    text: ' ${description ?? ''}',
+                    style:
                     figtreeMedium.copyWith(fontSize: 16, color: Colors.grey)),
-          ])),
+              ])),
           5.verticalSpace(),
           Stack(
             children: [
@@ -1708,17 +1789,17 @@ class _KYCUpdateState extends State<KYCUpdate> {
                           children: [
                             RichText(
                                 text: TextSpan(children: [
-                              TextSpan(
-                                  text: 'Choose ',
-                                  style: figtreeMedium.copyWith(
-                                      fontSize: 16,
-                                      color: const Color(0xFFFC5E60))),
-                              TextSpan(
-                                  text: 'you file here',
-                                  style: figtreeMedium.copyWith(
-                                      fontSize: 16,
-                                      color: ColorResources.fieldGrey))
-                            ])),
+                                  TextSpan(
+                                      text: 'Choose ',
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 16,
+                                          color: const Color(0xFFFC5E60))),
+                                  TextSpan(
+                                      text: 'you file here',
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 16,
+                                          color: ColorResources.fieldGrey))
+                                ])),
                             Text('Max size 02 MB',
                                 style: figtreeMedium.copyWith(
                                     fontSize: 12,

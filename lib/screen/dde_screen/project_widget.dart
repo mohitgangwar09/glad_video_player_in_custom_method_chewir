@@ -133,17 +133,19 @@ class ProjectWidget extends StatelessWidget {
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black))
                     ])),
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Balance: ',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: const Color(0xFF808080))),
-                      TextSpan(
-                          text: '$balance%',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: Colors.black))
-                    ])),
+
+                    if(selectedFilter == 'active' || selectedFilter == 'completed')
+                      RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: 'Balance: ',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: const Color(0xFF808080))),
+                            TextSpan(
+                                text: '$balance%',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: Colors.black))
+                          ])),
                   ],
                 ),
                 15.verticalSpace(),

@@ -438,7 +438,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       .projectList![i].loanAmount ?? 0,
                                   emi: state.responseDdeProject!.data!
                                       .projectList![i].emiAmount ?? 0,
-                                  balance: 0,
+                                  balance: state.responseDdeProject!.data!
+                                      .projectList![i].projectBalance ?? 0,
                                   farmerName: state.responseDdeProject!.data!
                                       .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
                                       .projectList![i].farmerMaster!.name ?? '' : '',

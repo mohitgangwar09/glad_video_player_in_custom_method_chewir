@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
@@ -311,10 +312,42 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
                                             crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                             children: [
-                                              Text(state.response!.farmerMAster![i].name!,
-                                                  style: figtreeMedium.copyWith(
-                                                      fontSize: 16,
-                                                      color: Colors.black)),
+                                              Row(
+                                                children: [
+                                                  Text(state.response!.farmerMAster![i].name!,
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 16,
+                                                          color: Colors.black)),
+
+                                                  if(state.response!.farmerMAster![i].farmerRating!=null)
+                                                    Row(
+                                                      children: [
+
+                                                        4.horizontalSpace(),
+                                                        (state.response!.farmerMAster![i].farmerRating!=null?
+                                                        state.response!.farmerMAster![i].farmerRating!.toString():"").textRegular(),
+
+                                                        RatingBar.builder(
+                                                            initialRating: 1,
+                                                            glowColor: Colors.amber,
+                                                            minRating: 1,
+                                                            allowHalfRating: true,
+                                                            itemCount: 1,
+                                                            itemSize: 20,
+                                                            ignoreGestures: true,
+                                                            itemBuilder: (context, _) =>
+                                                            const Icon(Icons.star, color: Color(0xffF6B51D)),
+                                                            onRatingUpdate: (rating) {
+                                                              print(rating);
+                                                            }),
+
+                                                        "{${state.response!.farmerMAster![i].farmerRatingCount!=null?
+                                                        state.response!.farmerMAster![i].farmerRatingCount!.toString():""}}".textRegular()
+
+                                                      ],
+                                                    )
+                                                ],
+                                              ),
                                               4.verticalSpace(),
                                               Row(
                                                 children: [

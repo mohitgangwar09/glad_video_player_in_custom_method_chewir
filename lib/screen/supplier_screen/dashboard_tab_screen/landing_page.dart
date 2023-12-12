@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -14,7 +15,11 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/screen/mcc_screen/mcc_carousel.dart';
+import 'package:glad/screen/supplier_screen/profile/kyc_update.dart';
 import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
+import 'package:glad/screen/supplier_screen/supplier_update_kyc.dart';
+import 'package:glad/screen/supplier_screen/widget/survey_supplier_widget.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -58,6 +63,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
 
   @override
   void initState() {
+    BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
     BlocProvider.of<LandingPageCubit>(context).getSupplierDashboard(context).then((value) {
       LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
       int projectsSum = state.responseSupplierDashboard!.data!.farmerProject!.completed!.toInt() +
@@ -87,11 +93,14 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
           surveyText = 'pending';
         }
       }
+
       setState(() {});
     });
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
+      BlocProvider.of<ProjectCubit>(context)
+          .supplierProjectsApi(context, 'new', true);
     });
   }
 
@@ -116,42 +125,140 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                   children: [
                     BlocBuilder<ProfileCubit,ProfileCubitState>(
                       builder: (context,stateprofile) {
-                        return CustomAppBar(
-                          context: context,
-                          titleText1: 'Hello ',
-                          titleText2: stateprofile.responseProfile!=null?stateprofile.responseProfile!.data!.user!.name.toString():'',
-                          leading: openDrawer(
-                              onTap: () {
-                                supplierLandingKey.currentState?.openDrawer();
-                              },
-                              child: SvgPicture.asset(Images.drawer)),
-                          action: Row(
-                            children: [
-                              phoneCall(256758711344),
-                              7.horizontalSpace(),
-                              InkWell(
+                        return Column(
+                          children: [
+                            CustomAppBar(
+                              context: context,
+                              titleText1: 'Hello ',
+                              titleText2: stateprofile.responseProfile!=null?stateprofile.responseProfile!.data!.user!.name.toString():'',
+                              leading: openDrawer(
                                   onTap: () {
-                                    const SupplierProfile().navigate();
+                                    supplierLandingKey.currentState?.openDrawer();
                                   },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(1000),
-                                    child: Container(
-                                      height: AppBar().preferredSize.height * 0.7,
-                                      width: AppBar().preferredSize.height * 0.7,
-                                      decoration:
-                                      const BoxDecoration(shape: BoxShape.circle),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                        (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.supplier!.photo ?? '') : '',
-                                        errorWidget: (_, __, ___) =>
-                                            SvgPicture.asset(Images.person),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  )),
-                              8.horizontalSpace(),
-                            ],
-                          ),
+                                  child: SvgPicture.asset(Images.drawer)),
+                              action: Row(
+                                children: [
+                                  phoneCall(256758711344),
+                                  7.horizontalSpace(),
+                                  InkWell(
+                                      onTap: () {
+                                        const SupplierProfile().navigate();
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(1000),
+                                        child: Container(
+                                          height: AppBar().preferredSize.height * 0.7,
+                                          width: AppBar().preferredSize.height * 0.7,
+                                          decoration:
+                                          const BoxDecoration(shape: BoxShape.circle),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                            (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.supplier!.photo ?? '') : '',
+                                            errorWidget: (_, __, ___) =>
+                                                SvgPicture.asset(Images.person),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      )),
+                                  8.horizontalSpace(),
+                                ],
+                              ),
+                            ),
+
+                            stateprofile.responseProfile!.data!.user!.kycStatus == "verified"?
+                            const SizedBox.shrink():
+                            Container(
+                              width: screenWidth(),
+                              margin: const EdgeInsets.symmetric(horizontal: 20),
+                              height: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                color: const Color(0xffFC5E60),
+                              ),
+                              child: Row(
+                                children: [
+
+                                  if(stateprofile.responseProfile!.data!.user!.kycStatus == null)
+                                    Row(
+                                      children: [
+                                        14.horizontalSpace(),
+                                        SvgPicture.asset(Images.kyc),
+                                        4.horizontalSpace(),
+                                        "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                        10.horizontalSpace(),
+                                        Text(
+                                          'Upload Documents',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                        )
+                                      ],
+                                    )
+                                  else if(stateprofile.responseProfile!.data!.user!.kycStatus == "pending")
+                                    Row(
+                                      children: [
+                                        14.horizontalSpace(),
+                                        SvgPicture.asset(Images.kyc),
+                                        4.horizontalSpace(),
+                                        "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                        10.horizontalSpace(),
+                                        InkWell(
+                                          onTap: (){
+                                            const KYCUpdate().navigate();
+                                          },
+                                          child: Text(
+                                            'Upload Documents',
+                                            style: figtreeMedium.copyWith(
+                                                fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  else if(stateprofile.responseProfile!.data!.user!.kycStatus == "applied")
+                                    Row(
+                                        children: [
+
+                                          14.horizontalSpace(),
+                                          const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
+                                          4.horizontalSpace(),
+                                          "Your KYC is not verified.".textSemiBold(fontSize: 12,color: Colors.white),
+                                          10.horizontalSpace(),
+                                          InkWell(
+                                            onTap: (){
+                                              const SupplierUpdateKyc().navigate();
+                                            },
+                                            child: Text(
+                                              'Documents',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                  else if(stateprofile.responseProfile!.data!.user!.kycStatus == "expired")
+                                    Row(
+                                          children: [
+                                            14.horizontalSpace(),
+                                            const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
+                                            4.horizontalSpace(),
+                                            "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
+                                            10.horizontalSpace(),
+                                            InkWell(
+                                              onTap: (){
+                                                const SupplierUpdateKyc().navigate();
+                                              },
+                                              child: Text(
+                                                'Documents',
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                ],
+                              ),
+                            )
+
+                          ],
                         );
                       }
                     ),
@@ -172,7 +279,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const LandingCarousel(),
+            const MccLandingCarousel(),
             20.verticalSpace(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -456,7 +563,95 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                 ],
               ),
             ),
-            20.verticalSpace(),
+            BlocBuilder<ProjectCubit, ProjectState>(
+              builder: (contexts, state){
+                if (state.responseSupplierProject == null) {
+                  return const SizedBox.shrink();
+                }else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      23.verticalSpace(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0),
+                        child: Text('New Survey',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 18, color: Colors.black)),
+                      ),
+                      Container(
+                        height: 240,
+                        margin: const EdgeInsets.only(left: 12,right: 6),
+                        child: customList(
+                          padding: const EdgeInsets.all(0),
+                            axis: Axis.horizontal,
+                            list: List.generate(state.responseSupplierProject!.data!
+                                .projectList!.length, (index) => null),
+                            child: (int i) {
+
+                              return state.responseSupplierProject!.data!
+                                  .projectList![i].farmerProjectSurvey!.isNotEmpty?
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: customProjectContainer(
+                                  marginTop: 10,
+                                    child: SurveySupplierWidget(
+                                        status: state.responseSupplierProject!.data!
+                                            .projectList![i].farmerProjectSurvey![0].surveyStatus==null?false:true,
+                                        projectStatus: formatProjectStatus(state.responseSupplierProject!.data!
+                                            .projectList![i].projectStatus ?? ''),
+                                        name: state.responseSupplierProject!.data!
+                                            .projectList![i].name ?? '',
+                                        category: state.responseSupplierProject!.data!
+                                            .projectList![i].farmerImprovementArea !=
+                                            null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerImprovementArea!
+                                            .improvementArea != null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerImprovementArea!
+                                            .improvementArea!.name ?? '' : '' : '',
+                                        description: state.responseSupplierProject!.data!
+                                            .projectList![i].description ?? '',
+                                        investment: state.responseSupplierProject!.data!
+                                            .projectList![i].investmentAmount ?? 0,
+                                        revenue: state.responseSupplierProject!.data!
+                                            .projectList![i].revenuePerYear ?? 0,
+                                        roi: state.responseSupplierProject!.data!
+                                            .projectList![i].roiPerYear ?? 0.0,
+                                        loan: state.responseSupplierProject!.data!
+                                            .projectList![i].loanAmount ?? 0,
+                                        emi: state.responseSupplierProject!.data!
+                                            .projectList![i].emiAmount ?? 0,
+                                        balance: 0,
+                                        farmerName: state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.name ?? '' : '',
+                                        farmerAddress:  state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.address!=null?state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.address!.address.toString():"" ??
+                                            '' : '',
+                                        farmerImage:  state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.photo ??
+                                            ''  : '',
+                                        farmerPhone:  state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseSupplierProject!.data!
+                                            .projectList![i].farmerMaster!.phone ??
+                                            ''  : '',
+                                        projectPercent: 0,
+                                        projectId: state.responseSupplierProject!.data!
+                                            .projectList![i].id ?? 0,
+                                        selectedFilter: 'new'
+
+                                    ),
+                                    width: screenWidth()-60),
+                              ):const SizedBox.shrink();
+                            }),
+                      ),
+                    ],
+                  );
+                }
+              }
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Stack(

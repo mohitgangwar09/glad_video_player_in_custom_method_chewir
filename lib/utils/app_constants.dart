@@ -15,6 +15,7 @@ class AppConstants {
   static const String forgotPasswordApi = '/api/password/reset';
   static const String updateProfileImageAPi = '/api/profile-pic';
   static const String profileApi = '/api/profile';
+  static const String userRatingApi = '/api/user/user-rating';
   static const String farmerDashboardApi = '/api/landing/dashboard';
   static const String farmerList = '/api/farmerlist';
   static const String farmerDetailsApi = '/api/farmer';
@@ -96,6 +97,8 @@ class AppConstants {
   static const String farmerParticipationStatusApi = '/api/financial/update-farmer-participation-status';
   static const String improvementAreaFilterListApi = '/api/improvement/improvementarea-list';
   static const String projectRatingApi = '/api/farmer-project/project-rating';
+  static const String supplierKycDocumentApi = '/api/suppliers/supplier-kyc-document';
+  static const String supplierKycDocumentUpdateApi = '/api/suppliers/supplier-kyc-document-update';
 
   //Livestock
   static const String livestockBreedApi = '/api/live-stock/cow-breed-list';
@@ -120,6 +123,8 @@ class AppConstants {
   static const String userRoleId = 'userRoleId';
   static const String deviceImeiId = 'deviceImeiId';
   static const String countryCode = 'countryCode';
+  static const String userRating = 'userR';
+  static const String totalUserRating = 'totalUserR';
 
   static const Map languages = {'Swahili': 'Hujambo\nMimi Sam', 'English': 'Hi\nI\'m Sam'};
 }

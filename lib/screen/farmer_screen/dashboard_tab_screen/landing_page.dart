@@ -139,7 +139,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const LandingCarousel(),
+            LandingCarousel(todayMilkPrice:state.response!.todayMilkPrice!=null?state.response!.todayMilkPrice!.milkPrice??0:0),
             10.verticalSpace(),
             state.response!.farmerMilkProduction!.isNotEmpty
                 ? Padding(

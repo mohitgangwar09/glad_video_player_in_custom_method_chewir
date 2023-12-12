@@ -57,8 +57,6 @@ class _ViewLoanKycState extends State<ViewLoanKyc> {
     } else{
       addressProof = widget.farmerDocuments.addressDocumentName!.substring(0, 1).toUpperCase() + widget.farmerDocuments.addressDocumentName!.substring(1);
     }
-    print(widget.farmerDocuments.addressDocumentName);
-    print(addressProof);
     if(widget.farmerDocuments.idDocumentName!.contains('-')) {
       List address = widget.farmerDocuments.idDocumentName!.split('-');
       address =

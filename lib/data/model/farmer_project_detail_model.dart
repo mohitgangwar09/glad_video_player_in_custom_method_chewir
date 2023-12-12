@@ -927,6 +927,9 @@ class Kpi {
   dynamic supplierPaidAmount;
   dynamic supplierDueAmount;
   dynamic supplierPendingAmount;
+  dynamic milkSupplySixMonth;
+  dynamic milkSupplyOneMonth;
+  dynamic milkSupplyTwoWeek;
 
   Kpi(
       {this.investment,
@@ -945,7 +948,11 @@ class Kpi {
         this.targetFarmProduction,
         this.supplierPaidAmount,
         this.supplierDueAmount,
-        this.supplierPendingAmount});
+        this.supplierPendingAmount,
+        this.milkSupplySixMonth,
+        this.milkSupplyTwoWeek,
+        this.milkSupplyOneMonth,
+      });
 
   Kpi.fromJson(Map<String, dynamic> json) {
     investment = json['investment'];
@@ -965,10 +972,13 @@ class Kpi {
     supplierPaidAmount = json['supplier_paid_amount'];
     supplierDueAmount = json['supplier_due_amount'];
     supplierPendingAmount = json['supplier_pending_amount'];
+    milkSupplySixMonth = json['milk_supply_six_month'];
+    milkSupplyOneMonth = json['milk_supply_one_month'];
+    milkSupplyTwoWeek = json['milk_supply_two_week'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['investment'] = investment;
     data['revenue'] = revenue;
     data['roi'] = roi;
@@ -986,6 +996,9 @@ class Kpi {
     data['supplier_paid_amount'] = supplierPaidAmount;
     data['supplier_due_amount'] = supplierDueAmount;
     data['supplier_pending_amount'] = supplierPendingAmount;
+    data['milk_supply_six_month'] = milkSupplySixMonth;
+    data['milk_supply_two_week'] = milkSupplyTwoWeek;
+    data['milk_supply_one_month'] = milkSupplyOneMonth;
     return data;
   }
 }
