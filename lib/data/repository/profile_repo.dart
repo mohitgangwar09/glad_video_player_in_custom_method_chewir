@@ -60,6 +60,68 @@ class ProfileRepository {
     }
   }
 
+  ///////////////// teamMembersListApi //////////
+
+  Future<ResponseOtpModel> teamMembersListApi({String? userRoleId}) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.teamMembersApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    }else
+    {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// addTeamMemberApi //////////
+
+  Future<ResponseOtpModel> addTeamMemberApi(String name, String email, String phone) async {
+
+    var data = {
+      "name" : name,
+      "email" : email,
+      "phone" : phone,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addTeamMembersApi,
+        data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    }else
+    {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// updateTeamMemberApi //////////
+
+  Future<ResponseOtpModel> updateTeamMemberApi(String name, String email, String phone) async {
+
+    var data = {
+      "name" : name,
+      "email" : email,
+      "phone" : phone,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateTeamMembersApi,
+        data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    }else
+    {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// userFarmerRatingApi //////////
 
   Future<ResponseUserRating> userFarmerDetailRatingApi({String? userRoleId}) async {

@@ -1,6 +1,7 @@
 import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
 
@@ -19,7 +20,7 @@ class AuthRepository {
       "password": password,
       "device_id": password,
       "device_name": password,
-      "device_token": password,
+      "device_token": await SharedPrefManager.getPreferenceString(AppConstants.fcmToken),
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
