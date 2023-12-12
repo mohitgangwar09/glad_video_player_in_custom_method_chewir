@@ -79,6 +79,7 @@ class ProjectList {
   dynamic deletedBy;
   String? createdAt;
   String? updatedAt;
+  dynamic projectBalance;
   FarmerMaster? farmerMaster;
   FarmerImprovementArea? farmerImprovementArea;
   List<FarmerProjectSurvey>? farmerProjectSurvey;
@@ -123,6 +124,7 @@ class ProjectList {
         this.farmerImprovementArea,
         this.farmerProjectSurvey,
         this.farmerProjectMilestones,
+        this.projectBalance,
       });
 
   ProjectList.fromJson(Map<String, dynamic> json) {
@@ -159,10 +161,11 @@ class ProjectList {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    projectBalance = json['project_balance'];
     if (json['farmer_project_milestones'] != null) {
       farmerProjectMilestones = <FarmerProjectMilestones>[];
       json['farmer_project_milestones'].forEach((v) {
-        farmerProjectMilestones!.add(new FarmerProjectMilestones.fromJson(v));
+        farmerProjectMilestones!.add(FarmerProjectMilestones.fromJson(v));
       });
     }
     farmerMaster = json['farmer_master'] != null
@@ -208,6 +211,7 @@ class ProjectList {
     data['incremental_production'] = incrementalProduction;
     data['repayment_start_date'] = repaymentStartDate;
     data['photo'] = photo;
+    data['project_balance'] = projectBalance;
     data['status'] = status;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
@@ -436,7 +440,7 @@ class FarmerProjectMilestones {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['farmer_id'] = this.farmerId;
     data['farmer_project_id'] = this.farmerProjectId;

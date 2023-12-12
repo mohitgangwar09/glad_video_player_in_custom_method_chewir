@@ -98,6 +98,7 @@ class AppConstants {
   static const String improvementAreaFilterListApi = '/api/improvement/improvementarea-list';
   static const String projectRatingApi = '/api/farmer-project/project-rating';
   static const String supplierKycDocumentApi = '/api/suppliers/supplier-kyc-document';
+  static const String supplierKycDocumentUpdateApi = '/api/suppliers/supplier-kyc-document-update';
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';

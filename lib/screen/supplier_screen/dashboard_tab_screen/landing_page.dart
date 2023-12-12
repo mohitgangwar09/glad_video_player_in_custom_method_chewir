@@ -15,7 +15,10 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/screen/mcc_screen/mcc_carousel.dart';
+import 'package:glad/screen/supplier_screen/profile/kyc_update.dart';
 import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
+import 'package:glad/screen/supplier_screen/supplier_update_kyc.dart';
 import 'package:glad/screen/supplier_screen/widget/survey_supplier_widget.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -122,42 +125,140 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                   children: [
                     BlocBuilder<ProfileCubit,ProfileCubitState>(
                       builder: (context,stateprofile) {
-                        return CustomAppBar(
-                          context: context,
-                          titleText1: 'Hello ',
-                          titleText2: stateprofile.responseProfile!=null?stateprofile.responseProfile!.data!.user!.name.toString():'',
-                          leading: openDrawer(
-                              onTap: () {
-                                supplierLandingKey.currentState?.openDrawer();
-                              },
-                              child: SvgPicture.asset(Images.drawer)),
-                          action: Row(
-                            children: [
-                              phoneCall(256758711344),
-                              7.horizontalSpace(),
-                              InkWell(
+                        return Column(
+                          children: [
+                            CustomAppBar(
+                              context: context,
+                              titleText1: 'Hello ',
+                              titleText2: stateprofile.responseProfile!=null?stateprofile.responseProfile!.data!.user!.name.toString():'',
+                              leading: openDrawer(
                                   onTap: () {
-                                    const SupplierProfile().navigate();
+                                    supplierLandingKey.currentState?.openDrawer();
                                   },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(1000),
-                                    child: Container(
-                                      height: AppBar().preferredSize.height * 0.7,
-                                      width: AppBar().preferredSize.height * 0.7,
-                                      decoration:
-                                      const BoxDecoration(shape: BoxShape.circle),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                        (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.supplier!.photo ?? '') : '',
-                                        errorWidget: (_, __, ___) =>
-                                            SvgPicture.asset(Images.person),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  )),
-                              8.horizontalSpace(),
-                            ],
-                          ),
+                                  child: SvgPicture.asset(Images.drawer)),
+                              action: Row(
+                                children: [
+                                  phoneCall(256758711344),
+                                  7.horizontalSpace(),
+                                  InkWell(
+                                      onTap: () {
+                                        const SupplierProfile().navigate();
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(1000),
+                                        child: Container(
+                                          height: AppBar().preferredSize.height * 0.7,
+                                          width: AppBar().preferredSize.height * 0.7,
+                                          decoration:
+                                          const BoxDecoration(shape: BoxShape.circle),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                            (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.supplier!.photo ?? '') : '',
+                                            errorWidget: (_, __, ___) =>
+                                                SvgPicture.asset(Images.person),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      )),
+                                  8.horizontalSpace(),
+                                ],
+                              ),
+                            ),
+
+                            stateprofile.responseProfile!.data!.user!.kycStatus == "verified"?
+                            const SizedBox.shrink():
+                            Container(
+                              width: screenWidth(),
+                              margin: const EdgeInsets.symmetric(horizontal: 20),
+                              height: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                color: const Color(0xffFC5E60),
+                              ),
+                              child: Row(
+                                children: [
+
+                                  if(stateprofile.responseProfile!.data!.user!.kycStatus == null)
+                                    Row(
+                                      children: [
+                                        14.horizontalSpace(),
+                                        SvgPicture.asset(Images.kyc),
+                                        4.horizontalSpace(),
+                                        "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                        10.horizontalSpace(),
+                                        Text(
+                                          'Upload Documents',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                        )
+                                      ],
+                                    )
+                                  else if(stateprofile.responseProfile!.data!.user!.kycStatus == "pending")
+                                    Row(
+                                      children: [
+                                        14.horizontalSpace(),
+                                        SvgPicture.asset(Images.kyc),
+                                        4.horizontalSpace(),
+                                        "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                        10.horizontalSpace(),
+                                        InkWell(
+                                          onTap: (){
+                                            const KYCUpdate().navigate();
+                                          },
+                                          child: Text(
+                                            'Upload Documents',
+                                            style: figtreeMedium.copyWith(
+                                                fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  else if(stateprofile.responseProfile!.data!.user!.kycStatus == "applied")
+                                    Row(
+                                        children: [
+
+                                          14.horizontalSpace(),
+                                          const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
+                                          4.horizontalSpace(),
+                                          "Your KYC is not verified.".textSemiBold(fontSize: 12,color: Colors.white),
+                                          10.horizontalSpace(),
+                                          InkWell(
+                                            onTap: (){
+                                              const SupplierUpdateKyc().navigate();
+                                            },
+                                            child: Text(
+                                              'Documents',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                  else if(stateprofile.responseProfile!.data!.user!.kycStatus == "expired")
+                                    Row(
+                                          children: [
+                                            14.horizontalSpace(),
+                                            const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
+                                            4.horizontalSpace(),
+                                            "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
+                                            10.horizontalSpace(),
+                                            InkWell(
+                                              onTap: (){
+                                                const SupplierUpdateKyc().navigate();
+                                              },
+                                              child: Text(
+                                                'Documents',
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                ],
+                              ),
+                            )
+
+                          ],
                         );
                       }
                     ),
@@ -178,7 +279,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const LandingCarousel(),
+            const MccLandingCarousel(),
             20.verticalSpace(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),

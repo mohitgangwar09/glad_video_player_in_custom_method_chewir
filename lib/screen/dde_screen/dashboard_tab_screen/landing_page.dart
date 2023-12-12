@@ -147,7 +147,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const LandingCarousel(),
+            LandingCarousel(todayMilkPrice:state.responseDdeDashboard!.data!.todayMilkPrice!=null?state.responseDdeDashboard!.data!.todayMilkPrice!.milkPrice??0:0),
             10.verticalSpace(),
 
           farmersNearMe(context, state),

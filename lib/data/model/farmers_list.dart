@@ -78,6 +78,8 @@ class FarmerMAster {
   String? leadType;
   dynamic idealYield;
   dynamic currentYield;
+  dynamic farmerRating;
+  dynamic farmerRatingCount;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -137,6 +139,8 @@ class FarmerMAster {
         this.farmerRagRating,
         this.farmerProject,
         this.address,
+        this.farmerRating,
+        this.farmerRatingCount,
         this.farmerImprovementArea});
 
   FarmerMAster.fromJson(Map<String, dynamic> json) {
@@ -149,6 +153,8 @@ class FarmerMAster {
     mccId = json['mcc_id'];
     ddeId = json['dde_id'];
     photo = json['photo'];
+    farmerRating = json['farmer_rating'];
+    farmerRatingCount = json['framer_rating_count'];
     kycStatus = json['kyc_status'];
     landlineNo = json['landline_no'];
     dateOfBirth = json['date_of_birth'];
@@ -216,6 +222,8 @@ class FarmerMAster {
     data['registration_date'] = registrationDate;
     data['supplier_code'] = supplierCode;
     data['farm_size'] = farmSize;
+    data['framer_rating_count'] = farmerRatingCount;
+    data['framer_rating'] = farmerRating;
     data['dairy_area'] = dairyArea;
     data['staff_quantity'] = staffQuantity;
     data['farming_experience'] = farmingExperience;

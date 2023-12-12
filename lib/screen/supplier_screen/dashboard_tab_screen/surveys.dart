@@ -60,7 +60,7 @@ class _SurveysScreenState extends State<SurveysScreen> {
                         supplierLandingKey.currentState?.openDrawer();
                       },
                       child: SvgPicture.asset(Images.drawer)),
-                  action: Row(
+                  /*action: Row(
                     children: [
                       InkWell(
                           onTap: () {
@@ -145,7 +145,7 @@ class _SurveysScreenState extends State<SurveysScreen> {
                           child: SvgPicture.asset(Images.filter1)),
                       18.horizontalSpace(),
                     ],
-                  ),
+                  ),*/
                 ),
                 10.verticalSpace(),
                 SingleChildScrollView(

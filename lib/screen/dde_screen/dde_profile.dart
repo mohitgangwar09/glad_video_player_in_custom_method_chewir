@@ -312,25 +312,55 @@ class _DDEProfileState extends State<DDEProfile> {
                 ),
               ),
 
-              RatingBar.builder(
-                  initialRating: double.parse(state.responseUserRating!.data![0].rating!=null?state.responseUserRating!.data![0].rating!.toString():0.toString()),
-                  glowColor: Colors.amber,
-                  minRating: 1,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  ignoreGestures: true,
-                  itemBuilder: (context, _) =>
-                      const Icon(Icons.star, color: Color(0xffF6B51D)),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  })
+              if(state.responseUserRating!.data![0].rating!=null)
+                Row(
+                  children: [
+
+                    RatingBar.builder(
+                        initialRating: double.parse(state.responseUserRating!.data![0].rating!=null?state.responseUserRating!.data![0].rating!.toString():0.toString()),
+                        glowColor: Colors.amber,
+                        minRating: 1,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        ignoreGestures: true,
+                        itemBuilder: (context, _) =>
+                        const Icon(Icons.star, color: Color(0xffF6B51D)),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        }),
+
+                    "{${state.responseUserRating!.data![0].totalRatings!=null?
+                    state.responseUserRating!.data![0].totalRatings!:""}}".textRegular()
+
+                  ],
+                )
             ],
           ),
-          SvgPicture.asset(
-            Images.silver,
-            height: 55,
-            width: 55,
-          )
+          if(state.responseProfile!.data!.user!.badge!=null)
+            if(state.responseProfile!.data!.user!.badge.toString() == 'silver')
+              SvgPicture.asset(
+                Images.silver,
+                height: 55,
+                width: 55,
+              )
+            else if(state.responseProfile!.data!.user!.badge.toString() == 'diamond')
+              SvgPicture.asset(
+                Images.diamond,
+                height: 55,
+                width: 55,
+              )
+            else if(state.responseProfile!.data!.user!.badge.toString() == 'gold')
+                SvgPicture.asset(
+                  Images.gold,
+                  height: 55,
+                  width: 55,
+                )
+              else if(state.responseProfile!.data!.user!.badge.toString() == 'platinum')
+                  SvgPicture.asset(
+                    Images.platinum,
+                    height: 55,
+                    width: 55,
+                  )
         ],
       ),
     ):const SizedBox(width: 0,height: 0,);

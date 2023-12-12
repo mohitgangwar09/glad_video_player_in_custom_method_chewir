@@ -39,6 +39,7 @@ class Data {
   List<NewsEvent>? newsEvent;
   List<TrainingList>? trainingList;
   List<Community>? community;
+  TodayMilkPrice? todayMilkPrice;
 
 
   Data(
@@ -53,11 +54,14 @@ class Data {
         this.topPerformerFarmer,
         this.newsEvent,
         this.trainingList,
-        this.community});
+        this.community,
+        this.todayMilkPrice,
+      });
 
   Data.fromJson(Map<String, dynamic> json) {
     dde = json['dde'] != null ? Dde.fromJson(json['dde']) : null;
     mcc = json['mcc'] != null ? Mcc.fromJson(json['mcc']) : null;
+    todayMilkPrice = json['today_milk_price'] != null ? TodayMilkPrice.fromJson(json['today_milk_price']) : null;
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     if (json['testimonials'] != null) {
       testimonials = <Testimonials>[];
@@ -116,6 +120,9 @@ class Data {
     }
     if (mcc != null) {
       data['mcc'] = mcc!.toJson();
+    }
+    if (todayMilkPrice != null) {
+      data['today_milk_price'] = todayMilkPrice!.toJson();
     }
     if (user != null) {
       data['user'] = user!.toJson();
@@ -1338,6 +1345,63 @@ class ImprovementArea {
     data['id'] = id;
     data['name'] = name;
     data['image'] = image;
+    return data;
+  }
+}
+
+class TodayMilkPrice {
+  int? id;
+  String? date;
+  dynamic countryId;
+  dynamic regionId;
+  dynamic milkPrice;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  TodayMilkPrice(
+      {this.id,
+        this.date,
+        this.countryId,
+        this.regionId,
+        this.milkPrice,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  TodayMilkPrice.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    date = json['date'];
+    countryId = json['country_id'];
+    regionId = json['region_id'];
+    milkPrice = json['milk_price'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['date'] = date;
+    data['country_id'] = countryId;
+    data['region_id'] = regionId;
+    data['milk_price'] = milkPrice;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

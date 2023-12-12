@@ -12,6 +12,7 @@ import 'package:glad/data/model/response_sub_county.dart';
 import 'package:glad/data/model/response_user_rating.dart';
 import 'package:glad/data/model/response_validate_country.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
 
@@ -213,30 +214,127 @@ class ProfileRepository {
           "doc_6_no": doc6Number,
           "doc_6_expiry_date": doc6Expiry,
         });
-    for(var e in doc1File) {
-      formData.files.add(MapEntry("doc_file_1[]", await MultipartFile.fromFile(e.path)));
-    }
-    for(var e in doc2File) {
-      formData.files.add(MapEntry("doc_file_2[]", await MultipartFile.fromFile(e.path)));
-    }
-    for(var e in doc3File) {
-      formData.files.add(MapEntry("doc_file_3[]", await MultipartFile.fromFile(e.path)));
-    }
+      for(var e in doc1File) {
+        formData.files.add(MapEntry("doc_file_1[]", await MultipartFile.fromFile(e.path)));
+      }
 
-    for(var e in doc4File) {
-      formData.files.add(MapEntry("doc_file_4[]", await MultipartFile.fromFile(e.path)));
-    }
-    for(var e in doc5File) {
-      formData.files.add(MapEntry("doc_file_5[]", await MultipartFile.fromFile(e.path)));
-    }
-    for(var e in doc6File) {
-      formData.files.add(MapEntry("doc_file_6[]", await MultipartFile.fromFile(e.path)));
-    }
+      for(var e in doc2File) {
+        formData.files.add(MapEntry("doc_file_2[]", await MultipartFile.fromFile(e.path)));
+      }
+
+      for(var e in doc3File) {
+        formData.files.add(MapEntry("doc_file_3[]", await MultipartFile.fromFile(e.path)));
+      }
+
+      for(var e in doc4File) {
+        formData.files.add(MapEntry("doc_file_4[]", await MultipartFile.fromFile(e.path)));
+      }
+
+      for(var e in doc5File) {
+        formData.files.add(MapEntry("doc_file_5[]", await MultipartFile.fromFile(e.path)));
+      }
+
+
+      for(var e in doc6File) {
+        formData.files.add(MapEntry("doc_file_6[]", await MultipartFile.fromFile(e.path)));
+      }
+
+
 
     print(formData.fields);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.supplierKycDocumentApi, data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
+  ///////////////// supplierKycDocumentApi //////////
+  Future<ResponseOtpModel> supplierKycDocumentUpdateApi(int documentId,int supplierId,
+      String doc1Name, String doc2Name, String doc3Name,
+      String doc4Name,String doc5Name,String doc6Name,
+      String doc1Number,String doc2Number,String doc3Number,
+      String doc4Number,String doc5Number,String doc6Number,
+      String doc1Expiry,String doc2Expiry,String doc3Expiry,
+      String doc4Expiry,String doc5Expiry,String doc6Expiry,
+      List<File> doc1File, List<File> doc2File,
+      List<File> doc3File, List<File> doc4File,
+      List<File> doc5File, List<File> doc6File,
+      String docOneSelectedFile,docTwoSelectedFile,docThreeSelectedFile,
+      docFourSelectedFile,docFiveSelectedFile,docSixSelectedFile
+      ) async {
+
+    FormData formData = FormData.fromMap(
+        {
+          "id": documentId,
+          "supplier_id": sharedPreferences!.getString(AppConstants.userRoleId),
+          "doc_1_name": doc1Name,
+          "doc_1_no": doc1Number,
+          "doc_1_expiry_date": doc1Expiry,
+          'doc_2_name': doc2Name,
+          "doc_2_no": doc2Number,
+          "doc_2_expiry_date": doc2Expiry,
+          'doc_3_name': doc3Name,
+          "doc_3_no": doc3Number,
+          "doc_3_expiry_date": doc3Expiry,
+          'doc_4_name': doc4Name,
+          "doc_4_no": doc4Number,
+          "doc_4_expiry_date": doc4Expiry,
+          'doc_5_name': doc5Name,
+          "doc_5_no": doc5Number,
+          "doc_5_expiry_date": doc5Expiry,
+          'doc_6_name': doc6Name,
+          "doc_6_no": doc6Number,
+          "doc_6_expiry_date": doc6Expiry,
+        });
+    if(docOneSelectedFile == 'selected'){
+      for(var e in doc1File) {
+        formData.files.add(MapEntry("doc_file_1[]", await MultipartFile.fromFile(e.path)));
+      }
+    }
+
+    if(docTwoSelectedFile == 'selected') {
+      for(var e in doc2File) {
+        formData.files.add(MapEntry("doc_file_2[]", await MultipartFile.fromFile(e.path)));
+      }
+    }
+
+    if(docThreeSelectedFile == 'selected') {
+      for(var e in doc3File) {
+        formData.files.add(MapEntry("doc_file_3[]", await MultipartFile.fromFile(e.path)));
+      }
+    }
+
+    if(docFourSelectedFile == 'selected') {
+      for(var e in doc4File) {
+        formData.files.add(MapEntry("doc_file_4[]", await MultipartFile.fromFile(e.path)));
+      }
+    }
+
+    if(docFiveSelectedFile == 'selected') {
+      for(var e in doc5File) {
+        formData.files.add(MapEntry("doc_file_5[]", await MultipartFile.fromFile(e.path)));
+      }
+    }
+
+    if(docSixSelectedFile == 'selected') {
+      for(var e in doc6File) {
+        formData.files.add(MapEntry("doc_file_6[]", await MultipartFile.fromFile(e.path)));
+      }
+    }
+
+
+    print(formData.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.supplierKycDocumentUpdateApi, data: formData,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}
     );
 

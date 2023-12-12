@@ -218,19 +218,19 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplySixMonth!=null){
       kpiData.add(FrontendKpiModel(name: 'Milk Supply Six Month',
           image: Images.investmentKpi,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplySixMonth!)));
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplySixMonth!.toString()} LTR"));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyOneMonth!=null){
       kpiData.add(FrontendKpiModel(name: 'Milk Supply One Month',
           image: Images.revenueKpi,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyOneMonth!)));
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyOneMonth!} LTR"));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyTwoWeek!=null){
       kpiData.add(FrontendKpiModel(name: 'Milk Supply Two Week',
           image: Images.roiKpi,
-          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyTwoWeek!}%"));
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkSupplyTwoWeek!} LTR"));
     }
 
 

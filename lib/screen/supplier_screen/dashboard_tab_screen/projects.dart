@@ -138,6 +138,7 @@ class _ProjectsState extends State<Projects> {
                                 ));
                           },
                           child: SvgPicture.asset(Images.filter2)),
+                      10.horizontalSpace(),
                       InkWell(
                           onTap: () {
                             const FilterDDEFarmer().navigate();
