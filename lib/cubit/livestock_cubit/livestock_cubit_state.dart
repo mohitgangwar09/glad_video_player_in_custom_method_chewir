@@ -8,6 +8,7 @@ class LivestockCubitState extends Equatable{
   final LivestockList? responseLivestockList;
   final LivestockList? responseMyLivestockList;
   final LivestockDetail? responseLivestockDetail;
+  final LivestockCartList? responseLivestockCartList;
   // final String selectedBreed;
 
   const LivestockCubitState({
@@ -16,6 +17,7 @@ class LivestockCubitState extends Equatable{
       required this.responseLivestockList,
       required this.responseMyLivestockList,
       required this.responseLivestockDetail,
+      required this.responseLivestockCartList,
       // required this.selectedBreed,
   });
 
@@ -26,6 +28,7 @@ class LivestockCubitState extends Equatable{
       responseLivestockList: null,
       responseMyLivestockList: null,
       responseLivestockDetail: null,
+      responseLivestockCartList: null,
       // selectedBreed: '',
     );
   }
@@ -36,6 +39,7 @@ class LivestockCubitState extends Equatable{
     LivestockList? responseLivestockList,
     LivestockList? responseMyLivestockList,
     LivestockDetail? responseLivestockDetail,
+    LivestockCartList? responseLivestockCartList,
     // String? selectedBreed,
   }) {
     return LivestockCubitState(
@@ -44,6 +48,7 @@ class LivestockCubitState extends Equatable{
         responseLivestockList: responseLivestockList ?? this.responseLivestockList,
         responseMyLivestockList: responseMyLivestockList ?? this.responseMyLivestockList,
         responseLivestockDetail: responseLivestockDetail ?? this.responseLivestockDetail,
+        responseLivestockCartList: responseLivestockCartList ?? this.responseLivestockCartList,
         // selectedBreed: selectedBreed ?? this.selectedBreed,
     );
   }
@@ -55,6 +60,7 @@ class LivestockCubitState extends Equatable{
     responseLivestockList,
     responseMyLivestockList,
     responseLivestockDetail,
+    responseLivestockCartList,
     // selectedBreed,
   ];
 

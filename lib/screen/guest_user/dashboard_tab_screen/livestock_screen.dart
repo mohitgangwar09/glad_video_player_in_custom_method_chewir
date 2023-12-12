@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/screen/common/livestock_cart_list_screen.dart';
 import 'package:glad/screen/common/livestock_detail.dart';
 import 'package:glad/screen/common/my_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -70,7 +71,9 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                         action: Row(
                           children: [
                             InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  const LiveStockCartListScreen().navigate();
+                                },
                                 child: SvgPicture.asset(Images.cart)),
                             13.horizontalSpace(),
                             InkWell(

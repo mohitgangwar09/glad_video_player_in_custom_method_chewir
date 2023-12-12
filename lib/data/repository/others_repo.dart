@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
+import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/data/model/livestock_detail.dart';
 import 'package:glad/data/model/livestock_list_model.dart';
 import 'package:glad/data/model/news_list_model.dart';
@@ -333,6 +334,65 @@ class OthersRepository {
       return ResponseAddLivestock.fromJson(apiResponse.response!.data);
     } else {
       return ResponseAddLivestock(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseOtpModel> addToCartLivestockApi(String id) async {
+    var data = {'livestock_id': id};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.livestockAddToCartApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<LivestockCartList> getLivestockCartListApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.livestockCartListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return LivestockCartList.fromJson(apiResponse.response!.data);
+    } else {
+      return LivestockCartList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ResponseOtpModel> livestockUpdateCartApi(int cartId, int cowQty) async {
+    Map<String, dynamic> data = {
+      'id': cartId,
+      'cow_qty': cowQty,
+    };
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.livestockUpdateCartItemQuantityApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: data);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseOtpModel> livestockDeleteCartItemApi(String id) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .deleteApiResponse('${AppConstants.livestockCartItemRemoveApi}/$id',
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
   }
 

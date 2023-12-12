@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/data/model/livestock_detail.dart';
 import 'package:glad/data/model/livestock_list_model.dart';
 import 'package:glad/data/model/response_breed.dart';
@@ -61,8 +62,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   // trainingListApi
-  Future<void> livestockDetailApi(context, String id) async{
-    emit(state.copyWith(status: LivestockStatus.submit));
+  Future<void> livestockDetailApi(context, String id, {bool isLoaderRequired = true}) async{
+    if(isLoaderRequired) {
+      emit(state.copyWith(status: LivestockStatus.submit));
+    }
     var response = await apiRepository.getLivestockDetailApi(id);
     if (response.status == 200) {
       emit(state.copyWith(status: LivestockStatus.success, responseLivestockDetail: response));
@@ -91,7 +94,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     var response = await apiRepository.updateLivestockApi(id, breedId, paths, milk, lactation, price, pregnant, cowQty, age, description);
     if (response.status == 200) {
       showCustomToast(context, response.message.toString(), isSuccess: true);
-      livestockDetailApi(context, id);
+      livestockDetailApi(context, id, isLoaderRequired: false);
       myLivestockListApi(context);
       disposeProgress();
       pressBack();
@@ -112,6 +115,54 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
     else {
       showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> livestockAddToCartApi(context, livestockId) async{
+    var response = await apiRepository.addToCartLivestockApi(livestockId);
+    if (response.status == 200) {
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+      livestockDetailApi(context, livestockId, isLoaderRequired: false);
+    }
+    else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> livestockCartListApi(context, {bool isLoaderRequired = true}) async{
+    if(isLoaderRequired) {
+      emit(state.copyWith(status: LivestockStatus.submit));
+    }
+    var response = await apiRepository.getLivestockCartListApi();
+    if (response.status == 200) {
+      emit(state.copyWith(status: LivestockStatus.success, responseLivestockCartList: response));
+    } else {
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
+
+
+  Future<void> livestockCartItemRemoveApi(context, int id) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.livestockDeleteCartItemApi(id.toString());
+    if (response.status == 200) {
+      disposeProgress();
+      livestockCartListApi(context, isLoaderRequired: false);
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
+
+  Future<void> livestockUpdateCartApi(context, int cartId, int cowQty) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.livestockUpdateCartApi(cartId, cowQty);
+    if (response.status == 200) {
+      disposeProgress();
+      livestockCartListApi(context, isLoaderRequired: false);
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
     }
   }
 

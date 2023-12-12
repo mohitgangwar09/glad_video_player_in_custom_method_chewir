@@ -360,7 +360,6 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                         ),
                       ],
                     )
-
                   else
                   Row(
                     children: [
@@ -378,7 +377,9 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                       Expanded(
                         child: customButton('Add to cart',
                             style: figtreeMedium.copyWith(fontSize: 16, color: Color(0xffFFFFFF)),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<LivestockCubit>().livestockAddToCartApi(context, state.responseLivestockDetail!.data!.id.toString(), );
+                            },
                             width: screenWidth(),
                             fontColor: 0xffFFFFFF,
                             height: 60),

@@ -53,6 +53,10 @@ dependencies:
   flutter_swipe_button: ^2.1.1+1
   like_button: ^2.0.5
   share_plus: ^7.2.1
+  change_app_package_name: ^1.1.0
+  firebase_core:
+  firebase_messaging:
+  flutter_local_notifications:
 
 dev_dependencies:
   flutter_test:

@@ -95,6 +95,7 @@ class AppConstants {
   static const String accountStatementApi = '/api/financial/account-statement';
   static const String farmerParticipationStatusApi = '/api/financial/update-farmer-participation-status';
   static const String improvementAreaFilterListApi = '/api/improvement/improvementarea-list';
+  static const String projectRatingApi = '/api/farmer-project/project-rating';
 
   //Livestock
   static const String livestockBreedApi = '/api/live-stock/cow-breed-list';
@@ -103,6 +104,10 @@ class AppConstants {
   static const String livestockListApi = '/api/live-stock/list';
   static const String livestockDetailApi = '/api/live-stock/cow-detail';
   static const String livestockUpdateApi = '/api/live-stock/update';
+  static const String livestockAddToCartApi = '/api/live-stock/add-to-cart';
+  static const String livestockCartListApi = '/api/live-stock/cart-list';
+  static const String livestockUpdateCartItemQuantityApi = '/api/live-stock/update-to-cart';
+  static const String livestockCartItemRemoveApi = '/api/live-stock/cart-delete';
 
 
   static const String deleteMediaApi = '/api/delete-media';
