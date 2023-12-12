@@ -8,6 +8,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/screen/supplier_screen/team_members.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -88,7 +89,10 @@ class ServiceProviderDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
             image: Images.faq,
-            onTap: () {},
+            onTap: () {
+              pressBack();
+              const TeamMembers().navigate();
+            },
             text: 'Team Members',
           ),
           30.verticalSpace(),
