@@ -120,6 +120,7 @@ class AppConstants {
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
+  static const String weatherKey = 'DJMEOacq4AmPIAQIeGPwP6bs0MBKNuXb';
   static const String token = 'token';
   static const String userId = 'userId';
   static const String userType = 'userType';

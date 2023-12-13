@@ -41,6 +41,8 @@ class ProfileCubitState extends Equatable{
   final Results? resultData;
   final String ?selectCounty,selectSubCounty;
   final List<TextEditingController>? areaControllers;
+  final ResponseTeamMemberList? responseTeamMemberList;
+  final List<DataMemberList>? filterMemberList;
   // final GoogleMapController
 
   const ProfileCubitState({
@@ -92,6 +94,8 @@ class ProfileCubitState extends Equatable{
     required this.areaControllers,
     required this.responseUserRating,
     required this.responseFarmerDetailRating,
+    required this.responseTeamMemberList,
+    required this.filterMemberList,
   });
 
   factory ProfileCubitState.initial() {
@@ -143,7 +147,9 @@ class ProfileCubitState extends Equatable{
       responseCountyList: ResponseCountyList(),
       responseSubCounty: ResponseSubCounty(),
       areaControllers: const [],
-      responseFarmerDetailRating: null
+      responseFarmerDetailRating: null,
+      responseTeamMemberList: null,
+      filterMemberList: [],
     );
   }
 
@@ -182,7 +188,9 @@ class ProfileCubitState extends Equatable{
     String? selectCounty,
     String? selectSubCounty,
     List<TextEditingController>? areaControllers,
-    ResponseUserRating? responseUserRating,responseFarmerDetailRating
+    ResponseUserRating? responseUserRating,responseFarmerDetailRating,
+    ResponseTeamMemberList? responseTeamMemberList,
+    List<DataMemberList>? filterMemberList,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -233,6 +241,8 @@ class ProfileCubitState extends Equatable{
       areaControllers: areaControllers ?? this.areaControllers,
       responseUserRating: responseUserRating ?? this.responseUserRating,
       responseFarmerDetailRating: responseFarmerDetailRating ?? this.responseFarmerDetailRating,
+      responseTeamMemberList: responseTeamMemberList ?? this.responseTeamMemberList,
+      filterMemberList: filterMemberList ?? this.filterMemberList,
     );
   }
 
@@ -284,7 +294,9 @@ class ProfileCubitState extends Equatable{
     selectSubCounty,
     areaControllers,
     responseUserRating,
-    responseFarmerDetailRating
+    responseFarmerDetailRating,
+    responseTeamMemberList,
+    filterMemberList
   ];
 
 }

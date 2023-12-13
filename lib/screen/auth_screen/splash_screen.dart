@@ -20,6 +20,7 @@ import 'package:glad/utils/sharedprefrence.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'language_permission.dart';
+import 'package:http/http.dart' as http;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
