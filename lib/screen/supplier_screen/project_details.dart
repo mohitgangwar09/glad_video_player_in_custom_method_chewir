@@ -605,9 +605,13 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     right: 10,
                     child: Row(
                       children: [
-                        SvgPicture.asset(Images.callPrimary),
+                        InkWell(
+                            onTap: () async {
+                              await callOnMobile(dde.phone);
+                            },
+                            child: SvgPicture.asset(Images.callPrimary)),
                         6.horizontalSpace(),
-                        SvgPicture.asset(Images.whatsapp),
+                        whatsapp(dde.phone),
                         6.horizontalSpace(),
                         SvgPicture.asset(Images.redirectLocation),
                         6.horizontalSpace(),
@@ -753,9 +757,13 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     right: 10,
                     child: Row(
                       children: [
-                        SvgPicture.asset(Images.callPrimary),
+                        InkWell(
+                            onTap: () async {
+                              await callOnMobile(dde.phone);
+                            },
+                            child: SvgPicture.asset(Images.callPrimary)),
                         6.horizontalSpace(),
-                        SvgPicture.asset(Images.whatsapp),
+                        whatsapp(dde.phone),
                         6.horizontalSpace(),
                         SvgPicture.asset(Images.redirectLocation),
                         6.horizontalSpace(),

@@ -152,13 +152,17 @@ class _MCCInAreaState extends State<MCCInArea> {
                         children: [
                           InkWell(
                               onTap: ()async{
-                                await callOnMobile(256758711344);
+                                await callOnMobile(widget.phone);
                                 },child: SvgPicture.asset(Images.callPrimary)),
                           6.horizontalSpace(),
                           // SvgPicture.asset(Images.whatsapp),
                           whatsapp(256758711344),
                           6.horizontalSpace(),
-                          SvgPicture.asset(Images.redirectLocation),
+                          InkWell(
+                              onTap: () async {
+                                // context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryModel!.data![index].lat.toString(),state.responseEnquiryModel!.data![index].lang.toString(),context);
+                              },
+                              child: SvgPicture.asset(Images.redirectLocation)),
                           4.horizontalSpace(),
                         ],
                       )),
