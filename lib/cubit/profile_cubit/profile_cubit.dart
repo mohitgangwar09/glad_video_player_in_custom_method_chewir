@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
+import 'package:glad/data/model/respone_team_member.dart';
 import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
@@ -599,6 +600,65 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
         emit(state.copyWith(status: ProfileStatus.error));
         showCustomToast(context, response.message.toString());
       }
+    }
+  }
+
+  // addTeamMembersApi
+  Future<void> addTeamMembersApi(context,String name,String email, String phone) async {
+    var response = await apiRepository.addTeamMemberApi(name, email, phone);
+    if (response.status == 200) {
+      showCustomToast(context, response.message.toString());
+      await teamMemberListApi(context);
+      pressBack();
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // addTeamMembersApi
+  Future<void> updateTeamMembersApi(context,String id,String name,String email, String phone) async {
+    var response = await apiRepository.updateTeamMemberApi(id,name, email, phone);
+    if (response.status == 200) {
+      showCustomToast(context, response.message.toString());
+      await teamMemberListApi(context);
+      pressBack();
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // teamListApi
+  Future<void> teamMemberListApi(context) async {
+    var response = await apiRepository.teamMembersListApi();
+    if (response.status == 200) {
+      List<DataMemberList> dataMilestoneName = [];
+      if(response.data!=null){
+        dataMilestoneName = response.data!;
+      }
+      emit(state.copyWith(responseTeamMemberList: response,filterMemberList: dataMilestoneName));
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // filter Member Search List
+  void filterMemberList(String query, List<DataMemberList> searchList) {
+    List<DataMemberList> dummySearchList = <DataMemberList>[];
+    dummySearchList.addAll(searchList);
+    if (query.isNotEmpty) {
+      List<DataMemberList> dummyListData = <DataMemberList>[];
+      for (final item in dummySearchList) {
+        if (item.name!.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      }
+      emit(state.copyWith(filterMemberList: dummyListData));
+      return;
+    } else {
+      emit(state.copyWith(filterMemberList: dummySearchList));
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/improvement_area_update_response.dart';
+import 'package:glad/data/model/respone_team_member.dart';
 import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_profile_model.dart';
@@ -62,17 +63,17 @@ class ProfileRepository {
 
   ///////////////// teamMembersListApi //////////
 
-  Future<ResponseOtpModel> teamMembersListApi({String? userRoleId}) async {
+  Future<ResponseTeamMemberList> teamMembersListApi({String? userRoleId}) async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.teamMembersApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
-      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+      return ResponseTeamMemberList.fromJson(apiResponse.response!.data);
     }else
     {
-      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+      return ResponseTeamMemberList(status: 422, message: apiResponse.msg);
     }
   }
 
@@ -101,9 +102,10 @@ class ProfileRepository {
 
   ///////////////// updateTeamMemberApi //////////
 
-  Future<ResponseOtpModel> updateTeamMemberApi(String name, String email, String phone) async {
+  Future<ResponseOtpModel> updateTeamMemberApi(String id,String name, String email, String phone) async {
 
     var data = {
+      "id" : id,
       "name" : name,
       "email" : email,
       "phone" : phone,
