@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -161,17 +162,22 @@ class _GladReviewState extends State<GladReview> {
                                                 topLeft: Radius.circular(20),
                                                 bottomLeft: Radius.circular(20)),
                                             child: widget.attachmentType == "image"
-                                                ? CachedNetworkImage(
+                                                ? InkWell(
+                                              onTap: () {
+                                        PreviewScreen(previewImage: widget.attachment,).navigate();
+                            },
+                                                  child: CachedNetworkImage(
                                               imageUrl: widget.attachment,
                                               width: 120,
                                               height: screenHeight(),
                                               fit: BoxFit.cover,
                                               errorWidget: (_, __, ___) => Image.asset(
-                                                  Images.sampleVideo,
-                                                  width: 120,
-                                                  height: screenHeight(),
-                                                  fit: BoxFit.cover),
-                                            )
+                                                    Images.sampleVideo,
+                                                    width: 120,
+                                                    height: screenHeight(),
+                                                    fit: BoxFit.cover),
+                                            ),
+                                                )
                                                 : videoThumbnail != null
                                                 ? InkWell(
                                               onTap: () {
@@ -257,17 +263,22 @@ class _GladReviewState extends State<GladReview> {
                     topLeft: Radius.circular(20),
                     bottomLeft: Radius.circular(20)),
                 child: widget.attachmentType == "image"
-                    ? CachedNetworkImage(
-                        imageUrl: widget.attachment,
-                        width: 120,
-                        height: screenHeight(),
-                        fit: BoxFit.cover,
-                        errorWidget: (_, __, ___) => Image.asset(
-                            Images.sampleVideo,
-                            width: 120,
-                            height: screenHeight(),
-                            fit: BoxFit.cover),
-                      )
+                    ? InkWell(
+    onTap: () {
+    PreviewScreen(previewImage: widget.attachment,).navigate();
+    },
+                      child: CachedNetworkImage(
+                          imageUrl: widget.attachment,
+                          width: 120,
+                          height: screenHeight(),
+                          fit: BoxFit.cover,
+                          errorWidget: (_, __, ___) => Image.asset(
+                              Images.sampleVideo,
+                              width: 120,
+                              height: screenHeight(),
+                              fit: BoxFit.cover),
+                        ),
+                    )
                     : videoThumbnail != null
                         ? InkWell(
                             onTap: () {

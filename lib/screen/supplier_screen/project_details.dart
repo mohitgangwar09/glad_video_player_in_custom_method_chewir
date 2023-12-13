@@ -26,6 +26,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
 
 import '../../data/model/farmer_project_detail_model.dart';
@@ -1490,9 +1491,43 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                               )
                             ],
                           ),
-                          Text(
-                            '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
-                            style: figtreeMedium.copyWith(fontSize: 12),
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
+                                    style: figtreeMedium.copyWith(fontSize: 12),
+                                  ),
+                                  if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus == 'approved')
+                                    InfoPopupWidget(
+                                      contentTitle: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].approvalRemarks ?? '',
+                                      arrowTheme: const InfoPopupArrowTheme(
+                                        color: ColorResources.mustard,
+                                        arrowDirection: ArrowDirection.up,
+                                      ),
+                                      contentTheme: InfoPopupContentTheme(
+                                        infoContainerBackgroundColor: ColorResources.mustard,
+                                        infoTextStyle: figtreeMedium.copyWith(fontSize: 12, color: Colors.black),
+                                        contentPadding: const EdgeInsets.all(12),
+                                        contentBorderRadius: const BorderRadius.all(Radius.circular(10)),
+                                        infoTextAlign: TextAlign.start,
+                                      ),
+                                      dismissTriggerBehavior: PopupDismissTriggerBehavior.anyWhere,
+                                      areaBackgroundColor: Colors.transparent,
+                                      indicatorOffset: Offset.zero,
+                                      contentOffset: Offset.zero,
+                                      child: Row(
+                                        children: [
+                                          10.horizontalSpace(),
+                                          Text('Remarks', style: figtreeRegular.copyWith(fontSize: 12, color: ColorResources.maroon, decoration: TextDecoration.underline)),
+                                          const Icon(Icons.info, color: ColorResources.mustard, size: 18),
+                                        ],
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ],
                           ),
                           20.verticalSpace(),
                           Row(

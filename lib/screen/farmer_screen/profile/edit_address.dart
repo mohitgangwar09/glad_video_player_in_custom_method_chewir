@@ -339,7 +339,7 @@ class _EditAddressState extends State<EditAddress> {
                                       horizontal: 20.0),
                                   child: customButton('Cancel',
                                       onTap: () {
-                                    // pressBack();
+                                    pressBack();
                                       },
                                       radius: 40,
                                       width: double.infinity,

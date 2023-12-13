@@ -683,6 +683,7 @@ class FarmerProjectMilestones {
   dynamic milestoneDueDate;
   dynamic completionDate;
   dynamic approvalDate;
+  dynamic approvalRemarks;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
@@ -717,7 +718,8 @@ class FarmerProjectMilestones {
         this.updatedAt,
         this.farmerProjectTaskCount,
         this.milestoneDueDate,
-        this.farmerProjectTask});
+        this.farmerProjectTask,
+        this.approvalRemarks});
 
   FarmerProjectMilestones.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -742,6 +744,7 @@ class FarmerProjectMilestones {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    approvalRemarks= json['approval_remarks'];
     farmerProjectTaskCount = json['farmer_project_task_count'];
     milestoneDueDate = json['milestone_due_date'];
     if (json['farmer_project_task'] != null) {

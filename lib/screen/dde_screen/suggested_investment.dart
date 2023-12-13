@@ -36,6 +36,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:info_popup/info_popup.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -2059,7 +2060,7 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                 },
                 child: customShadowContainer(
                     margin: 0,
-                    color: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending" ? Color(0xFFFFF3F4) : Colors.white,
+                    color: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending" ? const Color(0xFFFFF3F4) : Colors.white,
                     backColor: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus != "pending" ? ColorResources.maroon : ColorResources.grey,
                     // backColor: ColorResources.grey,
                     child: Padding(
@@ -2121,9 +2122,39 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                               )
                             ],
                           ),
-                          Text(
-                            '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
-                            style: figtreeMedium.copyWith(fontSize: 12),
+                          Row(
+                            children: [
+                              Text(
+                                '${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].farmerProjectTaskCount ?? 0} tasks included in this milestone.',
+                                style: figtreeMedium.copyWith(fontSize: 12),
+                              ),
+                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].milestoneStatus == 'approved')
+                               InfoPopupWidget(
+                                 contentTitle: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectMilestones![index].approvalRemarks ?? '',
+                                 arrowTheme: const InfoPopupArrowTheme(
+                                   color: ColorResources.mustard,
+                                   arrowDirection: ArrowDirection.up,
+                                 ),
+                                 contentTheme: InfoPopupContentTheme(
+                                   infoContainerBackgroundColor: ColorResources.mustard,
+                                   infoTextStyle: figtreeMedium.copyWith(fontSize: 12, color: Colors.black),
+                                   contentPadding: const EdgeInsets.all(12),
+                                   contentBorderRadius: const BorderRadius.all(Radius.circular(10)),
+                                   infoTextAlign: TextAlign.start,
+                                 ),
+                                 dismissTriggerBehavior: PopupDismissTriggerBehavior.anyWhere,
+                                 areaBackgroundColor: Colors.transparent,
+                                 indicatorOffset: Offset.zero,
+                                 contentOffset: Offset.zero,
+                                 child: Row(
+                                   children: [
+                                     10.horizontalSpace(),
+                                     Text('Remarks', style: figtreeRegular.copyWith(fontSize: 12, color: ColorResources.maroon, decoration: TextDecoration.underline)),
+                                     const Icon(Icons.info, color: ColorResources.mustard, size: 18),
+                                   ],
+                                 ),
+                               ),
+                            ],
                           ),
                           20.verticalSpace(),
                           Row(

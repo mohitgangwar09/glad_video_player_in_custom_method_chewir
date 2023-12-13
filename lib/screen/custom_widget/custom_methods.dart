@@ -1376,13 +1376,13 @@ String getCurrencyString(dynamic value, {String unit = 'UGX '}){
 }
 
 removeZeroesInFraction(String value){
-  value = double.parse(value).toStringAsFixed(2);
-  if(int.parse(value.split('.')[1]) == 0){
-    return value.split('.')[0];
-  }else if(int.parse(value.split('.')[1]) % 10 == 0) {
-    return '${value.split('.')[0]}.${int.parse(value.split('.')[1]) ~/ 10}';
+  String value1 = double.parse(value).toStringAsFixed(2);
+  if(int.parse(value1.split('.')[1]) == 0){
+    return value1.split('.')[0];
+  }else if(int.parse(value1.split('.')[1]) % 10 == 0) {
+    return '${value1.split('.')[0]}.${int.parse(value1.split('.')[1]) ~/ 10}';
   }
-  return value;
+  return value1;
 }
 
 bool isUrl(String pass) {
