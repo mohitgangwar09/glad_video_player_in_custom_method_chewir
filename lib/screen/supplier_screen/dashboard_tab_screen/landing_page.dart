@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +10,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
@@ -20,6 +24,7 @@ import 'package:glad/screen/supplier_screen/profile/kyc_update.dart';
 import 'package:glad/screen/supplier_screen/profile/service_provider_profile.dart';
 import 'package:glad/screen/supplier_screen/supplier_update_kyc.dart';
 import 'package:glad/screen/supplier_screen/widget/survey_supplier_widget.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -28,6 +33,8 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
+import 'package:weather/weather.dart';
+import 'package:http/http.dart' as http;
 
 class SupplierLandingPage extends StatefulWidget {
   const SupplierLandingPage({super.key});
@@ -61,8 +68,32 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
     SalesData(DateTime(2023, 4), 3.5)
   ];
 
+  /*void weatherDetail() async{
+    WeatherFactory wf = WeatherFactory('52a17d91b3ed0697b05a7dd6fdc708c4');
+    Weather w = await wf.currentWeatherByLocation(28.5355, 77.3910);
+    print(w.);
+  }*/
+
+  Future<dynamic> getForecast({double? lat = 28.4986, double lon = 77.3999}) async {
+    try {
+      String api = 'https://api.openweathermap.org/data/2.5/onecall';
+      String appId = '52a17d91b3ed0697b05a7dd6fdc708c4';
+      String units = 'metric';
+      String cnt = '4';
+      String url = '$api?lat=$lat&cnt=$cnt&lon=$lon&appid=$appId&units=$units';
+
+      final response = await http.get(Uri.parse(url));
+      final json = jsonDecode(response.body);
+      print(json);
+      return json;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   void initState() {
+    // getForecast();
     BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
     BlocProvider.of<LandingPageCubit>(context).getSupplierDashboard(context).then((value) {
       LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;

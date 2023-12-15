@@ -120,10 +120,12 @@ class AppConstants {
 
   //////////////////////// sharedKey ////////////////////////
   static const String fcmToken = 'fcmToken';
-  static const String weatherKey = 'DJMEOacq4AmPIAQIeGPwP6bs0MBKNuXb';
+  static const String weatherKey = '52a17d91b3ed0697b05a7dd6fdc708c4';
+  static const String weatherApi = 'https://api.openweathermap.org/data/2.5/onecall';
   static const String token = 'token';
   static const String userId = 'userId';
   static const String userType = 'userType';
+  static const String userName = 'userName';
   static const String userRoleId = 'userRoleId';
   static const String deviceImeiId = 'deviceImeiId';
   static const String countryCode = 'countryCode';

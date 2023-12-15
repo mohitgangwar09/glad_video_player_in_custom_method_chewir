@@ -19,6 +19,7 @@ import 'package:glad/cubit/news_cubit/news_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/cubit/training_cubit/training_cubit.dart';
+import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/notification/fcm_helper.dart';
 import 'package:glad/screen/auth_screen/create_password.dart';
@@ -59,6 +60,7 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<NewsCubit>()),
       BlocProvider(create: (context) => di.sl<CommunityCubit>()),
       BlocProvider(create: (context) => di.sl<LivestockCubit>()),
+      BlocProvider(create: (context) => di.sl<WeatherCubit>()),
     ],
     child: const GetMaterialApp(
         debugShowCheckedModeBanner: false, home: MyApp()),

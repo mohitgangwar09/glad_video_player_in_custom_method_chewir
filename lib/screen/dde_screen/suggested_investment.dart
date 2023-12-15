@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:expandable_text/expandable_text.dart';
@@ -12,6 +13,8 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
+import 'package:glad/data/model/response_project_data_firebase.dart';
+import 'package:glad/screen/chat/firebase_chat_screen.dart';
 import 'package:glad/screen/common/add_remarks_dispute_screen.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -35,6 +38,7 @@ import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file_safe_plus/open_file_safe_plus.dart';
@@ -410,6 +414,50 @@ class _DDeFarmerInvestmentDetailsState extends State<DDeFarmerInvestmentDetails>
                   ),
                 ],
               ),
+              Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: InkWell(
+                    onTap: () async{
+
+                      FirebaseFirestore.instance.collection('projects_chats')
+                          .doc(widget.projectId.toString())
+                          .set({
+                        'farmer_project_id': state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),
+                        'farmer_id': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),
+                        'dde_id': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.ddeId.toString(),
+                        'supplier_id': state.responseFarmerProjectDetail!.data!.supplierDetail!=null?state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString():"",
+                        'mcc_id': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.mccId.toString(),
+                        'admin_id': '',
+                        'project_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].name.toString(),
+                        'created_at': Timestamp.now(),
+                        'farmer_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
+                        'farmer_address': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!.toString():'':'',
+                        'user_type': 'dde',
+                      });
+
+
+                      ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(
+                          projectName: state.responseFarmerProjectDetail!.data!.farmerProject![0].name!.toString(),
+                          farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                          userName: await SharedPrefManager.getPreferenceString(AppConstants.userName),
+                          userType: 'dde',
+                          farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),
+                          ddeId: state.responseFarmerProjectDetail!.data!.farmerProject!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].ddeId.toString():'',
+                          mccId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.mccId.toString():'',
+                          supplierId: state.responseFarmerProjectDetail!.data!.supplierDetail!=null?state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString():'',
+                          farmerName: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
+                          farmerAddress: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString():'');
+
+                      FirebaseChatScreen(responseProjectDataForFirebase: response,).navigate();
+
+                    },
+                    child: Image.asset(
+                      Images.messageChat,
+                      width: 100,
+                      height: 100,
+                    ),
+                  ))
             ],
           );
         }

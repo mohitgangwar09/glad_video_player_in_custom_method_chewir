@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/mcc_screen/dashboard/dashboard_mcc.dart';
@@ -20,7 +21,6 @@ import 'package:glad/utils/sharedprefrence.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'language_permission.dart';
-import 'package:http/http.dart' as http;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -40,6 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
     await BlocProvider.of<AuthCubit>(context).getLocation(context);
     if(!mounted)return;
     await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+    if(!mounted)return;
+    if(BlocProvider.of<LandingPageCubit>(context).state.currentPosition!=null){
+      BlocProvider.of<WeatherCubit>(context).weatherApi(context, BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.latitude, BlocProvider.of<LandingPageCubit>(context).state.currentPosition!.longitude);
+    }
     Timer(const Duration(seconds: 1), () async {
 
       if(BlocProvider.of<AuthCubit>(context).isLoggedIn()){

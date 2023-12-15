@@ -16,6 +16,7 @@ import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 part 'auth_cubit_state.dart';
@@ -128,6 +129,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
           await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
           await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
           await sharedPreferences.setString(AppConstants.userRoleId, response.data!.userRoleId.toString());
+          await SharedPrefManager.savePrefString(AppConstants.userName, response.data!.name.toString());
           if(response.data!.profilePic == null){
             const UploadProfilePicture().navigate(isInfinity: true,);
           }else{
@@ -278,6 +280,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
         await sharedPreferences.setString(AppConstants.userId, response.data!.id.toString());
         await sharedPreferences.setString(AppConstants.userType, response.data!.userType.toString());
         await sharedPreferences.setString(AppConstants.userRoleId, response.data!.userRoleId.toString());
+        await SharedPrefManager.savePrefString(AppConstants.userName, response.data!.name.toString());
         if(response.data!.profilePic == null){
           const UploadProfilePicture().navigate(isInfinity: true);
         }else{

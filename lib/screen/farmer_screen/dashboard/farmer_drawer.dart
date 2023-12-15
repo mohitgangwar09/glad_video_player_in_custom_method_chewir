@@ -9,6 +9,8 @@ import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/farmer_notification.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 
 import '../../../utils/color_resources.dart';
 import '../../../utils/extension.dart';
@@ -65,8 +67,12 @@ class FarmerDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
               image: Images.aboutus,
-              onTap: () {
-                const MessageBoard().navigate();
+              onTap: () async{
+                var roleId = await SharedPrefManager.getPreferenceString(AppConstants.userRoleId);
+
+                MessageBoard(userRoleId:roleId.toString(),
+                    userType: 'farmer_id',
+                    roleType:'farmer').navigate();
               },
               text: 'Message board',
               visible: false),

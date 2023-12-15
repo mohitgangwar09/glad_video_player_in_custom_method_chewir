@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -1415,4 +1416,50 @@ String formatProjectStatus(String status) {
   }
 
   return formattedStatus;
+}
+
+Widget weatherWidget(){
+  return BlocBuilder<WeatherCubit,WeatherState>(builder: (context,state){
+    if(state.responseWeather!=null){
+      return Stack(
+        children: [
+
+          Image.asset(Images.weather),
+
+          Positioned(
+            left: 30,
+            bottom: 38,
+            child: Text(state.responseWeather!.current!.windSpeed!=null?'${double.parse((state.responseWeather!.current!.windSpeed*3.6).toString()).toStringAsFixed(2)} km/hr':'0 km/hr',
+              style: figtreeBold.copyWith(
+                  color: Colors.black
+              ),),),
+
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 38,
+            child: SizedBox(
+              width: screenWidth(),
+              child: Center(
+                child: Text(double.parse((state.responseWeather!.current!.humidity.toString()??'0').toString()).toStringAsFixed(2),
+                  style: figtreeBold.copyWith(
+                      color: Colors.black
+                  ),),
+              ),
+            ),),
+
+          Positioned(
+            right: 30,
+            bottom: 38,
+            child: Text('${double.parse((state.responseWeather!.minutely!.isNotEmpty?state.responseWeather!.minutely![0].precipitation.toString():'0').toString()).toStringAsFixed(2)} %',
+              style: figtreeBold.copyWith(
+                color: Colors.black,
+              ),),),
+
+        ],
+      );
+    }else{
+      return Image.asset(Images.weather);
+    }
+  });
 }

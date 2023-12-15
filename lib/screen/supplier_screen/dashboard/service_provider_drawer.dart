@@ -9,9 +9,11 @@ import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/supplier_screen/team_members.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 import 'package:glad/utils/styles.dart';
 
 class ServiceProviderDrawer extends StatelessWidget {
@@ -61,8 +63,12 @@ class ServiceProviderDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
               image: Images.aboutus,
-              onTap: () {
-                const MessageBoard().navigate();
+              onTap: () async{
+                var roleId = await SharedPrefManager.getPreferenceString(AppConstants.userRoleId);
+
+                MessageBoard(userRoleId:roleId.toString(),userType: 'supplier_id',roleType:'supplier').navigate();
+
+                // const MessageBoard().navigate();
               },
               text: 'Message board',
               visible: false

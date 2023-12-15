@@ -13,12 +13,14 @@ import 'package:glad/cubit/news_cubit/news_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/cubit/training_cubit/training_cubit.dart';
+import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/data/repository/drawer_repo.dart';
 import 'package:glad/data/repository/landing_page_repo.dart';
 import 'package:glad/data/repository/dde_repo.dart';
 import 'package:glad/data/repository/others_repo.dart';
 import 'package:glad/data/repository/profile_repo.dart';
 import 'package:glad/data/repository/project_repo.dart';
+import 'package:glad/data/repository/weather_repo.dart';
 import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
@@ -39,9 +41,11 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DrawerRepository(sharedPreferences: sl()));
   sl.registerLazySingleton(() => ProjectRepository(sharedPreferences: sl()));
   sl.registerLazySingleton(() => OthersRepository(sharedPreferences: sl()));
+  sl.registerLazySingleton(() => WeatherRepository(sharedPreferences: sl()));
 
   ////////////////////bloc_provider///////////////
   sl.registerFactory(() => AuthCubit(apiRepository: sl(),sharedPreferences: sl()));
+  sl.registerFactory(() => WeatherCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => ProfileCubit(apiRepository: sl(),sharedPreferences: sl()));
   sl.registerFactory(() => DashboardCubit());
   sl.registerFactory(() => DdeFarmerCubit(apiRepository: sl(),sharedPreferences: sl()));

@@ -25,7 +25,7 @@ class _MccLandingCarouselState extends State<MccLandingCarousel> {
         20.verticalSpace(),
         CarouselSlider(
             items: [
-              Image.asset(Images.weather),
+              weatherWidget(),
               Image.asset(Images.training),
               Image.asset(Images.livestock),
               Image.asset(Images.community)
