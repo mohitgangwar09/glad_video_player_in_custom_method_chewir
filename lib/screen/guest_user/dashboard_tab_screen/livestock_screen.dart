@@ -72,7 +72,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                           children: [
                             InkWell(
                                 onTap: () {
-                                  const LiveStockCartListScreen().navigate();
+                                  // const LiveStockCartListScreen().navigate();
                                 },
                                 child: SvgPicture.asset(Images.cart)),
                             13.horizontalSpace(),
@@ -114,7 +114,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                const MyLiveStockScreen().navigate();
+                                // const MyLiveStockScreen().navigate();
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(
@@ -195,14 +195,14 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
     return state.responseLivestockList!.data != null ? Expanded(
       child: customGrid(
           padding: const EdgeInsets.fromLTRB(13,13,13,120),
-          list: state.responseLivestockList!.data ?? [],
+          list: state.responseLivestockList!.data!.liveStoclLIst ?? [],
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
           mainAxisExtent: 250,
           context, child: (index){
         return InkWell(
           onTap: () {
-            LiveStockDetail(id: state.responseLivestockList!.data![index].id.toString(), isMyLivestock: false,).navigate();
+            LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,).navigate();
           },
           child: customShadowContainer(
             margin: 0,
@@ -216,8 +216,8 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                     Container(
                         padding: 2.marginAll(),
                         width: screenWidth(),
-                        height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseLivestockList!.data![index].liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,))),
-                    if(state.responseLivestockList!.data![index].liveStockDocumentFiles!.length > 1)
+                        height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,))),
+                    if(state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles!.length > 1)
                       customShadowContainer(
                         backColor: Colors.transparent,
                         color: Colors.transparent,
@@ -225,7 +225,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            (state.responseLivestockList!.data![index].liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
+                            (state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
                             const Icon(Icons.image_outlined, color: Colors.white,)
                           ],),
                       )
@@ -239,11 +239,11 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                       RichText(
                           text: TextSpan(children: [
                             TextSpan(
-                                text: '${state.responseLivestockList!.data![index].cowBreed!.name ?? ''} cow ',
+                                text: '${state.responseLivestockList!.data!.liveStoclLIst![index].cowBreed!.name ?? ''} cow ',
                                 style: figtreeMedium.copyWith(
                                     fontSize: 12, color: Colors.black)),
                             TextSpan(
-                                text: '(${state.responseLivestockList!.data![index].advertisementNo ?? ''})',
+                                text: '(${state.responseLivestockList!.data!.liveStoclLIst![index].advertisementNo ?? ''})',
                                 style: figtreeMedium.copyWith(
                                     fontSize: 12, color: const Color(0xFF727272)))
                           ])),
@@ -251,7 +251,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(getCurrencyString(double.parse(state.responseLivestockList!.data![index].price.toString())),
+                          Text(getCurrencyString(double.parse(state.responseLivestockList!.data!.liveStoclLIst![index].price.toString())),
                               style: figtreeSemiBold.copyWith(
                                   fontSize: 18, color: Colors.black)),
                           RichText(
@@ -261,7 +261,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseLivestockList!.data![index].cowQty.toString(),
+                                    text: state.responseLivestockList!.data!.liveStoclLIst![index].cowQty.toString(),
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -278,7 +278,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: '${state.responseLivestockList!.data![index].age ?? ''} yrs',
+                                    text: '${state.responseLivestockList!.data!.liveStoclLIst![index].age ?? ''} yrs',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -297,15 +297,15 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: '${double.parse(state.responseLivestockList!.data![index].yield ?? '').toInt()}L/day',
+                                    text: '${double.parse(state.responseLivestockList!.data!.liveStoclLIst![index].yield ?? '').toInt()}L/day',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black))
                               ])),
                         ],
                       ),
                       6.verticalSpace(),
-                      Text(state.responseLivestockList!.data![index].user!.address != null
-                          ? state.responseLivestockList!.data![index].user!.address!.address ?? ''
+                      Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.address != null
+                          ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.address!.address ?? ''
                           : '',
                         style: figtreeMedium.copyWith(
                             fontSize: 12, color: Colors.black), maxLines: 1,),
