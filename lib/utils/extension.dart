@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:glad/screen/custom_widget/custom_toast.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:intl/intl.dart';
 
 extension UtilityToast on String {
   toast() => Fluttertoast.showToast(
@@ -224,3 +225,21 @@ extension StringExtensions on String {
 }
 
 double sum<T extends double>(T lhs, T rhs) => lhs + rhs;
+
+extension DateHelper on DateTime {
+
+  String formatDate(String dateFormatter) {
+    final formatter = DateFormat(dateFormatter);
+    return formatter.format(this);
+  }
+  bool isSameDate(DateTime other) {
+    return year == other.year &&
+        month == other.month &&
+        day == other.day;
+  }
+
+  int getDifferenceInDaysWithNow() {
+    final now = DateTime.now();
+    return now.difference(this).inDays;
+  }
+}

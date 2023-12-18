@@ -17,6 +17,7 @@ class FirebaseChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       top: false,
       bottom: true,
@@ -63,9 +64,9 @@ class FirebaseChatScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
 
-              Expanded(child: Messages(responseProjectDataForFirebase: responseProjectDataForFirebase,)),
+              Expanded(child: Messages(responseProjectDataForFirebase: responseProjectDataForFirebase)),
 
-              NewMessage(responseProjectDataForFirebase: responseProjectDataForFirebase,)
+              NewMessage(responseProjectDataForFirebase: responseProjectDataForFirebase)
 
         ],),),
       ),

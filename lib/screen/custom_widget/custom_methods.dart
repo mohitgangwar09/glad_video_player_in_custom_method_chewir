@@ -147,7 +147,8 @@ Widget customList<T>(
     double itemSpace = 0,
     ScrollPhysics scrollPhysics = const BouncingScrollPhysics(),
     EdgeInsets padding = const EdgeInsets.all(0.0),
-    Axis axis = Axis.vertical}) {
+    Axis axis = Axis.vertical,
+    bool reverse = false}) {
   return ListView.builder(
     padding: padding,
     controller: controller,
@@ -155,6 +156,7 @@ Widget customList<T>(
     scrollDirection: axis,
     clipBehavior: Clip.none,
     shrinkWrap: true,
+    reverse: reverse,
     itemBuilder: (context, index) => Container(child: child(index)),
     itemCount: list.length,
   );
