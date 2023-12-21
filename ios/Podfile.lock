@@ -691,7 +691,7 @@ PODS:
   - firebase_core (2.24.2):
     - Firebase/CoreOnly (= 10.18.0)
     - Flutter
-  - firebase_messaging (14.7.6):
+  - firebase_messaging (14.7.9):
     - Firebase/Messaging (= 10.18.0)
     - firebase_core
     - Flutter
@@ -1031,7 +1031,7 @@ SPEC CHECKSUMS:
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Firebase: 414ad272f8d02dfbf12662a9d43f4bba9bec2a06
   firebase_core: 0af4a2b24f62071f9bf283691c0ee41556dcb3f5
-  firebase_messaging: ca2fc59ddd52ef032d80f1a717d12eae8fa0e994
+  firebase_messaging: 875385354f623750aa03204a028d640108bc3412
   firebase_storage: 62de29ba51989dbf16f6a127a181d7dfd2b71d01
   FirebaseAppCheckInterop: 37884781f3e16a1ba47e7ec80a1e805f987788e3
   FirebaseAuthInterop: f90d6820bf6ecf44753b9f13ba941902d00b525a

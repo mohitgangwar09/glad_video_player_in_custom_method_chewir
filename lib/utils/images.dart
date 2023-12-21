@@ -103,6 +103,7 @@ class Images {
   static const String newsI = 'assets/images/newsshare.svg';
   static const String deleteIcon = 'assets/images/delete_icon.png';
   static const String editIcon = 'assets/images/edit_icon.png';
+  static const String loans = 'assets/images/loans.svg';
 
   static const String timelineApplied = 'assets/images/timelineApplied.svg';
   static const String lessCows = 'assets/images/lessCows.svg';

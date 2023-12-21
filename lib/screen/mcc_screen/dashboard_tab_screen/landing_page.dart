@@ -508,9 +508,12 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                     right: 10,
                     child: Row(
                       children: [
-                        SvgPicture.asset(Images.callPrimary),
+                        InkWell(
+                            onTap: () async {
+                              await callOnMobile(state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].phone);
+                            }, child: SvgPicture.asset(Images.callPrimary)),
                         6.horizontalSpace(),
-                        SvgPicture.asset(Images.whatsapp),
+                        whatsapp(state.responseMCCDashboard!.data!.mcc!.dairyDevelopmentExecutive![index].phone),
                         4.horizontalSpace(),
                       ],
                     )),

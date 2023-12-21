@@ -206,6 +206,7 @@ class ProjectWidget extends StatelessWidget {
                                 count++;
                               }
                             }
+                            if(milestones.isEmpty) return const SizedBox.shrink();
                             return Stack(
                               alignment: Alignment.center,
                               children: [

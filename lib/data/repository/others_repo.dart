@@ -10,6 +10,9 @@ import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_community_comment_list.dart';
 import 'package:glad/data/model/response_community_like_list.dart';
 import 'package:glad/data/model/response_community_list_model.dart';
+import 'package:glad/data/model/response_livestock_laon.dart';
+import 'package:glad/data/model/response_loan_application_list.dart';
+import 'package:glad/data/model/response_my_livestock.dart';
 import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
@@ -233,30 +236,30 @@ class OthersRepository {
   }
 
   ///////////////// getLivestockBreedApi //////////
-  Future<LivestockList> getLivestockListApi() async {
+  Future<ResponseLivestockList> getLivestockListApi() async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.livestockListApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
-      return LivestockList.fromJson(apiResponse.response!.data);
+      return ResponseLivestockList.fromJson(apiResponse.response!.data);
     } else {
-      return LivestockList(status: 422, message: apiResponse.msg);
+      return ResponseLivestockList(status: 422, message: apiResponse.msg);
     }
   }
 
   ///////////////// getLivestockBreedApi //////////
-  Future<LivestockList> getMyLivestockListApi() async {
+  Future<ResponseMyLivestock> getMyLivestockListApi() async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.myLivestockListApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
-      return LivestockList.fromJson(apiResponse.response!.data);
+      return ResponseMyLivestock.fromJson(apiResponse.response!.data);
     } else {
-      return LivestockList(status: 422, message: apiResponse.msg);
+      return ResponseMyLivestock(status: 422, message: apiResponse.msg);
     }
   }
 
@@ -338,8 +341,10 @@ class OthersRepository {
   }
 
   ///////////////// getCommunityListApi //////////
-  Future<ResponseOtpModel> addToCartLivestockApi(String id) async {
-    var data = {'livestock_id': id};
+  Future<ResponseOtpModel> addToCartLivestockApi(String id,int cowQty,String cowPrice) async {
+
+    var data = {'livestock_id': id,
+    "cow_qty": cowQty,"cow_price": cowPrice};
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.livestockAddToCartApi, data: data,
@@ -383,11 +388,17 @@ class OthersRepository {
   }
 
   ///////////////// getCommunityListApi //////////
-  Future<ResponseOtpModel> livestockDeleteCartItemApi(String id) async {
+  Future<ResponseOtpModel> livestockDeleteCartItemApi(int id) async {
 
-    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .deleteApiResponse('${AppConstants.livestockCartItemRemoveApi}/$id',
-        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+    var data = {
+      "id": id
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
+        AppConstants.livestockCartItemRemoveApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}',},
+        data: data
+    );
 
     if (apiResponse.status) {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
@@ -407,6 +418,90 @@ class OthersRepository {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);
     } else {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
+  ///////////////// updateSoldCowApi //////////
+  Future<ResponseOtpModel> updateSoldCowApi(int id,int soldCow) async {
+    var data = {
+      'id': id,
+      'sold_cows': soldCow,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateSoldCowApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// removeLivestockApi //////////
+  Future<ResponseOtpModel> removeLivestockApi(int id) async {
+    var data = {
+      'id': id,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.removeLivestockApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// applyLivestockLoanApi //////////
+  Future<ResponseLivestockLoan> applyLivestockLoanApi(int id,String farmerParticipation,String remarks) async {
+    var data = {
+      'id': id,
+      'farmer_participation': farmerParticipation,
+      'remarks': remarks
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.applyLivestockLoanApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseLivestockLoan.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseLivestockLoan(status: 422, message: apiResponse.msg);
+    }
+  }
+  ///////////////// emptyCartApi //////////
+  Future<ResponseOtpModel> emptyCartApi() async {
+
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.emptyCartApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// loanListApi //////////
+  Future<ResponseLoanApplicationList> loanListApi() async {
+
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.loanListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseLoanApplicationList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseLoanApplicationList(status: 422, message: apiResponse.msg);
     }
   }
 

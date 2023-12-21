@@ -245,9 +245,32 @@ class _TaskUpdateState extends State<TaskUpdate> {
                                 crossAxisSpacing: 10,
                                 childAspectRatio: 1.2,
                                 list: images, child: (index) {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(14),
-                                  child: Image.file(File(images[index]), fit: BoxFit.fitWidth,width: screenWidth(),));
+                              return Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                      child: Image.file(File(images[index]), fit: BoxFit.fitWidth,width: screenWidth(),)),
+                                  Positioned(
+                                    right: 0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        images.remove(images[index]);
+                                        setState(() {
+
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(200),
+                                            color: Colors.white),
+                                        child: SvgPicture.asset(
+                                          Images.cancelImage,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
                             }),
                             40.verticalSpace(),
                             Container(

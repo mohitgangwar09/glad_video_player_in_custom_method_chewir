@@ -10,6 +10,7 @@ import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
+import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
 import 'package:glad/screen/mcc_screen/view_mcc_loan.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/supplier_farmer_detail.dart';
@@ -253,45 +254,54 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
             crossAxisSpacing: 13,
             mainAxisExtent: 123,
             child: (index){
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: const Color(0xffDCDCDC),width: 1),
-                  boxShadow:[
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 2.0,
-                        offset: const Offset(0, 2))],
-                ),
-                child: Padding(
-                  // padding: 0.paddingAll(),
-                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        kpiData[index].image.toString(),
-                        width: 30,
-                        height: 30,
-                      ),
-                      15.verticalSpace(),
-                      Text(
-                        '${kpiData[index].value}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: figtreeMedium.copyWith(fontSize: 14.3),
-                      ),
-                      05.verticalSpace(),
-                      Text(
-                        kpiData[index].name.toString(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: figtreeRegular.copyWith(
-                          fontSize: 12.5,
+              return InkWell(
+                onTap: () {
+                  if(double.parse(kpiData[index].value!.replaceAll(' LTR', '')) > 0) {
+                    MilkProductionYield(type: 'milk_production',
+                        farmerId: state.responseFarmerProjectDetail!.data!
+                            .farmerProject![0].farmerId.toString()).navigate();
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 2.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          kpiData[index].image.toString(),
+                          width: 30,
+                          height: 30,
                         ),
-                      )
-                    ],
+                        15.verticalSpace(),
+                        Text(
+                          '${kpiData[index].value}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          kpiData[index].name.toString(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -493,9 +503,14 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                     right: 10,
                     child: Row(
                       children: [
-                        SvgPicture.asset(Images.callPrimary),
+    InkWell(
+    onTap: () async {
+    await callOnMobile(dde.phone);
+    },
+    child:
+    SvgPicture.asset(Images.callPrimary)),
                         6.horizontalSpace(),
-                        SvgPicture.asset(Images.whatsapp),
+                        whatsapp(dde.phone),
                         6.horizontalSpace(),
                         SvgPicture.asset(Images.redirectLocation),
                         6.horizontalSpace(),

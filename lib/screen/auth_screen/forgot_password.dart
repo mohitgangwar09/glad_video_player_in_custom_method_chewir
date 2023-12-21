@@ -127,11 +127,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
               Center(
                   child: customButton("Submit", style:figtreeSemiBold.copyWith(
-                      color: Colors.black
+                      color: Colors.white
                   ),onTap: (){
                     context.read<AuthCubit>().forgotPasswordApi(context);
-                  }, borderColor: 0xFF6A0030,
-                      color: 0x00000000)
+                  })
               ),
 
 

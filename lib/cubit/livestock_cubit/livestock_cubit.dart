@@ -1,14 +1,19 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/data/model/livestock_detail.dart';
 import 'package:glad/data/model/livestock_list_model.dart';
 import 'package:glad/data/model/response_breed.dart';
+import 'package:glad/data/model/response_loan_application_list.dart';
+import 'package:glad/data/model/response_my_livestock.dart';
 import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
 import 'package:glad/data/model/youtube_video_statistics_model.dart';
 import 'package:glad/data/repository/others_repo.dart';
+import 'package:glad/screen/common/livestock_cart_list_screen.dart';
 import 'package:glad/screen/common/thankyou_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
@@ -118,11 +123,70 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
   }
 
-  Future<void> livestockAddToCartApi(context, livestockId) async{
-    var response = await apiRepository.addToCartLivestockApi(livestockId);
+  Future<void> livestockAddToCartApi(context, livestockId,int quantity,String price) async{
+    var response = await apiRepository.addToCartLivestockApi(livestockId,quantity, price);
     if (response.status == 200) {
-      showCustomToast(context, response.message.toString(), isSuccess: true);
-      livestockDetailApi(context, livestockId, isLoaderRequired: false);
+      // pressBack();
+      // livestockDetailApi(context, livestockId, isLoaderRequired: false);
+      if(response.message == "LiveStock from other supplier exists in the cart"){
+        customDialog(
+            widget: Center(
+              child: Material(
+                borderRadius: BorderRadius.circular(15),
+                child: Container(
+                  height: 140,
+                  width: screenWidth()-30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      "Are you sure to remove other supplier cart?".textMedium(
+                          fontSize: 19,
+                          textAlign: TextAlign.center,
+                          color: Colors.black
+                      ),
+
+                      20.verticalSpace(),
+
+                      Row(
+                        children: [
+
+                          20.horizontalSpace(),
+
+                          Expanded(
+                            child: customButton("No",
+                                borderColor: 0xFF6A0030,
+                                color: 0xFFffffff,onTap: (){
+                                  pressBack();
+                                }),
+                          ),
+
+                          20.horizontalSpace(),
+
+                          Expanded(
+                            child: customButton("Yes",fontColor: 0xFFffffff, onTap: ()async{
+                              await emptyCartApi(context,livestockId,quantity,price);
+                            }),
+                          ),
+
+                          20.horizontalSpace(),
+
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
+            )
+        );
+      }else{
+        showCustomToast(context, response.message.toString(), isSuccess: true);
+        const LiveStockCartListScreen(navigates: 'live',).navigate(isInfinity: true);
+      }
     }
     else {
       showCustomToast(context, response.message.toString());
@@ -144,7 +208,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
 
   Future<void> livestockCartItemRemoveApi(context, int id) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.livestockDeleteCartItemApi(id.toString());
+    var response = await apiRepository.livestockDeleteCartItemApi(id);
     if (response.status == 200) {
       disposeProgress();
       livestockCartListApi(context, isLoaderRequired: false);
@@ -166,6 +230,84 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
   }
 
+  // updateSoldCowApi
+  Future<void> updateSoldCowApi(context, int cartId, int soldCows) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.updateSoldCowApi(cartId, soldCows);
+    if (response.status == 200) {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      await livestockDetailApi(context, cartId.toString(),isLoaderRequired: false);
+      pressBack();
+      // livestockCartListApi(context, isLoaderRequired: false);
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
+
+  // removeLivestockAPi
+  Future<void> removeLivestockAPi(context, int id) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.removeLivestockApi(id);
+    if (response.status == 200) {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      await livestockDetailApi(context, id.toString(),isLoaderRequired: false);
+      pressBack();
+      // livestockCartListApi(context, isLoaderRequired: false);
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
+
+  // livestockLoanApi
+  Future<void> applyLivestockLoanApi(context, int id,String farmerParticipation,
+      String remarks,String addressDocName, String addressDocNo, String addressDocExpiryDate,
+      List<String> documentFiles,String idDocName,
+      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto,FarmerMaster farmerMaster) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.applyLivestockLoanApi(id, farmerParticipation, remarks);
+    if (response.status == 200) {
+      disposeProgress();
+      BlocProvider.of<ProjectCubit>(context).
+      liveStockKycApi(context, response.data!.farmerId.toString(), response.data!.id.toString(),
+          addressDocName, addressDocNo,
+          addressDocExpiryDate, documentFiles,
+          idDocName, idDocTypeNo, idDocTypeExpiryDate,
+          documentTypeFiles, farmerPhoto,farmerMaster);
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
+
+  // updateSoldCowApi
+  Future<void> emptyCartApi(context,livestockId, int quantity, String price) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.emptyCartApi();
+    if (response.status == 200) {
+      await livestockAddToCartApi(context, livestockId, quantity, price);
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
+
+  // loanListApi
+  Future<void> loanListApi(context,) async{
+
+    emit(state.copyWith(status: LivestockStatus.submit));
+    var response = await apiRepository.loanListApi();
+    if (response.status == 200) {
+
+      emit(state.copyWith(responseLoanApplicationList: response,status: LivestockStatus.success));
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
 
   String getUserToken() {
     return apiRepository.getUserToken();}

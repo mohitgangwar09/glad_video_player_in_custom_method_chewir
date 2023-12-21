@@ -5,10 +5,11 @@ enum LivestockStatus{initial,submit,success,error}
 class LivestockCubitState extends Equatable{
   final LivestockStatus status;
   final ResponseBreed? breed;
-  final LivestockList? responseLivestockList;
-  final LivestockList? responseMyLivestockList;
+  final ResponseLivestockList? responseLivestockList;
+  final ResponseMyLivestock? responseMyLivestockList;
   final LivestockDetail? responseLivestockDetail;
   final LivestockCartList? responseLivestockCartList;
+  final ResponseLoanApplicationList? responseLoanApplicationList;
   // final String selectedBreed;
 
   const LivestockCubitState({
@@ -18,6 +19,7 @@ class LivestockCubitState extends Equatable{
       required this.responseMyLivestockList,
       required this.responseLivestockDetail,
       required this.responseLivestockCartList,
+      required this.responseLoanApplicationList,
       // required this.selectedBreed,
   });
 
@@ -29,6 +31,7 @@ class LivestockCubitState extends Equatable{
       responseMyLivestockList: null,
       responseLivestockDetail: null,
       responseLivestockCartList: null,
+      responseLoanApplicationList: null,
       // selectedBreed: '',
     );
   }
@@ -36,10 +39,11 @@ class LivestockCubitState extends Equatable{
   LivestockCubitState copyWith({
     LivestockStatus? status,
     ResponseBreed? breed,
-    LivestockList? responseLivestockList,
-    LivestockList? responseMyLivestockList,
+    ResponseLivestockList? responseLivestockList,
+    ResponseMyLivestock? responseMyLivestockList,
     LivestockDetail? responseLivestockDetail,
     LivestockCartList? responseLivestockCartList,
+    ResponseLoanApplicationList? responseLoanApplicationList,
     // String? selectedBreed,
   }) {
     return LivestockCubitState(
@@ -49,6 +53,7 @@ class LivestockCubitState extends Equatable{
         responseMyLivestockList: responseMyLivestockList ?? this.responseMyLivestockList,
         responseLivestockDetail: responseLivestockDetail ?? this.responseLivestockDetail,
         responseLivestockCartList: responseLivestockCartList ?? this.responseLivestockCartList,
+        responseLoanApplicationList: responseLoanApplicationList ?? this.responseLoanApplicationList,
         // selectedBreed: selectedBreed ?? this.selectedBreed,
     );
   }
@@ -61,6 +66,7 @@ class LivestockCubitState extends Equatable{
     responseMyLivestockList,
     responseLivestockDetail,
     responseLivestockCartList,
+    responseLoanApplicationList
     // selectedBreed,
   ];
 

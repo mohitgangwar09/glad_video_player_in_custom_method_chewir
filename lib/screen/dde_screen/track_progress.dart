@@ -1,3 +1,4 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -81,7 +82,7 @@ class TrackProgress extends StatelessWidget {
                                                   border: Border.all(
                                                       color: ColorResources.maroon)),
                                               padding: const EdgeInsets.all(6),
-                                              child: Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].projectStatus.toString(),
+                                              child: Text(formatProjectStatus(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].projectStatus.toString()),
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 12,
                                                       color: ColorResources.maroon)),
@@ -119,12 +120,22 @@ class TrackProgress extends StatelessWidget {
                                     padding: const EdgeInsets.all(15.0),
                                     child: Column(
                                       children: [
-                                        Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].remarks??'',
-                                        style: figtreeMedium.copyWith(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                            overflow: TextOverflow.ellipsis
-                                        ),),
+                                        ExpandableText(
+                                          state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].remarks??'',
+                                          expandText: 'Read More',
+                                          linkColor: ColorResources.maroon,
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 18,
+                                              color: Colors.black
+                                          ),
+                                          collapseText: 'Show Less',
+                                        )
+                                        // Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].remarks??'',
+                                        // style: figtreeMedium.copyWith(
+                                        //     fontSize: 18,
+                                        //     color: Colors.black,
+                                        //     overflow: TextOverflow.ellipsis
+                                        // ),),
                                       ],
                                     ),
                                   ),

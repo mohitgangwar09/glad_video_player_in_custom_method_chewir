@@ -114,6 +114,12 @@ class AppConstants {
   static const String teamMembersApi = '/api/supplier-team/team-member-list';
   static const String addTeamMembersApi = '/api/supplier-team/add-team-member';
   static const String updateTeamMembersApi = '/api/supplier-team/team-member-update';
+  static const String updateSoldCowApi = '/api/live-stock/update-sold-cow';
+  static const String emptyCartApi = '/api/live-stock/empty-cart';
+  static const String removeLivestockApi = '/api/live-stock/remove-live-stock';
+  static const String applyLivestockLoanApi = '/api/live-stock/apply-loan';
+  static const String loanListApi = '/api/live-stock/loan-list';
+
 
 
   static const String deleteMediaApi = '/api/delete-media';

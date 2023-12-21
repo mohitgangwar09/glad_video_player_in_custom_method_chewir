@@ -52,7 +52,7 @@ class _UpdateLivestockState extends State<UpdateLivestock> {
     path = [...widget.detail.data!.liveStockDocumentFiles!];
     selectedBreed = widget.detail.data!.cowBreed!.name!;
     selectedBreedId = widget.detail.data!.cowBreed!.id;
-    quantity = int.parse(widget.detail.data!.cowQty!);
+    quantity = int.parse(widget.detail.data!.cowQty!.toString());
     price = TextEditingController(text: widget.detail.data!.price);
     controller = TextEditingController(text: widget.detail.data!.description);
     age = TextEditingController(text: widget.detail.data!.age.toString());

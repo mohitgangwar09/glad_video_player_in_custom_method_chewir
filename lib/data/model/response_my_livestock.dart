@@ -1,14 +1,19 @@
-class ResponseLivestockList {
+class ResponseMyLivestock {
   String? message;
   int? status;
-  DataLivestock? data;
+  List<DataMyLiveStock>? data;
 
-  ResponseLivestockList({this.message, this.status, this.data});
+  ResponseMyLivestock({this.message, this.status, this.data});
 
-  ResponseLivestockList.fromJson(Map<String, dynamic> json) {
+  ResponseMyLivestock.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? DataLivestock.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = <DataMyLiveStock>[];
+      json['data'].forEach((v) {
+        data!.add(DataMyLiveStock.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -16,43 +21,16 @@ class ResponseLivestockList {
     data['message'] = message;
     data['status'] = status;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class DataLivestock {
-  List<LiveStoclLIst>? liveStoclLIst;
-  int? loanApplication;
-
-  DataLivestock({this.liveStoclLIst, this.loanApplication});
-
-  DataLivestock.fromJson(Map<String, dynamic> json) {
-    if (json['liveStoclLIst'] != null) {
-      liveStoclLIst = <LiveStoclLIst>[];
-      json['liveStoclLIst'].forEach((v) {
-        liveStoclLIst!.add(LiveStoclLIst.fromJson(v));
-      });
-    }
-    loanApplication = json['loanApplication'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (liveStoclLIst != null) {
-      data['liveStoclLIst'] =
-          liveStoclLIst!.map((v) => v.toJson()).toList();
-    }
-    data['loanApplication'] = loanApplication;
-    return data;
-  }
-}
-
-class LiveStoclLIst {
-  dynamic id;
-  dynamic userId;
-  String? advertisementNo;
+class DataMyLiveStock {
+  int? id;
+  int? userId;
+  dynamic advertisementNo;
   dynamic cowBreedId;
   dynamic userRole;
   String? userName;
@@ -69,9 +47,9 @@ class LiveStoclLIst {
   dynamic age;
   dynamic lactation;
   dynamic pregnant;
-  dynamic yield;
-  dynamic description;
-  dynamic status;
+  String? yield;
+  String? description;
+  String? status;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
@@ -82,7 +60,7 @@ class LiveStoclLIst {
   User? user;
   CowBreed? cowBreed;
 
-  LiveStoclLIst(
+  DataMyLiveStock(
       {this.id,
         this.userId,
         this.advertisementNo,
@@ -115,7 +93,7 @@ class LiveStoclLIst {
         this.user,
         this.cowBreed});
 
-  LiveStoclLIst.fromJson(Map<String, dynamic> json) {
+  DataMyLiveStock.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     advertisementNo = json['advertisement_no'];
@@ -203,7 +181,7 @@ class LiveStoclLIst {
 class LiveStockDocumentFiles {
   int? id;
   String? modelType;
-  dynamic modelId;
+  int? modelId;
   String? uuid;
   String? collectionName;
   String? name;
@@ -211,12 +189,12 @@ class LiveStockDocumentFiles {
   String? mimeType;
   String? disk;
   String? conversionsDisk;
-  dynamic size;
+  int? size;
   List<dynamic>? manipulations;
   List<dynamic>? customProperties;
   List<dynamic>? generatedConversions;
   List<dynamic>? responsiveImages;
-  dynamic orderColumn;
+  int? orderColumn;
   String? createdAt;
   String? updatedAt;
   String? fullUrl;
@@ -330,17 +308,17 @@ class LiveStockDocumentFiles {
 }
 
 class User {
-  dynamic id;
-  dynamic userType;
+  int? id;
+  String? userType;
   dynamic userCode;
   dynamic hasPassword;
-  dynamic mobile;
+  String? mobile;
   int? isMobileVerified;
   dynamic dateOfBirth;
   dynamic gender;
-  dynamic status;
+  String? status;
   String? deviceToken;
-  dynamic loginAt;
+  String? loginAt;
   dynamic logoutAt;
   String? name;
   String? email;
@@ -359,7 +337,7 @@ class User {
   dynamic badge;
   dynamic kycStatus;
   dynamic kycRemarks;
-  Address? address;
+  dynamic address;
 
   User(
       {this.id,
@@ -423,8 +401,7 @@ class User {
     badge = json['badge'];
     kycStatus = json['kyc_status'];
     kycRemarks = json['kyc_remarks'];
-    address =
-    json['address'] != null ? Address.fromJson(json['address']) : null;
+    address = json['address'];
   }
 
   Map<String, dynamic> toJson() {
@@ -458,170 +435,7 @@ class User {
     data['badge'] = badge;
     data['kyc_status'] = kycStatus;
     data['kyc_remarks'] = kycRemarks;
-    if (address != null) {
-      data['address'] = address!.toJson();
-    }
-    return data;
-  }
-}
-
-class Address {
-  dynamic id;
-  dynamic addressableId;
-  String? addressableType;
-  String? name;
-  String? mobile;
-  dynamic dialCode;
-  dynamic landlineNo;
-  String? email;
-  dynamic gstNumber;
-  String? line1;
-  dynamic line2;
-  dynamic landmark;
-  dynamic cityId;
-  String? district;
-  String? subCounty;
-  dynamic centerName;
-  dynamic village;
-  dynamic parish;
-  String? county;
-  dynamic poBoxNumber;
-  dynamic coordinates;
-  dynamic latitude;
-  dynamic longitude;
-  dynamic stateId;
-  String? country;
-  dynamic countryId;
-  String? region;
-  dynamic subCountyId;
-  dynamic countyId;
-  dynamic districtId;
-  dynamic regionId;
-  String? postalCode;
-  String? address;
-  dynamic type;
-  String? createdAt;
-  String? updatedAt;
-  String? fullAddress;
-
-  Address(
-      {this.id,
-        this.addressableId,
-        this.addressableType,
-        this.name,
-        this.mobile,
-        this.dialCode,
-        this.landlineNo,
-        this.email,
-        this.gstNumber,
-        this.line1,
-        this.line2,
-        this.landmark,
-        this.cityId,
-        this.district,
-        this.subCounty,
-        this.centerName,
-        this.village,
-        this.parish,
-        this.county,
-        this.poBoxNumber,
-        this.coordinates,
-        this.latitude,
-        this.longitude,
-        this.stateId,
-        this.country,
-        this.countryId,
-        this.region,
-        this.subCountyId,
-        this.countyId,
-        this.districtId,
-        this.regionId,
-        this.postalCode,
-        this.address,
-        this.type,
-        this.createdAt,
-        this.updatedAt,
-        this.fullAddress});
-
-  Address.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    addressableId = json['addressable_id'];
-    addressableType = json['addressable_type'];
-    name = json['name'];
-    mobile = json['mobile'];
-    dialCode = json['dial_code'];
-    landlineNo = json['landline_no'];
-    email = json['email'];
-    gstNumber = json['gst_number'];
-    line1 = json['line_1'];
-    line2 = json['line_2'];
-    landmark = json['landmark'];
-    cityId = json['city_id'];
-    district = json['district'];
-    subCounty = json['sub_county'];
-    centerName = json['center_name'];
-    village = json['village'];
-    parish = json['parish'];
-    county = json['county'];
-    poBoxNumber = json['po_box_number'];
-    coordinates = json['coordinates'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    stateId = json['state_id'];
-    country = json['country'];
-    countryId = json['country_id'];
-    region = json['region'];
-    subCountyId = json['sub_county_id'];
-    countyId = json['county_id'];
-    districtId = json['district_id'];
-    regionId = json['region_id'];
-    postalCode = json['postal_code'];
-    address = json['address'];
-    type = json['type'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    fullAddress = json['full_address'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['addressable_id'] = addressableId;
-    data['addressable_type'] = addressableType;
-    data['name'] = name;
-    data['mobile'] = mobile;
-    data['dial_code'] = dialCode;
-    data['landline_no'] = landlineNo;
-    data['email'] = email;
-    data['gst_number'] = gstNumber;
-    data['line_1'] = line1;
-    data['line_2'] = line2;
-    data['landmark'] = landmark;
-    data['city_id'] = cityId;
-    data['district'] = district;
-    data['sub_county'] = subCounty;
-    data['center_name'] = centerName;
-    data['village'] = village;
-    data['parish'] = parish;
-    data['county'] = county;
-    data['po_box_number'] = poBoxNumber;
-    data['coordinates'] = coordinates;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
-    data['state_id'] = stateId;
-    data['country'] = country;
-    data['country_id'] = countryId;
-    data['region'] = region;
-    data['sub_county_id'] = subCountyId;
-    data['county_id'] = countyId;
-    data['district_id'] = districtId;
-    data['region_id'] = regionId;
-    data['postal_code'] = postalCode;
     data['address'] = address;
-    data['type'] = type;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['full_address'] = fullAddress;
     return data;
   }
 }

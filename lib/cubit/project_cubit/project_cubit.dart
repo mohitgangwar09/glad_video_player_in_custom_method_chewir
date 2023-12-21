@@ -16,6 +16,7 @@ import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/model/supplier_project_model.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/common/congratulation_screen.dart';
+import 'package:glad/screen/common/thankyou_loan_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/add_remark.dart';
 import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
@@ -33,6 +34,7 @@ import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../data/model/livestock_cart_list.dart' as live;
 
 part 'project_state.dart';
 
@@ -320,6 +322,22 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  Future<void> liveStockKycApi(context, String farmerId, String farmerProjectId, String addressDocName, String addressDocNo, String addressDocExpiryDate,
+      List<String> documentFiles,String idDocName,
+      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto,live.FarmerMaster farmerMaster) async {
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.projectKycApi(farmerId, farmerProjectId, addressDocName, addressDocNo, addressDocExpiryDate, documentFiles.map((e) => File(e)).toList(), idDocName, idDocTypeNo, idDocTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), File(farmerPhoto));
+    disposeProgress();
+    if (response.status == 200) {
+      // AddRemark(tag: ,).navigate();
+      // AddLoanRemark(projectData: farmerProject,farmerProjectId:farmerProjectId).navigate();
+      ThankYouLivestockLoan(response: farmerMaster).navigate();
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   // updateProfilePicImage
   Future<void> projectKycUpdateApi(context, String farmerId, int? id, String farmerProjectId, String addressDocName, String addressDocNo, String addressDocExpiryDate,
       List<String> documentFiles,String idDocName,
@@ -489,7 +507,6 @@ class ProjectCubit extends Cubit<ProjectState> {
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
         remark,projectStatus,farmerId);
     if (response.status == 200) {
-
 
         ThankYou(
             profileData:profileData,navigateFrom: navigateFrom,projectStatus:projectStatus
