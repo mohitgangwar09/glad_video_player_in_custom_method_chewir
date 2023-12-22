@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
@@ -475,6 +477,45 @@ class OthersRepository {
       return ResponseLivestockLoan(status: 422, message: apiResponse.msg);
     }
   }
+
+
+  ///////////////// deliveryStatusApi //////////
+  Future<ResponseOtpModel> deliveryStatusApi(int id,
+      String farmerProjectId, String remarks, String deliveryStatus,
+      List<File> docFile
+      ) async {
+
+    FormData formData = FormData.fromMap(
+        {
+
+          // "id":"17",
+          "id":id,
+          "farmer_project_id":farmerProjectId,
+          // "farmer_project_id":"1151",
+          "remarks":remarks,
+          "delivery_status": deliveryStatus
+        });
+
+    if(docFile.isNotEmpty){
+      for(var e in docFile) {
+        formData.files.add(MapEntry("pictures[]", await MultipartFile.fromFile(e.path)));
+      }
+    }
+
+    print(formData.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.livestockDeliveryStatusApi, data: formData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// emptyCartApi //////////
   Future<ResponseOtpModel> emptyCartApi() async {
 
@@ -491,11 +532,12 @@ class OthersRepository {
   }
 
   ///////////////// loanListApi //////////
-  Future<ResponseLoanApplicationList> loanListApi() async {
+  Future<ResponseLoanApplicationList> loanListApi(String type) async {
 
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.loanListApi,
+        queryParameters: {"type":type},
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {

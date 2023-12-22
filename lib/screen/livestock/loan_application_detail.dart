@@ -8,13 +8,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
-import 'package:glad/screen/common/livestock_detail.dart';
+import 'package:glad/screen/dde_screen/preview_screen.dart';
+import 'package:glad/screen/dde_screen/termsandcondition.dart';
+import 'package:glad/screen/farmer_screen/common/add_remark.dart';
+import 'package:glad/screen/livestock/add_livestock_remark.dart';
+import 'package:glad/screen/livestock/add_livestock_remarks.dart';
+import 'package:glad/screen/livestock/livestock_detail.dart';
+import 'package:glad/screen/livestock/loan_livestock_detail.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/screen/supplier_screen/add_confirm_remarks_supplier.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -22,11 +30,15 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file_safe_plus/open_file_safe_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 class LoanApplicationDetail extends StatefulWidget {
-  const LoanApplicationDetail({super.key, required this.projectId});
+  const LoanApplicationDetail({super.key, required this.projectId,required this.type});
   final int projectId;
+  final String type;
 
   @override
   State<LoanApplicationDetail> createState() =>
@@ -60,7 +72,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                 children: [
                   CustomAppBar(
                     context: context,
-                    titleText1: state.responseFarmerProjectDetail!.data!.farmerProject![0].name ?? '',
+                    titleText1: "Loan for ${state.responseFarmerProjectDetail!.data!.farmerProject![0].name ?? ''}",
                     leading: arrowBackButton(),
                     centerTitle: true,
                     titleText1Style: figtreeMedium.copyWith(
@@ -77,18 +89,194 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                             20.verticalSpace(),
                             dde(context, state),
                             20.verticalSpace(),
-                            seller(context, state),
+
+                            widget.type == "buyer"?
+                                seller(context, state):buyer(context,state),
+
                             if(state.responseFarmerProjectDetail!.data!.supplierDetail != null)
                               supplier(context, state),
 
-
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
-                            projectMilestones(context, state),
+                            livestockList(context, state),
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
                               inviteExpert(context, state):const SizedBox.shrink(),
 
+                            widget.type == "seller"?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "doc_verified"?
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      margin: 0.marginAll(),
+                                      height: 55,
+                                      width: screenWidth(),
+                                      child: customButton("Accept",
+                                          fontColor: 0xffffffff, onTap: () {
+                                            AddLivestockRemark(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,livestockId:state.responseFarmerProjectDetail!.data!.farmerProject![0].liveStockCartId,status:"accepted",seller:state.responseFarmerProjectDetail!.data!.seller!).navigate();
+                                          })),
+                                  20.verticalSpace(),
+
+                                  Container(
+                                      margin: 0.marginAll(),
+                                      height: 55,
+                                      width: screenWidth(),
+                                      child: customButton("Reject",
+                                          fontColor: 0xff000000, color: 0xFFDCDCDC,onTap: () {
+                                            AddLivestockRemark(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,livestockId:state.responseFarmerProjectDetail!.data!.farmerProject![0].liveStockCartId,status:"rejected",seller:state.responseFarmerProjectDetail!.data!.seller!).navigate();
+                                          })),
+                                ],
+                              ),
+                            )
+                                :const SizedBox.shrink()
+                                :const SizedBox.shrink(),
+
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "approved".toUpperCase() ?
+                            Column(
+                              children: [
+
+                                customProjectContainer(
+                                    marginLeft: 0,
+                                    marginTop: 0,
+                                    borderRadius: 14,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 12),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.symmetric(horizontal: 8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Loan Document',
+                                                  style:
+                                                  figtreeMedium.copyWith(fontSize: 18),
+                                                ),
+                                                SvgPicture.asset(Images.drop)
+                                              ],
+                                            ),
+                                          ),
+                                          customList(
+                                              list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
+                                              child: (index){
+                                                return InkWell(
+                                                  onTap: () async{
+                                                    var dir = await getApplicationDocumentsDirectory();
+                                                    await Permission.manageExternalStorage.request();
+                                                    await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
+                                                    await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
+                                                    // PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
+                                                  },
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(top: 10),
+                                                    padding: const EdgeInsets.symmetric(
+                                                        vertical: 8, horizontal: 14),
+                                                    decoration: BoxDecoration(
+                                                        color: const Color(0xFFE4FFE3),
+                                                        borderRadius: BorderRadius.circular(10)),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
+                                                      children: [
+
+                                                        const Icon(Icons.file_copy,size: 22,
+                                                          color: Colors.grey,),
+
+                                                        5.horizontalSpace(),
+
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+
+                                                              Text(
+                                                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].documentName??"",
+                                                                style:
+                                                                figtreeMedium.copyWith(fontSize: 16),
+                                                              ),
+
+                                                              5.verticalSpace(),
+
+                                                              Text(
+                                                                DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].createdAt.toString())),
+                                                                style:
+                                                                figtreeMedium.copyWith(fontSize: 12),
+                                                              ),
+
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                        InkWell(
+                                                          onTap: ()async{
+                                                            var dir = await getApplicationDocumentsDirectory();
+                                                            await Permission.manageExternalStorage.request();
+                                                            await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
+                                                            await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
+                                                          }, child: Container(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 20, vertical: 8),
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              borderRadius:
+                                                              BorderRadius.circular(30),
+                                                              border:
+                                                              Border.all(color: Colors.grey)),
+                                                          child: Text(
+                                                            'Download',
+                                                            style: figtreeMedium.copyWith(
+                                                                fontSize: 12),
+                                                          ),
+                                                        ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              })
+                                        ],
+                                      ),
+                                    )),
+
+                                20.verticalSpace(),
+
+                                Center(
+                                    child: Text(
+                                      'Tap below to read and agree to the terms and \nconditions of the loan agreement!',
+                                      textAlign: TextAlign.center,
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 14, color: Colors.black),
+                                    )),
+
+                                10.verticalSpace(),
+
+                                Center(
+                                  child: SizedBox(
+                                    width: 230,
+                                    child: customButton(
+                                        'Terms and Conditions',
+                                        style: figtreeMedium.copyWith(fontSize: 16, color: Colors.white),
+                                        onTap: (){
+                                          TermsAndCondition(projectData:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,farmerProjectId:widget.projectId,navigateFrom: context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)!).navigate();
+                                        }
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            )
+                                :const SizedBox.shrink():const SizedBox.shrink(),
+
+                            uploadedPictures(state),
+
+                            60.verticalSpace(),
                           ],
                         ),
                       ),
@@ -151,6 +339,67 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
           );
         }
       }),
+    );
+  }
+
+  ////////Uploaded Pictures//////////////
+  Widget uploadedPictures(ProjectState state) {
+    return Builder(
+        builder: (context) {
+          List<MediaLivestock> images = [];
+          for(LiveStockCartDetails task in state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails!) {
+            images.addAll(task.media as Iterable<MediaLivestock>);
+          }
+          if(images.isEmpty) {
+            return const SizedBox.shrink();
+          }
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                10.verticalSpace(),
+                Text(
+                  'Uploaded pictures',
+                  style: figtreeMedium.copyWith(fontSize: 18),
+                ),
+                0.verticalSpace(),
+                customGrid(context,
+                    mainAxisSpacing: 0,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 1.2,
+                    padding: const EdgeInsets.all(0),
+                    list: images, child: (index) {
+                      return InkWell(
+                        onTap: () {
+                          PreviewScreen(previewImage: images[index].originalUrl ?? '').navigate();
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(14),
+                                child: CachedNetworkImage(imageUrl: images[index].originalUrl ?? '', fit: BoxFit.fitWidth,width: screenWidth(),)),
+                            Positioned(
+                              bottom: 20,
+                              right: 10,
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height:35,
+                                  width: 80,
+                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(170)),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                  child: Text(DateFormat('dd MMM, yy').format(DateTime.parse(images[index].createdAt!)), style: figtreeMedium.copyWith(fontSize: 12),)),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+                20.verticalSpace()
+              ],
+            ),
+          );
+        }
     );
   }
 
@@ -900,126 +1149,307 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
     );
   }
 
+  ///////////buyer/////////////
+  Widget buyer(context, ProjectState state) {
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+
+        SizedBox(height: 150, width: screenWidth()),
+
+        Container(
+          height: 100,
+          width: screenWidth(),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: ColorResources.grey)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                        radius: 30,
+                        child: CachedNetworkImage(
+                          imageUrl: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.photo ?? '',
+                          errorWidget: (_, __, ___) {
+                            return Image.asset(
+                              Images.sampleUser,
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            );
+                          },
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        )),
+                    15.horizontalSpace(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name ?? '',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 16, color: Colors.black)),
+                        10.verticalSpace(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.call,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                            Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.phone ?? '',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 12, color: Colors.black)),
+                          ],
+                        ),
+                        4.verticalSpace(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.location_on,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width *
+                                  0.5,
+                              child: Text(
+                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address != null
+                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null
+                                    && state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.subCounty != null
+                                    ? "${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.subCounty} ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address}"
+                                    : ''
+                                    : '',
+                                style: figtreeRegular.copyWith(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+            top: -1,
+            left: 0,
+            child: Text(
+              'Buyer',
+              style: figtreeMedium.copyWith(fontSize: 20),
+            )),
+        Positioned(
+            top: 0,
+            right: 10,
+            child: Row(
+              children: [
+                InkWell(
+                    onTap: (){
+                      callOnMobile(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  await launchWhatsApp(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.phone ?? '');
+                },child: SvgPicture.asset(Images.whatsapp)),
+                6.horizontalSpace(),
+              ],
+            )),
+      ],
+    );
+  }
+
 
 /////////KPI///////////////////////
   Widget kpi(contexts,ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
 
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-        .investment != null) {
-      kpiData.add(FrontendKpiModel(name: 'Investment',
-          image: Images.investmentKpi,
-          value: getCurrencyString(
-              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-                  .investment!)));
-    }
-
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-        .revenue != null) {
-      kpiData.add(FrontendKpiModel(name: 'Revenue',
-          image: Images.revenueKpi,
-          value: getCurrencyString(
-              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-                  .revenue!)));
-    }
-
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi !=
-        null) {
-      kpiData.add(FrontendKpiModel(name: 'ROI',
-          image: Images.roiKpi,
-          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
-              .kpi!.roi!}%"));
-    }
-
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-        .farmerParticipation != null) {
-      kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
-          image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
-          value: getCurrencyString(
-              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-                  .farmerParticipation!)));
-    }
-
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
-        null) {
-      kpiData.add(FrontendKpiModel(name: 'Loan',
-          image: Images.loanKpi,
-          value: getCurrencyString(
-              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-                  .loan!)));
-    }
-
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-        .repayment != null) {
-      kpiData.add(FrontendKpiModel(name: 'Repayment',
-          image: Images.repaymentKpi,
-          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
-              .kpi!.repayment!} MO"));
-    }
-
-    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
-      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!=null){
-        kpiData.add(FrontendKpiModel(name: 'Repayment Start Date',
-            image: Images.yieldKpi,
-            value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
-        ));
-      }
-    }
-
-    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null){
-      kpiData.add(FrontendKpiModel(name: 'EMI',
-          image: Images.emiKpi,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!)));
-    }
-
-    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
-
-
-      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
-        kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
-            image: Images.yieldKpi,
-            actionImage: Images.menuIcon,
-            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
-        ));
+    if(widget.type == 'buyer'){
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+          .investment != null) {
+        kpiData.add(FrontendKpiModel(name: 'Investment',
+            image: Images.investmentKpi,
+            value: getCurrencyString(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .investment!)));
       }
 
-      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
-        kpiData.add(FrontendKpiModel(name: 'Remaining Payable',
-            image: Images.yieldKpi,
-            actionImage: Images.menuIcon,
-            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
-        ));
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+          .revenue != null) {
+        kpiData.add(FrontendKpiModel(name: 'Revenue',
+            image: Images.revenueKpi,
+            value: getCurrencyString(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .revenue!)));
       }
-    }
 
-    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!=null){
-      kpiData.add(FrontendKpiModel(name: 'Current Yield',
-        image: Images.yieldKpi,
-        // actionImage: Images.menuIcon,
-        value: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!} Ltr.',
-      ));
-    }
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi !=
+          null) {
+        kpiData.add(FrontendKpiModel(name: 'ROI',
+            image: Images.roiKpi,
+            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                .kpi!.roi!}%"));
+      }
 
-    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!=null){
-      kpiData.add(FrontendKpiModel(name: 'Target Yield',
-        image: Images.yieldKpi,
-        value: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!} Ltr.',
-      ));
-    }
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+          .farmerParticipation != null) {
+        kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
+            image: Images.farmerParticipationKpi,
+            actionImage: Images.imageEdit,
+            value: getCurrencyString(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .farmerParticipation!)));
+      }
 
-    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!=null){
-      kpiData.add(FrontendKpiModel(name: 'Ideal Yield',
-          image: Images.idealKpi,
-          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!} Ltr."
-      ));
-    }
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
+          null) {
+        kpiData.add(FrontendKpiModel(name: 'Loan',
+            image: Images.loanKpi,
+            value: getCurrencyString(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .loan!)));
+      }
 
-    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!=null){
-      kpiData.add(FrontendKpiModel(name: 'Target Farm Production',
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+          .repayment != null) {
+        kpiData.add(FrontendKpiModel(name: 'Repayment',
+            image: Images.repaymentKpi,
+            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                .kpi!.repayment!} MO"));
+      }
+
+      if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!=null){
+          kpiData.add(FrontendKpiModel(name: 'Repayment Start Date',
+              image: Images.yieldKpi,
+              value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
+          ));
+        }
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null){
+        kpiData.add(FrontendKpiModel(name: 'EMI',
+            image: Images.emiKpi,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!)));
+      }
+
+      if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+
+
+        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
+          kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
+              image: Images.yieldKpi,
+              actionImage: Images.menuIcon,
+              value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
+          ));
+        }
+
+        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
+          kpiData.add(FrontendKpiModel(name: 'Remaining Payable',
+              image: Images.yieldKpi,
+              actionImage: Images.menuIcon,
+              value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
+          ));
+        }
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!=null){
+        kpiData.add(FrontendKpiModel(name: 'Current Yield',
           image: Images.yieldKpi,
-          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
-      ));
+          // actionImage: Images.menuIcon,
+          value: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!} Ltr.',
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!=null){
+        kpiData.add(FrontendKpiModel(name: 'Target Yield',
+          image: Images.yieldKpi,
+          value: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!} Ltr.',
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!=null){
+        kpiData.add(FrontendKpiModel(name: 'Ideal Yield',
+            image: Images.idealKpi,
+            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!} Ltr."
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!=null){
+        kpiData.add(FrontendKpiModel(name: 'Target Farm Production',
+            image: Images.yieldKpi,
+            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
+        ));
+      }
+    }else{
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+          .investment != null) {
+        kpiData.add(FrontendKpiModel(name: 'Livestock\n Value',
+            image: Images.investmentKpi,
+            value: getCurrencyString(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .investment!)));
+      }
+
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+          .farmerParticipation != null) {
+        kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
+            image: Images.farmerParticipationKpi,
+            value: getCurrencyString(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .farmerParticipation!)));
+      }
+
+      if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+          .farmerParticipation != null) {
+        kpiData.add(FrontendKpiModel(name: 'Glad Participation',
+            image: Images.farmerParticipationKpi,
+            value: getCurrencyString(
+                state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .investment!-state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                    .farmerParticipation!)));
+      }
+
+      if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPaidAmount!=null){
+          kpiData.add(FrontendKpiModel(name: 'Earned',
+              image: Images.yieldKpi,
+              actionImage: Images.menuIcon,
+              value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPaidAmount!)
+          ));
+        }
+
+        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!=null){
+          kpiData.add(FrontendKpiModel(name: 'Due',
+              image: Images.yieldKpi,
+              // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == 'completed'?null:
+              actionImage: Images.menuIcon,
+              value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierDueAmount!)
+          ));
+        }
+
+        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPendingAmount!=null){
+          kpiData.add(FrontendKpiModel(name: 'Pending',
+              image: Images.yieldKpi,
+              actionImage: Images.menuIcon,
+              value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.supplierPendingAmount!)
+          ));
+        }
+      }
     }
 
     return Column(
@@ -1228,10 +1658,16 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                   }
                                 }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
                             const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
-                                :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
-                            /*kpiData[index].actionImage!=null?
-                            SvgPicture.asset(kpiData[index].actionImage.toString()):
-                                const SizedBox.shrink()*/
+                                :SvgPicture.asset(kpiData[index].actionImage.toString()):
+                            kpiData[index].name.toString() == "Farmer Participation"?
+                            // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||
+                                state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "active"?
+                            InkWell(onTap: (){
+
+                              AddConfirmSupplier(projectData:state.responseFarmerProjectDetail!.data!.supplierDetail!,
+                                  farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();
+                              // AddLoanRemark(projectData: null,).navigate();
+                            },child: "Confirm".toString().textMedium(underLine: TextDecoration.underline),):const SizedBox.shrink():const SizedBox.shrink()
                           ],
                         ),
                         15.verticalSpace(),
@@ -1263,7 +1699,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
   }
 
   ///////////ProjectMilestones///////////
-  Widget projectMilestones(contexts, ProjectState state) {
+  Widget livestockList(contexts, ProjectState state) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       50.verticalSpace(),
       Text(
@@ -1272,157 +1708,185 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
       ),
       15.verticalSpace(),
       customGrid(
-          padding: const EdgeInsets.fromLTRB(13,13,13,120),
+          // padding: const EdgeInsets.fromLTRB(0,13,0,120),
           list: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails ?? [],
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
           mainAxisExtent: 250,
           context, child: (index){
-        return InkWell(
-          onTap: () {
-            LiveStockDetail(id: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].id.toString(), isMyLivestock: false,).navigate();
-          },
-          child: customShadowContainer(
-            margin: 0,
-            backColor: Colors.grey.withOpacity(0.4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  alignment: Alignment.bottomRight,
+        return Stack(
+          children: [
+            InkWell(
+              onTap: () {
+                LoanLivestockDetail(id: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStockId.toString(), isMyLivestock: false,
+                cowQty:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowQty.toString(),
+                    status:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
+                farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                cartId:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].id!,
+                deliveryStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus!,
+                mediaLivestock: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!:[],
+                  type:widget.type
+                ).navigate();
+              },
+              child: customShadowContainer(
+                margin: 0,
+                color: /*state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||*/ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"?const Color(0xffFFF3F4):Colors.white,
+                backColor: /*state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||*/ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"? const Color(0xff6A0030):Colors.grey.withOpacity(0.4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty)
-                      Container(
-                          padding: 2.marginAll(),
-                          width: screenWidth(),
-                          height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,)))
-                    else
-                      const SizedBox(height: 140,),
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty)
+                          SizedBox(
+                              // padding: 2.marginAll(),
+                              width: screenWidth(),
+                              height:140,child: ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),child: CachedNetworkImage(imageUrl: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,)))
+                        else
+                          const SizedBox(height: 140,),
 
-                    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.length > 1)
-                      customShadowContainer(
-                        backColor: Colors.transparent,
-                        color: Colors.transparent,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            (state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
-                            const Icon(Icons.image_outlined, color: Colors.white,)
-                          ],),
-                      )
+                        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.length > 1)
+                          customShadowContainer(
+                            backColor: Colors.transparent,
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                (state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
+                                const Icon(Icons.image_outlined, color: Colors.white,)
+                              ],),
+                          )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9.0, right: 9, top: 6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.cowBreed!.name ?? ''} cow ',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                                TextSpan(
+                                    text: '(${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.advertisementNo ?? ''})',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: const Color(0xFF727272)))
+                              ])),
+                          6.verticalSpace(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(getCurrencyString(double.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.price.toString())),
+                                  style: figtreeSemiBold.copyWith(
+                                      fontSize: 18, color: Colors.black)),
+                              RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: 'Qty: ',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: const Color(0xFF727272))),
+                                    TextSpan(
+                                        text: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowQty.toString(),
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: Colors.black)),
+                                  ])),
+                            ],
+                          ),
+                          12.verticalSpace(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: 'Age: ',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: const Color(0xFF727272))),
+                                    TextSpan(
+                                        text: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.age ?? ''} yrs',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: Colors.black)),
+                                  ])),
+                              // 10.horizontalSpace(),
+                              Container(
+                                height: 5,
+                                width: 5,
+                                decoration: const BoxDecoration(
+                                    color: Colors.black, shape: BoxShape.circle),
+                              ),
+                              // 10.horizontalSpace(),
+                              RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: 'Milk: ',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: const Color(0xFF727272))),
+                                    TextSpan(
+                                        text: '${double.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.yield ?? '').toInt()}L/day',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: Colors.black))
+                                  ])),
+                            ],
+                          ),
+                          6.verticalSpace(),
+                          Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user != null
+                              ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
+                              : '',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: Colors.black), maxLines: 1,),
+                          // 12.verticalSpace(),
+                          // Row(
+                          //   children: [
+                          //     Container(
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(26),
+                          //         border: Border.all(color: const Color(0xFFFC5E60)),
+                          //       ),
+                          //       padding: const EdgeInsets.symmetric(
+                          //           horizontal: 16, vertical: 9.5),
+                          //       child: SvgPicture.asset(Images.chatBubble),
+                          //     ),
+                          //     6.horizontalSpace(),
+                          //     Container(
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(50),
+                          //         border: Border.all(color: const Color(0xffF6B51D)),
+                          //       ),
+                          //       padding: const EdgeInsets.symmetric(
+                          //           vertical: 10.0, horizontal: 9.5),
+                          //       child: Text('Add to Cart',
+                          //           style: figtreeMedium.copyWith(
+                          //               fontSize: 13.5, color: Colors.black)),
+                          //     )
+                          //   ],
+                          // )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 3, top: 6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.cowBreed!.name ?? ''} cow ',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                            TextSpan(
-                                text: '(${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.advertisementNo ?? ''})',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: const Color(0xFF727272)))
-                          ])),
-                      6.verticalSpace(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(getCurrencyString(double.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.price.toString())),
-                              style: figtreeSemiBold.copyWith(
-                                  fontSize: 18, color: Colors.black)),
-                          RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: 'Qty: ',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12, color: const Color(0xFF727272))),
-                                TextSpan(
-                                    text: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.cowQty.toString(),
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12, color: Colors.black)),
-                              ])),
-                        ],
-                      ),
-                      12.verticalSpace(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: 'Age: ',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12, color: const Color(0xFF727272))),
-                                TextSpan(
-                                    text: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.age ?? ''} yrs',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12, color: Colors.black)),
-                              ])),
-                          // 10.horizontalSpace(),
-                          Container(
-                            height: 5,
-                            width: 5,
-                            decoration: const BoxDecoration(
-                                color: Colors.black, shape: BoxShape.circle),
-                          ),
-                          // 10.horizontalSpace(),
-                          RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: 'Milk: ',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12, color: const Color(0xFF727272))),
-                                TextSpan(
-                                    text: '${double.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.yield ?? '').toInt()}L/day',
-                                    style: figtreeMedium.copyWith(
-                                        fontSize: 12, color: Colors.black))
-                              ])),
-                        ],
-                      ),
-                      6.verticalSpace(),
-                      Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user != null
-                          ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
-                          : '',
-                        style: figtreeMedium.copyWith(
-                            fontSize: 12, color: Colors.black), maxLines: 1,),
-                      // 12.verticalSpace(),
-                      // Row(
-                      //   children: [
-                      //     Container(
-                      //       decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(26),
-                      //         border: Border.all(color: const Color(0xFFFC5E60)),
-                      //       ),
-                      //       padding: const EdgeInsets.symmetric(
-                      //           horizontal: 16, vertical: 9.5),
-                      //       child: SvgPicture.asset(Images.chatBubble),
-                      //     ),
-                      //     6.horizontalSpace(),
-                      //     Container(
-                      //       decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(50),
-                      //         border: Border.all(color: const Color(0xffF6B51D)),
-                      //       ),
-                      //       padding: const EdgeInsets.symmetric(
-                      //           vertical: 10.0, horizontal: 9.5),
-                      //       child: Text('Add to Cart',
-                      //           style: figtreeMedium.copyWith(
-                      //               fontSize: 13.5, color: Colors.black)),
-                      //     )
-                      //   ],
-                      // )
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" || state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"?
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 24,
+                margin: const EdgeInsets.all(10),
+                height: 24,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: const Color(0xff6A0030)),
+                  borderRadius: BorderRadius.circular(6)
+                ),
+                child: const Center(child: Icon(Icons.check,size: 16,color: Color(0xff6A0030),))
+              ),
+            ):const SizedBox.shrink()
+          ],
         );
       }),
 
@@ -1626,65 +2090,6 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                           );
                         }
                     ));
-                // customDialog(
-                //     widget: Center(
-                //       child: Material(
-                //         borderRadius: BorderRadius.circular(15),
-                //         child: Container(
-                //           height: 135,
-                //           width: screenWidth()-30,
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(15),
-                //           ),
-                //           child: Column(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //
-                //               "Are you sure u are not interested?".textMedium(
-                //                   fontSize: 19,
-                //                   color: Colors.black
-                //               ),
-                //
-                //               20.verticalSpace(),
-                //
-                //               Row(
-                //                 children: [
-                //
-                //                   20.horizontalSpace(),
-                //
-                //                   Expanded(
-                //                     child: customButton("No",
-                //                         borderColor: 0xFF6A0030,
-                //                         color: 0xFFffffff,onTap: (){
-                //                           pressBack();
-                //                         }),
-                //                   ),
-                //
-                //                   20.horizontalSpace(),
-                //
-                //                   Expanded(
-                //                     child: customButton("Yes",fontColor: 0xFFffffff, onTap: (){
-                //                       // context.read<ProjectCubit>().updateSuggestedProjectStatus(context, 'Not Interested' , state.responseFarmerProjectDetail!.data!.farmerProject![0].id);
-                //                       context.read<ProjectCubit>().inviteExpertForSurvey(context,
-                //                           state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                //                           '',
-                //                           '',
-                //                           'Not Interested',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString()
-                //                       );
-                //                     }),
-                //                   ),
-                //
-                //                   20.horizontalSpace(),
-                //
-                //                 ],
-                //               ),
-                //
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //     )
-                // );
               },
               child: Text('Not Interested', style: figtreeMedium.copyWith(fontSize: 16, color: Colors.grey, decoration: TextDecoration.underline), )),
         20.verticalSpace(),

@@ -10,7 +10,7 @@ class LivestockCubitState extends Equatable{
   final LivestockDetail? responseLivestockDetail;
   final LivestockCartList? responseLivestockCartList;
   final ResponseLoanApplicationList? responseLoanApplicationList;
-  // final String selectedBreed;
+  final String? confirmDelivery;
 
   const LivestockCubitState({
       required this.status,
@@ -20,7 +20,7 @@ class LivestockCubitState extends Equatable{
       required this.responseLivestockDetail,
       required this.responseLivestockCartList,
       required this.responseLoanApplicationList,
-      // required this.selectedBreed,
+      required this.confirmDelivery,
   });
 
   factory LivestockCubitState.initial() {
@@ -32,7 +32,7 @@ class LivestockCubitState extends Equatable{
       responseLivestockDetail: null,
       responseLivestockCartList: null,
       responseLoanApplicationList: null,
-      // selectedBreed: '',
+      confirmDelivery: null,
     );
   }
 
@@ -44,7 +44,7 @@ class LivestockCubitState extends Equatable{
     LivestockDetail? responseLivestockDetail,
     LivestockCartList? responseLivestockCartList,
     ResponseLoanApplicationList? responseLoanApplicationList,
-    // String? selectedBreed,
+    String? confirmDelivery,
   }) {
     return LivestockCubitState(
         status: status ?? this.status,
@@ -54,7 +54,7 @@ class LivestockCubitState extends Equatable{
         responseLivestockDetail: responseLivestockDetail ?? this.responseLivestockDetail,
         responseLivestockCartList: responseLivestockCartList ?? this.responseLivestockCartList,
         responseLoanApplicationList: responseLoanApplicationList ?? this.responseLoanApplicationList,
-        // selectedBreed: selectedBreed ?? this.selectedBreed,
+        confirmDelivery: confirmDelivery ?? this.confirmDelivery,
     );
   }
 
@@ -66,8 +66,8 @@ class LivestockCubitState extends Equatable{
     responseMyLivestockList,
     responseLivestockDetail,
     responseLivestockCartList,
-    responseLoanApplicationList
-    // selectedBreed,
+    responseLoanApplicationList,
+    confirmDelivery,
   ];
 
 }
