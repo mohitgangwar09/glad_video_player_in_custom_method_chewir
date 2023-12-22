@@ -1,28 +1,49 @@
 class ResponseMyLivestock {
   String? message;
   int? status;
-  List<DataMyLiveStock>? data;
+  DataNew? data;
 
   ResponseMyLivestock({this.message, this.status, this.data});
 
   ResponseMyLivestock.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    if (json['data'] != null) {
-      data = <DataMyLiveStock>[];
-      json['data'].forEach((v) {
-        data!.add(DataMyLiveStock.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? DataNew.fromJson(json['data']) : null;
+
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
     data['status'] = status;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+
+    return data;
+  }
+}
+
+class DataNew{
+
+  List<DataMyLiveStock>? livestocklLIst;
+  dynamic loanApplication;
+
+  DataNew({this.livestocklLIst, this.loanApplication});
+
+  DataNew.fromJson(Map<String, dynamic> json) {
+    if (json['liveStoclLIst'] != null) {
+      livestocklLIst = <DataMyLiveStock>[];
+      json['liveStoclLIst'].forEach((v) {
+        livestocklLIst!.add(DataMyLiveStock.fromJson(v));
+      });
     }
+    loanApplication = json['loanApplication'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (this.livestocklLIst != null) {
+      data['liveStoclLIst'] = this.livestocklLIst!.map((v) => v.toJson()).toList();
+    }
+    data['loanApplication'] = loanApplication;
     return data;
   }
 }

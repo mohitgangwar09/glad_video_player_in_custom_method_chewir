@@ -4,7 +4,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
-import 'package:glad/screen/guest_user/dashboard_tab_screen/livestock_screen.dart';
+import 'package:glad/screen/livestock/livestock_screen.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/guest_user/drawer_screen.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/landing_page.dart';

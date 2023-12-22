@@ -23,6 +23,7 @@ import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
 import 'package:glad/screen/dde_screen/project_kyc/add_loan_remarks.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/thankyou_screen.dart';
+import 'package:glad/screen/livestock/thankyou_status_remark.dart';
 import 'package:glad/screen/mcc_screen/thankyou_mcc.dart';
 import 'package:glad/screen/supplier_screen/accept_screen.dart';
 import 'package:glad/screen/supplier_screen/dispute_screen.dart';
@@ -154,6 +155,20 @@ class ProjectCubit extends Cubit<ProjectState> {
     var response = await apiRepository.getFarmerProjectDetailApi(projectId);
     if (response.status == 200) {
       emit(state.copyWith(status: ProjectStatus.success, responseFarmerProjectDetail: response));
+    } else {
+      emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> loanStatusUpdateApi(context, int id,String loanStatus, String remarks,dde.FarmerMaster profileData) async {
+    emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.livestockLoanStatusUpdateApi(id, loanStatus, remarks);
+    if (response.status == 200) {
+
+      ThankStatusRemarkYou(
+          profileData:profileData
+      ).navigate(isInfinity: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());

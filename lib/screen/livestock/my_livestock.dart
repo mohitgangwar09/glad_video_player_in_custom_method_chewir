@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/data/model/livestock_detail.dart';
-import 'package:glad/screen/common/add_livestock.dart';
-import 'package:glad/screen/common/livestock_detail.dart';
+import 'package:glad/screen/livestock/add_livestock.dart';
+import 'package:glad/screen/livestock/livestock_detail.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
@@ -16,6 +16,8 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+
+import 'loan_application_screen.dart';
 
 class MyLiveStockScreen extends StatefulWidget {
   const MyLiveStockScreen({Key? key}) : super(key: key);
@@ -81,6 +83,32 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                             ],
                           ),
                         ),
+
+                        if(state.responseMyLivestockList!.data!.loanApplication>0)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              onTap: () {
+                                const LoanApplication(type: 'seller',).navigate();
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    right: 12, left: 0),
+                                padding: const EdgeInsets.all(10),
+                                decoration: boxDecoration(
+                                    borderColor: const Color(0xffDCDCDC),
+                                    borderWidth: 1,
+                                    borderRadius: 62,
+                                    backgroundColor: Colors.white),
+                                child: 'Loan Applications'.textMedium(
+                                    fontSize: 12, color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+
                         landingPage(context, state),
                       ],
                     ),
@@ -110,14 +138,14 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
     return state.responseMyLivestockList!.data != null ? Expanded(
       child: customGrid(
           padding: const EdgeInsets.fromLTRB(13,13,13,120),
-          list: state.responseMyLivestockList!.data ?? [],
+          list: state.responseMyLivestockList!.data!.livestocklLIst ?? [],
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
           mainAxisExtent: 250,
           context, child: (index){
         return InkWell(
           onTap: () {
-            LiveStockDetail(id: state.responseMyLivestockList!.data![index].id.toString(), isMyLivestock: true,).navigate();
+            LiveStockDetail(id: state.responseMyLivestockList!.data!.livestocklLIst![index].id.toString(), isMyLivestock: true,).navigate();
           },
           child: customShadowContainer(
             margin: 0,
@@ -131,8 +159,8 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                     Container(
                         padding: 2.marginAll(),
                         width: screenWidth(),
-                        height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseMyLivestockList!.data![index].liveStockDocumentFiles!.isNotEmpty ? state.responseMyLivestockList!.data![index].liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
-                    if(state.responseMyLivestockList!.data![index].liveStockDocumentFiles!.length > 1)
+                        height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.isNotEmpty ? state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
+                    if(state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.length > 1)
                     customShadowContainer(
                       backColor: Colors.transparent,
                       color: Colors.transparent,
@@ -140,7 +168,7 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                        (state.responseMyLivestockList!.data![index].liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
+                        (state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
                         const Icon(Icons.image_outlined, color: Colors.white,)
                       ],),
                     )
@@ -154,11 +182,11 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                       RichText(
                           text: TextSpan(children: [
                             TextSpan(
-                                text: '${state.responseMyLivestockList!.data![index].cowBreed!.name ?? ''} cow ',
+                                text: '${state.responseMyLivestockList!.data!.livestocklLIst![index].cowBreed!.name ?? ''} cow ',
                                 style: figtreeMedium.copyWith(
                                     fontSize: 12, color: Colors.black)),
                             TextSpan(
-                                text: '(${state.responseMyLivestockList!.data![index].advertisementNo ?? ''})',
+                                text: '(${state.responseMyLivestockList!.data!.livestocklLIst![index].advertisementNo ?? ''})',
                                 style: figtreeMedium.copyWith(
                                     fontSize: 12, color: const Color(0xFF727272)))
                           ])),
@@ -166,7 +194,7 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(getCurrencyString(double.parse(state.responseMyLivestockList!.data![index].price.toString())),
+                          Text(getCurrencyString(double.parse(state.responseMyLivestockList!.data!.livestocklLIst![index].price.toString())),
                               style: figtreeSemiBold.copyWith(
                                   fontSize: 18, color: Colors.black)),
                           RichText(
@@ -176,7 +204,7 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseMyLivestockList!.data![index].cowQty.toString(),
+                                    text: state.responseMyLivestockList!.data!.livestocklLIst![index].cowQty.toString(),
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -193,7 +221,7 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: '${state.responseMyLivestockList!.data![index].age ?? ''} yrs',
+                                    text: '${state.responseMyLivestockList!.data!.livestocklLIst![index].age ?? ''} yrs',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -212,15 +240,15 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: '${double.parse(state.responseMyLivestockList!.data![index].yield ?? '').toInt()}L/day',
+                                    text: '${double.parse(state.responseMyLivestockList!.data!.livestocklLIst![index].yield ?? '').toInt()}L/day',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black))
                               ])),
                         ],
                       ),
                       6.verticalSpace(),
-                      Text(state.responseMyLivestockList!.data![index].user!.address != null
-                          ? state.responseMyLivestockList!.data![index].user!.address!.address ?? ''
+                      Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
+                          ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!.address ?? ''
                           : '',
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black), maxLines: 1,),

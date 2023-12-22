@@ -137,6 +137,7 @@ class FarmerProject {
   dynamic ddeId;
   dynamic farmerId;
   dynamic projectId;
+  dynamic liveStockCartId;
   String? name;
   dynamic category;
   String? description;
@@ -230,6 +231,7 @@ class FarmerProject {
         this.improvementArea,
         this.farmerParticipationStatus,
         this.dataLivestock,
+        this.liveStockCartId,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -263,6 +265,7 @@ class FarmerProject {
     repaymentStartDate = json['repayment_start_date'];
     photo = json['photo'];
     status = json['status'];
+    liveStockCartId = json['live_stock_cart_id'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
@@ -322,6 +325,7 @@ class FarmerProject {
     data['dde_id'] = ddeId;
     data['farmer_id'] = farmerId;
     data['project_id'] = projectId;
+    data['live_stock_cart_id'] = liveStockCartId;
     data['name'] = name;
     data['reject_status'] = rejectStatus;
     data['reject_remarks'] = rejectRemark;
@@ -2680,7 +2684,7 @@ class LiveStockCartDetails {
   String? updatedAt;
   dynamic pictures;
   LiveStock? liveStock;
-  List<dynamic>? media;
+  List<MediaLivestock>? media;
 
   LiveStockCartDetails(
       {this.id,
@@ -2721,9 +2725,9 @@ class LiveStockCartDetails {
         ? LiveStock.fromJson(json['live_stock'])
         : null;
     if (json['media'] != null) {
-      media = <Null>[];
+      media = <MediaLivestock>[];
       json['media'].forEach((v) {
-        media!.add(v);
+        media!.add(MediaLivestock.fromJson(v));
       });
     }
   }
@@ -3228,3 +3232,85 @@ class User {
     return data;
   }
 }
+
+class MediaLivestock {
+  dynamic id;
+  dynamic modelType;
+  dynamic modelId;
+  dynamic uuid;
+  String? collectionName;
+  String? name;
+  String? fileName;
+  String? mimeType;
+  String? disk;
+  String? conversionsDisk;
+  dynamic size;
+  dynamic orderColumn;
+  String? createdAt;
+  String? updatedAt;
+  String? fullUrl;
+  String? originalUrl;
+  String? previewUrl;
+
+  MediaLivestock(
+      {this.id,
+        this.modelType,
+        this.modelId,
+        this.uuid,
+        this.collectionName,
+        this.name,
+        this.fileName,
+        this.mimeType,
+        this.disk,
+        this.conversionsDisk,
+        this.size,
+        this.orderColumn,
+        this.createdAt,
+        this.updatedAt,
+        this.fullUrl,
+        this.originalUrl,
+        this.previewUrl});
+
+  MediaLivestock.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    modelType = json['model_type'];
+    modelId = json['model_id'];
+    uuid = json['uuid'];
+    collectionName = json['collection_name'];
+    name = json['name'];
+    fileName = json['file_name'];
+    mimeType = json['mime_type'];
+    disk = json['disk'];
+    conversionsDisk = json['conversions_disk'];
+    size = json['size'];
+    orderColumn = json['order_column'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    fullUrl = json['full_url'];
+    originalUrl = json['original_url'];
+    previewUrl = json['preview_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['model_type'] = modelType;
+    data['model_id'] = modelId;
+    data['uuid'] = uuid;
+    data['collection_name'] = collectionName;
+    data['name'] = name;
+    data['file_name'] = fileName;
+    data['mime_type'] = mimeType;
+    data['disk'] = disk;
+    data['conversions_disk'] = conversionsDisk;
+    data['size'] = size;
+    data['order_column'] = orderColumn;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['full_url'] = fullUrl;
+    data['original_url'] = originalUrl;
+    data['preview_url'] = previewUrl;
+    return data;
+  }
+}
+

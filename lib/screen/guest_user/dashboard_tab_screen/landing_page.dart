@@ -10,7 +10,7 @@ import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
-import 'package:glad/screen/common/livestock_marketplace.dart';
+import 'package:glad/screen/livestock/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/review.dart';
 import 'package:glad/screen/common/trending_news.dart';

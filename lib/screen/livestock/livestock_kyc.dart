@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
-import 'package:glad/screen/common/add_livestock_remark.dart';
+import 'package:glad/screen/livestock/add_livestock_remark.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_dropdown.dart';

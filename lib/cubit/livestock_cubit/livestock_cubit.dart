@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +15,7 @@ import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
 import 'package:glad/data/model/youtube_video_statistics_model.dart';
 import 'package:glad/data/repository/others_repo.dart';
-import 'package:glad/screen/common/livestock_cart_list_screen.dart';
+import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/common/thankyou_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
@@ -283,6 +285,27 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
   }
 
+
+  // livestockLoanApi
+  Future<void> livestockDeliveryStatusApi(context,int id,
+      String farmerProjectId, String remarks, String deliveryStatus,
+      List<String> docFile) async{
+    customDialog(widget: launchProgress());
+    var response = await apiRepository.deliveryStatusApi(id, farmerProjectId, remarks, deliveryStatus, docFile.map((e) => File(e)).toList());
+    if (response.status == 200) {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      disposeProgress();
+      BlocProvider.of<ProjectCubit>(context)
+          .farmerProjectDetailApi(context, int.parse(farmerProjectId));
+      // emit(state.copyWith(confirmDelivery: 'done'));
+      pressBack();
+    } else {
+      disposeProgress();
+      emit(state.copyWith(status: LivestockStatus.error));
+    }
+  }
+
   // updateSoldCowApi
   Future<void> emptyCartApi(context,livestockId, int quantity, String price) async{
     customDialog(widget: launchProgress());
@@ -296,10 +319,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   // loanListApi
-  Future<void> loanListApi(context,) async{
+  Future<void> loanListApi(context,String type) async{
 
     emit(state.copyWith(status: LivestockStatus.submit));
-    var response = await apiRepository.loanListApi();
+    var response = await apiRepository.loanListApi(type);
     if (response.status == 200) {
 
       emit(state.copyWith(responseLoanApplicationList: response,status: LivestockStatus.success));

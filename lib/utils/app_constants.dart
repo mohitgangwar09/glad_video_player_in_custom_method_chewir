@@ -119,6 +119,8 @@ class AppConstants {
   static const String removeLivestockApi = '/api/live-stock/remove-live-stock';
   static const String applyLivestockLoanApi = '/api/live-stock/apply-loan';
   static const String loanListApi = '/api/live-stock/loan-list';
+  static const String livestockLoanStatusUpdateApi = '/api/live-stock/loan-status-update';
+  static const String livestockDeliveryStatusApi = '/api/live-stock/delivery-status';
 
 
 

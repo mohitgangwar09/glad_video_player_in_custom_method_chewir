@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
-import 'package:glad/screen/common/livestock_cart_list_screen.dart';
-import 'package:glad/screen/common/livestock_detail.dart';
-import 'package:glad/screen/common/loan_application_screen.dart';
-import 'package:glad/screen/common/my_livestock.dart';
+import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
+import 'package:glad/screen/livestock/livestock_detail.dart';
+import 'package:glad/screen/livestock/loan_application_screen.dart';
+import 'package:glad/screen/livestock/my_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
@@ -134,7 +134,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    const LoanApplication().navigate();
+                                    const LoanApplication(type: 'buyer',).navigate();
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(

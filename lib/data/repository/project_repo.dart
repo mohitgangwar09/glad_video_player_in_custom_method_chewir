@@ -120,6 +120,25 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// livestockLoanStatusUpdateApi //////////
+  Future<ResponseOtpModel> livestockLoanStatusUpdateApi(int id,String loanStatus, String remarks) async {
+    var data = {
+      'id': id,
+      'loan_status': loanStatus,
+      'remarks': remarks,
+    };
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.livestockLoanStatusUpdateApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: data);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// getDdeProjectsApi //////////
   Future<FarmerProjectMilestoneDetailModel> getFarmerProjectMilestoneDetailApi(int milestoneId) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
