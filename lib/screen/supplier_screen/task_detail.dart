@@ -279,18 +279,31 @@ class TaskDetail extends StatelessWidget {
                                                                         'Submit',
                                                                         fontColor: 0xffFFFFFF,
                                                                         onTap: () async{
-                                                                          await BlocProvider.of<ProjectCubit>(
-                                                                              context)
-                                                                              .farmerProjectMilestoneTaskUpdateApi(
-                                                                              context,
-                                                                              task.farmerId,
-                                                                              task.farmerProjectId,
-                                                                              task.farmerMilestoneId,
-                                                                              task.id,
-                                                                              'rejected',
-                                                                              controller.text,
-                                                                              [], '');
-                                                                          pressBack();
+                                                                          if(controller.text.isEmpty) {
+                                                                            showCustomToast(context, 'Rejection Remarks required');
+                                                                          } else {
+                                                                            await BlocProvider
+                                                                                .of<
+                                                                                ProjectCubit>(
+                                                                                context)
+                                                                                .farmerProjectMilestoneTaskUpdateApi(
+                                                                                context,
+                                                                                task
+                                                                                    .farmerId,
+                                                                                task
+                                                                                    .farmerProjectId,
+                                                                                task
+                                                                                    .farmerMilestoneId,
+                                                                                task
+                                                                                    .id,
+                                                                                'rejected',
+                                                                                controller
+                                                                                    .text,
+                                                                                [
+                                                                                ],
+                                                                                '');
+                                                                            pressBack();
+                                                                          }
                                                                         },
                                                                         height: 60,
                                                                         width: screenWidth(),

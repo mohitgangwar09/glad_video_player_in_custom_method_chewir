@@ -146,13 +146,61 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
                                               child: (index){
                                                 return InkWell(
-                                                  onTap: () async{
-                                                    var dir = await getApplicationDocumentsDirectory();
-                                                    await Permission.manageExternalStorage.request();
-                                                    await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
-                                                    await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
-                                                    // PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
-
+                                                  onTap: () async {
+                                                    print(state
+                                                        .responseFarmerProjectDetail!
+                                                        .data!
+                                                        .farmerProject![0]
+                                                        .farmerLoanDocument![
+                                                    index]
+                                                        .loanDocumentFile![0]
+                                                        .mimeType
+                                                        .toString());
+                                                    if (state
+                                                        .responseFarmerProjectDetail!
+                                                        .data!
+                                                        .farmerProject![0]
+                                                        .farmerLoanDocument![
+                                                    index]
+                                                        .loanDocumentFile![
+                                                    0]
+                                                        .mimeType
+                                                        .toString() ==
+                                                        'image/png') {
+                                                      PreviewScreen(
+                                                          previewImage: state
+                                                              .responseFarmerProjectDetail!
+                                                              .data!
+                                                              .farmerProject![
+                                                          0]
+                                                              .farmerLoanDocument![
+                                                          index]
+                                                              .loanDocumentFile![
+                                                          0]
+                                                              .fullUrl ??
+                                                              '')
+                                                          .navigate();
+                                                    } else {
+                                                      var dir =
+                                                      await getApplicationDocumentsDirectory();
+                                                      await Permission
+                                                          .manageExternalStorage
+                                                          .request();
+                                                      await Dio().download(
+                                                          state
+                                                              .responseFarmerProjectDetail!
+                                                              .data!
+                                                              .farmerProject![0]
+                                                              .farmerLoanDocument![
+                                                          index]
+                                                              .loanDocumentFile![
+                                                          0]
+                                                              .fullUrl
+                                                              .toString(),
+                                                          "${"${dir.path}/fileName"}.pdf");
+                                                      await OpenFileSafePlus.open(
+                                                          "${"${dir.path}/fileName"}.pdf");
+                                                    }
                                                   },
                                                   child: Container(
                                                     margin: const EdgeInsets.only(top: 10),
@@ -195,12 +243,63 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                                         ),
 
                                                         InkWell(
-                                                          onTap: ()async{
-                                                            var dir = await getApplicationDocumentsDirectory();
-                                                            await Permission.manageExternalStorage.request();
-                                                            await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
-                                                            await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
-
+                                                          onTap: () async {
+                                                            if (state
+                                                                .responseFarmerProjectDetail!
+                                                                .data!
+                                                                .farmerProject![
+                                                            0]
+                                                                .farmerLoanDocument![
+                                                            index]
+                                                                .loanDocumentFile![
+                                                            0]
+                                                                .mimeType
+                                                                .toString() ==
+                                                                'image/png') {
+                                                              var dir =
+                                                              await getApplicationDocumentsDirectory();
+                                                              await Permission
+                                                                  .manageExternalStorage
+                                                                  .request();
+                                                              await Dio().download(
+                                                                  state
+                                                                      .responseFarmerProjectDetail!
+                                                                      .data!
+                                                                      .farmerProject![
+                                                                  0]
+                                                                      .farmerLoanDocument![
+                                                                  index]
+                                                                      .loanDocumentFile![
+                                                                  0]
+                                                                      .fullUrl
+                                                                      .toString(),
+                                                                  "${"${dir.path}/image"}.png");
+                                                              await OpenFileSafePlus
+                                                                  .open(
+                                                                  "${"${dir.path}/image"}.png");
+                                                            } else {
+                                                              var dir =
+                                                              await getApplicationDocumentsDirectory();
+                                                              await Permission
+                                                                  .manageExternalStorage
+                                                                  .request();
+                                                              await Dio().download(
+                                                                  state
+                                                                      .responseFarmerProjectDetail!
+                                                                      .data!
+                                                                      .farmerProject![
+                                                                  0]
+                                                                      .farmerLoanDocument![
+                                                                  index]
+                                                                      .loanDocumentFile![
+                                                                  0]
+                                                                      .fullUrl
+                                                                      .toString(),
+                                                                  "${"${dir.path}/fileName"}.pdf");
+                                                              await OpenFileSafePlus
+                                                                  .open(
+                                                                  "${"${dir.path}/fileName"}.pdf");
+                                                            }
                                                           }, child: Container(
                                                           padding: const EdgeInsets.symmetric(
                                                               horizontal: 20, vertical: 8),

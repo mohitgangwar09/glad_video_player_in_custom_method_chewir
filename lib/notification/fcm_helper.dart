@@ -103,7 +103,7 @@ class FcmHelper {
 
         }
       } else {
-
+print(message);
         "ok".toString().toast();
       }
     });

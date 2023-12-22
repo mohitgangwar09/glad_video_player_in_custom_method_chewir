@@ -179,7 +179,7 @@ class _DDEProfileState extends State<DDEProfile> {
                                               padding:
                                               const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                               child: Text(
-                                                getCurrencyString(state.responseAccountStatement!.data!.summary!.totalAmount!=null?state.responseAccountStatement!.data!.summary!.totalAmount!:0),
+                                                getCurrencyString(state.responseAccountStatement!.data!.summary!.paidAmount!=null?state.responseAccountStatement!.data!.summary!.paidAmount!:0),
                                                 style: figtreeBold.copyWith(fontSize: 28),
                                               ),
                                             ),

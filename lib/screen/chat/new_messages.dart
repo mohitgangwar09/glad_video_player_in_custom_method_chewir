@@ -14,8 +14,9 @@ import 'package:glad/utils/images.dart';
 import 'package:intl/intl.dart';
 
 class NewMessage extends StatefulWidget {
-  const NewMessage({super.key,required this.responseProjectDataForFirebase});
+  const NewMessage({super.key,required this.responseProjectDataForFirebase, required this.controller});
   final ResponseProjectDataForFirebase responseProjectDataForFirebase;
+  final ScrollController controller;
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -43,7 +44,7 @@ class _NewMessageState extends State<NewMessage> {
       }).then((value) => print("Message Added"))
           .catchError((error) => print("Failed to add user: $error"));
 
-
+      widget.controller.jumpTo(widget.controller.position.maxScrollExtent);
     controller.clear();
   }
 

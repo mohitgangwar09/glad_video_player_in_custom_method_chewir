@@ -75,9 +75,9 @@ class SurveyFinishedScreen extends StatelessWidget {
                                 style: figtreeMedium.copyWith(fontSize: 16),
                               ),
                               BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
-                                return Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea !=
-                                    null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerImprovementArea!
-                                    .parameter ?? '' : '',
+                                return Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].improvementArea !=
+                                    null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].improvementArea!
+                                    .name ?? '' : '',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: Colors.black));
                               }

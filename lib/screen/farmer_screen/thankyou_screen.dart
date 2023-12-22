@@ -197,7 +197,7 @@ class ThankYou extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(Images.sampleUser),
+               networkImage(text: profileData.photo,height: 46,width: 46,radius: 40),
                 10.horizontalSpace(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

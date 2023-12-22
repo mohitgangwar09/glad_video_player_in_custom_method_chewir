@@ -90,7 +90,7 @@ class ProjectList {
   String? projectFilter;
   Project? project;
   FarmerMaster? farmerMaster;
-  FarmerImprovementArea? farmerImprovementArea;
+  ImprovementArea? improvementArea;
   List<FarmerProjectSurvey>? farmerProjectSurvey;
   List<FarmerProjectMilestones>? farmerProjectMilestones;
 
@@ -139,7 +139,7 @@ class ProjectList {
         this.projectFilter,
         this.project,
         this.farmerMaster,
-        this.farmerImprovementArea,
+        this.improvementArea,
         this.farmerProjectSurvey,
         this.farmerProjectMilestones});
 
@@ -197,8 +197,8 @@ class ProjectList {
     farmerMaster = json['farmer_master'] != null
         ? FarmerMaster.fromJson(json['farmer_master'])
         : null;
-    farmerImprovementArea = json['farmer_improvement_area'] != null
-        ? FarmerImprovementArea.fromJson(json['farmer_improvement_area'])
+    improvementArea = json['improvement_area'] != null
+        ? ImprovementArea.fromJson(json['improvement_area'])
         : null;
     if (json['farmer_project_survey'] != null) {
       farmerProjectSurvey = <FarmerProjectSurvey>[];
@@ -258,9 +258,6 @@ class ProjectList {
     }
     if (farmerMaster != null) {
       data['farmer_master'] = farmerMaster!.toJson();
-    }
-    if (farmerImprovementArea != null) {
-      data['farmer_improvement_area'] = farmerImprovementArea!.toJson();
     }
     if (farmerProjectSurvey != null) {
       data['farmer_project_survey'] =
@@ -786,100 +783,63 @@ class Address {
   }
 }
 
-class FarmerImprovementArea {
+class ImprovementArea {
   dynamic id;
-  dynamic improvementAreaId;
-  dynamic impAreaParamId;
-  dynamic farmerId;
-  String? parameter;
-  String? value;
-  String? uom;
-  dynamic inputType;
+  String? name;
+  dynamic gladCommissionPerc;
+  dynamic ddeCommissionPerc;
+  dynamic farmerPartPerc;
+  dynamic minRepayMonths;
   String? status;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
-  String? createdAt;
-  String? updatedAt;
-  List<dynamic>? dropdownValues;
-  ImprovementArea? improvementArea;
+  dynamic createdAt;
+  dynamic updatedAt;
 
-  FarmerImprovementArea(
+  ImprovementArea(
       {this.id,
-        this.improvementAreaId,
-        this.impAreaParamId,
-        this.farmerId,
-        this.parameter,
-        this.value,
-        this.uom,
-        this.inputType,
+        this.name,
+        this.gladCommissionPerc,
+        this.ddeCommissionPerc,
+        this.farmerPartPerc,
+        this.minRepayMonths,
         this.status,
         this.createdBy,
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt,
-        this.dropdownValues,
-        this.improvementArea});
+        this.updatedAt});
 
-  FarmerImprovementArea.fromJson(Map<String, dynamic> json) {
+  ImprovementArea.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    improvementAreaId = json['improvement_area_id'];
-    impAreaParamId = json['imp_area_param_id'];
-    farmerId = json['farmer_id'];
-    parameter = json['parameter'];
-    value = json['value'];
-    uom = json['uom'];
-    inputType = json['input_type'];
+    name = json['name'];
+    gladCommissionPerc = json['glad_commission_perc'];
+    ddeCommissionPerc = json['dde_commission_perc'];
+    farmerPartPerc = json['farmer_part_perc'];
+    minRepayMonths = json['min_repay_months'];
     status = json['status'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    improvementArea = json['improvement_area'] != null
-        ? ImprovementArea.fromJson(json['improvement_area'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['improvement_area_id'] = improvementAreaId;
-    data['imp_area_param_id'] = impAreaParamId;
-    data['farmer_id'] = farmerId;
-    data['parameter'] = parameter;
-    data['value'] = value;
-    data['uom'] = uom;
-    data['input_type'] = inputType;
-    data['status'] = status;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['deleted_by'] = deletedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    if (improvementArea != null) {
-      data['improvement_area'] = improvementArea!.toJson();
-    }
-    return data;
-  }
-}
-
-class ImprovementArea {
-  dynamic id;
-  String? name;
-
-  ImprovementArea({this.id, this.name});
-
-  ImprovementArea.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
+    data['glad_commission_perc'] = gladCommissionPerc;
+    data['dde_commission_perc'] = ddeCommissionPerc;
+    data['farmer_part_perc'] = farmerPartPerc;
+    data['min_repay_months'] = minRepayMonths;
+    data['status'] = status;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

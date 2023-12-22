@@ -633,12 +633,10 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                         name: state.responseSupplierProject!.data!
                                             .projectList![i].name ?? '',
                                         category: state.responseSupplierProject!.data!
-                                            .projectList![i].farmerImprovementArea !=
+                                            .projectList![i].improvementArea !=
                                             null ? state.responseSupplierProject!.data!
-                                            .projectList![i].farmerImprovementArea!
-                                            .improvementArea != null ? state.responseSupplierProject!.data!
-                                            .projectList![i].farmerImprovementArea!
-                                            .improvementArea!.name ?? '' : '' : '',
+                                            .projectList![i]
+                                            .improvementArea!.name ?? '' : '',
                                         description: state.responseSupplierProject!.data!
                                             .projectList![i].description ?? '',
                                         investment: state.responseSupplierProject!.data!

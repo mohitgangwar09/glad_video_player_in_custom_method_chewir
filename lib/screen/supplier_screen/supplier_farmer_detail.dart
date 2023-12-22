@@ -1086,9 +1086,9 @@ class _SupplierFarmerDetailState extends State<SupplierFarmerDetail> {
                                 name: state.responseDdeProject!.data!
                                     .projectList![i].name ?? '',
                                 category: state.responseDdeProject!.data!
-                                    .projectList![i].farmerImprovementArea !=
+                                    .projectList![i].improvementArea !=
                                     null ? state.responseDdeProject!.data!
-                                    .projectList![i].farmerImprovementArea!
+                                    .projectList![i]
                                     .improvementArea!.name ?? '' : '',
                                 description: state.responseDdeProject!.data!
                                     .projectList![i].description ?? '',

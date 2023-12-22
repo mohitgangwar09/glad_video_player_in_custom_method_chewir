@@ -78,9 +78,8 @@ class _DisputeScreenState extends State<DisputeScreen> {
                                 style: figtreeMedium.copyWith(fontSize: 16),
                               ),
                               Text(
-                                widget.project.farmerProject![0].farmerImprovementArea != null ? (widget.project.farmerProject![0].farmerImprovementArea!
-                                    .improvementArea != null ? widget.project.farmerProject![0].farmerImprovementArea!
-                                    .improvementArea!.name ?? '' : '') : '',
+                                widget.project.farmerProject![0].improvementArea != null ? (widget.project.farmerProject![0]
+                                    .improvementArea!.name ?? '') : '',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: const Color(0xFF808080)),
                               ),

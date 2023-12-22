@@ -61,8 +61,11 @@ class _MessageBoardState extends State<MessageBoard> {
                                 .where(widget.userType,
                                 isEqualTo: widget.userRoleId).snapshots(),
                             builder: (ctx,chatSnapShot) {
-                              if(chatSnapShot.connectionState == ConnectionState.waiting) {
-                                return const Center(child: CircularProgressIndicator(),);}
+                              // if(chatSnapShot.connectionState == ConnectionState.waiting) {
+                              //   return const Center(child: CircularProgressIndicator(),);}
+                              if(!chatSnapShot.hasData) {
+                                return SizedBox.shrink();
+                              }
                               final chatDocs = chatSnapShot.data;
                               return ListView.builder(
                                   reverse: true,
@@ -161,40 +164,40 @@ class _MessageBoardState extends State<MessageBoard> {
                                             ],
                                           ),
                                         ),
-                                        Positioned(
-                                          right: 20,
-                                          top: 20,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            children: [
-                                              Text('09:32 PM',
-                                                  style:
-                                                  figtreeRegular.copyWith(
-                                                      fontSize: 10,
-                                                      color: ColorResources
-                                                          .black)),
-                                              8.verticalSpace(),
-                                              Container(
-                                                padding:
-                                                const EdgeInsets.all(5),
-                                                decoration: BoxDecoration(
-                                                    color:
-                                                    const Color(0xFFFC5E60),
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        8)),
-                                                child: Text('06',
-                                                    style:
-                                                    figtreeRegular.copyWith(
-                                                        fontSize: 10,
-                                                        color:
-                                                        ColorResources
-                                                            .white)),
-                                              ),
-                                            ],
-                                          ),
-                                        )
+                                        // Positioned(
+                                        //   right: 20,
+                                        //   top: 20,
+                                        //   child: Column(
+                                        //     crossAxisAlignment:
+                                        //     CrossAxisAlignment.end,
+                                        //     children: [
+                                        //       Text('09:32 PM',
+                                        //           style:
+                                        //           figtreeRegular.copyWith(
+                                        //               fontSize: 10,
+                                        //               color: ColorResources
+                                        //                   .black)),
+                                        //       8.verticalSpace(),
+                                        //       Container(
+                                        //         padding:
+                                        //         const EdgeInsets.all(5),
+                                        //         decoration: BoxDecoration(
+                                        //             color:
+                                        //             const Color(0xFFFC5E60),
+                                        //             borderRadius:
+                                        //             BorderRadius.circular(
+                                        //                 8)),
+                                        //         child: Text('06',
+                                        //             style:
+                                        //             figtreeRegular.copyWith(
+                                        //                 fontSize: 10,
+                                        //                 color:
+                                        //                 ColorResources
+                                        //                     .white)),
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ),

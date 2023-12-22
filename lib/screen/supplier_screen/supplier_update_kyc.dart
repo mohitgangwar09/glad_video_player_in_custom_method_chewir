@@ -415,7 +415,10 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        docOneFile.clear();
+                        if(docOneSelectedFile == ''){
+                          docOneFile.clear();
+                        }
+
                         var image = await imgFromGallery();
                         docOneFile.add(image);
                         docOneSelectedFile = 'selected';
@@ -431,7 +434,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
-                        docOneFile.clear();
+                        if(docOneSelectedFile == ''){
+                          docOneFile.clear();
+                        }
                         var image = await imgFromCamera();
                         docOneSelectedFile = 'selected';
                         docOneFile.add(image);
@@ -596,7 +601,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        docTwoFile.clear();
+                        if(docTwoSelectedFile == '') {
+                          docTwoFile.clear();
+                        }
                         var image = await imgFromGallery();
                         docTwoSelectedFile = 'selected';
                         docTwoFile.add(image);
@@ -613,7 +620,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
-                        docTwoFile.clear();
+                        if(docTwoSelectedFile == '') {
+                          docTwoFile.clear();
+                        }
                         var image = await imgFromCamera();
                         docTwoSelectedFile = 'selected';
                         docTwoFile.add(image);
@@ -778,7 +787,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        docThreeFile.clear();
+                        if(docThreeSelectedFile == '') {
+                            docThreeFile.clear();
+                        }
                         var image = await imgFromGallery();
                         docThreeSelectedFile = 'selected';
                         docThreeFile.add(image);
@@ -794,7 +805,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
-                        docThreeFile.clear();
+                        if(docThreeSelectedFile == '') {
+                          docThreeFile.clear();
+                        }
                         var image = await imgFromCamera();
                         docThreeSelectedFile = 'selected';
                         docThreeFile.add(image);
@@ -961,7 +974,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        docFourFile.clear();
+                        if(docFourSelectedFile == '') {
+                          docFourFile.clear();
+                        }
                         var image = await imgFromGallery();
                         docFourSelectedFile = 'selected';
                         docFourFile.add(image);
@@ -977,7 +992,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
-                        docFourFile.clear();
+                        if(docFourSelectedFile == '') {
+                          docFourFile.clear();
+                        }
                         var image = await imgFromCamera();
                         docFourSelectedFile = 'selected';
                         docFourFile.add(image);
@@ -1141,7 +1158,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        docFiveFile.clear();
+                        if(docFiveSelectedFile == '') {
+                          docFiveFile.clear();
+                        }
                         var image = await imgFromGallery();
                         docFiveSelectedFile = 'selected';
                         docFiveFile.add(image);
@@ -1157,7 +1176,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
-                        docFiveFile.clear();
+                        if(docFiveSelectedFile == '') {
+                          docFiveFile.clear();
+                        }
                         var image = await imgFromCamera();
                         docFiveSelectedFile = 'selected';
                         docFiveFile.add(image);
@@ -1323,7 +1344,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        docSixFile.clear();
+                        if(docSixSelectedFile == '') {
+                          docSixFile.clear();
+                        }
                         var image = await imgFromGallery();
                         docSixSelectedFile = 'selected';
                         docSixFile.add(image);
@@ -1339,7 +1362,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                     10.horizontalSpace(),
                     InkWell(
                       onTap: () async{
-                        docSixFile.clear();
+                        if(docSixSelectedFile == '') {
+                          docSixFile.clear();
+                        }
                         var image = await imgFromCamera();
                         docSixSelectedFile = 'selected';
                         docSixFile.add(image);

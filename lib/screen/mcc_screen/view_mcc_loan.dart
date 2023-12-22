@@ -378,7 +378,22 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
                                             'Submit',
                                             fontColor: 0xffFFFFFF,
                                             onTap: () {
-                                              BlocProvider.of<ProjectCubit>(context).inviteExpertForSurveyMcc(context,widget.farmerDocuments.farmerProjectId!,'',controller.text,'rejected',widget.farmerDocuments.farmerId.toString(),widget.farmerMaster);
+                                              if(controller.text.isEmpty ){
+                                                showCustomToast(context, 'Rejection Remarks required');
+                                              } else {
+                                                BlocProvider.of<ProjectCubit>(
+                                                    context)
+                                                    .inviteExpertForSurveyMcc(
+                                                    context,
+                                                    widget.farmerDocuments
+                                                        .farmerProjectId!,
+                                                    '',
+                                                    controller.text,
+                                                    'rejected',
+                                                    widget.farmerDocuments
+                                                        .farmerId.toString(),
+                                                    widget.farmerMaster);
+                                              }
                                             },
                                             height: 60,
                                             width: screenWidth(),

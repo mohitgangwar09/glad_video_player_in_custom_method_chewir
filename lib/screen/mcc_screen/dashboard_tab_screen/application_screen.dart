@@ -222,12 +222,9 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
                                       name: state.responseDdeProject!.data!
                                           .projectList![i].name ?? '',
                                       category: state.responseDdeProject!.data!
-                                          .projectList![i].farmerImprovementArea !=
+                                          .projectList![i].improvementArea !=
                                           null ? state.responseDdeProject!.data!
-                                          .projectList![i].farmerImprovementArea!
-                                          .improvementArea!=null?state.responseDdeProject!.data!
-                                          .projectList![i].farmerImprovementArea!
-                                          .improvementArea!.name ?? '':'' : '',
+                                          .projectList![i].improvementArea!.name ?? '' : '',
                                       description: state.responseDdeProject!.data!
                                           .projectList![i].description ?? '',
                                       investment: state.responseDdeProject!.data!

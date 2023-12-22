@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -62,6 +63,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
       BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
+      BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, 'pending', false);
     });
   }
 
@@ -358,7 +360,20 @@ class _DDELandingPageState extends State<DDELandingPage> {
                       ),
                     );
                   }
-                ) : const SizedBox.shrink(),
+                ) : Container(
+                    height: 130,
+                    width: screenWidth(),
+                    padding: const EdgeInsets.fromLTRB(12.0, 20, 12, 22),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('No Visit Schedule available for today', style: figtreeMedium.copyWith(fontSize: 14),),
+                      ],
+                    )),
 
               ],
             ),
@@ -405,201 +420,251 @@ class _DDELandingPageState extends State<DDELandingPage> {
   }
 
   Widget pendingApplications(BuildContext context) {
+    ProjectState state = BlocProvider.of<ProjectCubit>(context).state;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-          child: Row(
-            children: [
-              Text(
-                'Pending applications',
-                style: figtreeMedium.copyWith(fontSize: 18),
+        state.responseDdeProject!.data!.projectList!.isNotEmpty
+            ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: Row(
+                children: [
+                  Text(
+                    'Pending applications',
+                    style: figtreeMedium.copyWith(fontSize: 18),
+                  ),
+                  10.horizontalSpace(),
+                  InkWell(
+                    onTap: () {
+                      BlocProvider.of<DashboardCubit>(context).selectedIndex(2);
+                    },
+                    child: 'View All'.textSemiBold(color: ColorResources.maroon, fontSize: 12, underLine: TextDecoration.underline),
+                  )
+                ],
               ),
-              10.horizontalSpace(),
-              'View All'.textSemiBold(color: ColorResources.maroon, fontSize: 12, underLine: TextDecoration.underline)
-            ],
-          ),
-        ),
+            ),
 
-        Container(
-                margin: const EdgeInsets.only(left: 10, right: 20),
-                height: 220,
-                child: customList(
-                    list: List.generate(
-                        3, (index) => index),
-                    axis: Axis.horizontal,
-                    child: (int i) {
-                      return SizedBox(
-                        width: screenWidth() * 0.9,
-                        child: Stack(
-                          children: [
-                            InkWell(
-                              onTap: (){
-                              },
-                              child: customProjectContainer(
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.all(20),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Image.asset(Images.sampleUser),
-                                          15.horizontalSpace(),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Hurton Elizabeth',
-                                                  style: figtreeMedium.copyWith(
-                                                      fontSize: 16,
-                                                      color: Colors.black)),
-                                              4.verticalSpace(),
-                                              Text('+256 758711344',
-                                                  style:
-                                                  figtreeRegular.copyWith(
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 20),
+              height: 220,
+              child: customList(
+                  list: List.generate(
+                      state.responseDdeProject!.data!
+                          .projectList!.length < 5 ? state.responseDdeProject!.data!
+                          .projectList!.length : 5, (index) => index),
+                  axis: Axis.horizontal,
+                  child: (int i) {
+                    return SizedBox(
+                      width: screenWidth() * 0.9,
+                      child: Stack(
+                        children: [
+                          InkWell(
+                            onTap: (){
+                            },
+                            child: customProjectContainer(
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.all(20),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        networkImage(text: state.responseDdeProject!.data!
+                                            .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                            .projectList![i].farmerMaster!.photo ??
+                                            ''  : '',height: 46,width: 46,radius: 40),
+                                        15.horizontalSpace(),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(state.responseDdeProject!.data!
+                                                .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                                .projectList![i].farmerMaster!.name ?? '' : '',
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 16,
+                                                    color: Colors.black)),
+                                            4.verticalSpace(),
+                                            Text(state.responseDdeProject!.data!
+                                                .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                                .projectList![i].farmerMaster!.phone ??
+                                                ''  : '',
+                                                style:
+                                                figtreeRegular.copyWith(
+                                                    fontSize: 12,
+                                                    color: Colors.black)),
+                                            4.verticalSpace(),
+                                            Row(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.5,
+                                                  child: Text(
+                                                    state.responseDdeProject!.data!
+                                                        .projectList![i].farmerMaster!= null ? state.responseDdeProject!.data!
+                                                        .projectList![i].farmerMaster!.address!=null?state.responseDdeProject!.data!
+                                                        .projectList![i].farmerMaster!.address!.address.toString():"" ??
+                                                        '' : '',
+                                                    style:
+                                                    figtreeRegular.copyWith(
                                                       fontSize: 12,
-                                                      color: Colors.black)),
-                                              4.verticalSpace(),
-                                              Row(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                                children: [
-                                                  SizedBox(
-                                                    width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                        0.5,
-                                                    child: Text(
-                                                      "Luwum St. Rwoozi, Kampala...",
-                                                      style:
-                                                      figtreeRegular.copyWith(
-                                                        fontSize: 12,
-                                                        color: Colors.black,
-                                                        overflow:
-                                                        TextOverflow.ellipsis,
-                                                      ),
+                                                      color: Colors.black,
+                                                      overflow:
+                                                      TextOverflow.ellipsis,
                                                     ),
                                                   ),
-                                                ],
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      20.verticalSpace(),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              'UGX 100M'.textSemiBold(
-                                                  color: Colors.black,
-                                                  fontSize: 16),
-                                              'Investment'.textMedium(
-                                                  fontSize: 10,
-                                                  color: const Color(
-                                                      0xff808080)),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              'UGX 20M'.textSemiBold(
-                                                  color: Colors.black,
-                                                  fontSize: 16),
-                                              'Revenue'.textMedium(
-                                                  fontSize: 10,
-                                                  color: const Color(
-                                                      0xff808080)),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              ' 200%'.textSemiBold(
-                                                  color: Colors.black,
-                                                  fontSize: 16),
-                                              'ROI'.textMedium(
-                                                  fontSize: 10,
-                                                  color: const Color(
-                                                      0xff808080)),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      20.verticalSpace(),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                            "Dam Construction"
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    20.verticalSpace(),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            (getCurrencyString(state.responseDdeProject!.data!
+                                                .projectList![i].investmentAmount ?? 0)).textSemiBold(
+                                                color: Colors.black,
+                                                fontSize: 16),
+                                            'Investment'.textMedium(
+                                                fontSize: 10,
+                                                color: const Color(
+                                                    0xff808080)),
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            (getCurrencyString(state.responseDdeProject!.data!
+                                                .projectList![i].revenuePerYear ?? 0)).textSemiBold(
+                                                color: Colors.black,
+                                                fontSize: 16),
+                                            'Revenue'.textMedium(
+                                                fontSize: 10,
+                                                color: const Color(
+                                                    0xff808080)),
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            ('${state.responseDdeProject!.data!
+                                                .projectList![i].roiPerYear ?? 0.0}%').textSemiBold(
+                                                color: Colors.black,
+                                                fontSize: 16),
+                                            'ROI'.textMedium(
+                                                fontSize: 10,
+                                                color: const Color(
+                                                    0xff808080)),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    20.verticalSpace(),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            state.responseDdeProject!.data!
+                                                .projectList![i].name.toString()
                                                 .textMedium(fontSize: 12),
                                             2.verticalSpace(),
                                             'Suggested project'.textMedium(color: const Color(0xFF808080), fontSize: 10)
                                           ],),
-                                          Container(
-                                            margin: 9.marginOnly(top: 0, bottom: 9),
-                                            padding:
-                                            const EdgeInsets.symmetric(
-                                                vertical: 4,
-                                                horizontal: 7),
-                                            decoration: boxDecoration(
-                                              borderRadius: 30,
-                                              borderColor:
-                                              const Color(0xff6A0030),
-                                            ),
-                                            child: Text(
-                                              "Suggested",
-                                              textAlign: TextAlign.center,
-                                              style: figtreeMedium.copyWith(
-                                                  color:
-                                                  const Color(0xff6A0030),
-                                                  fontSize: 10),
-                                            ),
+                                        Container(
+                                          margin: 9.marginOnly(top: 0, bottom: 9),
+                                          padding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 4,
+                                              horizontal: 7),
+                                          decoration: boxDecoration(
+                                            borderRadius: 30,
+                                            borderColor:
+                                            const Color(0xff6A0030),
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                          child: Text(
+                                            formatProjectStatus(state.responseDdeProject!.data!
+                                                .projectList![i].projectStatus ?? ''),
+                                            textAlign: TextAlign.center,
+                                            style: figtreeMedium.copyWith(
+                                                color:
+                                                const Color(0xff6A0030),
+                                                fontSize: 10),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            Positioned(
-                                top: 0,
-                                right: 0,
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(Images.callPrimary),
-                                    6.horizontalSpace(),
-                                    SvgPicture.asset(Images.whatsapp),
-                                    6.horizontalSpace(),
-                                    SvgPicture.asset(Images.redirectLocation),
-                                    4.horizontalSpace(),
-                                  ],
-                                )),
-                          ],
-                        ),
-                      );
-                    }),
-              ),
+                          ),
+                          Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                      onTap: () async {
+                                        await callOnMobile(state.responseDdeProject!.data!
+                                            .projectList![i].farmerMaster!.phone ?? 12345678);
+                                      },
+                                      child: SvgPicture.asset(Images.callPrimary)),
+                                  6.horizontalSpace(),
+                                  InkWell(
+                                      onTap: () async {
+                                        await launchWhatsApp(state.responseDdeProject!.data!
+                                            .projectList![i].farmerMaster!.phone ?? 12345678);
+                                      },
+                                      child: SvgPicture.asset(Images.whatsapp)),
+                                  6.horizontalSpace(),
+                                  InkWell(onTap: (){
+                                    if(state.responseDdeProject!.data!
+                                        .projectList![i].farmerMaster!.address!=null){
+                                      BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                          state.responseDdeProject!.data!
+                                              .projectList![i].farmerMaster!.address!.latitude.toString(),
+                                          state.responseDdeProject!.data!
+                                              .projectList![i].farmerMaster!.address!.longitude.toString(),context);
+                                    }
+                                  },child: SvgPicture.asset(Images.redirectLocation)),
+                                  4.horizontalSpace(),
+                                ],
+                              )),
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+          ],
+        ) : const SizedBox.shrink(),
 
         Padding(
           padding: const EdgeInsets.all(20),
@@ -962,7 +1027,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                               padding:
                                               const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                               child: Text(
-                                                getCurrencyString(state.responseAccountStatement!.data!.summary!.totalAmount!=null?state.responseAccountStatement!.data!.summary!.totalAmount!:0),
+                                                getCurrencyString(state.responseAccountStatement!.data!.summary!.paidAmount!=null?state.responseAccountStatement!.data!.summary!.paidAmount!:0),
                                                 style: figtreeBold.copyWith(fontSize: 28),
                                               ),
                                             ),
