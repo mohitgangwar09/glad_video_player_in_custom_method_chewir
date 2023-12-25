@@ -248,7 +248,7 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                       ),
                       6.verticalSpace(),
                       Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
-                          ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!.address ?? ''
+                          ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!['address'] ?? ''
                           : '',
                           style: figtreeMedium.copyWith(
                               fontSize: 12, color: Colors.black), maxLines: 1,),
