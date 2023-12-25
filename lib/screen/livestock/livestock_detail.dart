@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
+import 'package:glad/screen/livestock/enquiry/enquiry_list.dart';
 import 'package:glad/screen/livestock/enquiry/livestock_exquiry_chat.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/livestock/update_livestock.dart';
@@ -387,7 +389,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                               child: customButton('Enquiries',
                                   style: figtreeMedium.copyWith(fontSize: 16),
                                   onTap: () {
-                                    pressBack();
+                                    EnquiryList(livestockId: widget.id, cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name ?? '', advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo ?? '', defaultPrice: state.responseLivestockDetail!.data!.price.toString(),).navigate();
                                   },
                                   borderColor: 0xFFFC5E60,
                                   color: 0xffFFFFFF,
@@ -444,21 +446,26 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                               if (BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile == null) {
                                   await BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
                               }
-                              FirebaseFirestore.instance.collection('livestock_enquiry')
-                                  .doc(widget.id.toString())
-                                  .set({
-                                'buyer_id': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId),
-                                'buyer_name': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
-                                'buyer_address': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address != null ? BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address!.address ?? '' : '',
-                                'buyer_photo': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.photo ?? '',
-                                'seller_id': state.responseLivestockDetail!.data!.userId.toString(),
+                              final query = FirebaseFirestore.instance.collection('livestock_enquiry').doc(widget.id);
+                                  query.set({
+                                'user_id': state.responseLivestockDetail!.data!.userId.toString(),
+                                'livestock_id': widget.id.toString(),
                                 'advertisement_number': state.responseLivestockDetail!.data!.advertisementNo.toString(),
                                 'cow_breed': state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
                                 'created_at': Timestamp.now(),
-                                // 'user_type': 'farmer',
                               });
-
-                              LivestockEnquiryChatScreen(livestockId: widget.id.toString(), cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name.toString(), advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '', userId: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.id.toString(),).navigate();
+                                  query.collection('enquiries').doc(context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)).
+                                      set({
+                                    'user_id': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId),
+                                    'user_name': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
+                                    'user_address': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address != null ? BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address!.address ?? '' : '',
+                                    'user_photo': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.photo ?? '',
+                                  });
+                              LivestockEnquiryChatScreen(
+                                livestockId: widget.id.toString(),
+                                cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
+                                advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
+                                userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
                             },
                             width: screenWidth(),
                             fontColor: 0xffFFFFFF,
