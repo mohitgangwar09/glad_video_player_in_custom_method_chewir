@@ -334,6 +334,18 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
   }
 
+  // updateNegotiateApi
+  Future<void> updateNegotiateApi(context, String livestockId, String negotiatedPrice) async{
+    var response = await apiRepository.updateNegotiatedPrice(livestockId, negotiatedPrice);
+    if (response.status == 200) {
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    }
+    else {
+      emit(state.copyWith(status: LivestockStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   String getUserToken() {
     return apiRepository.getUserToken();}
 

@@ -310,6 +310,29 @@ class OthersRepository {
     }
   }
 
+  ///////////////// livestockApi //////////
+  Future<ResponseAddLivestock> updateNegotiatedPrice(String livestockId, String negotiatedPrice) async {
+
+
+    FormData data = FormData.fromMap({
+      "live_stock_id": livestockId,
+      "user_id": sharedPreferences!.get(AppConstants.userId),
+      "negotiated_price": negotiatedPrice
+    });
+
+    print(data.fields);
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.updateNegotiatedPriceApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseAddLivestock.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseAddLivestock(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// getCommunityListApi //////////
   Future<ResponseAddLivestock> updateLivestockApi(String id, String breedId, List<String> paths, String milk, String lactation, String price, String pregnant, String cowQty, String age, String description) async {
     FormData data = FormData.fromMap({
