@@ -40,7 +40,7 @@ class _LandingCarouselState extends State<LandingCarousel> {
                               fontSize: 16
                           ),),
 
-                          Text('UGX ${widget.todayMilkPrice}/Ltr.',style: figtreeBold.copyWith(
+                          Text('UGX ${widget.todayMilkPrice ?? ''}/Ltr.',style: figtreeBold.copyWith(
                               fontSize: 30
                           ),),
 
@@ -50,13 +50,13 @@ class _LandingCarouselState extends State<LandingCarousel> {
 
                   ],
                 ),
-              Image.asset(Images.weather),
+              weatherWidget(),
               Image.asset(Images.training),
               Image.asset(Images.livestock),
               Image.asset(Images.community)
             ],
             options: CarouselOptions(
-              autoPlay: true,
+              // autoPlay: true,
               enableInfiniteScroll: false,
               viewportFraction: 1,
               // enlargeCenterPage: true,

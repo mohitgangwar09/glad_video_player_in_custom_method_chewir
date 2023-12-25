@@ -1429,6 +1429,38 @@ Widget weatherWidget(){
           Image.asset(Images.weather),
 
           Positioned(
+            right: 80,
+            top: 30,
+            child: Text(state.responseWeather!.current!.temp!=null?'${double.parse(state.responseWeather!.current!.temp.toString()).toStringAsFixed(1)}°' : '',
+              style: figtreeBold.copyWith(
+                fontSize: 36,
+                  color: Colors.black
+              ),),),
+          Builder(
+            builder: (context) {
+              String cityName = '';
+              for (var name in state.responseAddress!.results.toList()[0].addressComponents.toList()) {
+                print('${name.types} ${name.longName}');
+                if(name.types.contains('administrative_area_level_3') && name.longName.isNotEmpty){
+                  cityName = name.longName;
+                  break;
+                } else if(name.types.contains('administrative_area_level_2') && name.longName.isNotEmpty){
+                  cityName = name.longName;
+                  break;
+                }
+              }
+              return Positioned(
+                right: 40,
+                top: 76,
+                child: Text('$cityName, ${DateFormat('dd MMM').format(DateTime.now())}',
+                  style: figtreeSemiBold.copyWith(
+                      fontSize: 16,
+                      color: Colors.black
+                  ),),);
+            }
+          ),
+
+          Positioned(
             left: 30,
             bottom: 38,
             child: Text(state.responseWeather!.current!.windSpeed!=null?'${double.parse((state.responseWeather!.current!.windSpeed*3.6).toString()).toStringAsFixed(2)} km/hr':'0 km/hr',

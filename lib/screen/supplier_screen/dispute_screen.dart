@@ -93,8 +93,9 @@ class _DisputeScreenState extends State<DisputeScreen> {
                             return Row(
                               children: [
                                 if(type != "farmer")
-                                Expanded(
+                                  (widget.project.farmerProject![0].farmerMaster!= null) ? Expanded(
                                   child: Stack(
+                                    alignment: Alignment.topCenter,
                                     children: [
                                       InkWell(
                                         onTap: (){
@@ -134,11 +135,7 @@ class _DisputeScreenState extends State<DisputeScreen> {
                                                       Expanded(
                                                         child: Text(
                                                           widget.project.farmerProject![0].farmerMaster!.address != null
-                                                              ? widget.project.farmerProject![0].farmerMaster!.address!.address != null
-                                                              && widget.project.farmerProject![0].farmerMaster!.address!.subCounty != null
-                                                              ? widget.project.farmerProject![0].farmerMaster!.address!.subCounty! +
-                                                              widget.project.farmerProject![0].farmerMaster!.address!.address
-                                                              : ''
+                                                              ? widget.project.farmerProject![0].farmerMaster!.address!.address ?? ''
                                                               : '',
                                                           maxLines: 2,
                                                           style:
@@ -158,38 +155,14 @@ class _DisputeScreenState extends State<DisputeScreen> {
                                           ),
                                         ),
                                       ),
-                                      Positioned(
-                                          left: 0,
-                                          right: 0,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(1000),
-                                                child: Container(
-                                                  height: 60,
-                                                  width: 60,
-                                                  margin: const EdgeInsets.only(left: 15),
-                                                  decoration:
-                                                  const BoxDecoration(shape: BoxShape.circle),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                    (widget.project.farmerProject![0].farmerMaster!= null) ? (widget.project.farmerProject![0].farmerMaster!.photo ?? '') : '',
-                                                    errorWidget: (_, __, ___) =>
-                                                        SvgPicture.asset(Images.person),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
+                                      networkImage(text: (widget.project.farmerProject![0].farmerMaster!= null) ? (widget.project.farmerProject![0].farmerMaster!.photo ?? '') : '', height: 60, width: 60, size: 40, radius: 100),
                                     ],
                                   ),
-                                ),
+                                ) : const SizedBox.shrink(),
                                 if(type != "dde")
-                                Expanded(
+                                  (widget.project.farmerProject![0].dairyDevelopMentExecutive!= null) ? Expanded(
                                   child: Stack(
+                                    alignment: Alignment.topCenter,
                                     children: [
                                       InkWell(
                                         onTap: (){
@@ -229,11 +202,7 @@ class _DisputeScreenState extends State<DisputeScreen> {
                                                       Expanded(
                                                         child: Text(
                                                           widget.project.farmerProject![0].dairyDevelopMentExecutive!.address != null
-                                                              ? widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                                              && widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                                              ? widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                                              widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                                              : ''
+                                                              ? widget.project.farmerProject![0].dairyDevelopMentExecutive!.address["address"] ?? ''
                                                               : '',
                                                           maxLines: 2,
                                                           style:
@@ -253,37 +222,12 @@ class _DisputeScreenState extends State<DisputeScreen> {
                                           ),
                                         ),
                                       ),
-                                      Positioned(
-                                          left: 0,
-                                          right: 0,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(1000),
-                                                child: Container(
-                                                  height: 60,
-                                                  width: 60,
-                                                  margin: const EdgeInsets.only(left: 15),
-                                                  decoration:
-                                                  const BoxDecoration(shape: BoxShape.circle),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                    (widget.project.farmerProject![0].dairyDevelopMentExecutive!= null) ? (widget.project.farmerProject![0].dairyDevelopMentExecutive!.photo ?? '') : '',
-                                                    errorWidget: (_, __, ___) =>
-                                                        SvgPicture.asset(Images.person),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
+                                      networkImage(text: (widget.project.farmerProject![0].dairyDevelopMentExecutive!= null) ? (widget.project.farmerProject![0].dairyDevelopMentExecutive!.photo ?? '') : '', height: 60, width: 60, size: 40, radius: 100),
                                     ],
                                   ),
-                                ),
+                                ) : const SizedBox.shrink(),
                                 if(type != "supplier")
-                                Expanded(
+                                  widget.project.supplierDetail != null ? Expanded(
                                   child: Stack(
                                     children: [
                                       InkWell(
@@ -341,38 +285,10 @@ class _DisputeScreenState extends State<DisputeScreen> {
                                           ),
                                         ),
                                       ),
-                                      Positioned(
-                                          left: 0,
-                                          right: 0,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                alignment: Alignment.center,
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(1000),
-                                                  child: Container(
-                                                    height: 60,
-                                                    margin: const EdgeInsets.only(left: 15),
-                                                    width: 60,
-                                                    decoration:
-                                                    const BoxDecoration(shape: BoxShape.circle),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: widget.project.supplierDetail != null ? (widget.project.supplierDetail!.photo.toString() == false.toString() ? '' : widget.project.supplierDetail!.photo ?? '') : '',
-                                                      // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
-                                                      errorWidget: (_, __, ___) =>
-                                                          SvgPicture.asset(Images.person),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
+                                      networkImage(text: widget.project.supplierDetail != null ? (widget.project.supplierDetail!.photo.toString() == false.toString() ? '' : widget.project.supplierDetail!.photo ?? '') : '', height: 60, width: 60, size: 40, radius: 100),
                                     ],
                                   ),
-                                ),
+                                ) : const SizedBox.shrink(),
                               ],
                             );
                           }
