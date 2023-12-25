@@ -136,7 +136,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
               child: Material(
                 borderRadius: BorderRadius.circular(15),
                 child: Container(
-                  height: 140,
+                  height: 150,
                   width: screenWidth()-30,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -145,11 +145,13 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
 
-                      "Are you sure to remove other supplier cart?".textMedium(
-                          fontSize: 19,
+                      // "Are you sure to remove other supplier cart?".textMedium(
+                      Padding(padding: const EdgeInsets.only(left: 4,right: 4),
+                      child: "LiveStock from other supplier exists in the cart. Do you want to replace it?".textMedium(
+                          fontSize: 18,
                           textAlign: TextAlign.center,
                           color: Colors.black
-                      ),
+                      ),),
 
                       20.verticalSpace(),
 

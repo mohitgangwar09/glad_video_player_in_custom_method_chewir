@@ -21,6 +21,8 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
+import '../../data/model/livestock_cart_list.dart';
+
 class LiveStockCartListScreen extends StatefulWidget {
   const LiveStockCartListScreen({super.key, this.navigates});
   final String? navigates;
@@ -32,6 +34,8 @@ class LiveStockCartListScreen extends StatefulWidget {
 class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
   TextEditingController farmer = TextEditingController();
   TextEditingController loan = TextEditingController();
+
+  double subtotal = 0;
 
   @override
   void initState() {
@@ -113,14 +117,14 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                     alignment: Alignment.center,
                     children: [
                       SizedBox(
-                          height: 160,
+                          height: 170,
                           width: screenWidth() * 0.9,),
                       SizedBox(
-                        height: 140,
+                        height: 150,
                         width: screenWidth() * 0.9,
                         child: InkWell(
                           onTap: () {
-                            LiveStockDetail(id: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.id.toString(), isMyLivestock: true,).navigate();
+                            LiveStockDetail(id: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.id.toString(), isMyLivestock: true,type: 'buyer',).navigate();
                           },
                           child: customShadowContainer(
                             margin: 0,
@@ -134,7 +138,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                     Container(
                                         padding: const EdgeInsets.all(10),
                                         width: screenWidth() * 0.35,
-                                        height: 140,
+                                        height: 150,
                                         child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 12, top: 12),
@@ -153,10 +157,10 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                         fontSize: 12, color: const Color(0xFF727272)))
                                               ])),
                                           3.verticalSpace(),
-                                          Text(getCurrencyString(double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.price.toString())),
+                                          Text(getCurrencyString(double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].cowPrice.toString())*double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].cowQty.toString())),
                                               style: figtreeSemiBold.copyWith(
                                                   fontSize: 18, color: Colors.black)),
-                                          12.verticalSpace(),
+                                          6.verticalSpace(),
                                           Column(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
@@ -193,6 +197,10 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                   ])),
                                             ],
                                           ),
+                                          12.verticalSpace(),
+                                          Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.name??'',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 12, color: Colors.black), maxLines: 1),
                                           6.verticalSpace(),
                                           Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user != null ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address != null
                                               ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
@@ -277,25 +285,50 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                   ),
                 );
               }),
-              40.verticalSpace(),
+
+              // 5.verticalSpace(),
+
+              customButton('Add More Livestock',color: 0xffffffff, borderColor: 0xffFC5E60,onTap: (){
+                if(widget.navigates!=null){
+                  const DashboardFarmer().navigate();
+                  BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                }else{
+                  pressBack();
+                }
+              },width: screenWidth()*0.6),
+
+              // 10.verticalSpace(),
+
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 50),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         'Subtotal: '.textMedium(color: Colors.black, fontSize: 16),
-                        
-                        // Text((double.parse(state.responseLivestockCartList!.data![0].cowQty.toString())*(double.parse(1.toString()))).toString()),
-                        // Text((double.parse(state.responseLivestockCartList!.data![0].cowQty)*(state.responseLivestockCartList!.data![0].cowPrice))).toString(),
-                        // getCurrencyString(double.parse(state.responseLivestockCartList!.data![0].cowQty.toString()) * state.responseLivestockCartList!.data![0].cowPrice??0).toString().textSemiBold(color: Colors.black, fontSize: 20)
+
+
+                          Builder(
+                            builder: (context) {
+                              double count = 0;
+                              for(LiveStockCartDetails cart in state.responseLivestockCartList!.data![0].liveStockCartDetails!){
+                                count +=  (double.parse(cart.cowQty.toString())*(double.parse(cart.cowPrice.toString())));
+                              }
+                              subtotal = count;
+                              return Text(getCurrencyString(count),
+                                  style: figtreeSemiBold.copyWith(
+                                      fontSize: 18, color: Colors.black));
+                            }
+                          ),
                       ],
                     ),
 
-                    40.verticalSpace(),
+                    30.verticalSpace(),
 
-                    customButton('Apply Loan', fontColor: 0xffffffff,onTap: (){
+
+
+                    customButton(width: screenWidth()*0.6,'Apply Loan', fontColor: 0xffffffff,onTap: (){
                       TextEditingController controller = TextEditingController();
                       modalBottomSheetMenu(context,
                           radius: 40,
@@ -325,6 +358,12 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                 keyboardType: TextInputType.number,
                                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                                 minLines: 1,
+                                                onChanged: (value){
+                                                  // if()
+                                                  if(double.parse(controller.text)>subtotal){
+                                                    showCustomToast(context, "Buyer participation can't be more than cart total");
+                                                  }
+                                                },
                                                 decoration: InputDecoration(
                                                     hintText: 'Enter participation value',
                                                     hintStyle:
@@ -343,8 +382,11 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                   'Apply Loan',
                                                   fontColor: 0xffFFFFFF,
                                                   onTap: () {
+
                                                     if(controller.text.isEmpty){
 
+                                                    }else if(double.parse(controller.text)>subtotal){
+                                                      showCustomToast(context, "Buyer participation can't be more than cart total");
                                                     }else{
                                                       LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text,
                                                         farmerMaster: state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.user!.farmerMaster!

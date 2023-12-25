@@ -22,10 +22,10 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LoanLivestockDetail extends StatefulWidget {
-  const LoanLivestockDetail({Key? key, required this.isMyLivestock, required this.id,required this.cowQty,required this.status,required this.cartId,required this.farmerProjectId,required this.deliveryStatus,required this.mediaLivestock,required this.type}) : super(key: key);
+  const LoanLivestockDetail({Key? key, required this.isMyLivestock, required this.id,required this.cowQty,required this.status,required this.cartId,required this.farmerProjectId,required this.deliveryStatus,required this.mediaLivestock,required this.type,required this.cowPrice,}) : super(key: key);
   final bool isMyLivestock;
   final String id;
-  final String cowQty,type;
+  final String cowQty,type,cowPrice;
   final String status,deliveryStatus;
   final int cartId,farmerProjectId;
   final List<MediaLivestock> mediaLivestock;
@@ -152,7 +152,7 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                                 style: figtreeMedium.copyWith(
                                     fontSize: 20, color: const Color(0xFF727272)))
                           ])),
-                      Text(getCurrencyString(double.parse(state.responseLivestockDetail!.data!.price.toString())),
+                      Text(getCurrencyString(double.parse(widget.cowPrice.toString())),
                           style: figtreeSemiBold.copyWith(
                             fontSize: 20, color: ColorResources.maroon,
                             // decoration: TextDecoration.lineThrough
@@ -162,17 +162,16 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                   10.verticalSpace(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: screenWidth() * 0.35,
-                        child: Text(state.responseLivestockDetail!.data!.user!.address != null
-                            ? state.responseLivestockDetail!.data!.user!.address!.address != null
-                            && state.responseLivestockDetail!.data!.user!.address!.subCounty != null
-                            ? state.responseLivestockDetail!.data!.user!.address!.subCounty! +
+                  Text(state.responseLivestockDetail!.data!.user!.name+", "?? '',
+                      style: figtreeMedium.copyWith(
+                          fontSize: 12, color: Colors.black), maxLines: 2),
+                      Flexible(
+                        child: Text(state.responseLivestockDetail!.data!.user!.address != null?
                             state.responseLivestockDetail!.data!.user!.address!.address!
-                            : ''
                             : '',
+                            overflow: TextOverflow.ellipsis,
                             style: figtreeMedium.copyWith(
                                 fontSize: 12, color: Colors.black), maxLines: 2),
                       ),

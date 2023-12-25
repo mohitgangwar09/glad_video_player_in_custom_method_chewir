@@ -18,9 +18,10 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LiveStockDetail extends StatefulWidget {
-  const LiveStockDetail({Key? key, required this.isMyLivestock, required this.id}) : super(key: key);
+  const LiveStockDetail({Key? key, required this.isMyLivestock, required this.id,this.type}) : super(key: key);
   final bool isMyLivestock;
   final String id;
+  final String? type;
 
   @override
   State<LiveStockDetail> createState() => _LiveStockDetailState();
@@ -143,46 +144,67 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                 style: figtreeMedium.copyWith(
                                     fontSize: 20, color: const Color(0xFF727272)))
                           ])),
+
+
+                      // widget.type == "buyer"?
                       Text(getCurrencyString(double.parse(state.responseLivestockDetail!.data!.price.toString())),
                           style: figtreeSemiBold.copyWith(
-                              fontSize: 20, color: ColorResources.maroon,
+                              fontSize: 18, color: ColorResources.maroon,
+                              decoration: state.responseLivestockDetail!.data!.negotiatedPrice!.isNotEmpty?TextDecoration.lineThrough:null
                               // decoration: TextDecoration.lineThrough
-                          )),
+                          ))
+                          // :const SizedBox.shrink(),
+
                     ],
                   ),
-                  10.verticalSpace(),
+                  1.verticalSpace(),
+
+
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    SizedBox(
-                      width: screenWidth() * 0.35,
-                      child: Text(state.responseLivestockDetail!.data!.user!.address != null
-                          ? state.responseLivestockDetail!.data!.user!.address!.address != null
-                          && state.responseLivestockDetail!.data!.user!.address!.subCounty != null
-                          ? state.responseLivestockDetail!.data!.user!.address!.subCounty! +
-                          state.responseLivestockDetail!.data!.user!.address!.address!
-                          : ''
-                          : '',
-                        style: figtreeMedium.copyWith(
-                            fontSize: 12, color: Colors.black), maxLines: 2),
-                    ),
-                    // Container(
-                    //   height: 5,
-                    //   width: 5,
-                    //   decoration: const BoxDecoration(
-                    //       color: Colors.black, shape: BoxShape.circle),
-                    // ),
-                    // Text('Posted on ${DateFormat('dd MMMM, yyyy').format(DateTime.parse(state.responseLivestockDetail!.data!.createdAt ?? ''))}',
-                    //     style: figtreeMedium.copyWith(fontSize: 12, color: const Color(0xFF727272)), maxLines: 2)
+                      Text('Posted on ${DateFormat('dd MMMM, yyyy').format(DateTime.parse(state.responseLivestockDetail!.data!.createdAt ?? ''))}',
+                          style: figtreeMedium.copyWith(fontSize: 12, color: const Color(0xFF727272)), maxLines: 2),
+                      widget.type == "buyer"?
+                      state.responseLivestockDetail!.data!.negotiatedPrice!.isNotEmpty?
+                      Text(getCurrencyString(double.parse(state.responseLivestockDetail!.data!.negotiatedPrice![0].negotiatedPrice.toString())),
+                          style: figtreeSemiBold.copyWith(
+                            fontSize: 22, color: ColorResources.black,
+                            // decoration: TextDecoration.lineThrough
+                          )):const SizedBox.shrink():const SizedBox.shrink(),
+                    ],
+                  ),
 
-                      //   Text(getCurrencyString(double.parse(state.responseLivestockDetail!.data!.price.toString())),
-                    //       style: figtreeSemiBold.copyWith(
-                    //           fontSize: 22, color: Colors.black)),
+
+                  5.verticalSpace(),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      Text(state.responseLivestockDetail!.data!.user!=null?state.responseLivestockDetail!.data!.user!.name+","??'':'',
+                          style: figtreeMedium.copyWith(
+                            fontSize: 12, color: ColorResources.black,
+                            // decoration: TextDecoration.lineThrough
+                          )),
+
+                      Expanded(
+                        child: Text(state.responseLivestockDetail!.data!.user!.address != null
+                            ? state.responseLivestockDetail!.data!.user!.address!.address != null
+                            && state.responseLivestockDetail!.data!.user!.address!.subCounty != null
+                            ? " ${state.responseLivestockDetail!.data!.user!.address!.address!}"
+                            : ''
+                            : '',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: Colors.black), maxLines: 2),
+                      ),
+
                   ],),
                   // 5.verticalSpace(),
-                  Text('Posted on ${DateFormat('dd MMMM, yyyy').format(DateTime.parse(state.responseLivestockDetail!.data!.createdAt ?? ''))}',
-                      style: figtreeMedium.copyWith(fontSize: 12, color: const Color(0xFF727272)), maxLines: 2),
+
+
+
                   30.verticalSpace(),
                   Text(
                       'Specifications ',
@@ -231,7 +253,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseLivestockDetail!.data!.cowQty.toString() ?? '',
+                                    text: state.responseLivestockDetail!.data!.balanceCows.toString() ?? '',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 16, color: Colors.black))
                               ])),
@@ -523,7 +545,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                                             fontColor: 0xffFFFFFF,
                                                             onTap: () {
 
-                                                              context.read<LivestockCubit>().livestockAddToCartApi(context, state.responseLivestockDetail!.data!.id.toString(), quantity,state.responseLivestockDetail!.data!.price.toString());
+                                                              context.read<LivestockCubit>().livestockAddToCartApi(context, state.responseLivestockDetail!.data!.id.toString(), quantity,state.responseLivestockDetail!.data!.negotiatedPrice!.isNotEmpty?state.responseLivestockDetail!.data!.negotiatedPrice![0].negotiatedPrice.toString():state.responseLivestockDetail!.data!.price.toString());
 
                                                             },
                                                             height: 60,

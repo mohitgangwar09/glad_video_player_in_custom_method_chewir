@@ -145,7 +145,7 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
           context, child: (index){
         return InkWell(
           onTap: () {
-            LiveStockDetail(id: state.responseMyLivestockList!.data!.livestocklLIst![index].id.toString(), isMyLivestock: true,).navigate();
+            LiveStockDetail(id: state.responseMyLivestockList!.data!.livestocklLIst![index].id.toString(), isMyLivestock: true,type: 'seller',).navigate();
           },
           child: customShadowContainer(
             margin: 0,
@@ -156,10 +156,10 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: [
-                    Container(
-                        padding: 2.marginAll(),
+                    SizedBox(
+                        // padding: 2.marginAll(),
                         width: screenWidth(),
-                        height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.isNotEmpty ? state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
+                        height:140,child: ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(14),topRight: Radius.circular(14)),child: CachedNetworkImage(imageUrl: state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.isNotEmpty ? state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
                     if(state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.length > 1)
                     customShadowContainer(
                       backColor: Colors.transparent,
@@ -175,7 +175,7 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 3, top: 6),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8, top: 6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

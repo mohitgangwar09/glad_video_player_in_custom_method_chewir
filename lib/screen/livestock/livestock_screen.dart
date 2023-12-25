@@ -224,7 +224,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
           context, child: (index){
         return InkWell(
           onTap: () {
-            LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,).navigate();
+            LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,type: 'buyer',).navigate();
           },
           child: customShadowContainer(
             margin: 0,
@@ -236,10 +236,10 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                   alignment: Alignment.bottomRight,
                   children: [
                     if(state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles!.isNotEmpty)
-                      Container(
-                          padding: 2.marginAll(),
+                      SizedBox(
+                          // padding: 2.marginAll(),
                           width: screenWidth(),
-                          height:140,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,)))
+                          height:140,child: ClipRRect(borderRadius: const BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),child: CachedNetworkImage(imageUrl: state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,)))
                     else
                       const SizedBox(height: 140,),
 
@@ -258,7 +258,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 3, top: 6),
+                  padding: const EdgeInsets.only(left: 10.0, right: 10, top: 6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -287,7 +287,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF727272))),
                                 TextSpan(
-                                    text: state.responseLivestockList!.data!.liveStoclLIst![index].cowQty.toString(),
+                                    text: state.responseLivestockList!.data!.liveStoclLIst![index].balanceCows.toString(),
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: Colors.black)),
                               ])),
@@ -330,11 +330,25 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                         ],
                       ),
                       6.verticalSpace(),
-                      Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.address != null
-                          ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.address!.address ?? ''
-                          : '',
-                        style: figtreeMedium.copyWith(
-                            fontSize: 12, color: Colors.black), maxLines: 1,),
+                      Row(
+                        children: [
+                          Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.name != null
+                              ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.name ?? ''
+                              : '',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: Colors.black), maxLines: 1,),
+
+                          Flexible(
+                            child: Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.address != null
+                                ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.address!.address ?? ''
+                                : '',
+                              overflow: TextOverflow.ellipsis,
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: Colors.black), maxLines: 1,),
+
+                          ),
+                        ],
+                      ),
                       // 12.verticalSpace(),
                       // Row(
                       //   children: [
