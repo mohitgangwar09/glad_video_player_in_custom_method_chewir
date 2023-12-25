@@ -708,7 +708,6 @@ Widget kpi(context,LivestockCubitState state) {
       child: (index){
         return InkWell(
           onTap: (){
-
             // if(kpiData[index].name.toString() == "Paid EMIs"){
             //   ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
             // }else if(kpiData[index].name.toString() == "Remaining Payable"){
@@ -837,7 +836,8 @@ Widget kpi(context,LivestockCubitState state) {
                               decoration:TextDecoration.underline,
                               color: const Color(0xFFFC5E60)
                             ),
-                          )):const SizedBox.shrink(): const SizedBox.shrink(),
+                          )):const SizedBox.shrink()
+                          : const SizedBox.shrink(),
                       // const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
                       //     :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
 
