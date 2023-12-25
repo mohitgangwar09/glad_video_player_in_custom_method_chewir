@@ -14,6 +14,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
 import 'package:glad/screen/farmer_screen/dashboard/milk_production_yield.dart';
+import 'package:glad/screen/livestock/loan_livestock_detail.dart';
 import 'package:glad/screen/mcc_screen/view_mcc_loan.dart';
 import 'package:glad/screen/supplier_screen/milestone_detail.dart';
 import 'package:glad/screen/supplier_screen/supplier_farmer_detail.dart';
@@ -99,7 +100,12 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                             dde(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!):const SizedBox.shrink(),
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
-                            projectMilestones(context,state),
+
+                            if(state.responseFarmerProjectDetail!.data!
+                                .farmerProject![0].category.toString() == "6")
+                              livestockList(context, state)
+                            else
+                              projectMilestones(context,state),
                             6.verticalSpace(),
                            /* customProjectContainer(
                                 marginLeft: 0,
@@ -559,12 +565,12 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                     right: 10,
                     child: Row(
                       children: [
-    InkWell(
-    onTap: () async {
-    await callOnMobile(dde.phone);
-    },
-    child:
-    SvgPicture.asset(Images.callPrimary)),
+
+                        InkWell(onTap: () async {
+                          await callOnMobile(dde.phone);
+                        },
+                            child:
+                            SvgPicture.asset(Images.callPrimary)),
                         6.horizontalSpace(),
                         whatsapp(dde.phone),
                         6.horizontalSpace(),
@@ -828,4 +834,204 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
           }),
     ]);
   }
+
+
+  ///////////ProjectMilestones///////////
+  Widget livestockList(contexts, ProjectState state) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      50.verticalSpace(),
+      Text(
+        'Livestock',
+        style: figtreeMedium.copyWith(fontSize: 18),
+      ),
+      15.verticalSpace(),
+      customGrid(
+        // padding: const EdgeInsets.fromLTRB(0,13,0,120),
+          list: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails ?? [],
+          crossAxisSpacing: 13,
+          mainAxisSpacing: 13,
+          mainAxisExtent: 250,
+          context, child: (index){
+        return Stack(
+          children: [
+            InkWell(
+              onTap: () {
+                LoanLivestockDetail(id: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStockId.toString(), isMyLivestock: false,
+                  cowQty:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowQty.toString(),
+                  status:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
+                  farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                  cartId:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].id!,
+                  deliveryStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus!,
+                  mediaLivestock: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!:[],
+                  type:"",
+                  cowPrice:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString(),
+                ).navigate();
+              },
+              child: customShadowContainer(
+                margin: 0,
+                color: /*state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||*/ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"?const Color(0xffFFF3F4):Colors.white,
+                backColor: /*state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||*/ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"? const Color(0xff6A0030):Colors.grey.withOpacity(0.4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty)
+                          SizedBox(
+                            // padding: 2.marginAll(),
+                              width: screenWidth(),
+                              height:140,child: ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),child: CachedNetworkImage(imageUrl: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,)))
+                        else
+                          const SizedBox(height: 140,),
+
+                        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.length > 1)
+                          customShadowContainer(
+                            backColor: Colors.transparent,
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                (state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
+                                const Icon(Icons.image_outlined, color: Colors.white,)
+                              ],),
+                          )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9.0, right: 9, top: 6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.cowBreed!.name ?? ''} cow ',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                                TextSpan(
+                                    text: '(${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.advertisementNo ?? ''})',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: const Color(0xFF727272)))
+                              ])),
+                          6.verticalSpace(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(getCurrencyString(double.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString())),
+                                  style: figtreeSemiBold.copyWith(
+                                      fontSize: 18, color: Colors.black)),
+                              RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: 'Qty: ',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: const Color(0xFF727272))),
+                                    TextSpan(
+                                        text: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowQty.toString(),
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: Colors.black)),
+                                  ])),
+                            ],
+                          ),
+                          12.verticalSpace(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: 'Age: ',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: const Color(0xFF727272))),
+                                    TextSpan(
+                                        text: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.age ?? ''} yrs',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: Colors.black)),
+                                  ])),
+                              // 10.horizontalSpace(),
+                              Container(
+                                height: 5,
+                                width: 5,
+                                decoration: const BoxDecoration(
+                                    color: Colors.black, shape: BoxShape.circle),
+                              ),
+                              // 10.horizontalSpace(),
+                              RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: 'Milk: ',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: const Color(0xFF727272))),
+                                    TextSpan(
+                                        text: '${double.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.yield ?? '').toInt()}L/day',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: Colors.black))
+                                  ])),
+                            ],
+                          ),
+                          6.verticalSpace(),
+                          Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user != null
+                              ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
+                              : '',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: Colors.black), maxLines: 1,),
+                          // 12.verticalSpace(),
+                          // Row(
+                          //   children: [
+                          //     Container(
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(26),
+                          //         border: Border.all(color: const Color(0xFFFC5E60)),
+                          //       ),
+                          //       padding: const EdgeInsets.symmetric(
+                          //           horizontal: 16, vertical: 9.5),
+                          //       child: SvgPicture.asset(Images.chatBubble),
+                          //     ),
+                          //     6.horizontalSpace(),
+                          //     Container(
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(50),
+                          //         border: Border.all(color: const Color(0xffF6B51D)),
+                          //       ),
+                          //       padding: const EdgeInsets.symmetric(
+                          //           vertical: 10.0, horizontal: 9.5),
+                          //       child: Text('Add to Cart',
+                          //           style: figtreeMedium.copyWith(
+                          //               fontSize: 13.5, color: Colors.black)),
+                          //     )
+                          //   ],
+                          // )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" || state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"?
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                  width: 24,
+                  margin: const EdgeInsets.all(10),
+                  height: 24,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: const Color(0xff6A0030)),
+                      borderRadius: BorderRadius.circular(6)
+                  ),
+                  child: const Center(child: Icon(Icons.check,size: 16,color: Color(0xff6A0030),))
+              ),
+            ):const SizedBox.shrink()
+          ],
+        );
+      }),
+
+      20.verticalSpace(),
+    ]);
+  }
+
+
 }

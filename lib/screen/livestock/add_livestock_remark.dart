@@ -137,7 +137,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
         ),
         30.verticalSpace(),
         customButton('Send OTP', fontColor: 0xffFFFFFF,
-            onTap: () {
+            onTap: istClickOnSendOtp == ""?() {
 
               istClickOnSendOtp = "click";
 
@@ -157,7 +157,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                   widget.projectData.phone.toString()
               );
 
-            }),
+            }:(){}),
 
         30.verticalSpace(),
 
@@ -312,7 +312,9 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                       text: "Resend",
                       onTap: () {
 
-                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            widget.projectData.phone.toString()
+                        );
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;

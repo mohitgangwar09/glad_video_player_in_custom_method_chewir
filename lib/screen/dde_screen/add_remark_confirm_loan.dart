@@ -128,23 +128,26 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: () {
 
-              istClickOnSendOtp = "click";
+          if(istClickOnSendOtp == ""){
+            istClickOnSendOtp = "click";
 
-              timer = Timer.periodic(const Duration(seconds: 1), (_) {
-                if (secondsRemaining != 0) {
-                  setState(() {
-                    secondsRemaining--;
-                  });
-                } else {
-                  setState(() {
-                    enableResend = true;
-                  });
-                }
-              });
+            timer = Timer.periodic(const Duration(seconds: 1), (_) {
+              if (secondsRemaining != 0) {
+                setState(() {
+                  secondsRemaining--;
+                });
+              } else {
+                setState(() {
+                  enableResend = true;
+                });
+              }
+            });
 
-              BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                  widget.projectData.phone.toString()
-              );
+            BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                widget.projectData.phone.toString()
+            );
+          }
+
 
             }),
 
@@ -300,7 +303,9 @@ class _AddRemarkConfirmLoanState extends State<AddRemarkConfirmLoan> {
                   customTextButton(
                       text: "Resend",
                       onTap: () {
-
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            widget.projectData.phone.toString()
+                        );
                         // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
                         setState(() {
                           secondsRemaining = 30;

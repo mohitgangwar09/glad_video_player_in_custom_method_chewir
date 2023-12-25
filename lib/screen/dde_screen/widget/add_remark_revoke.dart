@@ -126,7 +126,7 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
         ),
         30.verticalSpace(),
         customButton('Send OTP', fontColor: 0xffFFFFFF,
-            onTap: () {
+            onTap: istClickOnSendOtp == ""?() {
 
               istClickOnSendOtp = "click";
 
@@ -146,7 +146,7 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
                   widget.projectData.phone.toString()
               );
 
-            }),
+            }:(){}),
 
         30.verticalSpace(),
 
@@ -300,7 +300,9 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
                   customTextButton(
                       text: "Resend",
                       onTap: () {
-
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            widget.projectData.phone.toString()
+                        );
                         // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
                         setState(() {
                           secondsRemaining = 30;

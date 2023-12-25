@@ -123,25 +123,26 @@ class _AddRemarkLoanApprovalState extends State<AddRemarkLoanApproval> {
         ),
         30.verticalSpace(),
         customButton('Send OTP', fontColor: 0xffFFFFFF,
-            onTap: () {
+            onTap:  () {
+              if(istClickOnSendOtp == ""){
+                istClickOnSendOtp = "click";
 
-              istClickOnSendOtp = "click";
+                timer = Timer.periodic(const Duration(seconds: 1), (_) {
+                  if (secondsRemaining != 0) {
+                    setState(() {
+                      secondsRemaining--;
+                    });
+                  } else {
+                    setState(() {
+                      enableResend = true;
+                    });
+                  }
+                });
 
-              timer = Timer.periodic(const Duration(seconds: 1), (_) {
-                if (secondsRemaining != 0) {
-                  setState(() {
-                    secondsRemaining--;
-                  });
-                } else {
-                  setState(() {
-                    enableResend = true;
-                  });
-                }
-              });
-
-              BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                  widget.projectData.phone.toString()
-              );
+                BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                    widget.projectData.phone.toString()
+                );
+              }
 
             }),
 
@@ -298,6 +299,9 @@ class _AddRemarkLoanApprovalState extends State<AddRemarkLoanApproval> {
                       text: "Resend",
                       onTap: () {
 
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            widget.projectData.phone.toString()
+                        );
                         // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
                         setState(() {
                           secondsRemaining = 30;
