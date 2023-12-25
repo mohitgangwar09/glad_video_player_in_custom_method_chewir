@@ -927,6 +927,10 @@ class _DDeFarmerInvestmentDetailsState
                 )
               ],
             ),
+            if(state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                .category.toString() == "6")
+              Text("data")
+            else  
             if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
                         .projectStatus ==
                     'active' ||

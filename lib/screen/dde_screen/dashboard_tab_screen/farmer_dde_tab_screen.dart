@@ -325,7 +325,7 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
                                                         4.horizontalSpace(),
                                                         (state.response!.farmerMAster![i].farmerRating!=null?
-                                                        state.response!.farmerMAster![i].farmerRating!.toString():"").textRegular(),
+                                                        state.response!.farmerMAster![i].farmerRating!.toStringAsFixed(2):"").textRegular(),
 
                                                         RatingBar.builder(
                                                             initialRating: 1,
