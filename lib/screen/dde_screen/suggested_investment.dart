@@ -849,7 +849,7 @@ class _DDeFarmerInvestmentDetailsState
                                     .toString()
                                 : ''
                             : '',
-                        'user_type': 'dde',
+                        // 'user_type': 'dde',
                       });
 
                       ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(

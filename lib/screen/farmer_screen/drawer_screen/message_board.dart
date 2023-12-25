@@ -64,7 +64,7 @@ class _MessageBoardState extends State<MessageBoard> {
                               // if(chatSnapShot.connectionState == ConnectionState.waiting) {
                               //   return const Center(child: CircularProgressIndicator(),);}
                               if(!chatSnapShot.hasData) {
-                                return SizedBox.shrink();
+                                return const SizedBox.shrink();
                               }
                               final chatDocs = chatSnapShot.data;
                               return ListView.builder(

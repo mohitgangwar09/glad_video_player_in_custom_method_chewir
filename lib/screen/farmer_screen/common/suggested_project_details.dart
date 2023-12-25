@@ -415,7 +415,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                         'created_at': Timestamp.now(),
                         'farmer_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                         'farmer_address': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!.toString():'':'',
-                        'user_type': 'farmer',
+                        // 'user_type': 'farmer',
                       });
 
 

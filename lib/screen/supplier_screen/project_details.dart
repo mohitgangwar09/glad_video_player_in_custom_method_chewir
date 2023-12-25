@@ -222,7 +222,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     'created_at': Timestamp.now(),
                     'farmer_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                     'farmer_address': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!.toString():'':'',
-                    'user_type': 'dde',
+                    // 'user_type': 'dde',
                   });
 
                   ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(
@@ -237,7 +237,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   farmerName: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                   farmerAddress: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString():'');
 
-                  FirebaseChatScreen(responseProjectDataForFirebase: response,).navigate();
+                  FirebaseChatScreen(responseProjectDataForFirebase: response).navigate();
                 },
                 child: Image.asset(
                   Images.messageChat,

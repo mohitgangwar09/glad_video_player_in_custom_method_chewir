@@ -47,14 +47,14 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
       'created_at': Timestamp.now(),
       'user_name': widget.responseProjectDataForFirebase.userName.toString(),
       'user_type': widget.responseProjectDataForFirebase.userType,
-      'time': DateFormat('hh:mm a').format(DateTime.now()),
+      // 'time': DateFormat('hh:mm a').format(DateTime.now()),
       'date': DateFormat.yMMMMd().format(DateTime.now()),
       "message_count":FieldValue.increment(1),
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
     }).then((value) => print("Message Added"))
         .catchError((error) => print("Failed to add user: $error"));
-    scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     controller.clear();
   }
 
@@ -80,13 +80,13 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
       'created_at': Timestamp.now(),
       'user_name': widget.responseProjectDataForFirebase.userName.toString(),
       'user_type': widget.responseProjectDataForFirebase.userType,
-      'time': DateFormat('hh:mm a').format(DateTime.now()),
+      // 'time': DateFormat('hh:mm a').format(DateTime.now()),
       'date': DateFormat.yMMMMd().format(DateTime.now()),
       "message_count":FieldValue.increment(1),
       "message_type": messageType,
       // "${currentUser}messageCount":FieldValue.increment(1),
     }).then((value) {
-      scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       disposeProgress();
     }).catchError((error) {
       print("Failed to add user: $error");
@@ -189,13 +189,14 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                               // parentIndex.toString(),
                               element.data()['text'],
                               element.data()['user_name'],
-                              element.data()['time'].toString(),
+                              DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch((element.data()['created_at'] as Timestamp).seconds * 1000)),
                               element.data()['user_type'],
                               widget.responseProjectDataForFirebase.userType.toString(),
                               element.data()['message_type'],
                               element.data()['file'],
                             ),
                           ),
+
                           itemComparator: (item1, item2) => item1.data()['date'].compareTo(item2.data()['date']), // optional
                           // useStickyGroupSeparators: true, // optional
                           // floatingHeader: true, // o
