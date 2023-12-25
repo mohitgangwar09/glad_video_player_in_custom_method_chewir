@@ -148,7 +148,7 @@ class _LoanApplicationState extends State<LoanApplication> {
                                                             style: figtreeMedium.copyWith(
                                                                 fontSize: 12, color: const Color(0xFF808080))),
                                                         TextSpan(
-                                                            text: getCurrencyString(state.responseLoanApplicationList!.data![index].loanAmount),
+                                                            text: getCurrencyString(state.responseLoanApplicationList!.data![index].investmentAmount-state.responseLoanApplicationList!.data![index].farmerParticipation),
                                                             style: figtreeMedium.copyWith(
                                                                 fontSize: 12, color: Colors.black))
                                                       ])),

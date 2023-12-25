@@ -70,11 +70,17 @@ class _LivestockKycState extends State<LivestockKyc> {
                       Center(
                         child: InkWell(
                           onTap: () {
-                            imgFromCamera().then((value) async {
+                            imgFromGallery().then((value) async {
                               setState(() {
                                 profilePicture = value;
                               });
                             });
+
+                            /*imgFromCamera().then((value) async {
+                              setState(() {
+                                profilePicture = value;
+                              });
+                            });*/
                           },
                           child: ClipOval(
                             clipper: MyClip(),

@@ -52,6 +52,7 @@ class Data {
   String? updatedAt;
   dynamic isInCart;
   List<LiveStockDocumentFiles>? liveStockDocumentFiles;
+  List<NegotiatedPrice>? negotiatedPrice;
   User? user;
   CowBreed? cowBreed;
 
@@ -86,6 +87,7 @@ class Data {
         this.isInCart,
         this.liveStockDocumentFiles,
         this.user,
+        this.negotiatedPrice,
         this.cowBreed});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -117,6 +119,12 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isInCart = json['is_in_cart'];
+    if (json['live_stock_negotiation'] != null) {
+      negotiatedPrice = <NegotiatedPrice>[];
+      json['live_stock_negotiation'].forEach((v) {
+        negotiatedPrice!.add(NegotiatedPrice.fromJson(v));
+      });
+    }
     if (json['live_stock_document_files'] != null) {
       liveStockDocumentFiles = <LiveStockDocumentFiles>[];
       json['live_stock_document_files'].forEach((v) {
@@ -162,6 +170,10 @@ class Data {
     if (liveStockDocumentFiles != null) {
       data['live_stock_document_files'] =
           liveStockDocumentFiles!.map((v) => v.toJson()).toList();
+    }
+    if (negotiatedPrice != null) {
+      data['live_stock_negotiation'] =
+          negotiatedPrice!.map((v) => v.toJson()).toList();
     }
     if (user != null) {
       data['user'] = user!.toJson();
@@ -275,7 +287,7 @@ class User {
   String? deviceToken;
   String? loginAt;
   dynamic logoutAt;
-  String? name;
+  dynamic name;
   String? email;
   String? supplierId;
   dynamic emailVerifiedAt;
@@ -574,6 +586,59 @@ class CowBreed {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
+    return data;
+  }
+}
+
+class NegotiatedPrice {
+  dynamic id;
+  dynamic liveStockId;
+  dynamic userId;
+  dynamic negotiatedPrice;
+  dynamic status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  NegotiatedPrice(
+      {this.id,
+        this.liveStockId,
+        this.userId,
+        this.negotiatedPrice,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  NegotiatedPrice.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    liveStockId = json['live_stock_id'];
+    userId = json['user_id'];
+    negotiatedPrice = json['negotiated_price'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['live_stock_id'] = this.liveStockId;
+    data['user_id'] = this.userId;
+    data['negotiated_price'] = this.negotiatedPrice;
+    data['status'] = this.status;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
