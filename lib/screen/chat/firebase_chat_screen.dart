@@ -382,10 +382,18 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                         ),
                       ),
                       10.horizontalSpace(),
-                      SvgPicture.asset(
-                        Images.camera,
-                        colorFilter: const ColorFilter.mode(
-                            ColorResources.fieldGrey, BlendMode.srcIn),
+                      InkWell(
+                        onTap: (){
+                          var image =  imgFromCamera();
+                          image.then((value) async{
+                            await sendFile(File(value), 'image');
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          Images.camera,
+                          colorFilter: const ColorFilter.mode(
+                              ColorResources.fieldGrey, BlendMode.srcIn),
+                        ),
                       ),
 
                       IconButton(

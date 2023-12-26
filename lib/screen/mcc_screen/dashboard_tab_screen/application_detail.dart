@@ -4,6 +4,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -455,7 +456,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
             Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(height: 150, width: screenWidth()),
+                SizedBox(height: 153, width: screenWidth()),
                 Container(
                   height: 100,
                   width: screenWidth(),
@@ -574,7 +575,14 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                         6.horizontalSpace(),
                         whatsapp(dde.phone),
                         6.horizontalSpace(),
-                        SvgPicture.asset(Images.redirectLocation),
+                        InkWell(
+                            onTap: (){
+                              if(dde.address!=null){
+                                BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                    dde.address!.address!.latitude.toString(),
+                                    dde.address!.address!.longitude.toString(),context);
+                              }
+                            },child: SvgPicture.asset(Images.redirectLocation)),
                         6.horizontalSpace(),
                       ],
                     )),
@@ -591,7 +599,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(height: 150, width: screenWidth()),
+        SizedBox(height: 153, width: screenWidth()),
         InkWell(
           onTap: (){
             BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
@@ -718,7 +726,11 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
 
                 6.horizontalSpace(),
                 InkWell(onTap: ()async{
-
+                  if(farmerDetail.address!=null){
+                    BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                        farmerDetail.address!.address!.latitude.toString(),
+                        farmerDetail.address!.address!.longitude.toString(),context);
+                  }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),
               ],

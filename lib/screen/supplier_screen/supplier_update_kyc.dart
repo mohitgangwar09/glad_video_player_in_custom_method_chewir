@@ -29,7 +29,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
   String docThree= 'Latest Annual Return';
   String docFour= 'Bank Statement (Last 6 Months - stamped)';
   String docFive= 'MOA & AOA (Optional)';
-  String docSix= 'Select ID Proof';
+  String docSix= 'ID Proof';
 
   TextEditingController docOneController = TextEditingController();
   TextEditingController docTwoController = TextEditingController();
@@ -1603,7 +1603,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   hint: '',
                   dropdownValue: docSix,
                   itemList: const [
-                    "Select ID Proof"
+                    "ID Proof"
                   ],
                   icon: Images.arrowDropdown,
                   iconColor: Colors.black, onChanged: (String? value) {  },

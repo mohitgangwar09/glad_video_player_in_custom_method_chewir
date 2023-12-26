@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -2208,6 +2209,11 @@ class _DDeFarmerInvestmentDetailsState
                       6.horizontalSpace(),
                       InkWell(
                           onTap: () async {
+                            if(farmerDetail.address!=null){
+                              BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                  farmerDetail.address!.address.latitude.toString(),
+                                  farmerDetail.address!.address.latitude.toString(),context);
+                            }
                             // await launchWhatsApp(farmerDetail.phone ?? '');
                           },
                           child: SvgPicture.asset(Images.redirectLocation)),
@@ -2359,6 +2365,11 @@ class _DDeFarmerInvestmentDetailsState
                       6.horizontalSpace(),
                       InkWell(
                           onTap: () async {
+                            if(farmerDetail.address!=null){
+                              BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                  farmerDetail.address!.address.latitude.toString(),
+                                  farmerDetail.address!.address.latitude.toString(),context);
+                            }
                             // await launchWhatsApp(farmerDetail.phone ?? '');
                           },
                           child: SvgPicture.asset(Images.redirectLocation)),
