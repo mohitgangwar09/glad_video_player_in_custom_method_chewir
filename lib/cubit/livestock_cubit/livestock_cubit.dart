@@ -56,8 +56,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   // trainingListApi
-  Future<void> myLivestockListApi(context) async{
-    emit(state.copyWith(status: LivestockStatus.submit));
+  Future<void> myLivestockListApi(context, {bool isLoaderRequired = true}) async{
+    if(isLoaderRequired) {
+      emit(state.copyWith(status: LivestockStatus.submit));
+    }
     var response = await apiRepository.getMyLivestockListApi();
     if (response.status == 200) {
       emit(state.copyWith(status: LivestockStatus.success, responseMyLivestockList: response));
@@ -257,9 +259,9 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     if (response.status == 200) {
       disposeProgress();
       showCustomToast(context, response.message.toString());
-      await livestockDetailApi(context, id.toString(),isLoaderRequired: false);
+      // await livestockDetailApi(context, id.toString(),isLoaderRequired: false);
       pressBack();
-      // livestockCartListApi(context, isLoaderRequired: false);
+      myLivestockListApi(context, isLoaderRequired: false);
     } else {
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));
@@ -335,8 +337,8 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   // updateNegotiateApi
-  Future<void> updateNegotiateApi(context, String livestockId, String negotiatedPrice) async{
-    var response = await apiRepository.updateNegotiatedPrice(livestockId, negotiatedPrice);
+  Future<void> updateNegotiateApi(context, String livestockId, String negotiatedPrice, String userId) async{
+    var response = await apiRepository.updateNegotiatedPrice(livestockId, negotiatedPrice, userId);
     if (response.status == 200) {
       showCustomToast(context, response.message.toString(), isSuccess: true);
     }

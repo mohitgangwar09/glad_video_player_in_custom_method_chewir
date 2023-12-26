@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/messages.dart';
 import 'package:glad/screen/chat/new_messages.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -35,24 +38,89 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
 
   @override
   void initState() {
-      super.initState();
-  }
-
-  void _sendMessage() async {
     FirebaseFirestore.instance.collection('projects_chats')
         .doc(widget.responseProjectDataForFirebase.farmerProjectId.toString())
-        .collection('chats').add({
+        .collection('read-receipts')
+        .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userId))
+        .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType))
+        .get()
+        .then((value) {
+            if(value.docs.isNotEmpty){
+              for (var doc in value.docs) {
+                   doc.reference.delete();
+              }
+            }
+        });
+          super.initState();
+  }
+  void _sendMessage() async {
+    final query = FirebaseFirestore.instance.collection('projects_chats').doc(widget.responseProjectDataForFirebase.farmerProjectId.toString()).collection('chats');
+    query.add({
       'text': _enteredMessage,
       "file": '' ,
       'created_at': Timestamp.now(),
       'user_name': widget.responseProjectDataForFirebase.userName.toString(),
       'user_type': widget.responseProjectDataForFirebase.userType,
       // 'time': DateFormat('hh:mm a').format(DateTime.now()),
-      'date': DateFormat.yMMMMd().format(DateTime.now()),
-      "message_count":FieldValue.increment(1),
+      // 'date': DateFormat.yMMMMd().format(DateTime.now()),
+      // "message_count":FieldValue.increment(1),
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
-    }).then((value) => print("Message Added"))
+    }).then((value) {
+      if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'farmer') {
+        if(widget.responseProjectDataForFirebase.farmerId != '') {
+          FirebaseFirestore.instance.collection('projects_chats')
+            .doc(
+            widget.responseProjectDataForFirebase.farmerProjectId.toString())
+            .collection('read-receipts')
+            .add({
+          "user_id": widget.responseProjectDataForFirebase.farmerId,
+          'message_id': query.id,
+          'user_type': 'farmer'
+        });
+        }
+      }
+      if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'dde') {
+        if(widget.responseProjectDataForFirebase.ddeId != '') {
+          FirebaseFirestore.instance.collection('projects_chats')
+            .doc(
+            widget.responseProjectDataForFirebase.farmerProjectId.toString())
+            .collection('read-receipts')
+            .add({
+          "user_id": widget.responseProjectDataForFirebase.ddeId,
+          'messageId': query.id,
+          'user_type': 'dde'
+        });
+        }
+      }
+      if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'mcc') {
+        if(widget.responseProjectDataForFirebase.mccId != '') {
+          FirebaseFirestore.instance.collection('projects_chats')
+            .doc(
+            widget.responseProjectDataForFirebase.farmerProjectId.toString())
+            .collection('read-receipts')
+            .add({
+          "user_id": widget.responseProjectDataForFirebase.mccId,
+          'messageId': query.id,
+          'user_type': 'mcc'
+        });
+        }
+      }
+      if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'supplier') {
+        if(widget.responseProjectDataForFirebase.supplierId != '') {
+          FirebaseFirestore.instance.collection('projects_chats')
+            .doc(
+            widget.responseProjectDataForFirebase.farmerProjectId.toString())
+            .collection('read-receipts')
+            .add({
+          "user_id": widget.responseProjectDataForFirebase.supplierId,
+          'messageId': query.id,
+          'user_type': 'supplier'
+        });
+        }
+      }
+      print("Message Added");
+    })
         .catchError((error) => print("Failed to add user: $error"));
     scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     controller.clear();
@@ -72,9 +140,8 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
 
     final url = await ref.getDownloadURL();
     // Fireb
-    FirebaseFirestore.instance.collection('projects_chats')
-        .doc(widget.responseProjectDataForFirebase.farmerProjectId.toString())
-        .collection('chats').add({
+    final query = FirebaseFirestore.instance.collection('projects_chats').doc(widget.responseProjectDataForFirebase.farmerProjectId.toString()).collection('chats');
+    query.add({
       'text': '',
       "file": url ,
       'created_at': Timestamp.now(),
@@ -82,10 +149,63 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
       'user_type': widget.responseProjectDataForFirebase.userType,
       // 'time': DateFormat('hh:mm a').format(DateTime.now()),
       'date': DateFormat.yMMMMd().format(DateTime.now()),
-      "message_count":FieldValue.increment(1),
+      // "message_count":FieldValue.increment(1),
       "message_type": messageType,
       // "${currentUser}messageCount":FieldValue.increment(1),
     }).then((value) {
+        if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'farmer') {
+          if(widget.responseProjectDataForFirebase.farmerId != '') {
+            FirebaseFirestore.instance.collection('projects_chats')
+              .doc(
+              widget.responseProjectDataForFirebase.farmerProjectId.toString())
+              .collection('read-receipts')
+              .add({
+            "user_id": widget.responseProjectDataForFirebase.farmerId,
+            'messageId': query.id,
+            'user_type': 'farmer'
+          });
+          }
+        }
+        if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'dde') {
+          if(widget.responseProjectDataForFirebase.ddeId != '') {
+            FirebaseFirestore.instance.collection('projects_chats')
+              .doc(
+              widget.responseProjectDataForFirebase.farmerProjectId.toString())
+              .collection('read-receipts')
+              .add({
+            "user_id": widget.responseProjectDataForFirebase.ddeId,
+            'messageId': query.id,
+            'user_type': 'dde'
+          });
+          }
+        }
+        if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'mcc') {
+          if(widget.responseProjectDataForFirebase.mccId != '') {
+            FirebaseFirestore.instance.collection('projects_chats')
+              .doc(
+              widget.responseProjectDataForFirebase.farmerProjectId.toString())
+              .collection('read-receipts')
+              .add({
+            "user_id": widget.responseProjectDataForFirebase.mccId,
+            'messageId': query.id,
+            'user_type': 'mcc'
+          });
+          }
+        }
+        if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'supplier') {
+          if(widget.responseProjectDataForFirebase.supplierId != '') {
+            FirebaseFirestore.instance.collection('projects_chats')
+              .doc(
+              widget.responseProjectDataForFirebase.farmerProjectId.toString())
+              .collection('read-receipts')
+              .add({
+            "user_id": widget.responseProjectDataForFirebase.supplierId,
+            'messageId': query.id,
+            'user_type': 'supplier'
+          });
+          }
+        }
+        print("Image Added");
       scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       disposeProgress();
     }).catchError((error) {

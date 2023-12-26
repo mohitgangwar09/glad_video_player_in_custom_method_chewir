@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -84,10 +87,10 @@ class _MessageBoardState extends State<MessageBoard> {
                                           userType: widget.roleType,
                                           farmerName: chatDocs.docs[index]['farmer_name'].toString(),
                                           farmerAddress: chatDocs.docs[index]['farmer_address'].toString(),
-                                          farmerId: '',
+                                          farmerId: chatDocs.docs[index]['farmer_id'].toString(),
                                           ddeId: chatDocs.docs[index]['dde_id'].toString(),
-                                          mccId: '',
-                                          supplierId: '');
+                                          mccId: chatDocs.docs[index]['mcc_id'].toString(),
+                                          supplierId: chatDocs.docs[index]['supplier_id'].toString());
 
                                           // userType: 'dde', userId: int.parse(chatDocs.docs[index]['userId'].toString()));
                                       FirebaseChatScreen(responseProjectDataForFirebase: response,).navigate();
@@ -164,40 +167,57 @@ class _MessageBoardState extends State<MessageBoard> {
                                             ],
                                           ),
                                         ),
-                                        // Positioned(
-                                        //   right: 20,
-                                        //   top: 20,
-                                        //   child: Column(
-                                        //     crossAxisAlignment:
-                                        //     CrossAxisAlignment.end,
-                                        //     children: [
-                                        //       Text('09:32 PM',
-                                        //           style:
-                                        //           figtreeRegular.copyWith(
-                                        //               fontSize: 10,
-                                        //               color: ColorResources
-                                        //                   .black)),
-                                        //       8.verticalSpace(),
-                                        //       Container(
-                                        //         padding:
-                                        //         const EdgeInsets.all(5),
-                                        //         decoration: BoxDecoration(
-                                        //             color:
-                                        //             const Color(0xFFFC5E60),
-                                        //             borderRadius:
-                                        //             BorderRadius.circular(
-                                        //                 8)),
-                                        //         child: Text('06',
-                                        //             style:
-                                        //             figtreeRegular.copyWith(
-                                        //                 fontSize: 10,
-                                        //                 color:
-                                        //                 ColorResources
-                                        //                     .white)),
-                                        //       ),
-                                        //     ],
-                                        //   ),
-                                        // )
+                                        Positioned(
+                                          right: 20,
+                                          top: 20,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                            children: [
+                                              // Text('09:32 PM',
+                                              //     style:
+                                              //     figtreeRegular.copyWith(
+                                              //         fontSize: 10,
+                                              //         color: ColorResources
+                                              //             .black)),
+                                              // 8.verticalSpace(),
+                                              StreamBuilder(
+                                                stream: FirebaseFirestore.instance.collection('projects_chats')
+                                                    .doc(chatDocs.docs[index]['farmer_project_id'].toString())
+                                                    .collection('read-receipts')
+                                                    .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userId))
+                                                    .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType)).snapshots(),
+                                                builder: (context, snapshot) {
+                                                  if(!snapshot.hasData){
+                                                    return SizedBox.shrink();
+                                                  }
+
+                                                  Map data = groupBy(snapshot.data!.docs, (QueryDocumentSnapshot<Map<String, dynamic>> p0) => p0.data()['message_id']);
+                                                  if(data.keys.isEmpty) {
+                                                    return SizedBox.shrink();
+                                                  }
+                                                  return Container(
+                                                    padding:
+                                                    const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                        const Color(0xFFFC5E60),
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            8)),
+                                                    child: Text(data.keys.length.toString(),
+                                                        style:
+                                                        figtreeRegular.copyWith(
+                                                            fontSize: 10,
+                                                            color:
+                                                            ColorResources
+                                                                .white)),
+                                                  );
+                                                }
+                                              ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
