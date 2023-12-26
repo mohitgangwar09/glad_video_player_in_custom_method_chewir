@@ -41,8 +41,8 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
     FirebaseFirestore.instance.collection('projects_chats')
         .doc(widget.responseProjectDataForFirebase.farmerProjectId.toString())
         .collection('read-receipts')
-        .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userId))
-        .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType))
+        .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString())
+        .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType).toString())
         .get()
         .then((value) {
             if(value.docs.isNotEmpty){
@@ -62,11 +62,11 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
       'user_name': widget.responseProjectDataForFirebase.userName.toString(),
       'user_type': widget.responseProjectDataForFirebase.userType,
       // 'time': DateFormat('hh:mm a').format(DateTime.now()),
-      // 'date': DateFormat.yMMMMd().format(DateTime.now()),
+      'date': DateFormat.yMMMMd().format(DateTime.now()),
       // "message_count":FieldValue.increment(1),
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
-    }).then((value) {
+    }).then((query) {
       if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'farmer') {
         if(widget.responseProjectDataForFirebase.farmerId != '') {
           FirebaseFirestore.instance.collection('projects_chats')
@@ -152,7 +152,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
       // "message_count":FieldValue.increment(1),
       "message_type": messageType,
       // "${currentUser}messageCount":FieldValue.increment(1),
-    }).then((value) {
+    }).then((query) {
         if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'farmer') {
           if(widget.responseProjectDataForFirebase.farmerId != '') {
             FirebaseFirestore.instance.collection('projects_chats')
@@ -303,7 +303,22 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                           groupSeparatorBuilder: (String groupByValue) => Align(
                             alignment: Alignment.center,
                               child: Text(groupByValue)),
-                          itemBuilder: (context, dynamic element) => Padding(
+                          itemBuilder: (context, dynamic element) {
+                            FirebaseFirestore.instance.collection('projects_chats')
+                                .doc(widget.responseProjectDataForFirebase.farmerProjectId.toString())
+                                .collection('read-receipts')
+                                .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString())
+                                .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType).toString())
+                                .get()
+                                .then((value) {
+                              if(value.docs.isNotEmpty){
+                                print("value");
+                                for (var doc in value.docs) {
+                                  doc.reference.delete();
+                                }
+                              }
+                            });
+                            return Padding(
                             padding: const EdgeInsets.only(top: 8.0, bottom: 4),
                             child: MessageBubble(
                               // parentIndex.toString(),
@@ -315,7 +330,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                               element.data()['message_type'],
                               element.data()['file'],
                             ),
-                          ),
+                          ); },
 
                           itemComparator: (item1, item2) => item1.data()['date'].compareTo(item2.data()['date']), // optional
                           // useStickyGroupSeparators: true, // optional

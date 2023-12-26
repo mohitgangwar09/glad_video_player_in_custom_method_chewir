@@ -68,17 +68,17 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                           titleText1: 'Cow Details',
                           centerTitle: true,
                           leading: arrowBackButton(),
-                          action: widget.isMyLivestock ? TextButton(
-                            onPressed: () {
-                              UpdateLivestock(detail: state.responseLivestockDetail!).navigate();
-                              // context.read<ProfileCubit>().updateDdeFarmDetailApi(context,);
-                            },
-                            child: Text(
-                              'Edit',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 14, color: ColorResources.maroon),
-                            ),
-                          ) : null,
+                          // action: widget.isMyLivestock ? TextButton(
+                          //   onPressed: () {
+                          //     UpdateLivestock(detail: state.responseLivestockDetail!).navigate();
+                          //     // context.read<ProfileCubit>().updateDdeFarmDetailApi(context,);
+                          //   },
+                          //   child: Text(
+                          //     'Edit',
+                          //     style: figtreeMedium.copyWith(
+                          //         fontSize: 14, color: ColorResources.maroon),
+                          //   ),
+                          // ) : null,
                         ),
                         landingPage(context, state),
                       ],
