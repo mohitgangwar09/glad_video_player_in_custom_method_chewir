@@ -185,15 +185,14 @@ class _MessageBoardState extends State<MessageBoard> {
                                                 stream: FirebaseFirestore.instance.collection('projects_chats')
                                                     .doc(chatDocs.docs[index]['farmer_project_id'].toString())
                                                     .collection('read-receipts')
-                                                    .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userId))
-                                                    .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType)).snapshots(),
+                                                    .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString())
+                                                    .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType).toString()).snapshots(),
                                                 builder: (context, snapshot) {
                                                   if(!snapshot.hasData){
                                                     return SizedBox.shrink();
                                                   }
-
-                                                  Map data = groupBy(snapshot.data!.docs, (QueryDocumentSnapshot<Map<String, dynamic>> p0) => p0.data()['message_id']);
-                                                  if(data.keys.isEmpty) {
+                                                  print(snapshot.data!.docs.length);
+                                                  if(snapshot.data!.docs.isEmpty) {
                                                     return SizedBox.shrink();
                                                   }
                                                   return Container(
@@ -205,7 +204,7 @@ class _MessageBoardState extends State<MessageBoard> {
                                                         borderRadius:
                                                         BorderRadius.circular(
                                                             8)),
-                                                    child: Text(data.keys.length.toString(),
+                                                    child: Text(snapshot.data!.docs.length.toString(),
                                                         style:
                                                         figtreeRegular.copyWith(
                                                             fontSize: 10,
