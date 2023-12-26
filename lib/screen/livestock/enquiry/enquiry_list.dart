@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -98,39 +101,70 @@ class _EnquiryListState extends State<EnquiryList> {
                                               Radius.circular(20)),
                                           border: Border.all(
                                               color: ColorResources.grey)),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      child: Column(
                                         children: [
                                           Row(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              networkImage(text: chatDocs.docs[index]['user_photo'].toString(), height: 46, width: 46, radius: 40),
-                                              15.horizontalSpace(),
-                                              Column(
+                                              Row(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                                 children: [
-                                                  Text(chatDocs.docs[index]['user_name'].toString(),
-                                                      style: figtreeMedium
-                                                          .copyWith(
-                                                          fontSize: 18,
-                                                          color: Colors
-                                                              .black)),
-                                                  4.verticalSpace(),
-                                                  Text(chatDocs.docs[index]['user_address']??'',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                          fontSize: 12,
-                                                          color: ColorResources
-                                                              .fieldGrey)),
+                                                  networkImage(text: chatDocs.docs[index]['user_photo'].toString(), height: 46, width: 46, radius: 40),
+                                                  15.horizontalSpace(),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(chatDocs.docs[index]['user_name'].toString(),
+                                                          style: figtreeMedium
+                                                              .copyWith(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .black)),
+                                                      4.verticalSpace(),
+                                                      Text(chatDocs.docs[index]['user_address']??'',
+                                                          style: figtreeRegular
+                                                              .copyWith(
+                                                              fontSize: 12,
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
+                                              SvgPicture.asset(Images.chat, color: ColorResources.maroon,),
                                             ],
                                           ),
-                                          SvgPicture.asset(Images.chat, color: ColorResources.maroon,),
+                                          StreamBuilder(
+                                              stream: FirebaseFirestore.instance.collection('livestock_enquiry')
+                                                  .doc(widget.livestockId)
+                                                  .collection('enquiries')
+                                                  .doc(chatDocs.docs[index]['user_id'].toString()).snapshots(),
+                                              builder: (contexts, snapshot) {
+                                                if(!snapshot.hasData) {
+                                                  return SizedBox.shrink();
+                                                }
+                                                if(snapshot.data!.data()!.containsKey('negotiated_price')) {
+                                                  return Column(
+                                                    children: [
+                                                      10.verticalSpace(),
+                                                      Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          'Negotiated Price: '.textRegular(color: ColorResources.maroon, fontSize: 14),
+                                                          getCurrencyString(double.parse(snapshot.data!.data()!['negotiated_price'])).textBold(color: ColorResources.maroon, fontSize: 14),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  );
+                                                }
+                                                return SizedBox.shrink();
+                                              }
+                                          ),
                                         ],
                                       ),
                                     ),

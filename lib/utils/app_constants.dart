@@ -121,7 +121,7 @@ class AppConstants {
   static const String loanListApi = '/api/live-stock/loan-list';
   static const String livestockLoanStatusUpdateApi = '/api/live-stock/loan-status-update';
   static const String livestockDeliveryStatusApi = '/api/live-stock/delivery-status';
-  static const String updateNegotiatedPriceApi = '/live-stock/update-negotiated-price';
+  static const String updateNegotiatedPriceApi = '/api/live-stock/update-negotiated-price';
 
 
 

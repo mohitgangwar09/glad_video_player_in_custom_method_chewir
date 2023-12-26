@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -54,7 +55,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contexts) {
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -73,49 +74,73 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                 Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                      child: customButton("Add Negotiate Price", style:figtreeSemiBold.copyWith(
-                          color: Colors.white
-                      ), onTap: () {
-                       TextEditingController controller = TextEditingController();
-                       controller.text = widget.defaultPrice.toString();
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance.collection('livestock_enquiry')
+                              .doc(widget.livestockId)
+                              .collection('enquiries')
+                              .doc(widget.userId).snapshots(),
+                        builder: (contexts, snapshot) {
+                            if(!snapshot.hasData) {
+                              return SizedBox.shrink();
+                            }
+                            if(snapshot.data!.data()!.containsKey('negotiated_price')) {
+                              return Container(
+                                width: screenWidth(),
+                                height: 55,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(30),
+                                    ),
+                                    border: Border.all(color: Color(0xff6A0030)),
+                                    color: Colors.white),
+                                padding: EdgeInsets.symmetric(horizontal: 14),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        'Negotiated Price: '.textRegular(color: ColorResources.maroon, fontSize: 14),
+                                        getCurrencyString(double.parse(snapshot.data!.data()!['negotiated_price'])).textBold(color: ColorResources.maroon, fontSize: 14)
+                                      ],
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        TextEditingController controller = TextEditingController();
+                                        controller.text = snapshot.data!.data()!['negotiated_price'].toString();
 
-                       modalBottomSheetMenu(context, radius: 40,
-                           child: StatefulBuilder(builder:
-                                                            (context,
-                                                                setState) {
+                                        modalBottomSheetMenu(context, radius: 40,
+                                            child: StatefulBuilder(
+                                                builder: (contexts, setState) {
                                                   return SizedBox(
                                                     height: 320,
                                                     child: Padding(
                                                       padding: const EdgeInsets
-                                                          .fromLTRB(
-                                                          23, 40, 25, 10),
+                                                          .fromLTRB(23, 40, 25, 10),
                                                       child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .start,
                                                           children: [
                                                             Center(
                                                               child: Text(
                                                                 'Negotiated Price',
                                                                 style: figtreeMedium
                                                                     .copyWith(
-                                                                        fontSize:
-                                                                            22),
+                                                                    fontSize: 22),
                                                               ),
                                                             ),
                                                             30.verticalSpace(),
                                                             Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                                              crossAxisAlignment: CrossAxisAlignment
+                                                                  .start,
                                                               children: [
                                                                 TextField(
-                                                                  controller:
-                                                                      controller,
+                                                                  controller: controller,
                                                                   maxLines: 1,
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .number,
+                                                                  keyboardType: TextInputType
+                                                                      .number,
                                                                   inputFormatters: [
                                                                     FilteringTextInputFormatter
                                                                         .digitsOnly
@@ -123,30 +148,27 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                   minLines: 1,
                                                                   decoration: InputDecoration(
                                                                       hintText: 'Enter negotiated value',
-                                                                      hintStyle: figtreeMedium.copyWith(fontSize: 18),
+                                                                      hintStyle: figtreeMedium
+                                                                          .copyWith(
+                                                                          fontSize: 18),
                                                                       border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(12),
+                                                                          borderRadius: BorderRadius
+                                                                              .circular(
+                                                                              12),
                                                                           borderSide: const BorderSide(
-                                                                            width:
-                                                                                1,
-                                                                            color:
-                                                                                Color(0xff999999),
+                                                                            width: 1,
+                                                                            color: Color(
+                                                                                0xff999999),
                                                                           ))),
                                                                 ),
                                                                 30.verticalSpace(),
                                                                 Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .fromLTRB(
-                                                                          28,
-                                                                          0,
-                                                                          29,
-                                                                          0),
-                                                                  child:
-                                                                      customButton(
+                                                                  padding: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      28, 0, 29, 0),
+                                                                  child: customButton(
                                                                     'Submit',
-                                                                    fontColor:
-                                                                        0xffFFFFFF,
+                                                                    fontColor: 0xffFFFFFF,
                                                                     onTap: () {
                                                                       if (controller
                                                                           .text
@@ -154,12 +176,65 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                         showCustomToast(
                                                                             context,
                                                                             "Please enter negotiated price");
+                                                                      } else
+                                                                      if (double
+                                                                          .parse(
+                                                                          controller
+                                                                              .text) >
+                                                                          double
+                                                                              .parse(
+                                                                              widget
+                                                                                  .defaultPrice)) {
+                                                                        showCustomToast(
+                                                                            context,
+                                                                            "Negotiated price shouldn't be greater than price of cow");
                                                                       } else {
+                                                                        context
+                                                                            .read<
+                                                                            LivestockCubit>()
+                                                                            .updateNegotiateApi(
+                                                                            context,
+                                                                            widget
+                                                                                .livestockId,
+                                                                            controller
+                                                                                .text,
+                                                                            widget
+                                                                                .userId);
+                                                                        FirebaseFirestore
+                                                                            .instance
+                                                                            .collection(
+                                                                            'livestock_enquiry')
+                                                                            .doc(
+                                                                            widget
+                                                                                .livestockId)
+                                                                            .collection(
+                                                                            'enquiries')
+                                                                            .doc(
+                                                                            widget
+                                                                                .userId)
+                                                                            .update(
+                                                                            {
+                                                                              'created_at': Timestamp
+                                                                                  .now(),
+                                                                              'negotiated_price': controller
+                                                                                  .text
+                                                                              // "${currentUser}messageCount":FieldValue.increment(1),
+                                                                            })
+                                                                            .then((
+                                                                            value) =>
+                                                                            print(
+                                                                                "Negotiation Added"))
+                                                                            .catchError((
+                                                                            error) =>
+                                                                            print(
+                                                                                "Failed to add user: $error"));
+                                                                        controller
+                                                                            .clear();
+                                                                        pressBack();
                                                                       }
                                                                     },
                                                                     height: 60,
-                                                                    width:
-                                                                        screenWidth(),
+                                                                    width: screenWidth(),
                                                                   ),
                                                                 )
                                                               ],
@@ -168,10 +243,156 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                     ),
                                                   );
                                                 }));
+                                      },
+                                      child: 'edit'.textRegular(color: Color(0xFFFC5E60), fontSize: 14, underLine: TextDecoration.underline),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                              return customButton("Add Negotiate Price",
+                                  style: figtreeSemiBold.copyWith(
+                                      color: Colors.white
+                                  ), onTap: () {
+                                    TextEditingController controller = TextEditingController();
+                                    controller.text =
+                                        widget.defaultPrice.toString();
 
-                      },
-                      width: screenWidth(),
-                        height: 55
+                                    modalBottomSheetMenu(context, radius: 40,
+                                        child: StatefulBuilder(
+                                            builder: (contexts, setState) {
+                                              return SizedBox(
+                                                height: 320,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .fromLTRB(23, 40, 25, 10),
+                                                  child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        Center(
+                                                          child: Text(
+                                                            'Negotiated Price',
+                                                            style: figtreeMedium
+                                                                .copyWith(
+                                                                fontSize: 22),
+                                                          ),
+                                                        ),
+                                                        30.verticalSpace(),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            TextField(
+                                                              controller: controller,
+                                                              maxLines: 1,
+                                                              keyboardType: TextInputType
+                                                                  .number,
+                                                              inputFormatters: [
+                                                                FilteringTextInputFormatter
+                                                                    .digitsOnly
+                                                              ],
+                                                              minLines: 1,
+                                                              decoration: InputDecoration(
+                                                                  hintText: 'Enter negotiated value',
+                                                                  hintStyle: figtreeMedium
+                                                                      .copyWith(
+                                                                      fontSize: 18),
+                                                                  border: OutlineInputBorder(
+                                                                      borderRadius: BorderRadius
+                                                                          .circular(
+                                                                          12),
+                                                                      borderSide: const BorderSide(
+                                                                        width: 1,
+                                                                        color: Color(
+                                                                            0xff999999),
+                                                                      ))),
+                                                            ),
+                                                            30.verticalSpace(),
+                                                            Padding(
+                                                              padding: const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  28, 0, 29, 0),
+                                                              child: customButton(
+                                                                'Submit',
+                                                                fontColor: 0xffFFFFFF,
+                                                                onTap: () {
+                                                                  if (controller
+                                                                      .text
+                                                                      .isEmpty) {
+                                                                    showCustomToast(
+                                                                        context,
+                                                                        "Please enter negotiated price");
+                                                                  } else
+                                                                  if (double
+                                                                      .parse(
+                                                                      controller
+                                                                          .text) >
+                                                                      double
+                                                                          .parse(
+                                                                          widget
+                                                                              .defaultPrice)) {
+                                                                    showCustomToast(
+                                                                        context,
+                                                                        "Negotiated price shouldn't be greater than price of cow");
+                                                                  } else {
+                                                                    context
+                                                                        .read<
+                                                                        LivestockCubit>()
+                                                                        .updateNegotiateApi(
+                                                                        context,
+                                                                        widget
+                                                                            .livestockId,
+                                                                        controller
+                                                                            .text,
+                                                                        widget
+                                                                            .userId);
+                                                                    FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                        'livestock_enquiry')
+                                                                        .doc(
+                                                                        widget
+                                                                            .livestockId)
+                                                                        .collection(
+                                                                        'enquiries')
+                                                                        .doc(
+                                                                        widget
+                                                                            .userId)
+                                                                        .update(
+                                                                        {
+                                                                          'created_at': Timestamp
+                                                                              .now(),
+                                                                          'negotiated_price': controller
+                                                                              .text
+                                                                          // "${currentUser}messageCount":FieldValue.increment(1),
+                                                                        })
+                                                                        .then((
+                                                                        value) =>
+                                                                        print(
+                                                                            "Negotiation Added"))
+                                                                        .catchError((
+                                                                        error) =>
+                                                                        print(
+                                                                            "Failed to add user: $error"));
+                                                                    controller
+                                                                        .clear();
+                                                                    pressBack();
+                                                                  }
+                                                                },
+                                                                height: 60,
+                                                                width: screenWidth(),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ]),
+                                                ),
+                                              );
+                                            }));
+                                  },
+                                  width: screenWidth(), height: 55);
+                        }
                       ),
                     )
                 ),

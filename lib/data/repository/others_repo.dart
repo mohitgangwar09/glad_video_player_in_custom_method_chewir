@@ -311,12 +311,12 @@ class OthersRepository {
   }
 
   ///////////////// livestockApi //////////
-  Future<ResponseAddLivestock> updateNegotiatedPrice(String livestockId, String negotiatedPrice) async {
+  Future<ResponseAddLivestock> updateNegotiatedPrice(String livestockId, String negotiatedPrice, String userId) async {
 
 
     FormData data = FormData.fromMap({
       "live_stock_id": livestockId,
-      "user_id": sharedPreferences!.get(AppConstants.userId),
+      "user_id": userId,
       "negotiated_price": negotiatedPrice
     });
 
