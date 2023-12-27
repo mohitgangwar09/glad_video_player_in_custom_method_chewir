@@ -962,6 +962,9 @@ class _DDeFarmerInvestmentDetailsState
                 .category.toString() == "6")
               const SizedBox.shrink()
             else
+              if(state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == null ||state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == "paid")
+                SvgPicture.asset(Images.paid)
+            else
             if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
                         .projectStatus ==
                     'active' ||

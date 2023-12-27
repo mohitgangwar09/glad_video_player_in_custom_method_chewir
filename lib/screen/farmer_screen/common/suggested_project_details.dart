@@ -515,6 +515,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               style: figtreeMedium.copyWith(fontSize: 18),
             ),
             05.horizontalSpace(),
+
             Container(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
               decoration: boxDecoration(

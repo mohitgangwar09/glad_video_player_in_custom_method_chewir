@@ -128,7 +128,9 @@ class _RejectTaskDDEDDEState extends State<RejectTaskDDE> {
                   ))),
         ),
         30.verticalSpace(),
-        customButton('Send OTP', fontColor: 0xffFFFFFF,
+
+        istClickOnSendOtp == ""?
+         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: () {
 
               istClickOnSendOtp = "click";
@@ -149,7 +151,7 @@ class _RejectTaskDDEDDEState extends State<RejectTaskDDE> {
                   widget.projectData.phone.toString()
               );
 
-            }),
+            }):const SizedBox.shrink(),
 
         30.verticalSpace(),
 
@@ -304,7 +306,9 @@ class _RejectTaskDDEDDEState extends State<RejectTaskDDE> {
                       text: "Resend",
                       onTap: () {
 
-                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            widget.projectData.phone.toString()
+                        );
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;
