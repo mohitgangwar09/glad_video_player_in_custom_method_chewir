@@ -68,6 +68,9 @@ class DDeFarmerInvestmentDetails extends StatefulWidget {
 
 class _DDeFarmerInvestmentDetailsState
     extends State<DDeFarmerInvestmentDetails> {
+
+  bool paymentTerms = false;
+
   @override
   void initState() {
     BlocProvider.of<ProjectCubit>(context)
@@ -282,6 +285,11 @@ class _DDeFarmerInvestmentDetailsState
                                                 fontSize: 16,
                                                 color: Colors.white),
                                             onTap: () {
+                                              if(state
+                                                  .responseFarmerProjectDetail!
+                                                  .data!
+                                                  .farmerProject![0].farmerMaster!.farmerDocuments!=null){
+
                                           if (state
                                                   .responseFarmerProjectDetail!
                                                   .data!
@@ -345,7 +353,10 @@ class _DDeFarmerInvestmentDetailsState
                                                         .toString())
                                                 .navigate();
                                           }
-                                        }),
+                                        }else{
+                                                showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                              }
+                                            }),
                                       )
                                     : const SizedBox.shrink()
                                 : const SizedBox.shrink(),
@@ -405,10 +416,23 @@ class _DDeFarmerInvestmentDetailsState
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 18),
                                                 ),
-                                                SvgPicture.asset(Images.drop)
+                                                InkWell(onTap: (){
+                                                  setState(() {
+                                                    if(paymentTerms == false){
+                                                      paymentTerms = true;
+                                                    }else{
+                                                      paymentTerms = false;
+                                                    }
+                                                  });
+                                                },child: paymentTerms == false?Container(width: 30,height: 30,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(4),
+                                                        border: Border.all(color: const Color(0xffDCDCDC),width: 1)
+                                                    ),child: const Center(child: Icon(Icons.keyboard_arrow_down_sharp,size: 22,))) :SvgPicture.asset(Images.drop))
                                               ],
                                             ),
                                           ),
+                                          paymentTerms == true?
                                           customList(
                                               list: state
                                                   .responseFarmerProjectDetail!
@@ -628,7 +652,7 @@ class _DDeFarmerInvestmentDetailsState
                                                     ),
                                                   ),
                                                 );
-                                              })
+                                              }):const SizedBox.shrink()
                                         ],
                                       ),
                                     )),
@@ -1023,7 +1047,7 @@ class _DDeFarmerInvestmentDetailsState
   }
 
   ///////////SupplierContainerTimeline/////////////
-  Widget supplier(context, ProjectState state) {
+  Widget supplier(contexts, ProjectState state) {
     return state.responseFarmerProjectDetail!.data!.farmerProject![0]
                 .projectStatus ==
             "completed"
@@ -1613,7 +1637,7 @@ class _DDeFarmerInvestmentDetailsState
   }
 
 ///////////farmerDetail/////////////
-  Widget farmerDetail(context, FarmerMaster farmerDetail, ProjectState state) {
+  Widget farmerDetail(contexts, FarmerMaster farmerDetail, ProjectState state) {
     return state.responseFarmerProjectDetail!.data!.farmerProject![0]
                 .projectStatus ==
             "completed"

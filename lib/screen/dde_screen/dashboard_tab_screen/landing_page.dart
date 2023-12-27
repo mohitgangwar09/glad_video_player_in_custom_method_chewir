@@ -424,6 +424,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if(state.responseDdeProject!=null)
         state.responseDdeProject!.data!.projectList!.isNotEmpty
             ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,

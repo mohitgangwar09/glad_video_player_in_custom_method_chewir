@@ -53,6 +53,8 @@ class ProjectDetails extends StatefulWidget {
 
 class _ProjectDetailsState extends State<ProjectDetails> {
 
+  bool paymentTerms = false;
+
   @override
   void initState() {
     BlocProvider.of<ProjectCubit>(context)
@@ -123,10 +125,23 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                           style:
                                           figtreeMedium.copyWith(fontSize: 18),
                                         ),
-                                        SvgPicture.asset(Images.drop)
+                                        InkWell(onTap: (){
+                                          setState(() {
+                                            if(paymentTerms == false){
+                                              paymentTerms = true;
+                                            }else{
+                                              paymentTerms = false;
+                                            }
+                                          });
+                                        },child: paymentTerms == false?Container(width: 30,height: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(4),
+                                              border: Border.all(color: const Color(0xffDCDCDC),width: 1)
+                                            ),child: const Center(child: Icon(Icons.keyboard_arrow_down_sharp,size: 22,))) :SvgPicture.asset(Images.drop))
                                       ],
                                     ),
                                   ),
+                                  paymentTerms == true?
                                   customList(
                                       list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms!,
                                       child: (index){
@@ -166,7 +181,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                             ],
                                           ),
                                         );
-                                      })
+                                      }):const SizedBox.shrink()
                                 ],
                               ),
                             )):
@@ -343,7 +358,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   }
 
 ///////////DDEContainerTimeline/////////////
-  Widget dde(context,DairyDevelopMentExecutive dde,ProjectState state) {
+  Widget dde(contexts,DairyDevelopMentExecutive dde,ProjectState state) {
     return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
     Column(
       children: [
@@ -840,7 +855,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   }
 
   ///////////farmerDetail/////////////
-  Widget farmerDetail(context, FarmerMaster farmerDetail,ProjectState state) {
+  Widget farmerDetail(contexts, FarmerMaster farmerDetail,ProjectState state) {
 
     return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
     Stack(
