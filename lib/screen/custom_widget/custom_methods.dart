@@ -1485,10 +1485,10 @@ Widget weatherWidget(){
           Positioned(
             right: 30,
             bottom: 38,
-            child: Text('${double.parse((state.responseWeather!.minutely!.isNotEmpty?state.responseWeather!.minutely![0].precipitation.toString():'0').toString()).toStringAsFixed(2)} %',
+            child: state.responseWeather!.minutely!=null?Text('${double.parse((state.responseWeather!.minutely!.isNotEmpty?state.responseWeather!.minutely![0].precipitation.toString():'0').toString()).toStringAsFixed(2)} %',
               style: figtreeBold.copyWith(
                 color: Colors.black,
-              ),),),
+              ),):const SizedBox.shrink()),
 
         ],
       );

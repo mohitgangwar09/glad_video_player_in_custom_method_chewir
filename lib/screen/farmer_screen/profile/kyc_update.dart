@@ -285,7 +285,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                                 showCustomToast(context, 'Please select only PDF');
                                               }
                                             } else {
-                                              var image = await imgFromGallery();
+                                              var image = await imgOrPdfFromGallery();
                                               addressImg.add(image);
                                               setState(() {});
                                             }
@@ -338,7 +338,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                         setState(() {
                                           addressImg.remove(image);
                                         });
-                                      }, isPDF: addressProof == 'Bank Statement'),
+                                      }, isPDF: image.endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )
@@ -475,7 +475,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                 children: [
                                   InkWell(
                                     onTap: () async{
-                                      var image = await imgFromGallery();
+                                      var image = await imgOrPdfFromGallery();
                                       idImg.add(image);
                                       setState(() {});
                                     },
@@ -521,7 +521,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                                         setState(() {
                                           idImg.remove(image);
                                         });
-                                      }),
+                                      }, isPDF: image.endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )

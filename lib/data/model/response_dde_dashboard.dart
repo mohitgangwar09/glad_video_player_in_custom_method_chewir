@@ -34,6 +34,7 @@ class Data {
   List<TrainingList>? trainingList;
   List<Community>? community;
   TodayMilkPrice? todayMilkPrice;
+  ProjectSummary? projectSummary;
 
   Data(
       {this.dde,
@@ -43,6 +44,7 @@ class Data {
         this.trainingList,
         this.community,
         this.todayMilkPrice,
+        this.projectSummary,
       });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -70,6 +72,9 @@ class Data {
         community!.add(Community.fromJson(v));
       });
     }
+    projectSummary = json['project_summary'] != null
+        ? new ProjectSummary.fromJson(json['project_summary'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -95,6 +100,32 @@ class Data {
     if (community != null) {
       data['community'] = community!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class ProjectSummary {
+  int? pending;
+  int? active;
+  int? completed;
+  int? totalProject;
+
+  ProjectSummary(
+      {this.pending, this.active, this.completed, this.totalProject});
+
+  ProjectSummary.fromJson(Map<String, dynamic> json) {
+    pending = json['pending'];
+    active = json['active'];
+    completed = json['completed'];
+    totalProject = json['total_project'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['pending'] = this.pending;
+    data['active'] = this.active;
+    data['completed'] = this.completed;
+    data['total_project'] = this.totalProject;
     return data;
   }
 }

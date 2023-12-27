@@ -89,6 +89,8 @@ class AcceptScreen extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            farmerProjectSurvey.farmerMaster!.photo!=null?
+                            networkImage(text: farmerProjectSurvey.farmerMaster!.photo,height: 46,width: 46,radius: 40):
                             Image.asset(Images.sampleUser),
                             15.horizontalSpace(),
                             Column(

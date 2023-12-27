@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:age_calculator/age_calculator.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -51,6 +52,14 @@ Future<String> imgFromGallery() async {
   XFile? image = await ImagePicker()
       .pickImage(source: ImageSource.gallery, imageQuality: 50);
   return image!.path;
+}
+
+// image Picker from Gallery
+Future<String> imgOrPdfFromGallery() async {
+  // XFile? image = await ImagePicker()
+  //     .pickImage(source: ImageSource.gallery, imageQuality: 50);
+  FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png']);
+  return result!.files.first.path!;
 }
 
 // video Picker from Gallery

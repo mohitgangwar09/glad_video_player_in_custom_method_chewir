@@ -594,6 +594,19 @@ class ProfileRepository {
     }
   }
 
+  Future<ResponseOtpModel> getNotificationApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.notificationListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   Future<FarmerProfileModel> updateDdeFarmerDetail(String farmSize,String dairyArea,
       String staffQuantity, String managerName,String managerPhone,String userId,String landlineNumber,
       String farmingExperience,String gender,String dateOfBirth) async {

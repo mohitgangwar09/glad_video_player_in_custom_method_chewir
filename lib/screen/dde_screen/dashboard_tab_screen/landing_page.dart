@@ -48,11 +48,14 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
   int activeIndex = 0;
 
-  List<_ChartData> data2 = [
-    _ChartData('Completed', 12),
-    _ChartData('Active', 15),
-    _ChartData('Pending', 02),
-  ];
+  // List<_ChartData> data2 = [
+  //   _ChartData('Completed', 12),
+  //   _ChartData('Active', 15),
+  //   _ChartData('Pending', 02),
+  // ];
+
+  String projectPercentage = "0";
+  String projectText = 'completed';
 
   @override
   void initState() {
@@ -64,6 +67,27 @@ class _DDELandingPageState extends State<DDELandingPage> {
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
       BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
       BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, 'pending', false);
+
+      LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
+      int projectsSum = state.responseDdeDashboard!.data!.projectSummary!.completed!.toInt() +
+          state.responseDdeDashboard!.data!.projectSummary!.active!.toInt() +
+          state.responseDdeDashboard!.data!.projectSummary!.pending!.toInt();
+      int projectActive = state.responseDdeDashboard!.data!.projectSummary!.active!.toInt();
+      int projectCompleted = state.responseDdeDashboard!.data!.projectSummary!.completed!.toInt();
+      int projectPending = state.responseDdeDashboard!.data!.projectSummary!.pending!.toInt();
+      if(projectsSum != 0) {
+        if(projectCompleted != 0) {
+          projectPercentage = removeZeroesInFraction(((projectCompleted / projectsSum) * 100).toString());
+          projectText = 'completed';
+        } else if(projectActive != 0) {
+          projectPercentage = removeZeroesInFraction(((projectActive / projectsSum) * 100).toString());
+          projectText = 'active';
+        } else {
+          projectPercentage = removeZeroesInFraction(((projectPending / projectsSum) * 100).toString());
+          projectText = "pending";
+        }
+      }
+
     });
   }
 
@@ -381,7 +405,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
           30.verticalSpace(),
 
-          pendingApplications(context),
+          pendingApplications(context, state),
 
           20.verticalSpace(),
 
@@ -419,11 +443,12 @@ class _DDELandingPageState extends State<DDELandingPage> {
     );
   }
 
-  Widget pendingApplications(BuildContext context) {
+  Widget pendingApplications(BuildContext context, LandingPageState landingState) {
     ProjectState state = BlocProvider.of<ProjectCubit>(context).state;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if(state.responseDdeProject!=null)
         state.responseDdeProject!.data!.projectList!.isNotEmpty
             ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -693,7 +718,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              '29'.textBold(fontSize: 39),
+                              landingState.responseDdeDashboard!.data!.projectSummary!.totalProject.toString().textBold(fontSize: 39),
                               Wrap(
                                 spacing: 5,
                                 runSpacing: 5,
@@ -709,10 +734,10 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                             BorderRadius.circular(10)),
                                       ),
                                       7.horizontalSpace(),
-                                      Text('${data2[0].x}: ',
+                                      Text('Completed: ',
                                           style: figtreeRegular.copyWith(
                                               fontSize: 14)),
-                                      Text(data2[0].y.toInt().toString(),
+                                      Text(landingState.responseDdeDashboard!.data!.projectSummary!.completed!.toString(),
                                           style: figtreeBold.copyWith(
                                               fontSize: 14)),
                                     ],
@@ -728,10 +753,10 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                             BorderRadius.circular(10)),
                                       ),
                                       7.horizontalSpace(),
-                                      Text('${data2[1].x}: ',
+                                      Text('Active: ',
                                           style: figtreeRegular.copyWith(
                                               fontSize: 14)),
-                                      Text(data2[1].y.toInt().toString(),
+                                      Text(landingState.responseDdeDashboard!.data!.projectSummary!.active!.toString(),
                                           style: figtreeBold.copyWith(
                                               fontSize: 14)),
                                     ],
@@ -747,10 +772,10 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                             BorderRadius.circular(10)),
                                       ),
                                       7.horizontalSpace(),
-                                      Text('${data2[2].x}: ',
+                                      Text('Pending: ',
                                           style: figtreeRegular.copyWith(
                                               fontSize: 14)),
-                                      Text(data2[2].y.toInt().toString(),
+                                      Text(landingState.responseDdeDashboard!.data!.projectSummary!.pending!.toString(),
                                           style: figtreeBold.copyWith(
                                               fontSize: 14)),
                                     ],
@@ -778,7 +803,11 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                   series: <CircularSeries<_ChartData,
                                       String>>[
                                     DoughnutSeries<_ChartData, String>(
-                                        dataSource: data2,
+                                        dataSource: [
+                                          _ChartData('Completed', landingState.responseDdeDashboard!.data!.projectSummary!.completed!.toDouble()),
+                                          _ChartData('Active', landingState.responseDdeDashboard!.data!.projectSummary!.active!.toDouble()),
+                                          _ChartData('Pending', landingState.responseDdeDashboard!.data!.projectSummary!.pending!.toDouble()),
+                                        ],
                                         xValueMapper:
                                             (_ChartData data, _) =>
                                         data.x,
@@ -786,7 +815,22 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                             (_ChartData data, _) =>
                                         data.y,
                                         radius: '60',
-                                        innerRadius: '40')
+                                        innerRadius: '40',
+                                        selectionBehavior: SelectionBehavior(
+                                            enable: true,
+                                            unselectedOpacity: 0.7
+                                        ),
+                                        onPointTap: (detail) {
+                                          projectPercentage = removeZeroesInFraction(((double.parse((detail.dataPoints![detail.pointIndex!] as ChartPoint).text.toString()).toInt() / (double.parse((detail.dataPoints![0] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![1] as ChartPoint).text.toString()).toInt() + double.parse((detail.dataPoints![2] as ChartPoint).text.toString()).toInt())) * 100).toString());
+                                          if(detail.pointIndex == 0) {
+                                            projectText = 'completed';
+                                          } else if(detail.pointIndex == 1) {
+                                            projectText = 'active';
+                                          } else {
+                                            projectText = 'pending';
+                                          }
+                                          setState(() {});
+                                        }),
                                   ]),
                             ),
                             Positioned(
@@ -796,13 +840,13 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
                                       children: [
-                                        "33".textBold(
+                                        projectPercentage.textBold(
                                             color: Colors.black, fontSize: 26),
                                         "%".textBold(
                                             color: Colors.black, fontSize: 12)
                                       ],
                                     ),
-                                    "Complete".textRegular(
+                                    projectText.textRegular(
                                         color: Colors.black, fontSize: 10),
                                   ],
                                 )),

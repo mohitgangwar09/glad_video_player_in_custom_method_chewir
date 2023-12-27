@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
@@ -51,6 +52,8 @@ class ProjectDetails extends StatefulWidget {
 }
 
 class _ProjectDetailsState extends State<ProjectDetails> {
+
+  bool paymentTerms = false;
 
   @override
   void initState() {
@@ -122,10 +125,23 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                           style:
                                           figtreeMedium.copyWith(fontSize: 18),
                                         ),
-                                        SvgPicture.asset(Images.drop)
+                                        InkWell(onTap: (){
+                                          setState(() {
+                                            if(paymentTerms == false){
+                                              paymentTerms = true;
+                                            }else{
+                                              paymentTerms = false;
+                                            }
+                                          });
+                                        },child: paymentTerms == false?Container(width: 30,height: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(4),
+                                              border: Border.all(color: const Color(0xffDCDCDC),width: 1)
+                                            ),child: const Center(child: Icon(Icons.keyboard_arrow_down_sharp,size: 22,))) :SvgPicture.asset(Images.drop))
                                       ],
                                     ),
                                   ),
+                                  paymentTerms == true?
                                   customList(
                                       list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms!,
                                       child: (index){
@@ -165,7 +181,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                             ],
                                           ),
                                         );
-                                      })
+                                      }):const SizedBox.shrink()
                                 ],
                               ),
                             )):
@@ -342,7 +358,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   }
 
 ///////////DDEContainerTimeline/////////////
-  Widget dde(context,DairyDevelopMentExecutive dde,ProjectState state) {
+  Widget dde(contexts,DairyDevelopMentExecutive dde,ProjectState state) {
     return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
     Column(
       children: [
@@ -651,7 +667,13 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         6.horizontalSpace(),
                         whatsapp(dde.phone),
                         6.horizontalSpace(),
-                        SvgPicture.asset(Images.redirectLocation),
+                        InkWell(onTap: (){
+                          if(dde.address!=null){
+                            BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                dde.address!.address!.latitude.toString(),
+                                dde.address!.address!.longitude.toString(),context);
+                          }
+                        },child: SvgPicture.asset(Images.redirectLocation)),
                         6.horizontalSpace(),
                       ],
                     )),
@@ -833,7 +855,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   }
 
   ///////////farmerDetail/////////////
-  Widget farmerDetail(context, FarmerMaster farmerDetail,ProjectState state) {
+  Widget farmerDetail(contexts, FarmerMaster farmerDetail,ProjectState state) {
 
     return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
     Stack(
@@ -1146,7 +1168,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 
                 6.horizontalSpace(),
                 InkWell(onTap: ()async{
-
+                  if(farmerDetail.address!=null){
+                    BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                        farmerDetail.address!.address!.latitude.toString(),
+                        farmerDetail.address!.address!.longitude.toString(),context);
+                  }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),
               ],

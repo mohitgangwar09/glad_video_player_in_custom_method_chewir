@@ -514,6 +514,24 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
+  // updateFarmDetailApi
+  Future<void> getNotificationListApi(context, {bool isLoaderRequired = false}) async{
+    if(isLoaderRequired) {
+      customDialog(widget: launchProgress());
+    }
+    var response = await apiRepository.getNotificationApi();
+
+    disposeProgress();
+
+    if (response.status == 200) {
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    }
+    else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   void getDistrict(context) async {
     emit(state.copyWith(status: ProfileStatus.loading));
     var response = await apiRepository.getDistrict();

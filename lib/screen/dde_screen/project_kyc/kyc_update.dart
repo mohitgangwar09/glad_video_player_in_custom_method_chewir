@@ -271,7 +271,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
                                                 showCustomToast(context, 'Please select only PDF');
                                               }
                                             } else {
-                                              var image = await imgFromGallery();
+                                              var image = await imgOrPdfFromGallery();
                                               addressImg.add(image);
                                               setState(() {});
                                             }
@@ -324,7 +324,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
                                         setState(() {
                                           addressImg.remove(image);
                                         });
-                                      }, isPDF: addressProof == 'Bank Statement'),
+                                      }, isPDF: image.endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )
@@ -462,8 +462,8 @@ class _ProjectKYCState extends State<ProjectKYC> {
                               child: Row(
                                 children: [
                                   InkWell(
-                                    onTap: () async{
-                                      var image = await imgFromGallery();
+                                    onTap: () async {
+                                      var image = await imgOrPdfFromGallery();
                                       idImg.add(image);
                                       setState(() {});
                                     },
@@ -509,7 +509,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
                                         setState(() {
                                           idImg.remove(image);
                                         });
-                                      }),
+                                      }, isPDF: image.endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )

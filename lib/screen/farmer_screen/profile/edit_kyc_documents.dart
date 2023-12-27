@@ -328,7 +328,7 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
                                           showCustomToast(context, 'Please select only PDF');
                                         }
                                       } else {
-                                        var image = await imgFromGallery();
+                                        var image = await imgOrPdfFromGallery();
                                         addressImg.add(image);
                                         setState(() {});
                                       }
@@ -384,7 +384,7 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
                                             addressImg.clear();
                                           }
                                         });
-                                      }, isPDF: addressProof == 'Bank Statement'),
+                                      }, isPDF: image.endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )
@@ -521,7 +521,7 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
                                 children: [
                                   InkWell(
                                     onTap: () async{
-                                      var image = await imgFromGallery();
+                                      var image = await imgOrPdfFromGallery();
                                       idImg.add(image);
                                       setState(() {});
                                     },
@@ -571,7 +571,7 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
                                           }
 
                                         });
-                                      }),
+                                      }, isPDF: image.endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )
