@@ -128,6 +128,7 @@ class _AddRemarkDisputeScreenState extends State<AddRemarkDisputeScreen> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: () {
 
@@ -151,7 +152,7 @@ class _AddRemarkDisputeScreenState extends State<AddRemarkDisputeScreen> {
                   widget.project.farmerMaster!.phone.toString()
               );
 
-            }),
+            }):const SizedBox.shrink(),
 
         30.verticalSpace(),
         context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)! == 'supplier' ?
@@ -404,7 +405,11 @@ class _AddRemarkDisputeScreenState extends State<AddRemarkDisputeScreen> {
                       text: "Resend",
                       onTap: () {
 
-                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)! == 'supplier' ?
+                            context.read<ProjectCubit>().state.responseFarmerProjectDetail!.data!.supplierDetail!.phone.toString() :
+                            widget.project.farmerMaster!.phone.toString()
+                        );
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;

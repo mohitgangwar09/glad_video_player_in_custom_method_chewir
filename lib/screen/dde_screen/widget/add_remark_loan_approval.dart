@@ -122,6 +122,7 @@ class _AddRemarkLoanApprovalState extends State<AddRemarkLoanApproval> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap:  () {
               if(istClickOnSendOtp == ""){
@@ -144,7 +145,7 @@ class _AddRemarkLoanApprovalState extends State<AddRemarkLoanApproval> {
                 );
               }
 
-            }),
+            }):const SizedBox.shrink(),
 
         30.verticalSpace(),
 

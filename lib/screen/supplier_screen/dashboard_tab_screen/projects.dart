@@ -298,6 +298,7 @@ class _ProjectsState extends State<Projects> {
                                     //     .projectList![i].farmerMaster!,
                                   selectedFilter: selectedFilter,
                                   milestones: state.responseSupplierProject!.data!.projectList![i].farmerProjectMilestones!,
+                                  paymentStatus: state.responseSupplierProject!.data!.projectList![i].paymentStatus??'',
 
                                 ),
                                 width: screenWidth()),

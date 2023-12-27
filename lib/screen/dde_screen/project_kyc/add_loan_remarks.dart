@@ -127,6 +127,7 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: istClickOnSendOtp == ""?() {
 
@@ -148,7 +149,7 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
                   widget.projectData.phone.toString()
               );
 
-            }:(){}),
+            }:(){}):const SizedBox.shrink(),
 
         30.verticalSpace(),
 

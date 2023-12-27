@@ -34,8 +34,9 @@ class ProjectWidget extends StatelessWidget {
   final FarmerMaster farmerDetail;
   final List<FarmerProjectMilestones> milestones;
   final String selectedFilter;
+  final dynamic paymentStatus;
 
-  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,this.rejectStatus, required this.milestones, required this.selectedFilter}) : super(key: key);
+  const ProjectWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.farmerDetail,this.rejectStatus, required this.milestones, required this.selectedFilter,this.paymentStatus}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +197,52 @@ class ProjectWidget extends StatelessWidget {
                         ),
                       ),
                       selectedFilter == "completed"?
-                      SvgPicture.asset(Images.paid):const SizedBox.shrink(),
+                          paymentStatus == ""|| paymentStatus == "paid"?
+                          SvgPicture.asset(Images.paid):
+                          Builder(
+                              builder: (context) {
+                                int count = 0;
+                                for( FarmerProjectMilestones mile in milestones) {
+                                  if(mile.milestoneStatus != "pending") {
+                                    count++;
+                                  }
+                                }
+                                if(milestones.isEmpty) return const SizedBox.shrink();
+                                return Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    CircularPercentIndicator(
+                                      radius: 30,
+                                      percent: count / milestones.length,
+                                      progressColor: const Color(0xFF12CE57),
+                                      backgroundColor: const Color(0xFFDCEAE5),
+                                    ),
+                                    RichText(
+                                      softWrap: false,
+                                      text: TextSpan(children: [
+                                        TextSpan(
+                                            text: removeZeroesInFraction(((count / milestones.length) * 100).toString()),
+                                            style: figtreeBold.copyWith(
+                                                color: Colors.black,
+                                                fontSize: 16)),
+                                        TextSpan(
+                                            text: '%\n',
+                                            style: figtreeBold.copyWith(
+                                                color: Colors.black,
+                                                fontSize: 9)),
+                                        TextSpan(
+                                            text: 'completed',
+                                            style: figtreeBold.copyWith(
+                                                color:
+                                                const Color(0xFF808080),
+                                                fontSize: 6))
+                                      ]),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                );
+                              }
+                          ):const SizedBox.shrink(),
                       if(selectedFilter == 'active')
                       Builder(
                           builder: (context) {

@@ -6,10 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
+import 'package:glad/screen/farmer_screen/profile/edit_kyc_documents.dart';
+import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/screen/livestock/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/review.dart';
@@ -25,6 +28,7 @@ import 'package:glad/screen/farmer_screen/farmer_comparison.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/farmer_screen/profile/farmer_profile.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -68,9 +72,130 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
           child: Stack(
             children: [
               landingBackground(),
+
               Column(
                 children: [
-                  CustomAppBar(
+                  Column(
+                    children: [
+                      CustomAppBar(
+                        context: context,
+                        titleText1: 'Hello ',
+                        titleText2: state.response!=null?state.response!.user!.name.toString():'',
+                        leading: openDrawer(
+                            onTap: () {
+                              farmerLandingKey.currentState?.openDrawer();
+                            },
+                            child: SvgPicture.asset(Images.drawer)),
+                        action: Row(
+                          children: [
+                            phoneCall(256758711344),
+                            7.horizontalSpace(),
+                            InkWell(
+                                onTap: () {
+                                  const FarmerProfile().navigate();
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(1000),
+                                  child: Container(
+                                    height: AppBar().preferredSize.height * 0.7,
+                                    width: AppBar().preferredSize.height * 0.7,
+                                    decoration:
+                                    const BoxDecoration(shape: BoxShape.circle),
+                                    child: state.response!.user!.profilePic!=null?CachedNetworkImage(
+                                      imageUrl:
+                                      state.response!.user!.profilePic!,
+                                      errorWidget: (_, __, ___) =>
+                                          SvgPicture.asset(Images.person),
+                                      fit: BoxFit.cover,
+                                    ):SvgPicture.asset(Images.person),
+                                  ),
+                                )),
+                            8.horizontalSpace(),
+                          ],
+                        ),
+                      ),
+
+                      state.response!.user!.farmerMaster!.kycStatus == "verified"?
+                      const SizedBox.shrink():
+                      Container(
+                        width: screenWidth(),
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        height: 45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(80),
+                          color: const Color(0xffFC5E60),
+                        ),
+                        child: Row(
+                          children: [
+
+                            if(state.response!.user!.farmerMaster!.kycStatus == "not_available")
+                              Row(
+                                children: [
+                                  14.horizontalSpace(),
+                                  SvgPicture.asset(Images.kyc),
+                                  4.horizontalSpace(),
+                                  "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                  10.horizontalSpace(),
+                                  InkWell(
+                                    onTap: ()async{
+                                      KYCUpdate(farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
+                                    },
+                                    child: Text(
+                                      'Upload Documents',
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                    ),
+                                  )
+                                ],
+                              )
+                            else if(state.response!.user!.farmerMaster!.kycStatus == "pending")
+                              Row(
+                                children: [
+                                  14.horizontalSpace(),
+                                  SvgPicture.asset(Images.kyc),
+                                  4.horizontalSpace(),
+                                  "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                  10.horizontalSpace(),
+                                  InkWell(
+                                    onTap: (){
+                                      // const KYCUpdate().navigate();
+                                      EditKYCDocuments(farmerDocuments: state.response!.user!.farmerMaster!.kycDocument, farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
+                                    },
+                                    child: Text(
+                                      'Upload Documents',
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                    ),
+                                  )
+                                ],
+                              )
+                            else if(state.response!.user!.farmerMaster!.kycStatus == "expired")
+                              Row(
+                                    children: [
+                                      14.horizontalSpace(),
+                                      const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
+                                      4.horizontalSpace(),
+                                      "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
+                                      10.horizontalSpace(),
+                                      InkWell(
+                                        onTap: (){
+                                          // const SupplierUpdateKyc().navigate();
+                                        },
+                                        child: Text(
+                                          'Documents',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                          ],
+                        ),
+                      )
+
+                    ],
+                  ),
+                  /*CustomAppBar(
                     context: context,
                     titleText1: 'Hello ',
                     titleText2: state.response!=null? state.response!.user!.name!.split(' ')[0]:"",
@@ -87,7 +212,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                             onTap: () {
                               const FarmerProfile().navigate();
                             },
-                            child: /*ClipRRect(
+                            child: *//*ClipRRect(
                               borderRadius: BorderRadius.circular(1000),
                               child: Container(
                                 height: AppBar().preferredSize.height * 0.7,
@@ -102,7 +227,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                   fit: BoxFit.cover,
                                 ):SvgPicture.asset(Images.person),
                               ),
-                            )*/
+                            )*//*
                             ClipRRect(
                               borderRadius: BorderRadius.circular(1000),
                               child: Container(
@@ -122,7 +247,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                         8.horizontalSpace(),
                       ],
                     ),
-                  ),
+                  ),*/
                   landingPage(context, state),
                 ],
               ),
@@ -276,7 +401,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               phone: state.response!.dde!.phone ?? ' ',
               image: state.response!.dde!.photo ?? '',
             ),
-            topPerformingFarmer(state),
+            // topPerformingFarmer(state),
             30.verticalSpace(),
             LiveStockMarketplace(
               onTapShowAll: () {

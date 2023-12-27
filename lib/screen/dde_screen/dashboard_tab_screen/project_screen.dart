@@ -464,6 +464,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                   milestones: state.responseDdeProject!.data!
                                     .projectList![i].farmerProjectMilestones!,
                                   selectedFilter: selectedFilter,
+                                  paymentStatus: state.responseDdeProject!.data!
+                                      .projectList![i].paymentStatus ?? "",
                                 ),
                                 width: screenWidth()),
                           );

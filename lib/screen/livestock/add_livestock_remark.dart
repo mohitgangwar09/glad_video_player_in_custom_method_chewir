@@ -136,6 +136,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: istClickOnSendOtp == ""?() {
 
@@ -157,7 +158,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                   widget.projectData.phone.toString()
               );
 
-            }:(){}),
+            }:(){}):const SizedBox.shrink(),
 
         30.verticalSpace(),
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/data/model/farmer_profile_model.dart';
 import 'package:glad/data/model/supplier_project_model.dart';
 import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/supplier_screen/project_details.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class ProjectSupplierWidget extends StatelessWidget {
@@ -23,13 +25,13 @@ class ProjectSupplierWidget extends StatelessWidget {
   final String farmerImage;
   final String farmerPhone;
   final String farmerAddress;
-  final dynamic projectPercent;
+  final dynamic projectPercent,paymentStatus;
   final int projectId;
   // final FarmerMaster farmerDetail;
   final String selectedFilter;
   final List<FarmerProjectMilestones> milestones;
   // ,required this.farmerDetail
-  const ProjectSupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.selectedFilter, required this.milestones}) : super(key: key);
+  const ProjectSupplierWidget({Key? key, required this.status, required this.name, required this.category, required this.projectStatus, required this.description, required this.investment, required this.revenue, required this.roi, required this.loan, required this.emi, required this.balance, required this.farmerName, required this.farmerImage, required this.farmerPhone, required this.farmerAddress, required this.projectPercent,required this.projectId,required this.selectedFilter, required this.milestones,this.paymentStatus}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +136,9 @@ class ProjectSupplierWidget extends StatelessWidget {
                       ],
                     ),
                   ),
+                  selectedFilter == "completed"?
+                  paymentStatus == "" || paymentStatus == "paid"?
+                      SvgPicture.asset(Images.paid):
                   Builder(
                     builder: (context) {
                       int count = 0;
@@ -176,6 +181,49 @@ class ProjectSupplierWidget extends StatelessWidget {
                         ],
                       );
                     }
+                  ):
+                  Builder(
+                      builder: (context) {
+                        int count = 0;
+                        for( FarmerProjectMilestones mile in milestones) {
+                          if(mile.milestoneStatus != "pending") {
+                            count++;
+                          }
+                        }
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircularPercentIndicator(
+                              radius: 30,
+                              percent: count / milestones.length,
+                              progressColor: const Color(0xFF12CE57),
+                              backgroundColor: const Color(0xFFDCEAE5),
+                            ),
+                            RichText(
+                              softWrap: false,
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: removeZeroesInFraction(((count / milestones.length) * 100).toString()),
+                                    style: figtreeBold.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 16)),
+                                TextSpan(
+                                    text: '%\n',
+                                    style: figtreeBold.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 9)),
+                                TextSpan(
+                                    text: 'completed',
+                                    style: figtreeBold.copyWith(
+                                        color:
+                                        const Color(0xFF808080),
+                                        fontSize: 6))
+                              ]),
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        );
+                      }
                   )
                 ],
               ),
