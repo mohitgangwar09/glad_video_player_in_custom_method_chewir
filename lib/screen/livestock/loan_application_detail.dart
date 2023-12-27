@@ -46,6 +46,9 @@ class LoanApplicationDetail extends StatefulWidget {
 }
 
 class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
+
+  bool paymentTerms = false;
+
   @override
   void initState() {
     BlocProvider.of<ProjectCubit>(context)
@@ -159,10 +162,23 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                                   style:
                                                   figtreeMedium.copyWith(fontSize: 18),
                                                 ),
-                                                SvgPicture.asset(Images.drop)
+                                                InkWell(
+                                                  onTap: (){
+                                                    setState(() {
+                                                      if(paymentTerms == false){
+                                                        paymentTerms = true;
+                                                      }else{
+                                                        paymentTerms = false;
+                                                      }
+                                                    });}, child: paymentTerms == false?Container(width: 30,height: 30,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(4),
+                                                        border: Border.all(color: const Color(0xffDCDCDC),width: 1)
+                                                    ),child: const Center(child: Icon(Icons.keyboard_arrow_down_sharp,size: 22,))) :SvgPicture.asset(Images.drop))
                                               ],
                                             ),
                                           ),
+                                          paymentTerms == true?
                                           customList(
                                               list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
                                               child: (index){
@@ -240,7 +256,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                                     ),
                                                   ),
                                                 );
-                                              })
+                                              }):const SizedBox.shrink()
                                         ],
                                       ),
                                     )),
@@ -284,7 +300,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                   ),
                 ],
               ),
-              Positioned(
+              /*Positioned(
                   bottom: 0,
                   right: 0,
                   child: InkWell(
@@ -334,7 +350,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                       width: 100,
                       height: 100,
                     ),
-                  ))
+                  ))*/
             ],
           );
         }
