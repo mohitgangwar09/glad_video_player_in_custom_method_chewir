@@ -162,6 +162,7 @@ class FarmerProject {
   dynamic emiAmount;
   dynamic incrementalProduction;
   String? repaymentStartDate;
+  dynamic paymentStatus;
   dynamic photo;
   String? status;
   dynamic createdBy;
@@ -232,6 +233,7 @@ class FarmerProject {
         this.farmerParticipationStatus,
         this.dataLivestock,
         this.liveStockCartId,
+        this.paymentStatus,
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -243,6 +245,7 @@ class FarmerProject {
     rejectStatus = json['reject_status'];
     rejectRemark = json['reject_remarks'];
     category = json['category'];
+    paymentStatus = json['payment_status'];
     description = json['description'];
     projectStatus = json['project_status'];
     projectSubStatus = json['project_sub_status'];
@@ -330,6 +333,7 @@ class FarmerProject {
     data['reject_status'] = rejectStatus;
     data['reject_remarks'] = rejectRemark;
     data['category'] = category;
+    data['payment_status'] = paymentStatus;
     data['description'] = description;
     data['project_status'] = projectStatus;
     data['project_sub_status'] = projectSubStatus;

@@ -88,6 +88,7 @@ class ProjectList {
   String? createdAt;
   String? updatedAt;
   String? projectFilter;
+  dynamic paymentStatus;
   Project? project;
   FarmerMaster? farmerMaster;
   ImprovementArea? improvementArea;
@@ -141,6 +142,7 @@ class ProjectList {
         this.farmerMaster,
         this.improvementArea,
         this.farmerProjectSurvey,
+        this.paymentStatus,
         this.farmerProjectMilestones});
 
   ProjectList.fromJson(Map<String, dynamic> json) {
@@ -166,6 +168,7 @@ class ProjectList {
     revenuePerMonth = json['revenue_per_month'];
     revenuePerYear = json['revenue_per_year'];
     roiPerYear = json['roi_per_year'];
+    paymentStatus = json['payment_status'];
     farmerParticipationPercentage = json['farmer_participation_percentage'];
     farmerParticipation = json['farmer_participation'];
     gladCommisionPercentage = json['glad_commision_percentage'];
@@ -216,6 +219,7 @@ class ProjectList {
     data['farmer_id'] = farmerId;
     data['project_id'] = projectId;
     data['name'] = name;
+    data['payment_status'] = paymentStatus;
     data['category'] = category;
     data['description'] = description;
     data['project_status'] = projectStatus;

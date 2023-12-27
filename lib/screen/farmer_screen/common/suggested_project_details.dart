@@ -11,6 +11,7 @@ import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
+import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
@@ -33,6 +34,7 @@ import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../data/model/farmer_project_detail_model.dart';
 import '../project_farmer_statment.dart';
 
 class SuggestedProjectDetails extends StatefulWidget {
@@ -509,26 +511,109 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Description',
-              style: figtreeMedium.copyWith(fontSize: 18),
+            Row(
+              children: [
+                Text(
+                  'Description',
+                  style: figtreeMedium.copyWith(fontSize: 18),
+                ),
+                05.horizontalSpace(),
+
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+                  decoration: boxDecoration(
+                    borderWidth: 1,
+                    borderRadius: 30,
+                    borderColor: const Color(0xff6A0030),
+                  ),
+                  child: Text(
+                    formatProjectStatus(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus ?? '') ,
+                    textAlign: TextAlign.center,
+                    style: figtreeMedium.copyWith(
+                        color: const Color(0xff6A0030), fontSize: 10),
+                  ),
+                )
+              ],
             ),
-            05.horizontalSpace(),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 7),
-              decoration: boxDecoration(
-                borderWidth: 1,
-                borderRadius: 30,
-                borderColor: const Color(0xff6A0030),
-              ),
-              child: Text(
-                formatProjectStatus(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus ?? '') ,
-                textAlign: TextAlign.center,
-                style: figtreeMedium.copyWith(
-                    color: const Color(0xff6A0030), fontSize: 10),
-              ),
-            )
+
+            if(state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                .category.toString() == "6")
+              const SizedBox.shrink()
+            else
+              if(state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == null ||state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == "paid")
+                SvgPicture.asset(Images.paid)
+              else
+                if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                    .projectStatus ==
+                    'active' ||
+                    state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                        .projectStatus ==
+                        'hold' ||
+                    state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                        .projectStatus ==
+                        'completed')
+                  Builder(builder: (context) {
+                    int count = 0;
+                    for (FarmerProjectMilestones mile in state
+                        .responseFarmerProjectDetail!
+                        .data!
+                        .farmerProject![0]
+                        .farmerProjectMilestones!) {
+                      if (mile.milestoneStatus != "pending") {
+                        count++;
+                      }
+                    }
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CircularPercentIndicator(
+                          radius: 30,
+                          percent: count /
+                              state
+                                  .responseFarmerProjectDetail!
+                                  .data!
+                                  .farmerProject![0]
+                                  .farmerProjectMilestones!
+                                  .length,
+                          progressColor: const Color(0xFF12CE57),
+                          backgroundColor: const Color(0xFFDCEAE5),
+                        ),
+                        RichText(
+                          softWrap: false,
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: removeZeroesInFraction(((count /
+                                    state
+                                        .responseFarmerProjectDetail!
+                                        .data!
+                                        .farmerProject![0]
+                                        .farmerProjectMilestones!
+                                        .length) *
+                                    100)
+                                    .toString()),
+                                style: figtreeBold.copyWith(
+                                    color: Colors.black, fontSize: 16)),
+                            TextSpan(
+                                text: '%\n',
+                                style: figtreeBold.copyWith(
+                                    color: Colors.black, fontSize: 9)),
+                            TextSpan(
+                                text: 'completed',
+                                style: figtreeBold.copyWith(
+                                    color: const Color(0xFF808080), fontSize: 6))
+                          ]),
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    );
+                  })
+                else if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
+                    .projectStatus ==
+                    "completed")
+                  SvgPicture.asset(Images.paid)
+
           ],
         ),
         10.verticalSpace(),

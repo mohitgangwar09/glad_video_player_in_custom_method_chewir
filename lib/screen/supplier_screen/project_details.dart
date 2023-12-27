@@ -618,6 +618,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                         initialRating: double.parse(state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].rating!=null?state.responseFarmerProjectDetail!.data!.ddeRatingForSupplier![0].rating!.toString():'0'),
                                         minRating: 0,
                                         itemSize: 20,
+                                        allowHalfRating: true,
                                         direction: Axis.horizontal,
                                         ignoreGestures: true,
                                         itemCount: 5,
@@ -1309,7 +1310,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 
                 6.horizontalSpace(),
                 InkWell(onTap: ()async{
-
+                  if(farmerDetail.address!=null){
+                    BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                        farmerDetail.address!.address.latitude.toString(),
+                        farmerDetail.address!.address.latitude.toString(),context);
+                  }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),
               ],

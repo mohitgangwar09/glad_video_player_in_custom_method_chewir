@@ -1,6 +1,7 @@
 import 'package:glad/data/model/dashboard_community.dart';
 import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/data/model/dashboard_training.dart';
+import 'package:glad/data/model/farmer_profile_model.dart';
 
 class FarmerDashboard {
   String? message;
@@ -576,6 +577,7 @@ class FarmerMaster {
   String? createdAt;
   String? photo;
   dynamic achievement;
+  FarmerDocuments? kycDocument;
 
   FarmerMaster(
       {this.id,
@@ -608,7 +610,9 @@ class FarmerMaster {
         this.updatedBy,
         this.createdAt,
         this.photo,
-        this.achievement});
+        this.achievement,
+        this.kycDocument,
+      });
 
   FarmerMaster.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -642,6 +646,9 @@ class FarmerMaster {
     createdAt = json['created_at'];
     photo = json['photo'];
     achievement = json['achievement'];
+    kycDocument = json['farmer_documents'] != null
+        ? FarmerDocuments.fromJson(json['farmer_documents'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -677,6 +684,7 @@ class FarmerMaster {
     data['created_at'] = createdAt;
     data['photo'] = photo;
     data['achievement'] = achievement;
+    data['farmer_documents'] = kycDocument;
     return data;
   }
 }

@@ -125,6 +125,7 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: istClickOnSendOtp == ""?() {
 
@@ -146,7 +147,7 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
                   widget.projectData.phone.toString()
               );
 
-            }:(){}),
+            }:(){}):const SizedBox.shrink(),
 
         30.verticalSpace(),
 

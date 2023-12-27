@@ -128,6 +128,7 @@ class _AddLivestockRemarkState extends State<AddLivestockRemark> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: istClickOnSendOtp ==""?() {
 
@@ -148,7 +149,7 @@ class _AddLivestockRemarkState extends State<AddLivestockRemark> {
               BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
                   widget.seller.phone.toString()
               );
-            }:(){}),
+            }:(){}):const SizedBox.shrink(),
 
         30.verticalSpace(),
 

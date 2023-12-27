@@ -128,6 +128,7 @@ class _ApproveMilestoneState extends State<ApproveMilestone> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: () {
 
@@ -149,7 +150,7 @@ class _ApproveMilestoneState extends State<ApproveMilestone> {
                   widget.projectData.phone.toString()
               );
 
-            }),
+            }):const SizedBox.shrink(),
 
         30.verticalSpace(),
 
@@ -304,7 +305,9 @@ class _ApproveMilestoneState extends State<ApproveMilestone> {
                       text: "Resend",
                       onTap: () {
 
-                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            widget.projectData.phone.toString()
+                        );
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;
