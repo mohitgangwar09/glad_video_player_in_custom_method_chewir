@@ -570,6 +570,22 @@ class OthersRepository {
     }
   }
 
+  ///////////////// faqApi //////////
+  Future<ResponseLoanApplicationList> faqApi(String type) async {
+
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.faqApi,
+        queryParameters: {"type":type},
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseLoanApplicationList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseLoanApplicationList(status: 422, message: apiResponse.msg);
+    }
+  }
+
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
   }

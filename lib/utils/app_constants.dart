@@ -125,6 +125,7 @@ class AppConstants {
   static const String notificationListApi = '/api/notification/list';
   static const String notificationReadApi = '/api/notification/read';
   static const String notificationReadAllApi = '/api/notification/read-all';
+  static const String faqApi = '/api/faq/list';
 
 
 
