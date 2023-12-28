@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/screen/common/notification.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
@@ -91,7 +93,10 @@ class ServiceProviderDrawer extends StatelessWidget {
           ),
           30.verticalSpace(),
 
-          navigationBarItem(image: Images.notification, onTap: () {}, text: 'Notification',visible: false),
+          navigationBarItem(image: Images.notification, onTap: () {
+            BlocProvider.of<ProfileCubit>(context).getNotificationListApi(context);
+            const CommonNotification().navigate();
+          }, text: 'Notification',visible: false),
           30.verticalSpace(),
           navigationBarItem(
             image: Images.faq,
