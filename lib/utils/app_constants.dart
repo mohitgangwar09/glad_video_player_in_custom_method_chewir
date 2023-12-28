@@ -123,6 +123,8 @@ class AppConstants {
   static const String livestockDeliveryStatusApi = '/api/live-stock/delivery-status';
   static const String updateNegotiatedPriceApi = '/api/live-stock/update-negotiated-price';
   static const String notificationListApi = '/api/notification/list';
+  static const String notificationReadApi = '/api/notification/read';
+  static const String notificationReadAllApi = '/api/notification/read-all';
 
 
 

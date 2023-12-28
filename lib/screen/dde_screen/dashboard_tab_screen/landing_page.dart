@@ -61,32 +61,32 @@ class _DDELandingPageState extends State<DDELandingPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context);
+      BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context).then((value) {
+        LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
+        int projectsSum = state.responseDdeDashboard!.data!.projectSummary!.completed!.toInt() +
+            state.responseDdeDashboard!.data!.projectSummary!.active!.toInt() +
+            state.responseDdeDashboard!.data!.projectSummary!.pending!.toInt();
+        int projectActive = state.responseDdeDashboard!.data!.projectSummary!.active!.toInt();
+        int projectCompleted = state.responseDdeDashboard!.data!.projectSummary!.completed!.toInt();
+        int projectPending = state.responseDdeDashboard!.data!.projectSummary!.pending!.toInt();
+        if(projectsSum != 0) {
+          if(projectCompleted != 0) {
+            projectPercentage = removeZeroesInFraction(((projectCompleted / projectsSum) * 100).toString());
+            projectText = 'completed';
+          } else if(projectActive != 0) {
+            projectPercentage = removeZeroesInFraction(((projectActive / projectsSum) * 100).toString());
+            projectText = 'active';
+          } else {
+            projectPercentage = removeZeroesInFraction(((projectPending / projectsSum) * 100).toString());
+            projectText = "pending";
+          }
+        }
+      });
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
       BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
       BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, 'pending', false);
-
-      LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
-      int projectsSum = state.responseDdeDashboard!.data!.projectSummary!.completed!.toInt() +
-          state.responseDdeDashboard!.data!.projectSummary!.active!.toInt() +
-          state.responseDdeDashboard!.data!.projectSummary!.pending!.toInt();
-      int projectActive = state.responseDdeDashboard!.data!.projectSummary!.active!.toInt();
-      int projectCompleted = state.responseDdeDashboard!.data!.projectSummary!.completed!.toInt();
-      int projectPending = state.responseDdeDashboard!.data!.projectSummary!.pending!.toInt();
-      if(projectsSum != 0) {
-        if(projectCompleted != 0) {
-          projectPercentage = removeZeroesInFraction(((projectCompleted / projectsSum) * 100).toString());
-          projectText = 'completed';
-        } else if(projectActive != 0) {
-          projectPercentage = removeZeroesInFraction(((projectActive / projectsSum) * 100).toString());
-          projectText = 'active';
-        } else {
-          projectPercentage = removeZeroesInFraction(((projectPending / projectsSum) * 100).toString());
-          projectText = "pending";
-        }
-      }
 
     });
   }

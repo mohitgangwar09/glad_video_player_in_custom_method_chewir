@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/screen/common/notification.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/add_testimonial.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
-import 'package:glad/screen/farmer_screen/drawer_screen/farmer_notification.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/sharedprefrence.dart';
@@ -91,7 +92,8 @@ class FarmerDrawer extends StatelessWidget {
           navigationBarItem(
               image: Images.notification,
               onTap: () {
-                const FarmerNotification().navigate();
+                BlocProvider.of<ProfileCubit>(context).getNotificationListApi(context);
+                const CommonNotification().navigate();
               },
               text: 'Notification',
               visible: false),

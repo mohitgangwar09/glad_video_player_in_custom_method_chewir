@@ -7,27 +7,29 @@ import 'package:glad/utils/sharedprefrence.dart';
 
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 
 Future<void> msyBackgroundMessageHandler(RemoteMessage event) async {
-  final message = event.data;
+  final message = event.notification;
   if (Platform.isIOS) {
-    String body = message['body'];
-    String title = message['title'];
+    String? body = message!.body;
+    String? title = message.title;
     showNotificationWithSound(body,title);
   } else {
-    String body = message['body'];
-    String title = message['title'];
+    String? body = message!.body;
+    String? title = message.title;
+    'uuuuu'.toast();
     showNotificationWithSound(body,title);
   }
 }
 
 Future showNotificationWithSound(body, message) async {
   print("notification 1");
+  // FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   if (flutterLocalNotificationsPlugin == null) {
     initNotification();
-    "dsdsds".toast();
+    'dddd'.toast();
   }
 
   BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
@@ -35,10 +37,11 @@ Future showNotificationWithSound(body, message) async {
     contentTitle: body, htmlFormatContentTitle: true,
   );
 
-  var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'Order Channel', 'Order updates',
       importance: Importance.defaultImportance,
       priority: Priority.high,
+      styleInformation: bigTextStyleInformation,
   );
 
   flutterLocalNotificationsPlugin?.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(
@@ -46,12 +49,16 @@ Future showNotificationWithSound(body, message) async {
     badge: true,
     sound: true,
   );
+
+  flutterLocalNotificationsPlugin?.resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
   var platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics
   );
 
-  message.toString().toast();
-  await flutterLocalNotificationsPlugin?.show(0,
+  // message.toString().toast();
+  print('$flutterLocalNotificationsPlugin');
+  await flutterLocalNotificationsPlugin!.show(0,
     message,
     body,
     platformChannelSpecifics,
@@ -59,6 +66,7 @@ Future showNotificationWithSound(body, message) async {
 }
 
 void initNotification() {
+  // FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   var initializationSettingsAndroid = const AndroidInitializationSettings('app_icon');
   var initializationSettings = InitializationSettings(
@@ -66,7 +74,12 @@ void initNotification() {
     iOS: const DarwinInitializationSettings(),
   );
 
-  flutterLocalNotificationsPlugin?.initialize(initializationSettings);
+  // flutterLocalNotificationsPlugin?.initialize(initializationSettings);
+  flutterLocalNotificationsPlugin?.initialize(initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        print('response');
+        response.payload.toString().toast();
+      });
 }
 
 
@@ -78,33 +91,32 @@ class FcmHelper {
 
   void initFirebase() {
     FirebaseMessaging.onMessage.listen((event) {
-      final message = event.data;
+      final message = event.notification;
+
       if (Platform.isIOS) {
-        String body = message['body'];
-        String title = message['title'];
+        String? body = message!.body;
+        String? title = message.title;
         showNotificationWithSound(body,title);
       } else {
-
-        showNotificationWithSound('body','title');
+        String? body = message!.body;
+        String? title = message.title;
+        // "yess".toast();
+        showNotificationWithSound(body,title);
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      final message = event.data;
+      final message = event.notification;
+      "ok".toString().toast();
       if (Platform.isIOS) {
-        if (message.containsKey('notification')) {
-          String body = message['body'];
-          String title = message['title'];
-          showNotificationWithSound(body,title);
-        } else {
-          String body = message['body'];
-          String title = message['title'];
-          showNotificationWithSound(body,title);
-
-        }
+        String? body = message!.body;
+        String? title = message.title;
+        showNotificationWithSound(body,title);
       } else {
-print(message);
-        "ok".toString().toast();
+        String? body = message!.body;
+        String? title = message.title;
+
+        showNotificationWithSound(body,title);
       }
     });
 

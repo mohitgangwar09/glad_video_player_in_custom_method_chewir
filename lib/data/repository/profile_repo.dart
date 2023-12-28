@@ -8,6 +8,7 @@ import 'package:glad/data/model/improvement_area_update_response.dart';
 import 'package:glad/data/model/respone_team_member.dart';
 import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
+import 'package:glad/data/model/response_notification_list.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/response_sub_county.dart';
 import 'package:glad/data/model/response_user_rating.dart';
@@ -594,10 +595,37 @@ class ProfileRepository {
     }
   }
 
-  Future<ResponseOtpModel> getNotificationApi() async {
+  Future<NotificationList> getNotificationApi() async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.notificationListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return NotificationList.fromJson(apiResponse.response!.data);
+    } else {
+      return NotificationList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ResponseOtpModel> readNotificationApi(int id) async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.notificationReadApi,
+        data: {'id': id},
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  Future<ResponseOtpModel> readAllNotificationApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.notificationReadAllApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/screen/common/notification.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/dde_screen/dde_earning_statement.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
@@ -80,7 +82,10 @@ class DdeDrawer extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          navigationBarItem(image: Images.notification, onTap: () {}, text: 'Notification',visible: false),
+          navigationBarItem(image: Images.notification, onTap: () {
+            BlocProvider.of<ProfileCubit>(context).getNotificationListApi(context);
+            const CommonNotification().navigate();
+          }, text: 'Notification',visible: false),
           const SizedBox(
             height: 30,
           ),

@@ -7,6 +7,7 @@ import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/respone_team_member.dart';
 import 'package:glad/data/model/response_county_list.dart';
 import 'package:glad/data/model/response_district.dart';
+import 'package:glad/data/model/response_notification_list.dart';
 import 'package:glad/data/model/response_profile_model.dart';
 import 'package:glad/data/model/farmer_profile_model.dart' as farmer_profile;
 import 'package:glad/data/model/response_sub_county.dart';
@@ -515,16 +516,61 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   }
 
   // updateFarmDetailApi
-  Future<void> getNotificationListApi(context, {bool isLoaderRequired = false}) async{
+  Future<void> getNotificationListApi(context, {bool isLoaderRequired = true}) async{
+    if(isLoaderRequired) {
+      // customDialog(widget: launchProgress());
+      emit(state.copyWith(status: ProfileStatus.loading));
+    }
+
+    var response = await apiRepository.getNotificationApi();
+
+    // disposeProgress();
+
+    if (response.status == 200) {
+      emit(state.copyWith(status: ProfileStatus.success, responseNotificationList: response));
+      // showCustomToast(context, response.message.toString(), isSuccess: true);
+    }
+    else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // updateFarmDetailApi
+  Future<void> readNotificationApi(context, int id, {bool isLoaderRequired = true}) async{
+    // if(isLoaderRequired) {
+    //   customDialog(widget: launchProgress());
+    // }
+    // emit(state.copyWith(status: ProfileStatus.loading));
+    var response = await apiRepository.readNotificationApi(id);
+
+    // disposeProgress();
+
+    if (response.status == 200) {
+      // emit(state.copyWith(status: ProfileStatus.success, responseNotificationList: response));
+      // showCustomToast(context, response.message.toString(), isSuccess: true);
+      getNotificationListApi(context, isLoaderRequired: false);
+    }
+    else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // updateFarmDetailApi
+  Future<void> readAllNotificationApi(context, {bool isLoaderRequired = true}) async{
     if(isLoaderRequired) {
       customDialog(widget: launchProgress());
     }
-    var response = await apiRepository.getNotificationApi();
+    // emit(state.copyWith(status: ProfileStatus.loading));
+    var response = await apiRepository.readAllNotificationApi();
 
     disposeProgress();
 
     if (response.status == 200) {
+      // emit(state.copyWith(status: ProfileStatus.success, responseNotificationList: response));
       showCustomToast(context, response.message.toString(), isSuccess: true);
+      getNotificationListApi(context, isLoaderRequired: false);
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
