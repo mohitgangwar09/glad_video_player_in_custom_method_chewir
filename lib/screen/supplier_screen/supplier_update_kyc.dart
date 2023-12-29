@@ -1234,7 +1234,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   hint: '',
                   dropdownValue: docSix,
                   itemList: const [
-                    "Select ID Proof"
+                    "ID Proof"
                   ],
                   icon: Images.arrowDropdown,
                   iconColor: Colors.black, onChanged: (String? value) {  },

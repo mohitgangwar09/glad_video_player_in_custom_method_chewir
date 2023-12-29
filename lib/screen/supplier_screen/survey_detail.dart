@@ -45,6 +45,7 @@ class SurveyDetails extends StatefulWidget {
 class _SurveyDetailsState extends State<SurveyDetails> {
 
   TextEditingController controller = TextEditingController();
+  bool paymentTerms = false;
 
   @override
   void initState() {
@@ -124,10 +125,23 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                               style:
                                               figtreeMedium.copyWith(fontSize: 18),
                                             ),
-                                            SvgPicture.asset(Images.drop)
+                                            InkWell(onTap: (){
+                                              setState(() {
+                                                if(paymentTerms == false){
+                                                  paymentTerms = true;
+                                                }else{
+                                                  paymentTerms = false;
+                                                }
+                                              });
+                                            },child: paymentTerms == false?Container(width: 30,height: 30,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(4),
+                                                    border: Border.all(color: const Color(0xffDCDCDC),width: 1)
+                                                ),child: const Center(child: Icon(Icons.keyboard_arrow_down_sharp,size: 22,))) :SvgPicture.asset(Images.drop))
                                           ],
                                         ),
                                       ),
+                                      paymentTerms == true?
                                       customList(
                                         list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectPaymentTerms!,
                                           child: (index){
@@ -167,7 +181,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                               ],
                                             ),
                                           );
-                                          })
+                                          }):const SizedBox.shrink()
                                     ],
                                   ),
                                 )):
@@ -759,8 +773,8 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                           onTap: (){
                             if(dde.address!=null){
                               BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                                  dde.address["address"]['latitude'].toString(),
-                                  dde.address["address"]['longitude'].toString(),context);
+                                  dde.address['latitude'].toString(),
+                                  dde.address['longitude'].toString(),context);
                             }
                           }, child: SvgPicture.asset(Images.redirectLocation)),
                         6.horizontalSpace(),
@@ -925,8 +939,8 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                 InkWell(onTap: ()async{
                   if(farmerDetail.address!=null){
                     BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                        farmerDetail.address!.address.latitude.toString(),
-                        farmerDetail.address!.address.latitude.toString(),context);
+                        farmerDetail.address!.latitude.toString(),
+                        farmerDetail.address!.longitude.toString(),context);
                   }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),

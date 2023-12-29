@@ -668,12 +668,14 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         6.horizontalSpace(),
                         whatsapp(dde.phone),
                         6.horizontalSpace(),
-                        InkWell(onTap: (){
-                          if(dde.address!=null){
+                        InkWell(
+                            onTap: (){
+                          "sddsdsds".toast();
+                          // if(dde.address!=null){
                             BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                                dde.address!.address!.latitude.toString(),
-                                dde.address!.address!.longitude.toString(),context);
-                          }
+                                dde.address!['latitude'].toString(),
+                                dde.address!['longitude'].toString(),context);
+                          // }
                         },child: SvgPicture.asset(Images.redirectLocation)),
                         6.horizontalSpace(),
                       ],
@@ -1171,8 +1173,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 InkWell(onTap: ()async{
                   if(farmerDetail.address!=null){
                     BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                        farmerDetail.address!.address!.latitude.toString(),
-                        farmerDetail.address!.address!.longitude.toString(),context);
+                        farmerDetail.address!.latitude.toString(),
+                        farmerDetail.address!.longitude.toString(),context);
                   }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),
@@ -1312,8 +1314,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 InkWell(onTap: ()async{
                   if(farmerDetail.address!=null){
                     BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                        farmerDetail.address!.address.latitude.toString(),
-                        farmerDetail.address!.address.latitude.toString(),context);
+                        farmerDetail.address!.latitude.toString(),
+                        farmerDetail.address!.latitude.toString(),context);
                   }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),
