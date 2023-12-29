@@ -286,12 +286,10 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                             TextField(
                                                               controller: controller,
                                                               maxLines: 1,
-                                                              keyboardType: TextInputType
-                                                                  .number,
                                                               inputFormatters: [
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly
+                                                                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
                                                               ],
+                                                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                                               minLines: 1,
                                                               decoration: InputDecoration(
                                                                   hintText: 'Enter negotiated value',

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -45,10 +46,15 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
 
   final TextEditingController controller = TextEditingController();
 
-  /*@override
+  @override
   initState() {
     super.initState();
-  }*/
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(BlocProvider.of<LandingPageCubit>(context).state.response==null){
+        BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
+      }
+    });
+  }
 
   @override
   dispose() {
@@ -155,7 +161,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
               });
 
               BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                  widget.projectData.phone.toString()
+                  BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!.toString()
               );
 
             }:(){}):const SizedBox.shrink(),
@@ -176,13 +182,13 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    widget.projectData.photo!=null?
+                    BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.photo!=null?
                     CircleAvatar(
                         radius: 33,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(40),
                           child: CachedNetworkImage(
-                            imageUrl: widget.projectData.photo ?? '',
+                            imageUrl: BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.photo.toString() ?? '',
                             errorWidget: (_, __, ___) {
                               return Image.asset(
                                 Images.sampleUser,
@@ -209,7 +215,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.projectData.name ?? '',
+                        Text(BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.name!=null?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.name!.toString():'',
                             style: figtreeMedium.copyWith(
                                 fontSize: 16, color: Colors.black)),
                         10.verticalSpace(),
@@ -221,7 +227,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                               color: Colors.black,
                               size: 16,
                             ),
-                            Text(widget.projectData.phone ?? '',
+                            Text(BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!=null?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!.toString(): '',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: Colors.black)),
                           ],
@@ -239,7 +245,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                               width: MediaQuery.of(context).size.width *
                                   0.5,
                               child: Text(widget.projectData.address!=null?
-                              widget.projectData.address!.address!=null ?widget.projectData.address!.address!.toString():"":"",
+                              BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.address!=null ?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.address!['address'].toString():"":"",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: figtreeRegular.copyWith(
