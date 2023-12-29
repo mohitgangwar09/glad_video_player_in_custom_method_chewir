@@ -12,6 +12,7 @@ class LivestockCubitState extends Equatable{
   final ResponseLoanApplicationList? responseLoanApplicationList;
   final String? confirmDelivery;
 
+
   const LivestockCubitState({
       required this.status,
       required this.breed,
@@ -44,6 +45,7 @@ class LivestockCubitState extends Equatable{
     LivestockDetail? responseLivestockDetail,
     LivestockCartList? responseLivestockCartList,
     ResponseLoanApplicationList? responseLoanApplicationList,
+    ResponseFaqList? responseFaqList,
     String? confirmDelivery,
   }) {
     return LivestockCubitState(
@@ -67,7 +69,7 @@ class LivestockCubitState extends Equatable{
     responseLivestockDetail,
     responseLivestockCartList,
     responseLoanApplicationList,
-    confirmDelivery,
+    confirmDelivery
   ];
 
 }

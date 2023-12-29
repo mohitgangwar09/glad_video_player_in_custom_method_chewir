@@ -394,9 +394,12 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(14),
-                                child: CachedNetworkImage(imageUrl: images[index].originalUrl ?? '', fit: BoxFit.fitWidth,width: screenWidth(),)),
+                            SizedBox(
+                              height: 115,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(14),
+                                  child: CachedNetworkImage(imageUrl: images[index].originalUrl ?? '', fit: BoxFit.fitWidth,width: screenWidth(),)),
+                            ),
                             Positioned(
                               bottom: 20,
                               right: 10,

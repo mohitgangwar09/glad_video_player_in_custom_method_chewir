@@ -10,6 +10,7 @@ import 'package:glad/screen/farmer_screen/drawer_screen/add_testimonial.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
+import 'package:glad/screen/guest_user/faq_screen.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 
@@ -85,7 +86,10 @@ class FarmerDrawer extends StatelessWidget {
           30.verticalSpace(),
           navigationBarItem(
             image: Images.faq,
-            onTap: () {},
+            onTap: () {
+              pressBack();
+              const FaqScreen().navigate();
+            },
             text: "Faq's",
           ),
           30.verticalSpace(),

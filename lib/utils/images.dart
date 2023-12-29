@@ -190,6 +190,8 @@ class Images {
   static const String enquiry = 'assets/images/enquiry.svg';
   static const String selectedEnquiry = 'assets/images/selectedenquiry.svg';
   static const String paid = 'assets/images/paid.svg';
+  static const String lessFaq = 'assets/images/lessfaq.svg';
+  static const String addFaq = 'assets/images/addfaq.svg';
 
 
 }

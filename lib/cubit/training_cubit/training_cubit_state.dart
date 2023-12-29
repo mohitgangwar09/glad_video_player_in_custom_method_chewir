@@ -9,6 +9,7 @@ class TrainingCubitState extends Equatable{
   final TrainingDetailModel? responseTrainingDetail;
   final String selectedCategoryId;
   final YoutubeVideoStatisticsModel? responseVideoStatistics;
+  final ResponseFaqList? responseFaqList;
 
   const TrainingCubitState({
       required this.status,
@@ -17,6 +18,7 @@ class TrainingCubitState extends Equatable{
       required this.responseTrainingDetail,
       required this.selectedCategoryId,
       required this.responseVideoStatistics,
+      required this.responseFaqList,
   });
 
   factory TrainingCubitState.initial() {
@@ -27,6 +29,7 @@ class TrainingCubitState extends Equatable{
       responseTrainingList: null,
       selectedCategoryId: '',
       responseVideoStatistics: null,
+      responseFaqList: null,
     );
   }
 
@@ -37,6 +40,7 @@ class TrainingCubitState extends Equatable{
     TrainingDetailModel? responseTrainingDetail,
     String? selectedCategoryId,
     YoutubeVideoStatisticsModel? responseVideoStatistics,
+    ResponseFaqList? responseFaqList,
   }) {
     return TrainingCubitState(
         status: status ?? this.status,
@@ -45,6 +49,7 @@ class TrainingCubitState extends Equatable{
         responseTrainingCategories: responseTrainingCategories ?? this.responseTrainingCategories,
         selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
         responseVideoStatistics: responseVideoStatistics ?? this.responseVideoStatistics,
+        responseFaqList: responseFaqList ?? this.responseFaqList,
     );
   }
 
@@ -56,6 +61,7 @@ class TrainingCubitState extends Equatable{
     responseTrainingCategories,
     selectedCategoryId,
     responseVideoStatistics,
+    responseFaqList
   ];
 
 }
