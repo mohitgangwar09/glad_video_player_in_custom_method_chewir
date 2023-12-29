@@ -2394,8 +2394,8 @@ class _DDeFarmerInvestmentDetailsState
                           onTap: () async {
                             if(farmerDetail.address!=null){
                               BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                                  farmerDetail.address!.address.latitude.toString(),
-                                  farmerDetail.address!.address.latitude.toString(),context);
+                                  farmerDetail.address!.latitude.toString(),
+                                  farmerDetail.address!.longitude.toString(),context);
                             }
                             // await launchWhatsApp(farmerDetail.phone ?? '');
                           },
