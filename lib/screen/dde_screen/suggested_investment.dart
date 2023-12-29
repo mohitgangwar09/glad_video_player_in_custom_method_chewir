@@ -432,7 +432,7 @@ class _DDeFarmerInvestmentDetailsState
                                               ],
                                             ),
                                           ),
-                                          paymentTerms == true?
+                                          paymentTerms?
                                           customList(
                                               list: state
                                                   .responseFarmerProjectDetail!
@@ -451,17 +451,14 @@ class _DDeFarmerInvestmentDetailsState
                                                         .loanDocumentFile![0]
                                                         .mimeType
                                                         .toString());
-                                                    if (state
+                                                    if (!state
                                                             .responseFarmerProjectDetail!
                                                             .data!
                                                             .farmerProject![0]
                                                             .farmerLoanDocument![
                                                                 index]
                                                             .loanDocumentFile![
-                                                                0]
-                                                            .mimeType
-                                                            .toString() ==
-                                                        'image/png') {
+                                                                0].originalUrl!.endsWith('pdf')) {
                                                       PreviewScreen(
                                                               previewImage: state
                                                                       .responseFarmerProjectDetail!
@@ -564,7 +561,7 @@ class _DDeFarmerInvestmentDetailsState
                                                         ),
                                                         InkWell(
                                                           onTap: () async {
-                                                            if (state
+                                                            if (!state
                                                                     .responseFarmerProjectDetail!
                                                                     .data!
                                                                     .farmerProject![
@@ -573,9 +570,7 @@ class _DDeFarmerInvestmentDetailsState
                                                                         index]
                                                                     .loanDocumentFile![
                                                                         0]
-                                                                    .mimeType
-                                                                    .toString() ==
-                                                                'image/png') {
+                                                                .originalUrl!.endsWith('pdf')) {
                                                               var dir =
                                                                   await getApplicationDocumentsDirectory();
                                                               await Permission

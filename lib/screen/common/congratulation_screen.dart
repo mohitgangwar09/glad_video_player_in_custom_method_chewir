@@ -112,28 +112,13 @@ class CongratulationScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(1000),
-                                    child: Container(
-                                      height: 60,
-                                      width: 60,
-                                      margin: const EdgeInsets.only(left: 15),
-                                      decoration:
-                                      const BoxDecoration(shape: BoxShape.circle),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                        (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!= null) ? (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.photo ?? '') : '',
-                                        errorWidget: (_, __, ___) =>
-                                            SvgPicture.asset(Images.person),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
+                                  networkImage(text: (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!= null) ? (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.photo ?? '') : '', height: 60, width: 60, radius: 30)
                                 ],
                               )),
                         ],
                       ),
                     ),
+                    if(state.responseFarmerProjectDetail!.data!.supplierDetail != null)
                     Expanded(
                       child: Stack(
                         children: [
@@ -199,27 +184,80 @@ class CongratulationScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(1000),
-                                      child: Container(
-                                        height: 60,
-                                        margin: const EdgeInsets.only(left: 15),
-                                        width: 60,
-                                        decoration:
-                                        const BoxDecoration(shape: BoxShape.circle),
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                          (state.responseFarmerProjectDetail!.data!.supplierDetail!.photo!= null) ? (state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() ?? '') : '',
-                                          // '(state.responseDdeDashboard!.data != null) ? (state.responseDdeDashboard!.data!.dde!.photo ?? '')' : '',
-                                          errorWidget: (_, __, ___) =>
-                                              SvgPicture.asset(Images.person),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
+                                  networkImage(text: (state.responseFarmerProjectDetail!.data!.supplierDetail!.photo!= null) ? (state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() ?? '') : '', height: 60, width: 60, radius: 30)
+                                ],
+                              )),
+                        ],
+                      ),
+                    ),
+                    if(state.responseFarmerProjectDetail!.data!.seller != null)
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          InkWell(
+                            onTap: (){
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: customProjectContainer(
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      15.verticalSpace(),
+                                      Text(state.responseFarmerProjectDetail!.data!.seller!.name.toString() ?? '',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 16,
+                                              color: Colors.black)),
+
+                                      5.verticalSpace(),
+
+                                      Text('Farmer',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 12,
+                                              color: Colors.black)),
+
+                                      10.verticalSpace(),
+                                      Text('+256 ${state.responseFarmerProjectDetail!.data!.seller!.phone.toString() ?? ''}',
+                                          style:
+                                          figtreeRegular.copyWith(
+                                              fontSize: 12,
+                                              color: Colors.black)),
+                                      10.verticalSpace(),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              state.responseFarmerProjectDetail!.data!.seller!.address!.address.toString() ?? '',
+                                              maxLines: 2,
+                                              style:
+                                              figtreeRegular.copyWith(
+                                                fontSize: 12,
+                                                color: Colors.black,
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              left: 0,
+                              right: 0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  networkImage(text: (state.responseFarmerProjectDetail!.data!.seller!= null) ? (state.responseFarmerProjectDetail!.data!.seller!.photo ?? '') : '', height: 60, width: 60, radius: 30)
                                 ],
                               )),
                         ],
