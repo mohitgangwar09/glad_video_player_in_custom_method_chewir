@@ -241,7 +241,7 @@ class OthersRepository {
   Future<ResponseLivestockList> getLivestockListApi() async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.livestockListApi,
+        .getApiResponse(sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.livestockListApi : AppConstants.guestLivestockListApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
@@ -269,7 +269,7 @@ class OthersRepository {
   Future<LivestockDetail> getLivestockDetailApi(String id) async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.livestockDetailApi,
+        .getApiResponse(sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.livestockDetailApi : AppConstants.guestLivestockDetailApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'id': id});
 
     if (apiResponse.status) {

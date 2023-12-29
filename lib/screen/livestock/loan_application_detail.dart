@@ -160,8 +160,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                               children: [
                                                 Text(
                                                   'Loan Document',
-                                                  style:
-                                                  figtreeMedium.copyWith(fontSize: 18),
+                                                  style: figtreeMedium.copyWith(fontSize: 18),
                                                 ),
                                                 InkWell(
                                                   onTap: (){

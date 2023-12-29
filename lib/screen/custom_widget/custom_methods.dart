@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
+import 'package:glad/screen/common/weather_chart.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -97,7 +98,8 @@ Widget networkImage(
     int? backColor,
     double radius = 8.0,
     double? height,
-    double? width}) {
+    double? width,
+    BoxFit fit = BoxFit.cover}) {
   return Container(
     width: width,
     height: height,
@@ -115,7 +117,7 @@ Widget networkImage(
       child: CachedNetworkImage(
         height: height,
         imageUrl: text,
-        fit: BoxFit.cover,
+        fit: fit,
         placeholder: (context, url) => SizedBox(
           width: width ?? screenWidth(),
           height: height ?? screenWidth() * 0.3,
@@ -1423,74 +1425,79 @@ String formatProjectStatus(String status) {
 Widget weatherWidget(){
   return BlocBuilder<WeatherCubit,WeatherState>(builder: (context,state){
     if(state.responseWeather!=null){
-      return Stack(
-        children: [
+      return InkWell(
+        onTap: () {
+          WeatherChart(lat: state.responseWeather?.lat, long: state.responseWeather?.lon,).navigate();
+        },
+        child: Stack(
+          children: [
 
-          Image.asset(Images.weather),
+            Image.asset(Images.weather),
 
-          Positioned(
-            right: 80,
-            top: 30,
-            child: Text(state.responseWeather!.current!.temp!=null?'${double.parse(state.responseWeather!.current!.temp.toString()).toStringAsFixed(1)}°' : '',
-              style: figtreeBold.copyWith(
-                fontSize: 36,
-                  color: Colors.black
-              ),),),
-          Builder(
-            builder: (context) {
-              String cityName = '';
-              for (var name in state.responseAddress!.results.toList()[0].addressComponents.toList()) {
-                print('${name.types} ${name.longName}');
-                if(name.types.contains('administrative_area_level_3') && name.longName.isNotEmpty){
-                  cityName = name.longName;
-                  break;
-                } else if(name.types.contains('administrative_area_level_2') && name.longName.isNotEmpty){
-                  cityName = name.longName;
-                  break;
+            Positioned(
+              right: 80,
+              top: 30,
+              child: Text(state.responseWeather!.current!.temp!=null?'${double.parse(state.responseWeather!.current!.temp.toString()).toStringAsFixed(1)}°' : '',
+                style: figtreeBold.copyWith(
+                  fontSize: 36,
+                    color: Colors.black
+                ),),),
+            Builder(
+              builder: (context) {
+                String cityName = '';
+                for (var name in state.responseAddress!.results.toList()[0].addressComponents.toList()) {
+                  print('${name.types} ${name.longName}');
+                  if(name.types.contains('administrative_area_level_3') && name.longName.isNotEmpty){
+                    cityName = name.longName;
+                    break;
+                  } else if(name.types.contains('administrative_area_level_2') && name.longName.isNotEmpty){
+                    cityName = name.longName;
+                    break;
+                  }
                 }
+                return Positioned(
+                  right: 40,
+                  top: 76,
+                  child: Text('$cityName, ${DateFormat('dd MMM').format(DateTime.now())}',
+                    style: figtreeSemiBold.copyWith(
+                        fontSize: 16,
+                        color: Colors.black
+                    ),),);
               }
-              return Positioned(
-                right: 40,
-                top: 76,
-                child: Text('$cityName, ${DateFormat('dd MMM').format(DateTime.now())}',
-                  style: figtreeSemiBold.copyWith(
-                      fontSize: 16,
-                      color: Colors.black
-                  ),),);
-            }
-          ),
+            ),
 
-          Positioned(
-            left: 30,
-            bottom: 38,
-            child: Text(state.responseWeather!.current!.windSpeed!=null?'${double.parse((state.responseWeather!.current!.windSpeed*3.6).toString()).toStringAsFixed(2)} km/hr':'0 km/hr',
-              style: figtreeBold.copyWith(
-                  color: Colors.black
-              ),),),
+            Positioned(
+              left: 30,
+              bottom: 38,
+              child: Text(state.responseWeather!.current!.windSpeed!=null?'${double.parse((state.responseWeather!.current!.windSpeed*3.6).toString()).toStringAsFixed(2)} km/hr':'0 km/hr',
+                style: figtreeBold.copyWith(
+                    color: Colors.black
+                ),),),
 
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 38,
-            child: SizedBox(
-              width: screenWidth(),
-              child: Center(
-                child: Text(double.parse((state.responseWeather!.current!.humidity.toString()??'0').toString()).toStringAsFixed(2),
-                  style: figtreeBold.copyWith(
-                      color: Colors.black
-                  ),),
-              ),
-            ),),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 38,
+              child: SizedBox(
+                width: screenWidth(),
+                child: Center(
+                  child: Text(double.parse((state.responseWeather!.current!.humidity.toString()??'0').toString()).toStringAsFixed(2),
+                    style: figtreeBold.copyWith(
+                        color: Colors.black
+                    ),),
+                ),
+              ),),
 
-          Positioned(
-            right: 30,
-            bottom: 38,
-            child: state.responseWeather!.minutely!=null?Text('${double.parse((state.responseWeather!.minutely!.isNotEmpty?state.responseWeather!.minutely![0].precipitation.toString():'0').toString()).toStringAsFixed(2)} %',
-              style: figtreeBold.copyWith(
-                color: Colors.black,
-              ),):const SizedBox.shrink()),
+            Positioned(
+              right: 30,
+              bottom: 38,
+              child: state.responseWeather!.minutely!=null?Text('${double.parse((state.responseWeather!.minutely!.isNotEmpty?state.responseWeather!.minutely![0].precipitation.toString():'0').toString()).toStringAsFixed(2)} %',
+                style: figtreeBold.copyWith(
+                  color: Colors.black,
+                ),):const SizedBox.shrink()),
 
-        ],
+          ],
+        ),
       );
     }else{
       return Image.asset(Images.weather);

@@ -30,7 +30,7 @@ class PreviewScreen extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 40.0,left: 15,right: 15),
-              child: isUrl(previewImage) ? networkImage(text: previewImage): Image.file(File(previewImage)),
+              child: isUrl(previewImage) ? networkImage(text: previewImage, fit: BoxFit.none): Image.file(File(previewImage)),
             ),
           ),
 

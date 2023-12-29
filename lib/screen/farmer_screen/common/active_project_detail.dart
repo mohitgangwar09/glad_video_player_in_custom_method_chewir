@@ -145,17 +145,14 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                                                         .loanDocumentFile![0]
                                                         .mimeType
                                                         .toString());
-                                                    if (state
+                                                    if (!state
                                                         .responseFarmerProjectDetail!
                                                         .data!
                                                         .farmerProject![0]
                                                         .farmerLoanDocument![
                                                     index]
                                                         .loanDocumentFile![
-                                                    0]
-                                                        .mimeType
-                                                        .toString() ==
-                                                        'image/png') {
+                                                    0].originalUrl!.endsWith('pdf')) {
                                                       PreviewScreen(
                                                           previewImage: state
                                                               .responseFarmerProjectDetail!
@@ -233,7 +230,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
 
                                                         InkWell(
                                                           onTap: () async {
-                                                            if (state
+                                                            if (!state
                                                                 .responseFarmerProjectDetail!
                                                                 .data!
                                                                 .farmerProject![
@@ -241,10 +238,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                                                                 .farmerLoanDocument![
                                                             index]
                                                                 .loanDocumentFile![
-                                                            0]
-                                                                .mimeType
-                                                                .toString() ==
-                                                                'image/png') {
+                                                            0].originalUrl!.endsWith('pdf')) {
                                                               var dir =
                                                               await getApplicationDocumentsDirectory();
                                                               await Permission

@@ -105,7 +105,9 @@ class AppConstants {
   static const String livestockAddApi = '/api/live-stock/add-live-stock';
   static const String myLivestockListApi = '/api/live-stock/my-livestock';
   static const String livestockListApi = '/api/live-stock/list';
+  static const String guestLivestockListApi = '/api/live-stock/list-data';
   static const String livestockDetailApi = '/api/live-stock/cow-detail';
+  static const String guestLivestockDetailApi = '/api/live-stock/details';
   static const String livestockUpdateApi = '/api/live-stock/update';
   static const String livestockAddToCartApi = '/api/live-stock/add-to-cart';
   static const String livestockCartListApi = '/api/live-stock/cart-list';
