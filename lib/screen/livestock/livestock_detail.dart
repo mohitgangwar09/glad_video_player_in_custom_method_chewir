@@ -554,7 +554,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
 
                                                                   });
                                                                 }else{
-                                                                  showCustomToast(context, "Available quantity is only $quantity");
+                                                                  showCustomToast(context, "Quantity not available");
                                                                 }
                                                               },
                                                               child: SvgPicture.asset(Images.addQuant)),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
@@ -53,8 +54,9 @@ class ThankYouLivestockLoan extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
                 40.verticalSpace(),
-                response!=null?
-                profileDataWidget(response,context):const SizedBox.shrink(),
+                // response!=null?
+                profileDataWidget(context),
+                    // :const SizedBox.shrink(),
                 40.verticalSpace(),
                 customButton("Back", fontColor: 0xffffffff, onTap: () {
                   const DashboardFarmer().navigate(isInfinity: true);
@@ -68,7 +70,7 @@ class ThankYouLivestockLoan extends StatelessWidget {
     );
   }
 
-  Widget profileDataWidget(FarmerMaster profileData,context){
+  Widget profileDataWidget(context){
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 20, 10, 20),
       child: Container(
@@ -93,17 +95,19 @@ class ThankYouLivestockLoan extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.photo!=null?
+                networkImage(text: BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.photo!,height: 46,width: 46,radius: 40):
                 Image.asset(Images.sampleUser),
                 10.horizontalSpace(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    Text(profileData.name??'',
+                    Text(BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.name!=null?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.name!.toString():'',
                         style: figtreeMedium.copyWith(
                             fontSize: 16, color: Colors.black)),
                     4.verticalSpace(),
-                    Text('+256 ${profileData.phone??''}',
+                    Text('+256 ${BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!=null?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!.toString():''}',
                         style: figtreeRegular.copyWith(
                             fontSize: 14, color: Colors.black)),
 
@@ -119,8 +123,7 @@ class ThankYouLivestockLoan extends StatelessWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width *
                               0.5,
-                          child: Text(profileData.address!=null?
-                          profileData.address!.address!=null ?profileData.address!.address!.toString():"":"",
+                          child: Text(BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.address!=null?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.address['address']!.toString():"",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: figtreeRegular.copyWith(

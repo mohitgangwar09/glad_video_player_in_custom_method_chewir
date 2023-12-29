@@ -577,6 +577,7 @@ class FarmerMaster {
   String? createdAt;
   String? photo;
   dynamic achievement;
+  dynamic address;
   FarmerDocuments? kycDocument;
 
   FarmerMaster(
@@ -612,6 +613,7 @@ class FarmerMaster {
         this.photo,
         this.achievement,
         this.kycDocument,
+        this.address,
       });
 
   FarmerMaster.fromJson(Map<String, dynamic> json) {
@@ -645,6 +647,7 @@ class FarmerMaster {
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     photo = json['photo'];
+    address = json['address'];
     achievement = json['achievement'];
     kycDocument = json['farmer_documents'] != null
         ? FarmerDocuments.fromJson(json['farmer_documents'])
@@ -683,6 +686,7 @@ class FarmerMaster {
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;
     data['photo'] = photo;
+    data['address'] = address;
     data['achievement'] = achievement;
     data['farmer_documents'] = kycDocument;
     return data;
