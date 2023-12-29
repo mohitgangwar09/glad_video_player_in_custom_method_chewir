@@ -314,7 +314,9 @@ class _SupplierProfileState extends State<SupplierProfile> {
                     if(state.responseProfile!.data!.user!.kycStatus == "pending"){
                       const KYCUpdate().navigate();
                     }else {
-                      if(state.responseProfile!.data!.user!.kycStatus == "verified"){}else{
+                      if(state.responseProfile!.data!.user!.kycStatus == "verified"){
+                        // const SupplierUpdateKyc().navigate();
+                      }else{
                         const SupplierUpdateKyc().navigate();
                       }
                     }
@@ -390,12 +392,12 @@ class _SupplierProfileState extends State<SupplierProfile> {
                               style: figtreeMedium.copyWith(
                                   fontSize: 12, color: ColorResources.black),
                             ),
-                            10.horizontalSpace(),
+                            /*10.horizontalSpace(),
                             Text(
                               'Documents',
                               style: figtreeMedium.copyWith(
                                   fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
-                            )
+                            )*/
                           ],
                         )
                     else if(state.responseProfile!.data!.user!.kycStatus == "expired")

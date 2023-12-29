@@ -13,6 +13,7 @@ import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
+import 'package:glad/screen/dde_screen/project_detail_statement.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/livestock/add_livestock_remark.dart';
@@ -1489,6 +1490,33 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
             child: (index){
               return InkWell(
                 onTap: (){
+                  if (kpiData[index].name.toString() == "Earned") {
+                    ProjectDetailStatement(
+                      userRoleId: state.responseFarmerProjectDetail!.data!
+                          .farmerProject![0].farmerMaster!.id
+                          .toString(),
+                      farmerProjectId: widget.projectId.toString(),
+                      status: 'paid',
+                    ).navigate();
+                  } else if (kpiData[index].name.toString() ==
+                      "Due") {
+                    ProjectDetailStatement(
+                      userRoleId: state.responseFarmerProjectDetail!.data!
+                          .farmerProject![0].farmerMaster!.id
+                          .toString(),
+                      farmerProjectId: widget.projectId.toString(),
+                      status: 'due',
+                    ).navigate();
+                  }else if (kpiData[index].name.toString() ==
+                      "Pending") {
+                    ProjectDetailStatement(
+                      userRoleId: state.responseFarmerProjectDetail!.data!
+                          .farmerProject![0].farmerMaster!.id
+                          .toString(),
+                      farmerProjectId: widget.projectId.toString(),
+                      status: 'pending',
+                    ).navigate();
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
