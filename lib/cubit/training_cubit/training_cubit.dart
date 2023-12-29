@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/data/model/response_faq_list.dart';
 import 'package:glad/data/model/training_and_news_category_model.dart';
 import 'package:glad/data/model/training_detail_model.dart';
 import 'package:glad/data/model/training_list_model.dart';
@@ -64,6 +65,18 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     else {
       // emit(state.copyWith(status: TrainingStatus.error));
       showCustomToast(context, 'Error getting statistics');
+    }
+  }
+
+  // faqListApi
+  Future<void> faqListApi(context,String type) async{
+
+    // emit(state.copyWith(status: TrainingStatus.submit));
+    var response = await apiRepository.faqApi(type);
+    if (response.status == 200) {
+      emit(state.copyWith(responseFaqList: response,/*status: TrainingStatus.submit*/));
+    } else {
+      emit(state.copyWith(status: TrainingStatus.error));
     }
   }
 

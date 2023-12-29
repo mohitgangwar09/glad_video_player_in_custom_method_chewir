@@ -12,6 +12,7 @@ import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/data/model/response_community_comment_list.dart';
 import 'package:glad/data/model/response_community_like_list.dart';
 import 'package:glad/data/model/response_community_list_model.dart';
+import 'package:glad/data/model/response_faq_list.dart';
 import 'package:glad/data/model/response_livestock_laon.dart';
 import 'package:glad/data/model/response_loan_application_list.dart';
 import 'package:glad/data/model/response_my_livestock.dart';
@@ -571,18 +572,18 @@ class OthersRepository {
   }
 
   ///////////////// faqApi //////////
-  Future<ResponseLoanApplicationList> faqApi(String type) async {
+  Future<ResponseFaqList> faqApi(String type) async {
 
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.faqApi,
-        queryParameters: {"type":type},
+        queryParameters: {"category_id":type},
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
-      return ResponseLoanApplicationList.fromJson(apiResponse.response!.data);
+      return ResponseFaqList.fromJson(apiResponse.response!.data);
     } else {
-      return ResponseLoanApplicationList(status: 422, message: apiResponse.msg);
+      return ResponseFaqList(status: 422, message: apiResponse.msg);
     }
   }
 

@@ -670,12 +670,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         6.horizontalSpace(),
                         InkWell(
                             onTap: (){
-                          "sddsdsds".toast();
-                          // if(dde.address!=null){
+                          if(dde.address!=null){
                             BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
                                 dde.address!['latitude'].toString(),
                                 dde.address!['longitude'].toString(),context);
-                          // }
+                          }
                         },child: SvgPicture.asset(Images.redirectLocation)),
                         6.horizontalSpace(),
                       ],
@@ -825,11 +824,24 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                               await callOnMobile(dde.phone);
                             },
                             child: SvgPicture.asset(Images.callPrimary)),
+
                         6.horizontalSpace(),
+
                         whatsapp(dde.phone),
+
                         6.horizontalSpace(),
-                        SvgPicture.asset(Images.redirectLocation),
-                        6.horizontalSpace(),
+
+                        InkWell(
+                          onTap: (){
+                            if(dde.address!=null){
+                              BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
+                                  dde.address!['latitude'].toString(),
+                                  dde.address!['longitude'].toString(),context);
+                            }
+                          }, child: SvgPicture.asset(Images.redirectLocation)),
+
+                        6.horizontalSpace()
+
                       ],
                     )),
                 Positioned(
@@ -1315,7 +1327,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   if(farmerDetail.address!=null){
                     BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
                         farmerDetail.address!.latitude.toString(),
-                        farmerDetail.address!.latitude.toString(),context);
+                        farmerDetail.address!.longitude.toString(),context);
                   }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),

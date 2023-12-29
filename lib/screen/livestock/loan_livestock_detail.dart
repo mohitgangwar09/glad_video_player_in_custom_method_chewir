@@ -94,7 +94,7 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
     );
   }
 
-  Widget landingPage(BuildContext context, LivestockCubitState state){
+  Widget landingPage(BuildContext contexts, LivestockCubitState state){
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -391,9 +391,12 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                                       child: Stack(
                                         alignment: Alignment.center,
                                         children: [
-                                          ClipRRect(
-                                              borderRadius: BorderRadius.circular(14),
-                                              child: CachedNetworkImage(imageUrl: widget.mediaLivestock[index].originalUrl ?? '', fit: BoxFit.fitWidth,width: screenWidth(),)),
+                                          SizedBox(
+                                            height: 115,
+                                            child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(14),
+                                                child: CachedNetworkImage(imageUrl: widget.mediaLivestock[index].originalUrl ?? '', fit: BoxFit.fitWidth,width: screenWidth())),
+                                          ),
                                           Positioned(
                                             bottom: 20,
                                             right: 10,
@@ -593,7 +596,13 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                                                         'Submit',
                                                         fontColor: 0xffFFFFFF,
                                                         onTap: () async{
-                                                          BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "completed", docOneFile);
+                                                          if(docOneFile.isEmpty){
+                                                            showCustomToast(context, "Please choose image");
+                                                          }else if(controller.text.isEmpty){
+                                                            showCustomToast(context, "Please enter remark");
+                                                          }else{
+                                                            BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "completed", docOneFile);
+                                                          }
                                                         },
                                                         height: 60,
                                                         width: screenWidth(),
@@ -675,7 +684,11 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                                                             'Submit',
                                                             fontColor: 0xffFFFFFF,
                                                             onTap: () async{
-                                                              BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "approved", []);
+                                                              if(controller.text.isEmpty){
+                                                                showCustomToast(context, "Please enter remark");
+                                                              }else{
+                                                                BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "approved", []);
+                                                              }
                                                             },
                                                             height: 60,
                                                             width: screenWidth(),
