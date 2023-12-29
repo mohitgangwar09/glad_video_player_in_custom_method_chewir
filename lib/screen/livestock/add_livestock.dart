@@ -34,8 +34,10 @@ class _AddLivestockState extends State<AddLivestock> {
   List<String> path = [];
 
   int quantity = 1;
-  String selectedBreed = '';
-  int? selectedBreedId;
+  // String selectedBreed = '';
+  DataBreed? selectedBreed;
+  // int? selectedBreedId;
+
 
   TextEditingController price = TextEditingController();
   TextEditingController controller = TextEditingController();
@@ -92,8 +94,9 @@ class _AddLivestockState extends State<AddLivestock> {
                                   child: DropdownButton2<DataBreed>(
                                     isExpanded: true,
                                     isDense: true,
+                                    value: selectedBreed,
                                     hint: Text(
-                                      selectedBreed.toString(),
+                                      'Select breed',
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context).hintColor,
@@ -112,8 +115,9 @@ class _AddLivestockState extends State<AddLivestock> {
                                     // value: state.counties![0].name!,
                                     onChanged: (DataBreed? value) {
                                       setState(() {
-                                      selectedBreed = value!.name!;
-                                      selectedBreedId = value.id!;
+                                      // selectedBreed = value!.name!;
+                                      selectedBreed = value!;
+                                      // selectedBreedId = value.id!;
                                       });
                                     },
                                     buttonStyleData: const ButtonStyleData(
@@ -510,14 +514,15 @@ class _AddLivestockState extends State<AddLivestock> {
                                             child: DropdownButton2<int>(
                                               isExpanded: true,
                                               isDense: true,
+                                              value: lactation != '' ? int.parse(lactation!) : null,
                                               hint: Text(
-                                                lactation.toString(),
+                                                'Select',
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Theme.of(context).hintColor,
                                                 ),
                                               ),
-                                              items: lactation == null ? null : List<int>.generate(10, (i) => i + 1)
+                                              items: lactation == null ? null : List<int>.generate(10, (i) => i)
                                                   .map((int item) => DropdownMenuItem<int>(
                                                 value: item,
                                                 child: Text(
@@ -575,8 +580,9 @@ class _AddLivestockState extends State<AddLivestock> {
                                             child: DropdownButton2<int>(
                                               isExpanded: true,
                                               isDense: true,
+                                              value: pregnant != '' ? int.parse(pregnant!) : null,
                                               hint: Text(
-                                                pregnant.toString(),
+                                                'Select',
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Theme.of(context).hintColor,
@@ -679,7 +685,7 @@ class _AddLivestockState extends State<AddLivestock> {
                                 child: customButton(
                                   'Save',
                                   onTap: () {
-                                    if( selectedBreedId == null) {
+                                    if(selectedBreed == null) {
                                       showCustomToast(context, 'Breed required');
                                     } else if(path.isEmpty) {
                                       showCustomToast(context, 'Cow images required');
@@ -701,7 +707,7 @@ class _AddLivestockState extends State<AddLivestock> {
                                       BlocProvider.of<LivestockCubit>(context)
                                           .livestockAddApi(
                                           context,
-                                          selectedBreedId.toString(),
+                                          selectedBreed!.id.toString(),
                                           path,
                                           milk.text,
                                           lactation ?? '',

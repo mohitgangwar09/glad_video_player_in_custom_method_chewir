@@ -385,18 +385,30 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
 
                         Row(
                           children: [
-                            Expanded(
-                              child: customButton('Enquiries',
-                                  style: figtreeMedium.copyWith(fontSize: 16),
-                                  onTap: () {
-                                    EnquiryList(livestockId: widget.id, cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name ?? '', advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo ?? '', defaultPrice: state.responseLivestockDetail!.data!.price.toString(),).navigate();
-                                  },
-                                  borderColor: 0xFFFC5E60,
-                                  color: 0xffFFFFFF,
-                                  enableFirst: true,
-                                  height: 60,
-                                  width: screenWidth(),
-                                  widget: SvgPicture.asset(Images.chat, color: ColorResources.maroon,)),
+                            StreamBuilder(
+                              stream: FirebaseFirestore.instance.collection('livestock_enquiry')
+                                  .doc(widget.id).collection('enquiries').snapshots(),
+                              builder: (context, snapshot) {
+                                if(!snapshot.hasData) {
+                                  return const SizedBox.shrink();
+                                }
+                                if(snapshot.data!.docs.isEmpty) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Expanded(
+                                  child: customButton('Enquiries',
+                                      style: figtreeMedium.copyWith(fontSize: 16),
+                                      onTap: () {
+                                        EnquiryList(livestockId: widget.id, cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name ?? '', advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo ?? '', defaultPrice: state.responseLivestockDetail!.data!.price.toString(),).navigate();
+                                      },
+                                      borderColor: 0xFFFC5E60,
+                                      color: 0xffFFFFFF,
+                                      enableFirst: true,
+                                      height: 60,
+                                      width: screenWidth(),
+                                      widget: SvgPicture.asset(Images.chat, color: ColorResources.maroon,)),
+                                );
+                              }
                             ),
                             /*20.horizontalSpace(),
                             Expanded(

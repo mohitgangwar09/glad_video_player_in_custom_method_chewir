@@ -124,7 +124,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                         width: screenWidth() * 0.9,
                         child: InkWell(
                           onTap: () {
-                            LiveStockDetail(id: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.id.toString(), isMyLivestock: false,type: 'seller',).navigate();
+                            LiveStockDetail(id: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.id.toString(), isMyLivestock: false,type: 'buyer',).navigate();
                           },
                           child: customShadowContainer(
                             margin: 0,
