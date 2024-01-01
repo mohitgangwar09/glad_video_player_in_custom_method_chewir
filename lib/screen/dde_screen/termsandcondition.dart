@@ -85,14 +85,20 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
 
                   20.verticalSpace(),
 
-                  swipe == false?
+                  // swipe == false?
                   SwipeButton(
                     width: 287,
                     // trackPadding: EdgeInsets.all(6),
-                    activeTrackColor: const Color(0xff6A0030),
-                    activeThumbColor: const Color(0xffFC5E60),
+                    activeTrackColor: swipe ? const Color(0xffF6B51D) :const Color(0xff6A0030),
+                    activeThumbColor: swipe ? Colors.white :const Color(0xffFC5E60),
                     // elevationThumb: 2,
-                    child: Text(
+                    child: swipe ? Text(
+                        "I agree!",
+                        style: figtreeMedium.copyWith(
+                            fontSize: 16,
+                            color: Colors.black
+                        )
+                    ) : Text(
                         "Swipe right to agree!",
                         style: figtreeMedium.copyWith(
                             fontSize: 16,
@@ -103,6 +109,9 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
                       setState(() {
                         swipe = true;
                       });
+                      Future.delayed(const Duration(milliseconds: 80), () {
+                        AddRemarkLoanApproval(projectData: widget.projectData,farmerProjectId:widget.farmerProjectId,navigateFrom: widget.navigateFrom).navigate();
+                      });
 
                       /*ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -111,40 +120,41 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
                         ),
                       );*/
                     },
-                  ):
-                  InkWell(
-                    onTap: (){
-                      AddRemarkLoanApproval(projectData: widget.projectData,farmerProjectId:widget.farmerProjectId,navigateFrom: widget.navigateFrom).navigate();
-                    },
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 58,
-                          width: 300,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: const Color(0xffF6B51D)
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                height: 52,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.white
-                                ),
-                                child: const Icon(Icons.arrow_forward),
-                              ),
-                              3.horizontalSpace()
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 300,height:58,child: Center(child: Text("I agree!")))
-                      ],
-                    ),
-                  ),
+                  )
+                  //     :
+                  // InkWell(
+                  //   onTap: (){
+                  //     AddRemarkLoanApproval(projectData: widget.projectData,farmerProjectId:widget.farmerProjectId,navigateFrom: widget.navigateFrom).navigate();
+                  //   },
+                  //   child: Stack(
+                  //     children: [
+                  //       Container(
+                  //         height: 58,
+                  //         width: 300,
+                  //         decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(100),
+                  //             color: const Color(0xffF6B51D)
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.end,
+                  //           children: [
+                  //             Container(
+                  //               height: 52,
+                  //               width: 55,
+                  //               decoration: BoxDecoration(
+                  //                   borderRadius: BorderRadius.circular(100),
+                  //                   color: Colors.white
+                  //               ),
+                  //               child: const Icon(Icons.arrow_forward),
+                  //             ),
+                  //             3.horizontalSpace()
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       const SizedBox(width: 300,height:58,child: Center(child: Text("I agree!")))
+                  //     ],
+                  //   ),
+                  // ),
 
                   /*SwipeButton.expand(
                     thumb: Icon(

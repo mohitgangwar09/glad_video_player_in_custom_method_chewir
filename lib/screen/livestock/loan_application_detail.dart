@@ -183,13 +183,15 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                               list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
                                               child: (index){
                                                 return InkWell(
-                                                  onTap: () async{
+                                                  onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString().endsWith('.pdf') ? () async{
                                                     var dir = await getApplicationDocumentsDirectory();
                                                     await Permission.manageExternalStorage.request();
                                                     await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
                                                     await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
                                                     // PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
-                                                  },
+                                                  } : () {
+                                                  PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString()).navigate();
+                                                },
                                                   child: Container(
                                                     margin: const EdgeInsets.only(top: 10),
                                                     padding: const EdgeInsets.symmetric(
@@ -231,12 +233,14 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                                         ),
 
                                                         InkWell(
-                                                          onTap: ()async{
+                                                          onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString().endsWith('.pdf') ? ()async{
                                                             var dir = await getApplicationDocumentsDirectory();
                                                             await Permission.manageExternalStorage.request();
                                                             await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
                                                             await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
-                                                          }, child: Container(
+                                                          } : () {
+                                                  PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString()).navigate();
+                                                  }, child: Container(
                                                           padding: const EdgeInsets.symmetric(
                                                               horizontal: 20, vertical: 8),
                                                           decoration: BoxDecoration(

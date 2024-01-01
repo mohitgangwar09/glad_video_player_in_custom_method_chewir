@@ -138,7 +138,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                                 for (DocumentFiles image in widget.farmerDocuments.documentFiles!)
                                   Row(
                                     children: [
-                                      viewDocumentImage(image.fullUrl!, isPDF: widget.farmerDocuments.docName == 'bank-statement'),
+                                      viewDocumentImage(image.fullUrl!, isPDF: image.fullUrl.toString().endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )
@@ -212,7 +212,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                                 for (DocumentTypeFiles image in widget.farmerDocuments.documentTypeFiles!)
                                   Row(
                                     children: [
-                                      viewDocumentImage(image.fullUrl!),
+                                      viewDocumentImage(image.fullUrl!, isPDF: image.fullUrl!.toString().endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )

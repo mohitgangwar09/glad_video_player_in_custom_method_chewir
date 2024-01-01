@@ -438,6 +438,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                           ],
                         ),
                         20.verticalSpace(),
+                        if(int.parse(state.responseLivestockDetail!.data!.balanceCows!.toString()) != 0)
                         customButton('Remove this ad',
                             style: figtreeMedium.copyWith(fontSize: 16),
                             onTap: () {

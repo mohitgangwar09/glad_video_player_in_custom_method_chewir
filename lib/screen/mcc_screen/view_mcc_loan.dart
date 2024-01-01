@@ -146,7 +146,7 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
                                 for (AddressDocumentFile image in widget.farmerDocuments.addressDocumentFile!)
                                   Row(
                                     children: [
-                                      viewDocumentImage(image.originalUrl!, isPDF: widget.farmerDocuments.addressDocumentName == 'bank-statement'),
+                                      viewDocumentImage(image.originalUrl!, isPDF: image.originalUrl.toString().endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )
@@ -222,7 +222,7 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
                                 for (IdDocumentFile image in widget.farmerDocuments.idDocumentFile!)
                                   Row(
                                     children: [
-                                      viewDocumentImage(image.originalUrl!),
+                                      viewDocumentImage(image.originalUrl!, isPDF: image.originalUrl.toString().endsWith('.pdf')),
                                       10.horizontalSpace(),
                                     ],
                                   )
