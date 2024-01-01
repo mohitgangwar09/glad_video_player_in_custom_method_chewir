@@ -161,7 +161,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                             CustomAppBar(
                               context: context,
                               titleText1: 'Hello ',
-                              titleText2: stateprofile.responseProfile!=null?stateprofile.responseProfile!.data!.user!.name.toString():'',
+                              titleText2: state.responseSupplierDashboard!.data!=null?state.responseSupplierDashboard!.data!.supplier!.name.toString():'',
                               leading: openDrawer(
                                   onTap: () {
                                     supplierLandingKey.currentState?.openDrawer();
@@ -208,7 +208,6 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                               ),
                               child: Row(
                                 children: [
-
                                   if(stateprofile.responseProfile!.data!.user!.kycStatus == null)
                                     Row(
                                       children: [
