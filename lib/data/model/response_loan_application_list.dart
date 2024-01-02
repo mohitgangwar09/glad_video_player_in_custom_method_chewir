@@ -65,7 +65,7 @@ class DataLoanApplication {
   dynamic maxRepaymentMonths;
   dynamic repaymentMonths;
   dynamic emiAmount;
-  double? incrementalProduction;
+  dynamic incrementalProduction;
   dynamic repaymentFactor;
   dynamic repaymentStartDays;
   dynamic repaymentStartDate;

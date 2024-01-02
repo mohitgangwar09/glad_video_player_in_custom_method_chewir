@@ -25,8 +25,9 @@ class ResponseLivestockList {
 class DataLivestock {
   List<LiveStoclLIst>? liveStoclLIst;
   int? loanApplication;
+  dynamic cartCount;
 
-  DataLivestock({this.liveStoclLIst, this.loanApplication});
+  DataLivestock({this.liveStoclLIst, this.loanApplication,this.cartCount});
 
   DataLivestock.fromJson(Map<String, dynamic> json) {
     if (json['liveStoclLIst'] != null) {
@@ -36,6 +37,7 @@ class DataLivestock {
       });
     }
     loanApplication = json['loanApplication'];
+    cartCount = json['cartCount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,6 +47,7 @@ class DataLivestock {
           liveStoclLIst!.map((v) => v.toJson()).toList();
     }
     data['loanApplication'] = loanApplication;
+    data['cartCount'] = cartCount;
     return data;
   }
 }
