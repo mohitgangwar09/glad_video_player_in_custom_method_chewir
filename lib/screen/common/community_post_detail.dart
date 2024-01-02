@@ -31,6 +31,7 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
   void initState() {
     BlocProvider.of<CommunityCubit>(context).communityDetailApi(context, widget.id);
     super.initState();
+    print(widget.id);
   }
   @override
   Widget build(BuildContext context) {

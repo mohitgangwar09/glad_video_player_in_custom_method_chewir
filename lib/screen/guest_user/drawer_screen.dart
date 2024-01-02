@@ -29,13 +29,12 @@ class GuestSideDrawer extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              navigationItem(),
+              Expanded(child: SingleChildScrollView(child: navigationItem())),
+              helpLineItem(),
             ],
           ),
 
           sideBackground(),
-
-          helpLineItem(),
 
         ],
       ),
@@ -67,9 +66,7 @@ class GuestSideDrawer extends StatelessWidget {
             height: 30,
           ),
           navigationBarItem(image: Images.faq, onTap: () {}, text: "Faq's"),
-          const SizedBox(
-            height: 30,
-          ),
+          const SizedBox(height: 30),
           navigationBarItem(
             image: Images.aboutus,
             onTap: () {},

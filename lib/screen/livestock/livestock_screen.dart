@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/livestock/livestock_detail.dart';
 import 'package:glad/screen/livestock/loan_application_screen.dart';
@@ -72,8 +73,13 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                         action: Row(
                           children: [
                             InkWell(
-                                onTap: () {
+                                onTap: BlocProvider
+                                    .of<LandingPageCubit>(context)
+                                    .sharedPreferences
+                                    .containsKey(AppConstants.userType) ? () {
                                   const LiveStockCartListScreen().navigate();
+                                } : () {
+                                  const LoginWithPassword().navigate();
                                 },
                                 child: SvgPicture.asset(Images.cart)),
                             13.horizontalSpace(),
@@ -116,8 +122,13 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                             Row(
                               children: [
                                 InkWell(
-                                  onTap: () {
+                                  onTap:  BlocProvider
+                                      .of<LandingPageCubit>(context)
+                                      .sharedPreferences
+                                      .containsKey(AppConstants.userType) ? () {
                                     const MyLiveStockScreen().navigate();
+                                  } : () {
+                                    const LoginWithPassword().navigate();
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(
@@ -133,8 +144,13 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {
+                                  onTap:  BlocProvider
+                                      .of<LandingPageCubit>(context)
+                                      .sharedPreferences
+                                      .containsKey(AppConstants.userType) ? () {
                                     const LoanApplication(type: 'buyer',).navigate();
+                                  } : () {
+                                    const LoginWithPassword().navigate();
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(

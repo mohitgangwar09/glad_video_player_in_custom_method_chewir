@@ -35,14 +35,12 @@ class DdeDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               menuItem(context),
-              25.verticalSpace(),
-              navigationItem(context),
+              Expanded(child: SingleChildScrollView(child: navigationItem(context))),
+              helpLineItem(),
             ],
           ),
 
           sideBackground(),
-
-          helpLineItem(),
 
         ],
       ),

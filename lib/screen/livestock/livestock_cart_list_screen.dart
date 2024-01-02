@@ -163,6 +163,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                           6.verticalSpace(),
                                           Column(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               RichText(
                                                   text: TextSpan(children: [

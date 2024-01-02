@@ -4,11 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
+import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/livestock/enquiry/enquiry_list.dart';
 import 'package:glad/screen/livestock/enquiry/livestock_exquiry_chat.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
@@ -455,7 +457,10 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                       Expanded(
                         child: customButton('',
                             style: figtreeMedium.copyWith(fontSize: 16),
-                            onTap: () async {
+                            onTap:  BlocProvider
+                                .of<LandingPageCubit>(context)
+                                .sharedPreferences
+                                .containsKey(AppConstants.userType) ? () async {
                               if (BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile == null) {
                                   await BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
                               }
@@ -479,6 +484,8 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                 cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
                                 advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
                                 userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
+                            } : () {
+                          LoginWithPassword().navigate();
                             },
                             width: screenWidth(),
                             fontColor: 0xffFFFFFF,
@@ -514,7 +521,10 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                       Expanded(
                         child: customButton(state.responseLivestockDetail!.data!.isInCart == 0?'Add to cart':'View Cart',
                             style: figtreeMedium.copyWith(fontSize: 16, color: const Color(0xffFFFFFF)),
-                            onTap: () {
+                            onTap:  BlocProvider
+                                .of<LandingPageCubit>(context)
+                                .sharedPreferences
+                                .containsKey(AppConstants.userType) ? () {
                               if(state.responseLivestockDetail!.data!.isInCart == 0){
                                 int quantity = 1;
                                 modalBottomSheetMenu(context,
@@ -691,6 +701,8 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                     ));*/
                                 const LiveStockCartListScreen().navigate();
                               }
+                            } : () {
+                          LoginWithPassword().navigate();
                             },
                             width: screenWidth(),
                             fontColor: 0xffFFFFFF,

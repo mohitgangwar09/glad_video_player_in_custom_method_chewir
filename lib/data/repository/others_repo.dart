@@ -136,7 +136,7 @@ class OthersRepository {
       'id': id
     };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestCommunityListApi : AppConstants.communityDetailApi,
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestCommunityDetailApi : AppConstants.communityDetailApi,
         headers: {'Authorization': 'Bearer ${getUserToken()}'},
         queryParameters: param);
 
