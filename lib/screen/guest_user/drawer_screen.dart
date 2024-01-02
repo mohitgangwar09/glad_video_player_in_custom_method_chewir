@@ -29,12 +29,13 @@ class GuestSideDrawer extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Expanded(child: SingleChildScrollView(child: navigationItem())),
-              helpLineItem(),
+              navigationItem(),
             ],
           ),
 
           sideBackground(),
+
+          helpLineItem(),
 
         ],
       ),
