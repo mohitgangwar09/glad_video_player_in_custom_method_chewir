@@ -84,7 +84,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                 } : () {
                                   const LoginWithPassword().navigate();
                                 },
-                                child: SvgPicture.asset(Images.cart)),
+                                child: SvgPicture.asset(state.responseLivestockList!.data!.cartCount.toString()== "0"?Images.blankCart:Images.cart)),
                             13.horizontalSpace(),
                             InkWell(
                                 onTap: () {
