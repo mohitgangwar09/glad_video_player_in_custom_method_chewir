@@ -44,9 +44,11 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   // trainingListApi
-  Future<void> livestockListApi(context) async{
-    emit(state.copyWith(status: LivestockStatus.submit));
-    var response = await apiRepository.getLivestockListApi();
+  Future<void> livestockListApi(context,bool showLoader,{String? searchQuery}) async{
+    if (showLoader) {
+      emit(state.copyWith(status: LivestockStatus.submit));
+    }
+    var response = await apiRepository.getLivestockListApi(searchQuery:searchQuery);
     if (response.status == 200) {
       emit(state.copyWith(status: LivestockStatus.success, responseLivestockList: response));
     }
