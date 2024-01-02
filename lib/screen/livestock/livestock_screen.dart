@@ -7,6 +7,7 @@ import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/livestock/livestock_detail.dart';
+import 'package:glad/screen/livestock/livestock_filter.dart';
 import 'package:glad/screen/livestock/loan_application_screen.dart';
 import 'package:glad/screen/livestock/my_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -28,9 +29,11 @@ class LiveStockScreen extends StatefulWidget {
 
 class _LiveStockScreenState extends State<LiveStockScreen> {
 
+  TextEditingController searchEditingController = TextEditingController();
+
   @override
   void initState() {
-    BlocProvider.of<LivestockCubit>(context).livestockListApi(context);
+    BlocProvider.of<LivestockCubit>(context).livestockListApi(context,true);
     super.initState();
   }
 
@@ -84,7 +87,9 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                 child: SvgPicture.asset(Images.cart)),
                             13.horizontalSpace(),
                             InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  // const LivestockFilter("").navigate();
+                                },
                                 child: SvgPicture.asset(Images.filter1)),
                             18.horizontalSpace(),
                           ],
@@ -104,11 +109,28 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                             13.horizontalSpace(),
                             SvgPicture.asset(Images.searchLeft),
                             13.horizontalSpace(),
-                            const Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Search by..."),
+                            Expanded(
+                                child: Stack(
+                                  children: [
+                                    TextField(
+                                      controller: searchEditingController,
+                                      onChanged: (value){
+                                        BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false,searchQuery:value.toString());
+                                      },
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "Search by..."),
+                                    ),
+                                    searchEditingController.text.isNotEmpty?
+                                    Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            searchEditingController.clear();
+                                            BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false,searchQuery:'');
+                                          });
+                                        },
+                                        icon: const Icon(Icons.clear))):const SizedBox.shrink()
+                                  ],
                                 )),
                           ],
                         ),
