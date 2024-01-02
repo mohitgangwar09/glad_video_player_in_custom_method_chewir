@@ -957,18 +957,12 @@ class _DDeFarmerInvestmentDetailsState
                 .category.toString() == "6")
               const SizedBox.shrink()
             else
-              if(state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == null ||state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == "paid")
-                SvgPicture.asset(Images.paid)
-            else
             if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
                         .projectStatus ==
                     'active' ||
                 state.responseFarmerProjectDetail!.data!.farmerProject![0]
                         .projectStatus ==
-                    'hold' ||
-                state.responseFarmerProjectDetail!.data!.farmerProject![0]
-                        .projectStatus ==
-                    'completed')
+                    'hold')
               Builder(builder: (context) {
                 int count = 0;
                 for (FarmerProjectMilestones mile in state
@@ -1027,7 +1021,64 @@ class _DDeFarmerInvestmentDetailsState
             else if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
                     .projectStatus ==
                 "completed")
-              SvgPicture.asset(Images.paid)
+              if(state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus != null && state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == "paid")
+                SvgPicture.asset(Images.paid)
+            else
+                Builder(builder: (context) {
+                  int count = 0;
+                  for (FarmerProjectMilestones mile in state
+                      .responseFarmerProjectDetail!
+                      .data!
+                      .farmerProject![0]
+                      .farmerProjectMilestones!) {
+                    if (mile.milestoneStatus != "pending") {
+                      count++;
+                    }
+                  }
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircularPercentIndicator(
+                        radius: 30,
+                        percent: count /
+                            state
+                                .responseFarmerProjectDetail!
+                                .data!
+                                .farmerProject![0]
+                                .farmerProjectMilestones!
+                                .length,
+                        progressColor: const Color(0xFF12CE57),
+                        backgroundColor: const Color(0xFFDCEAE5),
+                      ),
+                      RichText(
+                        softWrap: false,
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: removeZeroesInFraction(((count /
+                                  state
+                                      .responseFarmerProjectDetail!
+                                      .data!
+                                      .farmerProject![0]
+                                      .farmerProjectMilestones!
+                                      .length) *
+                                  100)
+                                  .toString()),
+                              style: figtreeBold.copyWith(
+                                  color: Colors.black, fontSize: 16)),
+                          TextSpan(
+                              text: '%\n',
+                              style: figtreeBold.copyWith(
+                                  color: Colors.black, fontSize: 9)),
+                          TextSpan(
+                              text: 'completed',
+                              style: figtreeBold.copyWith(
+                                  color: const Color(0xFF808080), fontSize: 6))
+                        ]),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  );
+                })
           ],
         ),
         10.verticalSpace(),

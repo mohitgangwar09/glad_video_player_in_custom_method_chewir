@@ -140,6 +140,7 @@ class Images {
   static const String gold = 'assets/images/gold.svg';
   static const String platinum = 'assets/images/platinum.svg';
   static const String verified = 'assets/images/verified.svg';
+  static const String blankCart = 'assets/images/blank_cart.svg';
 
 
 

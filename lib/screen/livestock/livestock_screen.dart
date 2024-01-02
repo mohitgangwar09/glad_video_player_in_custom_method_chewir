@@ -88,7 +88,8 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                             13.horizontalSpace(),
                             InkWell(
                                 onTap: () {
-                                  // const LivestockFilter("").navigate();
+                                  BlocProvider.of<LivestockCubit>(context).livestockBreedApi(context);
+                                  const LivestockFilter("").navigate();
                                 },
                                 child: SvgPicture.asset(Images.filter1)),
                             18.horizontalSpace(),

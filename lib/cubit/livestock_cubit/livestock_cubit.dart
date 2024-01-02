@@ -31,6 +31,21 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
 
   LivestockCubit({required this.apiRepository,required this.sharedPreferences}) : super(LivestockCubitState.initial());
 
+
+  void livestockClearFilter(){
+    emit(state.copyWith(
+        breedNameSelected: TextEditingController(text: ''),
+        ageFromController: TextEditingController(text: ''),
+        ageUpToController: TextEditingController(text: ''),
+        priceFromController: TextEditingController(text: ''),
+        priceUpToController: TextEditingController(text: ''),
+        lactationFromController: TextEditingController(text: ''),
+        lactationUpToController: TextEditingController(text: ''),
+        yieldFromController: TextEditingController(text: ''),
+        yieldUpToController: TextEditingController(text: '')
+    ));
+  }
+
   // trainingListApi
   Future<void> livestockBreedApi(context) async{
     var response = await apiRepository.getLivestockBreedApi();
@@ -48,7 +63,17 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     if (showLoader) {
       emit(state.copyWith(status: LivestockStatus.submit));
     }
-    var response = await apiRepository.getLivestockListApi(searchQuery:searchQuery);
+    var response = await apiRepository.getLivestockListApi(searchQuery:searchQuery,
+      ageFrom: state.ageFromController.text.toString(),
+      ageUpTo: state.ageUpToController.text.toString(),
+      priceFrom: state.priceFromController.text.toString(),
+      priceUpTo: state.priceUpToController.text.toString(),
+      lactationFrom: state.lactationFromController.text.toString(),
+      lactationUpTo: state.lactationFromController.text.toString(),
+      yieldFrom: state.yieldFromController.text.toString(),
+      yieldUpTo: state.yieldUpToController.text.toString(),
+      cowBreed: state.breedNameSelected.text.toString(),
+    );
     if (response.status == 200) {
       emit(state.copyWith(status: LivestockStatus.success, responseLivestockList: response));
     }

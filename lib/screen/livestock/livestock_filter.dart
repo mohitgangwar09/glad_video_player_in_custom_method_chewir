@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -16,7 +17,7 @@ class LivestockFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
+      body: BlocBuilder<LivestockCubit, LivestockCubitState>(builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -37,10 +38,10 @@ class LivestockFilter extends StatelessWidget {
                       .textMedium(color: ColorResources.maroon, fontSize: 12)),
               action: TextButton(
                   onPressed: () {
-                    BlocProvider.of<ProjectCubit>(context).roiFilterClear();
-                    BlocProvider.of<ProjectCubit>(context)
-                        .ddeProjectsApi(
-                        context, selectedFilter, false);
+                    BlocProvider.of<LivestockCubit>(context).livestockClearFilter();
+                    BlocProvider.of<LivestockCubit>(context)
+                        .livestockListApi(
+                        context, false);
 
                     pressBack();
 
@@ -58,28 +59,28 @@ class LivestockFilter extends StatelessWidget {
 
                       15.verticalSpace(),
 
-                      state.responseImprovementAreaFilterList!=null?
-                      Wrap(
-                        children: state.responseImprovementAreaFilterList!.data!.map((item) => InkWell(
-                          onTap: (){
-                            context.read<ProjectCubit>().emit(state.copyWith(
-                                filterImprovementAreaName: item.name));
-                          },
-                          child: Container(
-                              margin: 5.marginAll(),
-                              padding: const EdgeInsets.only(
-                                  left: 14, right: 14, bottom: 10, top: 10),
-                              decoration: boxDecoration(
-                                  borderColor: state.filterImprovementAreaName == item.name ?
-                                  const Color(0xff6A0030):const Color(0xffDCDCDC),
-                                  backgroundColor: state.filterImprovementAreaName == item.name ?const Color(0xffFFF3F4):Colors.transparent,
-                                  borderRadius: 30),
-                              child: Text(item.name.toString())),
-                        ))
-                            .toList()
-                            .cast<Widget>(),
-                      ):const SizedBox.shrink(),
-
+                      if(state.breed!=null)
+                        state.breed!.data!=null?
+                        Wrap(
+                          children: state.breed!.data!.map((item) => InkWell(
+                            onTap: (){
+                              context.read<LivestockCubit>().emit(state.copyWith(
+                                  breedNameSelected: TextEditingController(text: item.name.toString())));
+                            },
+                            child: Container(
+                                margin: 5.marginAll(),
+                                padding: const EdgeInsets.only(
+                                    left: 14, right: 14, bottom: 10, top: 10),
+                                decoration: boxDecoration(
+                                    borderColor:state.breedNameSelected.text == item.name ?
+                                    const Color(0xff6A0030):const Color(0xffDCDCDC),
+                                    backgroundColor: state.breedNameSelected.text == item.name ?const Color(0xffFFF3F4):Colors.transparent,
+                                    borderRadius: 30),
+                                child: Text(item.name.toString())),
+                          ))
+                              .toList()
+                              .cast<Widget>(),
+                        ):const SizedBox.shrink(),
                       33.verticalSpace(),
 
                       Row(
@@ -117,7 +118,7 @@ class LivestockFilter extends StatelessWidget {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           maxLength: 12,
-                                          controller: state.revenueFromController,
+                                          controller: state.ageFromController,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
                                               border: InputBorder.none,
@@ -147,7 +148,7 @@ class LivestockFilter extends StatelessWidget {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           maxLength: 12,
-                                          controller: state.revenueToController,
+                                          controller: state.ageUpToController,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
                                               border: InputBorder.none,counterText: ''),
@@ -195,7 +196,7 @@ class LivestockFilter extends StatelessWidget {
                                         child: TextField(
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
-                                          controller: state.investmentFromController,
+                                          controller: state.priceFromController,
                                           maxLength: 12,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
@@ -223,7 +224,7 @@ class LivestockFilter extends StatelessWidget {
                                         child: TextField(
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
-                                          controller: state.investmentUpToController,
+                                          controller: state.priceUpToController,
                                           maxLength: 12,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
@@ -273,7 +274,7 @@ class LivestockFilter extends StatelessWidget {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           maxLength: 12,
-                                          controller: state.roiFromController,
+                                          controller: state.lactationFromController,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
                                               counterText: '',
@@ -302,7 +303,7 @@ class LivestockFilter extends StatelessWidget {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           maxLength: 12,
-                                          controller: state.roiUpToController,
+                                          controller: state.lactationUpToController,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
@@ -351,7 +352,7 @@ class LivestockFilter extends StatelessWidget {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           maxLength: 12,
-                                          controller: state.loanAmountFromController,
+                                          controller: state.yieldFromController,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
@@ -379,7 +380,7 @@ class LivestockFilter extends StatelessWidget {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           maxLength: 12,
-                                          controller: state.loanAmountUpToController,
+                                          controller: state.yieldUpToController,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
@@ -399,9 +400,9 @@ class LivestockFilter extends StatelessWidget {
                           width: screenWidth(),
                           child: customButton("Apply",
                               fontColor: 0xffffffff, onTap: () {
-                                BlocProvider.of<ProjectCubit>(context)
-                                    .ddeProjectsApi(
-                                    context, selectedFilter, false);
+                                BlocProvider.of<LivestockCubit>(context)
+                                    .livestockListApi(
+                                    context, false,searchQuery: '');
                                 pressBack();
                               }))
 

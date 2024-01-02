@@ -215,7 +215,7 @@ class CongratulationScreen extends StatelessWidget {
 
                                       5.verticalSpace(),
 
-                                      Text('Farmer',
+                                      Text('Seller',
                                           style: figtreeMedium.copyWith(
                                               fontSize: 12,
                                               color: Colors.black)),
