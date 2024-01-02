@@ -10,6 +10,7 @@ class ResponseProjectDataForFirebase {
   String? ddeId;
   String? mccId;
   String? supplierId;
+  String? projectImage;
 
   ResponseProjectDataForFirebase({
     this.userName,
@@ -22,6 +23,7 @@ class ResponseProjectDataForFirebase {
     this.ddeId,
     this.mccId,
     this.supplierId,
+    required this.projectImage,
   });
 
 }

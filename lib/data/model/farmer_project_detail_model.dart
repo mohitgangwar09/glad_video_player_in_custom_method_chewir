@@ -182,6 +182,7 @@ class FarmerProject {
   FarmerProjectKycDocument? farmerProjectKycDocument;
   List<FarmerLoanDocument>? farmerLoanDocument;
   List<FarmerProjectSurvey>? farmerProjectSurvey;
+  dynamic project;
 
 
   FarmerProject(
@@ -234,6 +235,7 @@ class FarmerProject {
         this.dataLivestock,
         this.liveStockCartId,
         this.paymentStatus,
+        this.project
       });
 
   FarmerProject.fromJson(Map<String, dynamic> json) {
@@ -274,6 +276,7 @@ class FarmerProject {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    project = json["project"];
     farmerParticipationStatus = json['farmer_participation_status'];
     kpi = json['kpi'] != null ? Kpi.fromJson(json['kpi']) : null;
     improvementArea = json['improvement_area'] != null ? ImprovementArea.fromJson(json['improvement_area']) : null;

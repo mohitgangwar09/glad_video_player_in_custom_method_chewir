@@ -90,8 +90,8 @@ class _MessageBoardState extends State<MessageBoard> {
                                           farmerId: chatDocs.docs[index]['farmer_id'].toString(),
                                           ddeId: chatDocs.docs[index]['dde_id'].toString(),
                                           mccId: chatDocs.docs[index]['mcc_id'].toString(),
-                                          supplierId: chatDocs.docs[index]['supplier_id'].toString());
-
+                                          supplierId: chatDocs.docs[index]['supplier_id'].toString(),
+                                          projectImage: chatDocs.docs[index].data()['project_image'] ?? '');
                                           // userType: 'dde', userId: int.parse(chatDocs.docs[index]['userId'].toString()));
                                       FirebaseChatScreen(responseProjectDataForFirebase: response,).navigate();
                                       // DDeFarmerInvestmentDetails(projectId: int.parse(chatDocs.docs[index]['dde_id'].toString())).navigate();
@@ -118,7 +118,7 @@ class _MessageBoardState extends State<MessageBoard> {
                                             mainAxisAlignment:
                                             MainAxisAlignment.start,
                                             children: [
-                                              Image.asset(Images.sampleUser),
+                                              networkImage(text: chatDocs.docs[index].data()['project_image'] ?? '', width: 46, height: 46, radius: 46),
                                               15.horizontalSpace(),
                                               Column(
                                                 crossAxisAlignment:

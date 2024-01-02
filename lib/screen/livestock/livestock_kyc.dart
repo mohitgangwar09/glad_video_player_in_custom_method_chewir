@@ -541,7 +541,7 @@ class _LivestockKycState extends State<LivestockKyc> {
                                   context, 'Please upload your profile picture.');
                             } else if (addressProof == null) {
                               showCustomToast(
-                                  context, 'Please select recommendation letter');
+                                  context, 'Address Proof is required');
                               // } else if (addressImg.length < 2 && !(addressProof == 'Bank Statement' && addressImg.length == 1)) {
                               //   showCustomToast(
                               //         context, '${addressProof == 'Bank Statement' ? '' : '2'}Address Proof image required');
@@ -552,7 +552,7 @@ class _LivestockKycState extends State<LivestockKyc> {
                               //       context, '2 Id Proof image required');
                             } else if (addressImg.isEmpty) {
                               showCustomToast(
-                                  context, 'Please upload recommendation letter from lc');
+                                  context, 'Address Proof document is required');
                             } else if (idProof == null) {
                               showCustomToast(context, 'Please select id proof.');
                             } else if (idImg.isEmpty) {

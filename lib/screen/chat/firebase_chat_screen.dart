@@ -241,7 +241,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                 children: [
                   arrowBackButton(),
                   14.horizontalSpace(),
-                  Image.asset(Images.sampleUser),
+                  networkImage(text: widget.responseProjectDataForFirebase.projectImage.toString(), width: 46, height: 46, radius: 46),
                   10.horizontalSpace(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

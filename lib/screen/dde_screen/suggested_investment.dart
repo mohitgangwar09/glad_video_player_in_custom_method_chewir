@@ -845,6 +845,9 @@ class _DDeFarmerInvestmentDetailsState
                         'project_name': state.responseFarmerProjectDetail!.data!
                             .farmerProject![0].name
                             .toString(),
+                        'project_image': state.responseFarmerProjectDetail!.data!
+                            .farmerProject![0].project["image"]
+                            .toString(),
                         'created_at': Timestamp.now(),
                         'farmer_name': state.responseFarmerProjectDetail!.data!
                             .farmerProject![0].farmerMaster!.name
@@ -899,7 +902,10 @@ class _DDeFarmerInvestmentDetailsState
                               : '',
                           supplierId: state.responseFarmerProjectDetail!.data!.supplierDetail != null ? state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString() : '',
                           farmerName: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
-                          farmerAddress: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address != null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString() : '');
+                          farmerAddress: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address != null ? state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString() : '',
+                          projectImage: state.responseFarmerProjectDetail!.data!
+                              .farmerProject![0].project["image"]
+                              .toString());
 
                       FirebaseChatScreen(
                         responseProjectDataForFirebase: response,

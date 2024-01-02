@@ -233,6 +233,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                         'mcc_id': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.mccId.toString(),
                         'admin_id': '',
                         'project_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].name.toString(),
+                        'project_image': state.responseFarmerProjectDetail!.data!.farmerProject![0].project["image"].toString(),
                         'created_at': Timestamp.now(),
                         'farmer_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                         'farmer_address': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!.toString():'':'',
@@ -250,7 +251,8 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                           mccId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.mccId.toString():'',
                           supplierId: state.responseFarmerProjectDetail!.data!.supplierDetail!=null?state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString():'',
                           farmerName: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
-                          farmerAddress: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString():'');
+                          farmerAddress: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString():'',
+                          projectImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].project["image"].toString());
 
                       FirebaseChatScreen(responseProjectDataForFirebase: response,).navigate();
 

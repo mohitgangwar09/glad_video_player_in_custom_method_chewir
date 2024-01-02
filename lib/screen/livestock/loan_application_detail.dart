@@ -335,6 +335,9 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                         'mcc_id': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.mccId.toString(),
                         'admin_id': '',
                         'project_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].name.toString(),
+                        'project_image': state.responseFarmerProjectDetail!.data!
+                            .farmerProject![0].project["image"]
+                            .toString(),
                         'created_at': Timestamp.now(),
                         'farmer_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                         'farmer_address': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!.toString():'':'',
