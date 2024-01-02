@@ -15,6 +15,7 @@ import 'package:glad/screen/chat/firebase_chat_screen.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/project_detail_statement.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
+import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/screen/livestock/add_livestock_remark.dart';
 import 'package:glad/screen/livestock/add_livestock_remarks.dart';
@@ -102,6 +103,20 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
+
+                            25.verticalSpace(),
+
+                            InkWell(
+                                onTap: () {
+                                  const TrackProgress().navigate();
+                                },
+                                child: Center(
+                                  child: 'View Timeline'.textSemiBold(
+                                      fontSize: 16,
+                                      color: ColorResources.maroon,
+                                      underLine: TextDecoration.underline),
+                                )),
+
                             livestockList(context, state),
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
@@ -1751,7 +1766,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
   ///////////ProjectMilestones///////////
   Widget livestockList(contexts, ProjectState state) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      50.verticalSpace(),
+      25.verticalSpace(),
       Text(
         'Livestock',
         style: figtreeMedium.copyWith(fontSize: 18),

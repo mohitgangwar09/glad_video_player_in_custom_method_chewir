@@ -90,6 +90,14 @@ deleteToken() {
 class FcmHelper {
 
   void initFirebase() {
+
+    //Getting the token from FCM
+    FirebaseMessaging.instance.getToken().then((value) async{
+      print("fcmToken---- $value");
+      // value.toString().toast();
+      await SharedPrefManager.savePrefString(AppConstants.fcmToken, value.toString());
+    });
+
     FirebaseMessaging.onMessage.listen((event) {
       final message = event.notification;
 
@@ -134,11 +142,5 @@ class FcmHelper {
         alert: true,
       );
     }
-    //Getting the token from FCM
-    FirebaseMessaging.instance.getToken().then((value) async{
-      print("fcmToken---- $value");
-      // value.toString().toast();
-      await SharedPrefManager.savePrefString(AppConstants.fcmToken, value.toString());
-    });
   }
 }

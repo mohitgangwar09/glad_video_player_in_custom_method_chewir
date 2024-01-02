@@ -115,62 +115,62 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                         ),
                       ),
 
-                      state.response!.user!.farmerMaster!.kycStatus == "verified"?
-                      const SizedBox.shrink():
-                      Container(
-                        width: screenWidth(),
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        height: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(80),
-                          color: const Color(0xffFC5E60),
-                        ),
-                        child: Row(
-                          children: [
-
-                            if(state.response!.user!.farmerMaster!.kycStatus == "not_available")
-                              Row(
-                                children: [
-                                  14.horizontalSpace(),
-                                  SvgPicture.asset(Images.kyc),
-                                  4.horizontalSpace(),
-                                  "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
-                                  10.horizontalSpace(),
-                                  InkWell(
-                                    onTap: ()async{
-                                      KYCUpdate(farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
-                                    },
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
-                                    ),
-                                  )
-                                ],
-                              )
-                            else if(state.response!.user!.farmerMaster!.kycStatus == "pending")
-                              Row(
-                                children: [
-                                  14.horizontalSpace(),
-                                  SvgPicture.asset(Images.kyc),
-                                  4.horizontalSpace(),
-                                  "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
-                                  10.horizontalSpace(),
-                                  InkWell(
-                                    onTap: (){
-                                      // const KYCUpdate().navigate();
-                                      EditKYCDocuments(farmerDocuments: state.response!.user!.farmerMaster!.kycDocument, farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
-                                    },
-                                    child: Text(
-                                      'Upload Documents',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
-                                    ),
-                                  )
-                                ],
-                              )
-                            else if(state.response!.user!.farmerMaster!.kycStatus == "expired")
-                              Row(
+                      state.response!.user!.farmerMaster!.kycStatus!=null?
+                        state.response!.user!.farmerMaster!.kycStatus == "verified"?
+                        const SizedBox.shrink():
+                        Container(
+                          width: screenWidth(),
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          height: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80),
+                            color: const Color(0xffFC5E60),
+                          ),
+                          child: Row(
+                            children: [
+                              if(state.response!.user!.farmerMaster!.kycStatus == "not_available")
+                                Row(
+                                  children: [
+                                    14.horizontalSpace(),
+                                    SvgPicture.asset(Images.kyc),
+                                    4.horizontalSpace(),
+                                    "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                    10.horizontalSpace(),
+                                    InkWell(
+                                      onTap: ()async{
+                                        KYCUpdate(farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
+                                      },
+                                      child: Text(
+                                        'Upload Documents',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              else if(state.response!.user!.farmerMaster!.kycStatus == "pending")
+                                Row(
+                                  children: [
+                                    14.horizontalSpace(),
+                                    SvgPicture.asset(Images.kyc),
+                                    4.horizontalSpace(),
+                                    "Your KYC is pending.".textSemiBold(fontSize: 12,color: Colors.white),
+                                    10.horizontalSpace(),
+                                    InkWell(
+                                      onTap: (){
+                                        // const KYCUpdate().navigate();
+                                        EditKYCDocuments(farmerDocuments: state.response!.user!.farmerMaster!.kycDocument, farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
+                                      },
+                                      child: Text(
+                                        'Upload Documents',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              else if(state.response!.user!.farmerMaster!.kycStatus == "expired")
+                                  Row(
                                     children: [
                                       14.horizontalSpace(),
                                       const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
@@ -189,9 +189,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                       )
                                     ],
                                   )
-                          ],
-                        ),
-                      )
+                            ],
+                          ),
+                        ):const SizedBox.shrink()
 
                     ],
                   ),

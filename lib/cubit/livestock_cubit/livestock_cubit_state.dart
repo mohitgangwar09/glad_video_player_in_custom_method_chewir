@@ -11,6 +11,7 @@ class LivestockCubitState extends Equatable{
   final LivestockCartList? responseLivestockCartList;
   final ResponseLoanApplicationList? responseLoanApplicationList;
   final String? confirmDelivery;
+  final TextEditingController ageFromController,ageUpToController,priceFromController,priceUpToController,lactationFromController,lactationUpToController,yieldFromController,yieldUpToController,breedNameSelected;
 
 
   const LivestockCubitState({
@@ -22,10 +23,19 @@ class LivestockCubitState extends Equatable{
       required this.responseLivestockCartList,
       required this.responseLoanApplicationList,
       required this.confirmDelivery,
+      required this.ageFromController,
+      required this.ageUpToController,
+      required this.priceFromController,
+      required this.priceUpToController,
+      required this.lactationFromController,
+      required this.lactationUpToController,
+      required this.yieldFromController,
+      required this.yieldUpToController,
+      required this.breedNameSelected,
   });
 
   factory LivestockCubitState.initial() {
-    return const LivestockCubitState(
+    return LivestockCubitState(
       status: LivestockStatus.initial,
       breed: null,
       responseLivestockList: null,
@@ -34,6 +44,15 @@ class LivestockCubitState extends Equatable{
       responseLivestockCartList: null,
       responseLoanApplicationList: null,
       confirmDelivery: null,
+      ageFromController: TextEditingController(),
+      ageUpToController: TextEditingController(),
+      priceFromController: TextEditingController(),
+      priceUpToController: TextEditingController(),
+      lactationFromController: TextEditingController(),
+      lactationUpToController: TextEditingController(),
+      yieldFromController: TextEditingController(),
+      yieldUpToController: TextEditingController(),
+      breedNameSelected: TextEditingController(),
     );
   }
 
@@ -47,6 +66,7 @@ class LivestockCubitState extends Equatable{
     ResponseLoanApplicationList? responseLoanApplicationList,
     ResponseFaqList? responseFaqList,
     String? confirmDelivery,
+    TextEditingController? ageFromController,ageUpToController,priceFromController,priceUpToController,lactationFromController,lactationUpToController,yieldFromController,yieldUpToController,breedNameSelected
   }) {
     return LivestockCubitState(
         status: status ?? this.status,
@@ -57,6 +77,15 @@ class LivestockCubitState extends Equatable{
         responseLivestockCartList: responseLivestockCartList ?? this.responseLivestockCartList,
         responseLoanApplicationList: responseLoanApplicationList ?? this.responseLoanApplicationList,
         confirmDelivery: confirmDelivery ?? this.confirmDelivery,
+        ageFromController: ageFromController ?? this.ageFromController,
+        ageUpToController: ageUpToController ?? this.ageUpToController,
+        priceFromController: priceFromController ?? this.priceFromController,
+        priceUpToController: priceUpToController ?? this.priceUpToController,
+        lactationFromController: lactationFromController ?? this.lactationFromController,
+        lactationUpToController: lactationUpToController ?? this.lactationUpToController,
+        yieldFromController: yieldFromController ?? this.yieldFromController,
+        yieldUpToController: yieldUpToController ?? this.yieldUpToController,
+        breedNameSelected: breedNameSelected ?? this.breedNameSelected,
     );
   }
 
@@ -69,7 +98,16 @@ class LivestockCubitState extends Equatable{
     responseLivestockDetail,
     responseLivestockCartList,
     responseLoanApplicationList,
-    confirmDelivery
+    confirmDelivery,
+    ageFromController,
+    ageUpToController,
+    priceFromController,
+    priceUpToController,
+    lactationFromController,
+    lactationUpToController,
+    yieldFromController,
+    yieldUpToController,
+    breedNameSelected,
   ];
 
 }
