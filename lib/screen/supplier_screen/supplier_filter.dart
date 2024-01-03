@@ -54,6 +54,9 @@ class SupplierFilter extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
+
+
                       "Improvement areas".textMedium(fontSize: 18),
 
                       15.verticalSpace(),
@@ -156,7 +159,7 @@ class SupplierFilter extends StatelessWidget {
                               31.horizontalSpace(),
                             ],
                           )),
-                      
+
                       Container(
                           margin: 20.marginAll(),
                           height: 55,

@@ -1165,4 +1165,32 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  // projectRatingApi
+  void supplierProjectDropdownApi(context) async {
+
+    var response = await apiRepository.getSupplierProjectFilterListApi();
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // supplierFarmerFilterListApi
+  void supplierFarmerFilterListApi(context) async {
+
+    var response = await apiRepository.getSupplierFarmerFilterListApi();
+
+    if (response.status == 200) {
+
+      showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 }

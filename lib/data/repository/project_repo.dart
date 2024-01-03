@@ -10,9 +10,11 @@ import 'package:glad/data/model/response_add_value.dart';
 import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/data/model/response_farmer_filter_list.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_not_required.dart';
 import 'package:glad/data/model/response_price_attribute.dart';
+import 'package:glad/data/model/response_project_supplier_filter_list.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/model/supplier_project_model.dart';
@@ -875,6 +877,32 @@ class ProjectRepository {
       return ResponseOtpModel(status: 422, message: apiResponse.msg);
     }
 
+  }
+
+  ///////////////// getSupplierProjectFilterListApi //////////
+  Future<ResponseProjectSupplierFilterDropdownList> getSupplierProjectFilterListApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.projectSupplierFilterListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseProjectSupplierFilterDropdownList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseProjectSupplierFilterDropdownList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getSupplierFarmerFilterListApi //////////
+  Future<ResponseFarmerFilterDropdownList> getSupplierFarmerFilterListApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.farmerSupplierFilterListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseFarmerFilterDropdownList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseFarmerFilterDropdownList(status: 422, message: apiResponse.msg);
+    }
   }
 
   getUserToken() {
