@@ -49,9 +49,9 @@ class _FarmerStatementState extends State<FarmerStatement> {
                           onTap: () {
                             farmerLandingKey.currentState?.openDrawer();
                           }, child: SvgPicture.asset(Images.drawer)),
-                      action: InkWell(
+                      /*action: InkWell(
                           onTap: () {},
-                          child: SvgPicture.asset(Images.filter2)),
+                          child: SvgPicture.asset(Images.filter2)),*/
                     ),
                     listviewDetails(state),
                   ],

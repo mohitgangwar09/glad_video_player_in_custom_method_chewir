@@ -95,10 +95,31 @@ class ProjectRepository {
   }
 
   ///////////////// getDdeProjectsApi //////////
-  Future<SupplierProjectModel> getSupplierProjectsApi(String projectFilter) async {
+  Future<SupplierProjectModel> getSupplierProjectsApi(String projectFilter,{String? orderBy,
+    String? revenueFromController,revenueUpToController,
+    String? investmentFromController,investmentUpToController,
+    String? roiFromController,roiUpToController,
+    String? loanAmountFromController,loanAmountUpToController,improvementArea
+  }) async {
+
+    var data = {
+      'project_status': projectFilter,
+      'order_by': orderBy,
+      'revenue_from': revenueFromController,
+      'revenue_to': revenueUpToController,
+      'investment_from': investmentFromController,
+      'investment_to': investmentUpToController,
+      'roi_from': roiFromController,
+      'roi_to': roiUpToController,
+      'loan_amount_from': loanAmountFromController,
+      'loan_amount_to': loanAmountUpToController,
+      'improvement_area': improvementArea
+    };
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerProjectListApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'project_status': projectFilter});
+
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: data);
 
     if (apiResponse.status) {
       return SupplierProjectModel.fromJson(apiResponse.response!.data);
