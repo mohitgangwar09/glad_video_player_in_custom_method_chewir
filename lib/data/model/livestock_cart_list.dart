@@ -28,9 +28,9 @@ class LivestockCartList {
 }
 
 class Data {
-  int? id;
-  int? livestockId;
-  int? userId;
+  dynamic id;
+  dynamic livestockId;
+  dynamic userId;
   dynamic sellerId;
   dynamic cowQty;
   dynamic cowPrice;
@@ -117,10 +117,10 @@ class Data {
 }
 
 class LiveStockCartDetails {
-  int? id;
-  int? liveStockCartId;
-  int? liveStockId;
-  int? cowQty;
+  dynamic id;
+  dynamic liveStockCartId;
+  dynamic liveStockId;
+  dynamic cowQty;
   dynamic cowPrice;
   String? deliveryStatus;
   dynamic remarks;
@@ -225,7 +225,7 @@ class LiveStock {
   dynamic balanceCows;
   dynamic fileType;
   dynamic price;
-  int? age;
+  dynamic age;
   dynamic lactation;
   dynamic pregnant;
   String? yield;
@@ -240,6 +240,7 @@ class LiveStock {
   dynamic isInCart;
   CowBreed? cowBreed;
   User? user;
+  LiveStockNegotiation? liveStockNegotiation;
 
   LiveStock(
       {this.id,
@@ -272,7 +273,8 @@ class LiveStock {
         this.liveStockDocumentFiles,
         this.isInCart,
         this.cowBreed,
-        this.user});
+        this.user,
+        this.liveStockNegotiation});
 
   LiveStock.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -308,6 +310,9 @@ class LiveStock {
         liveStockDocumentFiles!.add(LiveStockDocumentFiles.fromJson(v));
       });
     }
+    liveStockNegotiation = json['live_stock_negotiation'] != null
+        ? new LiveStockNegotiation.fromJson(json['live_stock_negotiation'])
+        : null;
     isInCart = json['is_in_cart'];
     cowBreed = json['cow_breed'] != null
         ? CowBreed.fromJson(json['cow_breed'])
@@ -359,10 +364,63 @@ class LiveStock {
   }
 }
 
+class LiveStockNegotiation {
+  dynamic id;
+  dynamic liveStockId;
+  dynamic userId;
+  dynamic negotiatedPrice;
+  String? status;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  LiveStockNegotiation(
+      {this.id,
+        this.liveStockId,
+        this.userId,
+        this.negotiatedPrice,
+        this.status,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt});
+
+  LiveStockNegotiation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    liveStockId = json['live_stock_id'];
+    userId = json['user_id'];
+    negotiatedPrice = json['negotiated_price'];
+    status = json['status'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['live_stock_id'] = this.liveStockId;
+    data['user_id'] = this.userId;
+    data['negotiated_price'] = this.negotiatedPrice;
+    data['status'] = this.status;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
 class LiveStockDocumentFiles {
-  int? id;
+  dynamic id;
   String? modelType;
-  int? modelId;
+  dynamic modelId;
   String? uuid;
   String? collectionName;
   String? name;
@@ -375,7 +433,7 @@ class LiveStockDocumentFiles {
   List<dynamic>? customProperties;
   List<dynamic>? generatedConversions;
   List<dynamic>? responsiveImages;
-  int? orderColumn;
+  dynamic orderColumn;
   String? createdAt;
   String? updatedAt;
   String? fullUrl;
@@ -489,7 +547,7 @@ class LiveStockDocumentFiles {
 }
 
 class CowBreed {
-  int? id;
+  dynamic id;
   String? name;
   String? price;
   String? yield;
@@ -683,14 +741,14 @@ class User {
 }
 
 class FarmerMaster {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   String? name;
   String? email;
   String? fAddress;
   String? phone;
-  int? mccId;
-  int? ddeId;
+  dynamic mccId;
+  dynamic ddeId;
   String? photos;
   String? kycStatus;
   String? landlineNo;
@@ -846,8 +904,8 @@ class FarmerMaster {
 }
 
 class Address {
-  int? id;
-  int? addressableId;
+  dynamic id;
+  dynamic addressableId;
   String? addressableType;
   String? name;
   String? mobile;
@@ -1007,9 +1065,9 @@ class Address {
 }
 
 class Media {
-  int? id;
+  dynamic id;
   String? modelType;
-  int? modelId;
+  dynamic modelId;
   String? uuid;
   String? collectionName;
   String? name;

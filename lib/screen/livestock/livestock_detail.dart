@@ -158,7 +158,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                       Text(getCurrencyString(double.parse(state.responseLivestockDetail!.data!.price.toString())),
                           style: figtreeSemiBold.copyWith(
                               fontSize: 18, color: ColorResources.maroon,
-                              decoration: state.responseLivestockDetail!.data!.negotiatedPrice!.isNotEmpty?TextDecoration.lineThrough:null
+                              decoration: state.responseLivestockDetail!.data!.negotiatedPrice != null ? state.responseLivestockDetail!.data!.negotiatedPrice!.isNotEmpty?TextDecoration.lineThrough:null : null
                               // decoration: TextDecoration.lineThrough
                           ))
                           // :const SizedBox.shrink(),
@@ -174,12 +174,12 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                       Text('Posted on ${DateFormat('dd MMMM, yyyy').format(DateTime.parse(state.responseLivestockDetail!.data!.createdAt ?? ''))}',
                           style: figtreeMedium.copyWith(fontSize: 12, color: const Color(0xFF727272)), maxLines: 2),
                       widget.type == "buyer"?
-                      state.responseLivestockDetail!.data!.negotiatedPrice!.isNotEmpty?
+                      state.responseLivestockDetail!.data!.negotiatedPrice != null ? state.responseLivestockDetail!.data!.negotiatedPrice!.isNotEmpty?
                       Text(getCurrencyString(double.parse(state.responseLivestockDetail!.data!.negotiatedPrice![0].negotiatedPrice.toString())),
                           style: figtreeSemiBold.copyWith(
                             fontSize: 22, color: ColorResources.black,
                             // decoration: TextDecoration.lineThrough
-                          )):const SizedBox.shrink():const SizedBox.shrink(),
+                          )):const SizedBox.shrink():const SizedBox.shrink():const SizedBox.shrink(),
                     ],
                   ),
 

@@ -159,8 +159,8 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                     InkWell(
                                       onTap: (){
                                         // const KYCUpdate().navigate();
-                                        print(state.response!.user!.farmerMaster!.kycDocument);
-                                        // EditKYCDocuments(farmerDocuments: state.response!.user!.farmerMaster!.kycDocument, farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
+                                        // print(state.response!.user!.farmerMaster!.kycDocument);
+                                        EditKYCDocuments(farmerDocuments: state.response!.user!.farmerMaster!.kycDocument, farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
                                       },
                                       child: Text(
                                         'Upload Documents',

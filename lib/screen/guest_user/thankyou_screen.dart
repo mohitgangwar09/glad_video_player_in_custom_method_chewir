@@ -87,7 +87,7 @@ class ThankYou extends StatelessWidget {
                                     decoration:
                                     const BoxDecoration(shape: BoxShape.circle),
                                     child: CachedNetworkImage(
-                                      imageUrl: expert.data!.dairyDevelopmentExecutive!.image ?? '',
+                                      imageUrl: expert.data!.dairyDevelopmentExecutive!.photo ?? '',
                                       errorWidget: (_, __, ___) =>
                                           Image.asset(Images.sampleUser),
                                       fit: BoxFit.cover,
@@ -128,13 +128,13 @@ class ThankYou extends StatelessWidget {
                           children: [
                             InkWell(
                                 onTap: () async {
-                                  await callOnMobile(234567890);
+                                  await callOnMobile(expert.data!.dairyDevelopmentExecutive!.phone ?? '');
                                 },
                                 child: SvgPicture.asset(Images.callPrimary)),
                             6.horizontalSpace(),
                             InkWell(
                                 onTap: () async {
-                                  await launchWhatsApp(234567890);
+                                  await launchWhatsApp(expert.data!.dairyDevelopmentExecutive!.phone ?? '');
                                 },
                                 child: SvgPicture.asset(Images.whatsapp)),
                             16.horizontalSpace(),

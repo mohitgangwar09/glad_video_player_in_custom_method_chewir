@@ -117,10 +117,10 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                     alignment: Alignment.center,
                     children: [
                       SizedBox(
-                          height: 170,
+                          height: 180,
                           width: screenWidth() * 0.9,),
                       SizedBox(
-                        height: 150,
+                        height: 160,
                         width: screenWidth() * 0.9,
                         child: InkWell(
                           onTap: () {
@@ -138,12 +138,13 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                     Container(
                                         padding: const EdgeInsets.all(10),
                                         width: screenWidth() * 0.35,
-                                        height: 150,
+                                        height: 160,
                                         child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 12, top: 12),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           RichText(
                                               text: TextSpan(children: [
@@ -156,14 +157,27 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                     style: figtreeMedium.copyWith(
                                                         fontSize: 12, color: const Color(0xFF727272)))
                                               ])),
-                                          3.verticalSpace(),
-                                          Text(getCurrencyString(double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].cowPrice.toString())*double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].cowQty.toString())),
-                                              style: figtreeSemiBold.copyWith(
-                                                  fontSize: 18, color: Colors.black)),
-                                          6.verticalSpace(),
+                                          // 3.verticalSpace(),
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                            Text(getCurrencyString(double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.price.toString())),
+                                                style: figtreeSemiBold.copyWith(
+                                                    fontSize: 18, color: ColorResources.maroon,
+                                                    decoration: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation != null ? TextDecoration.lineThrough : null
+                                                  // decoration: TextDecoration.lineThrough
+                                                )),
+                                            state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation != null ?
+                                            Text(getCurrencyString(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation!.negotiatedPrice),
+                                                style: figtreeSemiBold.copyWith(
+                                                    fontSize: 18, color: Colors.black)) : SizedBox.shrink(),
+                                          ],),
+                                          // 6.verticalSpace(),
+                                          Wrap(
+                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            // crossAxisAlignment: CrossAxisAlignment.start,
+                                            spacing: 5,
                                             children: [
                                               RichText(
                                                   text: TextSpan(children: [
@@ -176,7 +190,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                         style: figtreeMedium.copyWith(
                                                             fontSize: 12, color: Colors.black)),
                                                   ])),
-                                              5.verticalSpace(),
+                                              // 5.verticalSpace(),
                                               // 10.horizontalSpace(),
                                               // Container(
                                               //   height: 5,
@@ -198,11 +212,11 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                   ])),
                                             ],
                                           ),
-                                          12.verticalSpace(),
+                                          // 12.verticalSpace(),
                                           Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.name??'',
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 12, color: Colors.black), maxLines: 1),
-                                          6.verticalSpace(),
+                                          // 6.verticalSpace(),
                                           Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user != null ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address != null
                                               ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
                                               : '' : '',
@@ -314,7 +328,15 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                             builder: (context) {
                               double count = 0;
                               for(LiveStockCartDetails cart in state.responseLivestockCartList!.data![0].liveStockCartDetails!){
-                                count +=  (double.parse(cart.cowQty.toString())*(double.parse(cart.cowPrice.toString())));
+                                if (cart.liveStock!.liveStockNegotiation == null) {
+                                  count +=
+                                  (double.parse(cart.cowQty.toString()) *
+                                      (double.parse(cart.cowPrice.toString())));
+                                } else {
+                                  count +=
+                                  (double.parse(cart.cowQty.toString()) *
+                                      (double.parse(cart.liveStock!.liveStockNegotiation!.negotiatedPrice.toString())));
+                                }
                               }
                               subtotal = count;
                               return Text(getCurrencyString(count),

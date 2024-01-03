@@ -219,13 +219,13 @@ class _DDEInAreaState extends State<DDEInArea> {
                   children: [
                     InkWell(
                         onTap: () async {
-                          await callOnMobile(234567890);
+                          await callOnMobile(widget.phone);
                         },
                         child: SvgPicture.asset(Images.callPrimary)),
                     6.horizontalSpace(),
                     InkWell(
                         onTap: () async {
-                          await launchWhatsApp(234567890);
+                          await launchWhatsApp(widget.phone);
                         },
                         child: SvgPicture.asset(Images.whatsapp)),
                     16.horizontalSpace(),

@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/utils/extension.dart';
@@ -59,6 +61,9 @@ class _MCCInAreaState extends State<MCCInArea> {
               lng: widget.long!,
               height: 350,
               zoomGesturesEnabled: false,
+              zoomControlsEnabled: false,
+              myLocationEnabled: false,
+              myLocationButtonEnabled: false,
             ),
             Positioned(
               bottom: 10,
@@ -156,11 +161,11 @@ class _MCCInAreaState extends State<MCCInArea> {
                                 },child: SvgPicture.asset(Images.callPrimary)),
                           6.horizontalSpace(),
                           // SvgPicture.asset(Images.whatsapp),
-                          whatsapp(256758711344),
+                          whatsapp(widget.phone),
                           6.horizontalSpace(),
                           InkWell(
                               onTap: () async {
-                                // context.read<DdeEnquiryCubit>().launchURL(state.responseEnquiryModel!.data![index].lat.toString(),state.responseEnquiryModel!.data![index].lang.toString(),context);
+                                context.read<DdeEnquiryCubit>().launchURL(widget.lat.toString(),widget.long.toString(),context);
                               },
                               child: SvgPicture.asset(Images.redirectLocation)),
                           4.horizontalSpace(),

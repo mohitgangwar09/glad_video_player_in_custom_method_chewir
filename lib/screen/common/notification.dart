@@ -62,7 +62,7 @@ class CommonNotification extends StatelessWidget {
           return Center(child: Text("${state.responseNotificationList} Api Error"));
         }else{
           return customList(
-              list: state.responseNotificationList!.data!,
+              list: state.responseNotificationList!.data ?? [],
               child: (index) {
                 return Container(
                   margin: const EdgeInsets.fromLTRB(10,10,10,5),

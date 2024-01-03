@@ -101,20 +101,20 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
-            const MCCInArea(
-              name: 'Begumanya Charles',
-              phone: '+256 758711344',
+            MCCInArea(
+              name: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.name ?? '',
+              phone: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.phone ?? '',
               address:
-                  'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
-              image: '',
-              lat: 28.4986,
-              long: 77.3999,
+              state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.address ?? '' : '',
+              image: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.photo ?? '',
+              lat: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.latitude ?? 0 : '',
+              long: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.longitude ?? 0 : '',
             ),
             10.verticalSpace(),
             DDEInArea(
               name: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.name ?? '',
               phone: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.phone ?? '',
-              image: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.image ?? '',
+              image: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.photo ?? '',
               state: state,
             ),
             10.verticalSpace(),

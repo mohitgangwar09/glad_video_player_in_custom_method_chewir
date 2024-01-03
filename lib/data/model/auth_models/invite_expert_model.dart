@@ -140,6 +140,7 @@ class DairyDevelopmentExecutive {
   dynamic createdAt;
   dynamic updatedAt;
   dynamic image;
+  dynamic photo;
 
   DairyDevelopmentExecutive(
       {this.id,
@@ -159,7 +160,8 @@ class DairyDevelopmentExecutive {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.image});
+        this.image,
+        this.photo});
 
   DairyDevelopmentExecutive.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -180,6 +182,7 @@ class DairyDevelopmentExecutive {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     image = json['image'];
+    photo = json['photo'];
   }
 
   Map<String, dynamic> toJson() {
