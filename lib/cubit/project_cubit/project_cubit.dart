@@ -63,8 +63,8 @@ class ProjectCubit extends Cubit<ProjectState> {
 
   }
 
-  void roiFilter(String filter){
-    emit(state.copyWith(roiFilter: filter));
+  void roiFilter(String filter) async{
+      emit(state.copyWith(roiFilter: filter));
   }
 
   void roiFilterClear(){
@@ -116,7 +116,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
     var response = await apiRepository.getDdeProjectsApi(projectStatus,
-        orderBy:state.roiFilter.toString(),
+      orderBy:state.roiFilter.toString(),
       revenueFromController: state.revenueFromController.text,
       revenueUpToController: state.revenueToController.text,
       investmentFromController: state.investmentFromController.text,
@@ -141,7 +141,17 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (showLoader) {
       emit(state.copyWith(status: ProjectStatus.loading));
     }
-    var response = await apiRepository.getSupplierProjectsApi(projectStatus);
+    var response = await apiRepository.getSupplierProjectsApi(projectStatus,
+      orderBy:state.roiFilter.toString(),
+      revenueFromController: state.revenueFromController.text,
+      revenueUpToController: state.revenueToController.text,
+      investmentFromController: state.investmentFromController.text,
+      investmentUpToController: state.investmentUpToController.text,
+      roiFromController: state.roiFromController.text,
+      roiUpToController: state.roiUpToController.text,
+      loanAmountFromController: state.loanAmountFromController.text,
+      loanAmountUpToController: state.loanAmountUpToController.text,
+      improvementArea: state.filterImprovementAreaName,);
     if (response.status == 200) {
       emit(state.copyWith(status: ProjectStatus.success, responseSupplierProject: response));
     } else {

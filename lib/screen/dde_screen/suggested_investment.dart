@@ -288,72 +288,80 @@ class _DDeFarmerInvestmentDetailsState
                                               if(state
                                                   .responseFarmerProjectDetail!
                                                   .data!
-                                                  .farmerProject![0].farmerMaster!.farmerDocuments!=null){
+                                                  .farmerProject![0].farmerMaster!.kycStatus!=null){
+                                                if(state
+                                                    .responseFarmerProjectDetail!
+                                                    .data!
+                                                    .farmerProject![0].farmerMaster!.kycStatus == "verified"){
 
-                                          if (state
-                                                  .responseFarmerProjectDetail!
-                                                  .data!
-                                                  .farmerProject![0]
-                                                  .farmerProjectKycDocument ==
-                                              null) {
-                                            ProjectKYC(
-                                                    farmerId: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .farmerMaster!
-                                                        .id!,
-                                                    userId: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .farmerMaster!
-                                                        .userId
-                                                        .toString(),
-                                                    farmerMaster: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .farmerMaster!,
-                                                    farmerProjectId: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .id
-                                                        .toString())
-                                                .navigate();
-                                          } else {
-                                            ViewLoanKyc(
-                                                    farmerDocuments: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .farmerProjectKycDocument!,
-                                                    rejectStatus: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .rejectStatus,
-                                                    farmerId: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .farmerMaster!
-                                                        .id!,
-                                                    farmerMaster: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .farmerMaster!,
-                                                    farmerProjectId: state
-                                                        .responseFarmerProjectDetail!
-                                                        .data!
-                                                        .farmerProject![0]
-                                                        .id
-                                                        .toString())
-                                                .navigate();
-                                          }
-                                        }else{
+                                                  if (state
+                                                      .responseFarmerProjectDetail!
+                                                      .data!
+                                                      .farmerProject![0]
+                                                      .farmerProjectKycDocument ==
+                                                      null) {
+                                                    ProjectKYC(
+                                                        farmerId: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .farmerMaster!
+                                                            .id!,
+                                                        userId: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .farmerMaster!
+                                                            .userId
+                                                            .toString(),
+                                                        farmerMaster: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .farmerMaster!,
+                                                        farmerProjectId: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .id
+                                                            .toString())
+                                                        .navigate();
+                                                  } else {
+                                                    ViewLoanKyc(
+                                                        farmerDocuments: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .farmerProjectKycDocument!,
+                                                        rejectStatus: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .rejectStatus,
+                                                        farmerId: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .farmerMaster!
+                                                            .id!,
+                                                        farmerMaster: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .farmerMaster!,
+                                                        farmerProjectId: state
+                                                            .responseFarmerProjectDetail!
+                                                            .data!
+                                                            .farmerProject![0]
+                                                            .id
+                                                            .toString())
+                                                        .navigate();
+                                                  }
+                                                }
+                                                else{
+                                                  showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                                }
+                                              }else{
                                                 showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
                                               }
                                             }),

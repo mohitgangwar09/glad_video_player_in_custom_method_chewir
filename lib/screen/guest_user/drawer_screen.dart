@@ -179,7 +179,8 @@ class GuestSideDrawer extends StatelessWidget {
         40.verticalSpace(),
         InkWell(
           onTap: () {
-            const LoginWithPassword().navigate(isRemove: true);
+            pressBack();
+            const LoginWithPassword().navigate();
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 0, 40, 0),
