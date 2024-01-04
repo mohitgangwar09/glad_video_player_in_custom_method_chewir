@@ -84,10 +84,115 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                   const LiveStockCartListScreen().navigate();
                                 },
                                 child: SvgPicture.asset(state.responseLivestockList!.data!.cartCount.toString()== "0"?Images.blankCart:Images.cart)),
-                            if(BlocProvider
+                            if(!BlocProvider
                                 .of<LandingPageCubit>(context)
                                 .sharedPreferences
                                 .containsKey(AppConstants.userType))
+                              InkWell(
+                                  onTap: () {
+                                    List<String> roiList = [
+                                      'Default',
+                                      'Price Highest to Lowest',
+                                      'Price Lowest to Highest',
+                                      'Age Highest to Lowest',
+                                      'Age Lowest to Highest',
+                                      'Yield Highest to Lowest',
+                                      'Yield Lowest to Highest',
+                                    ];
+                                    List<String> roiRequestToApi = [
+                                      '',
+                                      'price_highest_desc',
+                                      'price_lowest_asc',
+                                      'age_highest_desc',
+                                      'age_lowest_asc',
+                                      'yield_highest_desc',
+                                      'yield_lowest_asc'
+                                    ];
+                                    modalBottomSheetMenu(context,
+                                      child: BlocBuilder<LivestockCubit, LivestockCubitState>(
+                                          builder: (context, state) {
+                                            return SizedBox(
+                                              height: screenHeight() * 0.65,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 8.0, right: 8),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              pressBack();
+                                                            },
+                                                            child: "Cancel".textMedium(
+                                                                color:
+                                                                const Color(0xff6A0030),
+                                                                fontSize: 14)),
+                                                        "Sort By".textMedium(fontSize: 22),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              BlocProvider.of<LivestockCubit>(context).roiFilter('');
+                                                            },
+                                                            child: "Reset".textMedium(
+                                                                color:
+                                                                const Color(0xff6A0030),
+                                                                fontSize: 14))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 20.0, right: 20),
+                                                    child: Divider(),
+                                                  ),
+                                                  Expanded(
+                                                    child: customList(
+                                                        list: roiList,
+                                                        child: (index) {
+                                                          return InkWell(
+                                                            onTap: (){
+                                                              BlocProvider.of<LivestockCubit>(context).roiFilter(roiRequestToApi[index].toString());
+                                                            },
+                                                            child: Padding(
+                                                                padding: const EdgeInsets
+                                                                    .only (
+                                                                    left: 30,
+                                                                    right: 30,
+                                                                    top: 30,
+                                                                    bottom: 10),
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    roiList[index].toString()
+                                                                        .textRegular(
+                                                                        fontSize: 16),
+                                                                    state.roiFilter == roiRequestToApi[index].toString()?
+                                                                    const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
+                                                                  ],
+                                                                )),
+                                                          );
+                                                        }),
+                                                  ),
+                                                  10.verticalSpace(),
+                                                  Container(
+                                                      margin: 20.marginAll(),
+                                                      height: 55,
+                                                      width: screenWidth(),
+                                                      child: customButton("Apply",
+                                                          fontColor: 0xffffffff,
+                                                          onTap: () {
+                                                            BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false);
+                                                            pressBack();
+                                                          }))
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                      ),
+                                    );
+                                  }, child: SvgPicture.asset(Images.filter2)),
                             13.horizontalSpace(),
                             InkWell(
                                 onTap: () {
