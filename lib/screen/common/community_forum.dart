@@ -102,7 +102,8 @@ class _CommunityForumState extends State<CommunityForum> {
                         CommunityPostDetail(id: state.responseCommunityList!.data![index].id.toString()).navigate();
                       },
                       index: index,
-                      fromHome: true,)),
+                      fromHome: true,
+                      isFriend: state.responseCommunityList!.data![index].isFriend ?? 0,)),
                 options: CarouselOptions(
                   // autoPlay: true,
                   clipBehavior: Clip.none,

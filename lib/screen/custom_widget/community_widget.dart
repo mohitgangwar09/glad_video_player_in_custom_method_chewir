@@ -11,6 +11,7 @@ import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/common/community_like_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
@@ -34,6 +35,7 @@ class CommunityWidget extends StatefulWidget {
   final int id;
   final void Function()? onTap;
   final int index;
+  final int isFriend;
   final bool fromHome;
 
   const CommunityWidget(
@@ -48,7 +50,7 @@ class CommunityWidget extends StatefulWidget {
       required this.likeCount,
       required this.commentCount,
       required this.isLiked,
-      required this.id, required this.index, required this.fromHome});
+      required this.id, required this.index, required this.fromHome, required this.isFriend});
 
   @override
   State<CommunityWidget> createState() => _CommunityWidgetState();
@@ -298,15 +300,30 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                   ),
                 )),
           ),
-          // widget.showAll
-          //     ? Positioned(
-          //         right: 20,
-          //         top: 20,
-          //         child: 'Add as Friend'.textMedium(
-          //             color: ColorResources.maroon,
-          //             fontSize: 12,
-          //             underLine: TextDecoration.underline))
-          //     : const SizedBox.shrink(),
+          if(BlocProvider.of<CommunityCubit>(context).sharedPreferences.containsKey(AppConstants.userType))
+            if(widget.isFriend == 0)
+              Positioned(
+                  right: 15,
+                  top: 15,
+                  child: InkWell(
+                    onTap: () {
+                      BlocProvider.of<CommunityCubit>(context).addFriendApi(context, widget.id.toString());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: 'Add as Friend'.textMedium(
+                          color: ColorResources.maroon,
+                          fontSize: 12,
+                          underLine: TextDecoration.underline),
+                    ),
+                  ))
+          else
+              Positioned(
+                right: 20,
+                top: 20,
+                child: 'Friend'.textMedium(
+                    color: const Color(0xFF727272),
+                    fontSize: 12)),
         ],
       ),
     );

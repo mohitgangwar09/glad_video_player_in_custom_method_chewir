@@ -65,10 +65,11 @@ class ApiHitter {
     if (value) {
       try {
         if (kDebugMode) {
-          print('queryParameters');
+          print('---------------queryParameters---------------');
           print(data);
+          print('---------------------------------------------');
         }
-        print(baseurl + endPoint);
+        debugPrint('URL---------------$baseurl$endPoint');
         var response = await getDio(
           baseurl: baseurl,
         ).post(endPoint,
@@ -98,13 +99,14 @@ class ApiHitter {
     String baseurl = '',
   }) async {
     if (kDebugMode) {
-      print('queryParameters');
+      print('---------------queryParameters---------------');
       print(data);
+      print('---------------------------------------------');
     }
     bool value = await checkInternetConnection();
     if (value) {
       try {
-        print(baseurl + endPoint);
+        debugPrint('URL---------------$baseurl$endPoint');
         var response = await getDio(
           baseurl: baseurl,
         ).put(endPoint,
@@ -135,13 +137,14 @@ class ApiHitter {
     String baseurl = '',
   }) async {
     if (kDebugMode) {
-      print('queryParameters');
+      print('---------------queryParameters---------------');
       print(queryParameters);
+      print('---------------------------------------------');
     }
     bool value = await checkInternetConnection();
     if (value) {
       try {
-        print(baseurl + endPoint);
+        debugPrint('URL---------------$baseurl$endPoint');
         var response = await getDio(
           baseurl: baseurl,
         ).get(
@@ -175,12 +178,14 @@ class ApiHitter {
     String baseurl = '',
   }) async {
     if (kDebugMode) {
-      print('queryParameters');
+      print('---------------queryParameters---------------');
       print(data);
+      print('---------------------------------------------');
     }
     bool value = await checkInternetConnection();
     if (value) {
       try {
+        debugPrint('URL---------------$baseurl$endPoint');
         var response = await getDio(
           baseurl: baseurl,
         ).delete(
@@ -217,14 +222,14 @@ class ApiHitter {
           ));
       return ApiResponse(response.statusCode == 200,
           response: response, msg: response.statusMessage!);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return exception(e);
     }
   }
 
   ApiResponse exception(DioException error) {
     return ApiResponse(false,
-        msg: error.response!.data['message'].toString(),
+        msg: error.response != null ? error.response!.data['message'].toString() : '',
       statusCode: NetworkExceptions.getErrorMessage(
         NetworkExceptions.getDioException(error),
       )

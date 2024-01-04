@@ -122,6 +122,8 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               controller: nameController,
               radius: 12,
               borderColor: 0xff999999,
+              length: 35,
+              maxLine: 1,
               decoration: const InputDecoration()),
           10.verticalSpace(),
           Row(
@@ -164,9 +166,10 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
           CustomTextField(
             hint: 'Supplier Id',
             controller: supplierId,
-            minLine: 2,
             borderColor: 0xff999999,
             radius: 12,
+            maxLine: 1,
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z]")),],
           ),
           20.verticalSpace(),
         ],
@@ -340,7 +343,9 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
             if(nameController!.text.isEmpty) {
               showCustomToast(context, 'Name is required');
             } else if(mobileController!.text.isEmpty) {
-              showCustomToast(context, 'Mobile no is required');
+              showCustomToast(context, 'Mobile number is required');
+            } else if(mobileController!.text.split('').length < 9) {
+              showCustomToast(context, 'Length of Mobile number should be minimum 9 ');
             } else if(addressController!.text.isEmpty) {
               showCustomToast(context, 'Address is required');
             }else if(commentController!.text.isEmpty) {

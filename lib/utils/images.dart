@@ -141,6 +141,7 @@ class Images {
   static const String platinum = 'assets/images/platinum.svg';
   static const String verified = 'assets/images/verified.svg';
   static const String blankCart = 'assets/images/blank_cart.svg';
+  static const String friendlist = 'assets/images/friendlist.svg';
 
 
 

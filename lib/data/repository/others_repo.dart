@@ -13,6 +13,7 @@ import 'package:glad/data/model/response_community_comment_list.dart';
 import 'package:glad/data/model/response_community_like_list.dart';
 import 'package:glad/data/model/response_community_list_model.dart';
 import 'package:glad/data/model/response_faq_list.dart';
+import 'package:glad/data/model/response_friend_list.dart';
 import 'package:glad/data/model/response_livestock_laon.dart';
 import 'package:glad/data/model/response_loan_application_list.dart';
 import 'package:glad/data/model/response_my_livestock.dart';
@@ -178,6 +179,20 @@ class OthersRepository {
   }
 
   ///////////////// getCommunityListApi //////////
+  Future<ResponseFriendList> getFriendListApi() async {
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.friendListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseFriendList.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseFriendList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getCommunityListApi //////////
   Future<ResponseOtpModel> addCommentApi(String communityId, String comment) async {
     var data = {'community_id': communityId, 'comment': comment};
 
@@ -192,7 +207,23 @@ class OthersRepository {
     }
   }
 
- ///////////////// getCommunityListApi //////////
+  ///////////////// getCommunityListApi //////////
+  Future<ResponseOtpModel> addFriendApi(String communityId) async {
+    var data = {'id': communityId};
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.addFriendApi, data: data,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+
+  ///////////////// getCommunityListApi //////////
   Future<ResponseOtpModel> addPostApi(String remark, String path) async {
       var data = FormData.fromMap({'remark': remark});
       data.files.add(MapEntry(

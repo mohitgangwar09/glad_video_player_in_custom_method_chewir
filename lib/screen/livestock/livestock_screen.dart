@@ -75,16 +75,19 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                             child: SvgPicture.asset(Images.drawer)),
                         action: Row(
                           children: [
+                            if(BlocProvider
+                                .of<LandingPageCubit>(context)
+                                .sharedPreferences
+                                .containsKey(AppConstants.userType))
                             InkWell(
-                                onTap: BlocProvider
-                                    .of<LandingPageCubit>(context)
-                                    .sharedPreferences
-                                    .containsKey(AppConstants.userType) ? () {
+                                onTap: () {
                                   const LiveStockCartListScreen().navigate();
-                                } : () {
-                                  const LoginWithPassword().navigate();
                                 },
                                 child: SvgPicture.asset(state.responseLivestockList!.data!.cartCount.toString()== "0"?Images.blankCart:Images.cart)),
+                            if(BlocProvider
+                                .of<LandingPageCubit>(context)
+                                .sharedPreferences
+                                .containsKey(AppConstants.userType))
                             13.horizontalSpace(),
                             InkWell(
                                 onTap: () {
@@ -136,6 +139,10 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                           ],
                         ),
                       ),
+                      if(BlocProvider
+                          .of<LandingPageCubit>(context)
+                          .sharedPreferences
+                          .containsKey(AppConstants.userType))
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(

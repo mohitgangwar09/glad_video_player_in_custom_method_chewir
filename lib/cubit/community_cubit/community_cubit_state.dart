@@ -8,6 +8,7 @@ class CommunityCubitState extends Equatable{
   final ResponseCommunityList? responseCommunityDetailList;
   final ResponseCommunityLikeList? responseCommunityLikeList;
   final ResponseCommunityCommentList? responseCommunityCommentList;
+  final ResponseFriendList? responseFriendList;
 
   const CommunityCubitState({
       required this.status,
@@ -15,6 +16,7 @@ class CommunityCubitState extends Equatable{
       required this.responseCommunityLikeList,
       required this.responseCommunityCommentList,
       required this.responseCommunityDetailList,
+      required this.responseFriendList,
   });
 
   factory CommunityCubitState.initial() {
@@ -24,6 +26,7 @@ class CommunityCubitState extends Equatable{
       responseCommunityLikeList: null,
       responseCommunityCommentList: null,
       responseCommunityDetailList: null,
+      responseFriendList: null,
     );
   }
 
@@ -32,7 +35,8 @@ class CommunityCubitState extends Equatable{
     ResponseCommunityList? responseCommunityList,
     ResponseCommunityList? responseCommunityDetailList,
     ResponseCommunityLikeList? responseCommunityLikeList,
-    ResponseCommunityCommentList? responseCommunityCommentList
+    ResponseCommunityCommentList? responseCommunityCommentList,
+    ResponseFriendList? responseFriendList,
   }) {
     return CommunityCubitState(
         status: status ?? this.status,
@@ -40,6 +44,7 @@ class CommunityCubitState extends Equatable{
         responseCommunityLikeList: responseCommunityLikeList ?? this.responseCommunityLikeList,
         responseCommunityCommentList: responseCommunityCommentList ?? this.responseCommunityCommentList,
         responseCommunityDetailList: responseCommunityDetailList ?? this.responseCommunityDetailList,
+        responseFriendList: responseFriendList ?? this.responseFriendList,
     );
   }
 
@@ -50,6 +55,7 @@ class CommunityCubitState extends Equatable{
     responseCommunityLikeList,
     responseCommunityCommentList,
     responseCommunityDetailList,
+    responseFriendList,
   ];
 
 }

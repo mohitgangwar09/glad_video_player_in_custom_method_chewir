@@ -119,7 +119,9 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
             ),
             10.verticalSpace(),
             LiveStockMarketplace(
-              onTapShowAll: () {},
+              onTapShowAll: () {
+                BlocProvider.of<DashboardCubit>(context).selectedIndex(1);
+              },
             ),
             10.verticalSpace(),
             CommunityForum(

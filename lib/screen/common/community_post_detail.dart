@@ -6,6 +6,7 @@ import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/common/community_like_list.dart';
+import 'package:glad/screen/common/friend_chat.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -107,7 +108,20 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                         ),
                       ],
                     ),
-                    SvgPicture.asset(Images.chat),
+                   if(context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType))
+                     if(state.responseCommunityDetailList!.data![0].isFriend != 0)
+                        InkWell(
+                            onTap: () {
+                              CommunityFriendChatScreen(
+                                userId: int.parse(context.read<CommunityCubit>().sharedPreferences.getString(AppConstants.userId).toString()),
+                                friendId: state.responseCommunityDetailList!.data![0].user!.id,
+                                friendName: state.responseCommunityDetailList!.data![0].user!.name ?? '',
+                                friendImage: state.responseCommunityDetailList!.data![0].user!.profilePic ?? '',
+                                friendAddress: state.responseCommunityDetailList!.data![0].user!.address != null ? state.responseCommunityDetailList!.data![0].user!.address!.address ??
+                                    '' : '',
+                              ).navigate();
+                            },
+                            child: SvgPicture.asset(Images.chat)),
                   ],
                 ),
               ),
@@ -307,16 +321,20 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                       height: 300
                   ),
                 ),
-                // Positioned(
-                //   right: 10,
-                //     top: 10,
-                //     child: customButton(
-                //   'Add as Friend',
-                //   onTap: () {},
-                //   width: 110,
-                //   height: 30,
-                //       style: figtreeMedium.copyWith(color: Colors.white, fontSize: 12)
-                // ))
+                if(BlocProvider.of<CommunityCubit>(context).sharedPreferences.containsKey(AppConstants.userType))
+                  if(data.isFriend == 0)
+                    Positioned(
+                        right: 20,
+                        top: 20,
+                        child: customButton(
+                            'Add as Friend',
+                            onTap: () {
+                              BlocProvider.of<CommunityCubit>(context).addFriendApi(context, widget.id.toString());
+                            },
+                            width: 110,
+                            height: 30,
+                            style: figtreeMedium.copyWith(color: Colors.white, fontSize: 12)
+                        ))
               ],
             ),
             20.verticalSpace(),

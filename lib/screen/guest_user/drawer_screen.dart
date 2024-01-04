@@ -5,6 +5,7 @@ import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/screen/guest_user/faq_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -66,7 +67,10 @@ class GuestSideDrawer extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          navigationBarItem(image: Images.faq, onTap: () {}, text: "Faq's"),
+          navigationBarItem(image: Images.faq, onTap: () {
+            pressBack();
+            const FaqScreen().navigate();
+          }, text: "Faq's"),
           const SizedBox(height: 30),
           navigationBarItem(
             image: Images.aboutus,

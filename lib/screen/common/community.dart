@@ -6,6 +6,7 @@ import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/common/community_friend_list.dart';
 import 'package:glad/screen/common/community_post_add.dart';
 import 'package:glad/screen/common/community_post_detail.dart';
 import 'package:glad/screen/custom_widget/community_widget.dart';
@@ -65,6 +66,11 @@ class _CommunityPostState extends State<CommunityPost> {
                   titleText1Style:
                   figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                   centerTitle: true,
+                  action: context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType) ? InkWell(
+                    onTap: () {
+                      const FriendList().navigate();
+                    },
+                      child: SvgPicture.asset(Images.friendlist)) : null,
                   leading: BlocProvider
                       .of<ProfileCubit>(context)
                       .sharedPreferences
@@ -159,6 +165,7 @@ class _CommunityPostState extends State<CommunityPost> {
                 isLiked: state.responseCommunityList!.data![index].isLiked ?? 0,
                 index: index,
                 fromHome: false,
+                isFriend: state.responseCommunityList!.data![index].isFriend ?? 0,
               ),
             ),
             100.verticalSpace(),

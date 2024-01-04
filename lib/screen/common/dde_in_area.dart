@@ -113,7 +113,11 @@ class _DDEInAreaState extends State<DDEInArea> {
                                 .guestDashboardResponse!
                                 .data!
                                 .enquiry ==
-                            null
+                            null || BlocProvider.of<LandingPageCubit>(context)
+        .state
+        .guestDashboardResponse!
+        .data!
+        .enquiry!.status == 'closed'
                         ? InkWell(
                             onTap: () {
                               BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();

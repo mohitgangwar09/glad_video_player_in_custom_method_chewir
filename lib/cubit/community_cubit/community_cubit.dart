@@ -4,6 +4,7 @@ import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/data/model/response_community_comment_list.dart';
 import 'package:glad/data/model/response_community_like_list.dart';
 import 'package:glad/data/model/response_community_list_model.dart';
+import 'package:glad/data/model/response_friend_list.dart';
 import 'package:glad/data/repository/others_repo.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -84,6 +85,18 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
   }
 
   // commentListApi
+  Future<void> friendListApi(context) async{
+    emit(state.copyWith(status: CommunityStatus.submit));
+    var response = await apiRepository.getFriendListApi();
+    if (response.status == 200) {
+      emit(state.copyWith(status: CommunityStatus.success, responseFriendList: response));
+    } else {
+      emit(state.copyWith(status: CommunityStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // commentListApi
   Future<void> addCommentApi(context, String communityId, comment) async{
     var response = await apiRepository.addCommentApi(communityId, comment);
 
@@ -107,6 +120,19 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
       showCustomToast(context, response.message.toString());
     }
   }
+
+  // commentListApi
+  Future<void> addFriendApi(context, String communityId) async{
+    var response = await apiRepository.addFriendApi(communityId);
+
+    if (response.status == 200) {
+      communityDetailApi(context, communityId, isLoaderRequired: false);
+      communityListApi(context, isLoaderRequired: false);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 
   // commentListApi
   Future<void> addPostApi(context, String remark, String path) async{

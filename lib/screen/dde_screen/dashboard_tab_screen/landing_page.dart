@@ -411,7 +411,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
           earningCardDetails(context),
 
-          LiveStockMarketplace(onTapShowAll: () {},),
+          // LiveStockMarketplace(onTapShowAll: () {},),
             10.verticalSpace(),
             CommunityForum(
               onTapShowAll: () {

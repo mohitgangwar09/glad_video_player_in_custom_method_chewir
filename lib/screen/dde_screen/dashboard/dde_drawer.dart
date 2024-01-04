@@ -10,6 +10,7 @@ import 'package:glad/screen/dde_screen/dde_earning_statement.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/screen/guest_user/faq_screen.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 
@@ -90,7 +91,10 @@ class DdeDrawer extends StatelessWidget {
           ),
           navigationBarItem(
             image: Images.faq,
-            onTap: () {},
+            onTap: () {
+              pressBack();
+              const FaqScreen().navigate();
+            },
             text: "Faq's",
           ),
           const SizedBox(
