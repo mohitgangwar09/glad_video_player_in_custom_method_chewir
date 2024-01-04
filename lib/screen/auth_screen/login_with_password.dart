@@ -217,8 +217,8 @@ Widget card(BuildContext context){
                   Padding(
                     padding: const EdgeInsets.only(top: 45.0),
                     child: TextButton(onPressed: (){
-                      const ForgotPassword().navigate();
                       BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+                      const ForgotPassword().navigate();
                     }, child: Text("Forgot password?",
                       style: figtreeMedium.copyWith(
                           color: const Color(0xffFC5E60),

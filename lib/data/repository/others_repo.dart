@@ -272,7 +272,7 @@ class OthersRepository {
   ///////////////// getLivestockBreedApi //////////
   Future<ResponseLivestockList> getLivestockListApi({String? searchQuery,String? cowBreed
     ,String? ageFrom,String? ageUpTo,String? priceFrom,String? priceUpTo,String? lactationFrom,String? lactationUpTo,
-  String? yieldFrom,String? yieldUpTo}) async {
+  String? yieldFrom,String? yieldUpTo,String? orderBy}) async {
 
     var data = {
       "search": searchQuery,
@@ -285,6 +285,7 @@ class OthersRepository {
       "lactation_upto": lactationUpTo,
       "yield_from": yieldFrom,
       "yield_upto": yieldUpTo,
+      "order_by": orderBy
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

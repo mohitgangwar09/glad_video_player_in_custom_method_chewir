@@ -10,7 +10,7 @@ class LivestockCubitState extends Equatable{
   final LivestockDetail? responseLivestockDetail;
   final LivestockCartList? responseLivestockCartList;
   final ResponseLoanApplicationList? responseLoanApplicationList;
-  final String? confirmDelivery;
+  final String? confirmDelivery,roiFilter;
   final TextEditingController ageFromController,ageUpToController,priceFromController,priceUpToController,lactationFromController,lactationUpToController,yieldFromController,yieldUpToController,breedNameSelected;
 
 
@@ -32,12 +32,14 @@ class LivestockCubitState extends Equatable{
       required this.yieldFromController,
       required this.yieldUpToController,
       required this.breedNameSelected,
+      required this.roiFilter,
   });
 
   factory LivestockCubitState.initial() {
     return LivestockCubitState(
       status: LivestockStatus.initial,
       breed: null,
+      roiFilter: '',
       responseLivestockList: null,
       responseMyLivestockList: null,
       responseLivestockDetail: null,
@@ -65,7 +67,7 @@ class LivestockCubitState extends Equatable{
     LivestockCartList? responseLivestockCartList,
     ResponseLoanApplicationList? responseLoanApplicationList,
     ResponseFaqList? responseFaqList,
-    String? confirmDelivery,
+    String? confirmDelivery,roiFilter,
     TextEditingController? ageFromController,ageUpToController,priceFromController,priceUpToController,lactationFromController,lactationUpToController,yieldFromController,yieldUpToController,breedNameSelected
   }) {
     return LivestockCubitState(
@@ -86,6 +88,7 @@ class LivestockCubitState extends Equatable{
         yieldFromController: yieldFromController ?? this.yieldFromController,
         yieldUpToController: yieldUpToController ?? this.yieldUpToController,
         breedNameSelected: breedNameSelected ?? this.breedNameSelected,
+        roiFilter: roiFilter ?? this.roiFilter,
     );
   }
 
@@ -108,6 +111,7 @@ class LivestockCubitState extends Equatable{
     yieldFromController,
     yieldUpToController,
     breedNameSelected,
+    roiFilter
   ];
 
 }

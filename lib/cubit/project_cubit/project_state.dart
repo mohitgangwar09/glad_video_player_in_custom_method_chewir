@@ -25,11 +25,13 @@ class ProjectState extends Equatable {
   final TextEditingController requiredQtyController,pricePerUnitController,valueController;
   final TextEditingController milestoneTitle,milestoneDescription,milestoneDuration;
   final TextEditingController materialNameController,resourceTypeController,resourceCapacityController,uomController;
-  final String? projectId;
+  final String? projectId,selectProjectFilter,selectFarmerFilter;
   final String? selectedFilterMCCApplication,statusLoan,roiFilter,filterImprovementAreaName;
   final dynamic paidAmount,dueAmount,pendingAmount;
   final TextEditingController revenueFromController,revenueToController,investmentFromController,
       investmentUpToController,roiFromController,roiUpToController,loanAmountFromController,loanAmountUpToController;
+  final ResponseFarmerFilterDropdownList? responseFarmerFilterDropdownList;
+  final ResponseProjectSupplierFilterDropdownList? responseProjectSupplierFilterDropdownList;
 
 
   const ProjectState({
@@ -86,6 +88,10 @@ class ProjectState extends Equatable {
     required this.loanAmountUpToController,
     required this.responseImprovementAreaFilterList,
     required this.filterImprovementAreaName,
+    required this.responseFarmerFilterDropdownList,
+    required this.responseProjectSupplierFilterDropdownList,
+    required this.selectProjectFilter,
+    required this.selectFarmerFilter,
   });
 
   factory ProjectState.initial() {
@@ -114,7 +120,8 @@ class ProjectState extends Equatable {
       selectProjectUOMId: '',
       selectMaterialId: '',
       selectMaterialName: '',
-      // selectMaterialName: 'Select Material Name',
+      selectProjectFilter: 'Select Project Name',
+      selectFarmerFilter: 'Select Farmer Name',
       pricePerUnitController: TextEditingController(),
       requiredQtyController: TextEditingController(),
       valueController: TextEditingController(),
@@ -145,7 +152,9 @@ class ProjectState extends Equatable {
       statusLoan: null,
       roiFilter: '',
       responseImprovementAreaFilterList: null,
-      filterImprovementAreaName: ''
+      filterImprovementAreaName: '',
+      responseFarmerFilterDropdownList: null,
+      responseProjectSupplierFilterDropdownList: null,
     );
   }
 
@@ -173,10 +182,12 @@ class ProjectState extends Equatable {
     String? projectId, selectedFilterMCCApplication,
     SupplierProjectModel? responseSupplierProject,
     dynamic paidAmount,dueAmount,pendingAmount,
-    String? statusLoan,roiFilter,filterImprovementAreaName,
+    String? statusLoan,roiFilter,filterImprovementAreaName,selectProjectFilter,selectFarmerFilter,
     TextEditingController? revenueFromController,revenueToController,investmentFromController,
     investmentUpToController,roiFromController,roiUpToController,loanAmountFromController,loanAmountUpToController,
     ResponseImprovementAreaFilterList? responseImprovementAreaFilterList,
+    ResponseFarmerFilterDropdownList? responseFarmerFilterDropdownList,
+    ResponseProjectSupplierFilterDropdownList? responseProjectSupplierFilterDropdownList,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -243,7 +254,11 @@ class ProjectState extends Equatable {
       statusLoan: statusLoan ?? this.statusLoan,
       pendingAmount: pendingAmount ?? this.pendingAmount,
       roiFilter: roiFilter ?? this.roiFilter,
+      selectFarmerFilter: selectFarmerFilter ?? this.selectFarmerFilter,
+      selectProjectFilter: selectProjectFilter ?? this.selectProjectFilter,
       filterImprovementAreaName: filterImprovementAreaName ?? this.filterImprovementAreaName,
+      responseProjectSupplierFilterDropdownList: responseProjectSupplierFilterDropdownList ?? this.responseProjectSupplierFilterDropdownList,
+      responseFarmerFilterDropdownList: responseFarmerFilterDropdownList ?? this.responseFarmerFilterDropdownList,
     );
   }
 
@@ -299,6 +314,10 @@ class ProjectState extends Equatable {
     loanAmountFromController,
     loanAmountUpToController,
     responseImprovementAreaFilterList,
-    filterImprovementAreaName
+    filterImprovementAreaName,
+    responseProjectSupplierFilterDropdownList,
+    responseFarmerFilterDropdownList,
+    selectProjectFilter,
+    selectFarmerFilter,
   ];
 }

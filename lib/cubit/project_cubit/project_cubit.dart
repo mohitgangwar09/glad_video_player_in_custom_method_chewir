@@ -10,7 +10,9 @@ import 'package:glad/data/model/farmer_project_model.dart';
 import 'package:glad/data/model/response_account_statement.dart';
 import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
+import 'package:glad/data/model/response_farmer_filter_list.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
+import 'package:glad/data/model/response_project_supplier_filter_list.dart';
 import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/model/supplier_project_model.dart';
@@ -77,7 +79,9 @@ class ProjectCubit extends Cubit<ProjectState> {
       investmentUpToController: TextEditingController(text: ''),
       loanAmountFromController: TextEditingController(text: ''),
       loanAmountUpToController: TextEditingController(text: ''),
-      filterImprovementAreaName: ''
+      filterImprovementAreaName: '',
+      selectProjectFilter: 'Select Project Name',
+      selectFarmerFilter: 'Select Farmer Name',
     ));
   }
 
@@ -151,7 +155,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       roiUpToController: state.roiUpToController.text,
       loanAmountFromController: state.loanAmountFromController.text,
       loanAmountUpToController: state.loanAmountUpToController.text,
-      improvementArea: state.filterImprovementAreaName,);
+      improvementArea: state.filterImprovementAreaName,
+      projectName: state.selectProjectFilter == "Select Project Name"?'':state.selectProjectFilter,
+      farmerName: state.selectFarmerFilter == "Select Farmer Name"?'':state.selectFarmerFilter,
+    );
     if (response.status == 200) {
       emit(state.copyWith(status: ProjectStatus.success, responseSupplierProject: response));
     } else {
@@ -1156,9 +1163,38 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     if (response.status == 200) {
 
-      showCustomToast(context, response.message.toString());
+      // showCustomToast(context, response.message.toString());
       pressBack();
       await farmerProjectDetailApi(context,int.parse(farmerProjectId));
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // projectRatingApi
+  void supplierProjectDropdownApi(context) async {
+
+    var response = await apiRepository.getSupplierProjectFilterListApi();
+
+    if (response.status == 200) {
+      emit(state.copyWith(responseProjectSupplierFilterDropdownList: response));
+      // showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // supplierFarmerFilterListApi
+  void supplierFarmerFilterListApi(context) async {
+
+    var response = await apiRepository.getSupplierFarmerFilterListApi();
+
+    if (response.status == 200) {
+
+      emit(state.copyWith(responseFarmerFilterDropdownList: response));
+      // showCustomToast(context, response.message.toString());
 
     } else {
       showCustomToast(context, response.message.toString());
