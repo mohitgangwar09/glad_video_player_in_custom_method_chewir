@@ -52,7 +52,7 @@ class Data {
   String? updatedAt;
   dynamic isInCart;
   List<LiveStockDocumentFiles>? liveStockDocumentFiles;
-  List<NegotiatedPrice>? negotiatedPrice;
+  NegotiatedPrice? negotiatedPrice;
   User? user;
   CowBreed? cowBreed;
 
@@ -119,12 +119,6 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isInCart = json['is_in_cart'];
-    if (json['live_stock_negotiation'] != null) {
-      negotiatedPrice = <NegotiatedPrice>[];
-      json['live_stock_negotiation'].forEach((v) {
-        negotiatedPrice!.add(NegotiatedPrice.fromJson(v));
-      });
-    }
     if (json['live_stock_document_files'] != null) {
       liveStockDocumentFiles = <LiveStockDocumentFiles>[];
       json['live_stock_document_files'].forEach((v) {
@@ -132,6 +126,7 @@ class Data {
       });
     }
     user = json['user'] != null ? User.fromJson(json['user']) : null;
+    negotiatedPrice = json['live_stock_negotiation'] != null ? NegotiatedPrice.fromJson(json['live_stock_negotiation']) : null;
     cowBreed = json['cow_breed'] != null
         ? CowBreed.fromJson(json['cow_breed'])
         : null;
@@ -171,12 +166,11 @@ class Data {
       data['live_stock_document_files'] =
           liveStockDocumentFiles!.map((v) => v.toJson()).toList();
     }
-    if (negotiatedPrice != null) {
-      data['live_stock_negotiation'] =
-          negotiatedPrice!.map((v) => v.toJson()).toList();
-    }
     if (user != null) {
       data['user'] = user!.toJson();
+    }
+    if (negotiatedPrice != null) {
+      data['live_stock_negotiation'] = negotiatedPrice!.toJson();
     }
     if (cowBreed != null) {
       data['cow_breed'] = cowBreed!.toJson();

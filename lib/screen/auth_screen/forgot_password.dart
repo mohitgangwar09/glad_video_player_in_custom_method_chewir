@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,9 +29,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       maintainBottomViewPadding: false,
       child: WillPopScope(
         onWillPop: () async{
-          BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+          // BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
           pressBack();
-          return false;
+          return true;
         },
         child: Scaffold(
           backgroundColor: ColorResources.maroon,

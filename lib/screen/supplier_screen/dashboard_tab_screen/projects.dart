@@ -176,7 +176,8 @@ class _ProjectsState extends State<Projects> {
                       10.horizontalSpace(),
                       InkWell(
                           onTap: () {
-                            BlocProvider.of<ProjectCubit>(context).responseAreaImprovementListApi(context);
+                            BlocProvider.of<ProjectCubit>(context).supplierFarmerFilterListApi(context);
+                            BlocProvider.of<ProjectCubit>(context).supplierProjectDropdownApi(context);
                             SupplierFilter(selectedFilter.toString()).navigate();
                           },
                           child: SvgPicture.asset(Images.filter1)),

@@ -1,7 +1,10 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/response_farmer_filter_list.dart';
+import 'package:glad/data/model/response_project_supplier_filter_list.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -29,7 +32,7 @@ class SupplierFilter extends StatelessWidget {
                   onPressed: () {
                     BlocProvider.of<ProjectCubit>(context).roiFilterClear();
                     BlocProvider.of<ProjectCubit>(context)
-                        .ddeProjectsApi(
+                        .supplierProjectsApi(
                         context, selectedFilter, false);
                     pressBack();
                   },
@@ -55,7 +58,7 @@ class SupplierFilter extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-
+/*
 
                       "Improvement areas".textMedium(fontSize: 18),
 
@@ -81,7 +84,111 @@ class SupplierFilter extends StatelessWidget {
                         ))
                             .toList()
                             .cast<Widget>(),
-                      ):const SizedBox.shrink(),
+                      ):const SizedBox.shrink(),*/
+
+                      // 20.verticalSpace(),
+
+                      "Project".textMedium(fontSize: 18),
+
+                      15.verticalSpace(),
+
+                      if(state.responseProjectSupplierFilterDropdownList!=null)
+                        state.responseProjectSupplierFilterDropdownList!.data!=null?
+                        Container(
+                          height: 55,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          width: screenWidth(),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              isDense: true,
+                              hint: Text(
+                                state.selectProjectFilter.toString(),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context).hintColor,
+                                ),
+                              ),
+                              items: state.responseProjectSupplierFilterDropdownList?.data!
+                                  .map((DataSupplierFilter item) => DropdownMenuItem<String>(
+                                value: item.name.toString(),
+                                child: Text(
+                                  item.name!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              )).toList(),
+                              // value: state.counties![0].name!,
+                              onChanged: (String? value) {
+                                BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(selectProjectFilter: value));
+                              },
+                              buttonStyleData: const ButtonStyleData(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                height: 40,
+                                width: 140,
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                              ),
+                            ),
+                          ),
+                        ):const SizedBox.shrink(),
+
+                      20.verticalSpace(),
+
+                      "Farmer".textMedium(fontSize: 18),
+
+                      15.verticalSpace(),
+
+                      if(state.responseFarmerFilterDropdownList!=null)
+                        state.responseFarmerFilterDropdownList!.data!=null?
+                        Container(
+                          height: 55,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          width: screenWidth(),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              isDense: true,
+                              hint: Text(
+                                state.selectFarmerFilter.toString(),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context).hintColor,
+                                ),
+                              ),
+                              items: state.responseFarmerFilterDropdownList?.data!
+                                  .map((DataFarmerFilterList item) => DropdownMenuItem<String>(
+                                value: item.name.toString(),
+                                child: Text(
+                                  item.name!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              )).toList(),
+                              // value: state.counties![0].name!,
+                              onChanged: (String? value) {
+                                BlocProvider.of<ProjectCubit>(context).emit(state.copyWith(selectFarmerFilter: value));
+                              },
+                              buttonStyleData: const ButtonStyleData(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                height: 40,
+                                width: 140,
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                              ),
+                            ),
+                          ),
+                        ):const SizedBox.shrink(),
 
                       33.verticalSpace(),
 
@@ -93,6 +200,7 @@ class SupplierFilter extends StatelessWidget {
                               fontSize: 12, color: const Color(0xff727272))
                         ],
                       ),
+
 
                       customProjectContainer(
                           marginLeft: 0,

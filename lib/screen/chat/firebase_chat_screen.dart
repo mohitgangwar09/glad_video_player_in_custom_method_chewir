@@ -285,12 +285,6 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                       return const SizedBox.shrink();
                     }
                     final chatDocs = chatSnapShot.data;
-
-                    /*Scrollable.ensureVisible(
-                GlobalObjectKey(category?.id).currentContext,
-                duration: Duration(seconds: 1),// duration for scrolling time
-                alignment: .5, // 0 mean, scroll to the top, 0.5 mean, half
-                curve: Curves.easeInOutCubic);*/
                     print(chatDocs!.docs.length);
 
                     return Expanded(
@@ -333,145 +327,11 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                           ); },
 
                           itemComparator: (item1, item2) => item1.data()['date'].compareTo(item2.data()['date']), // optional
-                          // useStickyGroupSeparators: true, // optional
-                          // floatingHeader: true, // o
-                          reverse: true,// ptional
-                          // shrinkWrap: true,
+                          reverse: true,// optional
                           order: GroupedListOrder.DESC, // optional
                         ),
                       ),
                     );
-                    //   Expanded(
-                    //   child: ListView.builder(
-                    //       itemCount: chatDocs.docs.length ,
-                    //       reverse: true,
-                    //       padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
-                    //       controller: scrollController,
-                    //       shrinkWrap: true,
-                    //       physics: const BouncingScrollPhysics(),
-                    //       itemBuilder: (conte,parentIndex){
-                    //         // if (controllers.hasClients) {
-                    //         //   controllers.jumpTo(controllers.position.maxScrollExtent);
-                    //         // }
-                    //         // bool isSameDate = true;
-                    //         // if(parentIndex != 0) {
-                    //         //
-                    //         //   final String dateString = chatDocs.docs.reversed.toList()[parentIndex]['date'];
-                    //         //   DateTime date = DateFormat.yMMMMd().parse(dateString);
-                    //         //
-                    //         //   final String prevDateString = chatDocs.docs.reversed.toList()[parentIndex - 1]['date'];
-                    //         //   // final DateTime prevDate = DateTime.parse(prevDateString);
-                    //         //   final DateTime prevDate = DateFormat.yMMMMd().parse(prevDateString);
-                    //         //   isSameDate = date.isSameDate(prevDate);
-                    //         // } else {
-                    //         //   final String dateString = chatDocs.docs.reversed.toList()[parentIndex]['date'];
-                    //         //   DateTime date = DateFormat.yMMMMd().parse(dateString);
-                    //         //
-                    //         //   final String prevDateString = chatDocs.docs.reversed.toList()[parentIndex + 1]['date'];
-                    //         //   // final DateTime prevDate = DateTime.parse(prevDateString);
-                    //         //   final DateTime prevDate = DateFormat.yMMMMd().parse(prevDateString);
-                    //         //   isSameDate = date.isSameDate(prevDate);
-                    //         // }
-                    //         //
-                    //         // final item = chatDocs.docs.reversed.toList()[parentIndex];
-                    //         // if(parentIndex == chatDocs.docs.length - 1 || (!isSameDate)) {
-                    //         //   return Column(
-                    //         //     children: [
-                    //         //
-                    //         //       Text(item.data()['date']),
-                    //         //       // Text(date.formatDate('December 17, 2023')),
-                    //         //
-                    //         //       Padding(
-                    //         //         padding: const EdgeInsets.only(top: 12.0),
-                    //         //         child: MessageBubble(
-                    //         //           // parentIndex.toString(),
-                    //         //           item.data()['text'],
-                    //         //           item.data()['user_name'],
-                    //         //           item.data()['time'].toString(),
-                    //         //           item.data()['user_type'],
-                    //         //           widget.responseProjectDataForFirebase.userType.toString(),
-                    //         //           item.data()['message_type'],
-                    //         //           item.data()['file'],
-                    //         //         ),
-                    //         //       )
-                    //         //     ],
-                    //         //   );
-                    //         // } else {
-                    //         //   return Padding(
-                    //         //       padding: const EdgeInsets.only(top: 12.0),
-                    //         //       child: MessageBubble(
-                    //         //         // parentIndex.toString(),
-                    //         //         item.data()['text'],
-                    //         //         item.data()['user_name'],
-                    //         //         item.data()['time'].toString(),
-                    //         //         item.data()['user_type'],
-                    //         //         widget.responseProjectDataForFirebase.userType.toString(),
-                    //         //         item.data()['message_type'],
-                    //         //         item.data()['file'],
-                    //         //       )
-                    //         //   );
-                    //         // }
-                    //
-                    //         // bool isSameDate = true;
-                    //         // final String dateString = chatDocs.docs.reversed.toList()[parentIndex]['date'];
-                    //         // DateTime date = DateFormat.yMMMMd().parse(dateString);
-                    //         // final item = chatDocs.docs.reversed.toList()[parentIndex];
-                    //         //
-                    //         // print(DateFormat.yMMMMd());
-                    //         // if (parentIndex == 0) {
-                    //         //   // if (date.isSameDate(DateFormat.yMMMMd().parse('December 18, 2023') )) {
-                    //         //   print("object");
-                    //         //   isSameDate = false;
-                    //         //   // isSameDate = true;
-                    //         // } else {
-                    //         //   // final String prevDateString = chatDocs.docs[parentIndex -1]['date'];
-                    //         //   final String prevDateString = chatDocs.docs.reversed.toList()[parentIndex - 1]['date'];
-                    //         //   // final DateTime prevDate = DateTime.parse(prevDateString);
-                    //         //   final DateTime prevDate = DateFormat.yMMMMd().parse(prevDateString);
-                    //         //   isSameDate = date.isSameDate(prevDate);
-                    //         // }
-                    //         // if (parentIndex == chatDocs.docs.length - 1 || !(isSameDate)) {
-                    //         //   // if (date.isSameDate(DateFormat.yMMMMd().parse('December 18, 2023')) || !(isSameDate)) {
-                    //         //   return Column(
-                    //         //     children: [
-                    //         //
-                    //         //       Text(item.data()['date']),
-                    //         //       // Text(date.formatDate('December 17, 2023')),
-                    //         //
-                    //         //       Padding(
-                    //         //         padding: const EdgeInsets.only(top: 12.0),
-                    //         //         child: MessageBubble(
-                    //         //           // parentIndex.toString(),
-                    //         //           item.data()['text'],
-                    //         //           item.data()['user_name'],
-                    //         //           item.data()['time'].toString(),
-                    //         //           item.data()['user_type'],
-                    //         //           widget.responseProjectDataForFirebase.userType.toString(),
-                    //         //           item.data()['message_type'],
-                    //         //           item.data()['file'],
-                    //         //         ),
-                    //         //       )
-                    //         //     ],
-                    //         //   );
-                    //         // }
-                    //         // else {
-                    //         //   return Padding(
-                    //         //       padding: const EdgeInsets.only(top: 12.0),
-                    //         //       child: MessageBubble(
-                    //         //         // parentIndex.toString(),
-                    //         //         item.data()['text'],
-                    //         //         item.data()['user_name'],
-                    //         //         item.data()['time'].toString(),
-                    //         //         item.data()['user_type'],
-                    //         //         widget.responseProjectDataForFirebase.userType.toString(),
-                    //         //         item.data()['message_type'],
-                    //         //         item.data()['file'],
-                    //         //       )
-                    //         //   );
-                    //         // }
-                    //       }
-                    //   ),
-                    // );
                   }
               ),
 
@@ -517,10 +377,18 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                         ),
                       ),
                       10.horizontalSpace(),
-                      SvgPicture.asset(
-                        Images.camera,
-                        colorFilter: const ColorFilter.mode(
-                            ColorResources.fieldGrey, BlendMode.srcIn),
+                      InkWell(
+                        onTap: (){
+                          var image =  imgFromCamera();
+                          image.then((value) async{
+                            await sendFile(File(value), 'image');
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          Images.camera,
+                          colorFilter: const ColorFilter.mode(
+                              ColorResources.fieldGrey, BlendMode.srcIn),
+                        ),
                       ),
 
                       IconButton(

@@ -155,13 +155,15 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text(
-                                                    state.responseEnquiryDetail!
-                                                        .data!.enquiry!.name
-                                                        .toString(),
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
+                                                Expanded(
+                                                  child: Text(
+                                                      state.responseEnquiryDetail!
+                                                          .data!.enquiry!.name
+                                                          .toString(),
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 18,
+                                                          color: Colors.black)),
+                                                ),
                                                 Container(
                                                   padding:
                                                       const EdgeInsets.symmetric(
@@ -197,12 +199,14 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                                         fontSize: 14,
                                                         color: Colors.black)),
 
-                                                Text(state.responseEnquiryDetail!.data!
-                                                    .enquiry!.supplierCode!=null?", ${state.responseEnquiryDetail!.data!
-                                                    .enquiry!.supplierCode!}":"",
-                                                    style: figtreeRegular.copyWith(
-                                                        fontSize: 14,
-                                                        color: Colors.black)),
+                                                Expanded(
+                                                  child: Text(state.responseEnquiryDetail!.data!
+                                                      .enquiry!.supplierCode!=null?", ${state.responseEnquiryDetail!.data!
+                                                      .enquiry!.supplierCode!}":"",
+                                                      style: figtreeRegular.copyWith(
+                                                          fontSize: 14,
+                                                          color: Colors.black)),
+                                                ),
                                               ],
                                             ),
                                             10.verticalSpace(),

@@ -31,6 +31,9 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
 
   LivestockCubit({required this.apiRepository,required this.sharedPreferences}) : super(LivestockCubitState.initial());
 
+  void roiFilter(String filter) async{
+    emit(state.copyWith(roiFilter: filter));
+  }
 
   void livestockClearFilter(){
     emit(state.copyWith(
@@ -73,6 +76,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       yieldFrom: state.yieldFromController.text.toString(),
       yieldUpTo: state.yieldUpToController.text.toString(),
       cowBreed: state.breedNameSelected.text.toString(),
+      orderBy: state.roiFilter
     );
     if (response.status == 200) {
       emit(state.copyWith(status: LivestockStatus.success, responseLivestockList: response));

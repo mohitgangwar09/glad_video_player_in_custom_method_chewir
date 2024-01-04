@@ -101,7 +101,7 @@ class ProjectRepository {
     String? revenueFromController,revenueUpToController,
     String? investmentFromController,investmentUpToController,
     String? roiFromController,roiUpToController,
-    String? loanAmountFromController,loanAmountUpToController,improvementArea
+    String? loanAmountFromController,loanAmountUpToController,improvementArea,projectName,farmerName
   }) async {
 
     var data = {
@@ -115,7 +115,9 @@ class ProjectRepository {
       'roi_to': roiUpToController,
       'loan_amount_from': loanAmountFromController,
       'loan_amount_to': loanAmountUpToController,
-      'improvement_area': improvementArea
+      'improvement_area': improvementArea,
+      'farmer_name': farmerName,
+      'project_name': projectName,
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

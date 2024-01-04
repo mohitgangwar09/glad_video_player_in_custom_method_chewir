@@ -85,91 +85,93 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               'investment_lowest_asc'
                             ];
                             modalBottomSheetMenu(context,
-                                child: StatefulBuilder(builder: (context, setStates) {
-                                  return SizedBox(
-                                    height: screenHeight() * 0.65,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 8.0, right: 8),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    pressBack();
-                                                  },
-                                                  child: "Cancel".textMedium(
-                                                      color:
-                                                      const Color(0xff6A0030),
-                                                      fontSize: 14)),
-                                              "Sort By".textMedium(fontSize: 22),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    setState(() {});
-                                                    BlocProvider.of<ProjectCubit>(context).roiFilter('');
-                                                    BlocProvider.of<ProjectCubit>(context)
-                                                        .ddeProjectsApi(
-                                                        context, selectedFilter, false);
-                                                    pressBack();
-                                                  },
-                                                  child: "Reset".textMedium(
-                                                      color:
-                                                      const Color(0xff6A0030),
-                                                      fontSize: 14))
-                                            ],
-                                          ),
+                                child: BlocBuilder<ProjectCubit, ProjectState>(
+                                    builder: (context, state) {
+                                      return SizedBox(
+                                        height: screenHeight() * 0.65,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, right: 8),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        pressBack();
+                                                      },
+                                                      child: "Cancel".textMedium(
+                                                          color:
+                                                          const Color(0xff6A0030),
+                                                          fontSize: 14)),
+                                                  "Sort By".textMedium(fontSize: 22),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        setState(() {});
+                                                        BlocProvider.of<ProjectCubit>(context).roiFilter('');
+                                                        /*BlocProvider.of<ProjectCubit>(context)
+                                                            .ddeProjectsApi(
+                                                            context, selectedFilter, false);
+                                                        pressBack();*/
+                                                      },
+                                                      child: "Reset".textMedium(
+                                                          color:
+                                                          const Color(0xff6A0030),
+                                                          fontSize: 14))
+                                                ],
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 20.0, right: 20),
+                                              child: Divider(),
+                                            ),
+                                            Expanded(
+                                              child: customList(
+                                                  list: roiList,
+                                                  child: (index) {
+                                                    return Padding(
+                                                        padding: const EdgeInsets
+                                                            .only (
+                                                            left: 30,
+                                                            right: 30,
+                                                            top: 30,
+                                                            bottom: 10),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            InkWell(onTap: (){
+                                                              BlocProvider.of<ProjectCubit>(context).roiFilter(roiRequestToApi[index].toString());
+                                                            }, child: roiList[index].toString()
+                                                                .textRegular(
+                                                                fontSize: 16)),
+                                                            state.roiFilter == roiRequestToApi[index].toString()?
+                                                            const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
+                                                          ],
+                                                        ));
+                                                  }),
+                                            ),
+                                            10.verticalSpace(),
+                                            Container(
+                                                margin: 20.marginAll(),
+                                                height: 55,
+                                                width: screenWidth(),
+                                                child: customButton("Apply",
+                                                    fontColor: 0xffffffff,
+                                                    onTap: () {
+                                                      BlocProvider.of<ProjectCubit>(context)
+                                                          .ddeProjectsApi(
+                                                          context, selectedFilter, false);
+                                                      pressBack();
+                                                    }))
+                                          ],
                                         ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 20.0, right: 20),
-                                          child: Divider(),
-                                        ),
-                                        Expanded(
-                                          child: customList(
-                                              list: roiList,
-                                              child: (index) {
-                                                return Padding(
-                                                    padding: const EdgeInsets
-                                                        .only (
-                                                        left: 30,
-                                                        right: 30,
-                                                        top: 30,
-                                                        bottom: 10),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        InkWell(onTap: (){
-                                                          setState(() {});
-                                                          BlocProvider.of<ProjectCubit>(context).roiFilter(roiRequestToApi[index].toString());
-                                                          BlocProvider.of<ProjectCubit>(context)
-                                                              .ddeProjectsApi(
-                                                              context, selectedFilter, false);
-                                                          pressBack();
-                                                        }, child: roiList[index].toString()
-                                                            .textRegular(
-                                                            fontSize: 16)),
-                                                        state.roiFilter == roiRequestToApi[index].toString()?
-                                                        const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
-                                                      ],
-                                                    ));
-                                              }),
-                                        ),
-                                        10.verticalSpace(),
-                                        Container(
-                                            margin: 20.marginAll(),
-                                            height: 55,
-                                            width: screenWidth(),
-                                            child: customButton("Apply",
-                                                fontColor: 0xffffffff,
-                                                onTap: () {}))
-                                      ],
-                                    ),
-                                  );
-                                },
-                                ));
+                                      );
+                                  }
+                                ),
+                            );
                           },
                           child: SvgPicture.asset(Images.filter2)),
                       13.horizontalSpace(),
