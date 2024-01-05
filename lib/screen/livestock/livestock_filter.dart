@@ -9,9 +9,15 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
-class LivestockFilter extends StatelessWidget {
+class LivestockFilter extends StatefulWidget {
   const LivestockFilter(this.selectedFilter,{Key? key,}) : super(key: key);
   final String selectedFilter;
+
+  @override
+  State<LivestockFilter> createState() => _LivestockFilterState();
+}
+
+class _LivestockFilterState extends State<LivestockFilter> {
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,7 @@ class LivestockFilter extends StatelessWidget {
                     BlocProvider.of<ProjectCubit>(context).roiFilterClear();
                     BlocProvider.of<ProjectCubit>(context)
                         .ddeProjectsApi(
-                        context, selectedFilter, false);
+                        context, widget.selectedFilter, false);
                     pressBack();
                   },
                   child: "Cancel"
