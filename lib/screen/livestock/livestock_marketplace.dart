@@ -65,9 +65,9 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
 
   Widget livestock(BuildContext context, LivestockCubitState state){
     return state.responseLivestockList!.data != null ? Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 20, 10, 20),
+      padding: const EdgeInsets.fromLTRB(20.0, 0, 10, 10),
       child: SizedBox(
-        height: 240,
+        height: 250,
         child: ListView.separated(
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,
@@ -81,7 +81,7 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
               margin: 0,
               backColor: Colors.grey.withOpacity(0.4),
               child: Container(
-                width: screenWidth() * 0.8,
+                width: screenWidth() * 0.5,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

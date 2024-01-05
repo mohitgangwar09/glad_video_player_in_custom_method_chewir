@@ -138,57 +138,67 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
               BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
             },),
             10.verticalSpace(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),
-              child: Text('GLAD makes you Happier!',
-                  style: figtreeMedium.copyWith(
-                      fontSize: 18, color: Colors.black)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: CarouselSlider(
-                  items: ['', '', '']
-                      .map<Widget>(
-                        (e) => const GladReview(
-                          review:
-                              'Lorem is simply dummy of the printing and industry. Lorem Ipsum has industry\'s standard dummy.',
-                          name: 'John Smith',
-                          userType: 'Farmer',
-                          location: 'Kampala, Uganda',
-                          attachment: '',
-                          attachmentType: 'image',
-                        ),
-                      )
-                      .toList(),
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    enableInfiniteScroll: false,
-                    viewportFraction: 1,
-                    clipBehavior: Clip.none,
-                    enlargeCenterPage: true,
-                    height: screenHeight() < 750
-                        ? screenHeight() * 0.285
-                        : screenHeight() * 0.22,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        activeIndex = index;
-                      });
-                    },
-                  )),
-            ),
-            Center(
-                child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: AnimatedSmoothIndicator(
-                activeIndex: activeIndex,
-                count: 3,
-                effect: const WormEffect(
-                    activeDotColor: ColorResources.maroon,
-                    dotHeight: 7,
-                    dotWidth: 7,
-                    dotColor: ColorResources.grey),
-              ),
-            )),
+            state.guestDashboardResponse!.data!.testimonials!.isNotEmpty ?Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 2),
+                  child: Text('GLAD makes you Happier!',
+                      style: figtreeMedium.copyWith(
+                          fontSize: 18, color: Colors.black)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: CarouselSlider(
+                      items: [
+                        for (int index = 0;
+                        index <
+                            (state.guestDashboardResponse!.data!.testimonials!.length.toInt() > 5 ? 5 : state.guestDashboardResponse!.data!.testimonials!.length);
+                        index++)
+                          GladReview(
+                            review:
+                            state.guestDashboardResponse!.data!.testimonials![index].description ??
+                                '',
+                            name: state.guestDashboardResponse!.data!.testimonials![index].name ?? '',
+                            userType: 'Farmer',
+                            location: '',
+                            attachment:
+                            state.guestDashboardResponse!.data!.testimonials![index].attachment ??
+                                '',
+                            attachmentType:
+                            state.guestDashboardResponse!.data!.testimonials![index].type ?? '',
+                          ),
+                      ],
+                      options: CarouselOptions(
+                        autoPlay: false,
+                        enableInfiniteScroll: false,
+                        viewportFraction: 1,
+                        clipBehavior: Clip.none,
+                        enlargeCenterPage: true,
+                        height: screenHeight() < 750
+                            ? screenHeight() * 0.275
+                            : screenHeight() * 0.26,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            activeIndex = index;
+                          });
+                        },
+                      )),
+                ),
+                Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: AnimatedSmoothIndicator(
+                        activeIndex: activeIndex,
+                        count: state.guestDashboardResponse!.data!.testimonials!.length.toInt() > 3 ? 3 : state.guestDashboardResponse!.data!.testimonials!.length,
+                        effect: const WormEffect(
+                            activeDotColor: ColorResources.maroon,
+                            dotHeight: 7,
+                            dotWidth: 7,
+                            dotColor: ColorResources.grey),
+                      ),
+                    )),
+              ],) : const SizedBox.shrink(),
             100.verticalSpace(),
           ],
         ),

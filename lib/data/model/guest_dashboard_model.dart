@@ -31,11 +31,13 @@ class Data {
   Enquiry? enquiry;
   List<NewsEvent>? newsEvent;
   List<Community>? community;
+  List<Testimonials>? testimonials;
   List<TrainingList>? trainingList;
 
   Data({this.dairyDevelopmentExecutive, this.enquiry, this.newsEvent,
     this.community,
-    this.trainingList});
+    this.trainingList,
+    this.testimonials});
 
   Data.fromJson(Map<String, dynamic> json) {
     dairyDevelopmentExecutive = json['dairyDevelopmentExecutive'] != null
@@ -48,6 +50,12 @@ class Data {
       newsEvent = <NewsEvent>[];
       json['newsEvent'].forEach((v) {
         newsEvent!.add(NewsEvent.fromJson(v));
+      });
+    }
+    if (json['testimonials'] != null) {
+      testimonials = <Testimonials>[];
+      json['testimonials'].forEach((v) {
+        testimonials!.add(Testimonials.fromJson(v));
       });
     }
     if (json['community'] != null) {
@@ -77,7 +85,70 @@ class Data {
   }
 }
 
+class Testimonials {
+  dynamic id;
+  dynamic userId;
+  String? description;
+  String? attachment;
+  String? type;
+  String? status;
+  dynamic featured;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  String? createdAt;
+  String? updatedAt;
+  String? name;
 
+  Testimonials(
+      {this.id,
+        this.userId,
+        this.description,
+        this.attachment,
+        this.type,
+        this.status,
+        this.featured,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.name});
+
+  Testimonials.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    description = json['description'];
+    attachment = json['attachment'];
+    type = json['type'];
+    status = json['status'];
+    featured = json['featured'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['description'] = description;
+    data['attachment'] = attachment;
+    data['type'] = type;
+    data['status'] = status;
+    data['featured'] = featured;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['name'] = name;
+    return data;
+  }
+}
 
 class DairyDevelopmentExecutive {
   dynamic id;
