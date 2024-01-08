@@ -12,9 +12,9 @@ class LivestockCubitState extends Equatable{
   final ResponseLoanApplicationList? responseLoanApplicationList;
   final String? confirmDelivery,roiFilter;
   final TextEditingController ageFromController,ageUpToController,priceFromController,priceUpToController,lactationFromController,lactationUpToController,yieldFromController,yieldUpToController,breedNameSelected;
+  FarmerMAster? selectedLivestockFarmerMAster;
 
-
-  const LivestockCubitState({
+  LivestockCubitState({
       required this.status,
       required this.breed,
       required this.responseLivestockList,
@@ -33,6 +33,7 @@ class LivestockCubitState extends Equatable{
       required this.yieldUpToController,
       required this.breedNameSelected,
       required this.roiFilter,
+      this.selectedLivestockFarmerMAster,
   });
 
   factory LivestockCubitState.initial() {
@@ -55,6 +56,7 @@ class LivestockCubitState extends Equatable{
       yieldFromController: TextEditingController(),
       yieldUpToController: TextEditingController(),
       breedNameSelected: TextEditingController(),
+      selectedLivestockFarmerMAster: null
     );
   }
 
@@ -68,7 +70,8 @@ class LivestockCubitState extends Equatable{
     ResponseLoanApplicationList? responseLoanApplicationList,
     ResponseFaqList? responseFaqList,
     String? confirmDelivery,roiFilter,
-    TextEditingController? ageFromController,ageUpToController,priceFromController,priceUpToController,lactationFromController,lactationUpToController,yieldFromController,yieldUpToController,breedNameSelected
+    TextEditingController? ageFromController,ageUpToController,priceFromController,priceUpToController,lactationFromController,lactationUpToController,yieldFromController,yieldUpToController,breedNameSelected,
+    FarmerMAster? selectedLivestockFarmerMAster
   }) {
     return LivestockCubitState(
         status: status ?? this.status,
@@ -89,6 +92,7 @@ class LivestockCubitState extends Equatable{
         yieldUpToController: yieldUpToController ?? this.yieldUpToController,
         breedNameSelected: breedNameSelected ?? this.breedNameSelected,
         roiFilter: roiFilter ?? this.roiFilter,
+        selectedLivestockFarmerMAster: selectedLivestockFarmerMAster ?? this.selectedLivestockFarmerMAster,
     );
   }
 
@@ -111,7 +115,8 @@ class LivestockCubitState extends Equatable{
     yieldFromController,
     yieldUpToController,
     breedNameSelected,
-    roiFilter
+    roiFilter,
+    selectedLivestockFarmerMAster
   ];
 
 }

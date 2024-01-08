@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/dde_screen/dashboard_tab_screen/farmer_dde_tab_screen.dart';
 import 'package:glad/screen/livestock/enquiry/enquiry_list.dart';
 import 'package:glad/screen/livestock/enquiry/livestock_exquiry_chat.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
@@ -20,6 +22,7 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:intl/intl.dart';
@@ -38,12 +41,21 @@ class LiveStockDetail extends StatefulWidget {
 class _LiveStockDetailState extends State<LiveStockDetail> {
 
   int activeIndex = 0;
+  String countryCode = "";
 
   @override
   void initState() {
+    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+    getCountryCode();
     BlocProvider.of<LivestockCubit>(context).livestockDetailApi(context, widget.id);
     super.initState();
   }
+
+  void getCountryCode() async{
+    String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+    countryCode = countryCodes;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +106,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
     );
   }
 
-  Widget landingPage(BuildContext context, LivestockCubitState state){
+  Widget landingPage(BuildContext contexts, LivestockCubitState state){
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -452,6 +464,299 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                       ],
                     )
                   else
+                 if(BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde")
+                   Column(
+                     children: [
+
+                       if(state.selectedLivestockFarmerMAster!=null)
+                         Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             "Buyer".textMedium(
+                                 fontSize: 14,
+                                 color: const Color(0xff727272)
+                             ),
+                             Padding(
+                               padding: const EdgeInsets.only(
+                                   left: 0, right: 0, bottom: 0,top: 10),
+                               child: Container(
+                                 decoration: boxDecoration(
+                                     borderRadius: 10,
+                                     backgroundColor: const Color(0xffFBF9F9)
+                                 ),
+                                 child: Padding(
+                                   padding:
+                                   const EdgeInsets.fromLTRB(15.0, 10, 0, 5),
+                                   child: Stack(
+                                     children: [
+                                       Row(
+                                         crossAxisAlignment:
+                                         CrossAxisAlignment.start,
+                                         children: [
+                                           state.selectedLivestockFarmerMAster!.photo == null ?Image.asset(Images.sampleUser):
+                                           networkImage(text: state.selectedLivestockFarmerMAster!.photo!,height: 46,width: 46,radius: 40),
+                                           15.horizontalSpace(),
+                                           Column(
+                                             crossAxisAlignment:
+                                             CrossAxisAlignment.start,
+                                             children: [
+                                               Text(state.selectedLivestockFarmerMAster!.name!,
+                                                   style: figtreeMedium.copyWith(
+                                                       fontSize: 16,
+                                                       color: Colors.black)),
+                                               4.verticalSpace(),
+                                               Row(
+                                                 children: [
+                                                   Text(
+                                                       "${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.selectedLivestockFarmerMAster!.phone.toString()}",
+                                                       style:
+                                                       figtreeRegular.copyWith(
+                                                           fontSize: 12,
+                                                           color: Colors.black)),
+
+                                                 ],
+                                               ),
+                                               4.verticalSpace(),
+                                               Row(
+                                                 crossAxisAlignment:
+                                                 CrossAxisAlignment.end,
+                                                 children: [
+                                                   SizedBox(
+                                                     width: MediaQuery.of(context)
+                                                         .size
+                                                         .width *
+                                                         0.5,
+                                                     child: Text(
+                                                       state.selectedLivestockFarmerMAster!.address!=null?
+                                                       state.selectedLivestockFarmerMAster!.address!.address!=null?state.selectedLivestockFarmerMAster!.address!.address!:"":"",
+                                                       style:
+                                                       figtreeRegular.copyWith(
+                                                         fontSize: 12,
+                                                         color: Colors.black,
+                                                         overflow:
+                                                         TextOverflow.ellipsis,
+                                                       ),
+                                                     ),
+                                                   ),
+                                                 ],
+                                               )
+                                             ],
+                                           )
+                                         ],
+                                       ),
+                                       Align(
+                                         alignment: Alignment.topRight,
+                                         child: Padding(
+                                           padding: const EdgeInsets.only(right: 14.0),
+                                           child: InkWell(
+                                               onTap: (){
+                                                 modalBottomSheetMenu(context,
+                                                     radius: 40,
+                                                     child: SizedBox(
+                                                         height: screenHeight()-220,
+                                                         child: selectFarmer()));
+                                               }, child: SvgPicture.asset(Images.edit,width: 20,height: 20,)),
+                                         ),
+                                       )
+                                     ],
+                                   ),
+                                 ),
+                               ),
+                             ),
+
+                             20.verticalSpace(),
+
+                             Row(
+                               children: [
+                                 Expanded(
+                                   child: customButton('',
+                                       style: figtreeMedium.copyWith(fontSize: 16),
+                                       onTap:  BlocProvider
+                                           .of<LandingPageCubit>(context)
+                                           .sharedPreferences
+                                           .containsKey(AppConstants.userType) ? () async {
+                                         if (BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile == null) {
+                                           await BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+                                         }
+                                         final query = FirebaseFirestore.instance.collection('livestock_enquiry').doc(widget.id);
+                                         query.set({
+                                           'user_id': state.responseLivestockDetail!.data!.userId.toString(),
+                                           'livestock_id': widget.id.toString(),
+                                           'advertisement_number': state.responseLivestockDetail!.data!.advertisementNo.toString(),
+                                           'cow_breed': state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
+                                           'created_at': Timestamp.now(),
+                                         });
+                                         query.collection('enquiries').doc(context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)).
+                                         set({
+                                           'user_id': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId),
+                                           'user_name': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
+                                           'user_address': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address != null ? BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address!.address ?? '' : '',
+                                           'user_photo': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.photo ?? '',
+                                         });
+                                         LivestockEnquiryChatScreen(
+                                           livestockId: widget.id.toString(),
+                                           cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
+                                           advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
+                                           userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
+                                       } : () {
+                                         LoginWithPassword().navigate();
+                                       },
+                                       width: screenWidth(),
+                                       fontColor: 0xffFFFFFF,
+                                       color: 0xffFFFFFF,
+                                       borderColor: 0xFFFC5E60,
+                                       height: 60,
+                                       enableFirst: true,
+                                       widget: Row(
+                                         children: [
+                                           SvgPicture.asset(Images.chat, color: ColorResources.maroon,),
+                                           10.horizontalSpace(),
+                                           Text(
+                                             'Enquiries',
+                                             style: figtreeMedium.copyWith(
+                                                 fontSize: 16, color: Colors.black),
+                                             softWrap: true,
+                                           )
+                                         ],
+                                       )),
+                                 ),
+                                 20.horizontalSpace(),
+                                 state.responseLivestockDetail!.data!.balanceCows == 0?
+                                 Expanded(
+                                   child: customButton('Out of stock',
+                                       style: figtreeMedium.copyWith(fontSize: 16, color: const Color(0xffFFFFFF)),
+                                       onTap: () {
+
+                                       },
+                                       width: screenWidth(),
+                                       fontColor: 0xffFFFFFF,
+                                       height: 60),
+                                 ):
+                                 Expanded(
+                                   child: customButton(state.responseLivestockDetail!.data!.isInCart == 0?'Add to cart':'View Cart',
+                                       style: figtreeMedium.copyWith(fontSize: 16, color: const Color(0xffFFFFFF)),
+                                       onTap: () {
+                                         if(state.responseLivestockDetail!.data!.isInCart == 0){
+                                           int quantity = 1;
+                                           modalBottomSheetMenu(context,
+                                               radius: 40,
+                                               child: StatefulBuilder(
+                                                   builder: (context, setState) {
+                                                     return SizedBox(
+                                                       height: 280,
+                                                       child: Padding(
+                                                         padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                         child: Column(
+                                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                                             children: [
+                                                               Center(
+                                                                 child: Text(
+                                                                   'Add To Cart',
+                                                                   style: figtreeMedium.copyWith(fontSize: 22),
+                                                                 ),
+                                                               ),
+                                                               30.verticalSpace(),
+                                                               Container(
+                                                                 height: 55,
+                                                                 decoration: BoxDecoration(
+                                                                     border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                                                     borderRadius: BorderRadius.circular(10),
+                                                                     color: Colors.white
+                                                                 ),
+                                                                 width: screenWidth(),
+                                                                 padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                                 child: Row(
+                                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                   children: [
+                                                                     InkWell(
+                                                                         onTap: () {
+                                                                           if(quantity == 1) {
+                                                                             return;
+                                                                           }
+                                                                           quantity--;
+                                                                           setState(() {
+
+                                                                           });
+                                                                         },
+                                                                         child: SvgPicture.asset(Images.minusQuant)),
+                                                                     quantity.toString().textMedium(fontSize: 16, color: Colors.black),
+                                                                     InkWell(
+                                                                         onTap: () {
+                                                                           if(quantity < state.responseLivestockDetail!.data!.balanceCows){
+                                                                             quantity++;
+                                                                             setState(() {
+
+                                                                             });
+                                                                           }else{
+                                                                             showCustomToast(context, "Quantity not available");
+                                                                           }
+                                                                         },
+                                                                         child: SvgPicture.asset(Images.addQuant)),
+
+                                                                   ],),
+                                                               ),
+
+                                                               Column(
+                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                                 children: [
+
+                                                                   30.verticalSpace(),
+
+                                                                   Padding(
+                                                                     padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                                     child: customButton(
+                                                                       'Save',
+                                                                       fontColor: 0xffFFFFFF,
+                                                                       onTap: () {
+
+                                                                         context.read<LivestockCubit>().livestockAddToCartApi(context, state.responseLivestockDetail!.data!.id.toString(), quantity,state.responseLivestockDetail!.data!.negotiatedPrice!=null?state.responseLivestockDetail!.data!.negotiatedPrice!.negotiatedPrice.toString():state.responseLivestockDetail!.data!.price.toString(),
+                                                                         userId: state.selectedLivestockFarmerMAster!.userId.toString());
+
+                                                                       },
+                                                                       height: 60,
+                                                                       width: screenWidth(),
+                                                                     ),
+                                                                   )
+                                                                 ],
+                                                               )
+                                                             ]),
+                                                       ),
+                                                     );
+                                                   }
+                                               ));
+                                         }else{
+                                           const LiveStockCartListScreen().navigate();
+                                         }
+                                       } ,
+                                       width: screenWidth(),
+                                       fontColor: 0xffFFFFFF,
+                                       height: 60),
+                                 )
+                               ],
+                             )
+
+                           ],
+                         ),
+
+                       if(state.selectedLivestockFarmerMAster==null)
+                         customButton('Select Farmer',
+                             style: figtreeMedium.copyWith(fontSize: 16, color: const Color(0xffFFFFFF)),
+                             onTap: (){
+                               modalBottomSheetMenu(context,
+                                   radius: 40,
+                                   child: SizedBox(
+                                       height: screenHeight()-220,
+                                       child: selectFarmer()));
+                             },
+                             width: screenWidth(),
+                             fontColor: 0xffFFFFFF,
+                             height: 60),
+
+
+
+                     ],
+                   )
+                 else
                   Row(
                     children: [
                       Expanded(
@@ -613,96 +918,10 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                         }
                                     ));
                               }else{
-                                /*int quantity = 1;
-                                modalBottomSheetMenu(context,
-                                    radius: 40,
-                                    child: StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return SizedBox(
-                                            height: 280,
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                              child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: Text(
-                                                        'Add To Cart',
-                                                        style: figtreeMedium.copyWith(fontSize: 22),
-                                                      ),
-                                                    ),
-                                                    30.verticalSpace(),
-                                                    Container(
-                                                      height: 55,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          color: Colors.white
-                                                      ),
-                                                      width: screenWidth(),
-                                                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          InkWell(
-                                                              onTap: () {
-                                                                if(quantity == 1) {
-                                                                  return;
-                                                                }
-                                                                quantity--;
-                                                                setState(() {
-
-                                                                });
-                                                              },
-                                                              child: SvgPicture.asset(Images.minusQuant)),
-                                                          quantity.toString().textMedium(fontSize: 16, color: Colors.black),
-                                                          InkWell(
-                                                              onTap: () {
-                                                                if(quantity < state.responseLivestockDetail!.data!.balanceCows){
-                                                                  quantity++;
-                                                                  setState(() {
-
-                                                                  });
-                                                                }else{
-                                                                  showCustomToast(context, "Available quantity is only $quantity");
-                                                                }
-                                                              },
-                                                              child: SvgPicture.asset(Images.addQuant)),
-
-                                                        ],),
-                                                    ),
-
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-
-                                                        30.verticalSpace(),
-
-                                                        Padding(
-                                                          padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                          child: customButton(
-                                                            'Save',
-                                                            fontColor: 0xffFFFFFF,
-                                                            onTap: () {
-
-                                                              context.read<LivestockCubit>().livestockAddToCartApi(context, state.responseLivestockDetail!.data!.id.toString(), quantity,state.responseLivestockDetail!.data!.price.toString());
-
-                                                            },
-                                                            height: 60,
-                                                            width: screenWidth(),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ]),
-                                            ),
-                                          );
-                                        }
-                                    ));*/
                                 const LiveStockCartListScreen().navigate();
                               }
                             } : () {
-                          LoginWithPassword().navigate();
+                          const LoginWithPassword().navigate();
                             },
                             width: screenWidth(),
                             fontColor: 0xffFFFFFF,

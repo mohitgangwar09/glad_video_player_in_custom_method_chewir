@@ -400,6 +400,7 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                   widget.idImage,
                   widget.profilePicture,widget.projectData);
 
+
               }
               // setState(() {
               //   // currentText = value;

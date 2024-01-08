@@ -24,8 +24,9 @@ import 'package:glad/utils/styles.dart';
 import '../../data/model/livestock_cart_list.dart';
 
 class LiveStockCartListScreen extends StatefulWidget {
-  const LiveStockCartListScreen({super.key, this.navigates});
+  const LiveStockCartListScreen({super.key, this.userId,this.navigates});
   final String? navigates;
+  final String? userId;
 
   @override
   State<LiveStockCartListScreen> createState() => _LiveStockCartListScreenState();
@@ -46,7 +47,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
   }
 
   apiCall() async {
-    BlocProvider.of<LivestockCubit>(context).livestockCartListApi(context);
+    BlocProvider.of<LivestockCubit>(context).livestockCartListApi(context,userId: widget.userId);
     // loan.text = (int.parse(BlocProvider.of<LivestockCubit>(context).state.responseLivestockCartList!.data![0].cowQty.toString()) * double.parse(BlocProvider.of<LivestockCubit>(context).state.responseLivestockCartList!.data![0].cowPrice.toString()).toInt()).toString();
   }
 
@@ -132,105 +133,96 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        padding: const EdgeInsets.all(10),
-                                        width: screenWidth() * 0.35,
-                                        height: 160,
-                                        child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 12, top: 12),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          RichText(
-                                              text: TextSpan(children: [
-                                                TextSpan(
-                                                    text: '${state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.cowBreed!.name != null ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.cowBreed!.name ?? '' : ''} cow ',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 12, color: Colors.black)),
-                                                TextSpan(
-                                                    text: '(${state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.advertisementNo ?? ''})',
-                                                    style: figtreeMedium.copyWith(
-                                                        fontSize: 12, color: const Color(0xFF727272)))
-                                              ])),
-                                          // 3.verticalSpace(),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                            Text(getCurrencyString(double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.price.toString())),
-                                                style: figtreeSemiBold.copyWith(
-                                                    fontSize: 18, color: ColorResources.maroon,
-                                                    decoration: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation != null ? TextDecoration.lineThrough : null
-                                                  // decoration: TextDecoration.lineThrough
-                                                )),
-                                            state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation != null ?
-                                            Text(getCurrencyString(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation!.negotiatedPrice),
-                                                style: figtreeSemiBold.copyWith(
-                                                    fontSize: 18, color: Colors.black)) : SizedBox.shrink(),
-                                          ],),
-                                          // 6.verticalSpace(),
-                                          Wrap(
-                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            // crossAxisAlignment: CrossAxisAlignment.start,
-                                            spacing: 5,
-                                            children: [
-                                              RichText(
-                                                  text: TextSpan(children: [
-                                                    TextSpan(
-                                                        text: 'Age: ',
-                                                        style: figtreeMedium.copyWith(
-                                                            fontSize: 12, color: const Color(0xFF727272))),
-                                                    TextSpan(
-                                                        text: '${state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.age ?? ''} yrs',
-                                                        style: figtreeMedium.copyWith(
-                                                            fontSize: 12, color: Colors.black)),
-                                                  ])),
-                                              // 5.verticalSpace(),
-                                              // 10.horizontalSpace(),
-                                              // Container(
-                                              //   height: 5,
-                                              //   width: 5,
-                                              //   decoration: const BoxDecoration(
-                                              //       color: Colors.black, shape: BoxShape.circle),
-                                              // ),
-                                              // 10.horizontalSpace(),
-                                              RichText(
-                                                  text: TextSpan(children: [
-                                                    TextSpan(
-                                                        text: 'Milk: ',
-                                                        style: figtreeMedium.copyWith(
-                                                            fontSize: 12, color: const Color(0xFF727272))),
-                                                    TextSpan(
-                                                        text: '${double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.yield ?? '').toInt()}L/day',
-                                                        style: figtreeMedium.copyWith(
-                                                            fontSize: 12, color: Colors.black))
-                                                  ])),
-                                            ],
-                                          ),
-                                          // 12.verticalSpace(),
-                                          Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.name??'',
+                                Expanded(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          padding: const EdgeInsets.all(10),
+                                          width: screenWidth() * 0.35,
+                                          height: 160,
+                                          child: ClipRRect(borderRadius: BorderRadius.circular(10),child: CachedNetworkImage(imageUrl: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 12, top: 12),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            RichText(
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text: '${state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.cowBreed!.name != null ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.cowBreed!.name ?? '' : ''} cow ',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 12, color: Colors.black)),
+                                                  TextSpan(
+                                                      text: '(${state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.advertisementNo ?? ''})',
+                                                      style: figtreeMedium.copyWith(
+                                                          fontSize: 12, color: const Color(0xFF727272)))
+                                                ])),
+                                            // 3.verticalSpace(),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                              Text(getCurrencyString(double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.price.toString())),
+                                                  style: figtreeSemiBold.copyWith(
+                                                      fontSize: 18, color: ColorResources.maroon,
+                                                      decoration: state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation != null ? TextDecoration.lineThrough : null
+                                                    // decoration: TextDecoration.lineThrough
+                                                  )),
+                                              state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation != null ?
+                                              Text(getCurrencyString(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.liveStockNegotiation!.negotiatedPrice),
+                                                  style: figtreeSemiBold.copyWith(
+                                                      fontSize: 18, color: Colors.black)) : SizedBox.shrink(),
+                                            ],),
+                                            // 6.verticalSpace(),
+                                            Wrap(
+                                              spacing: 5,
+                                              children: [
+                                                RichText(
+                                                    text: TextSpan(children: [
+                                                      TextSpan(
+                                                          text: 'Age: ',
+                                                          style: figtreeMedium.copyWith(
+                                                              fontSize: 12, color: const Color(0xFF727272))),
+                                                      TextSpan(
+                                                          text: '${state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.age ?? ''} yrs',
+                                                          style: figtreeMedium.copyWith(
+                                                              fontSize: 12, color: Colors.black)),
+                                                    ])),
+                                                RichText(
+                                                    text: TextSpan(children: [
+                                                      TextSpan(
+                                                          text: 'Milk: ',
+                                                          style: figtreeMedium.copyWith(
+                                                              fontSize: 12, color: const Color(0xFF727272))),
+                                                      TextSpan(
+                                                          text: '${double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.yield ?? '').toInt()}L/day',
+                                                          style: figtreeMedium.copyWith(
+                                                              fontSize: 12, color: Colors.black))
+                                                    ])),
+                                              ],
+                                            ),
+                                            // 12.verticalSpace(),
+                                            Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.name??'',
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 12, color: Colors.black), maxLines: 1),
+                                            // 6.verticalSpace(),
+                                            Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user != null ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address != null
+                                                ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
+                                                : '' : '',
                                               style: figtreeMedium.copyWith(
                                                   fontSize: 12, color: Colors.black), maxLines: 1),
-                                          // 6.verticalSpace(),
-                                          Text(state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user != null ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address != null
-                                              ? state.responseLivestockCartList!.data![0].liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
-                                              : '' : '',
-                                            style: figtreeMedium.copyWith(
-                                                fontSize: 12, color: Colors.black), maxLines: 1),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: Container(
-                                    width: 55,
+                                    width: 50,
                                     decoration: BoxDecoration(
                                         border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
                                         borderRadius: BorderRadius.circular(40),
