@@ -195,6 +195,7 @@ class Images {
   static const String paid = 'assets/images/paid.svg';
   static const String lessFaq = 'assets/images/lessfaq.svg';
   static const String addFaq = 'assets/images/addfaq.svg';
+  static const String edit = 'assets/images/edit.svg';
 
 
 }

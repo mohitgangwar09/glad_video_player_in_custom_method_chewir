@@ -24,6 +24,10 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     emit(state.copyWith(selectedRagRatingType: ragRating));
   }
 
+  void selectFarmerLivestockSelectIndex(int index) {
+    emit(state.copyWith(selectedIndex: index));
+  }
+
   void changeBreed(String breedName, String breedId) {
     emit(state.copyWith(breedController: TextEditingController(text: breedName), breedId: breedId));
   }
@@ -386,7 +390,7 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     ));
   }
 
-  void getFarmer(context, String ragRatingType, bool showLoader,{String? searchQuery}) async{
+  Future<void> getFarmer(context, String ragRatingType, bool showLoader,{String? searchQuery}) async{
     // customDialog(widget: launchProgress());
     if (showLoader){
       emit(state.copyWith(status: DdeFarmerStatus.loading));

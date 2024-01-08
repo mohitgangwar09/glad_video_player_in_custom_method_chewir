@@ -7,9 +7,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/screen/common/weather_chart.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
+import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'dart:io' show File, Platform;
@@ -1503,4 +1506,181 @@ Widget weatherWidget(){
       return Image.asset(Images.weather);
     }
   });
+}
+
+Widget selectFarmer({String? userId}){
+  TextEditingController searchEditingController = TextEditingController();
+  return BlocBuilder<DdeFarmerCubit,DdeState>(
+      builder: (context,state){
+        return Column(
+          children: [
+            Stack(
+              children: [
+                SizedBox(
+                  width: screenWidth(),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0,top: 2),
+                      child: TextButton(onPressed: (){
+                        pressBack();
+                      }, child: Text("Cancel",
+                        style: figtreeMedium.copyWith(
+                            color: const Color(0xff6A0030),
+                            fontSize: 14
+                        ),)),
+                    ),
+                  ),
+                ),
+
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(padding: const EdgeInsets.only(top: 11),
+                      child: "Select Farmer".textMedium(
+                          fontSize: 22
+                      )),
+                ),
+
+              ],
+            ),
+
+            Stack(
+              children: [
+                Container(
+                  height: 50,
+                  decoration: boxDecoration(
+                      borderColor: Colors.grey,
+                      borderRadius: 62,
+                      backgroundColor: Colors.white),
+                  width: screenWidth()-16,
+                  child: Row(
+                    children: [
+                      13.horizontalSpace(),
+                      SvgPicture.asset(Images.searchLeft),
+                      13.horizontalSpace(),
+                      Expanded(
+                          child: TextField(
+                            controller: searchEditingController,
+                            onChanged: (value){
+                              BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false,searchQuery: value.toString());
+                            },
+                            decoration: const InputDecoration(
+                                border: InputBorder.none, hintText: "Search by..."),
+                          )),
+                    ],
+                  ),
+                ),
+                Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                    onPressed: () {
+                      // setState(() {
+                        searchEditingController.clear();
+                        BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false,searchQuery: '');
+                      // });
+                    },
+                    icon: const Icon(Icons.clear)))
+              ],
+            ),
+
+            state.response!.farmerMAster!.isNotEmpty ? Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 120, left: 0),
+                child: customList(list: state.response!.farmerMAster!,child: (int i) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 20, bottom: 0,top: 10),
+                    child: Container(
+                      decoration: state.selectedIndex == null?null:
+                      state.selectedIndex==i?boxDecoration(
+                          borderRadius: 10,
+                          backgroundColor: const Color(0xffFBF9F9)
+                      ):null,
+                      child: InkWell(
+                        onTap: (){
+                          pressBack();
+                          if(userId ==null){
+                            BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
+                          }else{
+                            LiveStockCartListScreen(userId:state.response!.farmerMAster![i].userId.toString()).navigate();
+                          }
+                        },
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(15.0, 10, 0, 5),
+                          child: Row(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              state.response!.farmerMAster![i].photo == null ?Image.asset(Images.sampleUser):
+                              networkImage(text: state.response!.farmerMAster![i].photo!,height: 46,width: 46,radius: 40),
+                              15.horizontalSpace(),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Text(state.response!.farmerMAster![i].name!,
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 16,
+                                          color: Colors.black)),
+                                  4.verticalSpace(),
+                                  Row(
+                                    children: [
+                                      /*Text(
+                                          "${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.response!.farmerMAster![i].phone.toString()}"
+                                          ,
+                                          style:
+                                          figtreeRegular.copyWith(
+                                              fontSize: 12,
+                                              color: Colors.black)),*/
+
+                                    ],
+                                  ),
+                                  4.verticalSpace(),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.end,
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width *
+                                            0.5,
+                                        child: Text(
+                                          state.response!.farmerMAster![i].address!=null?
+                                          state.response!.farmerMAster![i].address!.address!=null?state.response!.farmerMAster![i].address!.address!:"":"",
+                                          style:
+                                          figtreeRegular.copyWith(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                            overflow:
+                                            TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            )  : Padding(
+              padding: EdgeInsets.only(top: screenWidth() / 2),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('No data found'),
+                ],
+              ),
+            ),
+
+          ],
+        );
+      }
+  );
 }

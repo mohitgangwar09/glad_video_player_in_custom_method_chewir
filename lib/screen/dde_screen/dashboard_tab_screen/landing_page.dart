@@ -13,6 +13,7 @@ import 'package:glad/data/model/dde_visitor_details.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
+import 'package:glad/screen/dde_livestock/dde_livestock_screen.dart';
 import 'package:glad/screen/livestock/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
@@ -26,6 +27,7 @@ import 'package:glad/screen/farmer_screen/drawer_screen/earnings.dart';
 import 'package:glad/screen/dde_screen/dde_profile.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
+import 'package:glad/screen/livestock/livestock_screen.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -411,7 +413,10 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
           earningCardDetails(context),
 
-          // LiveStockMarketplace(onTapShowAll: () {},),
+            LiveStockMarketplace(onTapShowAll: () {
+              const DdeLiveStockScreen().navigate();
+            },),
+
             10.verticalSpace(),
             CommunityForum(
               onTapShowAll: () {

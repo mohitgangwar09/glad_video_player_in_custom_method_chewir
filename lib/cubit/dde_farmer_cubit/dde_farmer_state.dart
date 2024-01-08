@@ -31,12 +31,14 @@ class DdeState extends Equatable {
   final String? selectedRagRatingType,breedFilter;
   final TextEditingController milkingCowFromController,milkingCowToController,milkSupplyFromController,
       milkSupplyUpToController,yieldPerCowFromController,yieldPerUpToController,farmSizeFromController,farmSizeUpToController,herdSizeFromController,herdSizeToController;
+  final int? selectedIndex;
 
   const DdeState({
     required this.focusTag,
     required this.status,
     required this.response,
     required this.id,
+    required this.selectedIndex,
     required this.dateWise,
     required this.yieldPerDay,
     required this.milkingCowController,
@@ -85,6 +87,7 @@ class DdeState extends Equatable {
       yieldPerDay: 0,
       totalMilkingCow: 0,
       id: 0,
+      selectedIndex: null,
       showQties: const [true],
       responseMonthlyWiseData: const [],
       dateWise: const [],
@@ -143,7 +146,7 @@ class DdeState extends Equatable {
     List<bool>? showQties,
     String? selectedRagRatingType,breedFilter,
     TextEditingController? milkingCowFromController,milkingCowToController,milkSupplyFromController,
-    milkSupplyUpToController,yieldPerCowFromController,yieldPerUpToController,farmSizeFromController,farmSizeUpToController,herdSizeFromController,herdSizeToController
+    milkSupplyUpToController,yieldPerCowFromController,yieldPerUpToController,farmSizeFromController,farmSizeUpToController,herdSizeFromController,herdSizeToController,
   }) {
     return DdeState(
       focusTag: focusTag ?? this.focusTag,
@@ -187,6 +190,7 @@ class DdeState extends Equatable {
       farmSizeUpToController: farmSizeUpToController ?? this.farmSizeUpToController,
       herdSizeFromController: herdSizeFromController ?? this.herdSizeFromController,
       herdSizeToController: herdSizeToController ?? this.herdSizeToController,
+      selectedIndex: selectedIndex ?? this.selectedIndex,
     );
   }
 
@@ -233,6 +237,7 @@ class DdeState extends Equatable {
     farmSizeUpToController,
     herdSizeToController,
     herdSizeFromController,
+    selectedIndex
   ];
 
 }

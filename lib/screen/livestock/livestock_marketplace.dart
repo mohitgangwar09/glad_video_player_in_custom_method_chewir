@@ -80,8 +80,8 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
             child: customShadowContainer(
               margin: 0,
               backColor: Colors.grey.withOpacity(0.4),
-              child: Container(
-                width: screenWidth() * 0.5,
+              child: SizedBox(
+                width: 170,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -148,7 +148,7 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
                           ),
                           12.verticalSpace(),
                           Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RichText(
                                   text: TextSpan(children: [
@@ -161,14 +161,14 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
                                         style: figtreeMedium.copyWith(
                                             fontSize: 12, color: Colors.black)),
                                   ])),
-                              10.horizontalSpace(),
+                              // 10.horizontalSpace(),
                               Container(
                                 height: 5,
                                 width: 5,
                                 decoration: const BoxDecoration(
                                     color: Colors.black, shape: BoxShape.circle),
                               ),
-                              10.horizontalSpace(),
+                              // 10.horizontalSpace(),
                               RichText(
                                   text: TextSpan(children: [
                                     TextSpan(

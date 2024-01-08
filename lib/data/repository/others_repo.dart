@@ -303,8 +303,13 @@ class OthersRepository {
   ///////////////// getLivestockBreedApi //////////
   Future<ResponseMyLivestock> getMyLivestockListApi() async {
 
+    var data = {
+      "user_id": sharedPreferences!.getString(AppConstants.userId)
+    };
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.myLivestockListApi,
+        queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
@@ -415,10 +420,11 @@ class OthersRepository {
   }
 
   ///////////////// getCommunityListApi //////////
-  Future<ResponseOtpModel> addToCartLivestockApi(String id,int cowQty,String cowPrice) async {
+  Future<ResponseOtpModel> addToCartLivestockApi(String id,int cowQty,String cowPrice,{String? userId}) async {
 
     var data = {'livestock_id': id,
-    "cow_qty": cowQty,"cow_price": cowPrice};
+    "cow_qty": cowQty,"cow_price": cowPrice,
+    "user_id": userId};
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.livestockAddToCartApi, data: data,
@@ -431,10 +437,15 @@ class OthersRepository {
     }
   }
 
-  Future<LivestockCartList> getLivestockCartListApi() async {
+  Future<LivestockCartList> getLivestockCartListApi({String ?userId}) async {
+
+    var data = {
+      "user_id": userId
+    };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.livestockCartListApi,
+        queryParameters: data,
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {
@@ -532,11 +543,12 @@ class OthersRepository {
   }
 
   ///////////////// applyLivestockLoanApi //////////
-  Future<ResponseLivestockLoan> applyLivestockLoanApi(int id,String farmerParticipation,String remarks) async {
+  Future<ResponseLivestockLoan> applyLivestockLoanApi(int id,String farmerParticipation,String remarks,{String? userId}) async {
     var data = {
       'id': id,
       'farmer_participation': farmerParticipation,
-      'remarks': remarks
+      'remarks': remarks,
+      "user_id" : userId
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

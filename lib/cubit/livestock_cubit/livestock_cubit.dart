@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/farmers_list.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/data/model/livestock_detail.dart';
 import 'package:glad/data/model/livestock_list_model.dart';
@@ -19,6 +20,7 @@ import 'package:glad/data/repository/others_repo.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/common/thankyou_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +35,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
 
   void roiFilter(String filter) async{
     emit(state.copyWith(roiFilter: filter));
+  }
+
+  void selectedDdeFarmerLivestockDetail(FarmerMAster? farmerMAster) async{
+    emit(state.copyWith(selectedLivestockFarmerMAster: farmerMAster));
   }
 
   void livestockClearFilter(){
@@ -159,8 +165,8 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
   }
 
-  Future<void> livestockAddToCartApi(context, livestockId,int quantity,String price) async{
-    var response = await apiRepository.addToCartLivestockApi(livestockId,quantity, price);
+  Future<void> livestockAddToCartApi(context, livestockId,int quantity,String price,{String? userId}) async{
+    var response = await apiRepository.addToCartLivestockApi(livestockId,quantity, price,userId:userId.toString());
     if (response.status == 200) {
       // pressBack();
       // livestockDetailApi(context, livestockId, isLoaderRequired: false);
@@ -231,11 +237,11 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
   }
 
-  Future<void> livestockCartListApi(context, {bool isLoaderRequired = true}) async{
+  Future<void> livestockCartListApi(context, {bool isLoaderRequired = true,String? userId}) async{
     if(isLoaderRequired) {
       emit(state.copyWith(status: LivestockStatus.submit));
     }
-    var response = await apiRepository.getLivestockCartListApi();
+    var response = await apiRepository.getLivestockCartListApi(userId:userId);
     if (response.status == 200) {
       emit(state.copyWith(status: LivestockStatus.success, responseLivestockCartList: response));
     } else {
@@ -306,7 +312,8 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       List<String> documentFiles,String idDocName,
       String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto,FarmerMaster farmerMaster) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.applyLivestockLoanApi(id, farmerParticipation, remarks);
+    var response = await apiRepository.applyLivestockLoanApi(id, farmerParticipation, remarks,
+    userId: sharedPreferences.getString(AppConstants.userType)== "dde"?state.responseLivestockCartList!.data![0].userId.toString():null);
     if (response.status == 200) {
       disposeProgress();
       BlocProvider.of<ProjectCubit>(context).

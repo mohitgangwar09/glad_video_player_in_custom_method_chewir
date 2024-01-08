@@ -2,11 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_livestock/dde_my_farmer_ads.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -59,8 +62,12 @@ class ThankYouLivestockLoan extends StatelessWidget {
                     // :const SizedBox.shrink(),
                 40.verticalSpace(),
                 customButton("Back", fontColor: 0xffffffff, onTap: () {
-                  const DashboardFarmer().navigate(isInfinity: true);
-                  BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                  if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType).toString() == "dde"){
+                    const DdeMyLiveStockScreen().navigate();
+                  }else{
+                    const DashboardFarmer().navigate(isInfinity: true);
+                    BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                  }
                 })
               ],
             ),
