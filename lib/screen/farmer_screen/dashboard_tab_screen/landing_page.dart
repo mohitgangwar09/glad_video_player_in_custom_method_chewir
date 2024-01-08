@@ -11,6 +11,7 @@ import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
+import 'package:glad/screen/custom_loan/custom_loan_list.dart';
 import 'package:glad/screen/farmer_screen/profile/edit_kyc_documents.dart';
 import 'package:glad/screen/farmer_screen/profile/kyc_update.dart';
 import 'package:glad/screen/livestock/livestock_marketplace.dart';
@@ -403,6 +404,15 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               image: state.response!.dde!.photo ?? '',
             ),
             // topPerformingFarmer(state),
+            30.verticalSpace(),
+            InkWell(
+              onTap: () {
+                const CustomLoanList().navigate();
+              },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Image.asset(Images.customLoan),
+                )),
             30.verticalSpace(),
             LiveStockMarketplace(
               onTapShowAll: () {

@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class PreviewScreen extends StatelessWidget {
@@ -30,7 +32,11 @@ class PreviewScreen extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 40.0,left: 15,right: 15),
-              child: isUrl(previewImage) ? networkImage(text: previewImage, fit: BoxFit.none): Image.file(File(previewImage)),
+              child: isUrl(previewImage) ? CachedNetworkImage(imageUrl: previewImage, fit: BoxFit.contain, errorWidget: (context, url, error) => Image.asset(
+                Images.placeHolder,
+                // fit: BoxFit.cover,
+                // fit: BoxFit.contain,
+              ),): Image.file(File(previewImage)),
             ),
           ),
 

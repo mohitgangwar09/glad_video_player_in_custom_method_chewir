@@ -32,6 +32,8 @@ class ProjectState extends Equatable {
       investmentUpToController,roiFromController,roiUpToController,loanAmountFromController,loanAmountUpToController;
   final ResponseFarmerFilterDropdownList? responseFarmerFilterDropdownList;
   final ResponseProjectSupplierFilterDropdownList? responseProjectSupplierFilterDropdownList;
+  final ResponseLoanForm? responseLoanForm;
+  final LoanPurposeList? responseLoanPurposeList;
 
 
   const ProjectState({
@@ -92,6 +94,8 @@ class ProjectState extends Equatable {
     required this.responseProjectSupplierFilterDropdownList,
     required this.selectProjectFilter,
     required this.selectFarmerFilter,
+    required this.responseLoanForm,
+    required this.responseLoanPurposeList,
   });
 
   factory ProjectState.initial() {
@@ -155,6 +159,8 @@ class ProjectState extends Equatable {
       filterImprovementAreaName: '',
       responseFarmerFilterDropdownList: null,
       responseProjectSupplierFilterDropdownList: null,
+      responseLoanForm: null,
+      responseLoanPurposeList: null,
     );
   }
 
@@ -188,6 +194,8 @@ class ProjectState extends Equatable {
     ResponseImprovementAreaFilterList? responseImprovementAreaFilterList,
     ResponseFarmerFilterDropdownList? responseFarmerFilterDropdownList,
     ResponseProjectSupplierFilterDropdownList? responseProjectSupplierFilterDropdownList,
+    ResponseLoanForm? responseLoanForm,
+    LoanPurposeList? responseLoanPurposeList,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -259,6 +267,8 @@ class ProjectState extends Equatable {
       filterImprovementAreaName: filterImprovementAreaName ?? this.filterImprovementAreaName,
       responseProjectSupplierFilterDropdownList: responseProjectSupplierFilterDropdownList ?? this.responseProjectSupplierFilterDropdownList,
       responseFarmerFilterDropdownList: responseFarmerFilterDropdownList ?? this.responseFarmerFilterDropdownList,
+      responseLoanForm: responseLoanForm ?? this.responseLoanForm,
+      responseLoanPurposeList: responseLoanPurposeList ?? this.responseLoanPurposeList,
     );
   }
 
@@ -319,5 +329,7 @@ class ProjectState extends Equatable {
     responseFarmerFilterDropdownList,
     selectProjectFilter,
     selectFarmerFilter,
+    responseLoanForm,
+    responseLoanPurposeList,
   ];
 }

@@ -5,12 +5,14 @@ import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/loan_purpose_list.dart';
 import 'package:glad/data/model/response_account_statement.dart';
 import 'package:glad/data/model/response_add_value.dart';
 import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/response_farmer_filter_list.dart';
+import 'package:glad/data/model/response_loan_form.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_not_required.dart';
 import 'package:glad/data/model/response_price_attribute.dart';
@@ -906,6 +908,46 @@ class ProjectRepository {
       return ResponseFarmerFilterDropdownList(status: 422, message: apiResponse.msg);
     }
   }
+
+  ///////////////// getSupplierFarmerFilterListApi //////////
+  Future<ResponseOtpModel> getCustomLoanListApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.customLoanListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getSupplierFarmerFilterListApi //////////
+  Future<ResponseLoanForm> getCustomLoanFormApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.customLoanFormApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseLoanForm.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseLoanForm(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getSupplierFarmerFilterListApi //////////
+  Future<LoanPurposeList> getCustomLoanPurposeListApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.customLoanPurposeListApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return LoanPurposeList.fromJson(apiResponse.response!.data);
+    } else {
+      return LoanPurposeList(status: 422, message: apiResponse.msg);
+    }
+  }
+
 
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
