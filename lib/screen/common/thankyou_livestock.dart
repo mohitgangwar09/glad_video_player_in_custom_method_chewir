@@ -2,13 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/response_add_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_livestock/dde_my_farmer_ads.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -77,9 +80,13 @@ class ThankYouLivestock extends StatelessWidget {
                 ],),
                 40.verticalSpace(),
                 customButton("Back", fontColor: 0xffffffff, onTap: () {
-                  BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context);
-                  pressBack();
-                  pressBack();
+                  if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                    const DdeMyLiveStockScreen(isNavigate:'yse').navigate(isInfinity: true);
+                  }else{
+                    BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context);
+                    pressBack();
+                    pressBack();
+                  }
                 })
               ],
             ),

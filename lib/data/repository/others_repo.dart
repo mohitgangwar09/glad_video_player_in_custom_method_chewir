@@ -334,7 +334,7 @@ class OthersRepository {
   }
 
   ///////////////// getCommunityListApi //////////
-  Future<ResponseAddLivestock> addLivestockApi(String breedId, List<String> paths, String milk, String lactation, String price, String pregnant, String cowQty, String age, String description) async {
+  Future<ResponseAddLivestock> addLivestockApi(String breedId, List<String> paths, String milk, String lactation, String price, String pregnant, String cowQty, String age, String description,{String? userId}) async {
     FormData data = FormData.fromMap({
     'cow_breed_id': breedId,
     'yield': milk,
@@ -344,6 +344,7 @@ class OthersRepository {
     'pregnant': pregnant,
     'cow_qty': cowQty,
     'description': description,
+    'user_id' : userId
     });
 
     for(String path in paths){

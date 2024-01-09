@@ -304,10 +304,8 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                     ),
                                   ),
                                 ),
-
                               ],
-                            )
-                                :const SizedBox.shrink():const SizedBox.shrink(),
+                            ) :const SizedBox.shrink():const SizedBox.shrink(),
 
                             uploadedPictures(state),
 
@@ -1727,6 +1725,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                 }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
                             const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
                                 :SvgPicture.asset(kpiData[index].actionImage.toString()):
+
                             kpiData[index].name.toString() == "Farmer Participation"?
                             // state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||
                                 state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "active"?
@@ -1795,6 +1794,8 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                 mediaLivestock: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!:[],
                   type:widget.type,
                   cowPrice:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString(),
+                  sellerDde: state.responseFarmerProjectDetail!.data!.seller,
+                  farmerMasterUser : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!
                 ).navigate();
               },
               child: customShadowContainer(

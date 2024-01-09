@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/response_breed.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_livestock/add_livestock_dde_remark.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
@@ -36,6 +39,7 @@ class _AddLivestockState extends State<AddLivestock> {
   int quantity = 1;
   // String selectedBreed = '';
   DataBreed? selectedBreed;
+  String countryCode = "";
   // int? selectedBreedId;
 
 
@@ -49,8 +53,15 @@ class _AddLivestockState extends State<AddLivestock> {
   @override
   void initState() {
     BlocProvider.of<LivestockCubit>(context).livestockBreedApi(context);
+    getCountryCode();
     super.initState();
   }
+
+  void getCountryCode() async{
+    String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+    countryCode = countryCodes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +86,105 @@ class _AddLivestockState extends State<AddLivestock> {
                           padding: const EdgeInsets.all(24),
                           child: Column(
                             children: [
+
+                              if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde")
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 0, right: 0, bottom: 0,top: 10),
+                                      child: Container(
+                                        decoration: boxDecoration(
+                                            borderRadius: 10,
+                                            backgroundColor: const Color(0xffFBF9F9)
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(15.0, 10, 0, 5),
+                                          child: Stack(
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  state.selectedLivestockFarmerMAster!.photo == null ?Image.asset(Images.sampleUser):
+                                                  networkImage(text: state.selectedLivestockFarmerMAster!.photo!,height: 46,width: 46,radius: 40),
+                                                  15.horizontalSpace(),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(state.selectedLivestockFarmerMAster!.name!,
+                                                          style: figtreeMedium.copyWith(
+                                                              fontSize: 16,
+                                                              color: Colors.black)),
+                                                      4.verticalSpace(),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              "${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.selectedLivestockFarmerMAster!.phone.toString()}",
+                                                              style:
+                                                              figtreeRegular.copyWith(
+                                                                  fontSize: 12,
+                                                                  color: Colors.black)),
+
+                                                        ],
+                                                      ),
+                                                      4.verticalSpace(),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                                0.5,
+                                                            child: Text(
+                                                              state.selectedLivestockFarmerMAster!.address!=null?
+                                                              state.selectedLivestockFarmerMAster!.address!.address!=null?state.selectedLivestockFarmerMAster!.address!.address!:"":"",
+                                                              style:
+                                                              figtreeRegular.copyWith(
+                                                                fontSize: 12,
+                                                                color: Colors.black,
+                                                                overflow:
+                                                                TextOverflow.ellipsis,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(right: 14.0),
+                                                  child: InkWell(
+                                                      onTap: (){
+                                                        modalBottomSheetMenu(context,
+                                                            radius: 40,
+                                                            child: SizedBox(
+                                                                height: screenHeight()-220,
+                                                                child: selectFarmer()));
+                                                      }, child: SvgPicture.asset(Images.edit,width: 20,height: 20,)),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    20.verticalSpace(),
+
+                                  ],
+                                ),
+
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: "Cow Breed".textMedium(color: Colors.black, fontSize: 12),
@@ -704,18 +814,30 @@ class _AddLivestockState extends State<AddLivestock> {
                                     }  else if( controller.text.isEmpty) {
                                       showCustomToast(context, 'Description required');
                                     }  else {
-                                      BlocProvider.of<LivestockCubit>(context)
-                                          .livestockAddApi(
-                                          context,
-                                          selectedBreed!.id.toString(),
-                                          path,
-                                          milk.text,
-                                          lactation ?? '',
-                                          price.text,
-                                          pregnant ?? '',
-                                          quantity.toString(),
-                                          age.text,
-                                          controller.text);
+                                      if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                        AddDdeLivestockRemarks(selectedBreedId:selectedBreed!.id.toString(),
+                                            path:path,
+                                            milk:milk.text,
+                                            lactation:lactation ?? '',
+                                            price:price.text,
+                                            pregnant:pregnant ?? '',
+                                            quantity:quantity.toString(),
+                                            age :age.text,
+                                            controller :controller.text).navigate();
+                                      }else{
+                                        BlocProvider.of<LivestockCubit>(context)
+                                            .livestockAddApi(
+                                            context,
+                                            selectedBreed!.id.toString(),
+                                            path,
+                                            milk.text,
+                                            lactation ?? '',
+                                            price.text,
+                                            pregnant ?? '',
+                                            quantity.toString(),
+                                            age.text,
+                                            controller.text);
+                                      }
                                     }
                                   },
                                   radius: 40,

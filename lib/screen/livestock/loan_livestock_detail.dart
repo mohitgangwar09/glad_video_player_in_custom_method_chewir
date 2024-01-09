@@ -3,16 +3,17 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
-import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/screen/custom_widget/container_border.dart';
+import 'package:glad/screen/dde_livestock/add_mark_as_delivery.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
-import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/livestock/update_livestock.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -22,13 +23,15 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LoanLivestockDetail extends StatefulWidget {
-  const LoanLivestockDetail({Key? key, required this.isMyLivestock, required this.id,required this.cowQty,required this.status,required this.cartId,required this.farmerProjectId,required this.deliveryStatus,required this.mediaLivestock,required this.type,required this.cowPrice,}) : super(key: key);
+  const LoanLivestockDetail({Key? key,this.farmerMasterUser, required this.isMyLivestock, required this.id,required this.cowQty,required this.status,required this.cartId,required this.farmerProjectId,required this.deliveryStatus,required this.mediaLivestock,required this.type,required this.cowPrice,this.sellerDde}) : super(key: key);
   final bool isMyLivestock;
   final String id;
   final String cowQty,type,cowPrice;
   final String status,deliveryStatus;
   final int cartId,farmerProjectId;
   final List<MediaLivestock> mediaLivestock;
+  final Seller? sellerDde;
+  final FarmerMaster? farmerMasterUser;
 
   @override
   State<LoanLivestockDetail> createState() => _LoanLivestockDetailState();
@@ -428,194 +431,384 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                       width: screenWidth(),
                       child: customButton("Mark as Delivered",
                           fontColor: 0xffffffff, onTap: () {
-
-                            TextEditingController controller = TextEditingController();
-                            modalBottomSheetMenu(context,
-                                radius: 40,
-                                child: StatefulBuilder(
-                                    builder: (context, setState) {
-                                      return SizedBox(
-                                        height: docOneFile.isEmpty?450:540,
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
-                                          child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Center(
-                                                  child: Text(
-                                                    'Delivery Confirmation',
-                                                    style: figtreeMedium.copyWith(fontSize: 22),
-                                                  ),
+                        if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                          TextEditingController controller = TextEditingController();
+                          modalBottomSheetMenu(context,
+                              radius: 40,
+                              child: StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return SizedBox(
+                                      height: docOneFile.isEmpty?450:540,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  'Delivery Confirmation',
+                                                  style: figtreeMedium.copyWith(fontSize: 22),
                                                 ),
-                                                15.verticalSpace(),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
+                                              ),
+                                              15.verticalSpace(),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
 
 
-                                                    Stack(
-                                                      children: [
-                                                        ContainerBorder(
-                                                          margin: 0.marginVertical(),
-                                                          padding: 10.paddingOnly(top: 15, bottom: 15),
-                                                          borderColor: 0xffD9D9D9,
-                                                          backColor: 0xffFFFFFF,
-                                                          radius: 10,
-                                                          widget: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              5.horizontalSpace(),
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      left: 10.0, top: 2, bottom: 2),
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                    CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      RichText(
-                                                                          text: TextSpan(children: [
-                                                                            TextSpan(
-                                                                                text: 'Choose ',
-                                                                                style: figtreeMedium.copyWith(
-                                                                                    fontSize: 16,
-                                                                                    color: const Color(
-                                                                                        0xFFFC5E60))),
-                                                                            TextSpan(
-                                                                                text: 'you file here',
-                                                                                style: figtreeMedium.copyWith(
-                                                                                    fontSize: 16,
-                                                                                    color: ColorResources
-                                                                                        .fieldGrey))
-                                                                          ])),
-                                                                      Text('Max size 5 MB',
-                                                                          style: figtreeMedium.copyWith(
-                                                                              fontSize: 12,
-                                                                              color:
-                                                                              ColorResources.fieldGrey))
-                                                                    ],
-                                                                  ),
+                                                  Stack(
+                                                    children: [
+                                                      ContainerBorder(
+                                                        margin: 0.marginVertical(),
+                                                        padding: 10.paddingOnly(top: 15, bottom: 15),
+                                                        borderColor: 0xffD9D9D9,
+                                                        backColor: 0xffFFFFFF,
+                                                        radius: 10,
+                                                        widget: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            5.horizontalSpace(),
+                                                            Expanded(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    left: 10.0, top: 2, bottom: 2),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    RichText(
+                                                                        text: TextSpan(children: [
+                                                                          TextSpan(
+                                                                              text: 'Choose ',
+                                                                              style: figtreeMedium.copyWith(
+                                                                                  fontSize: 16,
+                                                                                  color: const Color(
+                                                                                      0xFFFC5E60))),
+                                                                          TextSpan(
+                                                                              text: 'you file here',
+                                                                              style: figtreeMedium.copyWith(
+                                                                                  fontSize: 16,
+                                                                                  color: ColorResources
+                                                                                      .fieldGrey))
+                                                                        ])),
+                                                                    Text('Max size 5 MB',
+                                                                        style: figtreeMedium.copyWith(
+                                                                            fontSize: 12,
+                                                                            color:
+                                                                            ColorResources.fieldGrey))
+                                                                  ],
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        Positioned(
-                                                          right: 13,
-                                                          top: 0,
-                                                          bottom: 0,
-                                                          child: Row(
-                                                            children: [
-                                                              InkWell(
-                                                                onTap: () async{
-                                                                  var image = await imgFromGallery();
-                                                                  docOneFile.add(image);
-                                                                  setState(() {});
-                                                                },
-                                                                child: SvgPicture.asset(
-                                                                  Images.attachment,
-                                                                  colorFilter: const ColorFilter.mode(
-                                                                      ColorResources.fieldGrey,
-                                                                      BlendMode.srcIn),
-                                                                ),
+                                                      ),
+                                                      Positioned(
+                                                        right: 13,
+                                                        top: 0,
+                                                        bottom: 0,
+                                                        child: Row(
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () async{
+                                                                var image = await imgFromGallery();
+                                                                docOneFile.add(image);
+                                                                setState(() {});
+                                                              },
+                                                              child: SvgPicture.asset(
+                                                                Images.attachment,
+                                                                colorFilter: const ColorFilter.mode(
+                                                                    ColorResources.fieldGrey,
+                                                                    BlendMode.srcIn),
                                                               ),
-                                                              10.horizontalSpace(),
-                                                              InkWell(
-                                                                onTap: () async{
-                                                                  var image = await imgFromCamera();
-                                                                  docOneFile.add(image);
-                                                                  setState(() {});
-                                                                },
-                                                                child: SvgPicture.asset(
-                                                                  Images.camera,
-                                                                  colorFilter: const ColorFilter.mode(
-                                                                      ColorResources.fieldGrey,
-                                                                      BlendMode.srcIn),
-                                                                ),
+                                                            ),
+                                                            10.horizontalSpace(),
+                                                            InkWell(
+                                                              onTap: () async{
+                                                                var image = await imgFromCamera();
+                                                                docOneFile.add(image);
+                                                                setState(() {});
+                                                              },
+                                                              child: SvgPicture.asset(
+                                                                Images.camera,
+                                                                colorFilter: const ColorFilter.mode(
+                                                                    ColorResources.fieldGrey,
+                                                                    BlendMode.srcIn),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                                    child: Column(
+                                                      children: [
+                                                        20.verticalSpace(),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            for (String image in docOneFile)
+                                                              Row(
+                                                                children: [
+                                                                  documentImage(image, () {
+                                                                    setState(() {
+                                                                      docOneFile.remove(image);
+                                                                    });
+                                                                  }),
+                                                                  10.horizontalSpace(),
+                                                                ],
                                                               )
-                                                            ],
-                                                          ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
+                                                  ),
 
-                                                    Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                                      child: Column(
-                                                        children: [
-                                                          20.verticalSpace(),
-                                                          Row(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              for (String image in docOneFile)
-                                                                Row(
+                                                  20.verticalSpace(),
+
+                                                  Text(
+                                                    'Add remarks',
+                                                    style: figtreeMedium.copyWith(fontSize: 12),
+                                                  ),
+
+                                                  4.verticalSpace(),
+
+                                                  TextField(
+                                                    controller: controller,
+                                                    maxLines: 4,
+                                                    minLines: 4,
+                                                    decoration: InputDecoration(
+                                                        hintText: 'Write...',
+                                                        hintStyle:
+                                                        figtreeMedium.copyWith(fontSize: 18),
+                                                        border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(12),
+                                                            borderSide: const BorderSide(
+                                                              width: 1,
+                                                              color: Color(0xff999999),
+                                                            ))),
+                                                  ),
+                                                  30.verticalSpace(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                    child: customButton(
+                                                      'Submit',
+                                                      fontColor: 0xffFFFFFF,
+                                                      onTap: () async{
+                                                        if(docOneFile.isEmpty){
+                                                          showCustomToast(context, "Please choose image");
+                                                        }else if(controller.text.isEmpty){
+                                                          showCustomToast(context, "Please enter remark");
+                                                        }else{
+                                                          modalBottomSheetMenu(context,
+                                                              radius: 40, child: AddMarkAsDelivery(projectData: null, seller: widget.sellerDde!,
+                                                                  cartId:widget.cartId.toString(), farmerProjectId:widget.farmerProjectId.toString(), controller:controller.text, status:"completed", docOneFile:docOneFile)
+                                                          );
+                                                        }
+                                                      },
+                                                      height: 60,
+                                                      width: screenWidth(),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ]),
+                                      ),
+                                    );
+                                  }
+                              ));
+                        }else{
+                          TextEditingController controller = TextEditingController();
+                          modalBottomSheetMenu(context,
+                              radius: 40,
+                              child: StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return SizedBox(
+                                      height: docOneFile.isEmpty?450:540,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  'Delivery Confirmation',
+                                                  style: figtreeMedium.copyWith(fontSize: 22),
+                                                ),
+                                              ),
+                                              15.verticalSpace(),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+
+
+                                                  Stack(
+                                                    children: [
+                                                      ContainerBorder(
+                                                        margin: 0.marginVertical(),
+                                                        padding: 10.paddingOnly(top: 15, bottom: 15),
+                                                        borderColor: 0xffD9D9D9,
+                                                        backColor: 0xffFFFFFF,
+                                                        radius: 10,
+                                                        widget: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            5.horizontalSpace(),
+                                                            Expanded(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    left: 10.0, top: 2, bottom: 2),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment.start,
                                                                   children: [
-                                                                    documentImage(image, () {
-                                                                      setState(() {
-                                                                        docOneFile.remove(image);
-                                                                      });
-                                                                    }),
-                                                                    10.horizontalSpace(),
+                                                                    RichText(
+                                                                        text: TextSpan(children: [
+                                                                          TextSpan(
+                                                                              text: 'Choose ',
+                                                                              style: figtreeMedium.copyWith(
+                                                                                  fontSize: 16,
+                                                                                  color: const Color(
+                                                                                      0xFFFC5E60))),
+                                                                          TextSpan(
+                                                                              text: 'you file here',
+                                                                              style: figtreeMedium.copyWith(
+                                                                                  fontSize: 16,
+                                                                                  color: ColorResources
+                                                                                      .fieldGrey))
+                                                                        ])),
+                                                                    Text('Max size 5 MB',
+                                                                        style: figtreeMedium.copyWith(
+                                                                            fontSize: 12,
+                                                                            color:
+                                                                            ColorResources.fieldGrey))
                                                                   ],
-                                                                )
-                                                            ],
-                                                          ),
-                                                        ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-
-                                                    20.verticalSpace(),
-
-                                                    Text(
-                                                      'Add remarks',
-                                                      style: figtreeMedium.copyWith(fontSize: 12),
-                                                    ),
-
-                                                    4.verticalSpace(),
-
-                                                    TextField(
-                                                      controller: controller,
-                                                      maxLines: 4,
-                                                      minLines: 4,
-                                                      decoration: InputDecoration(
-                                                          hintText: 'Write...',
-                                                          hintStyle:
-                                                          figtreeMedium.copyWith(fontSize: 18),
-                                                          border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(12),
-                                                              borderSide: const BorderSide(
-                                                                width: 1,
-                                                                color: Color(0xff999999),
-                                                              ))),
-                                                    ),
-                                                    30.verticalSpace(),
-                                                    Padding(
-                                                      padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                      child: customButton(
-                                                        'Submit',
-                                                        fontColor: 0xffFFFFFF,
-                                                        onTap: () async{
-                                                          if(docOneFile.isEmpty){
-                                                            showCustomToast(context, "Please choose image");
-                                                          }else if(controller.text.isEmpty){
-                                                            showCustomToast(context, "Please enter remark");
-                                                          }else{
-                                                            BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "completed", docOneFile);
-                                                          }
-                                                        },
-                                                        height: 60,
-                                                        width: screenWidth(),
+                                                      Positioned(
+                                                        right: 13,
+                                                        top: 0,
+                                                        bottom: 0,
+                                                        child: Row(
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () async{
+                                                                var image = await imgFromGallery();
+                                                                docOneFile.add(image);
+                                                                setState(() {});
+                                                              },
+                                                              child: SvgPicture.asset(
+                                                                Images.attachment,
+                                                                colorFilter: const ColorFilter.mode(
+                                                                    ColorResources.fieldGrey,
+                                                                    BlendMode.srcIn),
+                                                              ),
+                                                            ),
+                                                            10.horizontalSpace(),
+                                                            InkWell(
+                                                              onTap: () async{
+                                                                var image = await imgFromCamera();
+                                                                docOneFile.add(image);
+                                                                setState(() {});
+                                                              },
+                                                              child: SvgPicture.asset(
+                                                                Images.camera,
+                                                                colorFilter: const ColorFilter.mode(
+                                                                    ColorResources.fieldGrey,
+                                                                    BlendMode.srcIn),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
-                                                    )
-                                                  ],
-                                                )
-                                              ]),
-                                        ),
-                                      );
-                                    }
-                                ));
-                          })):const SizedBox.shrink():const SizedBox.shrink():const SizedBox.shrink(),
+                                                    ],
+                                                  ),
+
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                                    child: Column(
+                                                      children: [
+                                                        20.verticalSpace(),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            for (String image in docOneFile)
+                                                              Row(
+                                                                children: [
+                                                                  documentImage(image, () {
+                                                                    setState(() {
+                                                                      docOneFile.remove(image);
+                                                                    });
+                                                                  }),
+                                                                  10.horizontalSpace(),
+                                                                ],
+                                                              )
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  20.verticalSpace(),
+
+                                                  Text(
+                                                    'Add remarks',
+                                                    style: figtreeMedium.copyWith(fontSize: 12),
+                                                  ),
+
+                                                  4.verticalSpace(),
+
+                                                  TextField(
+                                                    controller: controller,
+                                                    maxLines: 4,
+                                                    minLines: 4,
+                                                    decoration: InputDecoration(
+                                                        hintText: 'Write...',
+                                                        hintStyle:
+                                                        figtreeMedium.copyWith(fontSize: 18),
+                                                        border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(12),
+                                                            borderSide: const BorderSide(
+                                                              width: 1,
+                                                              color: Color(0xff999999),
+                                                            ))),
+                                                  ),
+                                                  30.verticalSpace(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                    child: customButton(
+                                                      'Submit',
+                                                      fontColor: 0xffFFFFFF,
+                                                      onTap: () async{
+                                                        if(docOneFile.isEmpty){
+                                                          showCustomToast(context, "Please choose image");
+                                                        }else if(controller.text.isEmpty){
+                                                          showCustomToast(context, "Please enter remark");
+                                                        }else{
+                                                          BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "completed", docOneFile);
+                                                        }
+                                                      },
+                                                      height: 60,
+                                                      width: screenWidth(),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ]),
+                                      ),
+                                    );
+                                  }
+                              ));
+                        }})):const SizedBox.shrink():const SizedBox.shrink():const SizedBox.shrink(),
 
 
                   widget.type == "buyer"?
@@ -630,77 +823,156 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                           width: screenWidth(),
                           child: customButton("Confirm Delivery",
                               fontColor: 0xffffffff, onTap: () {
+                                if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
 
-                                TextEditingController controller = TextEditingController();
-                                modalBottomSheetMenu(context,
-                                    radius: 40,
-                                    child: StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return SizedBox(
-                                            height: 350,
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
-                                              child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: Text(
-                                                        'Delivery Confirmation',
-                                                        style: figtreeMedium.copyWith(fontSize: 22),
+                                  TextEditingController controller = TextEditingController();
+                                  modalBottomSheetMenu(context,
+                                      radius: 40,
+                                      child: StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return SizedBox(
+                                              height: 350,
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                                                child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          'Delivery Confirmation',
+                                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    15.verticalSpace(),
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
+                                                      15.verticalSpace(),
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
 
 
-                                                        Text(
-                                                          'Add remarks',
-                                                          style: figtreeMedium.copyWith(fontSize: 12),
-                                                        ),
-
-                                                        4.verticalSpace(),
-
-                                                        TextField(
-                                                          controller: controller,
-                                                          maxLines: 4,
-                                                          minLines: 4,
-                                                          decoration: InputDecoration(
-                                                              hintText: 'Write...',
-                                                              hintStyle:
-                                                              figtreeMedium.copyWith(fontSize: 18),
-                                                              border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(12),
-                                                                  borderSide: const BorderSide(
-                                                                    width: 1,
-                                                                    color: Color(0xff999999),
-                                                                  ))),
-                                                        ),
-                                                        30.verticalSpace(),
-                                                        Padding(
-                                                          padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                          child: customButton(
-                                                            'Submit',
-                                                            fontColor: 0xffFFFFFF,
-                                                            onTap: () async{
-                                                              if(controller.text.isEmpty){
-                                                                showCustomToast(context, "Please enter remark");
-                                                              }else{
-                                                                BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "approved", []);
-                                                              }
-                                                            },
-                                                            height: 60,
-                                                            width: screenWidth(),
+                                                          Text(
+                                                            'Add remarks',
+                                                            style: figtreeMedium.copyWith(fontSize: 12),
                                                           ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ]),
-                                            ),
-                                          );
-                                        }
-                                    ));
+
+                                                          4.verticalSpace(),
+
+                                                          TextField(
+                                                            controller: controller,
+                                                            maxLines: 4,
+                                                            minLines: 4,
+                                                            decoration: InputDecoration(
+                                                                hintText: 'Write...',
+                                                                hintStyle:
+                                                                figtreeMedium.copyWith(fontSize: 18),
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.circular(12),
+                                                                    borderSide: const BorderSide(
+                                                                      width: 1,
+                                                                      color: Color(0xff999999),
+                                                                    ))),
+                                                          ),
+                                                          30.verticalSpace(),
+                                                          Padding(
+                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                            child: customButton(
+                                                              'Submit',
+                                                              fontColor: 0xffFFFFFF,
+                                                              onTap: () async{
+                                                                if(controller.text.isEmpty){
+                                                                  showCustomToast(context, "Please enter remark");
+                                                                }else{
+                                                                  modalBottomSheetMenu(context,
+                                                                      radius: 40, child: AddMarkAsDelivery(projectData: widget.farmerMasterUser, seller: widget.sellerDde!,
+                                                                          cartId:widget.cartId.toString(), farmerProjectId:widget.farmerProjectId.toString(), controller:controller.text, status:"approved", docOneFile:const [],
+                                                                      userOtp:"user")
+                                                                  );
+                                                                  // BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "approved", []);
+                                                                }
+                                                              },
+                                                              height: 60,
+                                                              width: screenWidth(),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ]),
+                                              ),
+                                            );
+                                          }
+                                      ));
+
+                                }else{
+                                  TextEditingController controller = TextEditingController();
+                                  modalBottomSheetMenu(context,
+                                      radius: 40,
+                                      child: StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return SizedBox(
+                                              height: 350,
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                                                child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          'Delivery Confirmation',
+                                                          style: figtreeMedium.copyWith(fontSize: 22),
+                                                        ),
+                                                      ),
+                                                      15.verticalSpace(),
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+
+
+                                                          Text(
+                                                            'Add remarks',
+                                                            style: figtreeMedium.copyWith(fontSize: 12),
+                                                          ),
+
+                                                          4.verticalSpace(),
+
+                                                          TextField(
+                                                            controller: controller,
+                                                            maxLines: 4,
+                                                            minLines: 4,
+                                                            decoration: InputDecoration(
+                                                                hintText: 'Write...',
+                                                                hintStyle:
+                                                                figtreeMedium.copyWith(fontSize: 18),
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.circular(12),
+                                                                    borderSide: const BorderSide(
+                                                                      width: 1,
+                                                                      color: Color(0xff999999),
+                                                                    ))),
+                                                          ),
+                                                          30.verticalSpace(),
+                                                          Padding(
+                                                            padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                            child: customButton(
+                                                              'Submit',
+                                                              fontColor: 0xffFFFFFF,
+                                                              onTap: () async{
+                                                                if(controller.text.isEmpty){
+                                                                  showCustomToast(context, "Please enter remark");
+                                                                }else{
+                                                                  BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "approved", []);
+                                                                }
+                                                              },
+                                                              height: 60,
+                                                              width: screenWidth(),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ]),
+                                              ),
+                                            );
+                                          }
+                                      ));
+                                }
                               })):const SizedBox.shrink(),
 
                       widget.deliveryStatus == "completed"?
@@ -712,72 +984,151 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                           width: screenWidth(),
                           child: customButton("Reject",
                               fontColor: 0xff000000, color: 0xFFDCDCDC,onTap: () {
-                                TextEditingController controller = TextEditingController();
-                                modalBottomSheetMenu(context,
-                                    radius: 40,
-                                    child: StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return SizedBox(
-                                            height: 350,
-                                            child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
-                                              child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: Text(
-                                                        'Remarks',
-                                                        style: figtreeMedium.copyWith(fontSize: 22),
-                                                      ),
+                            if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                              TextEditingController controller = TextEditingController();
+                              modalBottomSheetMenu(context,
+                                  radius: 40,
+                                  child: StatefulBuilder(
+                                      builder: (context, setState) {
+                                        return SizedBox(
+                                          height: 350,
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                                            child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Center(
+                                                    child: Text(
+                                                      'Delivery Confirmation',
+                                                      style: figtreeMedium.copyWith(fontSize: 22),
                                                     ),
-                                                    15.verticalSpace(),
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
+                                                  ),
+                                                  15.verticalSpace(),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
 
 
-                                                        Text(
-                                                          'Add remarks',
-                                                          style: figtreeMedium.copyWith(fontSize: 12),
+                                                      Text(
+                                                        'Add remarks',
+                                                        style: figtreeMedium.copyWith(fontSize: 12),
+                                                      ),
+
+                                                      4.verticalSpace(),
+
+                                                      TextField(
+                                                        controller: controller,
+                                                        maxLines: 4,
+                                                        minLines: 4,
+                                                        decoration: InputDecoration(
+                                                            hintText: 'Write...',
+                                                            hintStyle:
+                                                            figtreeMedium.copyWith(fontSize: 18),
+                                                            border: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(12),
+                                                                borderSide: const BorderSide(
+                                                                  width: 1,
+                                                                  color: Color(0xff999999),
+                                                                ))),
+                                                      ),
+                                                      30.verticalSpace(),
+                                                      Padding(
+                                                        padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                        child: customButton(
+                                                          'Submit',
+                                                          fontColor: 0xffFFFFFF,
+                                                          onTap: () async{
+                                                            if(controller.text.isEmpty){
+                                                              showCustomToast(context, "Please enter remark");
+                                                            }else{
+                                                              modalBottomSheetMenu(context,
+                                                                  radius: 40, child: AddMarkAsDelivery(projectData: widget.farmerMasterUser, seller: widget.sellerDde!,
+                                                                      cartId:widget.cartId.toString(), farmerProjectId:widget.farmerProjectId.toString(), controller:controller.text, status:"rejected", docOneFile:const [],
+                                                                      userOtp:"user")
+                                                              );
+                                                              // BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "approved", []);
+                                                            }
+                                                          },
+                                                          height: 60,
+                                                          width: screenWidth(),
                                                         ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ]),
+                                          ),
+                                        );
+                                      }
+                                  ));
+                            }
+                            else{
+                              TextEditingController controller = TextEditingController();
+                              modalBottomSheetMenu(context,
+                                  radius: 40,
+                                  child: StatefulBuilder(
+                                      builder: (context, setState) {
+                                        return SizedBox(
+                                          height: 350,
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(23, 20, 25, 10),
+                                            child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Center(
+                                                    child: Text(
+                                                      'Remarks',
+                                                      style: figtreeMedium.copyWith(fontSize: 22),
+                                                    ),
+                                                  ),
+                                                  15.verticalSpace(),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
 
-                                                        4.verticalSpace(),
 
-                                                        TextField(
-                                                          controller: controller,
-                                                          maxLines: 4,
-                                                          minLines: 4,
-                                                          decoration: InputDecoration(
-                                                              hintText: 'Write...',
-                                                              hintStyle:
-                                                              figtreeMedium.copyWith(fontSize: 18),
-                                                              border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(12),
-                                                                  borderSide: const BorderSide(
-                                                                    width: 1,
-                                                                    color: Color(0xff999999),
-                                                                  ))),
+                                                      Text(
+                                                        'Add remarks',
+                                                        style: figtreeMedium.copyWith(fontSize: 12),
+                                                      ),
+
+                                                      4.verticalSpace(),
+
+                                                      TextField(
+                                                        controller: controller,
+                                                        maxLines: 4,
+                                                        minLines: 4,
+                                                        decoration: InputDecoration(
+                                                            hintText: 'Write...',
+                                                            hintStyle:
+                                                            figtreeMedium.copyWith(fontSize: 18),
+                                                            border: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(12),
+                                                                borderSide: const BorderSide(
+                                                                  width: 1,
+                                                                  color: Color(0xff999999),
+                                                                ))),
+                                                      ),
+                                                      30.verticalSpace(),
+                                                      Padding(
+                                                        padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                        child: customButton(
+                                                          'Submit',
+                                                          fontColor: 0xffFFFFFF,
+                                                          onTap: () async{
+                                                            BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "rejected", []);
+                                                          },
+                                                          height: 60,
+                                                          width: screenWidth(),
                                                         ),
-                                                        30.verticalSpace(),
-                                                        Padding(
-                                                          padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                          child: customButton(
-                                                            'Submit',
-                                                            fontColor: 0xffFFFFFF,
-                                                            onTap: () async{
-                                                              BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, widget.cartId, widget.farmerProjectId.toString(), controller.text, "rejected", []);
-                                                            },
-                                                            height: 60,
-                                                            width: screenWidth(),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ]),
-                                            ),
-                                          );
-                                        }
-                                    ));
+                                                      )
+                                                    ],
+                                                  )
+                                                ]),
+                                          ),
+                                        );
+                                      }
+                                  ));
+                            }
                               })),
 
                     ],

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
@@ -12,6 +13,8 @@ import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/dde_livestock/add_mark_as_delivery.dart';
+import 'package:glad/screen/dde_livestock/remove_this_ad_otp.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/farmer_dde_tab_screen.dart';
 import 'package:glad/screen/livestock/enquiry/enquiry_list.dart';
 import 'package:glad/screen/livestock/enquiry/livestock_exquiry_chat.dart';
@@ -45,7 +48,11 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
 
   @override
   void initState() {
-    BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+    if(BlocProvider.of<AuthCubit>(context).isLoggedIn()){
+    if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+      BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+    }}
+
     getCountryCode();
     BlocProvider.of<LivestockCubit>(context).livestockDetailApi(context, widget.id);
     super.initState();
@@ -456,8 +463,15 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                         customButton('Remove this ad',
                             style: figtreeMedium.copyWith(fontSize: 16),
                             onTap: () {
-                              BlocProvider.of<LivestockCubit>(context).removeLivestockAPi(context, int.parse(widget.id));
-                            },
+                          if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                            modalBottomSheetMenu(context,
+                                radius: 40,
+                                child: SizedBox(
+                                    height: screenHeight()-220,
+                                    child: AddMarkAsDeliveryRemove(projectData: state.responseLivestockDetail!.data!.user!,id:int.parse(widget.id),updateSoldQtyTag: 'removeLiveStock',)));
+                          }else{
+                            BlocProvider.of<LivestockCubit>(context).removeLivestockAPi(context, int.parse(widget.id));
+                          }},
                             width: screenWidth(),
                             height: 60,
                             color: 0xffDCDCDC),
@@ -1088,7 +1102,13 @@ Widget kpi(context,LivestockCubitState state) {
                                                           'Save',
                                                           fontColor: 0xffFFFFFF,
                                                           onTap: () {
+                                                            if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                                              modalBottomSheetMenu(context, child: AddMarkAsDeliveryRemove(
+                                                                  projectData: state.responseLivestockDetail!.data!.user!,
+                                                                  id: state.responseLivestockDetail!.data!.user!.id,quantity:quantity.toString(),updateSoldQtyTag:"sold"));
+                                                            }else{
                                                               BlocProvider.of<LivestockCubit>(context).updateSoldCowApi(context, state.responseLivestockDetail!.data!.id!, quantity);
+                                                            }
                                                           },
                                                           height: 60,
                                                           width: screenWidth(),
@@ -1110,7 +1130,8 @@ Widget kpi(context,LivestockCubitState state) {
                               decoration:TextDecoration.underline,
                               color: const Color(0xFFFC5E60)
                             ),
-                          )):const SizedBox.shrink()
+                          ))
+                          :const SizedBox.shrink()
                           : const SizedBox.shrink(),
                       // const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
                       //     :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
