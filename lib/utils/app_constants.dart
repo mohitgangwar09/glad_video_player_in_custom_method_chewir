@@ -136,6 +136,7 @@ class AppConstants {
   static const String customLoanApplyApi = '/api/loan/apply-loan';
   static const String customLoanFormApi = '/api/loan/loan-form';
   static const String customLoanPurposeListApi = '/api/loan/purpose-list';
+  static const String ddeTargetApi = '/api/dairy-executives/dde-target';
 
 
 

@@ -42,6 +42,7 @@ class Data {
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
+  dynamic farmerParticipationPercent;
   String? createdAt;
   String? updatedAt;
   List<LiveStockCartDetails>? liveStockCartDetails;
@@ -63,7 +64,9 @@ class Data {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.liveStockCartDetails});
+        this.liveStockCartDetails,
+        this.farmerParticipationPercent,
+      });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -82,6 +85,7 @@ class Data {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    farmerParticipationPercent = json['farmer_participation_percent'];
     if (json['live_stock_cart_details'] != null) {
       liveStockCartDetails = <LiveStockCartDetails>[];
       json['live_stock_cart_details'].forEach((v) {
@@ -108,6 +112,7 @@ class Data {
     data['deleted_by'] = deletedBy;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['farmer_participation_percent'] = farmerParticipationPercent;
     if (liveStockCartDetails != null) {
       data['live_stock_cart_details'] =
           liveStockCartDetails!.map((v) => v.toJson()).toList();

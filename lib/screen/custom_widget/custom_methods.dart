@@ -9,6 +9,7 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/screen/common/weather_chart.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
@@ -190,9 +191,7 @@ Widget customGrid<T>(BuildContext context,
         mainAxisSpacing: mainAxisSpacing,
         childAspectRatio: childAspectRatio,
         mainAxisExtent: mainAxisExtent),
-    itemBuilder: (context, index) => child(index)
-    // child(list[index], index),
-    ,
+    itemBuilder: (context, index) => child(index),
     itemCount: list.length,
     //controller: listScrollController,
   );
@@ -1857,5 +1856,109 @@ Widget selectFarmerAddDdeLivestock({String? userId}){
           ],
         );
       }
+  );
+}
+
+Widget ddeTarget(BuildContext context,ProfileCubitState state){
+  return Padding(
+    padding: const EdgeInsets.all(18.0),
+    child: BlocBuilder<ProfileCubit,ProfileCubitState>(
+      builder: (context,state) {
+        return Column(
+          children: [
+
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    "Targets".textMedium(
+                      fontSize: 18
+                    ),
+
+                    4.verticalSpace(),
+
+                    "Based on loan closures".textRegular(
+                      fontSize: 14
+                    ),
+
+                  ],
+                ),
+              ],
+            ),
+
+            20.verticalSpace(),
+
+            if(state.responseDdeTarget!=null)
+              customGrid(context,
+                  list: state.responseDdeTarget!.data!,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 13,
+                  mainAxisExtent: 153, child: (index) {
+                    return InkWell(
+                      onTap: () {
+
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: const Color(0xffDCDCDC), width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                blurRadius: 1.0,
+                                offset: const Offset(0, 1))
+                          ],
+                        ),
+                        child: Padding(
+                          // padding: 0.paddingAll(),
+                          padding: const EdgeInsets.fromLTRB(8, 15, 8, 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              15.verticalSpace(),
+                              Text(
+                                '${state.responseDdeTarget!.data![index].commissionPercent.toString()}%',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: figtreeMedium.copyWith(fontSize: 26),
+                              ),
+                              05.verticalSpace(),
+                              Text(
+                                "Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: figtreeRegular.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              05.verticalSpace(),
+                              Container(
+                                width: screenWidth(),
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):const Color(0xff12CE57),
+                                  borderRadius: BorderRadius.circular(130),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center
+                                ,child: state.responseDdeTarget!.data![index].targetStatus.toString().textMedium(
+                                    fontSize: 12,
+                                    color: Colors.white
+                                )),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  })
+          ],
+        );
+      }
+    ),
   );
 }

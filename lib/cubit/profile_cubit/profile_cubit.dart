@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/respone_team_member.dart';
 import 'package:glad/data/model/response_county_list.dart';
+import 'package:glad/data/model/response_dde_target.dart';
 import 'package:glad/data/model/response_district.dart';
 import 'package:glad/data/model/response_notification_list.dart';
 import 'package:glad/data/model/response_profile_model.dart';
@@ -723,6 +725,21 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       return;
     } else {
       emit(state.copyWith(filterMemberList: dummySearchList));
+    }
+  }
+
+  void ddeTargetApi(context) async {
+    emit(state.copyWith(status: ProfileStatus.loading));
+    var response = await apiRepository.ddeTargetApi("");
+    if (response.status == 200) {
+
+      emit(state.copyWith(
+          status: ProfileStatus.success,
+          responseDdeTarget: response));
+
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
     }
   }
 
