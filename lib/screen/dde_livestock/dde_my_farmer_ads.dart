@@ -2,15 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/data/model/livestock_detail.dart';
+import 'package:glad/screen/dde_livestock/dde_livestock_screen.dart';
 import 'package:glad/screen/livestock/add_livestock.dart';
 import 'package:glad/screen/livestock/livestock_detail.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/guest_user/dashboard/dashboard_guest.dart';
+import 'package:glad/screen/livestock/loan_application_screen.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -18,7 +21,8 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class DdeMyLiveStockScreen extends StatefulWidget {
-  const DdeMyLiveStockScreen({Key? key}) : super(key: key);
+  const DdeMyLiveStockScreen({Key? key,this.isNavigate}) : super(key: key);
+  final String? isNavigate;
 
   @override
   State<DdeMyLiveStockScreen> createState() => _DdeMyLiveStockScreenState();
@@ -56,9 +60,15 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                           context: context,
                           titleText1: 'My Livestock Ads',
                           centerTitle: true,
-                          leading: arrowBackButton(),
+                          leading: arrowBackButton(onTap: (){
+                            if(widget.isNavigate!=null){
+                              const DdeLiveStockScreen(isNavigate:'yes').navigate();
+                            }else{
+                              pressBack();
+                            }
+                          }),
                         ),
-                        Container(
+                        /*Container(
                           margin: const EdgeInsets.only(
                               left: 20, right: 20, bottom: 13, top: 23),
                           height: 50,
@@ -80,7 +90,7 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                                   )),
                             ],
                           ),
-                        ),
+                        ),*/
 
                         // if(state.responseMyLivestockList!.data!.loanApplication>0)
                           Padding(
@@ -89,7 +99,7 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                               alignment: Alignment.centerLeft,
                               child: InkWell(
                                 onTap: () {
-                                  // const LoanApplication(type: 'seller',).navigate();
+                                  const LoanApplication(type: 'seller',).navigate();
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(
@@ -114,8 +124,13 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                         bottom: 0,
                         right: 0,
                         child: InkWell(
-                          onTap: () {
-                            const AddLivestock().navigate();
+                          onTap: () async{
+                            await BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+                            modalBottomSheetMenu(context,
+                                radius: 40,
+                                child: SizedBox(
+                                    height: screenHeight()-220,
+                                    child: selectFarmerAddDdeLivestock()));
                           },
                           child: SvgPicture.asset(
                             Images.addLivestock,

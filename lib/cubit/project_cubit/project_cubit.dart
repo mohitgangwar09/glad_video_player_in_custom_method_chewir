@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart' as dde;
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
@@ -365,7 +366,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
       // AddRemark(tag: ,).navigate();
       // AddLoanRemark(projectData: farmerProject,farmerProjectId:farmerProjectId).navigate();
-      ThankYouLivestockLoan(response: farmerMaster).navigate();
+      ThankYouLivestockLoan(response: farmerMaster).navigate(isInfinity: true);
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       showCustomToast(context, response.message.toString());
@@ -490,6 +491,47 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
     }
   }
+
+  ///// verifyProjectStatusApi /////
+  Future<void> verifyDdeMarkAsDeliveryApi(context,String otp,String userId,
+      String cartId,String farmerProjectId,String controller,String status,List<String> docOneFile) async{
+
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyProjectStatusApi(otp, userId);
+
+    disposeProgress();
+
+    if(response.status == 200){
+      BlocProvider.of<LivestockCubit>(context).livestockDeliveryStatusApi(context, int.parse(cartId.toString()), farmerProjectId.toString(), controller, status, docOneFile);
+      pressBack();
+    }
+    else
+    {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  ///// verifyProjectStatusApi /////
+  Future<void> verifyRemoveThisAdApi(context,String otp,String userId,int id) async{
+
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyProjectStatusApi(otp, userId);
+
+    disposeProgress();
+
+    if(response.status == 200){
+      pressBack();
+
+      BlocProvider.of<LivestockCubit>(context).removeLivestockAPi(context, id);
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 
   ///// verifyProjectStatusApi /////
   Future<void> verifyProjectStatusFarmerLoanApprovalApi(context,String otp,String projectId,

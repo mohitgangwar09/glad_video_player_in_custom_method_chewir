@@ -7,6 +7,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/dde_livestock/dde_livestock_screen.dart';
 import 'package:glad/screen/dde_livestock/dde_my_farmer_ads.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/utils/app_constants.dart';
@@ -63,7 +64,7 @@ class ThankYouLivestockLoan extends StatelessWidget {
                 40.verticalSpace(),
                 customButton("Back", fontColor: 0xffffffff, onTap: () {
                   if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType).toString() == "dde"){
-                    const DdeMyLiveStockScreen().navigate();
+                    const DdeLiveStockScreen().navigate(isInfinity: true);
                   }else{
                     const DashboardFarmer().navigate(isInfinity: true);
                     BlocProvider.of<DashboardCubit>(context).selectedIndex(3);

@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
@@ -272,10 +274,15 @@ class CongratulationScreen extends StatelessWidget {
                 40.verticalSpace(),
 
                 customButton("Back to Home", fontColor: 0xffffffff, onTap: () {
-                  if(navigateFrom == "dde"){
+                  if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
                     const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
                   }else{
                     const DashboardFarmer().navigate(isInfinity: true);
+                    /*if(navigateFrom == "dde"){
+                      const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
+                    }else{
+                      const DashboardFarmer().navigate(isInfinity: true);
+                    }*/
                   }
                 })
 

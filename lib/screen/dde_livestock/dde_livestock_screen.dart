@@ -10,6 +10,7 @@ import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/dde_livestock/dde_my_farmer_ads.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/livestock/livestock_detail.dart';
 import 'package:glad/screen/livestock/livestock_filter.dart';
@@ -26,7 +27,8 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class DdeLiveStockScreen extends StatefulWidget {
-  const DdeLiveStockScreen({Key? key}) : super(key: key);
+  const DdeLiveStockScreen({Key? key,this.isNavigate}) : super(key: key);
+  final String? isNavigate;
 
   @override
   State<DdeLiveStockScreen> createState() => _DdeLiveStockScreenState();
@@ -72,19 +74,13 @@ class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
                           context: context,
                           titleText1: 'Livestock',
                           centerTitle: true,
-                          leading: openDrawer(
-                              onTap: () {
-                                if (BlocProvider
-                                    .of<LandingPageCubit>(context)
-                                    .sharedPreferences
-                                    .getString(AppConstants.userType) ==
-                                    'farmer') {
-                                  farmerLandingKey.currentState?.openDrawer();
-                                } else {
-                                  landingKey.currentState?.openDrawer();
-                                }
-                              },
-                              child: SvgPicture.asset(Images.drawer)),
+                          leading: arrowBackButton(onTap: (){
+                            if(widget.isNavigate!=null){
+                              const DashboardDDE().navigate();
+                            }else{
+                              pressBack();
+                            }
+                          }),
                           action: Row(
                             children: [
                               if(BlocProvider
@@ -293,7 +289,7 @@ class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
                                     ),
                                     InkWell(
                                       onTap:  (){
-
+                                        const LoanApplication(type: 'buyer',).navigate();
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.only(
@@ -566,8 +562,9 @@ class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
                   child: Row(
                     children: [
 
-                      state.responseLivestockList!.data!.liveStoclLIst![index].user!.profilePic == null ?Image.asset(Images.sampleUser):
-                      networkImage(text: state.responseLivestockList!.data!.liveStoclLIst![index].user!.profilePic.toString(),height: 30,width: 30,radius: 30),
+                      if(state.responseLivestockList!.data!.liveStoclLIst![index].user!=null)
+                        state.responseLivestockList!.data!.liveStoclLIst![index].user!.profilePic == null ?Image.asset(Images.sampleUser):
+                        networkImage(text: state.responseLivestockList!.data!.liveStoclLIst![index].user!.profilePic.toString(),height: 30,width: 30,radius: 30),
 
                       7.horizontalSpace(),
 
