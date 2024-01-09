@@ -8,10 +8,12 @@ import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart' as dde;
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/loan_purpose_list.dart';
 import 'package:glad/data/model/response_account_statement.dart';
 import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_farmer_filter_list.dart';
+import 'package:glad/data/model/response_loan_form.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_project_supplier_filter_list.dart';
 import 'package:glad/data/model/response_resource_name.dart';
@@ -1242,5 +1244,59 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
     }
   }
+
+  // supplierFarmerFilterListApi
+  void customLoanListApi(context) async {
+
+    var response = await apiRepository.getSupplierFarmerFilterListApi();
+
+    if (response.status == 200) {
+
+      emit(state.copyWith(responseFarmerFilterDropdownList: response));
+      // showCustomToast(context, response.message.toString());
+
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // supplierFarmerFilterListApi
+  void customLoanFormApi(context, String? farmerId) async {
+    emit(state.copyWith(status: ProjectStatus.loading));
+
+    var response = await apiRepository.getCustomLoanFormApi(farmerId);
+    if (response.status == 200) {
+      emit(state.copyWith(responseLoanForm: response));
+      customLoanPurposeListApi(context);
+    } else {
+      showCustomToast(context, response.message.toString());
+      emit(state.copyWith(status: ProjectStatus.error));
+    }
+  }
+
+  void customLoanPurposeListApi(context) async {
+
+    var response = await apiRepository.getCustomLoanPurposeListApi();
+    if (response.status == 200) {
+      emit(state.copyWith(status: ProjectStatus.success, responseLoanPurposeList: response));
+    } else {
+      showCustomToast(context, response.message.toString());
+      emit(state.copyWith(status: ProjectStatus.error));
+    }
+  }
+
+  void customLoanApplyApi(context, String loanPurpose, int loanAmount, int repaymentMonths, String remarks, String? farmerId) async {
+    customDialog(widget: launchProgress());
+
+    var response = await apiRepository.addCustomLoanApi(loanPurpose, loanAmount, repaymentMonths, remarks, farmerId);
+    disposeProgress();
+    if (response.status == 200) {
+      pressBack();
+    } else {
+      showCustomToast(context, response.message.toString());
+      emit(state.copyWith(status: ProjectStatus.error));
+    }
+  }
+
 
 }

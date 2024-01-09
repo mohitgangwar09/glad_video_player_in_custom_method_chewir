@@ -101,6 +101,7 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
+            if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive != null)
             MCCInArea(
               name: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.name ?? '',
               phone: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.phone ?? '',
@@ -111,6 +112,7 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
               long: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.longitude ?? 0 : '',
             ),
             10.verticalSpace(),
+            if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive != null)
             DDEInArea(
               name: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.name ?? '',
               phone: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.phone ?? '',

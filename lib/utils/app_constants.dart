@@ -132,6 +132,10 @@ class AppConstants {
   static const String faqApi = '/api/faq/list';
   static const String farmerSupplierFilterListApi = '/api/farmer-project/farmer-dropdown-list';
   static const String projectSupplierFilterListApi = '/api/farmer-project/project-dropdown-list';
+  static const String customLoanListApi = '/api/loan/loan-list';
+  static const String customLoanApplyApi = '/api/loan/apply-loan';
+  static const String customLoanFormApi = '/api/loan/loan-form';
+  static const String customLoanPurposeListApi = '/api/loan/purpose-list';
 
 
 
