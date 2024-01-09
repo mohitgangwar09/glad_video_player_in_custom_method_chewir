@@ -1219,10 +1219,10 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // supplierFarmerFilterListApi
-  void customLoanFormApi(context) async {
+  void customLoanFormApi(context, String? farmerId) async {
     emit(state.copyWith(status: ProjectStatus.loading));
 
-    var response = await apiRepository.getCustomLoanFormApi();
+    var response = await apiRepository.getCustomLoanFormApi(farmerId);
     if (response.status == 200) {
       emit(state.copyWith(responseLoanForm: response));
       customLoanPurposeListApi(context);
@@ -1243,6 +1243,18 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  void customLoanApplyApi(context, String loanPurpose, int loanAmount, int repaymentMonths, String remarks, String? farmerId) async {
+    customDialog(widget: launchProgress());
+
+    var response = await apiRepository.addCustomLoanApi(loanPurpose, loanAmount, repaymentMonths, remarks, farmerId);
+    disposeProgress();
+    if (response.status == 200) {
+      pressBack();
+    } else {
+      showCustomToast(context, response.message.toString());
+      emit(state.copyWith(status: ProjectStatus.error));
+    }
+  }
 
 
 }

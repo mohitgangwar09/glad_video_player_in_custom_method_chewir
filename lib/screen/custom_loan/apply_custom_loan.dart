@@ -9,6 +9,7 @@ import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/loan_purpose_list.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
+import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -26,10 +27,12 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
   String? purpose = '';
   TextEditingController price = TextEditingController();
+  TextEditingController period = TextEditingController();
+  TextEditingController remarks = TextEditingController();
 
   @override
   void initState() {
-    BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context);
+    BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context, null);
     BlocProvider.of<ProjectCubit>(context).customLoanPurposeListApi(context);
     super.initState();
   }
@@ -66,6 +69,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                             horizontal: 20),
                         child: Column(children: [
                           kpi(context, state),
+
                           30.verticalSpace(),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,14 +127,13 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                               ),
                             ],
                           ),
+
                           20.verticalSpace(),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: "Loan amount (UGX)".textMedium(color: Colors.black, fontSize: 12),
                           ),
-
                           5.verticalSpace(),
-
                           Container(
                             height: 60,
                             decoration: BoxDecoration(
@@ -155,6 +158,88 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                           ),
 
                           20.verticalSpace(),
+
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: "Repayment period (Months)".textMedium(color: Colors.black, fontSize: 12),
+                          ),
+                          5.verticalSpace(),
+                          Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white
+                            ),
+                            width: screenWidth(),
+                            child: TextField(
+                              maxLines: 1,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(3)],
+                              controller: period,
+                              maxLength: 3,
+                              // enabled: false,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                counterText: '',
+                                contentPadding: EdgeInsets.only(top: 10,left: 13),
+                              ),
+                            ),
+                          ),
+
+                          20.verticalSpace(),
+
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: "Remarks".textMedium(color: Colors.black, fontSize: 12),
+                          ),
+                          5.verticalSpace(),
+
+                          5.verticalSpace(),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white
+                            ),
+                            child: TextField(
+                              controller: remarks,
+                              maxLines: 4,
+                              minLines: 4,
+                              decoration: InputDecoration(
+                                  hintStyle:
+                                  figtreeMedium.copyWith(fontSize: 18),
+                                  border: InputBorder.none),
+                            ),
+                          ),
+                          20.verticalSpace(),
+
+                          Container(
+                              margin: 20.marginAll(),
+                              height: 55,
+                              width: screenWidth(),
+                              child: customButton("Apply",
+                                  fontColor: 0xffffffff,
+                                  onTap: () {
+                                    if(purpose == '') {
+                                      showCustomToast(context, 'Loan Purpose is required');
+                                    } else if (price.text == ''){
+                                      showCustomToast(context, 'Loan Amount is required');
+                                    } else if (period.text == ''){
+                                      showCustomToast(context, 'Repayment months are required');
+                                    } else if (remarks.text == ''){
+                                      showCustomToast(context, 'Remarks are required');
+                                    } else {
+                                      BlocProvider.of<ProjectCubit>(context)
+                                          .customLoanApplyApi(
+                                          context, purpose.toString(),
+                                          int.parse(price.text.toString()),
+                                          int.parse(period.text.toString()),
+                                          remarks.text.toString(), null);
+                                    }
+                                  })),
+
+                          40.verticalSpace(),
                         ],),
                       ),
                     )
@@ -162,7 +247,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                 ),
               ],
             );
-          }
+            }
           }
       ),
     );

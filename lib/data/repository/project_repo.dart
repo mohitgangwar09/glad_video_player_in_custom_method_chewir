@@ -923,10 +923,15 @@ class ProjectRepository {
   }
 
   ///////////////// getSupplierFarmerFilterListApi //////////
-  Future<ResponseLoanForm> getCustomLoanFormApi() async {
+  Future<ResponseLoanForm> getCustomLoanFormApi(String? farmerId) async {
+    Map<String, dynamic> query = {};
+    if(sharedPreferences!.getString(AppConstants.userType)  == 'dde') {
+      query.addAll({'farmer_id': farmerId});
+    }
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.customLoanFormApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: query);
 
     if (apiResponse.status) {
       return ResponseLoanForm.fromJson(apiResponse.response!.data);
@@ -948,6 +953,30 @@ class ProjectRepository {
     }
   }
 
+  ///////////////// getSupplierFarmerFilterListApi //////////
+  Future<ResponseOtpModel> addCustomLoanApi(String loanPurpose, int loanAmount, int repaymentMonths, String remarks, String? farmerId) async {
+
+    Map<String, dynamic> query = {
+      'loan_purpose': loanPurpose,
+      'loan_amount': loanAmount,
+      'repayment_months': repaymentMonths,
+      'remarks': remarks,
+    };
+
+    if(sharedPreferences!.getString(AppConstants.userType)  == 'dde') {
+      query.addAll({'farmer_id': farmerId});
+    }
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.customLoanApplyApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: query);
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
 
   getUserToken() {
     return sharedPreferences?.getString(AppConstants.token);
