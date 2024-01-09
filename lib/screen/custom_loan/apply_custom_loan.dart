@@ -225,8 +225,12 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       showCustomToast(context, 'Loan Purpose is required');
                                     } else if (price.text == ''){
                                       showCustomToast(context, 'Loan Amount is required');
+                                    } else if (int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString())){
+                                      showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
                                     } else if (period.text == ''){
                                       showCustomToast(context, 'Repayment months are required');
+                                    } else if (int.parse(period.text)> int.parse(state.responseLoanForm!.data!.maxEmis.toString())){
+                                      showCustomToast(context, 'Repayment months cannot be more than Max. EMI\'s');
                                     } else if (remarks.text == ''){
                                       showCustomToast(context, 'Remarks are required');
                                     } else {
