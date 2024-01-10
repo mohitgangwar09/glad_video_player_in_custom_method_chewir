@@ -1890,6 +1890,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
             20.verticalSpace(),
 
             if(state.responseDdeTarget!=null)
+              if(state.responseDdeTarget!.data!=null)
               customGrid(context,
                   list: state.responseDdeTarget!.data!,
                   crossAxisCount: 3,
@@ -1927,27 +1928,49 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                                 style: figtreeMedium.copyWith(fontSize: 26),
                               ),
                               05.verticalSpace(),
-                              Text(
-                                "Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: figtreeRegular.copyWith(
-                                  fontSize: 14,
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if(state.responseDdeTarget!.data![index].loanClosureFrom>0)
+                                    Text(
+                                      "From ${state.responseDdeTarget!.data![index].loanClosureFrom.toString()}",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: figtreeRegular.copyWith(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        " Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: figtreeRegular.copyWith(
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               05.verticalSpace(),
                               Container(
                                 width: screenWidth(),
                                 height: 28,
                                 decoration: BoxDecoration(
-                                  color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):const Color(0xff12CE57),
+                                  color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):
+                                  state.responseDdeTarget!.data![index].targetStatus == "In progress"?
+                                  const Color(0xffF2CA00):const Color(0xff12CE57),
+
                                   borderRadius: BorderRadius.circular(130),
                                 ),
                                 child: Align(
                                   alignment: Alignment.center
                                 ,child: state.responseDdeTarget!.data![index].targetStatus.toString().textMedium(
                                     fontSize: 12,
-                                    color: Colors.white
+                                    color: state.responseDdeTarget!.data![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
                                 )),
                               )
                             ],
