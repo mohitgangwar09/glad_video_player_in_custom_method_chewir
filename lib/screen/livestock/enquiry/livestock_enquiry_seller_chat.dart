@@ -51,7 +51,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
         .collection('chats').add({
       'text': commentController.text,
       'created_at': Timestamp.now(),
-      'user_name': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? '${BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name ?? ''} (DDE)' : context.read<LivestockCubit>().state.responseLivestockDetail!.data!.userName ?? '',
+      'user_name': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? '${BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name ?? ''} (DDE)' : context.read<LivestockCubit>().state.responseLivestockDetail!.data!.user!.name ?? '',
       'date': DateFormat.yMMMMd().format(DateTime.now()),
       'user_type': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? 'seller-dde' : 'seller',
       "message_type": 'text',
