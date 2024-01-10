@@ -79,13 +79,15 @@ class _EnquiryListState extends State<EnquiryList> {
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: InkWell(
                                     onTap: () async{
+
                                       LivestockEnquirySellerChatScreen(
                                         livestockId: widget.livestockId.toString(),
                                         cowBreed: widget.cowBreed.toString(),
                                         advertisementNumber: widget.advertisementNumber.toString(),
                                         userName: chatDocs.docs[index]['user_name'].toString(),
                                         userId: chatDocs.docs[index]['user_id'].toString(),
-                                        defaultPrice: widget.defaultPrice,).navigate();
+                                        defaultPrice: widget.defaultPrice,
+                                        ddeId: chatDocs.docs[index]['dde_id'],).navigate();
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(20),

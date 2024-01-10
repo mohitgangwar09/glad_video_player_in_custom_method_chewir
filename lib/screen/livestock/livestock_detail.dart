@@ -591,8 +591,8 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                            .of<LandingPageCubit>(context)
                                            .sharedPreferences
                                            .containsKey(AppConstants.userType) ? () async {
-                                         if (BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile == null) {
-                                           await BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+                                         if (BlocProvider.of<ProfileCubit>(context).state.responseProfile == null) {
+                                           await BlocProvider.of<ProfileCubit>(context).profileApi(context);
                                          }
                                          final query = FirebaseFirestore.instance.collection('livestock_enquiry').doc(widget.id);
                                          query.set({
@@ -602,20 +602,24 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                            'cow_breed': state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
                                            'created_at': Timestamp.now(),
                                          });
-                                         query.collection('enquiries').doc(context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)).
+                                         query.collection('enquiries').doc(state.selectedLivestockFarmerMAster!.userId.toString()).
                                          set({
-                                           'user_id': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId),
-                                           'user_name': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
-                                           'user_address': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address != null ? BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address!.address ?? '' : '',
-                                           'user_photo': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.photo ?? '',
+                                           'user_id': state.selectedLivestockFarmerMAster!.userId.toString(),
+                                           'user_name': state.selectedLivestockFarmerMAster!.name ?? '',
+                                           'user_address': state.selectedLivestockFarmerMAster!.address != null ? state.selectedLivestockFarmerMAster!.address!.address ?? '' : '',
+                                           'user_photo': state.selectedLivestockFarmerMAster!.photo ?? '',
+                                           'dde_id': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,
+                                           'dde_name': BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name,
                                          });
                                          LivestockEnquiryChatScreen(
                                            livestockId: widget.id.toString(),
                                            cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
-                                           advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
-                                           userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
+                                           advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(),
+                                           userName: '${BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name ?? ''} (DDE)',
+                                           userId: state.selectedLivestockFarmerMAster!.userId.toString(),
+                                           ddeId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
                                        } : () {
-                                         RegisterPopUp().navigate();
+                                         const RegisterPopUp().navigate();
                                        },
                                        width: screenWidth(),
                                        fontColor: 0xffFFFFFF,

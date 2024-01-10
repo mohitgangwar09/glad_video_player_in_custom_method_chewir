@@ -5,11 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
+import 'package:glad/screen/livestock/negotiate_price_otp.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
@@ -19,12 +23,13 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 
 class LivestockEnquirySellerChatScreen extends StatefulWidget {
-  const LivestockEnquirySellerChatScreen({super.key, required this.livestockId, required this.cowBreed, required this.advertisementNumber, required this.userName, required this.userId, required this.defaultPrice});
+  const LivestockEnquirySellerChatScreen({super.key, required this.livestockId, required this.cowBreed, required this.advertisementNumber, required this.userName, required this.userId, required this.defaultPrice, this.ddeId});
   final String livestockId;
   final String cowBreed;
   final String advertisementNumber;
   final String userName;
   final String userId, defaultPrice;
+  final String? ddeId;
 
   @override
   State<LivestockEnquirySellerChatScreen> createState() => _LivestockEnquirySellerChatScreenState();
@@ -36,6 +41,9 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
   ScrollController scrollController = ScrollController();
 
   void _sendMessage() async {
+    if (BlocProvider.of<ProfileCubit>(context).state.responseProfile == null) {
+      await BlocProvider.of<ProfileCubit>(context).profileApi(context);
+    }
     FirebaseFirestore.instance.collection('livestock_enquiry')
         .doc(widget.livestockId)
         .collection('enquiries')
@@ -43,9 +51,9 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
         .collection('chats').add({
       'text': commentController.text,
       'created_at': Timestamp.now(),
-      'user_name': context.read<LivestockCubit>().state.responseLivestockDetail!.data!.userName ?? '',
+      'user_name': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? '${BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name ?? ''} (DDE)' : context.read<LivestockCubit>().state.responseLivestockDetail!.data!.userName ?? '',
       'date': DateFormat.yMMMMd().format(DateTime.now()),
-      'user_type': 'seller',
+      'user_type': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? 'seller-dde' : 'seller',
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
     }).then((value) => print("Message Added"))
@@ -189,48 +197,55 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                             context,
                                                                             "Negotiated price shouldn't be greater than price of cow");
                                                                       } else {
-                                                                        context
-                                                                            .read<
-                                                                            LivestockCubit>()
-                                                                            .updateNegotiateApi(
-                                                                            context,
-                                                                            widget
-                                                                                .livestockId,
-                                                                            controller
-                                                                                .text,
-                                                                            widget
-                                                                                .userId);
-                                                                        FirebaseFirestore
-                                                                            .instance
-                                                                            .collection(
-                                                                            'livestock_enquiry')
-                                                                            .doc(
-                                                                            widget
-                                                                                .livestockId)
-                                                                            .collection(
-                                                                            'enquiries')
-                                                                            .doc(
-                                                                            widget
-                                                                                .userId)
-                                                                            .update(
-                                                                            {
-                                                                              'created_at': Timestamp
-                                                                                  .now(),
-                                                                              'negotiated_price': controller
-                                                                                  .text
-                                                                              // "${currentUser}messageCount":FieldValue.increment(1),
-                                                                            })
-                                                                            .then((
-                                                                            value) =>
-                                                                            print(
-                                                                                "Negotiation Added"))
-                                                                            .catchError((
-                                                                            error) =>
-                                                                            print(
-                                                                                "Failed to add user: $error"));
-                                                                        controller
-                                                                            .clear();
-                                                                        pressBack();
+                                                                        if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde") {
+                                                                          pressBack();
+                                                                          NegotiatePriceOTP(projectData: context.read<LivestockCubit>().state.responseLivestockDetail!.data!.user!, livestockId: widget.livestockId, userId: widget.userId, negotiatedPrice: controller.text,);
+                                                                          controller.clear();
+                                                                        }
+                                                                        else {
+                                                                          context
+                                                                              .read<
+                                                                              LivestockCubit>()
+                                                                              .updateNegotiateApi(
+                                                                              context,
+                                                                              widget
+                                                                                  .livestockId,
+                                                                              controller
+                                                                                  .text,
+                                                                              widget
+                                                                                  .userId);
+                                                                          FirebaseFirestore
+                                                                              .instance
+                                                                              .collection(
+                                                                              'livestock_enquiry')
+                                                                              .doc(
+                                                                              widget
+                                                                                  .livestockId)
+                                                                              .collection(
+                                                                              'enquiries')
+                                                                              .doc(
+                                                                              widget
+                                                                                  .userId)
+                                                                              .update(
+                                                                              {
+                                                                                'created_at': Timestamp
+                                                                                    .now(),
+                                                                                'negotiated_price': controller
+                                                                                    .text
+                                                                                // "${currentUser}messageCount":FieldValue.increment(1),
+                                                                              })
+                                                                              .then((
+                                                                              value) =>
+                                                                              print(
+                                                                                  "Negotiation Added"))
+                                                                              .catchError((
+                                                                              error) =>
+                                                                              print(
+                                                                                  "Failed to add user: $error"));
+                                                                          controller
+                                                                              .clear();
+                                                                          pressBack();
+                                                                        }
                                                                       }
                                                                     },
                                                                     height: 60,
@@ -415,72 +430,168 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                             elements: chatDocs!.docs.toList(),
                             groupBy: (element) => element.data()['date'],
                             groupSeparatorBuilder: (String groupByValue) => const SizedBox.shrink(),
-                            itemBuilder: (context, dynamic element) => element.data()['user_type'] == 'seller' ?
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Container(
-                                  width: screenWidth(),
-                                  padding: const EdgeInsets.all(30),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: const Color(0xFF999999)),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(30),
-                                          topRight: Radius.circular(30),
-                                          bottomLeft: Radius.circular(30),
-                                          bottomRight: Radius.circular(0))),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          element.data()['text'],
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 16, color: ColorResources.fieldGrey)),
-                                      10.verticalSpace(),
-                                      DateFormat('dd MMM, yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch((element.data()['created_at'] as Timestamp).seconds * 1000)).textRegular(
-                                          color: ColorResources.fieldGrey, fontSize: 14)
-                                    ],
+                            itemBuilder: (context, dynamic element) {
+                              if(context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                return element.data()['user_type'] == 'seller-dde' ?
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Container(
+                                      width: screenWidth(),
+                                      padding: const EdgeInsets.all(30),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(color: const Color(0xFF999999)),
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(30),
+                                              topRight: Radius.circular(30),
+                                              bottomLeft: Radius.circular(30),
+                                              bottomRight: Radius.circular(0))),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              element.data()['text'],
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16, color: ColorResources.fieldGrey)),
+                                          10.verticalSpace(),
+                                          DateFormat('dd MMM, yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch((element.data()['created_at'] as Timestamp).seconds * 1000)).textRegular(
+                                              color: ColorResources.fieldGrey, fontSize: 14)
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ) :
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Container(
-                                  width: screenWidth(),
-                                  padding: const EdgeInsets.all(30),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xFFFFF3F4),
-                                      border: Border.all(color: const Color(0xFFC788A5)),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(30),
-                                          topRight: Radius.circular(30),
-                                          bottomRight: Radius.circular(30),
-                                          bottomLeft: Radius.circular(0))),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          element.data()['user_name'],
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 16, color: Colors.black)),
-                                      15.verticalSpace(),
-                                      Text(
-                                          element.data()['text'],
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 16, color: ColorResources.fieldGrey)),
-                                      10.verticalSpace(),
-                                      DateFormat('dd MMM, yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch((element.data()['created_at'] as Timestamp).seconds * 1000)).textRegular(
-                                          color: ColorResources.fieldGrey, fontSize: 14)
-                                    ],
+                                ) :
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Container(
+                                      width: screenWidth(),
+                                      padding: const EdgeInsets.all(30),
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFFFFF3F4),
+                                          border: Border.all(color: const Color(0xFFC788A5)),
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(30),
+                                              topRight: Radius.circular(30),
+                                              bottomRight: Radius.circular(30),
+                                              bottomLeft: Radius.circular(0))),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              element.data()['user_name'],
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16, color: Colors.black)),
+                                          15.verticalSpace(),
+                                          Text(
+                                              element.data()['text'],
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16, color: ColorResources.fieldGrey)),
+                                          10.verticalSpace(),
+                                          DateFormat('dd MMM, yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch((element.data()['created_at'] as Timestamp).seconds * 1000)).textRegular(
+                                              color: ColorResources.fieldGrey, fontSize: 14)
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
+                                );
+                              } else {
+                                return element.data()['user_type'] == 'seller' ?
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Container(
+                                      width: screenWidth(),
+                                      padding: const EdgeInsets.all(30),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: const Color(0xFF999999)),
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(30),
+                                              topRight: Radius.circular(30),
+                                              bottomLeft: Radius.circular(30),
+                                              bottomRight: Radius.circular(0))),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                              element.data()['text'],
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          10.verticalSpace(),
+                                          DateFormat('dd MMM, yyyy, hh:mm a')
+                                              .format(DateTime
+                                              .fromMillisecondsSinceEpoch(
+                                              (element
+                                                  .data()['created_at'] as Timestamp)
+                                                  .seconds * 1000))
+                                              .textRegular(
+                                              color: ColorResources.fieldGrey,
+                                              fontSize: 14)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ) :
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Container(
+                                      width: screenWidth(),
+                                      padding: const EdgeInsets.all(30),
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFFFFF3F4),
+                                          border: Border.all(
+                                              color: const Color(0xFFC788A5)),
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(30),
+                                              topRight: Radius.circular(30),
+                                              bottomRight: Radius.circular(30),
+                                              bottomLeft: Radius.circular(0))),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                              element.data()['user_name'],
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                          15.verticalSpace(),
+                                          Text(
+                                              element.data()['text'],
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: ColorResources
+                                                      .fieldGrey)),
+                                          10.verticalSpace(),
+                                          DateFormat('dd MMM, yyyy, hh:mm a')
+                                              .format(DateTime
+                                              .fromMillisecondsSinceEpoch(
+                                              (element
+                                                  .data()['created_at'] as Timestamp)
+                                                  .seconds * 1000))
+                                              .textRegular(
+                                              color: ColorResources.fieldGrey,
+                                              fontSize: 14)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
 
                             itemComparator: (item1, item2) => item1.data()['date'].compareTo(item2.data()['date']), // optional
                             // useStickyGroupSeparators: true, // optional

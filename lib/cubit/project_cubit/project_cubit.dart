@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -529,6 +530,35 @@ class ProjectCubit extends Cubit<ProjectState> {
       pressBack();
 
       BlocProvider.of<LivestockCubit>(context).removeLivestockAPi(context, id);
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  Future<void> verifyNegotiatePriceApi(context,String otp,String userId, String livestockId, String negotiatedPrice, String userIdBuyer) async{
+
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyProjectStatusApi(otp, userId);
+
+    disposeProgress();
+
+    if(response.status == 200){
+      pressBack();
+      BlocProvider.of<LivestockCubit>(context).updateNegotiateApi(context, livestockId, negotiatedPrice, userIdBuyer);
+      FirebaseFirestore.instance.collection('livestock_enquiry').doc(livestockId)
+          .collection('enquiries')
+          .doc(userIdBuyer)
+          .update(
+          {
+            'created_at': Timestamp
+                .now(),
+            'negotiated_price': negotiatedPrice
+            // "${currentUser}messageCount":FieldValue.increment(1),
+          })
+          .then((value) => print("Negotiation Added"))
+          .catchError((error) => print("Failed to add user: $error"));
     } else {
       // emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
