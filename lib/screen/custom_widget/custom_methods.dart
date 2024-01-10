@@ -1529,7 +1529,7 @@ Widget weatherWidget(){
   });
 }
 
-Widget selectFarmer({String? userId, bool isCustomLoan = false}){
+Widget selectFarmer({String? userId, bool isCustomLoan = false, int? removeFarmerId}){
   TextEditingController searchEditingController = TextEditingController();
   return BlocBuilder<DdeFarmerCubit,DdeState>(
       builder: (context,state){

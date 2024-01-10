@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/improvement_area_list_model.dart';
 import 'package:glad/data/model/respone_team_member.dart';
 import 'package:glad/data/model/response_county_list.dart';
@@ -728,15 +729,23 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
   }
 
-  void ddeTargetApi(context) async {
+  void ddeTargetApi(context, String date) async {
+    var response = await apiRepository.ddeTargetApi(date);
+    if (response.status == 200) {
+      emit(state.copyWith(status: ProfileStatus.success, responseDdeTarget: response));
+    } else {
+      emit(state.copyWith(status: ProfileStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+  void ddeTargetMonthsApi(context) async {
     emit(state.copyWith(status: ProfileStatus.loading));
-    var response = await apiRepository.ddeTargetApi("");
+    var response = await apiRepository.ddeTargetMonthsApi();
     if (response.status == 200) {
 
-      emit(state.copyWith(
-          status: ProfileStatus.success,
-          responseDdeTarget: response));
-
+      emit(state.copyWith(responseDdeTargetMonths: response, selectedDdeTargetMonth: (response.data as List<String>)[0]));
+      ddeTargetApi(context, state.selectedDdeTargetMonth.toString());
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
       showCustomToast(context, response.message.toString());

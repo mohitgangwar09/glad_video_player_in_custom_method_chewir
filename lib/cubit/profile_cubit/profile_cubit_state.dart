@@ -43,6 +43,8 @@ class ProfileCubitState extends Equatable{
   final List<TextEditingController>? areaControllers;
   final ResponseTeamMemberList? responseTeamMemberList;
   final ResponseDdeTarget? responseDdeTarget;
+  final ResponseOtpModel? responseDdeTargetMonths;
+  final String? selectedDdeTargetMonth;
   final NotificationList? responseNotificationList;
   final List<DataMemberList>? filterMemberList;
   // final GoogleMapController
@@ -100,6 +102,8 @@ class ProfileCubitState extends Equatable{
     required this.filterMemberList,
     required this.responseNotificationList,
     required this.responseDdeTarget,
+    required this.responseDdeTargetMonths,
+    required this.selectedDdeTargetMonth,
   });
 
   factory ProfileCubitState.initial() {
@@ -155,7 +159,9 @@ class ProfileCubitState extends Equatable{
       responseTeamMemberList: null,
       responseNotificationList: null,
       filterMemberList: [],
-      responseDdeTarget: null
+      responseDdeTarget: null,
+        responseDdeTargetMonths: null,
+        selectedDdeTargetMonth: ''
     );
   }
 
@@ -198,7 +204,9 @@ class ProfileCubitState extends Equatable{
     ResponseTeamMemberList? responseTeamMemberList,
     NotificationList? responseNotificationList,
     List<DataMemberList>? filterMemberList,
-    ResponseDdeTarget? responseDdeTarget
+    ResponseDdeTarget? responseDdeTarget,
+    ResponseOtpModel? responseDdeTargetMonths,
+    String? selectedDdeTargetMonth,
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -253,6 +261,8 @@ class ProfileCubitState extends Equatable{
       filterMemberList: filterMemberList ?? this.filterMemberList,
       responseNotificationList: responseNotificationList ?? this.responseNotificationList,
       responseDdeTarget: responseDdeTarget ?? this.responseDdeTarget,
+      responseDdeTargetMonths: responseDdeTargetMonths ?? this.responseDdeTargetMonths,
+      selectedDdeTargetMonth: selectedDdeTargetMonth ?? this.selectedDdeTargetMonth,
     );
   }
 
@@ -308,7 +318,9 @@ class ProfileCubitState extends Equatable{
     responseTeamMemberList,
     filterMemberList,
     responseNotificationList,
-    responseDdeTarget
+    responseDdeTarget,
+    responseDdeTargetMonths,
+    selectedDdeTargetMonth,
   ];
 
 }
