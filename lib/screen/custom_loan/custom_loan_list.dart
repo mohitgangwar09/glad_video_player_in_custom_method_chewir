@@ -3,12 +3,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as g;
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_loan/apply_custom_loan.dart';
 import 'package:glad/screen/custom_loan/custom_loan_detail.dart';
+import 'package:glad/screen/custom_loan/custom_loan_farmer_detail.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
@@ -87,7 +89,12 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                       padding: const EdgeInsets.all(15.0),
                                       child: InkWell(
                                         onTap: () {
-                                          // CustomLoanDetail(id: state.responseCustomLoanList!.data![index].id).navigate();
+                                          if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                            CustomLoanDetail(projectId: state.responseCustomLoanList!.data![index].id,).navigate();
+                                          }else{
+                                            CustomLoanFarmerDetail(projectId: state.responseCustomLoanList!.data![index].id,).navigate();
+                                            // CustomLoanFarmerDetail
+                                          }
                                         },
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,7 +299,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                 ),
                                 width: screenWidth());
                           }) :
-                      SizedBox.shrink(),
+                      const SizedBox.shrink(),
                       Container(
                           margin: 20.marginAll(),
                           height: 55,

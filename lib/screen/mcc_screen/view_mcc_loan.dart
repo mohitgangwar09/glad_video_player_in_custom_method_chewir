@@ -66,7 +66,7 @@ class _ViewLoanKycMccState extends State<ViewLoanKycMcc> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
-                                  imageUrl: widget.farmerDocuments.projectFarmerPhoto!,
+                                  imageUrl: widget.farmerDocuments.projectFarmerPhoto??'',
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) =>
                                       SvgPicture.asset(Images.uploadPP),
