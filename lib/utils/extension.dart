@@ -106,23 +106,24 @@ extension CustomWidget on Widget {
       {bool isAwait = false,
       bool isRemove = false,
       bool leftToRight = false,
-      bool isInfinity = false}) async {
+      bool isInfinity = false,
+      Transition transition = Transition.rightToLeftWithFade}) async {
     if (isRemove) {
       return await Get.off(this,
-          transition: Transition.rightToLeft,
+          transition: transition,
           duration: const Duration(milliseconds: 500));
     } else if (isAwait) {
       return await Get.to(() => this,
           preventDuplicates: false,
-          transition: Transition.rightToLeftWithFade,
+          transition: transition,
           duration: const Duration(milliseconds: 500));
     } else if (isInfinity) {
       return await Get.offAll(this,
-          transition: Transition.rightToLeftWithFade,
+          transition: transition,
           duration: const Duration(milliseconds: 500));
     } else {
       return await Get.to(this,
-          transition: Transition.rightToLeftWithFade,
+          transition: transition,
           duration: const Duration(milliseconds: 500));
     }
   }

@@ -7,11 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
+import 'package:glad/screen/dde_livestock/add_update_participation.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/project_detail_statement.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
@@ -1653,74 +1655,152 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                   TextEditingController controller = TextEditingController();
                                   controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
                                   if(kpiData[index].name.toString() == "Farmer Participation"){
-                                    modalBottomSheetMenu(context,
-                                        radius: 40,
-                                        child: StatefulBuilder(
-                                            builder: (context, setState) {
-                                              return SizedBox(
-                                                height: 320,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                                  child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Center(
-                                                          child: Text(
-                                                            'Farmer Participation',
-                                                            style: figtreeMedium.copyWith(fontSize: 22),
+                                    if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                      modalBottomSheetMenu(context,
+                                          radius: 40,
+                                          child: StatefulBuilder(
+                                              builder: (context, setState) {
+                                                return SizedBox(
+                                                  height: 320,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                    child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Center(
+                                                            child: Text(
+                                                              'Farmer Participation',
+                                                              style: figtreeMedium.copyWith(fontSize: 22),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        30.verticalSpace(),
+                                                          30.verticalSpace(),
 
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              'Participation Value',
-                                                              style: figtreeMedium.copyWith(fontSize: 12),
-                                                            ),
-                                                            5.verticalSpace(),
-                                                            TextField(
-                                                              controller: controller,
-                                                              maxLines: 1,
-                                                              keyboardType: TextInputType.number,
-                                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                                              minLines: 1,
-                                                              decoration: InputDecoration(
-                                                                  hintText: 'Enter participation value',
-                                                                  hintStyle:
-                                                                  figtreeMedium.copyWith(fontSize: 18),
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius: BorderRadius.circular(12),
-                                                                      borderSide: const BorderSide(
-                                                                        width: 1,
-                                                                        color: Color(0xff999999),
-                                                                      ))),
-                                                            ),
-                                                            30.verticalSpace(),
-                                                            Padding(
-                                                              padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                              child: customButton(
-                                                                'Submit',
-                                                                fontColor: 0xffFFFFFF,
-                                                                onTap: () {
-                                                                  if(controller.text.isEmpty){
-                                                                    showCustomToast(context, "Please enter participation value");
-                                                                  }else{
-                                                                    BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
-                                                                  }
-                                                                },
-                                                                height: 60,
-                                                                width: screenWidth(),
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                'Participation Value',
+                                                                style: figtreeMedium.copyWith(fontSize: 12),
                                                               ),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ]),
-                                                ),
-                                              );
-                                            }
-                                        ));
+                                                              5.verticalSpace(),
+                                                              TextField(
+                                                                controller: controller,
+                                                                maxLines: 1,
+                                                                keyboardType: TextInputType.number,
+                                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                                                minLines: 1,
+                                                                decoration: InputDecoration(
+                                                                    hintText: 'Enter participation value',
+                                                                    hintStyle:
+                                                                    figtreeMedium.copyWith(fontSize: 18),
+                                                                    border: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(12),
+                                                                        borderSide: const BorderSide(
+                                                                          width: 1,
+                                                                          color: Color(0xff999999),
+                                                                        ))),
+                                                              ),
+                                                              30.verticalSpace(),
+                                                              Padding(
+                                                                padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                                child: customButton(
+                                                                  'Submit',
+                                                                  fontColor: 0xffFFFFFF,
+                                                                  onTap: () {
+                                                                    if(controller.text.isEmpty){
+                                                                      showCustomToast(context, "Please enter participation value");
+                                                                    }else{
+
+                                                                      modalBottomSheetMenu(context, child: UpdateFarmerParticipation(
+                                                                          projectData: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
+                                                                          farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
+                                                                          farmerProjectId: state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()
+                                                                          ,controller: controller.text,
+                                                                          projectId:widget.projectId.toString()));
+
+                                                                    }
+                                                                  },
+                                                                  height: 60,
+                                                                  width: screenWidth(),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ]),
+                                                  ),
+                                                );
+                                              }
+                                          ));
+                                    }else{
+                                      modalBottomSheetMenu(context,
+                                          radius: 40,
+                                          child: StatefulBuilder(
+                                              builder: (context, setState) {
+                                                return SizedBox(
+                                                  height: 320,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                    child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Center(
+                                                            child: Text(
+                                                              'Farmer Participation',
+                                                              style: figtreeMedium.copyWith(fontSize: 22),
+                                                            ),
+                                                          ),
+                                                          30.verticalSpace(),
+
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                'Participation Value',
+                                                                style: figtreeMedium.copyWith(fontSize: 12),
+                                                              ),
+                                                              5.verticalSpace(),
+                                                              TextField(
+                                                                controller: controller,
+                                                                maxLines: 1,
+                                                                keyboardType: TextInputType.number,
+                                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                                                minLines: 1,
+                                                                decoration: InputDecoration(
+                                                                    hintText: 'Enter participation value',
+                                                                    hintStyle:
+                                                                    figtreeMedium.copyWith(fontSize: 18),
+                                                                    border: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(12),
+                                                                        borderSide: const BorderSide(
+                                                                          width: 1,
+                                                                          color: Color(0xff999999),
+                                                                        ))),
+                                                              ),
+                                                              30.verticalSpace(),
+                                                              Padding(
+                                                                padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                                child: customButton(
+                                                                  'Submit',
+                                                                  fontColor: 0xffFFFFFF,
+                                                                  onTap: () {
+                                                                    if(controller.text.isEmpty){
+                                                                      showCustomToast(context, "Please enter participation value");
+                                                                    }else{
+                                                                      BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
+                                                                    }
+                                                                  },
+                                                                  height: 60,
+                                                                  width: screenWidth(),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ]),
+                                                  ),
+                                                );
+                                              }
+                                          ));
+                                    }
                                   }
                                 }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
                             const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))

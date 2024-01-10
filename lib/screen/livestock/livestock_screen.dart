@@ -541,16 +541,16 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                       6.verticalSpace(),
                       Row(
                         children: [
-                          Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.name != null
+                          Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!=null?state.responseLivestockList!.data!.liveStoclLIst![index].user!.name != null
                               ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.name ?? ''
-                              : '',
+                              : '':'',
                             style: figtreeMedium.copyWith(
                                 fontSize: 12, color: Colors.black), maxLines: 1,),
 
                           Flexible(
-                            child: Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.address != null
+                            child: Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!=null?state.responseLivestockList!.data!.liveStoclLIst![index].user!.address != null
                                 ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.address!.address ?? ''
-                                : '',
+                                : '':'',
                               overflow: TextOverflow.ellipsis,
                               style: figtreeMedium.copyWith(
                                   fontSize: 12, color: Colors.black), maxLines: 1,),

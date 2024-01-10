@@ -42,6 +42,7 @@ class ProfileCubitState extends Equatable{
   final String ?selectCounty,selectSubCounty;
   final List<TextEditingController>? areaControllers;
   final ResponseTeamMemberList? responseTeamMemberList;
+  final ResponseDdeTarget? responseDdeTarget;
   final NotificationList? responseNotificationList;
   final List<DataMemberList>? filterMemberList;
   // final GoogleMapController
@@ -98,6 +99,7 @@ class ProfileCubitState extends Equatable{
     required this.responseTeamMemberList,
     required this.filterMemberList,
     required this.responseNotificationList,
+    required this.responseDdeTarget,
   });
 
   factory ProfileCubitState.initial() {
@@ -153,6 +155,7 @@ class ProfileCubitState extends Equatable{
       responseTeamMemberList: null,
       responseNotificationList: null,
       filterMemberList: [],
+      responseDdeTarget: null
     );
   }
 
@@ -195,6 +198,7 @@ class ProfileCubitState extends Equatable{
     ResponseTeamMemberList? responseTeamMemberList,
     NotificationList? responseNotificationList,
     List<DataMemberList>? filterMemberList,
+    ResponseDdeTarget? responseDdeTarget
   }) {
     return ProfileCubitState(
       status: status ?? this.status,
@@ -248,6 +252,7 @@ class ProfileCubitState extends Equatable{
       responseTeamMemberList: responseTeamMemberList ?? this.responseTeamMemberList,
       filterMemberList: filterMemberList ?? this.filterMemberList,
       responseNotificationList: responseNotificationList ?? this.responseNotificationList,
+      responseDdeTarget: responseDdeTarget ?? this.responseDdeTarget,
     );
   }
 
@@ -303,6 +308,7 @@ class ProfileCubitState extends Equatable{
     responseTeamMemberList,
     filterMemberList,
     responseNotificationList,
+    responseDdeTarget
   ];
 
 }

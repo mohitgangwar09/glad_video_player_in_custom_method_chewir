@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart' as g;
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -64,7 +65,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
                   leading: arrowBackButton(
                     onTap: (){
                       if(widget.navigateFrom !=null){
-                        const DashboardFarmer().navigate(isInfinity: true);
+                        const DashboardFarmer().navigate(isInfinity: true, transition: g.Transition.leftToRight);
                       }else{
                         pressBack();
                       }

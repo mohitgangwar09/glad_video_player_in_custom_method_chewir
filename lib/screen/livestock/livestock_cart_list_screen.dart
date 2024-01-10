@@ -37,6 +37,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
   TextEditingController loan = TextEditingController();
 
   double subtotal = 0;
+  double? participationPercentage;
 
   @override
   void initState() {
@@ -345,6 +346,9 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
                     customButton(width: screenWidth()*0.6,'Apply Loan', fontColor: 0xffffffff,onTap: (){
                       TextEditingController controller = TextEditingController();
+
+                      participationPercentage = (subtotal*state.responseLivestockCartList!.data![0].farmerParticipationPercent)/100;
+                      controller.text = participationPercentage!.toStringAsFixed(0);
                       modalBottomSheetMenu(context,
                           radius: 40,
                           child: StatefulBuilder(
@@ -375,8 +379,10 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                 minLines: 1,
                                                 onChanged: (value){
                                                   // if()
-                                                  if(double.parse(controller.text)>subtotal){
+                                                  if(double.parse(controller.text.toString())>subtotal){
                                                     showCustomToast(context, "Buyer participation can't be more than cart total");
+                                                  }else if(double.parse(controller.text)<participationPercentage!){
+                                                    showCustomToast(context, "Buyer participation can't be less than ${state.responseLivestockCartList!.data![0].farmerParticipationPercent}% of subtotal");
                                                   }
                                                 },
                                                 decoration: InputDecoration(
@@ -402,20 +408,13 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
                                                     }else if(double.parse(controller.text)>subtotal){
                                                       showCustomToast(context, "Buyer participation can't be more than cart total");
+                                                    }else if(double.parse(controller.text)<participationPercentage!){
+                                                      showCustomToast(context, "Buyer participation can't be less than ${state.responseLivestockCartList!.data![0].farmerParticipationPercent}% of subtotal");
                                                     }else{
                                                       LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text,
                                                         farmerMaster: state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.user!.farmerMaster!
                                                       ).navigate();
                                                     }
-
-                                                    /*ProjectKYC(farmerId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id!, userId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.userId.toString(),
-                                                        farmerMaster:state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!,
-                                                        farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString()).navigate();*/
-                                                    /*if(controller.text.isEmpty){
-                                                      showCustomToast(context, "Please enter participation value");
-                                                    }else{
-                                                      BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
-                                                    }*/
                                                   },
                                                   height: 60,
                                                   width: screenWidth(),

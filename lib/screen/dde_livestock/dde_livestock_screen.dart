@@ -572,15 +572,15 @@ class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.name != null
+                            Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!=null?state.responseLivestockList!.data!.liveStoclLIst![index].user!.name != null
                                 ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.name ?? ''
-                                : '',
+                                : '':'',
                               style: figtreeMedium.copyWith(
                                   fontSize: 12, color: Colors.black), maxLines: 1,),
 
-                            Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.address != null
+                            Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!=null?state.responseLivestockList!.data!.liveStoclLIst![index].user!.address != null
                                 ? state.responseLivestockList!.data!.liveStoclLIst![index].user!.address!.address.toString() ?? ''
-                                : '',
+                                : '':'',
                               overflow: TextOverflow.ellipsis,
                               style: figtreeRegular.copyWith(
                                   fontSize: 12, color: Colors.black),

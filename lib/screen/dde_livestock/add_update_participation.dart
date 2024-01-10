@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -13,25 +16,19 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../data/model/farmer_project_detail_model.dart';
-
-
-class AddMarkAsDelivery extends StatefulWidget {
-  final FarmerMaster? projectData;
-  final Seller seller;
-  final String cartId,farmerProjectId,controller,status;
-  final List<String> docOneFile;
-  final String? userOtp;
-
-  const AddMarkAsDelivery({super.key,this.projectData,required this.seller,
-  required this.cartId,required this.farmerProjectId,required this.controller,
-    required this.status,required this.docOneFile,this.userOtp});
+class UpdateFarmerParticipation extends StatefulWidget {
+  final FarmerMaster projectData;
+  final String farmerProjectId;
+  final String projectId,farmerId;
+  final String controller;
+  const UpdateFarmerParticipation({super.key,required this.projectData,
+    required this.farmerProjectId,required this.farmerId,required this.controller,required this.projectId});
 
   @override
-  State<AddMarkAsDelivery> createState() => _AddMarkAsDeliveryState();
+  State<UpdateFarmerParticipation> createState() => _UpdateFarmerParticipationState();
 }
 
-class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
+class _UpdateFarmerParticipationState extends State<UpdateFarmerParticipation> {
   int secondsRemaining = 20;
   bool enableResend = false;
   String date = '';
@@ -142,20 +139,14 @@ class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
                   });
                 }
               });
-              if(widget.userOtp !=null){
-                BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                    widget.projectData!.phone.toString()
-                );
-              }else{
-                BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                    widget.seller.phone.toString()
-                );
-              }
+
+              BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                  widget.projectData.phone.toString()
+              );
             }:(){}):const SizedBox.shrink(),
 
         30.verticalSpace(),
 
-        widget.userOtp !=null?
         Container(
           height: 100,
           width: screenWidth(),
@@ -170,13 +161,13 @@ class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    widget.projectData!.photo!=null?
+                    widget.projectData.photo!=null?
                     CircleAvatar(
                         radius: 33,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(40),
                           child: CachedNetworkImage(
-                            imageUrl: widget.projectData!.photo! ?? '',
+                            imageUrl: widget.projectData.photo! ?? '',
                             errorWidget: (_, __, ___) {
                               return Image.asset(
                                 Images.sampleUser,
@@ -203,7 +194,7 @@ class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.projectData!.name! ?? '',
+                        Text(widget.projectData.name! ?? '',
                             style: figtreeMedium.copyWith(
                                 fontSize: 16, color: Colors.black)),
                         10.verticalSpace(),
@@ -215,7 +206,7 @@ class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
                               color: Colors.black,
                               size: 16,
                             ),
-                            Text(widget.projectData!.phone! ?? '',
+                            Text(widget.projectData.phone! ?? '',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: Colors.black)),
                           ],
@@ -232,106 +223,8 @@ class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width *
                                   0.5,
-                              child: Text(widget.projectData!.address!=null?
-                              widget.projectData!.address!.address!=null ?widget.projectData!.address!.address!.toString():"":"",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: figtreeRegular.copyWith(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      ],
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ):
-        Container(
-          height: 100,
-          width: screenWidth(),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: ColorResources.grey)),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    widget.seller.photo!=null?
-                    CircleAvatar(
-                        radius: 33,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(40),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.seller.photo ?? '',
-                            errorWidget: (_, __, ___) {
-                              return Image.asset(
-                                Images.sampleUser,
-                                fit: BoxFit.cover,
-                                width: 80,
-                                height: 80,
-                              );
-                            },
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
-                          ),
-                        )) :
-                    CircleAvatar(
-                      radius: 30,
-                      child: Image.asset(
-                        Images.sampleUser,
-                        fit: BoxFit.cover,
-                        width: 80,
-                        height: 80,
-                      ),
-                    ),
-                    15.horizontalSpace(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.seller.name ?? '',
-                            style: figtreeMedium.copyWith(
-                                fontSize: 16, color: Colors.black)),
-                        10.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.call,
-                              color: Colors.black,
-                              size: 16,
-                            ),
-                            Text(widget.seller.phone ?? '',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                          ],
-                        ),
-                        4.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: Colors.black,
-                              size: 16,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.5,
-                              child: Text(widget.seller.address!=null?
-                              widget.seller.address!.address!=null ?widget.seller.address!.address!.toString():"":"",
+                              child: Text(widget.projectData.address!=null?
+                              widget.projectData.address!.address!=null ?widget.projectData.address!.address!.toString():"":"",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: figtreeRegular.copyWith(
@@ -404,15 +297,11 @@ class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
                   customTextButton(
                       text: "Resend",
                       onTap: () {
-                        if(widget.userOtp !=null){
-                          BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                              widget.projectData!.phone.toString()
-                          );
-                        }else{
+
                         BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                        widget.seller.phone.toString());
-                        }
-                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
+                            widget.projectData.phone.toString()
+                        );
+
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;
@@ -475,8 +364,11 @@ class _AddMarkAsDeliveryState extends State<AddMarkAsDelivery> {
             },
             onChanged: (value) {
               if(value.length==4){
-                BlocProvider.of<ProjectCubit>(context).verifyDdeMarkAsDeliveryApi(context, value.toString(),
-                widget.userOtp!=null?widget.projectData!.userId.toString():widget.seller.userId.toString(),widget.cartId,widget.farmerProjectId,widget.controller,widget.status,widget.docOneFile);
+
+                  BlocProvider.of<ProjectCubit>(context).verifyFarmerParticipationApi(context, value.toString(),
+                      widget.projectData.userId.toString(),widget.farmerId.toString(),widget.farmerProjectId.toString(),
+                      widget.controller.toString(),widget.projectId.toString());
+                // BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
               }
               // setState(() {
               //   // currentText = value;

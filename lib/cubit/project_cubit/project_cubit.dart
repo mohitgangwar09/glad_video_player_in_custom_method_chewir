@@ -535,6 +535,27 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  ///// verifyProjectStatusApi /////
+  Future<void> verifyFarmerParticipationApi(context,String otp,String userId,String farmerId, String farmerProjectID,
+      String controller,String projectId) async{
+
+    customDialog(widget: launchProgress());
+
+    var response = await apiRepository.verifyProjectStatusApi(otp, userId);
+
+    disposeProgress();
+
+    if(response.status == 200){
+      pressBack();
+
+      await farmerParticipationApi(context,farmerId.toString(),farmerProjectID.toString(), controller,int.parse(projectId));
+
+    } else {
+      // emit(state.copyWith(status: ProjectStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 
   ///// verifyProjectStatusApi /////
   Future<void> verifyProjectStatusFarmerLoanApprovalApi(context,String otp,String projectId,

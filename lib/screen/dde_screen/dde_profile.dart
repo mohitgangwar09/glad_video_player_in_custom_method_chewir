@@ -33,6 +33,7 @@ class _DDEProfileState extends State<DDEProfile> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
+      BlocProvider.of<ProfileCubit>(context).ddeTargetApi(context);
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
     });
   }
@@ -63,6 +64,7 @@ class _DDEProfileState extends State<DDEProfile> {
                           profileInputField(context,state),
                           earningCardDetails(context,state),
                           20.verticalSpace(),
+                          ddeTarget(context,state),
                         ],
                       );
                     }
