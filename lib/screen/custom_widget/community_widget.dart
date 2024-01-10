@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/common/community_like_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -199,7 +200,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                         result = InkWell(
                                           onTap: () {
                                             if(!context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType)) {
-                                              const LoginWithPassword().navigate();
+                                              const RegisterPopUp().navigate();
                                             } else {
                                               CommunityLikeList(
                                                   communityId: widget.id
@@ -226,7 +227,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                                     },
                                     onTap: (tap) async{
                                       if(!context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType)) {
-                                        const LoginWithPassword().navigate();
+                                        const RegisterPopUp().navigate();
                                       } else {
                                         context.read<CommunityCubit>().addLikeApi(context, widget.id.toString());
                                       }

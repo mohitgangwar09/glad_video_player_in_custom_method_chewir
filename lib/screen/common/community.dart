@@ -6,6 +6,7 @@ import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/common/community_friend_list.dart';
 import 'package:glad/screen/common/community_post_add.dart';
 import 'package:glad/screen/common/community_post_detail.dart';
@@ -137,7 +138,7 @@ class _CommunityPostState extends State<CommunityPost> {
                       if(context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType)) {
                         const CommunityPostAdd().navigate();
                       } else {
-                        const LoginWithPassword().navigate();
+                        const RegisterPopUp().navigate();
                       }
                     },
                   ))

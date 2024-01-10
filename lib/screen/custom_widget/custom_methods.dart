@@ -9,11 +9,14 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/screen/common/weather_chart.dart';
+import 'package:glad/screen/custom_loan/apply_custom_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/livestock/add_livestock.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:open_file_safe_plus/open_file_safe_plus.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'dart:io' show File, Platform;
@@ -553,6 +556,24 @@ Widget authBackgroundForgotOtp({Widget? widget}){
     ],
   );
 }
+
+Widget authBackgroundRegisterPopUp({Widget? widget}){
+  return Stack(
+    children: [
+
+      Align(
+          alignment: Alignment.topRight,child: SvgPicture.asset(Images.otpBack2,
+        fit: BoxFit.fill,)),
+
+      widget!,
+
+      Positioned(
+          bottom: 0,right: 0,child: SvgPicture.asset(Images.otpBack1,))
+
+    ],
+  );
+}
+
 
 
 validator(String error,{Color color = Colors.red}) {
@@ -1509,7 +1530,7 @@ Widget weatherWidget(){
   });
 }
 
-Widget selectFarmer({String? userId}){
+Widget selectFarmer({String? userId, bool isCustomLoan = false}){
   TextEditingController searchEditingController = TextEditingController();
   return BlocBuilder<DdeFarmerCubit,DdeState>(
       builder: (context,state){
@@ -1603,6 +1624,9 @@ Widget selectFarmer({String? userId}){
                           }else{
                             LiveStockCartListScreen(userId:state.response!.farmerMAster![i].userId.toString()).navigate();
                           }
+                          if(isCustomLoan) {
+                            BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context,BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString() : null, isLoadingRequired: false);
+                          }
                         },
                         child: Padding(
                           padding:
@@ -1686,7 +1710,7 @@ Widget selectFarmer({String? userId}){
   );
 }
 
-Widget selectFarmerAddDdeLivestock({String? userId}){
+Widget selectFarmerAddDdeLivestock({String? userId, bool isCustomLoan = false}){
   TextEditingController searchEditingController = TextEditingController();
   return BlocBuilder<DdeFarmerCubit,DdeState>(
       builder: (context,state){
@@ -1775,8 +1799,13 @@ Widget selectFarmerAddDdeLivestock({String? userId}){
                       child: InkWell(
                         onTap: (){
                           pressBack();
-                          BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
-                          const AddLivestock().navigate();
+                          if(isCustomLoan) {
+                            BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
+                            const ApplyCustomLoan().navigate();
+                          } else {
+                            BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
+                            const AddLivestock().navigate();
+                          }
                         },
                         child: Padding(
                           padding:

@@ -13,6 +13,7 @@ import 'package:glad/data/model/dde_visitor_details.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
+import 'package:glad/screen/custom_loan/custom_loan_list.dart';
 import 'package:glad/screen/dde_livestock/dde_livestock_screen.dart';
 import 'package:glad/screen/livestock/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
@@ -412,6 +413,16 @@ class _DDELandingPageState extends State<DDELandingPage> {
           20.verticalSpace(),
 
           earningCardDetails(context),
+
+            30.verticalSpace(),
+            InkWell(
+                onTap: () {
+                  const CustomLoanList().navigate();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Image.asset(Images.customLoan),
+                )),
 
             LiveStockMarketplace(onTapShowAll: () {
               const DdeLiveStockScreen().navigate();

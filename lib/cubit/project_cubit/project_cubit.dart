@@ -8,10 +8,12 @@ import 'package:glad/data/model/dde_project_model.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart' as dde;
 import 'package:glad/data/model/farmer_project_milestone_detail_model.dart';
 import 'package:glad/data/model/farmer_project_model.dart';
+import 'package:glad/data/model/farmers_list.dart';
 import 'package:glad/data/model/loan_purpose_list.dart';
 import 'package:glad/data/model/response_account_statement.dart';
 import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
+import 'package:glad/data/model/response_custom_loan_list.dart';
 import 'package:glad/data/model/response_farmer_filter_list.dart';
 import 'package:glad/data/model/response_loan_form.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
@@ -22,6 +24,7 @@ import 'package:glad/data/model/supplier_project_model.dart';
 import 'package:glad/data/repository/project_repo.dart';
 import 'package:glad/screen/common/congratulation_screen.dart';
 import 'package:glad/screen/common/thankyou_loan_livestock.dart';
+import 'package:glad/screen/custom_loan/thankyou_custom_loan.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/add_remark.dart';
 import 'package:glad/screen/dde_screen/dde_milestone_detail.dart';
@@ -1246,23 +1249,23 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // supplierFarmerFilterListApi
-  void customLoanListApi(context) async {
-
-    var response = await apiRepository.getSupplierFarmerFilterListApi();
+  void customLoanListApi(context, String search) async {
+    emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.getCustomLoanListApi(search);
 
     if (response.status == 200) {
-
-      emit(state.copyWith(responseFarmerFilterDropdownList: response));
-      // showCustomToast(context, response.message.toString());
-
+      emit(state.copyWith(status: ProjectStatus.success, responseCustomLoanList: response));
     } else {
       showCustomToast(context, response.message.toString());
+      emit(state.copyWith(status: ProjectStatus.error));
     }
   }
 
   // supplierFarmerFilterListApi
-  void customLoanFormApi(context, String? farmerId) async {
-    emit(state.copyWith(status: ProjectStatus.loading));
+  void customLoanFormApi(context, String? farmerId, {bool isLoadingRequired = true}) async {
+    if(isLoadingRequired) {
+      emit(state.copyWith(status: ProjectStatus.loading));
+    }
 
     var response = await apiRepository.getCustomLoanFormApi(farmerId);
     if (response.status == 200) {
@@ -1285,18 +1288,37 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
-  void customLoanApplyApi(context, String loanPurpose, int loanAmount, int repaymentMonths, String remarks, String? farmerId) async {
+  void customLoanApplyApi(context, String loanPurpose, int loanAmount, int repaymentMonths, String remarks, String? farmerId, String addressDocName, String addressDocNo, String addressDocExpiryDate,
+      List<String> documentFiles,String idDocName,
+      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto, FarmerMAster? farmerMaster) async {
     customDialog(widget: launchProgress());
 
     var response = await apiRepository.addCustomLoanApi(loanPurpose, loanAmount, repaymentMonths, remarks, farmerId);
-    disposeProgress();
     if (response.status == 200) {
-      pressBack();
+      customLoanKycApi(context, response.data!['farmer_id'].toString(), response.data!['id'].toString(),
+          addressDocName, addressDocNo,
+          addressDocExpiryDate, documentFiles,
+          idDocName, idDocTypeNo, idDocTypeExpiryDate,
+          documentTypeFiles, farmerPhoto,farmerMaster);
+      // customLoanListApi(context, '');
+      showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: ProjectStatus.error));
     }
   }
 
+  Future<void> customLoanKycApi(context, String farmerId, String farmerProjectId, String addressDocName, String addressDocNo, String addressDocExpiryDate,
+      List<String> documentFiles,String idDocName,
+      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto,FarmerMAster? farmerMaster) async {
+    var response = await apiRepository.projectKycApi(farmerId, farmerProjectId, addressDocName, addressDocNo, addressDocExpiryDate, documentFiles.map((e) => File(e)).toList(), idDocName, idDocTypeNo, idDocTypeExpiryDate, documentTypeFiles.map((e) => File(e)).toList(), File(farmerPhoto));
+    disposeProgress();
+    if (response.status == 200) {
+      ThankYouCustomLoan(response: farmerMaster).navigate(isInfinity: true);
+      showCustomToast(context, response.message.toString(), isSuccess: true);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
 
 }

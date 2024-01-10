@@ -61,7 +61,7 @@ class _ViewKYCDocumentsState extends State<ViewKYCDocuments> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
-                                  imageUrl: widget.farmerDocuments.profilePic!,
+                                  imageUrl: widget.farmerDocuments.profilePic ?? '',
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) =>
                                       SvgPicture.asset(Images.uploadPP),

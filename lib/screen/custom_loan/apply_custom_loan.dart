@@ -1,20 +1,23 @@
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/farmers_list.dart' as fa;
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/loan_purpose_list.dart';
+import 'package:glad/screen/custom_loan/custom_loan_kyc.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
-import 'package:intl/intl.dart';
 
 class ApplyCustomLoan extends StatefulWidget {
   const ApplyCustomLoan({Key? key}) : super(key: key);
@@ -25,6 +28,7 @@ class ApplyCustomLoan extends StatefulWidget {
 
 class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
+  String countryCode = "";
   String? purpose = '';
   TextEditingController price = TextEditingController();
   TextEditingController period = TextEditingController();
@@ -32,9 +36,15 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
   @override
   void initState() {
-    BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context, null);
+    BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context,BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString() : null);
     BlocProvider.of<ProjectCubit>(context).customLoanPurposeListApi(context);
+    getCountryCode();
     super.initState();
+  }
+
+  void getCountryCode() async{
+    String countryCodes = await BlocProvider.of<ProfileCubit>(context).getCountryCode();
+    countryCode = countryCodes;
   }
 
   @override
@@ -68,6 +78,108 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20),
                         child: Column(children: [
+
+                          if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde")
+                            BlocBuilder<LivestockCubit, LivestockCubitState>(
+                                builder: (context, state) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 0, right: 0, bottom: 0,top: 10),
+                                      child: Container(
+                                        decoration: boxDecoration(
+                                            borderRadius: 10,
+                                            backgroundColor: const Color(0xffFBF9F9)
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(15.0, 10, 0, 5),
+                                          child: Stack(
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  state.selectedLivestockFarmerMAster!.photo == null ?Image.asset(Images.sampleUser):
+                                                  networkImage(text: state.selectedLivestockFarmerMAster!.photo!,height: 46,width: 46,radius: 40),
+                                                  15.horizontalSpace(),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(state.selectedLivestockFarmerMAster!.name!,
+                                                          style: figtreeMedium.copyWith(
+                                                              fontSize: 16,
+                                                              color: Colors.black)),
+                                                      4.verticalSpace(),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              "${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.selectedLivestockFarmerMAster!.phone.toString()}",
+                                                              style:
+                                                              figtreeRegular.copyWith(
+                                                                  fontSize: 12,
+                                                                  color: Colors.black)),
+
+                                                        ],
+                                                      ),
+                                                      4.verticalSpace(),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                                0.5,
+                                                            child: Text(
+                                                              state.selectedLivestockFarmerMAster!.address!=null?
+                                                              state.selectedLivestockFarmerMAster!.address!.address!=null?state.selectedLivestockFarmerMAster!.address!.address!:"":"",
+                                                              style:
+                                                              figtreeRegular.copyWith(
+                                                                fontSize: 12,
+                                                                color: Colors.black,
+                                                                overflow:
+                                                                TextOverflow.ellipsis,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(right: 14.0),
+                                                  child: InkWell(
+                                                      onTap: (){
+                                                        modalBottomSheetMenu(context,
+                                                            radius: 40,
+                                                            child: SizedBox(
+                                                                height: screenHeight()-220,
+                                                                child: selectFarmer(isCustomLoan: true)));
+                                                      }, child: SvgPicture.asset(Images.edit,width: 20,height: 20,)),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    20.verticalSpace(),
+
+                                  ],
+                                );
+                              }
+                            ),
                           kpi(context, state),
 
                           30.verticalSpace(),
@@ -207,6 +319,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                               maxLines: 4,
                               minLines: 4,
                               decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(top: 10,left: 13),
                                   hintStyle:
                                   figtreeMedium.copyWith(fontSize: 18),
                                   border: InputBorder.none),
@@ -229,17 +342,24 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
                                     } else if (period.text == ''){
                                       showCustomToast(context, 'Repayment months are required');
-                                    } else if (int.parse(period.text)> int.parse(state.responseLoanForm!.data!.maxEmis.toString())){
+                                    } else if (int.parse(period.text) > int.parse(state.responseLoanForm!.data!.maxEmis.toString())){
                                       showCustomToast(context, 'Repayment months cannot be more than Max. EMI\'s');
                                     } else if (remarks.text == ''){
                                       showCustomToast(context, 'Remarks are required');
                                     } else {
-                                      BlocProvider.of<ProjectCubit>(context)
-                                          .customLoanApplyApi(
-                                          context, purpose.toString(),
-                                          int.parse(price.text.toString()),
-                                          int.parse(period.text.toString()),
-                                          remarks.text.toString(), null);
+                                      CustomLoanKYC(
+                                        purpose: purpose.toString(),
+                                        price: int.parse(price.text.toString()),
+                                        period: int.parse(period.text.toString()),
+                                        remarks: remarks.text.toString(),
+                                        farmerMaster: BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster! : null,
+                                      ).navigate();
+                                      // BlocProvider.of<ProjectCubit>(context)
+                                      //     .customLoanApplyApi(
+                                      //     context, purpose.toString(),
+                                      //     int.parse(price.text.toString()),
+                                      //     int.parse(period.text.toString()),
+                                      //     remarks.text.toString(), widget.farmerMAster != null ? widget.farmerMAster!.id.toString() : null);
                                     }
                                   })),
 
