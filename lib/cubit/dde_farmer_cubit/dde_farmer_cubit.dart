@@ -390,7 +390,7 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     ));
   }
 
-  Future<void> getFarmer(context, String ragRatingType, bool showLoader,{String? searchQuery}) async{
+  Future<void> getFarmer(context, String ragRatingType, bool showLoader,{String? searchQuery, String? fromLivestockDetail}) async{
     // customDialog(widget: launchProgress());
     if (showLoader){
       emit(state.copyWith(status: DdeFarmerStatus.loading));
@@ -411,6 +411,9 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     );
     if(response.status == 200){
       // disposeProgress();
+      if(fromLivestockDetail != null) {
+        response.data!.farmerMAster!.removeWhere((element) =>element.userId.toString() == fromLivestockDetail);
+      }
       emit(state.copyWith(status: DdeFarmerStatus.success, response: response.data, selectedRagRatingType: ragRatingType));
     }
     else{

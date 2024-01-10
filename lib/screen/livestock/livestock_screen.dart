@@ -433,7 +433,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
           context, child: (index){
         return InkWell(
           onTap: () {
-            LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,type: 'buyer',).navigate();
+            LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,type: 'buyer').navigate();
           },
           child: customShadowContainer(
             margin: 0,

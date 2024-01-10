@@ -438,7 +438,7 @@ class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
         return InkWell(
           onTap: () {
             BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster = null;
-            LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,type: 'buyer',).navigate();
+            LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,type: 'buyer', removeUserID: state.responseLivestockList!.data!.liveStoclLIst![index].userId.toString()).navigate();
           },
           child: customShadowContainer(
             margin: 0,

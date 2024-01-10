@@ -58,7 +58,7 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                       children: [
                         CustomAppBar(
                           context: context,
-                          titleText1: 'My Livestock Ads',
+                          titleText1: 'My Farmer\'s Ads',
                           centerTitle: true,
                           leading: arrowBackButton(onTap: (){
                             if(widget.isNavigate!=null){
@@ -274,7 +274,7 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                           children: [
 
                             state.responseMyLivestockList!.data!.livestocklLIst![index].user!.profilePic == null ?Image.asset(Images.sampleUser):
-                            networkImage(text: state.responseLivestockList!.data!.liveStoclLIst![index].user!.profilePic.toString(),height: 30,width: 30,radius: 30),
+                            networkImage(text: state.responseMyLivestockList!.data!.livestocklLIst![index].user!.profilePic.toString(),height: 30,width: 30,radius: 30),
 
                             7.horizontalSpace(),
 
@@ -302,11 +302,11 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                           ],
                         ),
                       ),
-                      Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
-                          ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!['address'] ?? ''
-                          : '',
-                        style: figtreeMedium.copyWith(
-                            fontSize: 12, color: Colors.black), maxLines: 1,),
+                      // Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
+                      //     ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!['address'] ?? ''
+                      //     : '',
+                      //   style: figtreeMedium.copyWith(
+                      //       fontSize: 12, color: Colors.black), maxLines: 1,),
                       // 12.verticalSpace(),
                       // Row(
                       //   children: [

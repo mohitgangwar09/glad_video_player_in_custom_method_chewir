@@ -33,10 +33,11 @@ import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class LiveStockDetail extends StatefulWidget {
-  const LiveStockDetail({Key? key, required this.isMyLivestock, required this.id,this.type}) : super(key: key);
+  const LiveStockDetail({Key? key, required this.isMyLivestock, required this.id,this.type, this.removeUserID}) : super(key: key);
   final bool isMyLivestock;
   final String id;
   final String? type;
+  final String? removeUserID;
 
   @override
   State<LiveStockDetail> createState() => _LiveStockDetailState();
@@ -51,7 +52,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
   void initState() {
     if(BlocProvider.of<AuthCubit>(context).isLoggedIn()){
     if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
-      BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+      BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true, fromLivestockDetail: widget.removeUserID);
     }}
 
     getCountryCode();
