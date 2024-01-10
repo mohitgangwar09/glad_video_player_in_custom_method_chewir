@@ -75,6 +75,7 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
             itemBuilder: (context, index){
           return InkWell(
             onTap: () {
+              BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster = null;
               LiveStockDetail(id: state.responseLivestockList!.data!.liveStoclLIst![index].id.toString(), isMyLivestock: false,type: 'buyer', removeUserID: state.responseLivestockList!.data!.liveStoclLIst![index].userId.toString(),).navigate();
             },
             child: customShadowContainer(

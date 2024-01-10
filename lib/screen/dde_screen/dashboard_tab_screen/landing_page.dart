@@ -89,6 +89,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
       BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
+      BlocProvider.of<ProfileCubit>(context).ddeTargetMonthsApi(context);
       BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, 'pending', false);
 
     });
@@ -414,6 +415,8 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
           earningCardDetails(context),
 
+            20.verticalSpace(),
+            ddeTarget(context, BlocProvider.of<ProfileCubit>(context).state),
             30.verticalSpace(),
             InkWell(
                 onTap: () {
