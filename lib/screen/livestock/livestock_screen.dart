@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
 import 'package:glad/screen/livestock/livestock_detail.dart';
 import 'package:glad/screen/livestock/livestock_filter.dart';
@@ -263,7 +264,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                       .containsKey(AppConstants.userType) ? () {
                                     const MyLiveStockScreen().navigate();
                                   } : () {
-                                    const LoginWithPassword().navigate();
+                                    const RegisterPopUp().navigate();
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(
@@ -285,7 +286,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                       .containsKey(AppConstants.userType) ? () {
                                     const LoanApplication(type: 'buyer',).navigate();
                                   } : () {
-                                    const LoginWithPassword().navigate();
+                                    const RegisterPopUp().navigate();
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(

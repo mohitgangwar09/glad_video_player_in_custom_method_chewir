@@ -13,6 +13,7 @@ import 'package:glad/data/model/add_followup_remark_model.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/dde_livestock/add_mark_as_delivery.dart';
 import 'package:glad/screen/dde_livestock/remove_this_ad_otp.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/farmer_dde_tab_screen.dart';
@@ -613,7 +614,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                            advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
                                            userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
                                        } : () {
-                                         LoginWithPassword().navigate();
+                                         RegisterPopUp().navigate();
                                        },
                                        width: screenWidth(),
                                        fontColor: 0xffFFFFFF,
@@ -804,7 +805,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                 advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
                                 userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
                             } : () {
-                          LoginWithPassword().navigate();
+                              RegisterPopUp().navigate();
                             },
                             width: screenWidth(),
                             fontColor: 0xffFFFFFF,
@@ -935,7 +936,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                 const LiveStockCartListScreen().navigate();
                               }
                             } : () {
-                          const LoginWithPassword().navigate();
+                          const RegisterPopUp().navigate();
                             },
                             width: screenWidth(),
                             fontColor: 0xffFFFFFF,

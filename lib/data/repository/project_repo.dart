@@ -11,6 +11,7 @@ import 'package:glad/data/model/response_add_value.dart';
 import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
+import 'package:glad/data/model/response_custom_loan_list.dart';
 import 'package:glad/data/model/response_farmer_filter_list.dart';
 import 'package:glad/data/model/response_loan_form.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
@@ -910,15 +911,22 @@ class ProjectRepository {
   }
 
   ///////////////// getSupplierFarmerFilterListApi //////////
-  Future<ResponseOtpModel> getCustomLoanListApi() async {
+  Future<ResponseCustomLoanList> getCustomLoanListApi(String search) async {
+
+    Map<String, dynamic> query= {};
+
+    if(search != '') {
+      query.addAll({'search' : search});
+    }
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.customLoanListApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: query);
 
     if (apiResponse.status) {
-      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+      return ResponseCustomLoanList.fromJson(apiResponse.response!.data);
     } else {
-      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+      return ResponseCustomLoanList(status: 422, message: apiResponse.msg);
     }
   }
 

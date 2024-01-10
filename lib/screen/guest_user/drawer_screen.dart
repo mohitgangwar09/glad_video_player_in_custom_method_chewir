@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
@@ -183,6 +184,7 @@ class GuestSideDrawer extends StatelessWidget {
         40.verticalSpace(),
         InkWell(
           onTap: () {
+            // RegisterPopUp().navigate();
             pressBack();
             const LoginWithPassword().navigate();
           },

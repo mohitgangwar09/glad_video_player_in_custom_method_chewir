@@ -34,6 +34,7 @@ class ProjectState extends Equatable {
   final ResponseProjectSupplierFilterDropdownList? responseProjectSupplierFilterDropdownList;
   final ResponseLoanForm? responseLoanForm;
   final LoanPurposeList? responseLoanPurposeList;
+  final ResponseCustomLoanList? responseCustomLoanList;
 
 
   const ProjectState({
@@ -96,6 +97,7 @@ class ProjectState extends Equatable {
     required this.selectFarmerFilter,
     required this.responseLoanForm,
     required this.responseLoanPurposeList,
+    required this.responseCustomLoanList,
   });
 
   factory ProjectState.initial() {
@@ -161,6 +163,7 @@ class ProjectState extends Equatable {
       responseProjectSupplierFilterDropdownList: null,
       responseLoanForm: null,
       responseLoanPurposeList: null,
+      responseCustomLoanList: null,
     );
   }
 
@@ -196,6 +199,7 @@ class ProjectState extends Equatable {
     ResponseProjectSupplierFilterDropdownList? responseProjectSupplierFilterDropdownList,
     ResponseLoanForm? responseLoanForm,
     LoanPurposeList? responseLoanPurposeList,
+    ResponseCustomLoanList? responseCustomLoanList,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -269,6 +273,7 @@ class ProjectState extends Equatable {
       responseFarmerFilterDropdownList: responseFarmerFilterDropdownList ?? this.responseFarmerFilterDropdownList,
       responseLoanForm: responseLoanForm ?? this.responseLoanForm,
       responseLoanPurposeList: responseLoanPurposeList ?? this.responseLoanPurposeList,
+      responseCustomLoanList: responseCustomLoanList ?? this.responseCustomLoanList,
     );
   }
 
@@ -331,5 +336,6 @@ class ProjectState extends Equatable {
     selectFarmerFilter,
     responseLoanForm,
     responseLoanPurposeList,
+    responseCustomLoanList,
   ];
 }

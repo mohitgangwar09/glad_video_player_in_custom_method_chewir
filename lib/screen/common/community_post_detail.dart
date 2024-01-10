@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/community_cubit/community_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/common/community_like_list.dart';
 import 'package:glad/screen/common/friend_chat.dart';
@@ -187,7 +188,7 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                                       .read<CommunityCubit>()
                                       .sharedPreferences
                                       .containsKey(AppConstants.userType)) {
-                                    const LoginWithPassword().navigate();
+                                    const RegisterPopUp().navigate();
                                   } else {
                                     CommunityLikeList(
                                         communityId: state.responseCommunityDetailList!.data![0].id.toString())
@@ -217,7 +218,7 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                                 .read<CommunityCubit>()
                                 .sharedPreferences
                                 .containsKey(AppConstants.userType)) {
-                              const LoginWithPassword().navigate();
+                              const RegisterPopUp().navigate();
                             } else {
                               context.read<CommunityCubit>().addLikeApi(
                                   context, state.responseCommunityDetailList!.data![0].id.toString());
