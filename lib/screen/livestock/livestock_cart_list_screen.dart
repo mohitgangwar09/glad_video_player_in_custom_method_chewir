@@ -55,55 +55,70 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<LivestockCubit, LivestockCubitState>(
-          builder: (context, state) {
-            if (state.status == LivestockStatus.submit) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorResources.maroon,
-                  ));
-            } else if (state.responseLivestockCartList == null) {
-              return Center(child: Text("${state.responseLivestockCartList} Api Error"));
-            } else {
-              return Container(
-                color: Colors.white,
-                child: Stack(
-                  children: [
-                    landingBackground(),
-                    Column(
-                      children: [
-                        CustomAppBar(
-                          context: context,
-                          titleText1: 'Cart',
-                          centerTitle: true,
-                          leading: InkWell(
-                            onTap: (){
-                              if(widget.navigates!=null){
-                                if(BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
-                                  const DashboardDDE().navigate();
+    return WillPopScope(
+      onWillPop: () async{
+        if(widget.navigates!=null){
+          if(BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+            const DashboardDDE().navigate();
+          }else{
+            const DashboardFarmer().navigate();
+            BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+          }
+        }else{
+          pressBack();
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: BlocBuilder<LivestockCubit, LivestockCubitState>(
+            builder: (context, state) {
+              if (state.status == LivestockStatus.submit) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                      color: ColorResources.maroon,
+                    ));
+              } else if (state.responseLivestockCartList == null) {
+                return Center(child: Text("${state.responseLivestockCartList} Api Error"));
+              } else {
+                return Container(
+                  color: Colors.white,
+                  child: Stack(
+                    children: [
+                      landingBackground(),
+                      Column(
+                        children: [
+                          CustomAppBar(
+                            context: context,
+                            titleText1: 'Cart',
+                            centerTitle: true,
+                            leading: InkWell(
+                              onTap: (){
+                                if(widget.navigates!=null){
+                                  if(BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                    const DashboardDDE().navigate();
+                                  }else{
+                                    const DashboardFarmer().navigate();
+                                    BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                                  }
                                 }else{
-                                  const DashboardFarmer().navigate();
-                                  BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                                  pressBack();
                                 }
-                              }else{
-                                pressBack();
-                              }
-                            },
-                            child: SvgPicture.asset(
-                              Images.arrowBack,
-                              // colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                              },
+                              child: SvgPicture.asset(
+                                Images.arrowBack,
+                                // colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                              ),
                             ),
                           ),
-                        ),
-                        landingPage(context, state),
-                      ],
-                    ),
-                  ],
-                ),
-              );
+                          landingPage(context, state),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }
             }
-          }
+        ),
       ),
     );
   }
