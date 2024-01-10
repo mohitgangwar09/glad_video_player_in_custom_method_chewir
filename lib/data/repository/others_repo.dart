@@ -23,6 +23,7 @@ import 'package:glad/data/model/training_list_model.dart';
 import 'package:glad/data/model/youtube_video_statistics_model.dart';
 import 'package:glad/screen/extra_screen/profile_navigate.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
 
@@ -456,10 +457,11 @@ class OthersRepository {
     }
   }
 
-  Future<ResponseOtpModel> livestockUpdateCartApi(int cartId, int cowQty) async {
+  Future<ResponseOtpModel> livestockUpdateCartApi(int cartId, int cowQty,{String? userId}) async {
     Map<String, dynamic> data = {
       'id': cartId,
       'cow_qty': cowQty,
+      "user_id": userId
     };
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.livestockUpdateCartItemQuantityApi,
@@ -474,10 +476,11 @@ class OthersRepository {
   }
 
   ///////////////// getCommunityListApi //////////
-  Future<ResponseOtpModel> livestockDeleteCartItemApi(int id) async {
+  Future<ResponseOtpModel> livestockDeleteCartItemApi(int id,{String? userId}) async {
 
     var data = {
-      "id": id
+      "id": id,
+      "user_id": userId
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter().getPostApiResponse(
@@ -602,11 +605,12 @@ class OthersRepository {
   }
 
   ///////////////// emptyCartApi //////////
-  Future<ResponseOtpModel> emptyCartApi() async {
+  Future<ResponseOtpModel> emptyCartApi({String? userId}) async {
 
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.emptyCartApi,
+        queryParameters: {"user_id":userId},
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 
     if (apiResponse.status) {

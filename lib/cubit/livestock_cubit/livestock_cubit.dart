@@ -166,6 +166,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   Future<void> livestockAddToCartApi(context, livestockId,int quantity,String price,{String? userId}) async{
+
     var response = await apiRepository.addToCartLivestockApi(livestockId,quantity, price,userId:userId.toString());
     if (response.status == 200) {
       // pressBack();
@@ -212,7 +213,11 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
 
                           Expanded(
                             child: customButton("Yes",fontColor: 0xFFffffff, onTap: ()async{
-                              await emptyCartApi(context,livestockId,quantity,price);
+                              if(sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                await emptyCartApi(context,livestockId,quantity,price,userId:userId.toString());
+                              }else{
+                                await emptyCartApi(context,livestockId,quantity,price);
+                              }
                             }),
                           ),
 
@@ -229,7 +234,11 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
         );
       }else{
         showCustomToast(context, response.message.toString(), isSuccess: true);
-        const LiveStockCartListScreen(navigates: 'live',).navigate(isInfinity: true);
+        if(sharedPreferences.getString(AppConstants.userType) == "dde"){
+          LiveStockCartListScreen(navigates: 'live',userId: userId.toString(),).navigate(isInfinity: true);
+        }else{
+          const LiveStockCartListScreen(navigates: 'live',).navigate(isInfinity: true);
+        }
       }
     }
     else {
@@ -250,24 +259,24 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
 
-  Future<void> livestockCartItemRemoveApi(context, int id) async{
+  Future<void> livestockCartItemRemoveApi(context, int id,{String? userId}) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.livestockDeleteCartItemApi(id);
+    var response = await apiRepository.livestockDeleteCartItemApi(id,userId: sharedPreferences.getString(AppConstants.userType).toString() == "dde"?userId:null);
     if (response.status == 200) {
       disposeProgress();
-      livestockCartListApi(context, isLoaderRequired: false);
+      livestockCartListApi(context, isLoaderRequired: false,userId: userId);
     } else {
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));
     }
   }
 
-  Future<void> livestockUpdateCartApi(context, int cartId, int cowQty) async{
+  Future<void> livestockUpdateCartApi(context, int cartId, int cowQty,{String? userId}) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.livestockUpdateCartApi(cartId, cowQty);
+    var response = await apiRepository.livestockUpdateCartApi(cartId, cowQty,userId: sharedPreferences.getString(AppConstants.userType)=="dde"?userId:null);
     if (response.status == 200) {
       disposeProgress();
-      livestockCartListApi(context, isLoaderRequired: false);
+      livestockCartListApi(context, isLoaderRequired: false,userId: userId);
     } else {
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));
@@ -350,11 +359,11 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   // updateSoldCowApi
-  Future<void> emptyCartApi(context,livestockId, int quantity, String price) async{
+  Future<void> emptyCartApi(context,livestockId, int quantity, String price,{String? userId}) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.emptyCartApi();
+    var response = await apiRepository.emptyCartApi(userId: sharedPreferences.getString(AppConstants.userType)=="dde"?userId:null);
     if (response.status == 200) {
-      await livestockAddToCartApi(context, livestockId, quantity, price);
+      await livestockAddToCartApi(context, livestockId, quantity, price,userId: userId);
     } else {
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));
