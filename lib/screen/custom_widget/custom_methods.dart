@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -1889,6 +1890,9 @@ Widget selectFarmerAddDdeLivestock({String? userId, bool isCustomLoan = false}){
 }
 
 Widget ddeTarget(BuildContext context,ProfileCubitState state){
+  if(state.responseDdeTargetMonths == null) {
+     return const SizedBox.shrink();
+  }
   return Padding(
     padding: const EdgeInsets.all(18.0),
     child: BlocBuilder<ProfileCubit,ProfileCubitState>(
@@ -1897,6 +1901,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
           children: [
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1912,6 +1917,53 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                     ),
 
                   ],
+                ),
+                Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  // width: screenWidth(),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      isDense: true,
+                      hint: Text(
+                        state.selectedDdeTargetMonth.toString(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                      items: (state.responseDdeTargetMonths!.data! as List)
+                          .map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      )).toList(),
+                      // value: state.counties![0].name!,
+                      onChanged: (String? value) {
+                        // setState(() {
+                        // selectedCounty = value!.name!;
+                        BlocProvider.of<ProfileCubit>(context).emit(state.copyWith(selectedDdeTargetMonth: value.toString()));
+                        BlocProvider.of<ProfileCubit>(context).ddeTargetApi(context, value.toString());
+                        // });
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        height: 40,
+                        width: 120,
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        height: 40,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -2008,6 +2060,11 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                       ),
                     );
                   })
+              else
+                const Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Center(child: Text('No Targets Available')),
+                )
           ],
         );
       }

@@ -744,7 +744,7 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     var response = await apiRepository.ddeTargetMonthsApi();
     if (response.status == 200) {
 
-      emit(state.copyWith(responseDdeTargetMonths: response, selectedDdeTargetMonth: (response.data as List<String>)[0]));
+      emit(state.copyWith(responseDdeTargetMonths: response, selectedDdeTargetMonth: (response.data as List<dynamic>)[0]));
       ddeTargetApi(context, state.selectedDdeTargetMonth.toString());
     } else {
       emit(state.copyWith(status: ProfileStatus.error));

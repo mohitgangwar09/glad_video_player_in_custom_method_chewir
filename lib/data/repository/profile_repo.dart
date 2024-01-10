@@ -745,14 +745,14 @@ class ProfileRepository {
     var userId = sharedPreferences?.getString(AppConstants.userId);
 
     var data = {
-      "date": date,
+      "month": date,
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.ddeTargetApi,
         headers: {
-          'Authorization': 'Bearer ${getUserToken()}'}
-        // queryParameters: data
+          'Authorization': 'Bearer ${getUserToken()}'},
+        queryParameters: data
     );
 
     if (apiResponse.status) {
