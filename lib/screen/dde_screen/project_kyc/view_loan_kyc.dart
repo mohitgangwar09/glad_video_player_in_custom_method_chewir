@@ -79,8 +79,8 @@ class _ViewLoanKycState extends State<ViewLoanKyc> {
     addressDate = TextEditingController(text: widget.farmerDocuments.addressExpiryDate! == '0000-00-00' ? '': widget.farmerDocuments.addressExpiryDate!);
     idDoc = TextEditingController(text: widget.farmerDocuments.idDocumentNumber);
     idDate = TextEditingController(text: widget.farmerDocuments.idExpiryDate! == '0000-00-00' ? '': widget.farmerDocuments.idExpiryDate);
-    addressImg.addAll(Iterable.castFrom(widget.farmerDocuments.addressDocumentFile!.map((e) => e.fullUrl!)));
-    idImg.addAll(Iterable.castFrom(widget.farmerDocuments.idDocumentFile!.map((e) => e.fullUrl!)));
+    addressImg.addAll(Iterable.castFrom(widget.farmerDocuments.addressDocumentFile!.map((e) => e.originalUrl??'')));
+    idImg.addAll(Iterable.castFrom(widget.farmerDocuments.idDocumentFile!.map((e) => e.originalUrl??'')));
     super.initState();
   }
 
