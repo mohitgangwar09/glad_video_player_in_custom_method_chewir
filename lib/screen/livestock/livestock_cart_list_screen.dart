@@ -7,6 +7,7 @@ import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/data/model/livestock_detail.dart';
+import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/livestock/add_livestock.dart';
 import 'package:glad/screen/livestock/livestock_detail.dart';
 import 'package:glad/screen/livestock/livestock_kyc.dart';
@@ -79,8 +80,12 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                           leading: InkWell(
                             onTap: (){
                               if(widget.navigates!=null){
-                                const DashboardFarmer().navigate();
-                                BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                                if(BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                  const DashboardDDE().navigate();
+                                }else{
+                                  const DashboardFarmer().navigate();
+                                  BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                                }
                               }else{
                                 pressBack();
                               }
@@ -247,7 +252,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                         state
                                                             .responseLivestockCartList!
                                                             .data![0].liveStockCartDetails![index].cowQty
-                                                            .toString()) + 1);
+                                                            .toString()) + 1,userId: state.responseLivestockCartList!.data![0].userId.toString());
                                               }
                                             },
                                             child: SvgPicture.asset(Images.addQuant, height: 25, width: 25,)),
@@ -262,7 +267,8 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                         state
                                                             .responseLivestockCartList!
                                                             .data![0].liveStockCartDetails![index].cowQty
-                                                            .toString()) - 1);
+                                                            .toString()) - 1,
+                                                    userId: state.responseLivestockCartList!.data![0].userId.toString());
                                               } else {
                                                 print('cannot delete');
                                               }
@@ -285,7 +291,8 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                               context.read<LivestockCubit>()
                                   .livestockCartItemRemoveApi(context,
                                   state.responseLivestockCartList!
-                                      .data![0].liveStockCartDetails![index].id!);
+                                      .data![0].liveStockCartDetails![index].id!,
+                                  userId: state.responseLivestockCartList!.data![0].userId.toString());
                             },
                             child: SvgPicture.asset(Images.removeCart)),
                       ),
@@ -298,8 +305,12 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
               customButton('Add More Livestock',color: 0xffffffff, borderColor: 0xffFC5E60,onTap: (){
                 if(widget.navigates!=null){
-                  const DashboardFarmer().navigate();
-                  BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                  if(BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                    const DashboardDDE().navigate();
+                  }else{
+                    const DashboardFarmer().navigate();
+                    BlocProvider.of<DashboardCubit>(context).selectedIndex(3);
+                  }
                 }else{
                   pressBack();
                 }

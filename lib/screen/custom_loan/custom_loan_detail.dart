@@ -1,3 +1,4 @@
+/*
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable_text/expandable_text.dart';
@@ -6,27 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glad/cubit/dde_enquiry_cubit/dde_enquiry_cubit.dart';
-import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
-import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
-import 'package:glad/screen/common/add_remarks_dispute_screen.dart';
-import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
-import 'package:glad/screen/dde_screen/add_project_milestone.dart';
-import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
-import 'package:glad/screen/dde_screen/dde_farmer_detail.dart';
 import 'package:glad/screen/dde_screen/project_detail_statement.dart';
-import 'package:glad/screen/dde_screen/project_kyc/kyc_update.dart';
-import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
-import 'package:glad/screen/dde_screen/widget/add_remark_revoke.dart';
-import 'package:glad/screen/farmer_screen/common/add_remark.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -313,7 +302,7 @@ class _CustomLoanDetailState extends State<CustomLoanDetail> {
                   ),
                 ],
               ),
-              /*Positioned(
+Positioned(
                   bottom: 0,
                   right: 0,
                   child: InkWell(
@@ -366,7 +355,8 @@ class _CustomLoanDetailState extends State<CustomLoanDetail> {
                       width: 100,
                       height: 100,
                     ),
-                  ))*/
+                  ))
+
             ],
           );
         }
@@ -1561,7 +1551,7 @@ class _CustomLoanDetailState extends State<CustomLoanDetail> {
                               width: 30,
                               height: 30,
                             ),
-                            /*kpiData[index].actionImage!=null?
+kpiData[index].actionImage!=null?
 
                             InkWell(
                                 onTap: (){
@@ -1637,7 +1627,8 @@ class _CustomLoanDetailState extends State<CustomLoanDetail> {
                                             }
                                         ));
                                   }
-                                }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()*/
+                                }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()
+
 
                             kpiData[index].actionImage!=null?
                             kpiData[index].name.toString() == "Farmer Participation"?
@@ -1796,8 +1787,12 @@ class _CustomLoanDetailState extends State<CustomLoanDetail> {
               },
               child: customShadowContainer(
                 margin: 0,
-                color: /*state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||*/ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"?const Color(0xffFFF3F4):Colors.white,
-                backColor: /*state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||*/ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"? const Color(0xff6A0030):Colors.grey.withOpacity(0.4),
+                color:
+state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||
+ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"?const Color(0xffFFF3F4):Colors.white,
+                backColor:
+state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "completed" ||
+ state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus == "approved"? const Color(0xff6A0030):Colors.grey.withOpacity(0.4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -2164,3 +2159,4 @@ class _CustomLoanDetailState extends State<CustomLoanDetail> {
   }
 
 }
+*/
