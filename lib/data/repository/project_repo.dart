@@ -670,6 +670,27 @@ class ProjectRepository {
     }
   }
 
+  Future<ResponseOtpModel> farmerRepaymentMonthsApi(String farmerId,String farmerProjectId,String farmerRepaymentMonths) async {
+
+    var data = {
+      "farmer_id" : farmerId,
+      "farmer_project_id" : farmerProjectId,
+      "repayment_months" : farmerRepaymentMonths,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.farmerRepaymentMonthsApi,
+      data: data,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
   ///////////////// accountStatementApi //////////
   Future<ResponseAccountStatement> accountStatementSupplierProjectDetailApi(String paymentStatus,String farmerProjectId) async {
 

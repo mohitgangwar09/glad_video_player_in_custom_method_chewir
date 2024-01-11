@@ -950,7 +950,7 @@ class ProjectCubit extends Cubit<ProjectState> {
 
   // farmerParticipationApi
   Future<void> farmerParticipationApi(context,String farmerId,String farmerProjectId,String farmerParticipation,int projectId) async {
-    var response = await apiRepository.farmerParticipationApi(farmerId,farmerProjectId,farmerParticipation);
+    var response = await apiRepository.farmerRepaymentMonthsApi(farmerId,farmerProjectId,farmerParticipation);
 
     if (response.status == 200) {
       disposeProgress();
@@ -960,6 +960,20 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
     }
   }
+
+  // farmerParticipationApi
+  Future<void> farmerRepaymentMonthsApi(context,String farmerId,String farmerProjectId,String farmerRepaymentMonths,int projectId) async {
+    var response = await apiRepository.farmerRepaymentMonthsApi(farmerId,farmerProjectId,farmerRepaymentMonths);
+
+    if (response.status == 200) {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      await farmerProjectDetailApi(context,projectId);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
 
   void statusColor(String status){
     emit(state.copyWith(statusLoan: status));

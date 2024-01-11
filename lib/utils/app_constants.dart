@@ -95,6 +95,7 @@ class AppConstants {
   static const String deleteTaskApi = '/api/farmer-project/delete-task';
   static const String addMilestoneApi = '/api/farmer-project/add-milestone';
   static const String farmerParticipationApi = '/api/farmer-project/farmer-participation-update';
+  static const String farmerRepaymentMonthsApi = '/api/farmer-project/farmer-repayment-months-update';
   static const String accountStatementApi = '/api/financial/account-statement';
   static const String farmerParticipationStatusApi = '/api/financial/update-farmer-participation-status';
   static const String improvementAreaFilterListApi = '/api/improvement/improvementarea-list';
