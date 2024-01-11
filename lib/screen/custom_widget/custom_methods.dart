@@ -1959,7 +1959,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                       buttonStyleData: const ButtonStyleData(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         height: 40,
-                        width: 120,
+                        width: 140,
                       ),
                       menuItemStyleData: const MenuItemStyleData(
                         height: 40,

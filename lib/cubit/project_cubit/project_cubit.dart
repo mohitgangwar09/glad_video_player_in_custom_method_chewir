@@ -961,6 +961,20 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
   }
 
+  // farmerParticipationApi
+  Future<void> farmerRepaymentMonthsApi(context,String farmerId,String farmerProjectId,String farmerRepaymentMonths,int projectId) async {
+    var response = await apiRepository.farmerRepaymentMonthsApi(farmerId,farmerProjectId,farmerRepaymentMonths);
+
+    if (response.status == 200) {
+      disposeProgress();
+      showCustomToast(context, response.message.toString());
+      await farmerProjectDetailApi(context,projectId);
+    } else {
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
+
   void statusColor(String status){
     emit(state.copyWith(statusLoan: status));
   }

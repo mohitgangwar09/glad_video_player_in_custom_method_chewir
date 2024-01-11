@@ -1604,6 +1604,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         .repayment != null) {
       kpiData.add(FrontendKpiModel(name: 'Repayment',
           image: Images.repaymentKpi,
+          actionImage: Images.imageEdit,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
               .kpi!.repayment!} MO"));
     }

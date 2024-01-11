@@ -2525,6 +2525,7 @@ class _DDeFarmerInvestmentDetailsState
         null) {
       kpiData.add(FrontendKpiModel(
           name: 'Repayment',
+          actionImage: Images.imageEdit,
           image: Images.repaymentKpi,
           value:
               "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!} MO"));
@@ -2690,7 +2691,7 @@ class _DDeFarmerInvestmentDetailsState
                         ),
                         kpiData[index].actionImage != null
                             ? kpiData[index].name.toString() ==
-                                    "Farmer Participation"
+                                    "Farmer Participation" || kpiData[index].name.toString() == "Repayment"
                                 ? state
                                             .responseFarmerProjectDetail!
                                             .data!
@@ -2721,19 +2722,20 @@ class _DDeFarmerInvestmentDetailsState
                                             ))
                                         : InkWell(
                                             onTap: () {
-                                              TextEditingController controller =
-                                                  TextEditingController();
-                                              controller.text = state
-                                                  .responseFarmerProjectDetail!
-                                                  .data!
-                                                  .farmerProject![0]
-                                                  .kpi!
-                                                  .farmerParticipation!
-                                                  .toString();
+
                                               if (kpiData[index]
                                                       .name
                                                       .toString() ==
                                                   "Farmer Participation") {
+                                                TextEditingController controller =
+                                                TextEditingController();
+                                                controller.text = state
+                                                    .responseFarmerProjectDetail!
+                                                    .data!
+                                                    .farmerProject![0]
+                                                    .kpi!
+                                                    .farmerParticipation!
+                                                    .toString();
                                                 modalBottomSheetMenu(context,
                                                     radius: 40, child:
                                                         StatefulBuilder(builder:
@@ -2839,6 +2841,113 @@ class _DDeFarmerInvestmentDetailsState
                                                   );
                                                 }));
                                               }
+
+                                              if (kpiData[index]
+                                                  .name
+                                                  .toString() ==
+                                                  "Repayment") {
+                                                int quantity;
+                                                if(state
+                                                    .responseFarmerProjectDetail!
+                                                    .data!
+                                                    .farmerProject![0].minRepaymentMonths !=null){
+                                                   quantity = int.parse(state
+                                                      .responseFarmerProjectDetail!
+                                                      .data!
+                                                      .farmerProject![0].minRepaymentMonths.toString());
+                                                }else{
+                                                  quantity = 0;
+                                                }
+                                                modalBottomSheetMenu(context,
+                                                    radius: 40, child:
+                                                    StatefulBuilder(builder:
+                                                        (context,
+                                                        setState) {
+                                                      return SizedBox(
+                                                        height: 200,
+                                                        child: Column(
+                                                          children: [
+                                                            20.verticalSpace(),
+                                                            Container(
+                                                              height: 52,
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(color: Colors.black,width: 1.5),
+                                                                  borderRadius: BorderRadius.circular(10),
+                                                                  color: Colors.white
+                                                              ),
+                                                              width: screenWidth()-50,
+                                                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  InkWell(
+                                                                      onTap: () {
+                                                                        if(quantity == 0) {
+                                                                          return;
+                                                                        }
+                                                                        // if(state
+                                                                        //     .responseFarmerProjectDetail!
+                                                                        //     .data!
+                                                                        //     .farmerProject![0].minRepaymentMonths!=null){
+
+
+                                                                        if(quantity>state
+                                                                            .responseFarmerProjectDetail!
+                                                                            .data!
+                                                                            .farmerProject![0].minRepaymentMonths){
+                                                                          quantity--;
+                                                                        }else{
+
+                                                                            showCustomToast(context, "Minimum repayment month can be ${state
+                                                                                .responseFarmerProjectDetail!
+                                                                                .data!
+                                                                                .farmerProject![0].minRepaymentMonths.toString()}");
+                                                                          // }
+                                                                        }
+                                                                      // }
+                                                                        setState(() {
+
+                                                                        });
+                                                                      },
+                                                                      child: SvgPicture.asset(Images.minusQuant)),
+                                                                  quantity.toString().textMedium(fontSize: 16, color: Colors.black),
+                                                                  InkWell(
+                                                                      onTap: () {
+                                                                        if(quantity == 1000) {
+                                                                          return;
+                                                                        }
+                                                                        if(quantity<state
+                                                                            .responseFarmerProjectDetail!
+                                                                            .data!
+                                                                            .farmerProject![0].maxRepaymentMonths){
+                                                                          quantity++;
+                                                                        }else{
+                                                                          showCustomToast(context, "Repayment month should not be greater from ${state
+                                                                              .responseFarmerProjectDetail!
+                                                                              .data!
+                                                                              .farmerProject![0].maxRepaymentMonths.toString()} month");
+                                                                        }
+                                                                        setState(() {
+
+                                                                        });
+                                                                      },
+                                                                      child: SvgPicture.asset(Images.addQuant)),
+
+                                                                ],),
+                                                            ),
+                                                            20.verticalSpace(),
+                                                            SizedBox(
+                                                              width: screenWidth()-50,
+                                                              child: customButton("Submit", fontColor: 0xFFFFFFFF,onTap: (){
+
+                                                              }),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
+                                                    }));
+                                              }
+
                                             },
                                             child: SvgPicture.asset(
                                                 kpiData[index]
