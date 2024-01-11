@@ -54,12 +54,18 @@ Future<String> imgFromGallery() async {
   return image!.path;
 }
 
+Future<List<String>> imgMultipleFromGallery() async {
+  List<XFile> image = await ImagePicker().pickMultiImage(imageQuality: 50);
+  return image.map((e) => e.path).toList();
+}
+
+
 // image Picker from Gallery
-Future<String> imgOrPdfFromGallery() async {
+Future<List<String>> imgOrPdfFromGallery() async {
   // XFile? image = await ImagePicker()
   //     .pickImage(source: ImageSource.gallery, imageQuality: 50);
   FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png']);
-  return result!.files.first.path!;
+  return result!.files.map((e) => e.path!).toList();
 }
 
 // video Picker from Gallery
