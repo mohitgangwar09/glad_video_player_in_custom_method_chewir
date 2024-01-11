@@ -321,11 +321,16 @@ class OthersRepository {
   }
 
   ///////////////// getLivestockBreedApi //////////
-  Future<LivestockDetail> getLivestockDetailApi(String id) async {
+  Future<LivestockDetail> getLivestockDetailApi(String id,{String? userId}) async {
+
+    var data = {
+      "user_id" : userId,
+      'id': id
+    };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.livestockDetailApi : AppConstants.guestLivestockDetailApi,
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: {'id': id});
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, queryParameters: data);
 
     if (apiResponse.status) {
       return LivestockDetail.fromJson(apiResponse.response!.data);

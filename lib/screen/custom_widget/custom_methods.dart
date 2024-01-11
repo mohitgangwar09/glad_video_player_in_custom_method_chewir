@@ -1530,7 +1530,7 @@ Widget weatherWidget(){
   });
 }
 
-Widget selectFarmer({String? userId, bool isCustomLoan = false, int? removeFarmerId}){
+Widget selectFarmer({String? userId, String? livestockId,bool isCustomLoan = false, int? removeFarmerId}){
   TextEditingController searchEditingController = TextEditingController();
   return BlocBuilder<DdeFarmerCubit,DdeState>(
       builder: (context,state){
@@ -1621,6 +1621,7 @@ Widget selectFarmer({String? userId, bool isCustomLoan = false, int? removeFarme
                           pressBack();
                           if(userId ==null){
                             BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
+                            BlocProvider.of<LivestockCubit>(context).livestockDetailApi(context,livestockId.toString(),userId: state.response!.farmerMAster![i].userId.toString());
                           }else{
                             LiveStockCartListScreen(userId:state.response!.farmerMAster![i].userId.toString()).navigate();
                           }
@@ -1693,7 +1694,8 @@ Widget selectFarmer({String? userId, bool isCustomLoan = false, int? removeFarme
                   );
                 }),
               ),
-            )  : Padding(
+            )
+                : Padding(
               padding: EdgeInsets.only(top: screenWidth() / 2),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

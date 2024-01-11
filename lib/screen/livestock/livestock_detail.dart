@@ -570,7 +570,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                                      radius: 40,
                                                      child: SizedBox(
                                                          height: screenHeight()-220,
-                                                         child: selectFarmer()));
+                                                         child: selectFarmer(livestockId: widget.id.toString())));
                                                }, child: SvgPicture.asset(Images.edit,width: 20,height: 20,)),
                                          ),
                                        )
@@ -766,7 +766,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                    radius: 40,
                                    child: SizedBox(
                                        height: screenHeight()-220,
-                                       child: selectFarmer()));
+                                       child: selectFarmer(livestockId: widget.id)));
                              },
                              width: screenWidth(),
                              fontColor: 0xffFFFFFF,
