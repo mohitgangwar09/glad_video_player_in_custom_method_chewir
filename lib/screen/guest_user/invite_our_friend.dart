@@ -157,7 +157,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                   inputType: TextInputType.phone,
                   maxLine: 1,
                   maxLength: 12,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(12)],
                 ),
               ),
             ],

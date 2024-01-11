@@ -70,12 +70,6 @@ class _LivestockKycState extends State<LivestockKyc> {
                       Center(
                         child: InkWell(
                           onTap: () {
-                            /*imgFromGallery().then((value) async {
-                              setState(() {
-                                profilePicture = value;
-                              });
-                            });*/
-
                             imgFromCamera().then((value) async {
                               setState(() {
                                 profilePicture = value;
@@ -282,7 +276,7 @@ class _LivestockKycState extends State<LivestockKyc> {
                                         }
                                       } else {
                                         var image = await imgOrPdfFromGallery();
-                                        addressImg.add(image);
+                                        addressImg.addAll(image);
                                         setState(() {});
                                       }
                                     },
@@ -474,7 +468,7 @@ class _LivestockKycState extends State<LivestockKyc> {
                                   InkWell(
                                     onTap: () async{
                                       var image = await imgOrPdfFromGallery();
-                                      idImg.add(image);
+                                      idImg.addAll(image);
                                       setState(() {});
                                     },
                                     child: SvgPicture.asset(

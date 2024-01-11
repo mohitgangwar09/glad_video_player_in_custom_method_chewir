@@ -329,7 +329,7 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
                                         }
                                       } else {
                                         var image = await imgOrPdfFromGallery();
-                                        addressImg.add(image);
+                                        addressImg.addAll(image);
                                         setState(() {});
                                       }
                                     },
@@ -522,7 +522,7 @@ class _EditKYCDocumentsState extends State<EditKYCDocuments> {
                                   InkWell(
                                     onTap: () async{
                                       var image = await imgOrPdfFromGallery();
-                                      idImg.add(image);
+                                      idImg.addAll(image);
                                       setState(() {});
                                     },
                                     child: SvgPicture.asset(

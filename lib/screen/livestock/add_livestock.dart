@@ -314,7 +314,7 @@ class _AddLivestockState extends State<AddLivestock> {
                                       children: [
                                         InkWell(
                                           onTap: () async {
-                                            path.add(await imgFromGallery());
+                                            path.addAll(await imgMultipleFromGallery());
                                             setState(() {});
                                           },
                                           child: SvgPicture.asset(
@@ -525,6 +525,9 @@ class _AddLivestockState extends State<AddLivestock> {
                                     quantity.toString().textMedium(fontSize: 16, color: Colors.black),
                                     InkWell(
                                         onTap: () {
+                                          if(quantity == 1000) {
+                                            return;
+                                          }
                                             quantity++;
                                             setState(() {
 
@@ -589,9 +592,9 @@ class _AddLivestockState extends State<AddLivestock> {
                                           width: screenWidth(),
                                           child: TextField(
                                             maxLines: 1,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
                                             controller: age,
-                                            maxLength: 10,
+                                            maxLength: 2,
                                             keyboardType: TextInputType.number,
                                             decoration: const InputDecoration(
                                               border: InputBorder.none,
@@ -747,9 +750,9 @@ class _AddLivestockState extends State<AddLivestock> {
                                           width: screenWidth(),
                                           child: TextField(
                                             maxLines: 1,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
                                             controller: milk,
-                                            maxLength: 10,
+                                            maxLength: 2,
                                             keyboardType: TextInputType.number,
                                             decoration: const InputDecoration(
                                               border: InputBorder.none,

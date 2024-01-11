@@ -272,7 +272,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
                                               }
                                             } else {
                                               var image = await imgOrPdfFromGallery();
-                                              addressImg.add(image);
+                                              addressImg.addAll(image);
                                               setState(() {});
                                             }
                                           },
@@ -464,7 +464,7 @@ class _ProjectKYCState extends State<ProjectKYC> {
                                   InkWell(
                                     onTap: () async {
                                       var image = await imgOrPdfFromGallery();
-                                      idImg.add(image);
+                                      idImg.addAll(image);
                                       setState(() {});
                                     },
                                     child: SvgPicture.asset(
