@@ -1672,6 +1672,13 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
       ));
     }
 
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!=null){
+      kpiData.add(FrontendKpiModel(name: 'Milk Msp',
+          image: Images.yieldKpi,
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!} Ltr"
+      ));
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,

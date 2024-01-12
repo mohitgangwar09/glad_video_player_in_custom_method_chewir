@@ -74,12 +74,23 @@ class _FriendListState extends State<FriendList> {
                                 } else if (state.responseFriendList == null) {
                                   return Center(
                                       child: Text("${state.responseFriendList} Api Error"));
-                                } else {
+                                } else if (state.responseFriendList!.data == null) {
+                                  return SizedBox(
+                                    height: screenHeight()-200,
+                                    width: screenWidth(),
+                                    child: Center(
+                                        child: Text("No data found",
+                                        style: figtreeMedium.copyWith(
+                                          color: Colors.black,
+                                          fontSize: 17
+                                        ),)),
+                                  );
+                                }else {
                                     return ListView.builder(
                                         reverse: true,
                                         shrinkWrap: true,
                                         padding: const EdgeInsets.only(top: 20, bottom: 0),
-                                        itemCount: state.responseFriendList!.data!.isNotEmpty?state.responseFriendList!.data!.length:0,
+                                        itemCount: state.responseFriendList!.data!.length,
                                         itemBuilder: (ctx, index) {
                                           return Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
