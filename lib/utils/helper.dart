@@ -178,5 +178,6 @@ bool checkDate(DateTime dateTime){
 
 Future sharePost(String image, String caption, String name) async {
   var response = await http.get(Uri.parse(image));
-  await Share.shareXFiles([XFile.fromData(response.bodyBytes, mimeType: 'image/png')], text: caption, subject: 'GLAD community post by $name');
+  await Share.shareXFiles([XFile.fromData(response.bodyBytes, mimeType: 'image/png')],
+      text: caption, subject: 'GLAD community post by $name');
 }
