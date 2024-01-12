@@ -2625,6 +2625,13 @@ class _DDeFarmerInvestmentDetailsState
               "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."));
     }
 
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!=null){
+      kpiData.add(FrontendKpiModel(name: 'Milk Msp',
+          image: Images.yieldKpi,
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!} Ltr"
+      ));
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2885,11 +2892,10 @@ class _DDeFarmerInvestmentDetailsState
                                                                         if(quantity == 0) {
                                                                           return;
                                                                         }
-                                                                        // if(state
-                                                                        //     .responseFarmerProjectDetail!
-                                                                        //     .data!
-                                                                        //     .farmerProject![0].minRepaymentMonths!=null){
-
+                                                                        if(state
+                                                                            .responseFarmerProjectDetail!
+                                                                            .data!
+                                                                            .farmerProject![0].minRepaymentMonths!=null){
 
                                                                         if(quantity>state
                                                                             .responseFarmerProjectDetail!
@@ -2902,7 +2908,9 @@ class _DDeFarmerInvestmentDetailsState
                                                                                 .responseFarmerProjectDetail!
                                                                                 .data!
                                                                                 .farmerProject![0].minRepaymentMonths.toString()}");
-                                                                          // }
+                                                                          }
+                                                                        }else{
+                                                                          quantity--;
                                                                         }
                                                                       // }
                                                                         setState(() {
@@ -2922,7 +2930,7 @@ class _DDeFarmerInvestmentDetailsState
                                                                             .farmerProject![0].maxRepaymentMonths){
                                                                           quantity++;
                                                                         }else{
-                                                                          showCustomToast(context, "Repayment month should not be greater from ${state
+                                                                          showCustomToast(context, "Repayment month should not be greater than ${state
                                                                               .responseFarmerProjectDetail!
                                                                               .data!
                                                                               .farmerProject![0].maxRepaymentMonths.toString()} month");
@@ -2939,7 +2947,11 @@ class _DDeFarmerInvestmentDetailsState
                                                             SizedBox(
                                                               width: screenWidth()-50,
                                                               child: customButton("Submit", fontColor: 0xFFFFFFFF,onTap: (){
-
+                                                                BlocProvider.of<ProjectCubit>(context).updateFarmerRepaymentMonthsApi(context,
+                                                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
+                                                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),
+                                                                    quantity.toString(),
+                                                                    widget.projectId);
                                                               }),
                                                             )
                                                           ],

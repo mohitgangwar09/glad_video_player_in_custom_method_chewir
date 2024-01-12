@@ -80,7 +80,7 @@ class _FriendListState extends State<FriendList> {
                                         reverse: true,
                                         shrinkWrap: true,
                                         padding: const EdgeInsets.only(top: 20, bottom: 0),
-                                        itemCount: state.responseFriendList!.data!.length,
+                                        itemCount: state.responseFriendList!.data!.isNotEmpty?state.responseFriendList!.data!.length:0,
                                         itemBuilder: (ctx, index) {
                                           return Padding(
                                             padding: const EdgeInsets.only(bottom: 10),

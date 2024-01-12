@@ -179,20 +179,22 @@ class _DdeMilestoneDetailState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Description',
-                style: figtreeMedium.copyWith(fontSize: 18),
-              ),
-              05.horizontalSpace(),
-              10.verticalSpace(),
-              Text(
-                state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneDescription ?? '',
-                style: figtreeMedium.copyWith(fontSize: 14),
-              )
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Description',
+                  style: figtreeMedium.copyWith(fontSize: 18),
+                ),
+                // 05.horizontalSpace(),
+                10.verticalSpace(),
+                Text(
+                  state.responseFarmerProjectMilestoneDetail!.data!.milestoneDetails![0].milestoneDescription ?? '',
+                  style: figtreeMedium.copyWith(fontSize: 14),
+                )
+              ],
+            ),
           ),
           if(widget.projectStatus == 'active')
           Builder(

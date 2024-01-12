@@ -960,6 +960,7 @@ class Kpi {
   dynamic milkSupplySixMonth;
   dynamic milkSupplyOneMonth;
   dynamic milkSupplyTwoWeek;
+  dynamic milkMsp;
 
   Kpi(
       {this.investment,
@@ -982,6 +983,7 @@ class Kpi {
         this.milkSupplySixMonth,
         this.milkSupplyTwoWeek,
         this.milkSupplyOneMonth,
+        this.milkMsp,
       });
 
   Kpi.fromJson(Map<String, dynamic> json) {
@@ -1005,6 +1007,7 @@ class Kpi {
     milkSupplySixMonth = json['milk_supply_six_month'];
     milkSupplyOneMonth = json['milk_supply_one_month'];
     milkSupplyTwoWeek = json['milk_supply_two_week'];
+    milkMsp = json['milk_msp'];
   }
 
   Map<String, dynamic> toJson() {

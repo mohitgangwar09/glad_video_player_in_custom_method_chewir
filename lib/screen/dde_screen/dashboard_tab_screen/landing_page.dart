@@ -91,7 +91,6 @@ class _DDELandingPageState extends State<DDELandingPage> {
       BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
       BlocProvider.of<ProfileCubit>(context).ddeTargetMonthsApi(context);
       BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, 'pending', false);
-
     });
   }
 

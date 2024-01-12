@@ -962,7 +962,7 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // farmerParticipationApi
-  Future<void> farmerRepaymentMonthsApi(context,String farmerId,String farmerProjectId,String farmerRepaymentMonths,int projectId) async {
+  Future<void> updateFarmerRepaymentMonthsApi(context,String farmerId,String farmerProjectId,String farmerRepaymentMonths,int projectId) async {
     var response = await apiRepository.farmerRepaymentMonthsApi(farmerId,farmerProjectId,farmerRepaymentMonths);
 
     if (response.status == 200) {
