@@ -19,6 +19,7 @@ import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/project_detail_statement.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
+import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/dde_screen/widget/add_remark_revoke.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
 import 'package:glad/screen/farmer_screen/dashboard_tab_screen/statement.dart';
@@ -98,6 +99,21 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
                             kpi(context,state):const SizedBox.shrink(),
                             // projectMilestones(context, state),
+
+
+                            25.verticalSpace(),
+
+                            InkWell(
+                                onTap: () {
+                                  const TrackProgress().navigate();
+                                },
+                                child: Center(
+                                  child: 'View Timeline'.textSemiBold(
+                                      fontSize: 16,
+                                      color: ColorResources.maroon,
+                                      underLine: TextDecoration.underline),
+                                )),
+
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
                               inviteExpert(context, state):const SizedBox.shrink(),
@@ -1388,7 +1404,7 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
                             maxLines: 2,overflow: TextOverflow.ellipsis):const SizedBox.shrink()
                       ],
                     ),
-                  )
+                  ),
 
               ],
             ),
