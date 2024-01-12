@@ -124,8 +124,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   Future<void> livestockAddApi(context, String breedId, List<String> paths, String milk, String lactation, String price, String pregnant, String cowQty, String age, String description,{String? userId}) async{
+    customDialog(widget: launchProgress());
     var response = await apiRepository.addLivestockApi(breedId, paths, milk, lactation, price, pregnant, cowQty, age, description,
     userId: sharedPreferences.getString(AppConstants.userType) == "dde"?userId:null);
+    disposeProgress();
     if (response.status == 200) {
       showCustomToast(context, response.message.toString(), isSuccess: true);
       ThankYouLivestock(response: response).navigate();

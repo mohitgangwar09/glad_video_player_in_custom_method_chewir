@@ -57,16 +57,15 @@ class _FriendListState extends State<FriendList> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CustomTextField(
-                          hint: 'Search message...',
-                          leadingImage: Images.search,
-                          imageColors: Colors.black,
-                          radius: 60,
-                        ),
-                        0.verticalSpace(),
+                        // const CustomTextField(
+                        //   hint: 'Search message...',
+                        //   leadingImage: Images.search,
+                        //   imageColors: Colors.black,
+                        //   radius: 60,
+                        // ),
+                        // 0.verticalSpace(),
                         BlocBuilder<CommunityCubit, CommunityCubitState>(
-                            builder: (context, state)
-                              {
+                            builder: (context, state) {
                                 if (state.status == CommunityStatus.submit) {
                                   return const Center(
                                       child: CircularProgressIndicator(

@@ -190,18 +190,18 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
             ),
 
 
-            Padding(
-              padding: const EdgeInsets.only(left: 24.0,right: 24,top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  "Pending Application".textMedium(fontSize: 18),
-
-                  "View All".textSemiBold(underLine: TextDecoration.underline,
-                      fontSize: 12,color: const Color(0xff6A0030))
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 24.0,right: 24,top: 10),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       "Pending Application".textMedium(fontSize: 18),
+            //
+            //       "View All".textSemiBold(underLine: TextDecoration.underline,
+            //           fontSize: 12,color: const Color(0xff6A0030))
+            //     ],
+            //   ),
+            // ),
 
             /*SizedBox(
               height: 250,
@@ -284,7 +284,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
               ),
             ),*/
 
-            30.verticalSpace(),
+            20.verticalSpace(),
 
             ddeProfileSlider(context, state),
 

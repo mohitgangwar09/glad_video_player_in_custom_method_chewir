@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart' as g;
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dde_farmer_cubit/dde_farmer_cubit.dart';
@@ -30,6 +31,8 @@ class CustomLoanList extends StatefulWidget {
 }
 
 class _CustomLoanListState extends State<CustomLoanList> {
+
+  TextEditingController searchEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -72,6 +75,46 @@ class _CustomLoanListState extends State<CustomLoanList> {
                         pressBack();
                       }
                     }
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                      left:20, right: 20, bottom: 13, top: 23),
+                  height: 50,
+                  decoration: boxDecoration(
+                      borderColor: Colors.grey,
+                      borderRadius: 62,
+                      backgroundColor: Colors.white),
+                  width: screenWidth(),
+                  child: Row(
+                    children: [
+                      13.horizontalSpace(),
+                      SvgPicture.asset(Images.searchLeft),
+                      13.horizontalSpace(),
+                      Expanded(
+                          child: Stack(
+                            children: [
+                              TextField(
+                                controller: searchEditingController,
+                                onChanged: (value){
+                                  BlocProvider.of<ProjectCubit>(context).customLoanListApi(context, value.toString(), isLoaderRequired: false);
+                                },
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Search by..."),
+                              ),
+                              searchEditingController.text.isNotEmpty?
+                              Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      searchEditingController.clear();
+                                      BlocProvider.of<ProjectCubit>(context).customLoanListApi(context, '', isLoaderRequired: false);
+                                    });
+                                  },
+                                  icon: const Icon(Icons.clear))):const SizedBox.shrink()
+                            ],
+                          )),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -300,6 +343,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                 width: screenWidth());
                           }) :
                       const SizedBox.shrink(),
+                      if(state.responseCustomLoanList!.data == null)
                       Container(
                           margin: 20.marginAll(),
                           height: 55,
@@ -318,9 +362,30 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                   const ApplyCustomLoan().navigate();
                                 }
                               }))
+                      else
+                        10.verticalSpace()
                     ],),
                   ),
-                )
+                ),
+                if(state.responseCustomLoanList!.data != null)
+                  Container(
+                      margin: 15.marginAll(),
+                      height: 55,
+                      width: screenWidth(),
+                      child: customButton("Apply New Loan",
+                          fontColor: 0xffffffff,
+                          onTap: () async{
+                            if(context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType) == 'dde') {
+                              await BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+                              modalBottomSheetMenu(context,
+                                  radius: 40,
+                                  child: SizedBox(
+                                      height: screenHeight()-220,
+                                      child: selectFarmerAddDdeLivestock(isCustomLoan: true)));
+                            } else {
+                              const ApplyCustomLoan().navigate();
+                            }
+                          }))
               ],
             ),
           ],
