@@ -1314,8 +1314,10 @@ class ProjectCubit extends Cubit<ProjectState> {
   }
 
   // supplierFarmerFilterListApi
-  void customLoanListApi(context, String search) async {
-    emit(state.copyWith(status: ProjectStatus.loading));
+  void customLoanListApi(context, String search, {bool isLoaderRequired = true}) async {
+    if(isLoaderRequired) {
+      emit(state.copyWith(status: ProjectStatus.loading));
+    }
     var response = await apiRepository.getCustomLoanListApi(search);
 
     if (response.status == 200) {
