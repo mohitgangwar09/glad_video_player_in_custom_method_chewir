@@ -455,9 +455,9 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                           review:
                           state.response!.testimonials![index].description ??
                               '',
-                          name: state.response!.testimonials![index].name ?? '',
+                          name: state.response!.testimonials![index].user != null ? state.response!.testimonials![index].user!.name ?? '' : '',
                           userType: 'Farmer',
-                          location: '',
+                          location: state.response!.testimonials![index].user != null ? state.response!.testimonials![index].user!.address != null ? state.response!.testimonials![index].user!.address!.address ?? '' : '' : '',
                           attachment:
                           state.response!.testimonials![index].attachment ??
                               '',

@@ -447,6 +447,7 @@ class User {
   dynamic deletedBy;
   dynamic isFirst;
   String? profilePic;
+  Address? address;
   FarmerMaster? farmerMaster;
 
   User(
@@ -476,7 +477,8 @@ class User {
         this.deletedBy,
         this.isFirst,
         this.profilePic,
-        this.farmerMaster});
+        this.farmerMaster,
+        this.address});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -505,6 +507,7 @@ class User {
     deletedBy = json['deleted_by'];
     isFirst = json['is_first'];
     profilePic = json['profile_pic'];
+    address = json['address'] != null ? Address.fromJson(json['address']) : null;
     farmerMaster = json['farmer_master'] != null
         ? FarmerMaster.fromJson(json['farmer_master'])
         : null;
@@ -703,10 +706,10 @@ class Testimonials {
   dynamic featured;
   dynamic createdBy;
   dynamic updatedBy;
-  dynamic deletedBy;
+  Null? deletedBy;
   String? createdAt;
   String? updatedAt;
-  String? name;
+  User? user;
 
   Testimonials(
       {this.id,
@@ -721,7 +724,7 @@ class Testimonials {
         this.deletedBy,
         this.createdAt,
         this.updatedAt,
-        this.name});
+        this.user});
 
   Testimonials.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -736,27 +739,327 @@ class Testimonials {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    name = json['name'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['user_id'] = userId;
-    data['description'] = description;
-    data['attachment'] = attachment;
-    data['type'] = type;
-    data['status'] = status;
-    data['featured'] = featured;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['deleted_by'] = deletedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['name'] = name;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['description'] = this.description;
+    data['attachment'] = this.attachment;
+    data['type'] = this.type;
+    data['status'] = this.status;
+    data['featured'] = this.featured;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['deleted_by'] = this.deletedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
     return data;
   }
 }
+
+// class User {
+//   dynamic id;
+//   String? userType;
+//   dynamic hasPassword;
+//   String? mobile;
+//   dynamic isMobileVerified;
+//   Null? dateOfBirth;
+//   Null? gender;
+//   Null? empId;
+//   String? status;
+//   String? deviceToken;
+//   String? loginAt;
+//   Null? logoutAt;
+//   String? name;
+//   String? email;
+//   String? supplierId;
+//   Null? emailVerifiedAt;
+//   Null? twoFactorConfirmedAt;
+//   Null? currentTeamId;
+//   Null? profilePhotoPath;
+//   String? createdAt;
+//   String? updatedAt;
+//   Null? createdBy;
+//   Null? updatedBy;
+//   Null? deletedBy;
+//   dynamic isFirst;
+//   String? profilePic;
+//   Null? badge;
+//   Null? kycStatus;
+//   Null? kycRemarks;
+//   Address? address;
+//
+//   User(
+//       {this.id,
+//         this.userType,
+//         this.hasPassword,
+//         this.mobile,
+//         this.isMobileVerified,
+//         this.dateOfBirth,
+//         this.gender,
+//         this.empId,
+//         this.status,
+//         this.deviceToken,
+//         this.loginAt,
+//         this.logoutAt,
+//         this.name,
+//         this.email,
+//         this.supplierId,
+//         this.emailVerifiedAt,
+//         this.twoFactorConfirmedAt,
+//         this.currentTeamId,
+//         this.profilePhotoPath,
+//         this.createdAt,
+//         this.updatedAt,
+//         this.createdBy,
+//         this.updatedBy,
+//         this.deletedBy,
+//         this.isFirst,
+//         this.profilePic,
+//         this.badge,
+//         this.kycStatus,
+//         this.kycRemarks,
+//         this.address});
+//
+//   User.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     userType = json['user_type'];
+//     hasPassword = json['has_password'];
+//     mobile = json['mobile'];
+//     isMobileVerified = json['is_mobile_verified'];
+//     dateOfBirth = json['date_of_birth'];
+//     gender = json['gender'];
+//     empId = json['emp_id'];
+//     status = json['status'];
+//     deviceToken = json['device_token'];
+//     loginAt = json['login_at'];
+//     logoutAt = json['logout_at'];
+//     name = json['name'];
+//     email = json['email'];
+//     supplierId = json['supplier_id'];
+//     emailVerifiedAt = json['email_verified_at'];
+//     twoFactorConfirmedAt = json['two_factor_confirmed_at'];
+//     currentTeamId = json['current_team_id'];
+//     profilePhotoPath = json['profile_photo_path'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//     createdBy = json['created_by'];
+//     updatedBy = json['updated_by'];
+//     deletedBy = json['deleted_by'];
+//     isFirst = json['is_first'];
+//     profilePic = json['profile_pic'];
+//     badge = json['badge'];
+//     kycStatus = json['kyc_status'];
+//     kycRemarks = json['kyc_remarks'];
+//     address =
+//     json['address'] != null ? new Address.fromJson(json['address']) : null;
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['id'] = this.id;
+//     data['user_type'] = this.userType;
+//     data['has_password'] = this.hasPassword;
+//     data['mobile'] = this.mobile;
+//     data['is_mobile_verified'] = this.isMobileVerified;
+//     data['date_of_birth'] = this.dateOfBirth;
+//     data['gender'] = this.gender;
+//     data['emp_id'] = this.empId;
+//     data['status'] = this.status;
+//     data['device_token'] = this.deviceToken;
+//     data['login_at'] = this.loginAt;
+//     data['logout_at'] = this.logoutAt;
+//     data['name'] = this.name;
+//     data['email'] = this.email;
+//     data['supplier_id'] = this.supplierId;
+//     data['email_verified_at'] = this.emailVerifiedAt;
+//     data['two_factor_confirmed_at'] = this.twoFactorConfirmedAt;
+//     data['current_team_id'] = this.currentTeamId;
+//     data['profile_photo_path'] = this.profilePhotoPath;
+//     data['created_at'] = this.createdAt;
+//     data['updated_at'] = this.updatedAt;
+//     data['created_by'] = this.createdBy;
+//     data['updated_by'] = this.updatedBy;
+//     data['deleted_by'] = this.deletedBy;
+//     data['is_first'] = this.isFirst;
+//     data['profile_pic'] = this.profilePic;
+//     data['badge'] = this.badge;
+//     data['kyc_status'] = this.kycStatus;
+//     data['kyc_remarks'] = this.kycRemarks;
+//     if (this.address != null) {
+//       data['address'] = this.address!.toJson();
+//     }
+//     return data;
+//   }
+// }
+//
+// class Address {
+//   dynamic id;
+//   dynamic addressableId;
+//   String? addressableType;
+//   String? name;
+//   String? mobile;
+//   Null? dialCode;
+//   Null? landlineNo;
+//   String? email;
+//   Null? gstNumber;
+//   String? line1;
+//   Null? line2;
+//   Null? landmark;
+//   Null? cityId;
+//   String? district;
+//   String? subCounty;
+//   Null? centerName;
+//   Null? village;
+//   Null? parish;
+//   String? county;
+//   Null? poBoxNumber;
+//   Null? coordinates;
+//   double? latitude;
+//   double? longitude;
+//   Null? stateId;
+//   String? country;
+//   dynamic countryId;
+//   String? region;
+//   dynamic subCountyId;
+//   dynamic countyId;
+//   dynamic districtId;
+//   dynamic regionId;
+//   String? postalCode;
+//   String? address;
+//   Null? type;
+//   String? createdAt;
+//   String? updatedAt;
+//   String? fullAddress;
+//
+//   Address(
+//       {this.id,
+//         this.addressableId,
+//         this.addressableType,
+//         this.name,
+//         this.mobile,
+//         this.dialCode,
+//         this.landlineNo,
+//         this.email,
+//         this.gstNumber,
+//         this.line1,
+//         this.line2,
+//         this.landmark,
+//         this.cityId,
+//         this.district,
+//         this.subCounty,
+//         this.centerName,
+//         this.village,
+//         this.parish,
+//         this.county,
+//         this.poBoxNumber,
+//         this.coordinates,
+//         this.latitude,
+//         this.longitude,
+//         this.stateId,
+//         this.country,
+//         this.countryId,
+//         this.region,
+//         this.subCountyId,
+//         this.countyId,
+//         this.districtId,
+//         this.regionId,
+//         this.postalCode,
+//         this.address,
+//         this.type,
+//         this.createdAt,
+//         this.updatedAt,
+//         this.fullAddress});
+//
+//   Address.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     addressableId = json['addressable_id'];
+//     addressableType = json['addressable_type'];
+//     name = json['name'];
+//     mobile = json['mobile'];
+//     dialCode = json['dial_code'];
+//     landlineNo = json['landline_no'];
+//     email = json['email'];
+//     gstNumber = json['gst_number'];
+//     line1 = json['line_1'];
+//     line2 = json['line_2'];
+//     landmark = json['landmark'];
+//     cityId = json['city_id'];
+//     district = json['district'];
+//     subCounty = json['sub_county'];
+//     centerName = json['center_name'];
+//     village = json['village'];
+//     parish = json['parish'];
+//     county = json['county'];
+//     poBoxNumber = json['po_box_number'];
+//     coordinates = json['coordinates'];
+//     latitude = json['latitude'];
+//     longitude = json['longitude'];
+//     stateId = json['state_id'];
+//     country = json['country'];
+//     countryId = json['country_id'];
+//     region = json['region'];
+//     subCountyId = json['sub_county_id'];
+//     countyId = json['county_id'];
+//     districtId = json['district_id'];
+//     regionId = json['region_id'];
+//     postalCode = json['postal_code'];
+//     address = json['address'];
+//     type = json['type'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//     fullAddress = json['full_address'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['id'] = this.id;
+//     data['addressable_id'] = this.addressableId;
+//     data['addressable_type'] = this.addressableType;
+//     data['name'] = this.name;
+//     data['mobile'] = this.mobile;
+//     data['dial_code'] = this.dialCode;
+//     data['landline_no'] = this.landlineNo;
+//     data['email'] = this.email;
+//     data['gst_number'] = this.gstNumber;
+//     data['line_1'] = this.line1;
+//     data['line_2'] = this.line2;
+//     data['landmark'] = this.landmark;
+//     data['city_id'] = this.cityId;
+//     data['district'] = this.district;
+//     data['sub_county'] = this.subCounty;
+//     data['center_name'] = this.centerName;
+//     data['village'] = this.village;
+//     data['parish'] = this.parish;
+//     data['county'] = this.county;
+//     data['po_box_number'] = this.poBoxNumber;
+//     data['coordinates'] = this.coordinates;
+//     data['latitude'] = this.latitude;
+//     data['longitude'] = this.longitude;
+//     data['state_id'] = this.stateId;
+//     data['country'] = this.country;
+//     data['country_id'] = this.countryId;
+//     data['region'] = this.region;
+//     data['sub_county_id'] = this.subCountyId;
+//     data['county_id'] = this.countyId;
+//     data['district_id'] = this.districtId;
+//     data['region_id'] = this.regionId;
+//     data['postal_code'] = this.postalCode;
+//     data['address'] = this.address;
+//     data['type'] = this.type;
+//     data['created_at'] = this.createdAt;
+//     data['updated_at'] = this.updatedAt;
+//     data['full_address'] = this.fullAddress;
+//     return data;
+//   }
+// }
+
 
 class FarmerProject {
   dynamic id;
@@ -1362,7 +1665,7 @@ class ImprovementArea {
 }
 
 class TodayMilkPrice {
-  int? id;
+  dynamic id;
   String? date;
   dynamic countryId;
   dynamic regionId;

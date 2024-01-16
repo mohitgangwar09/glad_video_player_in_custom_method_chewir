@@ -112,6 +112,11 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
               long: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.longitude ?? 0 : '',
             ),
             10.verticalSpace(),
+            if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive == null)
+              const Padding(
+                padding: EdgeInsets.only(top: 40, bottom: 40),
+                child: Center(child: Text('No DDE Available')),
+              ),
             if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive != null)
             DDEInArea(
               name: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.name ?? '',
@@ -161,9 +166,9 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
                             review:
                             state.guestDashboardResponse!.data!.testimonials![index].description ??
                                 '',
-                            name: state.guestDashboardResponse!.data!.testimonials![index].name ?? '',
+                            name: state.guestDashboardResponse!.data!.testimonials![index].user != null ? state.guestDashboardResponse!.data!.testimonials![index].user!.name ?? '' : '',
                             userType: 'Farmer',
-                            location: '',
+                            location: state.guestDashboardResponse!.data!.testimonials![index].user != null ? state.guestDashboardResponse!.data!.testimonials![index].user!.address != null ? state.guestDashboardResponse!.data!.testimonials![index].user!.address!.address ?? '' : '' : '',
                             attachment:
                             state.guestDashboardResponse!.data!.testimonials![index].attachment ??
                                 '',
