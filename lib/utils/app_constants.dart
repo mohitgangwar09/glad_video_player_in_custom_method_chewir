@@ -131,6 +131,7 @@ class AppConstants {
   static const String notificationReadApi = '/api/notification/read';
   static const String notificationReadAllApi = '/api/notification/read-all';
   static const String faqApi = '/api/faq/list';
+  static const String faqGuestApi = '/api/faq/faq-list';
   static const String farmerSupplierFilterListApi = '/api/farmer-project/farmer-dropdown-list';
   static const String projectSupplierFilterListApi = '/api/farmer-project/project-dropdown-list';
   static const String customLoanListApi = '/api/loan/loan-list';

@@ -127,7 +127,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
   }
 
   Future<void> sendFile(File image,String messageType)async{
-    customDialog(widget: launchProgress());
+    // customDialog(widget: launchProgress());
     final ref = FirebaseStorage.instance
         .ref()
         .child('image')
@@ -207,11 +207,11 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
         }
         print("Image Added");
       scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
-      disposeProgress();
+      // disposeProgress();
     }).catchError((error) {
       print("Failed to add user: $error");
       showCustomToast(context, error.toString());
-      disposeProgress();
+      // disposeProgress();
     });
   }
 
@@ -282,7 +282,8 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                     //   }
                     // });
                     if(!chatSnapShot.hasData) {
-                      return const SizedBox.shrink();
+                      return Expanded(child: Container(),);
+                      // return const SizedBox.shrink();
                     }
                     final chatDocs = chatSnapShot.data;
                     print(chatDocs!.docs.length);

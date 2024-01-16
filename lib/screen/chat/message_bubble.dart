@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -101,7 +102,7 @@ class MessageBubble extends StatelessWidget {
                     crossAxisAlignment:
                     CrossAxisAlignment.start,
                     children: [
-                      Text('$username ($userType)',
+                      Text('$username ${!userType.isAlphabetOnly ? '' : '($userType)'}',
                           style: figtreeSemiBold
                               .copyWith(
                               fontSize: 10,
