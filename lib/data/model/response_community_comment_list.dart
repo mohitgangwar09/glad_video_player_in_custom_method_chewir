@@ -33,6 +33,7 @@ class Data {
   dynamic userId;
   String? comment;
   String? status;
+  dynamic isShow;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
@@ -64,6 +65,7 @@ class Data {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    isShow = json['is_show'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 

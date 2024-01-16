@@ -58,7 +58,7 @@ class TrackProgress extends StatelessWidget {
                                           children: [
                                             Row(
                                               children: [
-                                                Text(DateFormat('dd MMM, yy hh:mm').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].date)),
+                                                Text(DateFormat('dd MMM, yy hh:mm a').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].date)),
                                                     // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectLog![index].date??'0',
                                                     style: figtreeMedium.copyWith(
                                                         fontSize: 18,

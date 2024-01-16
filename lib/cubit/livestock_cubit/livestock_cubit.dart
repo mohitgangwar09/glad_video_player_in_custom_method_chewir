@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
+import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/farmers_list.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/data/model/livestock_detail.dart';
@@ -136,6 +137,28 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     else {
       emit(state.copyWith(status: LivestockStatus.error));
       showCustomToast(context, response.message.toString());
+    }
+  }
+
+  ///// verifyProjectStatusApi /////
+  Future<MobileLoginModel> verifyProjectStatus(context,String otp,) async{
+
+    customDialog(widget: launchProgress());
+    // emit(state.copyWith(status: ProjectStatus.loading));
+    var response = await apiRepository.verifyMobileApi(otp, BlocProvider.of<ProjectCubit>(context).state.userIdForOtpValidate.toString());
+    disposeProgress();
+
+    if(response.status == 200){
+
+
+      return response;
+
+    }
+    else
+    {
+      showCustomToast(context, response.message.toString());
+      return MobileLoginModel(status: 422);
+      // emit(state.copyWith(status: ProjectStatus.error));
     }
   }
 

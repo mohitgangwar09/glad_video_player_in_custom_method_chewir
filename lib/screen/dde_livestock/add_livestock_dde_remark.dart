@@ -382,22 +382,26 @@ class _AddDdeLivestockRemarksState extends State<AddDdeLivestockRemarks> {
             ),
             onCompleted: (v) {
             },
-            onChanged: (value) {
+            onChanged: (value) async{
               if(value.length==4){
 
-                BlocProvider.of<LivestockCubit>(context)
-                    .livestockAddApi(
-                    context,
-                    widget.selectedBreedId!.toString(),
-                    widget.path,
-                    widget.milk,
-                    widget.lactation ?? '',
-                    widget.price,
-                    widget.pregnant ?? '',
-                    widget.quantity.toString(),
-                    widget.age,
-                    controller.text,
-                    userId: state.selectedLivestockFarmerMAster!.userId.toString());
+                var future = await BlocProvider.of<LivestockCubit>(context).verifyProjectStatus(context, value.toString(),);
+
+                if(future.status == 200){
+                  BlocProvider.of<LivestockCubit>(context)
+                      .livestockAddApi(
+                      context,
+                      widget.selectedBreedId.toString(),
+                      widget.path,
+                      widget.milk,
+                      widget.lactation ?? '',
+                      widget.price,
+                      widget.pregnant ?? '',
+                      widget.quantity.toString(),
+                      widget.age,
+                      controller.text,
+                      userId: state.selectedLivestockFarmerMAster!.userId.toString());
+                }
               }
             },
             beforeTextPaste: (text) {

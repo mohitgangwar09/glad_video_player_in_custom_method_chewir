@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
@@ -370,13 +371,17 @@ class _AddLivestockRemarkState extends State<AddLivestockRemark> {
               // ThankYou(profileData:widget.profileData,improvementProfileData:widget.projectData).navigate();
               // const UploadProfilePicture().navigate();
             },
-            onChanged: (value) {
+            onChanged: (value) async{
               if(value.length==4){
 
-                BlocProvider.of<ProjectCubit>(context).loanStatusUpdateApi(context, widget.livestockId,
-                    widget.status.toString(),
-                    controller.text ?? '',
-                    widget.projectData);
+                var future = await BlocProvider.of<LivestockCubit>(context).verifyProjectStatus(context, value.toString(),);
+
+                if(future.status == 200){
+                  BlocProvider.of<ProjectCubit>(context).loanStatusUpdateApi(context, widget.livestockId,
+                      widget.status.toString(),
+                      controller.text ?? '',
+                      widget.projectData);
+                }
 
               }
               // setState(() {
@@ -384,9 +389,6 @@ class _AddLivestockRemarkState extends State<AddLivestockRemark> {
               // });
             },
             beforeTextPaste: (text) {
-              print("Allowing to paste $text");
-              //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-              //but you can show anything you want here, like your pop up saying wrong paste format or etc
               return true;
             },
           ),
