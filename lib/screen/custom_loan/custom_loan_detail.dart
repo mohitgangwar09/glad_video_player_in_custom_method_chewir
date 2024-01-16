@@ -134,6 +134,7 @@ class _CustomLoanDetailState
                                 null
                                 ? kpi(context, state)
                                 : const SizedBox.shrink(),
+                            20.verticalSpace(),
                             if(state.responseFarmerProjectDetail!.data!
                                 .farmerProject![0].category.toString() == "6")
                               livestockList(context, state)
@@ -983,122 +984,13 @@ class _CustomLoanDetailState
                   state.responseFarmerProjectDetail!.data!.farmerProject![0]
                       .projectStatus ==
                       'hold')
-                Builder(builder: (context) {
-                  int count = 0;
-                  for (FarmerProjectMilestones mile in state
-                      .responseFarmerProjectDetail!
-                      .data!
-                      .farmerProject![0]
-                      .farmerProjectMilestones!) {
-                    if (mile.milestoneStatus != "pending") {
-                      count++;
-                    }
-                  }
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CircularPercentIndicator(
-                        radius: 30,
-                        percent: count /
-                            state
-                                .responseFarmerProjectDetail!
-                                .data!
-                                .farmerProject![0]
-                                .farmerProjectMilestones!
-                                .length,
-                        progressColor: const Color(0xFF12CE57),
-                        backgroundColor: const Color(0xFFDCEAE5),
-                      ),
-                      RichText(
-                        softWrap: false,
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: removeZeroesInFraction(((count /
-                                  state
-                                      .responseFarmerProjectDetail!
-                                      .data!
-                                      .farmerProject![0]
-                                      .farmerProjectMilestones!
-                                      .length) *
-                                  100)
-                                  .toString()),
-                              style: figtreeBold.copyWith(
-                                  color: Colors.black, fontSize: 16)),
-                          TextSpan(
-                              text: '%\n',
-                              style: figtreeBold.copyWith(
-                                  color: Colors.black, fontSize: 9)),
-                          TextSpan(
-                              text: 'completed',
-                              style: figtreeBold.copyWith(
-                                  color: const Color(0xFF808080), fontSize: 6))
-                        ]),
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  );
-                })
+                const SizedBox.shrink()
               else if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
                   .projectStatus ==
                   "completed")
                 if(state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus != null && state.responseFarmerProjectDetail!.data!.farmerProject![0].paymentStatus == "paid")
                   SvgPicture.asset(Images.paid)
-                else
-                  Builder(builder: (context) {
-                    int count = 0;
-                    for (FarmerProjectMilestones mile in state
-                        .responseFarmerProjectDetail!
-                        .data!
-                        .farmerProject![0]
-                        .farmerProjectMilestones!) {
-                      if (mile.milestoneStatus != "pending") {
-                        count++;
-                      }
-                    }
-                    return Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularPercentIndicator(
-                          radius: 30,
-                          percent: count /
-                              state
-                                  .responseFarmerProjectDetail!
-                                  .data!
-                                  .farmerProject![0]
-                                  .farmerProjectMilestones!
-                                  .length,
-                          progressColor: const Color(0xFF12CE57),
-                          backgroundColor: const Color(0xFFDCEAE5),
-                        ),
-                        RichText(
-                          softWrap: false,
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: removeZeroesInFraction(((count /
-                                    state
-                                        .responseFarmerProjectDetail!
-                                        .data!
-                                        .farmerProject![0]
-                                        .farmerProjectMilestones!
-                                        .length) *
-                                    100)
-                                    .toString()),
-                                style: figtreeBold.copyWith(
-                                    color: Colors.black, fontSize: 16)),
-                            TextSpan(
-                                text: '%\n',
-                                style: figtreeBold.copyWith(
-                                    color: Colors.black, fontSize: 9)),
-                            TextSpan(
-                                text: 'completed',
-                                style: figtreeBold.copyWith(
-                                    color: const Color(0xFF808080), fontSize: 6))
-                          ]),
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    );
-                  })
+
           ],
         ),
         10.verticalSpace(),

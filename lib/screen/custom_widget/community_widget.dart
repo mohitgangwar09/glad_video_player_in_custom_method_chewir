@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/community_cubit/community_cubit.dart';
-import 'package:glad/screen/auth_screen/login_with_password.dart';
 import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/common/community_comment_list.dart';
 import 'package:glad/screen/common/community_like_list.dart';
@@ -18,10 +14,6 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:like_button/like_button.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart'as path;
 
 class CommunityWidget extends StatefulWidget {
   final String name;
@@ -38,6 +30,7 @@ class CommunityWidget extends StatefulWidget {
   final int index;
   final int isFriend;
   final bool fromHome;
+  final int userId;
 
   const CommunityWidget(
       {super.key,
@@ -51,7 +44,7 @@ class CommunityWidget extends StatefulWidget {
       required this.likeCount,
       required this.commentCount,
       required this.isLiked,
-      required this.id, required this.index, required this.fromHome, required this.isFriend});
+      required this.id, required this.index, required this.fromHome, required this.isFriend, required this.userId});
 
   @override
   State<CommunityWidget> createState() => _CommunityWidgetState();
@@ -302,6 +295,7 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                 )),
           ),
           if(BlocProvider.of<CommunityCubit>(context).sharedPreferences.containsKey(AppConstants.userType))
+            if(BlocProvider.of<CommunityCubit>(context).sharedPreferences.getString(AppConstants.userId).toString() != widget.userId.toString())
             if(widget.isFriend == 0)
               Positioned(
                   right: 15,

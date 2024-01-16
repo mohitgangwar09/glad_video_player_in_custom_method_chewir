@@ -89,6 +89,7 @@ class _CommunityForumState extends State<CommunityForum> {
                           ? state.responseCommunityList!.data![index].user!.address!.address ?? ''
                           : '',
                       image: state.responseCommunityList!.data![index].user!.profilePic ?? '',
+                      userId: state.responseCommunityList!.data![index].user!.id,
                       caption: state.responseCommunityList!.data![index].remark ?? '',
                       video: state.responseCommunityList!.data![index].communityDocumentFiles![0]
                           .originalUrl ?? '',

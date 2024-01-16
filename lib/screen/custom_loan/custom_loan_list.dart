@@ -344,7 +344,8 @@ class _CustomLoanListState extends State<CustomLoanList> {
                           }) :
                       const SizedBox.shrink(),
                       if(state.responseCustomLoanList!.data == null)
-                      Container(
+                        if(searchEditingController.text.isEmpty)
+                          Container(
                           margin: 20.marginAll(),
                           height: 55,
                           width: screenWidth(),
@@ -362,6 +363,11 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                   const ApplyCustomLoan().navigate();
                                 }
                               }))
+                        else
+                          const Padding(
+                            padding: EdgeInsets.only(top: 40),
+                            child: Center(child: Text('No Results Found')),
+                          )
                       else
                         10.verticalSpace()
                     ],),

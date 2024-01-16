@@ -110,7 +110,8 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                       ],
                     ),
                    if(context.read<CommunityCubit>().sharedPreferences.containsKey(AppConstants.userType))
-                     if(state.responseCommunityDetailList!.data![0].isFriend != 0)
+                     if(BlocProvider.of<CommunityCubit>(context).sharedPreferences.getString(AppConstants.userId).toString() != state.responseCommunityDetailList!.data![0].user!.id.toString())
+                       if(state.responseCommunityDetailList!.data![0].isFriend != 0)
                         InkWell(
                             onTap: () {
                               CommunityFriendChatScreen(
@@ -323,7 +324,8 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                   ),
                 ),
                 if(BlocProvider.of<CommunityCubit>(context).sharedPreferences.containsKey(AppConstants.userType))
-                  if(data.isFriend == 0)
+                  if(BlocProvider.of<CommunityCubit>(context).sharedPreferences.getString(AppConstants.userId).toString() != data.user!.id.toString())
+                    if(data.isFriend == 0)
                     Positioned(
                         right: 20,
                         top: 20,

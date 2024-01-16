@@ -415,13 +415,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        if(docOneSelectedFile == ''){
-                          docOneFile.clear();
-                        }
-
-                        var image = await imgFromGallery();
-                        docOneFile.add(image);
-                        docOneSelectedFile = 'selected';
+                        var image = await imgOrPdfFromGallery();
+                        docOneFile.addAll(image);
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -470,7 +465,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                           setState(() {
                             docOneFile.remove(image);
                           });
-                        }),
+                        }, isPDF: image.endsWith('.pdf')),
                         10.horizontalSpace(),
                       ],
                     )
@@ -531,8 +526,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                         lastDate: DateTime(2100))
                         .then((value) {
                       setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
+                        docExpiryTwoController.text =
+                        "${value!.year}/${value.month}/${value.day}";
                       });
                     });
                   },
@@ -601,13 +596,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        if(docTwoSelectedFile == '') {
-                          docTwoFile.clear();
-                        }
-                        var image = await imgFromGallery();
-                        docTwoSelectedFile = 'selected';
-                        docTwoFile.add(image);
-
+                        var image = await imgOrPdfFromGallery();
+                        docTwoFile.addAll(image);
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -656,7 +646,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                           setState(() {
                             docTwoFile.remove(image);
                           });
-                        }),
+                        }, isPDF: image.endsWith('.pdf')),
                         10.horizontalSpace(),
                       ],
                     )
@@ -717,8 +707,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                         lastDate: DateTime(2100))
                         .then((value) {
                       setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
+                        docExpiryThreeController.text =
+                        "${value!.year}/${value.month}/${value.day}";
                       });
                     });
                   },
@@ -787,12 +777,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        if(docThreeSelectedFile == '') {
-                            docThreeFile.clear();
-                        }
-                        var image = await imgFromGallery();
-                        docThreeSelectedFile = 'selected';
-                        docThreeFile.add(image);
+                        var image = await imgOrPdfFromGallery();
+                        docThreeFile.addAll(image);
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -841,7 +827,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                           setState(() {
                             docThreeFile.remove(image);
                           });
-                        }),
+                        }, isPDF: image.endsWith('.pdf')),
                         10.horizontalSpace(),
                       ],
                     )
@@ -904,8 +890,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                         lastDate: DateTime(2100))
                         .then((value) {
                       setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
+                        docExpiryFourController.text =
+                        "${value!.year}/${value.month}/${value.day}";
                       });
                     });
                   },
@@ -974,12 +960,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        if(docFourSelectedFile == '') {
-                          docFourFile.clear();
-                        }
-                        var image = await imgFromGallery();
-                        docFourSelectedFile = 'selected';
-                        docFourFile.add(image);
+                        var image = await imgOrPdfFromGallery();
+                        docFourFile.addAll(image);
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -1028,7 +1010,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                           setState(() {
                             docFourFile.remove(image);
                           });
-                        }),
+                        }, isPDF: image.endsWith('.pdf')),
                         10.horizontalSpace(),
                       ],
                     )
@@ -1088,8 +1070,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                         lastDate: DateTime(2100))
                         .then((value) {
                       setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
+                        docExpiryFiveController.text =
+                        "${value!.year}/${value.month}/${value.day}";
                       });
                     });
                   },
@@ -1158,12 +1140,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                   children: [
                     InkWell(
                       onTap: () async{
-                        if(docFiveSelectedFile == '') {
-                          docFiveFile.clear();
-                        }
-                        var image = await imgFromGallery();
-                        docFiveSelectedFile = 'selected';
-                        docFiveFile.add(image);
+                        var image = await imgOrPdfFromGallery();
+                        docFiveFile.addAll(image);
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -1212,7 +1190,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                           setState(() {
                             docFiveFile.remove(image);
                           });
-                        }),
+                        }, isPDF: image.endsWith('.pdf')),
                         10.horizontalSpace(),
                       ],
                     )
@@ -1274,8 +1252,8 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                         lastDate: DateTime(2100))
                         .then((value) {
                       setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
+                        docExpirySixController.text =
+                        "${value!.year}/${value.month}/${value.day}";
                       });
                     });
                   },
@@ -1347,9 +1325,9 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                         if(docSixSelectedFile == '') {
                           docSixFile.clear();
                         }
-                        var image = await imgFromGallery();
+                        var image = await imgOrPdfFromGallery();
                         docSixSelectedFile = 'selected';
-                        docSixFile.add(image);
+                        docSixFile.addAll(image);
                         setState(() {});
                       },
                       child: SvgPicture.asset(
@@ -1398,7 +1376,7 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
                           setState(() {
                             docSixFile.remove(image);
                           });
-                        }),
+                        }, isPDF: image.endsWith('.pdf')),
                         10.horizontalSpace(),
                       ],
                     )
@@ -1412,481 +1390,481 @@ class _SupplierUpdateKycState extends State<SupplierUpdateKyc> {
     );
   }
 
-  Widget director() {
-    return Column(
-      children: [
-        20.verticalSpace(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: CustomDropdown(
-                  hint: '',
-                  dropdownValue: docFive,
-                  itemList: const [
-                    "MOA & AOA (Optional)"
-                  ],
-                  icon: Images.arrowDropdown,
-                  iconColor: Colors.black, onChanged: (String? value) {  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        10.verticalSpace(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: CustomTextField(
-                  hint: 'Doc. No.',
-                  controller: docFiveController,
-                  hintStyle: figtreeMedium.copyWith(
-                      fontSize: 16, color: Colors.black),
-                ),
-              ),
-              10.horizontalSpace(),
-              Expanded(
-                child: CustomTextField(
-                  hint: 'Exp. Date',
-                  hintStyle: figtreeMedium.copyWith(
-                      fontSize: 16, color: Colors.black),
-                  image2: Images.calender,
-                  controller: docExpiryFiveController,
-                  image2Colors: ColorResources.maroon,
-                  readOnly: true,
-                  onTap: () {
-                    showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2100))
-                        .then((value) {
-                      setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
-                      });
-                    });
-                  },
-                  focusNode: FocusNode(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        10.verticalSpace(),
-        docFiveFile.length < 2 ? Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Stack(
-            children: [
-              ContainerBorder(
-                margin: 0.marginVertical(),
-                padding: 10.paddingOnly(top: 15, bottom: 15),
-                borderColor: 0xffD9D9D9,
-                backColor: 0xffFFFFFF,
-                radius: 10,
-                widget: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    5.horizontalSpace(),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10.0, top: 2, bottom: 2),
-                        child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: 'Choose ',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 16,
-                                          color: const Color(
-                                              0xFFFC5E60))),
-                                  TextSpan(
-                                      text: 'you file here',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 16,
-                                          color: ColorResources
-                                              .fieldGrey))
-                                ])),
-                            Text('Max size 5 MB',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12,
-                                    color:
-                                    ColorResources.fieldGrey))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                right: 13,
-                top: 0,
-                bottom: 0,
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () async{
-                        var image = await imgFromGallery();
-                        docFiveFile.add(image);
-                        setState(() {});
-                      },
-                      child: SvgPicture.asset(
-                        Images.attachment,
-                        colorFilter: const ColorFilter.mode(
-                            ColorResources.fieldGrey,
-                            BlendMode.srcIn),
-                      ),
-                    ),
-                    10.horizontalSpace(),
-                    InkWell(
-                      onTap: () async{
-                        var image = await imgFromCamera();
-                        docFiveFile.add(image);
-                        setState(() {});
-                      },
-                      child: SvgPicture.asset(
-                        Images.camera,
-                        colorFilter: const ColorFilter.mode(
-                            ColorResources.fieldGrey,
-                            BlendMode.srcIn),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ) : const SizedBox.shrink(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              20.verticalSpace(),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (String image in docFiveFile)
-                    Row(
-                      children: [
-                        documentImage(image, () {
-                          setState(() {
-                            docFiveFile.remove(image);
-                          });
-                        }),
-                        10.horizontalSpace(),
-                      ],
-                    )
-                ],
-              ),
-            ],
-          ),
-        ),
-
-
-
-        20.verticalSpace(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: CustomDropdown(
-                  hint: '',
-                  dropdownValue: docSix,
-                  itemList: const [
-                    "ID Proof"
-                  ],
-                  icon: Images.arrowDropdown,
-                  iconColor: Colors.black, onChanged: (String? value) {  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        10.verticalSpace(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: CustomTextField(
-                  hint: 'Doc. No.',
-                  controller: docSixController,
-                  hintStyle: figtreeMedium.copyWith(
-                      fontSize: 16, color: Colors.black),
-                ),
-              ),
-              10.horizontalSpace(),
-              Expanded(
-                child: CustomTextField(
-                  hint: 'Exp. Date',
-                  hintStyle: figtreeMedium.copyWith(
-                      fontSize: 16, color: Colors.black),
-                  image2: Images.calender,
-                  controller: docExpirySixController,
-                  image2Colors: ColorResources.maroon,
-                  readOnly: true,
-                  onTap: () {
-                    showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2100))
-                        .then((value) {
-                      setState(() {
-                        // addressDate.text =
-                        // "${value!.year}/${value.month}/${value.day}";
-                      });
-                    });
-                  },
-                  focusNode: FocusNode(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        10.verticalSpace(),
-        docSixFile.length < 2 ? Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Stack(
-            children: [
-              ContainerBorder(
-                margin: 0.marginVertical(),
-                padding: 10.paddingOnly(top: 15, bottom: 15),
-                borderColor: 0xffD9D9D9,
-                backColor: 0xffFFFFFF,
-                radius: 10,
-                widget: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    5.horizontalSpace(),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10.0, top: 2, bottom: 2),
-                        child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: 'Choose ',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 16,
-                                          color: const Color(
-                                              0xFFFC5E60))),
-                                  TextSpan(
-                                      text: 'you file here',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 16,
-                                          color: ColorResources
-                                              .fieldGrey))
-                                ])),
-                            Text('Max size 5 MB',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12,
-                                    color:
-                                    ColorResources.fieldGrey))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                right: 13,
-                top: 0,
-                bottom: 0,
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () async{
-                        var image = await imgFromGallery();
-                        docSixFile.add(image);
-                        setState(() {});
-                      },
-                      child: SvgPicture.asset(
-                        Images.attachment,
-                        colorFilter: const ColorFilter.mode(
-                            ColorResources.fieldGrey,
-                            BlendMode.srcIn),
-                      ),
-                    ),
-                    10.horizontalSpace(),
-                    InkWell(
-                      onTap: () async{
-                        var image = await imgFromCamera();
-                        docSixFile.add(image);
-                        setState(() {});
-                      },
-                      child: SvgPicture.asset(
-                        Images.camera,
-                        colorFilter: const ColorFilter.mode(
-                            ColorResources.fieldGrey,
-                            BlendMode.srcIn),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ) : const SizedBox.shrink(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              20.verticalSpace(),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (String image in docSixFile)
-                    Row(
-                      children: [
-                        documentImage(image, () {
-                          setState(() {
-                            docSixFile.remove(image);
-                          });
-                        }),
-                        10.horizontalSpace(),
-                      ],
-                    )
-                ],
-              ),
-            ],
-          ),
-        ),
-        20.verticalSpace()
-
-      ],
-    );
-  }
-
-  Widget companyUploadType(String type, {String? description}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: type,
-                    style:
-                    figtreeMedium.copyWith(fontSize: 16, color: Colors.black)),
-                TextSpan(
-                    text: ' ${description ?? ''}',
-                    style:
-                    figtreeMedium.copyWith(fontSize: 16, color: Colors.grey)),
-              ])),
-          5.verticalSpace(),
-          Stack(
-            children: [
-              ContainerBorder(
-                margin: 0.marginVertical(),
-                padding: 10.paddingOnly(top: 15, bottom: 15),
-                borderColor: 0xffD9D9D9,
-                backColor: 0xffFFFFFF,
-                radius: 10,
-                widget: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    5.horizontalSpace(),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10.0, top: 2, bottom: 2),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: 'Choose ',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 16,
-                                          color: const Color(0xFFFC5E60))),
-                                  TextSpan(
-                                      text: 'you file here',
-                                      style: figtreeMedium.copyWith(
-                                          fontSize: 16,
-                                          color: ColorResources.fieldGrey))
-                                ])),
-                            Text('Max size 02 MB',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12,
-                                    color: ColorResources.fieldGrey))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (null != null)
-                Visibility(
-                  visible: '' == '' ? false : true,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 5.0, top: 7),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          Images.errorIcon,
-                          width: 20,
-                          height: 20,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 7.0),
-                            child: Text(
-                              ''.toString(),
-                              style: figtreeRegular.copyWith(
-                                color: const Color(0xff929292),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              Positioned(
-                right: 13,
-                top: 0,
-                bottom: 0,
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      Images.attachment,
-                      colorFilter: const ColorFilter.mode(
-                          ColorResources.fieldGrey, BlendMode.srcIn),
-                    ),
-                    10.horizontalSpace(),
-                    SvgPicture.asset(
-                      Images.camera,
-                      colorFilter: const ColorFilter.mode(
-                          ColorResources.fieldGrey, BlendMode.srcIn),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget director() {
+  //   return Column(
+  //     children: [
+  //       20.verticalSpace(),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Row(
+  //           children: [
+  //             Expanded(
+  //               child: CustomDropdown(
+  //                 hint: '',
+  //                 dropdownValue: docFive,
+  //                 itemList: const [
+  //                   "MOA & AOA (Optional)"
+  //                 ],
+  //                 icon: Images.arrowDropdown,
+  //                 iconColor: Colors.black, onChanged: (String? value) {  },
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       10.verticalSpace(),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Row(
+  //           children: [
+  //             Expanded(
+  //               child: CustomTextField(
+  //                 hint: 'Doc. No.',
+  //                 controller: docFiveController,
+  //                 hintStyle: figtreeMedium.copyWith(
+  //                     fontSize: 16, color: Colors.black),
+  //               ),
+  //             ),
+  //             10.horizontalSpace(),
+  //             Expanded(
+  //               child: CustomTextField(
+  //                 hint: 'Exp. Date',
+  //                 hintStyle: figtreeMedium.copyWith(
+  //                     fontSize: 16, color: Colors.black),
+  //                 image2: Images.calender,
+  //                 controller: docExpiryFiveController,
+  //                 image2Colors: ColorResources.maroon,
+  //                 readOnly: true,
+  //                 onTap: () {
+  //                   showDatePicker(
+  //                       context: context,
+  //                       initialDate: DateTime.now(),
+  //                       firstDate: DateTime.now(),
+  //                       lastDate: DateTime(2100))
+  //                       .then((value) {
+  //                     setState(() {
+  //                       docExpiryFiveController.text =
+  //                       "${value!.year}/${value.month}/${value.day}";
+  //                     });
+  //                   });
+  //                 },
+  //                 focusNode: FocusNode(),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       10.verticalSpace(),
+  //       docFiveFile.length < 2 ? Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Stack(
+  //           children: [
+  //             ContainerBorder(
+  //               margin: 0.marginVertical(),
+  //               padding: 10.paddingOnly(top: 15, bottom: 15),
+  //               borderColor: 0xffD9D9D9,
+  //               backColor: 0xffFFFFFF,
+  //               radius: 10,
+  //               widget: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   5.horizontalSpace(),
+  //                   Expanded(
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.only(
+  //                           left: 10.0, top: 2, bottom: 2),
+  //                       child: Column(
+  //                         crossAxisAlignment:
+  //                         CrossAxisAlignment.start,
+  //                         children: [
+  //                           RichText(
+  //                               text: TextSpan(children: [
+  //                                 TextSpan(
+  //                                     text: 'Choose ',
+  //                                     style: figtreeMedium.copyWith(
+  //                                         fontSize: 16,
+  //                                         color: const Color(
+  //                                             0xFFFC5E60))),
+  //                                 TextSpan(
+  //                                     text: 'you file here',
+  //                                     style: figtreeMedium.copyWith(
+  //                                         fontSize: 16,
+  //                                         color: ColorResources
+  //                                             .fieldGrey))
+  //                               ])),
+  //                           Text('Max size 5 MB',
+  //                               style: figtreeMedium.copyWith(
+  //                                   fontSize: 12,
+  //                                   color:
+  //                                   ColorResources.fieldGrey))
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             Positioned(
+  //               right: 13,
+  //               top: 0,
+  //               bottom: 0,
+  //               child: Row(
+  //                 children: [
+  //                   InkWell(
+  //                     onTap: () async{
+  //                       var image = await imgOrPdfFromGallery();
+  //                       docFiveFile.addAll(image);
+  //                       setState(() {});
+  //                     },
+  //                     child: SvgPicture.asset(
+  //                       Images.attachment,
+  //                       colorFilter: const ColorFilter.mode(
+  //                           ColorResources.fieldGrey,
+  //                           BlendMode.srcIn),
+  //                     ),
+  //                   ),
+  //                   10.horizontalSpace(),
+  //                   InkWell(
+  //                     onTap: () async{
+  //                       var image = await imgFromCamera();
+  //                       docFiveFile.add(image);
+  //                       setState(() {});
+  //                     },
+  //                     child: SvgPicture.asset(
+  //                       Images.camera,
+  //                       colorFilter: const ColorFilter.mode(
+  //                           ColorResources.fieldGrey,
+  //                           BlendMode.srcIn),
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ) : const SizedBox.shrink(),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Column(
+  //           children: [
+  //             20.verticalSpace(),
+  //             Row(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 for (String image in docFiveFile)
+  //                   Row(
+  //                     children: [
+  //                       documentImage(image, () {
+  //                         setState(() {
+  //                           docFiveFile.remove(image);
+  //                         });
+  //                       }),
+  //                       10.horizontalSpace(),
+  //                     ],
+  //                   )
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //
+  //
+  //
+  //       20.verticalSpace(),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Row(
+  //           children: [
+  //             Expanded(
+  //               child: CustomDropdown(
+  //                 hint: '',
+  //                 dropdownValue: docSix,
+  //                 itemList: const [
+  //                   "ID Proof"
+  //                 ],
+  //                 icon: Images.arrowDropdown,
+  //                 iconColor: Colors.black, onChanged: (String? value) {  },
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       10.verticalSpace(),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Row(
+  //           children: [
+  //             Expanded(
+  //               child: CustomTextField(
+  //                 hint: 'Doc. No.',
+  //                 controller: docSixController,
+  //                 hintStyle: figtreeMedium.copyWith(
+  //                     fontSize: 16, color: Colors.black),
+  //               ),
+  //             ),
+  //             10.horizontalSpace(),
+  //             Expanded(
+  //               child: CustomTextField(
+  //                 hint: 'Exp. Date',
+  //                 hintStyle: figtreeMedium.copyWith(
+  //                     fontSize: 16, color: Colors.black),
+  //                 image2: Images.calender,
+  //                 controller: docExpirySixController,
+  //                 image2Colors: ColorResources.maroon,
+  //                 readOnly: true,
+  //                 onTap: () {
+  //                   showDatePicker(
+  //                       context: context,
+  //                       initialDate: DateTime.now(),
+  //                       firstDate: DateTime.now(),
+  //                       lastDate: DateTime(2100))
+  //                       .then((value) {
+  //                     setState(() {
+  //                       docExpirySixController.text =
+  //                       "${value!.year}/${value.month}/${value.day}";
+  //                     });
+  //                   });
+  //                 },
+  //                 focusNode: FocusNode(),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       10.verticalSpace(),
+  //       docSixFile.length < 2 ? Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Stack(
+  //           children: [
+  //             ContainerBorder(
+  //               margin: 0.marginVertical(),
+  //               padding: 10.paddingOnly(top: 15, bottom: 15),
+  //               borderColor: 0xffD9D9D9,
+  //               backColor: 0xffFFFFFF,
+  //               radius: 10,
+  //               widget: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   5.horizontalSpace(),
+  //                   Expanded(
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.only(
+  //                           left: 10.0, top: 2, bottom: 2),
+  //                       child: Column(
+  //                         crossAxisAlignment:
+  //                         CrossAxisAlignment.start,
+  //                         children: [
+  //                           RichText(
+  //                               text: TextSpan(children: [
+  //                                 TextSpan(
+  //                                     text: 'Choose ',
+  //                                     style: figtreeMedium.copyWith(
+  //                                         fontSize: 16,
+  //                                         color: const Color(
+  //                                             0xFFFC5E60))),
+  //                                 TextSpan(
+  //                                     text: 'you file here',
+  //                                     style: figtreeMedium.copyWith(
+  //                                         fontSize: 16,
+  //                                         color: ColorResources
+  //                                             .fieldGrey))
+  //                               ])),
+  //                           Text('Max size 5 MB',
+  //                               style: figtreeMedium.copyWith(
+  //                                   fontSize: 12,
+  //                                   color:
+  //                                   ColorResources.fieldGrey))
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             Positioned(
+  //               right: 13,
+  //               top: 0,
+  //               bottom: 0,
+  //               child: Row(
+  //                 children: [
+  //                   InkWell(
+  //                     onTap: () async{
+  //                       var image = await imgOrPdfFromGallery();
+  //                       docSixFile.addAll(image);
+  //                       setState(() {});
+  //                     },
+  //                     child: SvgPicture.asset(
+  //                       Images.attachment,
+  //                       colorFilter: const ColorFilter.mode(
+  //                           ColorResources.fieldGrey,
+  //                           BlendMode.srcIn),
+  //                     ),
+  //                   ),
+  //                   10.horizontalSpace(),
+  //                   InkWell(
+  //                     onTap: () async{
+  //                       var image = await imgFromCamera();
+  //                       docSixFile.add(image);
+  //                       setState(() {});
+  //                     },
+  //                     child: SvgPicture.asset(
+  //                       Images.camera,
+  //                       colorFilter: const ColorFilter.mode(
+  //                           ColorResources.fieldGrey,
+  //                           BlendMode.srcIn),
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ) : const SizedBox.shrink(),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Column(
+  //           children: [
+  //             20.verticalSpace(),
+  //             Row(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 for (String image in docSixFile)
+  //                   Row(
+  //                     children: [
+  //                       documentImage(image, () {
+  //                         setState(() {
+  //                           docSixFile.remove(image);
+  //                         });
+  //                       }),
+  //                       10.horizontalSpace(),
+  //                     ],
+  //                   )
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       20.verticalSpace()
+  //
+  //     ],
+  //   );
+  // }
+  //
+  // Widget companyUploadType(String type, {String? description}) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         RichText(
+  //             text: TextSpan(children: [
+  //               TextSpan(
+  //                   text: type,
+  //                   style:
+  //                   figtreeMedium.copyWith(fontSize: 16, color: Colors.black)),
+  //               TextSpan(
+  //                   text: ' ${description ?? ''}',
+  //                   style:
+  //                   figtreeMedium.copyWith(fontSize: 16, color: Colors.grey)),
+  //             ])),
+  //         5.verticalSpace(),
+  //         Stack(
+  //           children: [
+  //             ContainerBorder(
+  //               margin: 0.marginVertical(),
+  //               padding: 10.paddingOnly(top: 15, bottom: 15),
+  //               borderColor: 0xffD9D9D9,
+  //               backColor: 0xffFFFFFF,
+  //               radius: 10,
+  //               widget: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   5.horizontalSpace(),
+  //                   Expanded(
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.only(
+  //                           left: 10.0, top: 2, bottom: 2),
+  //                       child: Column(
+  //                         crossAxisAlignment: CrossAxisAlignment.start,
+  //                         children: [
+  //                           RichText(
+  //                               text: TextSpan(children: [
+  //                                 TextSpan(
+  //                                     text: 'Choose ',
+  //                                     style: figtreeMedium.copyWith(
+  //                                         fontSize: 16,
+  //                                         color: const Color(0xFFFC5E60))),
+  //                                 TextSpan(
+  //                                     text: 'you file here',
+  //                                     style: figtreeMedium.copyWith(
+  //                                         fontSize: 16,
+  //                                         color: ColorResources.fieldGrey))
+  //                               ])),
+  //                           Text('Max size 02 MB',
+  //                               style: figtreeMedium.copyWith(
+  //                                   fontSize: 12,
+  //                                   color: ColorResources.fieldGrey))
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             if (null != null)
+  //               Visibility(
+  //                 visible: '' == '' ? false : true,
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.only(left: 5.0, top: 7),
+  //                   child: Row(
+  //                     children: [
+  //                       SvgPicture.asset(
+  //                         Images.errorIcon,
+  //                         width: 20,
+  //                         height: 20,
+  //                       ),
+  //                       Expanded(
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(left: 7.0),
+  //                           child: Text(
+  //                             ''.toString(),
+  //                             style: figtreeRegular.copyWith(
+  //                               color: const Color(0xff929292),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //             Positioned(
+  //               right: 13,
+  //               top: 0,
+  //               bottom: 0,
+  //               child: Row(
+  //                 children: [
+  //                   SvgPicture.asset(
+  //                     Images.attachment,
+  //                     colorFilter: const ColorFilter.mode(
+  //                         ColorResources.fieldGrey, BlendMode.srcIn),
+  //                   ),
+  //                   10.horizontalSpace(),
+  //                   SvgPicture.asset(
+  //                     Images.camera,
+  //                     colorFilter: const ColorFilter.mode(
+  //                         ColorResources.fieldGrey, BlendMode.srcIn),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

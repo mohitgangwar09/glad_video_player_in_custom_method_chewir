@@ -661,7 +661,7 @@ class OthersRepository {
 
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
-        .getApiResponse(AppConstants.faqApi,
+        .getApiResponse(sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.faqApi : AppConstants.faqGuestApi,
         queryParameters: {"category_id":type},
         headers: {'Authorization': 'Bearer ${getUserToken()}'});
 

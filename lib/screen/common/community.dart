@@ -155,6 +155,7 @@ class _CommunityPostState extends State<CommunityPost> {
                     : '',
                 image: state.responseCommunityList!.data![index].user!.profilePic ?? '',
                 caption: state.responseCommunityList!.data![index].remark ?? '',
+                userId: state.responseCommunityList!.data![index].user!.id,
                 video: state.responseCommunityList!.data![index].communityDocumentFiles![0].originalUrl ?? '',
                 timeAgo: getPostAge(DateTime.parse(state.responseCommunityList!.data![index].createdAt ?? '')),
                 likeCount: state.responseCommunityList!.data![index].communityLikesCount ?? 0,

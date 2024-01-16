@@ -415,7 +415,8 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                         .orderBy('created_at',descending: false).snapshots(),
                     builder: (ctx,chatSnapShot) {
                       if(!chatSnapShot.hasData) {
-                        return const SizedBox.shrink();
+                        return Expanded(child: Container(),);
+                        // return const SizedBox.shrink();
                       }
                       final chatDocs = chatSnapShot.data;
                       return Expanded(
