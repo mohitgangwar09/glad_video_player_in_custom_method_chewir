@@ -124,6 +124,9 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           maxLength: 12,
+                                          onChanged: (value){
+                                            state.ageUpToController.text = value;
+                                          },
                                           controller: state.ageFromController,
                                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                           decoration: const InputDecoration(
@@ -150,14 +153,22 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                             borderRadius: 10,
                                             borderColor: const Color(0xff767676)),
                                         height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          maxLength: 12,
-                                          controller: state.ageUpToController,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none,counterText: ''),
+                                        child: AbsorbPointer(
+                                          absorbing: BlocProvider.of<LivestockCubit>(context).ageGreater(),
+                                          child: TextField(
+
+                                            keyboardType: TextInputType.phone,
+                                            maxLines: 1,
+                                            onChanged: (value){
+                                              state.ageUpToController.text.toast();
+                                            },
+                                            // readOnly: int.parse(state.ageUpToController.text.toString())>=int.parse(state.ageFromController.text.toString())?false:true,
+                                            maxLength: 12,
+                                            controller: state.ageUpToController,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: ''),
+                                          ),
                                         ))
                                   ],
                                 ),

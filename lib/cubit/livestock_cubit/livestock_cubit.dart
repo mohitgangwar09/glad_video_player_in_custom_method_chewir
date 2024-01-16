@@ -37,6 +37,22 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     emit(state.copyWith(roiFilter: filter));
   }
 
+  bool ageGreater(){
+    bool check = true;
+    if(state.ageFromController.text.isNotEmpty){
+      state.ageFromController.addListener(() {
+        if(int.parse(state.ageUpToController.text)>=int.parse(state.ageFromController.text)){
+          check = true;
+        }else{
+          check = false;
+
+        }
+      });
+
+    }
+    return check;
+  }
+
   void selectedDdeFarmerLivestockDetail(FarmerMAster? farmerMAster) async{
     emit(state.copyWith(selectedLivestockFarmerMAster: farmerMAster));
   }
