@@ -373,30 +373,29 @@ class _AddCustomLoanRemarkState extends State<AddCustomLoanRemark> {
               // ThankYou(profileData:widget.profileData,improvementProfileData:widget.projectData).navigate();
               // const UploadProfilePicture().navigate();
             },
-            onChanged: (value) {
+            onChanged: (value) async{
               if(value.length==4){
 
-                BlocProvider.of<ProjectCubit>(context).customLoanApplyApi(context,
-                    widget.purpose,
-                    widget.price,
-                    widget.period,
-                    widget.remarks,
-                    widget.projectData!.id.toString(),
-                    widget.addressProof.toLowerCase().replaceAll(' ', '-'),
-                    widget.addressDoc,
-                    widget.addressDate,
-                    widget.addressImg,
-                    widget.idProof.toLowerCase().replaceAll(' ', '-'),
-                    widget.idDoc,
-                    widget.idDate,
-                    widget.idImage,
-                    widget.profilePicture, widget.projectData);
+                var future = await BlocProvider.of<ProjectCubit>(context).verifyStatusApi(context, value.toString(),);
 
-
+                if(future.status == 200){
+                  BlocProvider.of<ProjectCubit>(context).customLoanApplyApi(context,
+                      widget.purpose,
+                      widget.price,
+                      widget.period,
+                      widget.remarks,
+                      widget.projectData!.id.toString(),
+                      widget.addressProof.toLowerCase().replaceAll(' ', '-'),
+                      widget.addressDoc,
+                      widget.addressDate,
+                      widget.addressImg,
+                      widget.idProof.toLowerCase().replaceAll(' ', '-'),
+                      widget.idDoc,
+                      widget.idDate,
+                      widget.idImage,
+                      widget.profilePicture, widget.projectData);
+                }
               }
-              // setState(() {
-              //   // currentText = value;
-              // });
             },
             beforeTextPaste: (text) {
               print("Allowing to paste $text");

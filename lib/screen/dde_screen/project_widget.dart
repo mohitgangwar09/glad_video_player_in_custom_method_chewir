@@ -108,48 +108,56 @@ class ProjectWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                20.verticalSpace(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Loan: ',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: const Color(0xFF808080))),
-                      TextSpan(
-                          text: getCurrencyString(loan),
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: Colors.black))
-                    ])),
-                    RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: 'EMI/Mo: ',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: const Color(0xFF808080))),
-                      TextSpan(
-                          text: getCurrencyString(emi),
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: Colors.black))
-                    ])),
+                if(selectedFilter != "suggested")
+                  Column(
+                    children: [
 
-                    if(selectedFilter == 'active' || selectedFilter == 'completed')
-                      RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: 'Balance: ',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: const Color(0xFF808080))),
-                            TextSpan(
-                                text: '$balance%',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: Colors.black))
-                          ])),
-                  ],
-                ),
+                      20.verticalSpace(),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: 'Loan: ',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: const Color(0xFF808080))),
+                                TextSpan(
+                                    text: getCurrencyString(loan),
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black))
+                              ])),
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: 'EMI/Mo: ',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: const Color(0xFF808080))),
+                                TextSpan(
+                                    text: getCurrencyString(emi),
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black))
+                              ])),
+
+                          if(selectedFilter == 'active' || selectedFilter == 'completed')
+                            RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Balance: ',
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 12, color: const Color(0xFF808080))),
+                                  TextSpan(
+                                      text: '$balance%',
+                                      style: figtreeMedium.copyWith(
+                                          fontSize: 12, color: Colors.black))
+                                ])),
+                        ],
+                      ),
+                    ],
+                  ),
                 15.verticalSpace(),
+
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: Row(

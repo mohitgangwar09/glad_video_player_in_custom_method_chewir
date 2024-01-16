@@ -385,21 +385,24 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
               // ThankYou(profileData:widget.profileData,improvementProfileData:widget.projectData).navigate();
               // const UploadProfilePicture().navigate();
             },
-            onChanged: (value) {
+            onChanged: (value) async{
               if(value.length==4){
 
-                BlocProvider.of<LivestockCubit>(context).applyLivestockLoanApi(context,
-                  widget.farmerProjectId, widget.farmerParticipation.toString(), "remarks",
-                  widget.addressProof.toLowerCase().replaceAll(' ', '-'),
-                  widget.addressDoc,
-                  widget.addressDate,
-                  widget.addressImg,
-                  widget.idProof.toLowerCase().replaceAll(' ', '-'),
-                  widget.idDoc,
-                  widget.idDate,
-                  widget.idImage,
-                  widget.profilePicture,widget.projectData);
+                var future = await BlocProvider.of<LivestockCubit>(context).verifyProjectStatus(context, value.toString(),);
 
+                if(future.status == 200){
+                  BlocProvider.of<LivestockCubit>(context).applyLivestockLoanApi(context,
+                      widget.farmerProjectId, widget.farmerParticipation.toString(), "remarks",
+                      widget.addressProof.toLowerCase().replaceAll(' ', '-'),
+                      widget.addressDoc,
+                      widget.addressDate,
+                      widget.addressImg,
+                      widget.idProof.toLowerCase().replaceAll(' ', '-'),
+                      widget.idDoc,
+                      widget.idDate,
+                      widget.idImage,
+                      widget.profilePicture,widget.projectData);
+                }
 
               }
               // setState(() {

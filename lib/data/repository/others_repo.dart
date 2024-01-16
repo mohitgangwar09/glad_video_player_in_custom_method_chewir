@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:glad/data/model/auth_models/mail_login_model.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/model/livestock_cart_list.dart';
 import 'package:glad/data/model/livestock_detail.dart';
@@ -391,6 +392,20 @@ class OthersRepository {
       return ResponseAddLivestock.fromJson(apiResponse.response!.data);
     } else {
       return ResponseAddLivestock(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// verifyStatusApi //////////
+  Future<MobileLoginModel> verifyMobileApi(String otp, String id) async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.verifyMobileApi,
+        data: {'otp_number': otp,"user_id": id});
+    if (apiResponse.status) {
+      return MobileLoginModel.fromJson(apiResponse.response!.data);
+    } else {
+      return MobileLoginModel(
+          status: 422,
+          message: apiResponse.msg);
     }
   }
 

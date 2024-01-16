@@ -512,8 +512,8 @@ class _LoanLivestockDetailState extends State<LoanLivestockDetail> {
                                                           children: [
                                                             InkWell(
                                                               onTap: () async{
-                                                                var image = await imgFromGallery();
-                                                                docOneFile.add(image);
+                                                                var image = await imgMultipleFromGallery();
+                                                                docOneFile.addAll(image);
                                                                 setState(() {});
                                                               },
                                                               child: SvgPicture.asset(
