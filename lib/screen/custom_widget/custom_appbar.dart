@@ -80,7 +80,7 @@ class CustomAppBar extends StatelessWidget {
                       if (leading != null) leading!,
                       10.horizontalSpace(),
                       SizedBox(
-                        width: screenWidth() * 0.8,
+                        width: screenWidth() * 0.65,
                         child: RichText(
                             text: TextSpan(children: [
                           TextSpan(

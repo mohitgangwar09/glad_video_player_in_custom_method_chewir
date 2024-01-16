@@ -348,9 +348,11 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               showCustomToast(context, 'Length of Mobile number should be minimum 9 ');
             } else if(addressController!.text.isEmpty) {
               showCustomToast(context, 'Address is required');
-            }else if(commentController!.text.isEmpty) {
-              showCustomToast(context, 'Comment is required');
-            } else {
+            }
+            // else if(commentController!.text.isEmpty) {
+            //   showCustomToast(context, 'Comment is required');
+            // }
+            else {
               BlocProvider.of<LandingPageCubit>(context).inviteExpertDetails(
                   context,
                   nameController!.text,

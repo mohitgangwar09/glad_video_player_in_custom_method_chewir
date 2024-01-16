@@ -198,85 +198,228 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                           ),
                                           paymentTerms == true?
                                           customList(
-                                              list: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument!,
-                                              child: (index){
-                                                return InkWell(
-                                                  onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString().endsWith('.pdf') ? () async{
-                                                    var dir = await getApplicationDocumentsDirectory();
-                                                    await Permission.manageExternalStorage.request();
-                                                    await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
-                                                    await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
-                                                    // PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl??'').navigate();
-                                                  } : () {
-                                                  PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString()).navigate();
-                                                },
-                                                  child: Container(
-                                                    margin: const EdgeInsets.only(top: 10),
-                                                    padding: const EdgeInsets.symmetric(
-                                                        vertical: 8, horizontal: 14),
-                                                    decoration: BoxDecoration(
-                                                        color: const Color(0xFFE4FFE3),
-                                                        borderRadius: BorderRadius.circular(10)),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.spaceBetween,
-                                                      children: [
-
-                                                        const Icon(Icons.file_copy,size: 22,
-                                                          color: Colors.grey,),
-
-                                                        5.horizontalSpace(),
-
-                                                        Expanded(
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                              list: state
+                                                  .responseFarmerProjectDetail!
+                                                  .data!
+                                                  .farmerProject![0]
+                                                  .farmerLoanDocument!,
+                                              child: (index) {
+                                                return customList(
+                                                    list: state
+                                                        .responseFarmerProjectDetail!
+                                                        .data!
+                                                        .farmerProject![0]
+                                                        .farmerLoanDocument![index].loanDocumentFile!,
+                                                    child: (int childIndex) {
+                                                      return InkWell(
+                                                        onTap: () async {
+                                                          print(state
+                                                              .responseFarmerProjectDetail!
+                                                              .data!
+                                                              .farmerProject![0]
+                                                              .farmerLoanDocument![
+                                                          index]
+                                                              .loanDocumentFile![childIndex]
+                                                              .mimeType
+                                                              .toString());
+                                                          if (!state
+                                                              .responseFarmerProjectDetail!
+                                                              .data!
+                                                              .farmerProject![0]
+                                                              .farmerLoanDocument![
+                                                          index]
+                                                              .loanDocumentFile![
+                                                          childIndex].originalUrl!.endsWith('pdf')) {
+                                                            PreviewScreen(
+                                                                previewImage: state
+                                                                    .responseFarmerProjectDetail!
+                                                                    .data!
+                                                                    .farmerProject![
+                                                                0]
+                                                                    .farmerLoanDocument![
+                                                                index]
+                                                                    .loanDocumentFile![
+                                                                childIndex]
+                                                                    .fullUrl ??
+                                                                    '')
+                                                                .navigate();
+                                                          } else {
+                                                            var dir =
+                                                            await getApplicationDocumentsDirectory();
+                                                            await Permission
+                                                                .manageExternalStorage
+                                                                .request();
+                                                            await Dio().download(
+                                                                state
+                                                                    .responseFarmerProjectDetail!
+                                                                    .data!
+                                                                    .farmerProject![0]
+                                                                    .farmerLoanDocument![
+                                                                index]
+                                                                    .loanDocumentFile![
+                                                                childIndex]
+                                                                    .fullUrl
+                                                                    .toString(),
+                                                                "${"${dir.path}/fileName"}.pdf");
+                                                            await OpenFileSafePlus.open(
+                                                                "${"${dir.path}/fileName"}.pdf");
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                          const EdgeInsets.only(
+                                                              top: 10),
+                                                          padding: const EdgeInsets
+                                                              .symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 14),
+                                                          decoration: BoxDecoration(
+                                                              color: const Color(
+                                                                  0xFFE4FFE3),
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10)),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                             children: [
-
-                                                              Text(
-                                                                state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].documentName??"",
-                                                                style:
-                                                                figtreeMedium.copyWith(fontSize: 16),
+                                                              const Icon(
+                                                                Icons.file_copy,
+                                                                size: 22,
+                                                                color: Colors.grey,
                                                               ),
-
-                                                              5.verticalSpace(),
-
-                                                              Text(
-                                                                DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].createdAt.toString())),
-                                                                style:
-                                                                figtreeMedium.copyWith(fontSize: 12),
+                                                              5.horizontalSpace(),
+                                                              Expanded(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      '${state
+                                                                          .responseFarmerProjectDetail!
+                                                                          .data!
+                                                                          .farmerProject![
+                                                                      0]
+                                                                          .farmerLoanDocument![
+                                                                      index]
+                                                                          .documentName} ${childIndex+1}' ??
+                                                                          "",
+                                                                      style: figtreeMedium
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          16),
+                                                                    ),
+                                                                    5.verticalSpace(),
+                                                                    Text(
+                                                                      DateFormat('dd MMM, yyyy').format(DateTime.parse(state
+                                                                          .responseFarmerProjectDetail!
+                                                                          .data!
+                                                                          .farmerProject![
+                                                                      0]
+                                                                          .farmerLoanDocument![
+                                                                      index]
+                                                                          .createdAt
+                                                                          .toString())),
+                                                                      style: figtreeMedium
+                                                                          .copyWith(
+                                                                          fontSize:
+                                                                          12),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
-
+                                                              InkWell(
+                                                                onTap: () async {
+                                                                  if (!state
+                                                                      .responseFarmerProjectDetail!
+                                                                      .data!
+                                                                      .farmerProject![
+                                                                  0]
+                                                                      .farmerLoanDocument![
+                                                                  index]
+                                                                      .loanDocumentFile![
+                                                                  childIndex]
+                                                                      .originalUrl!.endsWith('pdf')) {
+                                                                    var dir =
+                                                                    await getApplicationDocumentsDirectory();
+                                                                    await Permission
+                                                                        .manageExternalStorage
+                                                                        .request();
+                                                                    await Dio().download(
+                                                                        state
+                                                                            .responseFarmerProjectDetail!
+                                                                            .data!
+                                                                            .farmerProject![
+                                                                        0]
+                                                                            .farmerLoanDocument![
+                                                                        index]
+                                                                            .loanDocumentFile![
+                                                                        childIndex]
+                                                                            .fullUrl
+                                                                            .toString(),
+                                                                        "${"${dir.path}/image"}.png");
+                                                                    await OpenFileSafePlus
+                                                                        .open(
+                                                                        "${"${dir.path}/image"}.png");
+                                                                  } else {
+                                                                    var dir =
+                                                                    await getApplicationDocumentsDirectory();
+                                                                    await Permission
+                                                                        .manageExternalStorage
+                                                                        .request();
+                                                                    await Dio().download(
+                                                                        state
+                                                                            .responseFarmerProjectDetail!
+                                                                            .data!
+                                                                            .farmerProject![
+                                                                        0]
+                                                                            .farmerLoanDocument![
+                                                                        index]
+                                                                            .loanDocumentFile![
+                                                                        childIndex]
+                                                                            .fullUrl
+                                                                            .toString(),
+                                                                        "${"${dir.path}/fileName"}.pdf");
+                                                                    await OpenFileSafePlus
+                                                                        .open(
+                                                                        "${"${dir.path}/fileName"}.pdf");
+                                                                  }
+                                                                },
+                                                                child: Container(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                      20,
+                                                                      vertical:
+                                                                      8),
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                          30),
+                                                                      border: Border.all(
+                                                                          color: Colors
+                                                                              .grey)),
+                                                                  child: Text(
+                                                                    'Download',
+                                                                    style: figtreeMedium
+                                                                        .copyWith(
+                                                                        fontSize:
+                                                                        12),
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
+                                                      );
+                                                    }
 
-                                                        InkWell(
-                                                          onTap: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString().endsWith('.pdf') ? ()async{
-                                                            var dir = await getApplicationDocumentsDirectory();
-                                                            await Permission.manageExternalStorage.request();
-                                                            await Dio().download(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString(), "${"${dir.path}/fileName"}.pdf");
-                                                            await OpenFileSafePlus.open("${"${dir.path}/fileName"}.pdf");
-                                                          } : () {
-                                                  PreviewScreen(previewImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerLoanDocument![index].loanDocumentFile![0].fullUrl.toString()).navigate();
-                                                  }, child: Container(
-                                                          padding: const EdgeInsets.symmetric(
-                                                              horizontal: 20, vertical: 8),
-                                                          decoration: BoxDecoration(
-                                                              color: Colors.white,
-                                                              borderRadius:
-                                                              BorderRadius.circular(30),
-                                                              border:
-                                                              Border.all(color: Colors.grey)),
-                                                          child: Text(
-                                                            'Download',
-                                                            style: figtreeMedium.copyWith(
-                                                                fontSize: 12),
-                                                          ),
-                                                        ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
                                                 );
                                               }):const SizedBox.shrink()
                                         ],

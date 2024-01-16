@@ -105,6 +105,9 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                             if(state.responseFarmerProjectDetail!.data!
                                 .farmerProject![0].category.toString() == "6")
                               livestockList(context, state)
+                           else if(state.responseFarmerProjectDetail!.data!
+                                .farmerProject![0].category.toString() == "7")
+                             const SizedBox.shrink()
                             else
                               projectMilestones(context,state),
                             6.verticalSpace(),
@@ -580,8 +583,8 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                             onTap: (){
                               if(dde.address!=null){
                                 BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                                    dde.address!.address!.latitude.toString(),
-                                    dde.address!.address!.longitude.toString(),context);
+                                    dde.address!['latitude'].toString(),
+                                    dde.address!['longitude'].toString(),context);
                               }
                             },child: SvgPicture.asset(Images.redirectLocation)),
                         6.horizontalSpace(),
@@ -729,8 +732,8 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                 InkWell(onTap: ()async{
                   if(farmerDetail.address!=null){
                     BlocProvider.of<DdeEnquiryCubit>(context).launchURL(
-                        farmerDetail.address!.address!.latitude.toString(),
-                        farmerDetail.address!.address!.longitude.toString(),context);
+                        farmerDetail.address!.latitude.toString(),
+                        farmerDetail.address!.longitude.toString(),context);
                   }
                 },child: SvgPicture.asset(Images.redirectLocation)),
                 6.horizontalSpace(),

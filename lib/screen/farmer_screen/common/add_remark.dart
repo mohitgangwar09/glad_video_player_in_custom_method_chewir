@@ -201,6 +201,7 @@ class _AddRemarkState extends State<AddRemark> {
                   ))),
         ),
         30.verticalSpace(),
+        istClickOnSendOtp == ""?
         customButton('Send OTP', fontColor: 0xffFFFFFF,
             onTap: () {
 
@@ -272,7 +273,7 @@ class _AddRemarkState extends State<AddRemark> {
               }
             }
           }
-        }),
+        }):const SizedBox.shrink(),
 
         30.verticalSpace(),
 
@@ -427,7 +428,9 @@ class _AddRemarkState extends State<AddRemark> {
                       text: "Resend",
                       onTap: () {
 
-                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
+                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                            widget.projectData.phone.toString()
+                        );
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;
