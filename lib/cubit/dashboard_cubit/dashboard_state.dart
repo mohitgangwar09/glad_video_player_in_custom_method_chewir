@@ -16,7 +16,7 @@ class DashboardState extends Equatable{
     return DashboardState(
       focusTag: "",
       selectedIndex: 0,
-      navigationQueue: ListQueue()
+      navigationQueue: ListQueue()..add(0)
     );
   }
 

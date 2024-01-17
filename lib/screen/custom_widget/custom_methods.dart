@@ -690,8 +690,10 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
     flex: 1,
     child: InkWell(
       onTap: (){
-        BlocProvider.of<DashboardCubit>(context).selectedIndex(i);
+        // BlocProvider.of<DashboardCubit>(context).addLast(i);
         BlocProvider.of<DashboardCubit>(context).state.navigationQueue.addLast(i);
+        BlocProvider.of<DashboardCubit>(context).selectedIndex(i);
+
       },
       child: Container(
         padding: const EdgeInsets.only(left:  0,right: 0,top:11,bottom:11),
@@ -2080,4 +2082,15 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
       }
     ),
   );
+}
+
+Widget willPopScope({required Widget child,required DashboardState state,required BuildContext context}){
+  return  WillPopScope(child: child,
+      onWillPop: ()async{
+        if(state.navigationQueue.isEmpty) return true;
+        BlocProvider.of<DashboardCubit>(context).state.navigationQueue.removeLast();
+        if(state.navigationQueue.isEmpty) return true;
+        BlocProvider.of<DashboardCubit>(context).selectedIndex(state.navigationQueue.last);
+        return false;
+      });
 }

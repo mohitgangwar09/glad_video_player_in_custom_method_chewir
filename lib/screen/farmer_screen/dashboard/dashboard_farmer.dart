@@ -22,7 +22,6 @@ class DashboardFarmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final ListQueue<int> navigationQueue = ListQueue();
     var provider = BlocProvider.of<DashboardCubit>(context);
 
     // provider.selectedIndex(0);
@@ -38,12 +37,16 @@ class DashboardFarmer extends StatelessWidget {
 
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
-        return Scaffold(
-            key: farmerLandingKey,
-            drawer:const FarmerDrawer(),
-            extendBody: true,
-            body: widgetOptions.elementAt(state.selectedIndex),
-            bottomNavigationBar: bottomNavigationBar(provider.state,context)
+        return willPopScope(
+          state: state,
+          context: context,
+          child: Scaffold(
+              key: farmerLandingKey,
+              drawer:const FarmerDrawer(),
+              extendBody: true,
+              body: widgetOptions.elementAt(state.selectedIndex),
+              bottomNavigationBar: bottomNavigationBar(provider.state,context)
+          ),
         );
       },
     );

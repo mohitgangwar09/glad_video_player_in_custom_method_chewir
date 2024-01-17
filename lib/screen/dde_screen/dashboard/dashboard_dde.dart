@@ -35,14 +35,9 @@ class DashboardDDE extends StatelessWidget {
 
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
-        return WillPopScope(
-
-          onWillPop: ()async {
-            if(state.navigationQueue.isEmpty) return true;
-            BlocProvider.of<DashboardCubit>(context).selectedIndex(state.navigationQueue.last);
-            BlocProvider.of<DashboardCubit>(context).state.navigationQueue.removeLast();
-            return false;
-          },
+        return willPopScope(
+          state: state,
+          context: context,
           child: Scaffold(
               key: ddeLandingKey,
               drawer: const DdeDrawer(),

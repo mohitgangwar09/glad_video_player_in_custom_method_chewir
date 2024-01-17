@@ -33,12 +33,16 @@ class DashboardSupplier extends StatelessWidget {
 
     return BlocBuilder<DashboardCubit, DashboardState>(
         builder: (BuildContext context, state) {
-      return Scaffold(
-        key: supplierLandingKey,
-        drawer: const ServiceProviderDrawer(),
-        extendBody: true,
-        bottomNavigationBar: bottomNavigationBar(provider.state, context),
-        body: widgetOptions.elementAt(state.selectedIndex),
+      return willPopScope(
+        state: state,
+        context: context,
+        child: Scaffold(
+          key: supplierLandingKey,
+          drawer: const ServiceProviderDrawer(),
+          extendBody: true,
+          bottomNavigationBar: bottomNavigationBar(provider.state, context),
+          body: widgetOptions.elementAt(state.selectedIndex),
+        ),
       );
     });
   }

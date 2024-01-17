@@ -13,8 +13,8 @@ class DashboardCubit extends Cubit<DashboardState>{
     emit(state.copyWith(selectedIndex: index));
   }
 
-  void removeLast(ListQueue<int> index) {
-    emit(state.copyWith(navigationQueue: index));
+  void addLast(int index) {
+    // emit(state.copyWith(navigationQueue: index));
   }
 
 }

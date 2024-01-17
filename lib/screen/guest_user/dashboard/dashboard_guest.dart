@@ -31,12 +31,16 @@ class DashboardGuest extends StatelessWidget {
 
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
-        return Scaffold(
-            key: landingKey,
-            extendBody: true,
-            drawer: const GuestSideDrawer(),
-            body: widgetOptions.elementAt(state.selectedIndex),
-            bottomNavigationBar: bottomNavigationBar(provider.state, context));
+        return willPopScope(
+          context: context,
+          state: state,
+          child: Scaffold(
+              key: landingKey,
+              extendBody: true,
+              drawer: const GuestSideDrawer(),
+              body: widgetOptions.elementAt(state.selectedIndex),
+              bottomNavigationBar: bottomNavigationBar(provider.state, context)),
+        );
       },
     );
   }

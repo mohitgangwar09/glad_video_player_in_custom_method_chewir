@@ -34,10 +34,14 @@ class DashboardMCC extends StatelessWidget {
 
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
-        return Scaffold(
-            extendBody: true,
-            body: widgetOptions.elementAt(state.selectedIndex),
-            bottomNavigationBar: bottomNavigationBar(provider.state, context));
+        return willPopScope(
+          state: state,
+          context: context,
+          child: Scaffold(
+              extendBody: true,
+              body: widgetOptions.elementAt(state.selectedIndex),
+              bottomNavigationBar: bottomNavigationBar(provider.state, context)),
+        );
       },
     );
   }
