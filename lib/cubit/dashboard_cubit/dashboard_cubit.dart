@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'dashboard_state.dart';
@@ -9,6 +11,10 @@ class DashboardCubit extends Cubit<DashboardState>{
 
   void selectedIndex(int index) {
     emit(state.copyWith(selectedIndex: index));
+  }
+
+  void removeLast(ListQueue<int> index) {
+    emit(state.copyWith(navigationQueue: index));
   }
 
 }

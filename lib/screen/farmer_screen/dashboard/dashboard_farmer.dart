@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
@@ -20,6 +22,7 @@ class DashboardFarmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final ListQueue<int> navigationQueue = ListQueue();
     var provider = BlocProvider.of<DashboardCubit>(context);
 
     // provider.selectedIndex(0);

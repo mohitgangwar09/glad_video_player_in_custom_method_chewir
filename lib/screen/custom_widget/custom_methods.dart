@@ -691,6 +691,7 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
     child: InkWell(
       onTap: (){
         BlocProvider.of<DashboardCubit>(context).selectedIndex(i);
+        BlocProvider.of<DashboardCubit>(context).state.navigationQueue.addLast(i);
       },
       child: Container(
         padding: const EdgeInsets.only(left:  0,right: 0,top:11,bottom:11),
