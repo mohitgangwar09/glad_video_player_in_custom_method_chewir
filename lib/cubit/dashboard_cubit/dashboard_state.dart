@@ -4,32 +4,38 @@ class DashboardState extends Equatable{
 
   final String focusTag;
   final int selectedIndex;
+  final ListQueue<int> navigationQueue;
 
   const DashboardState({
     required this.focusTag,
-    required this.selectedIndex
+    required this.selectedIndex,
+    required this.navigationQueue,
   });
 
   factory DashboardState.initial() {
-    return const DashboardState(
+    return DashboardState(
       focusTag: "",
-      selectedIndex: 0
+      selectedIndex: 0,
+      navigationQueue: ListQueue()
     );
   }
 
   DashboardState copyWith({
     String? focusTag,
     int? selectedIndex,
+    ListQueue<int>? navigationQueue
   }) {
     return DashboardState(
       focusTag: focusTag ?? this.focusTag,
       selectedIndex: selectedIndex ?? this.selectedIndex,
+      navigationQueue: navigationQueue ?? this.navigationQueue,
     );
   }
 
   @override
   List<Object?> get props => [
     focusTag,
-    selectedIndex
+    selectedIndex,
+    navigationQueue
   ];
 }

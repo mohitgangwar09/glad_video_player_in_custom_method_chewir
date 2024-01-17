@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
@@ -21,6 +23,7 @@ class DashboardDDE extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = BlocProvider.of<DashboardCubit>(context);
+    // final ListQueue<int> navigationQueue = ListQueue();
 
     final widgetOptions = [
       const DDELandingPage(),
@@ -32,15 +35,21 @@ class DashboardDDE extends StatelessWidget {
 
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
-        // if(initialNavigateIndex!=null){
-        //   BlocProvider.of<DashboardCubit>(context).selectedIndex(initialNavigateIndex!);
-        // }
-        return Scaffold(
-            key: ddeLandingKey,
-            drawer: const DdeDrawer(),
-            extendBody: true,
-            body: widgetOptions.elementAt(state.selectedIndex),
-            bottomNavigationBar: bottomNavigationBar(provider.state, context));
+        return WillPopScope(
+
+          onWillPop: ()async {
+            if(state.navigationQueue.isEmpty) return true;
+            BlocProvider.of<DashboardCubit>(context).selectedIndex(state.navigationQueue.last);
+            BlocProvider.of<DashboardCubit>(context).state.navigationQueue.removeLast();
+            return false;
+          },
+          child: Scaffold(
+              key: ddeLandingKey,
+              drawer: const DdeDrawer(),
+              extendBody: true,
+              body: widgetOptions.elementAt(state.selectedIndex),
+              bottomNavigationBar: bottomNavigationBar(provider.state, context)),
+        );
       },
     );
   }
