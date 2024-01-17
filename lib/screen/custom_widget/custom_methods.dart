@@ -1620,13 +1620,20 @@ Widget selectFarmer({String? userId, String? livestockId,bool isCustomLoan = fal
                         onTap: (){
                           pressBack();
                           if(userId ==null){
-                            BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
-                            BlocProvider.of<LivestockCubit>(context).livestockDetailApi(context,livestockId.toString(),userId: state.response!.farmerMAster![i].userId.toString());
+                            if(isCustomLoan) {
+                              BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
+                            } else {
+                              BlocProvider.of<LivestockCubit>(context)
+                                  .livestockDetailApi(
+                                  context, livestockId.toString(),
+                                  userId: state.response!.farmerMAster![i]
+                                      .userId.toString());
+                            }
                           }else{
                             LiveStockCartListScreen(userId:state.response!.farmerMAster![i].userId.toString()).navigate();
                           }
                           if(isCustomLoan) {
-                            BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context,BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString() : null, isLoadingRequired: false);
+                            BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context, BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString(), isLoadingRequired: false);
                           }
                         },
                         child: Padding(

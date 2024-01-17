@@ -394,7 +394,7 @@ class _CustomLoanDetailState
                                 : const SizedBox.shrink(),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus!=null?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "approved".toUpperCase() ?
+                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString().toUpperCase() == "active".toUpperCase() ?
                             Column(
                               children: [
                                 customProjectContainer(
