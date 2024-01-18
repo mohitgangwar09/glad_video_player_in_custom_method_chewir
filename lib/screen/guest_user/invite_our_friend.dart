@@ -123,6 +123,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               radius: 12,
               borderColor: 0xff999999,
               length: 35,
+              inputFormatters: [LengthLimitingTextInputFormatter(35)],
               maxLine: 1,
               decoration: const InputDecoration()),
           10.verticalSpace(),
