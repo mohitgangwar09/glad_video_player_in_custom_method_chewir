@@ -316,7 +316,9 @@ class _SupplierProfileState extends State<SupplierProfile> {
                     }else {
                       if(state.responseProfile!.data!.user!.kycStatus == "verified"){
                         // const SupplierUpdateKyc().navigate();
-                      }else{
+                      } else if(state.responseProfile!.data!.user!.kycStatus == "rejected"){
+                        const KYCUpdate().navigate();
+                      } else{
                         const SupplierUpdateKyc().navigate();
                       }
                     }
@@ -400,24 +402,42 @@ class _SupplierProfileState extends State<SupplierProfile> {
                             )*/
                           ],
                         )
-                    else if(state.responseProfile!.data!.user!.kycStatus == "expired")
-                      Row(
-                            children: [
-
-                              05.horizontalSpace(),
-                              Text(
-                                'KYC expired',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: ColorResources.black),
-                              ),
-                              10.horizontalSpace(),
-                              Text(
-                                'Upload Documents',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
-                              )
-                            ],
-                          )
+                    // else if(state.responseProfile!.data!.user!.kycStatus == "expired")
+                    //   Row(
+                    //         children: [
+                    //
+                    //           05.horizontalSpace(),
+                    //           Text(
+                    //             'KYC expired',
+                    //             style: figtreeMedium.copyWith(
+                    //                 fontSize: 12, color: ColorResources.black),
+                    //           ),
+                    //           10.horizontalSpace(),
+                    //           Text(
+                    //             'Upload Documents',
+                    //             style: figtreeMedium.copyWith(
+                    //                 fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                    //           )
+                    //         ],
+                    //       )
+                        else if(state.responseProfile!.data!.user!.kycStatus == "rejected")
+                            Row(
+                              children: [
+                                const Icon(Icons.watch_later,size: 15,color: Colors.grey,),
+                                05.horizontalSpace(),
+                                Text(
+                                  'KYC is rejected',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 12, color: ColorResources.black),
+                                ),
+                                10.horizontalSpace(),
+                                Text(
+                                  'Upload Documents',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                                )
+                              ],
+                            )
                   ],
                 ),
               ),

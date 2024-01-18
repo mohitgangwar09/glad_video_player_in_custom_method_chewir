@@ -87,7 +87,7 @@ class _EnquiryListState extends State<EnquiryList> {
                                         userName: chatDocs.docs[index]['user_name'].toString(),
                                         userId: chatDocs.docs[index]['user_id'].toString(),
                                         defaultPrice: widget.defaultPrice,
-                                        ddeId: chatDocs.docs[index]['dde_id'],).navigate();
+                                        ddeId: chatDocs.docs[index].data()['dde_id'],).navigate();
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(20),

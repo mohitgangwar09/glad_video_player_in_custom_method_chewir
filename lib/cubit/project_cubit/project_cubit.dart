@@ -639,11 +639,20 @@ class ProjectCubit extends Cubit<ProjectState> {
         remark,projectStatus,farmerId);
     if (response.status == 200) {
 
+      if(response.data['warning']!=null){
         ThankYou(
             profileData:profileData,navigateFrom: navigateFrom,projectStatus:projectStatus
         ).navigate(isInfinity: true);
 
-      showCustomToast(context, response.message.toString(), isSuccess: true);
+        showCustomToast(context, response.data['warning'].toString(), isSuccess: true);
+      }else{
+        ThankYou(
+            profileData:profileData,navigateFrom: navigateFrom,projectStatus:projectStatus
+        ).navigate(isInfinity: true);
+
+        showCustomToast(context, response.message.toString(), isSuccess: true);
+      }
+
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());

@@ -61,8 +61,8 @@ class _KYCUpdateState extends State<KYCUpdate> {
                       Center(
                         child: InkWell(
                           onTap: () {
-                            // imgFromCamera().then((value) async {
-                            imgFromGallery().then((value) async {
+                            imgFromCamera().then((value) async {
+                            // imgFromGallery().then((value) async {
                               setState(() {
                                 profilePicture = value;
                               });

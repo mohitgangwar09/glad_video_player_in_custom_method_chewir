@@ -367,7 +367,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
 
   bool isLoggedIn() {
-    // debugPrint(apiRepository.getUserToken());
+    debugPrint("bearerToken::::::: ${apiRepository.getUserToken()}");
     return apiRepository.isLoggedIn();}
 
     clearSharedData() async {

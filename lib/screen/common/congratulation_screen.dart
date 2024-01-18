@@ -63,6 +63,7 @@ class CongratulationScreen extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       15.verticalSpace(),
                                       Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString() ?? '',
