@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/data/model/auth_models/response_otp_model.dart';
 import 'package:glad/data/repository/auth_repo.dart';
 import 'package:glad/screen/auth_screen/create_password.dart';
@@ -133,6 +134,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
           if(response.data!.profilePic == null){
             const UploadProfilePicture().navigate(isInfinity: true,);
           }else{
+            BlocProvider.of<DashboardCubit>(context).emit(DashboardState.initial());
             if(response.data!.userType == "mcc"){
               const DashboardMCC().navigate(isInfinity: true);
             }else if(response.data!.userType == "farmer"){
@@ -284,6 +286,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
         if(response.data!.profilePic == null){
           const UploadProfilePicture().navigate(isInfinity: true);
         }else{
+          BlocProvider.of<DashboardCubit>(context).emit(DashboardState.initial());
           if(response.data!.userType == "mcc"){
             const DashboardMCC().navigate(isInfinity: true);
           }else if(response.data!.userType == "farmer"){
@@ -364,7 +367,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
 
   bool isLoggedIn() {
-    debugPrint(apiRepository.getUserToken());
+    // debugPrint(apiRepository.getUserToken());
     return apiRepository.isLoggedIn();}
 
     clearSharedData() async {

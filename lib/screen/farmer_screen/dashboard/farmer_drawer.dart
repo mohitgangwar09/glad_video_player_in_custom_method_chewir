@@ -117,8 +117,8 @@ class FarmerDrawer extends StatelessWidget {
             image: Images.drawerLogout,
             onTap: () {
               BlocProvider.of<AuthCubit>(context).clearSharedData();
+              BlocProvider.of<DashboardCubit>(context).emit(DashboardState.initial());
               BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
-              BlocProvider.of<DashboardCubit>(context).selectedIndex(0);
             },
             text: 'Logout',
           ),

@@ -103,7 +103,7 @@ class DdeDrawer extends StatelessWidget {
           navigationBarItem(
               image: Images.drawerLogout, onTap: () {
             BlocProvider.of<AuthCubit>(context).clearSharedData();
-            BlocProvider.of<DashboardCubit>(context).selectedIndex(0);
+            BlocProvider.of<DashboardCubit>(context).emit(DashboardState.initial());
             BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
           }, text: 'Logout'),
 

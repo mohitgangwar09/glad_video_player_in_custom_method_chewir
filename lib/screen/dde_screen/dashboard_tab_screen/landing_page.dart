@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
@@ -63,7 +64,8 @@ class _DDELandingPageState extends State<DDELandingPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+
       BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context).then((value) {
         LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
         int projectsSum = state.responseDdeDashboard!.data!.projectSummary!.completed!.toInt() +
@@ -85,12 +87,14 @@ class _DDELandingPageState extends State<DDELandingPage> {
           }
         }
       });
+
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
       BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
       BlocProvider.of<ProfileCubit>(context).ddeTargetMonthsApi(context);
       BlocProvider.of<ProjectCubit>(context).ddeProjectsApi(context, 'pending', false);
+
     });
   }
 
