@@ -164,33 +164,53 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                         EditKYCDocuments(farmerDocuments: state.response!.user!.farmerMaster!.kycDocument, farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
                                       },
                                       child: Text(
-                                        'Upload Documents',
+                                        'Edit Documents',
                                         style: figtreeMedium.copyWith(
                                             fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
                                       ),
                                     )
                                   ],
                                 )
-                              else if(state.response!.user!.farmerMaster!.kycStatus == "expired")
-                                  Row(
-                                    children: [
-                                      14.horizontalSpace(),
-                                      const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
-                                      4.horizontalSpace(),
-                                      "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
-                                      10.horizontalSpace(),
-                                      InkWell(
-                                        onTap: (){
-                                          // const SupplierUpdateKyc().navigate();
-                                        },
-                                        child: Text(
-                                          'Documents',
-                                          style: figtreeMedium.copyWith(
-                                              fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
-                                        ),
-                                      )
-                                    ],
-                                  )
+                              // else if(state.response!.user!.farmerMaster!.kycStatus == "expired")
+                              //   Row(
+                              //       children: [
+                              //         14.horizontalSpace(),
+                              //         const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
+                              //         4.horizontalSpace(),
+                              //         "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
+                              //         10.horizontalSpace(),
+                              //         InkWell(
+                              //           onTap: (){
+                              //             // const SupplierUpdateKyc().navigate();
+                              //           },
+                              //           child: Text(
+                              //             'Documents',
+                              //             style: figtreeMedium.copyWith(
+                              //                 fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                              //           ),
+                              //         )
+                              //       ],
+                              //     )
+                              else if(state.response!.user!.farmerMaster!.kycStatus == "rejected")
+                                Row(
+                                      children: [
+                                        14.horizontalSpace(),
+                                        SvgPicture.asset(Images.kyc),
+                                        4.horizontalSpace(),
+                                        "Your KYC is rejected.".textSemiBold(fontSize: 12,color: Colors.white),
+                                        10.horizontalSpace(),
+                                        InkWell(
+                                          onTap: ()async{
+                                            KYCUpdate(farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
+                                          },
+                                          child: Text(
+                                            'Upload Documents',
+                                            style: figtreeMedium.copyWith(
+                                                fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                          ),
+                                        )
+                                      ],
+                                    )
                             ],
                           ),
                         ):const SizedBox.shrink()

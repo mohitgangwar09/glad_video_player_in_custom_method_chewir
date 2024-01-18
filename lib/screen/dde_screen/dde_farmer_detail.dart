@@ -177,12 +177,14 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                             EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!, farmerId: state.responseFarmerProfile!.farmer!.id!, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
                                           } : state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
                                             ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();
+                                          } : state.responseFarmerProfile!.farmer!.kycStatus == 'rejected' ? () {
+                                            KYCUpdate(farmerId: state.responseFarmerProfile!.farmer!.id!, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
                                           } : () {},
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' || state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? SvgPicture.asset(Images.kycUnverified) : Container(
+                                              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' || state.responseFarmerProfile!.farmer!.kycStatus == 'pending' || state.responseFarmerProfile!.farmer!.kycStatus == 'rejected' ? SvgPicture.asset(Images.kycUnverified) : Container(
                                                   decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
                                                   padding: const EdgeInsets.all(4),
                                                   child: const Icon(Icons.done, color: Colors.white, size: 16,)),
