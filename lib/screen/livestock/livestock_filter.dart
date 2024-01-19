@@ -575,20 +575,9 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                   }
                                 }
                                 else if(state.yieldUpToController.text.isNotEmpty||state.yieldFromController.text.isNotEmpty) {
-                                  if(state.yieldFromController.text.isEmpty){
-                                    "Yield From is required".toast();
-                                  }else if(state.yieldUpToController.text.isEmpty){
-                                    "Yield UpTo is required".toast();
-                                  }else{
-                                    if(int.parse(state.yieldUpToController.text.isEmpty?"0":state.yieldUpToController.text)<int.parse(state.yieldFromController.text.isEmpty?"0":state.yieldFromController.text)){
+                                  if(int.parse(state.yieldUpToController.text.isEmpty?"0":state.yieldUpToController.text)<int.parse(state.yieldFromController.text.isEmpty?"0":state.yieldFromController.text)){
                                       "Yield UpTo must be greater than yield From".toast();
-                                    }else{
-                                      BlocProvider.of<LivestockCubit>(context)
-                                          .livestockListApi(
-                                          context, false,searchQuery: '');
-                                      pressBack();
                                     }
-                                  }
                                 }
                                 else{
                                   BlocProvider.of<LivestockCubit>(context)
