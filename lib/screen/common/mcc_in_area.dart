@@ -8,6 +8,7 @@ import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MCCInArea extends StatefulWidget {
   const MCCInArea(
@@ -64,6 +65,7 @@ class _MCCInAreaState extends State<MCCInArea> {
               zoomControlsEnabled: false,
               myLocationEnabled: false,
               myLocationButtonEnabled: false,
+              markers: {Marker(markerId: const MarkerId(''), position: LatLng(widget.lat!, widget.long!))},
             ),
             Positioned(
               bottom: 10,

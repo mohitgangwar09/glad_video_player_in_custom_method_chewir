@@ -413,7 +413,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
               phone: state.response!.mcc!.phone ?? '',
               address:state.response!.mcc!.address != null ? state.response!.mcc!.address!.address ??
                   '' : '',
-              image: state.response!.mcc!.image ?? '',
+              image: state.response!.mcc!.photo ?? '',
               lat : state.response!.mcc!.address != null ? state.response!.mcc!.address!.latitude ?? 28.4986 : 28.4986,
               long: state.response!.mcc!.address != null ? state.response!.mcc!.address!.longitude ?? 77.3999 : 77.3999,
             ),

@@ -128,7 +128,11 @@ class _FarmerDdeTabScreenState extends State<FarmerDdeTabScreen> {
 
                                             "Sort By".textMedium(fontSize: 22),
 
-                                            TextButton(onPressed: (){},child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
+                                            TextButton(onPressed: (){
+                                              BlocProvider.of<DdeFarmerCubit>(context).breedOrderByFilter('');
+                                              BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), false);
+                                              pressBack();
+                                            },child: "Reset".textMedium(color: const Color(0xff6A0030),fontSize: 14))
 
                                           ],
                                         ),

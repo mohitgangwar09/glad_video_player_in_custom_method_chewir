@@ -123,12 +123,12 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                         child: TextField(
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
-                                          maxLength: 12,
                                           onChanged: (value){
                                             state.ageUpToController.text = value;
                                           },
                                           controller: state.ageFromController,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          maxLength: 2,
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
                                           decoration: const InputDecoration(
                                               border: InputBorder.none,
                                               counterText: ''
@@ -163,9 +163,9 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                               state.ageUpToController.text.toast();
                                             },
                                             // readOnly: int.parse(state.ageUpToController.text.toString())>=int.parse(state.ageFromController.text.toString())?false:true,
-                                            maxLength: 12,
                                             controller: state.ageUpToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                            maxLength: 2,
+                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
                                             decoration: const InputDecoration(
                                                 border: InputBorder.none,counterText: ''),
                                           ),
@@ -214,8 +214,8 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           controller: state.priceFromController,
-                                          maxLength: 12,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          maxLength: 10,
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
                                         ))
@@ -242,8 +242,8 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
                                           controller: state.priceUpToController,
-                                          maxLength: 12,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          maxLength: 10,
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
                                         ))
@@ -290,9 +290,9 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                         child: TextField(
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
-                                          maxLength: 12,
                                           controller: state.lactationFromController,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          maxLength: 1,
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(1)],
                                           decoration: const InputDecoration(
                                               counterText: '',
                                               border: InputBorder.none),
@@ -319,9 +319,9 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                         child: TextField(
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
-                                          maxLength: 12,
                                           controller: state.lactationUpToController,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          maxLength: 1,
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(1)],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
                                         ))
@@ -368,9 +368,9 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                         child: TextField(
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
-                                          maxLength: 12,
                                           controller: state.yieldFromController,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          maxLength: 2,
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
                                         ))
@@ -396,9 +396,9 @@ class _LivestockFilterState extends State<LivestockFilter> {
                                         child: TextField(
                                           keyboardType: TextInputType.phone,
                                           maxLines: 1,
-                                          maxLength: 12,
                                           controller: state.yieldUpToController,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                          maxLength: 2,
+                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
                                           decoration: const InputDecoration(
                                             border: InputBorder.none,counterText: '',),
                                         ))

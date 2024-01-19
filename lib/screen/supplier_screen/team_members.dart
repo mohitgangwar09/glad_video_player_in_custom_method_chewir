@@ -163,7 +163,13 @@ class _TeamMembersState extends State<TeamMembers> {
                                         ),
                                       ),
                                     ),
-                                    list: state.filterMemberList!)
+                                    list: state.filterMemberList!),
+
+                                if(state.filterMemberList!.isEmpty)
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 40),
+                                    child: Center(child: Text('No Results Found')),
+                                  )
                               ],
                             ),
                           ),

@@ -35,21 +35,25 @@ class FarmerDrawer extends StatelessWidget {
             children: [
               menuItem(context),
               const SizedBox(
-                height: 10,
+                height: 25,
               ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       navigationItem(context),
                       helpLineItem(),
                     ],
                   ),
                 ),
-              )
+              ),
+
             ],
           ),
+
           sideBackground(),
+
         ],
       ),
     );
@@ -60,13 +64,13 @@ class FarmerDrawer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
       child: Column(
         children: [
-          navigationBarItem(
-              image: Images.myEarning,
-              onTap: () {
-                const Earnings().navigate();
-              },
-              text: 'My earnings'),
-          30.verticalSpace(),
+          // navigationBarItem(
+          //     image: Images.myEarning,
+          //     onTap: () {
+          //       const Earnings().navigate();
+          //     },
+          //     text: 'My earnings'),
+          // 30.verticalSpace(),
           navigationBarItem(
               image: Images.aboutus,
               onTap: () async{
@@ -129,37 +133,42 @@ class FarmerDrawer extends StatelessWidget {
   }
 
   Widget helpLineItem() {
-    return Column(
-      children: [
-        Container(
-          height: 110,
-          decoration: const BoxDecoration(color: ColorResources.maroon1),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                phoneCall(256758711344),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'GLAD Helpline Number',
-                  style:
-                      figtreeMedium.copyWith(fontSize: 12, color: Colors.white),
-                ),
-                5.verticalSpace(),
-                Text(
-                  '+234567890',
-                  style: figtreeSemiBold.copyWith(
-                      fontSize: 20, color: Colors.white),
-                )
-              ],
-            ),
-                whatsapp(256758711344),
-          ]),
-        ),
-        20.verticalSpace(),
-        socialMediaItem(),
-        20.verticalSpace(),
-      ],
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Column(
+        children: [
+          Container(
+            height: 110,
+            decoration: const BoxDecoration(color: ColorResources.maroon1),
+            child:
+                Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                  phoneCall(256758711344),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'GLAD Helpline Number',
+                    style:
+                        figtreeMedium.copyWith(fontSize: 12, color: Colors.white),
+                  ),
+                  5.verticalSpace(),
+                  Text(
+                    '+234567890',
+                    style: figtreeSemiBold.copyWith(
+                        fontSize: 20, color: Colors.white),
+                  )
+                ],
+              ),
+                  whatsapp(256758711344),
+            ]),
+          ),
+          20.verticalSpace(),
+          socialMediaItem(),
+          20.verticalSpace(),
+        ],
+      ),
     );
   }
 
