@@ -215,6 +215,7 @@ class DairyDevelopmentExecutive {
   String? createdAt;
   String? updatedAt;
   String? photo;
+  dynamic address;
   List<FarmerMaster>? farmerMaster;
 
   DairyDevelopmentExecutive(
@@ -236,7 +237,8 @@ class DairyDevelopmentExecutive {
         this.createdAt,
         this.updatedAt,
         this.photo,
-        this.farmerMaster});
+        this.farmerMaster,
+        this.address});
 
   DairyDevelopmentExecutive.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -257,6 +259,7 @@ class DairyDevelopmentExecutive {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     photo = json['photo'];
+    address = json['address'];
     if (json['farmer_master'] != null) {
       farmerMaster = <FarmerMaster>[];
       json['farmer_master'].forEach((v) {

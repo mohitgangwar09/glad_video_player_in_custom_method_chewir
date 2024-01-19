@@ -184,6 +184,7 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
                             ],
                           ),
                           6.verticalSpace(),
+                          if(state.responseLivestockList!.data!.liveStoclLIst![index].user != null)
                           Row(
                             children: [
                               Text(state.responseLivestockList!.data!.liveStoclLIst![index].user!.name != null

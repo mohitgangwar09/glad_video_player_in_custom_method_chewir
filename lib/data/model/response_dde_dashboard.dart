@@ -232,6 +232,8 @@ class Mcc {
   dynamic updatedBy;
   dynamic deletedBy;
   dynamic image;
+  dynamic photo;
+  dynamic address;
 
   Mcc(
       {this.id,
@@ -249,7 +251,9 @@ class Mcc {
         this.createdBy,
         this.updatedBy,
         this.deletedBy,
-        this.image});
+        this.image,
+        this.photo,
+        this.address});
 
   Mcc.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -268,6 +272,8 @@ class Mcc {
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     image = json['image'];
+    photo = json['photo'];
+    address = json['address'];
   }
 
   Map<String, dynamic> toJson() {

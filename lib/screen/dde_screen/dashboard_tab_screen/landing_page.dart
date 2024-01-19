@@ -445,18 +445,17 @@ class _DDELandingPageState extends State<DDELandingPage> {
               const OnlineTraining(isBottomAppBar: false).navigate();
             },),
             10.verticalSpace(),
-            const MCCInArea(
-              name: 'Begumanya Charles',
-              phone: '+256 758711344',
-              address:
-              'Plot 11, street 09, Luwum St. Rwooz Plot 11, street 09, Luwum St. Rwooz',
-              image: '',
-              lat: 28.4986,
-              long: 77.3999,
+            MCCInArea(
+              name: state.responseDdeDashboard!.data!.mcc!.name ?? '',
+              phone: state.responseDdeDashboard!.data!.mcc!.phone ?? '',
+              address: state.responseDdeDashboard!.data!.mcc!.address != null ? state.responseDdeDashboard!.data!.mcc!.address["address"] ?? '' : '',
+              image: state.responseDdeDashboard!.data!.mcc!.photo ?? '',
+              lat: state.responseDdeDashboard!.data!.mcc!.address != null ? state.responseDdeDashboard!.data!.mcc!.address["latitude"] ?? '' : '',
+              long: state.responseDdeDashboard!.data!.mcc!.address != null ? state.responseDdeDashboard!.data!.mcc!.address["longitude"] ?? '' : '',
             ),
             10.verticalSpace(),
             TrendingNewsAndEvents(newsList: state.responseDdeDashboard!.data!.newsEvent ?? [], onTapShowAll: () {
-              NewsAndEvent(isBottomAppBar: false,).navigate();
+              const NewsAndEvent(isBottomAppBar: false,).navigate();
             },),
             100.verticalSpace(),
           ],
@@ -727,7 +726,9 @@ class _DDELandingPageState extends State<DDELandingPage> {
                       Text('Total projects',
                           style:
                           figtreeMedium.copyWith(fontSize: 14)),
-                      'View Details'.textSemiBold(color: ColorResources.maroon, fontSize: 12, underLine: TextDecoration.underline)
+                      InkWell(onTap: () {
+                        BlocProvider.of<DashboardCubit>(context).selectedIndex(2);
+                      },child: 'View Details'.textSemiBold(color: ColorResources.maroon, fontSize: 12, underLine: TextDecoration.underline),)
                     ],
                   ),
                   Row(

@@ -218,6 +218,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                             // decoration: TextDecoration.lineThrough
                           )),
 
+                      if(state.responseLivestockDetail!.data!.user!=null)
                       Expanded(
                         child: Text(state.responseLivestockDetail!.data!.user!.address != null
                             ? state.responseLivestockDetail!.data!.user!.address!.address != null

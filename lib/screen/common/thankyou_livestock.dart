@@ -83,7 +83,7 @@ class ThankYouLivestock extends StatelessWidget {
                   if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
                     const DdeMyLiveStockScreen(isNavigate:'yse').navigate(isInfinity: true);
                   }else{
-                    BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context);
+                    BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, '');
                     pressBack();
                     pressBack();
                   }

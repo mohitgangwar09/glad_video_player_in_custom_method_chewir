@@ -29,10 +29,12 @@ class DdeMyLiveStockScreen extends StatefulWidget {
 }
 
 class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
+  TextEditingController searchEditingController = TextEditingController();
+
 
   @override
   void initState() {
-    BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context);
+    BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, '');
     super.initState();
   }
 
@@ -68,7 +70,7 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                             }
                           }),
                         ),
-                        /*Container(
+                        Container(
                           margin: const EdgeInsets.only(
                               left: 20, right: 20, bottom: 13, top: 23),
                           height: 50,
@@ -82,15 +84,19 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                               13.horizontalSpace(),
                               SvgPicture.asset(Images.searchLeft),
                               13.horizontalSpace(),
-                              const Expanded(
+                              Expanded(
                                   child: TextField(
+                                    controller: searchEditingController,
+                                    onChanged: (value){
+                                      BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, value.toString(), isLoaderRequired: false);
+                                    },
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Search by..."),
                                   )),
                             ],
                           ),
-                        ),*/
+                        ),
 
                         // if(state.responseMyLivestockList!.data!.loanApplication>0)
                           Padding(

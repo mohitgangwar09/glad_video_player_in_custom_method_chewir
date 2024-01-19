@@ -38,20 +38,8 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     emit(state.copyWith(roiFilter: filter));
   }
 
-  bool ageGreater(){
-    bool check = true;
-    if(state.ageFromController.text.isNotEmpty){
-      state.ageFromController.addListener(() {
-        if(int.parse(state.ageUpToController.text)>=int.parse(state.ageFromController.text)){
-          check = true;
-        }else{
-          check = false;
-
-        }
-      });
-
-    }
-    return check;
+  void ageCheck(String from,String upTo){
+    emit(state.copyWith(ageFromController: TextEditingController(text: from),ageUpToController: TextEditingController(text: upTo)));
   }
 
   void selectedDdeFarmerLivestockDetail(FarmerMAster? farmerMAster) async{
@@ -111,11 +99,11 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
   }
 
   // trainingListApi
-  Future<void> myLivestockListApi(context, {bool isLoaderRequired = true}) async{
+  Future<void> myLivestockListApi(context, String search, {bool isLoaderRequired = true}) async{
     if(isLoaderRequired) {
       emit(state.copyWith(status: LivestockStatus.submit));
     }
-    var response = await apiRepository.getMyLivestockListApi();
+    var response = await apiRepository.getMyLivestockListApi(search);
     if (response.status == 200) {
       emit(state.copyWith(status: LivestockStatus.success, responseMyLivestockList: response));
     }
@@ -183,7 +171,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     if (response.status == 200) {
       showCustomToast(context, response.message.toString(), isSuccess: true);
       livestockDetailApi(context, id, isLoaderRequired: false);
-      myLivestockListApi(context);
+      myLivestockListApi(context, '');
       disposeProgress();
       pressBack();
     }
@@ -199,7 +187,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     if (response.status == 200) {
       showCustomToast(context, response.message.toString(), isSuccess: true);
       livestockDetailApi(context, livestockId);
-      myLivestockListApi(context);
+      myLivestockListApi(context, '');
     }
     else {
       showCustomToast(context, response.message.toString());
@@ -349,7 +337,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       showCustomToast(context, response.message.toString());
       // await livestockDetailApi(context, id.toString(),isLoaderRequired: false);
       pressBack();
-      myLivestockListApi(context, isLoaderRequired: false);
+      myLivestockListApi(context, '', isLoaderRequired: false);
     } else {
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));

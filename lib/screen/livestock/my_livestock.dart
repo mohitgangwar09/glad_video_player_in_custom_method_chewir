@@ -27,10 +27,12 @@ class MyLiveStockScreen extends StatefulWidget {
 }
 
 class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
+  TextEditingController searchEditingController = TextEditingController();
+
 
   @override
   void initState() {
-    BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context);
+    BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, '');
     super.initState();
   }
 
@@ -74,9 +76,13 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                               13.horizontalSpace(),
                               SvgPicture.asset(Images.searchLeft),
                               13.horizontalSpace(),
-                              const Expanded(
+                              Expanded(
                                   child: TextField(
-                                    decoration: InputDecoration(
+                                    controller: searchEditingController,
+                                    onChanged: (value){
+                                      BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, value.toString(), isLoaderRequired: false);
+                                    },
+                                    decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Search by..."),
                                   )),

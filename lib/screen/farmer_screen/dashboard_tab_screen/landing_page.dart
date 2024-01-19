@@ -333,7 +333,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 },
                                 child: customProjectContainer(
                                     width: screenWidth(),
-                                    child: graphCard('40 cows', 'Milking cows',
+                                    child: graphCard('${state.response!.farmerCowDetail!.milkingCow} cows', 'Milking cows',
                                         '')),
                               ),
                             ),

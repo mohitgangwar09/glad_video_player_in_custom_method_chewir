@@ -303,10 +303,11 @@ class OthersRepository {
   }
 
   ///////////////// getLivestockBreedApi //////////
-  Future<ResponseMyLivestock> getMyLivestockListApi() async {
+  Future<ResponseMyLivestock> getMyLivestockListApi(String search) async {
 
     var data = {
-      "user_id": sharedPreferences!.getString(AppConstants.userId)
+      "user_id": sharedPreferences!.getString(AppConstants.userId),
+      'search': search
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

@@ -45,7 +45,82 @@ class CongratulationScreen extends StatelessWidget {
                 ),),*/
 
                 25.verticalSpace(),
+                if(state.responseFarmerProjectDetail!.data!.supplierDetail == null && state.responseFarmerProjectDetail!.data!.seller == null)
+                  SizedBox(
+                    width: screenWidth() * 0.5,
+                    child: Stack(
+                      children: [
+                        InkWell(
+                          onTap: (){
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: customProjectContainer(
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    15.verticalSpace(),
+                                    Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString() ?? '',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 16,
+                                            color: Colors.black)),
 
+                                    5.verticalSpace(),
+
+                                    Text('Farmer',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12,
+                                            color: Colors.black)),
+
+                                    10.verticalSpace(),
+                                    Text('+256 ${state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.phone.toString() ?? ''}',
+                                        style:
+                                        figtreeRegular.copyWith(
+                                            fontSize: 12,
+                                            color: Colors.black)),
+                                    10.verticalSpace(),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString() ?? '',
+                                            maxLines: 2,
+                                            style:
+                                            figtreeRegular.copyWith(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              overflow:
+                                              TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                            left: 0,
+                            right: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                networkImage(text: (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!= null) ? (state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.photo ?? '') : '', height: 60, width: 60, radius: 30)
+                              ],
+                            )),
+                      ],
+                    ),
+                  )
+                else
                 Row(
                   children: [
                     Expanded(

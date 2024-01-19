@@ -193,22 +193,32 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                             10.verticalSpace(),
                                             Row(
                                               children: [
+                                                Text('Phone Number: ',
+                                                    style: figtreeRegular.copyWith(
+                                                        fontSize: 14,
+                                                        color: Colors.black)),
                                                 Text("${countryCode == ""? "":countryCode!=null?countryCode.toString():""} ${state.responseEnquiryDetail!.data!
                                                         .enquiry!.mobile}",
                                                     style: figtreeRegular.copyWith(
                                                         fontSize: 14,
                                                         color: Colors.black)),
 
-                                                Expanded(
-                                                  child: Text(state.responseEnquiryDetail!.data!
-                                                      .enquiry!.supplierCode!=null?", ${state.responseEnquiryDetail!.data!
-                                                      .enquiry!.supplierCode!}":"",
-                                                      style: figtreeRegular.copyWith(
-                                                          fontSize: 14,
-                                                          color: Colors.black)),
-                                                ),
+
                                               ],
                                             ),
+                                            10.verticalSpace(),
+                                            Row(children: [
+                                              Text('Supplier Id: ',
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                              Text(state.responseEnquiryDetail!.data!
+                                                  .enquiry!.supplierCode!=null?"${state.responseEnquiryDetail!.data!
+                                                  .enquiry!.supplierCode!}":"",
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 14,
+                                                      color: Colors.black)),
+                                            ],),
                                             10.verticalSpace(),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

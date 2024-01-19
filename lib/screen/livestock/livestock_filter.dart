@@ -19,6 +19,9 @@ class LivestockFilter extends StatefulWidget {
 
 class _LivestockFilterState extends State<LivestockFilter> {
 
+
+  Set checkFilter = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,10 +37,6 @@ class _LivestockFilterState extends State<LivestockFilter> {
               titleText1Style: figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
               leading: TextButton(
                   onPressed: () {
-                    BlocProvider.of<ProjectCubit>(context).roiFilterClear();
-                    BlocProvider.of<ProjectCubit>(context)
-                        .ddeProjectsApi(
-                        context, widget.selectedFilter, false);
                     pressBack();
                   },
                   child: "Cancel"
@@ -102,78 +101,96 @@ class _LivestockFilterState extends State<LivestockFilter> {
                           marginLeft: 0,
                           marginTop: 8,
                           height: 124,
-                          child: Row(
+                          child: Stack(
                             children: [
-                              31.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "From".textSemiBold(
-                                      fontSize: 14,
-                                    ),
-                                    Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        padding: const EdgeInsets.only(left: 10),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          onChanged: (value){
-                                            state.ageUpToController.text = value;
-                                          },
-                                          controller: state.ageFromController,
-                                          maxLength: 2,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                              counterText: ''
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              18.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "UpTo".textSemiBold(
-                                      fontSize: 14,
-                                    ),
-                                    Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        margin: const EdgeInsets.only(top: 5),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: AbsorbPointer(
-                                          absorbing: BlocProvider.of<LivestockCubit>(context).ageGreater(),
-                                          child: TextField(
+                              Row(
+                                children: [
+                                  31.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "From".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            margin: const EdgeInsets.only(top: 5),
+                                            padding: const EdgeInsets.only(left: 10),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              maxLength: 2,
+                                              controller: state.ageFromController,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.ageUpToController.text.isNotEmpty&&state.ageFromController.text.isNotEmpty){
+                                                    if(int.parse(state.ageUpToController.text)<int.parse(state.ageFromController.text)){
 
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            onChanged: (value){
-                                              state.ageUpToController.text.toast();
-                                            },
-                                            // readOnly: int.parse(state.ageUpToController.text.toString())>=int.parse(state.ageFromController.text.toString())?false:true,
-                                            controller: state.ageUpToController,
-                                            maxLength: 2,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,counterText: ''),
-                                          ),
-                                        ))
-                                  ],
-                                ),
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                                              decoration: const InputDecoration(
+                                                  border: InputBorder.none,
+                                                  counterText: ''
+                                              ),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                  18.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "UpTo".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            padding: const EdgeInsets.only(left: 10),
+                                            margin: const EdgeInsets.only(top: 5),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              maxLength: 2,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.ageUpToController.text.isNotEmpty&&state.ageFromController.text.isNotEmpty){
+                                                    if(int.parse(state.ageUpToController.text)<int.parse(state.ageFromController.text)){
+
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              controller: state.ageUpToController,
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                                              decoration: const InputDecoration(
+                                                  border: InputBorder.none,counterText: ''),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  31.horizontalSpace(),
+                                ],
                               ),
-                              31.horizontalSpace(),
+                              if(state.ageUpToController.text.isNotEmpty&&state.ageFromController.text.isNotEmpty)
+                                if(int.parse(state.ageUpToController.text)<int.parse(state.ageFromController.text))
+                                  Positioned(
+                                      left: 30,
+                                      bottom: 6,
+                                      child: "Age UpTo must be greater than Age From".textRegular(color: Colors.red,
+                                          fontSize: 12))
                             ],
                           )),
 
@@ -192,65 +209,93 @@ class _LivestockFilterState extends State<LivestockFilter> {
                           marginLeft: 0,
                           marginTop: 8,
                           height: 124,
-                          child: Row(
+                          child: Stack(
                             children: [
-                              31.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "From".textSemiBold(
-                                      fontSize: 14,
+                              Row(
+                                children: [
+                                  31.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "From".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            margin: const EdgeInsets.only(top: 5),
+                                            padding: const EdgeInsets.only(left: 10),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              controller: state.priceFromController,
+                                              maxLength: 10,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.priceUpToController.text.isNotEmpty&&state.priceFromController.text.isNotEmpty){
+                                                    if(int.parse(state.priceUpToController.text)<int.parse(state.priceFromController.text)){
+
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],                                              decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                            ))
+                                      ],
                                     ),
-                                    Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        padding: const EdgeInsets.only(left: 10),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          controller: state.priceFromController,
-                                          maxLength: 10,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,counterText: '',),
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              18.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "UpTo".textSemiBold(
-                                      fontSize: 14,
+                                  ),
+                                  18.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "UpTo".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            padding: const EdgeInsets.only(left: 10),
+                                            margin: const EdgeInsets.only(top: 5),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              controller: state.priceUpToController,
+                                              maxLength: 10,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.priceUpToController.text.isNotEmpty&&state.priceFromController.text.isNotEmpty){
+                                                    if(int.parse(state.priceUpToController.text)<int.parse(state.priceFromController.text)){
+
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                              decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                            ))
+                                      ],
                                     ),
-                                    Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        margin: const EdgeInsets.only(top: 5),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          controller: state.priceUpToController,
-                                          maxLength: 10,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,counterText: '',),
-                                        ))
-                                  ],
-                                ),
+                                  ),
+                                  31.horizontalSpace(),
+                                ],
                               ),
-                              31.horizontalSpace(),
+                              if(state.priceUpToController.text.isNotEmpty&&state.priceFromController.text.isNotEmpty)
+                                if(int.parse(state.priceUpToController.text)<int.parse(state.priceFromController.text))
+                                  Positioned(
+                                      left: 30,
+                                      bottom: 6,
+                                      child: "Price UpTo must be greater than Price From".textRegular(color: Colors.red,
+                                          fontSize: 12))
                             ],
                           )),
 
@@ -269,66 +314,95 @@ class _LivestockFilterState extends State<LivestockFilter> {
                           marginLeft: 0,
                           marginTop: 8,
                           height: 124,
-                          child: Row(
+                          child: Stack(
                             children: [
-                              31.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "From".textSemiBold(
-                                      fontSize: 14,
+                              Row(
+                                children: [
+                                  31.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "From".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            margin: const EdgeInsets.only(top: 5),
+                                            padding: const EdgeInsets.only(left: 10),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              maxLength: 1,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.lactationUpToController.text.isNotEmpty&&state.lactationFromController.text.isNotEmpty){
+                                                    if(int.parse(state.lactationUpToController.text)<int.parse(state.lactationFromController.text)){
+
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              controller: state.lactationFromController,
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(1)],
+                                              decoration: const InputDecoration(
+                                                  counterText: '',
+                                                  border: InputBorder.none),
+                                            ))
+                                      ],
                                     ),
-                                    Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        padding: const EdgeInsets.only(left: 10),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          controller: state.lactationFromController,
-                                          maxLength: 1,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(1)],
-                                          decoration: const InputDecoration(
-                                              counterText: '',
-                                              border: InputBorder.none),
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              18.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "UpTo".textSemiBold(
-                                      fontSize: 14,
+                                  ),
+                                  18.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "UpTo".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            padding: const EdgeInsets.only(left: 10),
+                                            margin: const EdgeInsets.only(top: 5),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              maxLength: 1,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.lactationUpToController.text.isNotEmpty&&state.lactationFromController.text.isNotEmpty){
+                                                    if(int.parse(state.lactationUpToController.text)<int.parse(state.lactationFromController.text)){
+
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              controller: state.lactationUpToController,
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                                              decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                            ))
+                                      ],
                                     ),
-                                    Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        margin: const EdgeInsets.only(top: 5),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          controller: state.lactationUpToController,
-                                          maxLength: 1,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(1)],
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,counterText: '',),
-                                        ))
-                                  ],
-                                ),
+                                  ),
+                                  31.horizontalSpace(),
+                                ],
                               ),
-                              31.horizontalSpace(),
+                              if(state.lactationUpToController.text.isNotEmpty&&state.lactationFromController.text.isNotEmpty)
+                                if(int.parse(state.lactationUpToController.text)<int.parse(state.lactationFromController.text))
+                                  Positioned(
+                                      left: 30,
+                                      bottom: 6,
+                                      child: "Lactation UpTo must be greater than Lactation From".textRegular(color: Colors.red,
+                                          fontSize: 12))
                             ],
                           )),
 
@@ -347,65 +421,95 @@ class _LivestockFilterState extends State<LivestockFilter> {
                           marginLeft: 0,
                           marginTop: 8,
                           height: 124,
-                          child: Row(
+                          child: Stack(
                             children: [
-                              31.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "From".textSemiBold(
-                                      fontSize: 14,
+                              Row(
+                                children: [
+                                  31.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "From".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            margin: const EdgeInsets.only(top: 5),
+                                            padding: const EdgeInsets.only(left: 10),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              maxLength: 2,
+                                              controller: state.yieldFromController,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.yieldUpToController.text.isNotEmpty&&state.yieldFromController.text.isNotEmpty){
+                                                    if(int.parse(state.yieldUpToController.text)<int.parse(state.yieldFromController.text)){
+
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                                              decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                            ))
+                                      ],
                                     ),
-                                    Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        padding: const EdgeInsets.only(left: 10),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          controller: state.yieldFromController,
-                                          maxLength: 2,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,counterText: '',),
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              18.horizontalSpace(),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    "UpTo".textSemiBold(
-                                      fontSize: 14,
+                                  ),
+                                  18.horizontalSpace(),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        "UpTo".textSemiBold(
+                                          fontSize: 14,
+                                        ),
+                                        Container(
+                                            padding: const EdgeInsets.only(left: 10),
+                                            margin: const EdgeInsets.only(top: 5),
+                                            decoration: boxDecoration(
+                                                borderRadius: 10,
+                                                borderColor: const Color(0xff767676)),
+                                            height: 50,
+                                            child: TextField(
+                                              keyboardType: TextInputType.phone,
+                                              maxLines: 1,
+                                              maxLength: 2,
+                                              controller: state.yieldUpToController,
+                                              onChanged: (value){
+                                                setState(() {
+                                                  if(state.yieldUpToController.text.isNotEmpty&&state.yieldFromController.text.isNotEmpty){
+                                                    if(int.parse(state.yieldUpToController.text)<int.parse(state.yieldFromController.text)){
+
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                                              decoration: const InputDecoration(
+                                                border: InputBorder.none,counterText: '',),
+                                            ))
+                                      ],
                                     ),
-                                    Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        margin: const EdgeInsets.only(top: 5),
-                                        decoration: boxDecoration(
-                                            borderRadius: 10,
-                                            borderColor: const Color(0xff767676)),
-                                        height: 50,
-                                        child: TextField(
-                                          keyboardType: TextInputType.phone,
-                                          maxLines: 1,
-                                          controller: state.yieldUpToController,
-                                          maxLength: 2,
-                                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,counterText: '',),
-                                        ))
-                                  ],
-                                ),
+                                  ),
+                                  31.horizontalSpace(),
+                                ],
                               ),
-                              31.horizontalSpace(),
+
+                              if(state.yieldUpToController.text.isNotEmpty&&state.yieldFromController.text.isNotEmpty)
+                                if(int.parse(state.yieldUpToController.text)<int.parse(state.yieldFromController.text))
+                                  Positioned(
+                                      left: 30,
+                                      bottom: 6,
+                                      child: "Yield UpTo must be greater than Yield From".textRegular(color: Colors.red,
+                                          fontSize: 12))
                             ],
                           )),
 
@@ -417,10 +521,20 @@ class _LivestockFilterState extends State<LivestockFilter> {
                           width: screenWidth(),
                           child: customButton("Apply",
                               fontColor: 0xffffffff, onTap: () {
-                                BlocProvider.of<LivestockCubit>(context)
-                                    .livestockListApi(
-                                    context, false,searchQuery: '');
-                                pressBack();
+                                  if(state.ageFromController.text.isNotEmpty && state.ageUpToController.text.isNotEmpty && (int.parse(state.ageUpToController.text) < int.parse(state.ageFromController.text))) {
+                                    showCustomToast(context, "Age UpTo must be greater than Age From");
+                                  } else if(state.priceUpToController.text.isNotEmpty && state.priceFromController.text.isNotEmpty && (int.parse(state.priceUpToController.text)<int.parse(state.priceFromController.text))) {
+                                    showCustomToast(context, "Price UpTo must be greater than Price From");
+                                  } else if(state.lactationUpToController.text.isNotEmpty && state.lactationFromController.text.isNotEmpty && (int.parse(state.lactationUpToController.text)<int.parse(state.lactationFromController.text))) {
+                                    showCustomToast(context, "Lactation UpTo must be greater than Lactation From");
+                                  } else if(state.yieldUpToController.text.isNotEmpty && state.yieldFromController.text.isNotEmpty && (int.parse(state.yieldUpToController.text)<int.parse(state.yieldFromController.text))) {
+                                  showCustomToast(context, "Yield UpTo must be greater than yield From");
+                                } else {
+                                  BlocProvider.of<LivestockCubit>(context)
+                                      .livestockListApi(
+                                      context, false,searchQuery: '');
+                                  pressBack();
+                                }
                               }))
 
                       // ,10.verticalSpace(),
