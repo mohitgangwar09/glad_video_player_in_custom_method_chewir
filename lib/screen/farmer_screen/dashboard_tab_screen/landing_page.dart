@@ -333,7 +333,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 },
                                 child: customProjectContainer(
                                     width: screenWidth(),
-                                    child: graphCard('${state.response!.farmerCowDetail!.milkingCow} cows', 'Milking cows',
+                                    child: graphCard('${state.response!.farmerCowDetail != null ? state.response!.farmerCowDetail!.milkingCow ?? 0 : 0} cows', 'Milking cows',
                                         '')),
                               ),
                             ),
@@ -345,7 +345,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        '${state.response!.farmerCowDetail!.yieldPerCow} ltr.',
+                                        '${state.response!.farmerCowDetail !=  null ?state.response!.farmerCowDetail!.yieldPerCow ?? 0 : 0} ltr.',
                                         'Yield per cow',
                                         'Each day')),
                               ),

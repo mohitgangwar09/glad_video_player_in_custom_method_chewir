@@ -279,14 +279,17 @@ class _FarmerStatementState extends State<FarmerStatement> {
                                                         color:
                                                         ColorResources
                                                             .black),
-                                                    state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.address!.address.toString()
-                                                        .textMedium(
-                                                        fontSize: 14,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        color:
-                                                        ColorResources
-                                                            .black),
+                                                    SizedBox(
+                                                      width: screenWidth() * 0.5,
+                                                      child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.address!.address.toString()
+                                                          .textMedium(
+                                                          fontSize: 14,
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color:
+                                                          ColorResources
+                                                              .black),
+                                                    )
                                                   ],
                                                 )
                                               ],
