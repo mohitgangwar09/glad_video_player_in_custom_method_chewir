@@ -644,7 +644,7 @@ class ProjectCubit extends Cubit<ProjectState> {
             profileData:profileData,navigateFrom: navigateFrom,projectStatus:projectStatus
         ).navigate(isInfinity: true);
 
-        showCustomToast(context, response.data['warning'].toString(), isSuccess: true);
+        showCustomToast(context, response.data['warning'].toString());
       }else{
         ThankYou(
             profileData:profileData,navigateFrom: navigateFrom,projectStatus:projectStatus
