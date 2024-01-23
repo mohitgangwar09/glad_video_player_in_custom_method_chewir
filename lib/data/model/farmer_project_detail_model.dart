@@ -2299,6 +2299,7 @@ class ImprovementArea {
   dynamic deletedBy;
   dynamic createdAt;
   dynamic updatedAt;
+  dynamic image;
 
   ImprovementArea(
       {this.id,
@@ -2312,7 +2313,8 @@ class ImprovementArea {
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.image});
 
   ImprovementArea.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -2327,6 +2329,7 @@ class ImprovementArea {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {

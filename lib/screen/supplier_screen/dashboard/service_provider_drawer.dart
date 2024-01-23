@@ -62,7 +62,9 @@ class ServiceProviderDrawer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
       child: Column(
         children: [
-          navigationBarItem(image: Images.myEarning, onTap: (){},text: 'My earnings'),
+          navigationBarItem(image: Images.myEarning, onTap: (){
+
+          },text: 'My earnings'),
           30.verticalSpace(),
           navigationBarItem(
               image: Images.aboutus,

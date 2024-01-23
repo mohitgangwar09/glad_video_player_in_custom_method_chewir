@@ -235,7 +235,9 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                         'mcc_id': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.mccId.toString(),
                         'admin_id': '',
                         'project_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].name.toString(),
-                        'project_image': state.responseFarmerProjectDetail!.data!.farmerProject![0].project!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].project!["image"]??'':'',
+                        'project_image': state.responseFarmerProjectDetail!.data!.farmerProject![0].category.toString() == "7"
+                            ? state.responseFarmerProjectDetail!.data!.farmerProject![0].improvementArea!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].improvementArea!.image??'':''
+                            : state.responseFarmerProjectDetail!.data!.farmerProject![0].project!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].project!["image"]??'':'',
                         'created_at': Timestamp.now(),
                         'farmer_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                         'farmer_address': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!.toString():'':'',
@@ -254,7 +256,9 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                           supplierId: state.responseFarmerProjectDetail!.data!.supplierDetail!=null?state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString():'',
                           farmerName: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                           farmerAddress: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address.toString():'',
-                          projectImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].project!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].project!["image"]??'':'',);
+                          projectImage: state.responseFarmerProjectDetail!.data!.farmerProject![0].category.toString() == "7"
+                              ? state.responseFarmerProjectDetail!.data!.farmerProject![0].improvementArea!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].improvementArea!.image??'':''
+                              : state.responseFarmerProjectDetail!.data!.farmerProject![0].project!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].project!["image"]??'':'',);
 
                       FirebaseChatScreen(responseProjectDataForFirebase: response,).navigate();
 

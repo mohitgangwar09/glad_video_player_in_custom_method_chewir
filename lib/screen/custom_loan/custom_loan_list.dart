@@ -209,7 +209,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      getCurrencyString(state.responseCustomLoanList!.data![index].emiAmount)
+                                                      getCurrencyString(state.responseCustomLoanList!.data![index].emiAmount ?? 0)
                                                           .textSemiBold(color: Colors.black, fontSize: 16),
                                                       3.verticalSpace(),
                                                       "EMI/ month"
