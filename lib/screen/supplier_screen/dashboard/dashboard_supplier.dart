@@ -27,7 +27,7 @@ class DashboardSupplier extends StatelessWidget {
       const SurveysScreen(),
       const Projects(),
       // const Text("Orders"),
-      const SupplierStatement(),
+      const SupplierStatement(isNavigate: "yes"),
       const CommunityPost()
     ];
 

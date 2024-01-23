@@ -13,7 +13,8 @@ import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 
 class SupplierStatement extends StatefulWidget {
-  const SupplierStatement({super.key});
+  const SupplierStatement({super.key,this.isNavigate});
+  final String? isNavigate;
 
   @override
   State<SupplierStatement> createState() => _SupplierStatementState();
@@ -46,10 +47,10 @@ class _SupplierStatementState extends State<SupplierStatement> {
                       titleText1Style: figtreeMedium.copyWith(
                           fontSize: 20, color: Colors.black),
                       centerTitle: true,
-                      leading: openDrawer(
+                      leading: widget.isNavigate != null? openDrawer(
                           onTap: () {
                             supplierLandingKey.currentState?.openDrawer();
-                          }, child: SvgPicture.asset(Images.drawer)),
+                          }, child: SvgPicture.asset(Images.drawer)):arrowBackButton(),
                       /*action: InkWell(
                           onTap: () {},
                           child: SvgPicture.asset(Images.filter2)),*/
@@ -250,47 +251,51 @@ class _SupplierStatementState extends State<SupplierStatement> {
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Row(
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius: BorderRadius.circular(1000),
-                                                    child: Container(
-                                                      height: AppBar().preferredSize.height * 0.7,
-                                                      width: AppBar().preferredSize.height * 0.7,
-                                                      decoration:
-                                                      const BoxDecoration(shape: BoxShape.circle),
-                                                      child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!=null?CachedNetworkImage(
-                                                        imageUrl:
-                                                        state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!.toString(),
-                                                        errorWidget: (_, __, ___) =>
-                                                            SvgPicture.asset(Images.person),
-                                                        fit: BoxFit.cover,
-                                                      ):SvgPicture.asset(Images.person),
+                                              Expanded(
+                                                child: Row(
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius: BorderRadius.circular(1000),
+                                                      child: Container(
+                                                        height: AppBar().preferredSize.height * 0.7,
+                                                        width: AppBar().preferredSize.height * 0.7,
+                                                        decoration:
+                                                        const BoxDecoration(shape: BoxShape.circle),
+                                                        child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!=null?CachedNetworkImage(
+                                                          imageUrl:
+                                                          state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!.toString(),
+                                                          errorWidget: (_, __, ___) =>
+                                                              SvgPicture.asset(Images.person),
+                                                          fit: BoxFit.cover,
+                                                        ):SvgPicture.asset(Images.person),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  10.horizontalSpace(),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.name.toString()
-                                                          .textMedium(
-                                                          fontSize: 14,
-                                                          color:
-                                                          ColorResources
-                                                              .black),
-                                                      state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.address!.address.toString()
-                                                          .textMedium(
-                                                          fontSize: 14,
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          color:
-                                                          ColorResources
-                                                              .black),
-                                                    ],
-                                                  )
-                                                ],
+                                                    10.horizontalSpace(),
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.name.toString()
+                                                              .textMedium(
+                                                              fontSize: 14,
+                                                              color:
+                                                              ColorResources
+                                                                  .black),
+                                                          state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.address!.address.toString()
+                                                              .textMedium(
+                                                              fontSize: 14,
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              color:
+                                                              ColorResources
+                                                                  .black),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                               Container(
                                                 padding: const EdgeInsets.all(12),

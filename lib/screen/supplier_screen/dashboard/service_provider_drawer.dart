@@ -11,6 +11,7 @@ import 'package:glad/screen/farmer_screen/drawer_screen/message_board.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/screen/guest_user/faq_screen.dart';
+import 'package:glad/screen/supplier_screen/supplier_statement.dart';
 import 'package:glad/screen/supplier_screen/team_members.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -63,7 +64,7 @@ class ServiceProviderDrawer extends StatelessWidget {
       child: Column(
         children: [
           navigationBarItem(image: Images.myEarning, onTap: (){
-
+            const SupplierStatement().navigate();
           },text: 'My earnings'),
           30.verticalSpace(),
           navigationBarItem(
