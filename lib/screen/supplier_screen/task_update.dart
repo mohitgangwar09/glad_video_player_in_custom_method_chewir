@@ -26,7 +26,7 @@ class TaskUpdate extends StatefulWidget {
 }
 
 class _TaskUpdateState extends State<TaskUpdate> {
-  String? selectOption = '';
+  String? selectOption = 'Select Status';
   TextEditingController controller = TextEditingController();
   List<String> images = [];
 
@@ -280,7 +280,7 @@ class _TaskUpdateState extends State<TaskUpdate> {
                                 child: customButton("Submit",
                                     fontColor: 0xffffffff,
                                     onTap: () {
-                                  if(selectOption == ''){
+                                  if(selectOption == 'Select Status'){
                                     showCustomToast(context, 'Select status');
                                   } else if(controller.text == ''){
                                     showCustomToast(context, 'Write remarks');

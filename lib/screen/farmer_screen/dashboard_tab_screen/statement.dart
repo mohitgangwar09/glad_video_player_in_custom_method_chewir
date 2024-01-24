@@ -228,19 +228,21 @@ class _FarmerStatementState extends State<FarmerStatement> {
                                                 fontSize: 18,
                                                 color: ColorResources.black),
 
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-                                                state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
-                                                    fontSize: 14,
-                                                    color: ColorResources.black),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
+                                                      fontSize: 14,
+                                                      color: ColorResources.black),
 
-                                                state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString().textMedium(
-                                                  color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'pending'?const Color(0xff6A0030):
-                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'paid'?const Color(0xff12CE57):const Color(0xff6A0030)
-                                                )
+                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString().textMedium(
+                                                    color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'pending'?const Color(0xff6A0030):
+                                                    state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus == 'paid'?const Color(0xff12CE57):const Color(0xff6A0030)
+                                                  )
 
-                                              ],
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),
@@ -249,50 +251,54 @@ class _FarmerStatementState extends State<FarmerStatement> {
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius: BorderRadius.circular(1000),
-                                                  child: Container(
-                                                    height: AppBar().preferredSize.height * 0.7,
-                                                    width: AppBar().preferredSize.height * 0.7,
-                                                    decoration:
-                                                    const BoxDecoration(shape: BoxShape.circle),
-                                                    child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!=null?CachedNetworkImage(
-                                                      imageUrl:
-                                                      state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!.toString(),
-                                                      errorWidget: (_, __, ___) =>
-                                                          SvgPicture.asset(Images.person),
-                                                      fit: BoxFit.cover,
-                                                    ):SvgPicture.asset(Images.person),
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius: BorderRadius.circular(1000),
+                                                    child: Container(
+                                                      height: AppBar().preferredSize.height * 0.7,
+                                                      width: AppBar().preferredSize.height * 0.7,
+                                                      decoration:
+                                                      const BoxDecoration(shape: BoxShape.circle),
+                                                      child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!=null?CachedNetworkImage(
+                                                        imageUrl:
+                                                        state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.photo!.toString(),
+                                                        errorWidget: (_, __, ___) =>
+                                                            SvgPicture.asset(Images.person),
+                                                        fit: BoxFit.cover,
+                                                      ):SvgPicture.asset(Images.person),
+                                                    ),
                                                   ),
-                                                ),
-                                                10.horizontalSpace(),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.name.toString()
-                                                        .textMedium(
-                                                        fontSize: 14,
-                                                        color:
-                                                        ColorResources
-                                                            .black),
-                                                    SizedBox(
-                                                      width: screenWidth() * 0.5,
-                                                      child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.address!.address.toString()
-                                                          .textMedium(
-                                                          fontSize: 14,
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          color:
-                                                          ColorResources
-                                                              .black),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
+                                                  10.horizontalSpace(),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.name.toString()
+                                                            .textMedium(
+                                                            fontSize: 14,
+                                                            color:
+                                                            ColorResources
+                                                                .black),
+                                                        SizedBox(
+                                                          width: screenWidth() * 0.4,
+                                                          child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerMaster!.address!.address.toString()
+                                                              .textMedium(
+                                                              fontSize: 14,
+                                                              maxLines: 2,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              color:
+                                                              ColorResources
+                                                                  .black),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                             Container(
                                               padding: const EdgeInsets.all(12),
