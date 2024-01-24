@@ -361,6 +361,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
           idDocName, idDocTypeNo, idDocTypeExpiryDate,
           documentTypeFiles, farmerPhoto,farmerMaster);
     } else {
+      showCustomToast(context, response.message.toString());
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));
     }
