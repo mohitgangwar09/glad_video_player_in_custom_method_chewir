@@ -88,7 +88,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
             .collection('read-receipts')
             .add({
           "user_id": widget.responseProjectDataForFirebase.ddeId,
-          'messageId': query.id,
+          'message_id': query.id,
           'user_type': 'dde'
         });
         }
@@ -101,7 +101,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
             .collection('read-receipts')
             .add({
           "user_id": widget.responseProjectDataForFirebase.mccId,
-          'messageId': query.id,
+          'message_id': query.id,
           'user_type': 'mcc'
         });
         }
@@ -114,7 +114,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
             .collection('read-receipts')
             .add({
           "user_id": widget.responseProjectDataForFirebase.supplierId,
-          'messageId': query.id,
+          'message_id': query.id,
           'user_type': 'supplier'
         });
         }
@@ -161,7 +161,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
               .collection('read-receipts')
               .add({
             "user_id": widget.responseProjectDataForFirebase.farmerId,
-            'messageId': query.id,
+            'message_id': query.id,
             'user_type': 'farmer'
           });
           }
@@ -174,7 +174,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
               .collection('read-receipts')
               .add({
             "user_id": widget.responseProjectDataForFirebase.ddeId,
-            'messageId': query.id,
+            'message_id': query.id,
             'user_type': 'dde'
           });
           }
@@ -187,7 +187,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
               .collection('read-receipts')
               .add({
             "user_id": widget.responseProjectDataForFirebase.mccId,
-            'messageId': query.id,
+            'message_id': query.id,
             'user_type': 'mcc'
           });
           }
@@ -200,7 +200,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
               .collection('read-receipts')
               .add({
             "user_id": widget.responseProjectDataForFirebase.supplierId,
-            'messageId': query.id,
+            'message_id': query.id,
             'user_type': 'supplier'
           });
           }
