@@ -33,6 +33,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
   TextEditingController price = TextEditingController();
   TextEditingController period = TextEditingController();
   TextEditingController remarks = TextEditingController();
+  List<String> repaymentDropdown = [];
 
   @override
   void initState() {
@@ -60,6 +61,12 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
       } else if (state.responseLoanForm == null) {
         return Center(child: Text("${state.responseLoanForm} Api Error"));
       } else {
+        if(state.responseLoanForm!.data!.maxEmis!=null){
+          repaymentDropdown.clear();
+          for(int i=0 ; i<state.responseLoanForm!.data!.maxEmis!;i++){
+            repaymentDropdown.add((i+1).toString());
+          }
+        }
             return Stack(
               children: [
                 landingBackground(),
@@ -301,6 +308,65 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
                           20.verticalSpace(),
 
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              "Repayment period (Months)".textMedium(color: Colors.black, fontSize: 12),
+
+                              5.verticalSpace(),
+
+                              Container(
+                                height: 55,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white
+                                ),
+                                width: screenWidth(),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2<String>(
+                                    isExpanded: true,
+                                    isDense: true,
+                                    value: period.text != '' ? period.text : null,
+                                    hint: Text(
+                                      'Select repayment period',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context).hintColor,
+                                      ),
+                                    ),
+                                    items: repaymentDropdown == null ? null : repaymentDropdown
+                                        .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item.toString(),
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    )).toList(),
+                                    // value: state.counties![0].name!,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        purpose = value!.toString();
+                                      });
+                                    },
+                                    buttonStyleData: const ButtonStyleData(
+                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                      height: 40,
+                                      width: 140,
+                                    ),
+                                    menuItemStyleData: const MenuItemStyleData(
+                                      height: 40,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          20.verticalSpace(),
+
                           Align(
                             alignment: Alignment.centerLeft,
                             child: "Remarks".textMedium(color: Colors.black, fontSize: 12),
@@ -334,6 +400,10 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                               child: customButton("Apply",
                                   fontColor: 0xffffffff,
                                   onTap: () {
+                                    // if (int.parse(period.text) < int.parse(state.responseLoanForm!.data!.maxEmis.toString())){
+
+                                    // }
+
                                     if(purpose == '') {
                                       showCustomToast(context, 'Loan Purpose is required');
                                     } else if (price.text == ''){
