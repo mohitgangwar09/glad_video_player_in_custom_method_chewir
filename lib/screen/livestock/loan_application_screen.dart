@@ -129,7 +129,7 @@ class _LoanApplicationState extends State<LoanApplication> {
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        "${double.parse(state.responseLoanApplicationList!.data![index].roiPerYear.toString().toString()).toStringAsFixed(2)}%".textSemiBold(color: Colors.black, fontSize: 16),
+                                                        "${double.parse(state.responseLoanApplicationList!.data![index].roiPerYear!=null?state.responseLoanApplicationList!.data![index].roiPerYear.toString().toString():"0").toStringAsFixed(2)}%".textSemiBold(color: Colors.black, fontSize: 16),
                                                         "ROI".textMedium(
                                                             fontSize: 12, color: const Color(0xFF808080)),
                                                       ],

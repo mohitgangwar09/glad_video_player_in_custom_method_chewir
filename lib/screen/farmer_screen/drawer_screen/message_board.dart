@@ -67,6 +67,12 @@ class _MessageBoardState extends State<MessageBoard> {
                             return const SizedBox.shrink();
                           }
                           final chatDocs = chatSnapShot.data;
+                          if(chatDocs!.docs.isEmpty){
+                            return SizedBox(height: 350,child: Center(child: Text("No message available",
+                            style: figtreeMedium.copyWith(
+                              fontSize: 17
+                            ),)));
+                          }
                           return ListView.builder(
                               reverse: true,
                               shrinkWrap: true,
@@ -184,14 +190,15 @@ class _MessageBoardState extends State<MessageBoard> {
                                                 .doc(chatDocs.docs[index]['farmer_project_id'].toString())
                                                 .collection('read-receipts')
                                                 .where('user_id', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString())
-                                                .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType).toString()).snapshots(),
+                                                .where('user_type', isEqualTo: BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType).toString())
+                                                .snapshots(),
                                             builder: (context, snapshot) {
                                               if(!snapshot.hasData){
-                                                return SizedBox.shrink();
+                                                return const SizedBox.shrink();
                                               }
                                               print(snapshot.data!.docs.length);
                                               if(snapshot.data!.docs.isEmpty) {
-                                                return SizedBox.shrink();
+                                                return const SizedBox.shrink();
                                               }
                                               return Container(
                                                 padding:

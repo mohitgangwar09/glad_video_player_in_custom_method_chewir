@@ -608,7 +608,8 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
                 .category.toString() == "6")
               const SizedBox.shrink()
             else
-              if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
+              const SizedBox.shrink()
+              /*if (state.responseFarmerProjectDetail!.data!.farmerProject![0]
                   .projectStatus ==
                   'active' ||
                   state.responseFarmerProjectDetail!.data!.farmerProject![0]
@@ -729,7 +730,7 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
                         )
                       ],
                     );
-                  })
+                  })*/
 
 
           ],

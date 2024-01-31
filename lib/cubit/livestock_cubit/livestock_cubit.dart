@@ -123,6 +123,9 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       emit(state.copyWith(status: LivestockStatus.success, responseLivestockDetail: response));
     }
     else {
+      if( response.message == "This ad has been removed by the seller"){
+        pressBack();
+      }
       emit(state.copyWith(status: LivestockStatus.error));
       showCustomToast(context, response.message.toString());
     }
