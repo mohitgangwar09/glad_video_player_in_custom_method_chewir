@@ -67,6 +67,12 @@ class _MessageBoardState extends State<MessageBoard> {
                             return const SizedBox.shrink();
                           }
                           final chatDocs = chatSnapShot.data;
+                          if(chatDocs!.docs.isEmpty){
+                            return SizedBox(height: 350,child: Center(child: Text("No message available",
+                            style: figtreeMedium.copyWith(
+                              fontSize: 17
+                            ),)));
+                          }
                           return ListView.builder(
                               reverse: true,
                               shrinkWrap: true,
