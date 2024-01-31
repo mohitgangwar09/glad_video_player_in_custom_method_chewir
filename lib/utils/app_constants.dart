@@ -81,7 +81,9 @@ class AppConstants {
   static const String addPostApi = '/api/community/store';
   static const String addLikeApi = '/api/community/like';
   static const String trainingCategoryApi = '/api/training/category';
+  static const String faqCategoryApi = '/api/faq/faq-category';
   static const String guestTrainingCategoryApi = '/api/training/guest-category';
+  static const String guestFaqCategoryApi = '/api/faq-category';
   static const String newsListApi = '/api/news-event/list';
   static const String newsCategoryApi = '/api/news-event/category';
   static const String trainingDetailApi = '/api/training/details';

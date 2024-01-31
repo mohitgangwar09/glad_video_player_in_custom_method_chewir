@@ -56,6 +56,20 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
   }
 
+  // resendProjectStatusApiApi
+  Future<void> faqCategoriesApi(context) async{
+    emit(state.copyWith(status: TrainingStatus.submit));
+    var response = await apiRepository.getFaqCategoryApi();
+    if (response.status == 200) {
+      emit(state.copyWith(responseTrainingCategories: response));
+      faqListApi(context,"");
+    }
+    else {
+      emit(state.copyWith(status: TrainingStatus.error));
+      showCustomToast(context, response.message.toString());
+    }
+  }
+
   Future<void> getVideoStatistics(context, String videoId) async{
     // emit(state.copyWith(status: TrainingStatus.submit));
     var response = await apiRepository.getVideoStatisticsApi(videoId);
@@ -74,7 +88,7 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     // emit(state.copyWith(status: TrainingStatus.submit));
     var response = await apiRepository.faqApi(type);
     if (response.status == 200) {
-      emit(state.copyWith(responseFaqList: response,/*status: TrainingStatus.submit*/));
+      emit(state.copyWith(responseFaqList: response,status: TrainingStatus.success));
     } else {
       emit(state.copyWith(status: TrainingStatus.error));
     }
