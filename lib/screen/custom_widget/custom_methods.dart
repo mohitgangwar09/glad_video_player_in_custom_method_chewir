@@ -2062,7 +2062,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                                 ),
                                 child: Align(
                                   alignment: Alignment.center
-                                ,child: state.responseDdeTarget!.data![index].targetStatus.toString().textMedium(
+                                ,child: (state.responseDdeTarget!.data![index].targetStatus ?? '').toString().textMedium(
                                     fontSize: 12,
                                     color: state.responseDdeTarget!.data![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
                                 )),

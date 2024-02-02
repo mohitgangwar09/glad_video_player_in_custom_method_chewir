@@ -46,9 +46,9 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                           fontSize: 20, color: Colors.black),
                       centerTitle: true,
                       leading: arrowBackButton(),
-                      action: InkWell(
-                          onTap: () {},
-                          child: SvgPicture.asset(Images.filter2)),
+                      // action: InkWell(
+                      //     onTap: () {},
+                      //     child: SvgPicture.asset(Images.filter2)),
                     ),
                     listviewDetails(state),
                   ],

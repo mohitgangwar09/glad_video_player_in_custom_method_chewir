@@ -51,7 +51,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
               }
             }
         });
-          super.initState();
+    super.initState();
   }
   void _sendMessage() async {
     final query = FirebaseFirestore.instance.collection('projects_chats').doc(widget.responseProjectDataForFirebase.farmerProjectId.toString()).collection('chats');
