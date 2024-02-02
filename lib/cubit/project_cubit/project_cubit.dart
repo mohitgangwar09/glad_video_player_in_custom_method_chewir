@@ -375,7 +375,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       ThankYouLivestockLoan(response: farmerMaster).navigate(isInfinity: true);
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -392,7 +395,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       // ThankYou(profileData: farmerProject,).navigate();
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -411,7 +417,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       }
       else{
         // emit(state.copyWith(status: ProjectStatus.error));
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
+        // showCustomToast(context, response.message.toString());
       }
   }
 
@@ -437,8 +446,11 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
     else
     {
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -465,7 +477,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     else
     {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -494,7 +509,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     else
     {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -515,7 +533,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     else
     {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -534,7 +555,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       BlocProvider.of<LivestockCubit>(context).removeLivestockAPi(context, id);
     } else {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -563,7 +587,10 @@ class ProjectCubit extends Cubit<ProjectState> {
           .catchError((error) => print("Failed to add user: $error"));
     } else {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -584,7 +611,10 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     } else {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -612,7 +642,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     else
     {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -628,7 +661,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -646,7 +682,9 @@ class ProjectCubit extends Cubit<ProjectState> {
       if(response.data['warning']!=null){
         showCustomToast(context, response.data['warning'].toString(), isSuccess: true);
       }else{
-        showCustomToast(context, response.message.toString(), isSuccess: true);
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString(), isSuccess: true);
+        }
       }
 
     } else {
@@ -673,7 +711,9 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -703,7 +743,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       }
       emit(state.copyWith(responseMaterialType: dataResourceType));
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -719,8 +762,11 @@ class ProjectCubit extends Cubit<ProjectState> {
 
       emit(state.copyWith(responseResourceType: dataResourceType));
     } else {
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -735,7 +781,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(responseResourceCapacityType: dataResourceType));
     } else {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -750,7 +799,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(responseProjectUOM: dataResourceType));
     } else {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -771,7 +823,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(primaryId: response.data!.id.toString()??"0"));
     } else {
       // emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -834,7 +889,10 @@ class ProjectCubit extends Cubit<ProjectState> {
         showCustomToast(context, response.message.toString());
 
       } else {
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
+        // showCustomToast(context, response.message.toString());
       }
     }
   }
@@ -871,7 +929,10 @@ class ProjectCubit extends Cubit<ProjectState> {
         showCustomToast(context, response.message.toString());
 
       } else {
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
+        // showCustomToast(context, response.message.toString());
       }
     }
 
@@ -919,7 +980,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       // farmerProjectDetailApi(context, widget.projectId);
       showCustomToast(context, response.message.toString());
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -950,7 +1014,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       }
       emit(state.copyWith(responseMilestoneName: dataMilestoneName));
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -963,7 +1030,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
       await farmerProjectDetailApi(context,projectId);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -976,7 +1046,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
       await farmerProjectDetailApi(context,projectId);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -998,7 +1071,10 @@ class ProjectCubit extends Cubit<ProjectState> {
           pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0));
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1015,7 +1091,10 @@ class ProjectCubit extends Cubit<ProjectState> {
           pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0));
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1032,7 +1111,10 @@ class ProjectCubit extends Cubit<ProjectState> {
           pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0));
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1049,7 +1131,10 @@ class ProjectCubit extends Cubit<ProjectState> {
           pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0));
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1082,7 +1167,10 @@ class ProjectCubit extends Cubit<ProjectState> {
           pressBack();
         }
       } else {
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
+        // showCustomToast(context, response.message.toString());
       }
     }
   }
@@ -1114,7 +1202,10 @@ class ProjectCubit extends Cubit<ProjectState> {
         ).navigate(isRemove: true);
         // pressBack();
       } else {
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
+        // showCustomToast(context, response.message.toString());
       }
     }
   }
@@ -1202,7 +1293,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       showCustomToast(context, response.message.toString());
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1218,7 +1312,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       await farmerProjectMilestoneDetailApi(context, milestoneId);
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1237,7 +1334,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       await farmerProjectMilestoneDetailApi(context,milestoneId);
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1256,7 +1356,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       const ThankYouConfirm().navigate(isInfinity: true);
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1270,7 +1373,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(responseImprovementAreaFilterList: response));
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1286,7 +1392,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       await farmerProjectDetailApi(context,int.parse(farmerProjectId));
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1300,7 +1409,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       // showCustomToast(context, response.message.toString());
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1315,7 +1427,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       // showCustomToast(context, response.message.toString());
 
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -1329,7 +1444,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
       emit(state.copyWith(status: ProjectStatus.success, responseCustomLoanList: response));
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: ProjectStatus.error));
     }
   }
@@ -1345,7 +1463,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(responseLoanForm: response,responseLoanCalculation: null));
       customLoanPurposeListApi(context);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: ProjectStatus.error));
     }
   }
@@ -1357,7 +1478,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       response.data!.insert(0, loan.Data(name: 'Other'));
       emit(state.copyWith(status: ProjectStatus.success, responseLoanPurposeList: response));
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: ProjectStatus.error));
     }
   }
@@ -1368,7 +1492,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
       emit(state.copyWith(status: ProjectStatus.success,responseLoanCalculation: response));
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: ProjectStatus.error));
     }
   }
@@ -1388,7 +1515,10 @@ class ProjectCubit extends Cubit<ProjectState> {
     }
     else
     {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       return MobileLoginModel(status: 422);
       // emit(state.copyWith(status: ProjectStatus.error));
     }
@@ -1409,7 +1539,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       // customLoanListApi(context, '');
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: ProjectStatus.error));
     }
   }
@@ -1423,7 +1556,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       ThankYouCustomLoan(response: farmerMaster).navigate(isInfinity: true);
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

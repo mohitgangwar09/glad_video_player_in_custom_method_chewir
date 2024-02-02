@@ -25,7 +25,9 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
     else {
       emit(state.copyWith(status: TrainingStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -38,7 +40,10 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
     else {
       emit(state.copyWith(status: TrainingStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -52,7 +57,11 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
     else {
       emit(state.copyWith(status: TrainingStatus.error));
-      showCustomToast(context, response.message.toString());
+
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -66,7 +75,10 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
     else {
       emit(state.copyWith(status: TrainingStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

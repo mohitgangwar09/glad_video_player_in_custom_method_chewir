@@ -22,7 +22,10 @@ class NewsCubit extends Cubit<NewsCubitState>{
     }
     else {
       emit(state.copyWith(status: NewsStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -36,7 +39,10 @@ class NewsCubit extends Cubit<NewsCubitState>{
     }
     else {
       emit(state.copyWith(status: NewsStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

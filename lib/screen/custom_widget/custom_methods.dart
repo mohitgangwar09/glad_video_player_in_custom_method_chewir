@@ -1623,8 +1623,8 @@ Widget selectFarmer({String? userId, String? livestockId,bool isCustomLoan = fal
                       child: InkWell(
                         onTap: (){
                           pressBack();
+                          BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
                           if(userId ==null){
-                            BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
                             if(!isCustomLoan) {
                               BlocProvider.of<LivestockCubit>(context)
                                   .livestockDetailApi(

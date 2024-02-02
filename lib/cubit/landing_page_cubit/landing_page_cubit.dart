@@ -40,7 +40,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -55,7 +57,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -79,7 +84,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       ThankYou(expert: response).navigate(isInfinity: true);
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -136,7 +144,10 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -152,7 +163,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -168,7 +181,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       // disposeProgress();
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -184,10 +199,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
           status: LandingPageStatus.success, responseDdeDashboard: response));
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(
-        context,
-        response.message.toString(),
-      );
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -197,10 +211,9 @@ class LandingPageCubit extends Cubit<LandingPageState> {
       emit(state.copyWith(responseFarmerVisitor: response));
     } else {
       emit(state.copyWith(status: LandingPageStatus.error));
-      showCustomToast(
-        context,
-        response.message.toString(),
-      );
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 

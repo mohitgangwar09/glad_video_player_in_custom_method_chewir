@@ -67,7 +67,9 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
           responseEnquiryModel: response,enquiryStatus: enquiryStatus));
     } else {
       emit(state.copyWith(status: DdeEnquiryStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -79,7 +81,10 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
       emit(state.copyWith(status: DdeEnquiryStatus.success, responseEnquiryDetail: response));
     } else {
       emit(state.copyWith(status: DdeEnquiryStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -99,7 +104,11 @@ class DdeEnquiryCubit extends Cubit<DdeEnquiryState> {
     } else {
       pressBack();
       emit(state.copyWith(status: DdeEnquiryStatus.error));
-      showCustomToast(context, response.message.toString());
+
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

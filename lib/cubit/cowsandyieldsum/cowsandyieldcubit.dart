@@ -457,7 +457,10 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     }
     else{
       emit(state.copyWith(status: CowsAndCubitStatus.error));
-      showCustomToast(context, response.message.toString());
+      // showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -517,7 +520,10 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     }
     else{
       emit(state.copyWith(status: CowsAndCubitStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -535,7 +541,10 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     }
     else{
       emit(state.copyWith(status: CowsAndCubitStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -553,7 +562,10 @@ class CowsAndYieldCubit extends Cubit<CowsAndCubitState>{
     }
     else{
       emit(state.copyWith(status: CowsAndCubitStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -47,14 +49,16 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
   final TextEditingController controller = TextEditingController();
 
   @override
-  // initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  //     if(BlocProvider.of<LandingPageCubit>(context).state.response==null){
-  //       BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
-  //     }
-  //   });
-  // }
+  initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer"){
+        if(BlocProvider.of<LandingPageCubit>(context).state.response==null){
+          BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
+        }
+      }
+    });
+  }
 
   @override
   dispose() {
@@ -160,112 +164,219 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                 }
               });
 
-              BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                  widget.projectData.phone!.toString()
-              );
+              if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer"){
+                BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                    BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!.toString()
+                );
+              }else{
+                BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                    BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.phone.toString()
+                );
+              }
 
             }:(){}):const SizedBox.shrink(),
 
         30.verticalSpace(),
 
-        Container(
-          height: 100,
-          width: screenWidth(),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: ColorResources.grey)),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    widget.projectData!.photo!=null?
-                    CircleAvatar(
-                        radius: 33,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(40),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.projectData!.photo.toString() ?? '',
-                            errorWidget: (_, __, ___) {
-                              return Image.asset(
-                                Images.sampleUser,
-                                fit: BoxFit.cover,
-                                width: 80,
-                                height: 80,
-                              );
-                            },
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
-                          ),
-                        )) :
-                    CircleAvatar(
-                      radius: 30,
-                      child: Image.asset(
-                        Images.sampleUser,
-                        fit: BoxFit.cover,
-                        width: 80,
-                        height: 80,
-                      ),
-                    ),
-                    15.horizontalSpace(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.projectData!.name!=null?widget.projectData!.name!.toString():'',
-                            style: figtreeMedium.copyWith(
-                                fontSize: 16, color: Colors.black)),
-                        10.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.call,
-                              color: Colors.black,
-                              size: 16,
+        if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer")
+          Container(
+            height: 100,
+            width: screenWidth(),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: ColorResources.grey)),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.photo!=null?
+                      CircleAvatar(
+                          radius: 33,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40),
+                            child: CachedNetworkImage(
+                              imageUrl: BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.photo.toString() ?? '',
+                              errorWidget: (_, __, ___) {
+                                return Image.asset(
+                                  Images.sampleUser,
+                                  fit: BoxFit.cover,
+                                  width: 80,
+                                  height: 80,
+                                );
+                              },
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
                             ),
-                            Text(widget.projectData!.phone!=null?widget.projectData!.phone!.toString(): '',
-                                style: figtreeRegular.copyWith(
-                                    fontSize: 12, color: Colors.black)),
-                          ],
+                          )) :
+                      CircleAvatar(
+                        radius: 30,
+                        child: Image.asset(
+                          Images.sampleUser,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
                         ),
-                        4.verticalSpace(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: Colors.black,
-                              size: 16,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.5,
-                              child: Text(widget.projectData.address!=null?
-                              widget.projectData!.address!=null ?widget.projectData!.address!.address?? '':"":"",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: figtreeRegular.copyWith(
-                                  fontSize: 12,
-                                  color: Colors.black,
+                      ),
+                      15.horizontalSpace(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.name!=null?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.name!.toString():'',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 16, color: Colors.black)),
+                          10.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.call,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              Text(BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!=null?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!.toString(): '',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ],
+                          ),
+                          4.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.5,
+                                child: Text(
+                                  BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.address!=null ?BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.address!['address'].toString():"",
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
+                                  style: figtreeRegular.copyWith(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
 
-                      ],
-                    )
-                  ],
-                ),
-              ],
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+          )
+        else
+          Container(
+            height: 100,
+            width: screenWidth(),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: ColorResources.grey)),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.photo!=null?
+                      CircleAvatar(
+                          radius: 33,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40),
+                            child: CachedNetworkImage(
+                              imageUrl: BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.photo.toString() ?? '',
+                              errorWidget: (_, __, ___) {
+                                return Image.asset(
+                                  Images.sampleUser,
+                                  fit: BoxFit.cover,
+                                  width: 80,
+                                  height: 80,
+                                );
+                              },
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            ),
+                          )) :
+                      CircleAvatar(
+                        radius: 30,
+                        child: Image.asset(
+                          Images.sampleUser,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        ),
+                      ),
+                      15.horizontalSpace(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.name!=null?BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.name!.toString():'',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 16, color: Colors.black)),
+                          10.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.call,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              Text(BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.phone!=null?BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.phone!.toString(): '',
+                                  style: figtreeRegular.copyWith(
+                                      fontSize: 12, color: Colors.black)),
+                            ],
+                          ),
+                          4.verticalSpace(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.5,
+                                child: Text(BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.address!=null?
+                                BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.address!=null ?BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.address!.address.toString():"":"",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: figtreeRegular.copyWith(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+
 
       ],
     );
@@ -319,9 +430,16 @@ class _AddLivestokcLoanRemarkState extends State<AddLivestokcLoanRemark> {
                       text: "Resend",
                       onTap: () {
 
-                        BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
-                            widget.projectData.phone.toString()
-                        );
+
+                        if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer"){
+                          BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                              BlocProvider.of<LandingPageCubit>(context).state.response!.user!.farmerMaster!.phone!.toString()
+                          );
+                        }else{
+                          BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
+                              BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.phone!.toString()
+                          );
+                        }
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;

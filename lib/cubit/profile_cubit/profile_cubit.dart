@@ -151,7 +151,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(improvementAreaListResponse: response));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -166,7 +169,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
   // updateProfilePicImage
@@ -182,7 +188,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -200,7 +209,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       showCustomToast(context, response.message.toString(), isSuccess: true);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -236,7 +248,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       pressBack();
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -277,7 +292,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       pressBack();
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -294,18 +312,20 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       disposeProgress();
       print(response.message.toString());
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
   Future<void> getFarmerProfile(context, {String? userId}) async{
-    print("faaaaaaaa");
+
     emit(state.copyWith(status: ProfileStatus.submit));
 
     var response = await apiRepository.getFarmerProfileApi(userId ?? sharedPreferences.getString(AppConstants.userId)!);
     if(response.status == 200){
 
-      print("doneeeee");
       if(response.data!.farmer!.phone != null){
         state.landlineController.text = response.data!.farmer!.phone.toString();
       }
@@ -374,7 +394,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
     else{
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -391,7 +414,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -459,7 +485,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       getStepperData(improvementIndex);
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -494,7 +523,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -535,7 +567,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -556,7 +591,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -577,7 +615,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
     }
     else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -591,7 +632,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       ));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -611,7 +655,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       ));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -629,7 +676,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       ));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -679,7 +729,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       pressBack();
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -707,7 +760,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(responseTeamMemberList: response,filterMemberList: dataMilestoneName));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -735,7 +791,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       emit(state.copyWith(status: ProfileStatus.success, responseDdeTarget: response));
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -748,7 +807,10 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
       ddeTargetApi(context, state.selectedDdeTargetMonth.toString());
     } else {
       emit(state.copyWith(status: ProfileStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

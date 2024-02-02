@@ -68,7 +68,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
     else {
       emit(state.copyWith(status: LivestockStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -94,7 +97,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
     else {
       emit(state.copyWith(status: LivestockStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -109,7 +115,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
     else {
       emit(state.copyWith(status: LivestockStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -127,7 +136,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
         pressBack();
       }
       emit(state.copyWith(status: LivestockStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -147,7 +159,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
     else
     {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       return MobileLoginModel(status: 422);
       // emit(state.copyWith(status: ProjectStatus.error));
     }
@@ -164,7 +179,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
     else {
       emit(state.copyWith(status: LivestockStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -181,7 +199,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     else {
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -193,7 +214,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       myLivestockListApi(context, '');
     }
     else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -274,7 +298,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       }
     }
     else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -364,7 +391,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
           idDocName, idDocTypeNo, idDocTypeExpiryDate,
           documentTypeFiles, farmerPhoto,farmerMaster);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
       disposeProgress();
       emit(state.copyWith(status: LivestockStatus.error));
     }
@@ -425,7 +455,10 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
     }
     else {
       emit(state.copyWith(status: LivestockStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
