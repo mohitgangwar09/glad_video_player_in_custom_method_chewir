@@ -1624,9 +1624,8 @@ Widget selectFarmer({String? userId, String? livestockId,bool isCustomLoan = fal
                         onTap: (){
                           pressBack();
                           if(userId ==null){
-                            if(isCustomLoan) {
-                              BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
-                            } else {
+                            BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
+                            if(!isCustomLoan) {
                               BlocProvider.of<LivestockCubit>(context)
                                   .livestockDetailApi(
                                   context, livestockId.toString(),

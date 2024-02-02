@@ -35,6 +35,7 @@ class ProjectState extends Equatable {
   final ResponseLoanForm? responseLoanForm;
   final LoanPurposeList? responseLoanPurposeList;
   final ResponseCustomLoanList? responseCustomLoanList;
+  final ResponseLoanCalculation? responseLoanCalculation;
 
 
   const ProjectState({
@@ -98,6 +99,7 @@ class ProjectState extends Equatable {
     required this.responseLoanForm,
     required this.responseLoanPurposeList,
     required this.responseCustomLoanList,
+    required this.responseLoanCalculation,
   });
 
   factory ProjectState.initial() {
@@ -164,6 +166,7 @@ class ProjectState extends Equatable {
       responseLoanForm: null,
       responseLoanPurposeList: null,
       responseCustomLoanList: null,
+      responseLoanCalculation: null,
     );
   }
 
@@ -200,6 +203,7 @@ class ProjectState extends Equatable {
     ResponseLoanForm? responseLoanForm,
     LoanPurposeList? responseLoanPurposeList,
     ResponseCustomLoanList? responseCustomLoanList,
+    ResponseLoanCalculation? responseLoanCalculation,
   }) {
     return ProjectState(
       status: status ?? this.status,
@@ -274,6 +278,7 @@ class ProjectState extends Equatable {
       responseLoanForm: responseLoanForm ?? this.responseLoanForm,
       responseLoanPurposeList: responseLoanPurposeList ?? this.responseLoanPurposeList,
       responseCustomLoanList: responseCustomLoanList ?? this.responseCustomLoanList,
+      responseLoanCalculation: responseLoanCalculation ?? this.responseLoanCalculation,
     );
   }
 
@@ -337,5 +342,6 @@ class ProjectState extends Equatable {
     responseLoanForm,
     responseLoanPurposeList,
     responseCustomLoanList,
+  responseLoanCalculation
   ];
 }

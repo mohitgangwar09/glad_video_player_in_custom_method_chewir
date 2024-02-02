@@ -32,13 +32,20 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
   String? purpose = '';
   TextEditingController price = TextEditingController();
   TextEditingController period = TextEditingController();
+  TextEditingController purposeOfLoan = TextEditingController();
   TextEditingController remarks = TextEditingController();
+  TextEditingController rateOfInterestController = TextEditingController();
+  TextEditingController totalRepaymentController = TextEditingController();
+  TextEditingController emiController = TextEditingController();
   List<String> repaymentDropdown = [];
+  bool one = false;
 
   @override
   void initState() {
     BlocProvider.of<ProjectCubit>(context).customLoanFormApi(context,BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString() : null);
     BlocProvider.of<ProjectCubit>(context).customLoanPurposeListApi(context);
+    // BlocProvider.of<ProjectCubit>(context).state.responseLoanCalculation == null;
+    // BlocProvider.of<ProjectCubit>(context).emit(BlocProvider.of<ProjectCubit>(context).state.copyWith(responseLoanCalculation: null));
     getCountryCode();
     super.initState();
   }
@@ -62,6 +69,15 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
         return Center(child: Text("${state.responseLoanForm} Api Error"));
       } else {
         if(state.responseLoanForm!.data!.maxEmis!=null){
+          if(one == false){
+            BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context,
+                BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString():
+                BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString(),
+                state.responseLoanForm!.data!.remainingLimit!.toString(), state.responseLoanForm!.data!.maxEmis!.toString());
+            price.text = state.responseLoanForm!.data!.remainingLimit!.toString();
+            period.text = state.responseLoanForm!.data!.maxEmis!.toString();
+            one = true;
+          }
           repaymentDropdown.clear();
           for(int i=0 ; i<state.responseLoanForm!.data!.maxEmis!;i++){
             repaymentDropdown.add((i+1).toString());
@@ -172,6 +188,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                                             child: SizedBox(
                                                                 height: screenHeight()-220,
                                                                 child: selectFarmer(isCustomLoan: true)));
+                                                        one = false;
                                                       }, child: SvgPicture.asset(Images.edit,width: 20,height: 20,)),
                                                 ),
                                               )
@@ -247,6 +264,37 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                             ],
                           ),
 
+                          if(purpose == "Other")
+                            Column(
+                              children: [
+                                20.verticalSpace(),
+
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: "Other purpose of Loan".textMedium(color: Colors.black, fontSize: 12),
+                                ),
+                                5.verticalSpace(),
+                                Container(
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white
+                                  ),
+                                  width: screenWidth(),
+                                  child: TextField(
+                                    controller: purposeOfLoan,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      counterText: '',
+                                      contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+
                           20.verticalSpace(),
                           Align(
                             alignment: Alignment.centerLeft,
@@ -266,6 +314,20 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                               inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                               controller: price,
                               maxLength: 10,
+                              onChanged: (value){
+                                // if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                if(value.isNotEmpty){
+                                  BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context,
+                                      BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString():
+                                      BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString(),
+                                      value, period.text.isEmpty?'1':period.text);
+                                }
+                                setState(() {});
+                                if((int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString()))){
+                                  showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
+                                  price.text = state.responseLoanForm!.data!.remainingLimit!.toString();
+                                }
+                              },
                               // enabled: false,
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
@@ -275,105 +337,216 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                               ),
                             ),
                           ),
+                          /*((int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString())))?
+                          Text("Loan amount",
+                          style: figtreeRegular.copyWith(
+                            color: Colors.red,fontSize: 11
+                          ),):const SizedBox.shrink(),*/
 
                           20.verticalSpace(),
 
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: "Repayment period (Months)".textMedium(color: Colors.black, fontSize: 12),
-                          ),
-                          5.verticalSpace(),
-                          Container(
-                            height: 60,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white
-                            ),
-                            width: screenWidth(),
-                            child: TextField(
-                              maxLines: 1,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(3)],
-                              controller: period,
-                              maxLength: 3,
-                              // enabled: false,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                counterText: '',
-                                contentPadding: EdgeInsets.only(top: 10,left: 13),
-                              ),
-                            ),
-                          ),
-
-                          20.verticalSpace(),
-
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              "Repayment period (Months)".textMedium(color: Colors.black, fontSize: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    "Tenure (Months)".textMedium(color: Colors.black, fontSize: 12),
 
-                              5.verticalSpace(),
+                                    5.verticalSpace(),
 
-                              Container(
-                                height: 55,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white
-                                ),
-                                width: screenWidth(),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton2<String>(
-                                    isExpanded: true,
-                                    isDense: true,
-                                    value: period.text != '' ? period.text : null,
-                                    hint: Text(
-                                      'Select repayment period',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Theme.of(context).hintColor,
+                                    Container(
+                                      height: 55,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.white
                                       ),
-                                    ),
-                                    items: repaymentDropdown == null ? null : repaymentDropdown
-                                        .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item.toString(),
-                                        style: const TextStyle(
-                                          fontSize: 14,
+                                      width: screenWidth(),
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton2<String>(
+                                          isExpanded: true,
+                                          isDense: true,
+                                          value: period.text != '' ? period.text : null,
+                                          hint: Text(
+                                            'Select repayment period',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Theme.of(context).hintColor,
+                                            ),
+                                          ),
+                                          items: repaymentDropdown == null ? null : repaymentDropdown
+                                              .map((String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item.toString(),
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          )).toList(),
+                                          // value: state.counties![0].name!,
+                                          onChanged: (String? value) {
+                                            setState(() {
+                                              period.text = value!.toString();
+                                              if(price.text.isNotEmpty){
+                                                BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context,
+                                                    BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString():
+                                                    BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString(),
+                                                    price.text, period.text.isEmpty?'1':period.text);
+                                              }
+                                              /*if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                                BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context,
+                                                    BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString(),
+                                                    price.text, value);
+                                              }else{
+                                                // BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context, farmerId, loanAmount, repaymentMonths);
+                                              }*/
+                                            });
+                                          },
+                                          buttonStyleData: const ButtonStyleData(
+                                            padding: EdgeInsets.symmetric(horizontal: 16),
+                                            height: 40,
+                                            width: 140,
+                                          ),
+                                          menuItemStyleData: const MenuItemStyleData(
+                                            height: 40,
+                                          ),
                                         ),
                                       ),
-                                    )).toList(),
-                                    // value: state.counties![0].name!,
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        purpose = value!.toString();
-                                      });
-                                    },
-                                    buttonStyleData: const ButtonStyleData(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
-                                      height: 40,
-                                      width: 140,
                                     ),
-                                    menuItemStyleData: const MenuItemStyleData(
-                                      height: 40,
+                                  ],
+                                ),
+                              ),
+
+                              10.horizontalSpace(),
+
+                              Expanded(
+                                child: Column(
+                                  children: [
+
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: "Rate of Interest (Per Year)".textMedium(color: Colors.black, fontSize: 12),
                                     ),
-                                  ),
+                                    5.verticalSpace(),
+                                    Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.white
+                                      ),
+                                      width: screenWidth(),
+                                      child: TextField(
+                                        maxLines: 1,
+                                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?"${state.responseLoanCalculation!.data!.rateOfInterest}%":''):TextEditingController(),
+                                        maxLength: 10,
+                                        enabled: false,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                          contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
 
+
                           20.verticalSpace(),
 
+                          Row(
+                            children: [
+
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: "Total Repayment".textMedium(color: Colors.black, fontSize: 12),
+                                    ),
+                                    5.verticalSpace(),
+                                    Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.white
+                                      ),
+                                      width: screenWidth(),
+                                      child: TextField(
+                                        maxLines: 1,
+                                        enabled: false,
+                                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?state.responseLoanCalculation!.data!.totalRepayment.toString():''):TextEditingController(),
+                                        maxLength: 10,
+                                        // enabled: false,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                          contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              10.horizontalSpace(),
+
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: "EMI Amount".textMedium(color: Colors.black, fontSize: 12),
+                                    ),
+                                    5.verticalSpace(),
+                                    Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.white
+                                      ),
+                                      width: screenWidth(),
+                                      child: TextField(
+                                        maxLines: 1,
+                                        enabled: false,
+                                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?"${state.responseLoanCalculation!.data!.emiAmount}":''):TextEditingController(),
+                                        maxLength: 10,
+                                        // enabled: false,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                          contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+
+                            ],
+                          ),
+
+                          20.verticalSpace(),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: "Remarks".textMedium(color: Colors.black, fontSize: 12),
                           ),
                           5.verticalSpace(),
 
-                          5.verticalSpace(),
+                          // 5.verticalSpace(),
                           Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
@@ -406,7 +579,9 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
                                     if(purpose == '') {
                                       showCustomToast(context, 'Loan Purpose is required');
-                                    } else if (price.text == ''){
+                                    } else if (purpose == 'Other' && purposeOfLoan.text.isEmpty){
+                                      showCustomToast(context, 'Please enter purpose of loan');
+                                    }else if (price.text == ''){
                                       showCustomToast(context, 'Loan Amount is required');
                                     } else if (int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString())){
                                       showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
@@ -418,7 +593,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       showCustomToast(context, 'Remarks are required');
                                     } else {
                                       CustomLoanKYC(
-                                        purpose: purpose.toString(),
+                                        purpose: purpose.toString() == "Other"?purposeOfLoan.text.toString():purpose.toString(),
                                         price: int.parse(price.text.toString()),
                                         period: int.parse(period.text.toString()),
                                         remarks: remarks.text.toString(),
@@ -446,113 +621,114 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
       ),
     );
   }
-}
 
+  Widget kpi(context,ProjectState state) {
 
-Widget kpi(context,ProjectState state) {
-  List<FrontendKpiModel> kpiData = [];
+    List<FrontendKpiModel> kpiData = [];
 
-  if(state.responseLoanForm!.data!.maxLoanLimit != null){
-    kpiData.add(FrontendKpiModel(name: 'Max. Limit',
-        image: Images.investmentKpi,
-        value: getCurrencyString(state.responseLoanForm!.data!.maxLoanLimit!)));
-  }
+    if(state.responseLoanForm!.data!.maxLoanLimit != null){
+      kpiData.add(FrontendKpiModel(name: 'Max. Limit',
+          image: Images.investmentKpi,
+          value: getCurrencyString(state.responseLoanForm!.data!.maxLoanLimit!)));
+    }
 
-  if(state.responseLoanForm!.data!.maxEmis!=null){
-    kpiData.add(FrontendKpiModel(name: 'Max. EMI\'s',
-        image: Images.revenueKpi,
-        value: '${state.responseLoanForm!.data!.maxEmis!}Mo'));
-  }
+    if(state.responseLoanForm!.data!.maxEmis!=null){
+      kpiData.add(FrontendKpiModel(name: 'Max. EMI\'s',
+          image: Images.revenueKpi,
+          value: '${state.responseLoanForm!.data!.maxEmis!}Mo'));
+    }
 
-  if(state.responseLoanForm!.data!.msp!=null){
-    kpiData.add(FrontendKpiModel(name: 'MSP/Ltr.',
-        image: Images.roiKpi,
-        value: getCurrencyString(state.responseLoanForm!.data!.msp!)));
-  }
+    if(state.responseLoanForm!.data!.msp!=null){
+      kpiData.add(FrontendKpiModel(name: 'MSP/Ltr.',
+          image: Images.roiKpi,
+          value: getCurrencyString(state.responseLoanForm!.data!.msp!)));
+    }
 
-  if(state.responseLoanForm!.data!.loanApplied!=null){
-    kpiData.add(FrontendKpiModel(name: 'Loans Applied',
-        image: Images.emiKpi,
-        value: state.responseLoanForm!.data!.loanApplied!.toString()));
-  }
+    if(state.responseLoanForm!.data!.loanApplied!=null){
+      kpiData.add(FrontendKpiModel(name: 'Loans Applied',
+          image: Images.emiKpi,
+          value: state.responseLoanForm!.data!.loanApplied!.toString()));
+    }
 
-  if(state.responseLoanForm!.data!.loanValue!=null){
-    kpiData.add(FrontendKpiModel(name: 'Loan Value',
-        image: Images.loanKpi,
-        value: getCurrencyString(state.responseLoanForm!.data!.loanValue!)));
-  }
+    if(state.responseLoanForm!.data!.loanValue!=null){
+      kpiData.add(FrontendKpiModel(name: 'Loan Value',
+          image: Images.loanKpi,
+          value: getCurrencyString(state.responseLoanForm!.data!.loanValue!)));
+    }
 
-  if(state.responseLoanForm!.data!.remainingLimit!=null){
-    kpiData.add(FrontendKpiModel(name: 'Remaining Limit',
-        image: Images.repaymentKpi,
-        value: getCurrencyString(state.responseLoanForm!.data!.remainingLimit!)));
-  }
+    if(state.responseLoanForm!.data!.remainingLimit!=null){
+      kpiData.add(FrontendKpiModel(name: 'Remaining Limit',
+          image: Images.repaymentKpi,
+          value: getCurrencyString(state.responseLoanForm!.data!.remainingLimit!)));
+    }
 
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
 
-      customGrid(context,
-          list: kpiData,
-          crossAxisCount: 3,
-          mainAxisSpacing: 15,
-          crossAxisSpacing: 13,
-          mainAxisExtent: 123,
-          child: (index){
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: const Color(0xffDCDCDC),width: 1),
-                boxShadow:[
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      blurRadius: 2.0,
-                      offset: const Offset(0, 2))],
-              ),
-              child: Padding(
-                // padding: 0.paddingAll(),
-                padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset(
-                          kpiData[index].image.toString(),
-                          width: 30,
-                          height: 30,
-                        ),
-                        /*kpiData[index].actionImage!=null?
+        customGrid(context,
+            list: kpiData,
+            crossAxisCount: 3,
+            mainAxisSpacing: 15,
+            crossAxisSpacing: 13,
+            mainAxisExtent: 123,
+            child: (index){
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                  boxShadow:[
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        blurRadius: 2.0,
+                        offset: const Offset(0, 2))],
+                ),
+                child: Padding(
+                  // padding: 0.paddingAll(),
+                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SvgPicture.asset(
+                            kpiData[index].image.toString(),
+                            width: 30,
+                            height: 30,
+                          ),
+                          /*kpiData[index].actionImage!=null?
                           SvgPicture.asset(kpiData[index].actionImage.toString()):
                               const SizedBox.shrink()*/
-                      ],
-                    ),
-                    15.verticalSpace(),
-                    Text(
-                      '${kpiData[index].value}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: figtreeMedium.copyWith(fontSize: 14.3),
-                    ),
-                    05.verticalSpace(),
-                    Text(
-                      kpiData[index].name.toString(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: figtreeRegular.copyWith(
-                        fontSize: 12.5,
+                        ],
                       ),
-                    )
-                  ],
+                      15.verticalSpace(),
+                      Text(
+                        '${kpiData[index].value}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: figtreeMedium.copyWith(fontSize: 14.3),
+                      ),
+                      05.verticalSpace(),
+                      Text(
+                        kpiData[index].name.toString(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: figtreeRegular.copyWith(
+                          fontSize: 12.5,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
 
 
-    ],
-  );
+      ],
+    );
+  }
 }
+

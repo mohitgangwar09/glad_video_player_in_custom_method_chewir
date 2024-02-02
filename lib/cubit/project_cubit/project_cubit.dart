@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:glad/data/model/loan_purpose_list.dart' as loan;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +17,7 @@ import 'package:glad/data/model/response_area_filter_list.dart';
 import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/response_custom_loan_list.dart';
 import 'package:glad/data/model/response_farmer_filter_list.dart';
+import 'package:glad/data/model/response_loan_calculation.dart';
 import 'package:glad/data/model/response_loan_form.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_project_supplier_filter_list.dart';
@@ -1341,7 +1342,7 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     var response = await apiRepository.getCustomLoanFormApi(farmerId);
     if (response.status == 200) {
-      emit(state.copyWith(responseLoanForm: response));
+      emit(state.copyWith(responseLoanForm: response,responseLoanCalculation: null));
       customLoanPurposeListApi(context);
     } else {
       showCustomToast(context, response.message.toString());
@@ -1353,7 +1354,19 @@ class ProjectCubit extends Cubit<ProjectState> {
 
     var response = await apiRepository.getCustomLoanPurposeListApi();
     if (response.status == 200) {
+      response.data!.insert(0, loan.Data(name: 'Other'));
       emit(state.copyWith(status: ProjectStatus.success, responseLoanPurposeList: response));
+    } else {
+      showCustomToast(context, response.message.toString());
+      emit(state.copyWith(status: ProjectStatus.error));
+    }
+  }
+
+  Future<void> loanCalculationAPi(context,String farmerId,String loanAmount,String repaymentMonths) async {
+
+    var response = await apiRepository.loanCalculationApi(farmerId, loanAmount, repaymentMonths);
+    if (response.status == 200) {
+      emit(state.copyWith(status: ProjectStatus.success,responseLoanCalculation: response));
     } else {
       showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: ProjectStatus.error));
