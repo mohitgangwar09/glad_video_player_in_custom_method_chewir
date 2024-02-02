@@ -130,9 +130,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
     // customDialog(widget: launchProgress());
     final ref = FirebaseStorage.instance
         .ref()
-        .child('image')
-        .child('.jpg'
-    );
+        .child('files/${DateTime.now().toString()}_${image.path.split(Platform.pathSeparator).last}');
 
     await ref.putFile(image).whenComplete(() {
       print("successfully");
