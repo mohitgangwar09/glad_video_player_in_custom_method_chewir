@@ -77,6 +77,19 @@ class OthersRepository {
   }
 
   ///////////////// getTrainingCategoryApi //////////
+  Future<TrainingAndNewsCategoryModel> getFaqCategoryApi() async {
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(!sharedPreferences!.containsKey(AppConstants.userType) ? AppConstants.guestFaqCategoryApi : AppConstants.faqCategoryApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return TrainingAndNewsCategoryModel.fromJson(apiResponse.response!.data);
+    } else {
+      return TrainingAndNewsCategoryModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// getTrainingCategoryApi //////////
   Future<YoutubeVideoStatisticsModel?> getVideoStatisticsApi(String videoId) async {
     String apiKey = 'AIzaSyDdkM0EySEulkkwqqB0c5Z29ddPYaY3FU0';
     String url = 'https://www.googleapis.com/youtube/v3/videos?part=statistics&id=$videoId&key=$apiKey';

@@ -50,7 +50,7 @@ class LandingPageRepository {
 
     if (apiResponse.status) {
       return MilkProductionChart.fromJson(apiResponse.response!.data);
-    }
+    }else
     {
       return MilkProductionChart(status: 422, message: apiResponse.msg);
     }

@@ -13,6 +13,7 @@ import 'package:glad/data/model/response_capacity_list.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/data/model/response_custom_loan_list.dart';
 import 'package:glad/data/model/response_farmer_filter_list.dart';
+import 'package:glad/data/model/response_loan_calculation.dart';
 import 'package:glad/data/model/response_loan_form.dart';
 import 'package:glad/data/model/response_milestone_name.dart';
 import 'package:glad/data/model/response_not_required.dart';
@@ -979,6 +980,27 @@ class ProjectRepository {
       return LoanPurposeList.fromJson(apiResponse.response!.data);
     } else {
       return LoanPurposeList(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ///////////////// loanCalculationApi //////////
+  Future<ResponseLoanCalculation> loanCalculationApi(String farmerId,String loanAmount,String repaymentMonths) async {
+
+    var queryData = {
+      "farmer_id" : farmerId,
+      "loan_amount" : loanAmount,
+      "repayment_months" : repaymentMonths,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getApiResponse(AppConstants.loanCalculationApi,
+        queryParameters: queryData,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
+
+    if (apiResponse.status) {
+      return ResponseLoanCalculation.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseLoanCalculation(status: 422, message: apiResponse.msg);
     }
   }
 

@@ -8,10 +8,15 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/styles.dart';
 
-class ProjectFilter extends StatelessWidget {
+class ProjectFilter extends StatefulWidget {
   const ProjectFilter(this.selectedFilter,{Key? key,}) : super(key: key);
   final String selectedFilter;
 
+  @override
+  State<ProjectFilter> createState() => _ProjectFilterState();
+}
+
+class _ProjectFilterState extends State<ProjectFilter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +35,7 @@ class ProjectFilter extends StatelessWidget {
                       BlocProvider.of<ProjectCubit>(context).roiFilterClear();
                       BlocProvider.of<ProjectCubit>(context)
                           .ddeProjectsApi(
-                          context, selectedFilter, false);
+                          context, widget.selectedFilter, false);
                       pressBack();
                     },
                     child: "Cancel"
@@ -40,7 +45,7 @@ class ProjectFilter extends StatelessWidget {
                       BlocProvider.of<ProjectCubit>(context).roiFilterClear();
                       BlocProvider.of<ProjectCubit>(context)
                           .ddeProjectsApi(
-                          context, selectedFilter, false);
+                          context, widget.selectedFilter, false);
 
                       pressBack();
 
@@ -95,67 +100,84 @@ class ProjectFilter extends StatelessWidget {
                             marginLeft: 0,
                             marginTop: 8,
                             height: 124,
-                            child: Row(
+                            child: Stack(
                               children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
+                                Row(
+                                  children: [
+                                    31.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "From".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              margin: const EdgeInsets.only(top: 5),
+                                              padding: const EdgeInsets.only(left: 10),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                maxLength: 10,
+                                                controller: state.revenueFromController,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,
+                                                  counterText: ''
+                                                ),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.revenueFromController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                              counterText: ''
-                                            ),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "To".textSemiBold(
-                                        fontSize: 14,
+                                    ),
+                                    18.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "To".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              margin: const EdgeInsets.only(top: 5),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                maxLength: 10,
+                                                controller: state.revenueToController,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,counterText: ''),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.revenueToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,counterText: ''),
-                                          ))
-                                    ],
-                                  ),
+                                    ),
+                                    31.horizontalSpace(),
+                                  ],
                                 ),
-                                31.horizontalSpace(),
+                                if(state.revenueToController.text.isNotEmpty&&state.revenueFromController.text.isNotEmpty)
+                                  if(int.parse(state.revenueToController.text)<int.parse(state.revenueFromController.text))
+                                    Positioned(
+                                        left: 30,
+                                        bottom: 6,
+                                        child: "Revenue UpTo must be greater than Revenue From".textRegular(color: Colors.red,
+                                            fontSize: 12))
                               ],
                             )),
 
@@ -174,65 +196,82 @@ class ProjectFilter extends StatelessWidget {
                             marginLeft: 0,
                             marginTop: 8,
                             height: 124,
-                            child: Row(
+                            child: Stack(
                               children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
+                                Row(
+                                  children: [
+                                    31.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "From".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              margin: const EdgeInsets.only(top: 5),
+                                              padding: const EdgeInsets.only(left: 10),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                controller: state.investmentFromController,
+                                                maxLength: 10,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,counterText: '',),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            controller: state.investmentFromController,
-                                            maxLength: 12,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,counterText: '',),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "UpTo".textSemiBold(
-                                        fontSize: 14,
+                                    ),
+                                    18.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "UpTo".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              margin: const EdgeInsets.only(top: 5),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                controller: state.investmentUpToController,
+                                                maxLength: 10,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,counterText: '',),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            controller: state.investmentUpToController,
-                                            maxLength: 12,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,counterText: '',),
-                                          ))
-                                    ],
-                                  ),
+                                    ),
+                                    31.horizontalSpace(),
+                                  ],
                                 ),
-                                31.horizontalSpace(),
+                                if(state.investmentUpToController.text.isNotEmpty&&state.investmentFromController.text.isNotEmpty)
+                                  if(int.parse(state.investmentUpToController.text)<int.parse(state.investmentFromController.text))
+                                    Positioned(
+                                        left: 30,
+                                        bottom: 6,
+                                        child: "Investment UpTo must be greater than Investment From".textRegular(color: Colors.red,
+                                            fontSize: 12))
                               ],
                             )),
 
@@ -251,66 +290,83 @@ class ProjectFilter extends StatelessWidget {
                             marginLeft: 0,
                             marginTop: 8,
                             height: 124,
-                            child: Row(
+                            child: Stack(
                               children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
+                                Row(
+                                  children: [
+                                    31.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "From".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              margin: const EdgeInsets.only(top: 5),
+                                              padding: const EdgeInsets.only(left: 10),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                maxLength: 10,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                controller: state.roiFromController,
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                  counterText: '',
+                                                    border: InputBorder.none),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.roiFromController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                              counterText: '',
-                                                border: InputBorder.none),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "UpTo".textSemiBold(
-                                        fontSize: 14,
+                                    ),
+                                    18.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "UpTo".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              margin: const EdgeInsets.only(top: 5),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                maxLength: 10,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                controller: state.roiUpToController,
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,counterText: '',),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.roiUpToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,counterText: '',),
-                                          ))
-                                    ],
-                                  ),
+                                    ),
+                                    31.horizontalSpace(),
+                                  ],
                                 ),
-                                31.horizontalSpace(),
+                                if(state.roiUpToController.text.isNotEmpty&&state.roiFromController.text.isNotEmpty)
+                                  if(int.parse(state.roiUpToController.text)<int.parse(state.roiFromController.text))
+                                    Positioned(
+                                        left: 30,
+                                        bottom: 6,
+                                        child: "ROI UpTo must be greater than ROI From".textRegular(color: Colors.red,
+                                            fontSize: 12))
                               ],
                             )),
 
@@ -329,65 +385,82 @@ class ProjectFilter extends StatelessWidget {
                             marginLeft: 0,
                             marginTop: 8,
                             height: 124,
-                            child: Row(
+                            child: Stack(
                               children: [
-                                31.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "From".textSemiBold(
-                                        fontSize: 14,
+                                Row(
+                                  children: [
+                                    31.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "From".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              margin: const EdgeInsets.only(top: 5),
+                                              padding: const EdgeInsets.only(left: 10),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                maxLength: 10,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                controller: state.loanAmountFromController,
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,counterText: '',),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          margin: const EdgeInsets.only(top: 5),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.loanAmountFromController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,counterText: '',),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                18.horizontalSpace(),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      "UpTo".textSemiBold(
-                                        fontSize: 14,
+                                    ),
+                                    18.horizontalSpace(),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          "UpTo".textSemiBold(
+                                            fontSize: 14,
+                                          ),
+                                          Container(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              margin: const EdgeInsets.only(top: 5),
+                                              decoration: boxDecoration(
+                                                  borderRadius: 10,
+                                                  borderColor: const Color(0xff767676)),
+                                              height: 50,
+                                              child: TextField(
+                                                keyboardType: TextInputType.phone,
+                                                maxLines: 1,
+                                                maxLength: 10,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                                controller: state.loanAmountUpToController,
+                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                                decoration: const InputDecoration(
+                                                    border: InputBorder.none,counterText: '',),
+                                              ))
+                                        ],
                                       ),
-                                      Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          margin: const EdgeInsets.only(top: 5),
-                                          decoration: boxDecoration(
-                                              borderRadius: 10,
-                                              borderColor: const Color(0xff767676)),
-                                          height: 50,
-                                          child: TextField(
-                                            keyboardType: TextInputType.phone,
-                                            maxLines: 1,
-                                            maxLength: 12,
-                                            controller: state.loanAmountUpToController,
-                                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,counterText: '',),
-                                          ))
-                                    ],
-                                  ),
+                                    ),
+                                    31.horizontalSpace(),
+                                  ],
                                 ),
-                                31.horizontalSpace(),
+                                if(state.loanAmountUpToController.text.isNotEmpty&&state.loanAmountFromController.text.isNotEmpty)
+                                  if(int.parse(state.loanAmountUpToController.text)<int.parse(state.loanAmountFromController.text))
+                                    Positioned(
+                                        left: 30,
+                                        bottom: 6,
+                                        child: "Loan Amount UpTo must be greater than Loan Amount From".textRegular(color: Colors.red,
+                                            fontSize: 12))
                               ],
                             )),
 
@@ -399,10 +472,20 @@ class ProjectFilter extends StatelessWidget {
                             width: screenWidth(),
                             child: customButton("Apply",
                                 fontColor: 0xffffffff, onTap: () {
-                                  BlocProvider.of<ProjectCubit>(context)
-                                      .ddeProjectsApi(
-                                      context, selectedFilter, false);
-                                  pressBack();
+                                  if(state.revenueFromController.text.isNotEmpty && state.revenueToController.text.isNotEmpty && (int.parse(state.revenueToController.text) < int.parse(state.revenueFromController.text))) {
+                                    showCustomToast(context, "Revenue UpTo must be greater than Revenue From");
+                                  } else if(state.investmentFromController.text.isNotEmpty && state.investmentUpToController.text.isNotEmpty && (int.parse(state.investmentUpToController.text)<int.parse(state.investmentFromController.text))) {
+                                    showCustomToast(context, "Investment UpTo must be greater than Investment From");
+                                  } else if(state.roiUpToController.text.isNotEmpty && state.revenueFromController.text.isNotEmpty && (int.parse(state.roiUpToController.text)<int.parse(state.roiFromController.text))) {
+                                    showCustomToast(context, "ROI UpTo must be greater than ROI From");
+                                  } else if(state.loanAmountUpToController.text.isNotEmpty && state.loanAmountFromController.text.isNotEmpty && (int.parse(state.loanAmountUpToController.text)<int.parse(state.loanAmountFromController.text))) {
+                                    showCustomToast(context, "Loan Amount UpTo must be greater than Loan Amount From");
+                                  } else {
+                                    BlocProvider.of<ProjectCubit>(context)
+                                        .ddeProjectsApi(
+                                        context, widget.selectedFilter, false);
+                                    pressBack();
+                                  }
                                 }))
 
                         // ,10.verticalSpace(),

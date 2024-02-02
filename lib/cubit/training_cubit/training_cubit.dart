@@ -25,7 +25,9 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
     else {
       emit(state.copyWith(status: TrainingStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -38,7 +40,10 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
     else {
       emit(state.copyWith(status: TrainingStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -52,7 +57,28 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     }
     else {
       emit(state.copyWith(status: TrainingStatus.error));
-      showCustomToast(context, response.message.toString());
+
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
+    }
+  }
+
+  // resendProjectStatusApiApi
+  Future<void> faqCategoriesApi(context) async{
+    emit(state.copyWith(status: TrainingStatus.submit));
+    var response = await apiRepository.getFaqCategoryApi();
+    if (response.status == 200) {
+      emit(state.copyWith(responseTrainingCategories: response));
+      faqListApi(context,"");
+    }
+    else {
+      emit(state.copyWith(status: TrainingStatus.error));
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -74,7 +100,7 @@ class TrainingCubit extends Cubit<TrainingCubitState>{
     // emit(state.copyWith(status: TrainingStatus.submit));
     var response = await apiRepository.faqApi(type);
     if (response.status == 200) {
-      emit(state.copyWith(responseFaqList: response,/*status: TrainingStatus.submit*/));
+      emit(state.copyWith(responseFaqList: response,status: TrainingStatus.success));
     } else {
       emit(state.copyWith(status: TrainingStatus.error));
     }

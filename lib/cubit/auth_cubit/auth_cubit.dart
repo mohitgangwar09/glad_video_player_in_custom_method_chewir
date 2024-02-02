@@ -150,7 +150,10 @@ class AuthCubit extends Cubit<AuthCubitState>{
       }
       else{
         emit(state.copyWith(status: AuthStatus.error));
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
+        // showCustomToast(context, response.message.toString());
       }
     }
   }
@@ -173,7 +176,10 @@ class AuthCubit extends Cubit<AuthCubitState>{
       }
       else{
         emit(state.copyWith(status: AuthStatus.error));
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
+        // showCustomToast(context, response.message.toString());
       }
     }
   }
@@ -195,7 +201,9 @@ class AuthCubit extends Cubit<AuthCubitState>{
     else {
       emit(state.copyWith(status: AuthStatus.error));
       // response.errors![0].message.toString().toast();
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -212,7 +220,9 @@ class AuthCubit extends Cubit<AuthCubitState>{
     else {
       emit(state.copyWith(status: AuthStatus.error));
       // response.errors![0].message.toString().toast();
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 
@@ -233,7 +243,9 @@ class AuthCubit extends Cubit<AuthCubitState>{
       else {
         emit(state.copyWith(status: AuthStatus.error));
         // response.errors![0].message.toString().toast();
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
       }
     }
   }
@@ -261,7 +273,9 @@ class AuthCubit extends Cubit<AuthCubitState>{
       else
       {
         emit(state.copyWith(status: AuthStatus.error));
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
       }
     }
   }
@@ -301,7 +315,9 @@ class AuthCubit extends Cubit<AuthCubitState>{
       else
       {
         emit(state.copyWith(status: AuthStatus.error));
-        showCustomToast(context, response.message.toString());
+        if(response.message!=null){
+          showCustomToast(context, response.message.toString());
+        }
       }
     }
   }

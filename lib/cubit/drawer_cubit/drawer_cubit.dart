@@ -30,7 +30,10 @@ class DrawerCubit extends Cubit<DrawerState> {
     else {
       emit(state.copyWith(status: DrawerStatus.error));
       disposeProgress();
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

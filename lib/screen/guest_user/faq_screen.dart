@@ -20,8 +20,8 @@ class _FaqScreenState extends State<FaqScreen> {
 
   @override
   void initState() {
-    BlocProvider.of<TrainingCubit>(context).trainingCategoriesApi(context);
-    BlocProvider.of<TrainingCubit>(context).faqListApi(context,"");
+    BlocProvider.of<TrainingCubit>(context).faqCategoriesApi(context);
+    // BlocProvider.of<TrainingCubit>(context).faqListApi(context,"");
     super.initState();
   }
 
@@ -39,9 +39,6 @@ class _FaqScreenState extends State<FaqScreen> {
                         color: ColorResources.maroon,
                       ));
                 } else if (state.responseFaqList == null) {
-                  return Center(
-                      child: Text("${state.responseFaqList} Api Error"));
-                }  else if (state.responseFaqList == null) {
                   return Center(
                       child: Text("${state.responseFaqList} Api Error"));
                 }else{
@@ -188,6 +185,7 @@ class _FaqScreenState extends State<FaqScreen> {
                               style: figtreeMedium.copyWith(fontSize: 18),
                             ),
                           ),
+                          if(state.responseFaqList!.data!.length != 1)
                           InkWell(
                               onTap: () {
                                 setState(() {

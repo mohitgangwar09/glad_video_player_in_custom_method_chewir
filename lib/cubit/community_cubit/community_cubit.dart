@@ -33,7 +33,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
     }
     else {
       emit(state.copyWith(status: CommunityStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -50,7 +53,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
     }
     else {
       emit(state.copyWith(status: CommunityStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -65,7 +71,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
     else {
       disposeProgress();
       emit(state.copyWith(status: CommunityStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -80,7 +89,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
     else {
       disposeProgress();
       emit(state.copyWith(status: CommunityStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -92,7 +104,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
       emit(state.copyWith(status: CommunityStatus.success, responseFriendList: response));
     } else {
       emit(state.copyWith(status: CommunityStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -117,7 +132,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
       communityListApi(context, isLoaderRequired: false);
     }
     else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -129,7 +147,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
       communityDetailApi(context, communityId, isLoaderRequired: false);
       communityListApi(context, isLoaderRequired: false);
     } else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
@@ -146,7 +167,10 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
       showCustomToast(context, response.message.toString(), isSuccess: true);
     }
     else {
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 

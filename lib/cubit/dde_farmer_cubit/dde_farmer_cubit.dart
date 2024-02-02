@@ -418,9 +418,11 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
     else{
       emit(state.copyWith(status: DdeFarmerStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
-    emit(state.copyWith(status: DdeFarmerStatus.success));
+    // emit(state.copyWith(status: DdeFarmerStatus.success));
   }
 
   // getCowBreedDetailsApi
@@ -445,9 +447,11 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
     else{
       emit(state.copyWith(status: DdeFarmerStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
-    emit(state.copyWith(status: DdeFarmerStatus.success));
+    // emit(state.copyWith(status: DdeFarmerStatus.success));
   }
 
   // updateCowBreedRecordApi
@@ -463,9 +467,12 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
     else{
       emit(state.copyWith(status: DdeFarmerStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
-    emit(state.copyWith(status: DdeFarmerStatus.success));
+    // emit(state.copyWith(status: DdeFarmerStatus.success));
   }
 
   // updateCowBreedRecordApi
@@ -481,9 +488,12 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
     else{
       emit(state.copyWith(status: DdeFarmerStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
-    emit(state.copyWith(status: DdeFarmerStatus.success));
+    // emit(state.copyWith(status: DdeFarmerStatus.success));
   }
 
   // updateCowBreedRecordApi
@@ -499,9 +509,12 @@ class DdeFarmerCubit extends Cubit<DdeState>{
     }
     else{
       emit(state.copyWith(status: DdeFarmerStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
-    emit(state.copyWith(status: DdeFarmerStatus.success));
+    // emit(state.copyWith(status: DdeFarmerStatus.success));
   }
 
   // getBreed
@@ -515,7 +528,10 @@ class DdeFarmerCubit extends Cubit<DdeState>{
       ));
     } else {
       emit(state.copyWith(status: DdeFarmerStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
+      // showCustomToast(context, response.message.toString());
     }
   }
 
