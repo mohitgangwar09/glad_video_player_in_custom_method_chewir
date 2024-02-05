@@ -1072,13 +1072,15 @@ Widget kpi(context,LivestockCubitState state) {
                                                       children: [
                                                         InkWell(
                                                             onTap: () {
-                                                              if(quantity == 1) {
-                                                                return;
-                                                              }
-                                                              quantity--;
-                                                              setState(() {
+                                                              if(quantity>0){
+                                                                if(quantity == 1) {
+                                                                  return;
+                                                                }
+                                                                quantity--;
+                                                                setState(() {
 
-                                                              });
+                                                                });
+                                                              }
                                                             },
                                                             child: SvgPicture.asset(Images.minusQuant)),
                                                         quantity.toString().textMedium(fontSize: 16, color: Colors.black),

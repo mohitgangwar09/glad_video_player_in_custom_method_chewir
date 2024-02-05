@@ -162,13 +162,13 @@ class _AddMarkAsDeliveryRemoveState extends State<AddMarkAsDeliveryRemove> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    widget.projectData!.profilePic!=null?
+                    widget.projectData.profilePic!=null?
                     CircleAvatar(
                         radius: 33,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(40),
                           child: CachedNetworkImage(
-                            imageUrl: widget.projectData!.profilePic! ?? '',
+                            imageUrl: widget.projectData.profilePic! ?? '',
                             errorWidget: (_, __, ___) {
                               return Image.asset(
                                 Images.sampleUser,
@@ -195,7 +195,7 @@ class _AddMarkAsDeliveryRemoveState extends State<AddMarkAsDeliveryRemove> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.projectData!.name! ?? '',
+                        Text(widget.projectData.name! ?? '',
                             style: figtreeMedium.copyWith(
                                 fontSize: 16, color: Colors.black)),
                         10.verticalSpace(),
@@ -207,7 +207,7 @@ class _AddMarkAsDeliveryRemoveState extends State<AddMarkAsDeliveryRemove> {
                               color: Colors.black,
                               size: 16,
                             ),
-                            Text(widget.projectData!.mobile! ?? '',
+                            Text(widget.projectData.mobile! ?? '',
                                 style: figtreeRegular.copyWith(
                                     fontSize: 12, color: Colors.black)),
                           ],
@@ -224,8 +224,8 @@ class _AddMarkAsDeliveryRemoveState extends State<AddMarkAsDeliveryRemove> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width *
                                   0.5,
-                              child: Text(widget.projectData!.address!=null?
-                              widget.projectData!.address!.address!=null ?widget.projectData!.address!.address!.toString():"":"",
+                              child: Text(widget.projectData.address!=null?
+                              widget.projectData.address!.address!=null ?widget.projectData.address!.address!.toString():"":"",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: figtreeRegular.copyWith(
@@ -363,13 +363,16 @@ class _AddMarkAsDeliveryRemoveState extends State<AddMarkAsDeliveryRemove> {
             ),
             onCompleted: (v) {
             },
-            onChanged: (value) {
+            onChanged: (value) async{
               if(value.length==4){
-                if(widget.updateSoldQtyTag == "sold"){
-                  BlocProvider.of<LivestockCubit>(context).updateSoldCowApi(context, widget.id, int.parse(widget.quantity.toString()));
-                }else{
-                  BlocProvider.of<ProjectCubit>(context).verifyRemoveThisAdApi(context, value.toString(),
-                      widget.projectData.id.toString(),widget.id);
+                var future = await BlocProvider.of<LivestockCubit>(context).verifyProjectStatus(context, value.toString(),);
+                if(future.status == 200){
+                  if(widget.updateSoldQtyTag == "sold"){
+                    BlocProvider.of<LivestockCubit>(context).updateSoldCowApi(context, widget.id, int.parse(widget.quantity.toString()));
+                  }else{
+                    BlocProvider.of<ProjectCubit>(context).verifyRemoveThisAdApi(context, value.toString(),
+                        widget.projectData.id.toString(),widget.id);
+                  }
                 }
               }
               // setState(() {

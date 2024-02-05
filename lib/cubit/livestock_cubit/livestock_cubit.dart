@@ -354,6 +354,9 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       // livestockCartListApi(context, isLoaderRequired: false);
     } else {
       disposeProgress();
+      if(response.message!=null){
+        showCustomToast(context, response.message.toString());
+      }
       emit(state.copyWith(status: LivestockStatus.error));
     }
   }
@@ -370,6 +373,7 @@ class LivestockCubit extends Cubit<LivestockCubitState>{
       myLivestockListApi(context, '', isLoaderRequired: false);
     } else {
       disposeProgress();
+      showCustomToast(context, response.message.toString());
       emit(state.copyWith(status: LivestockStatus.error));
     }
   }

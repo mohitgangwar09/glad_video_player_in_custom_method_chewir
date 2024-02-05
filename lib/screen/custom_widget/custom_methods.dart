@@ -1626,11 +1626,13 @@ Widget selectFarmer({String? userId, String? livestockId,bool isCustomLoan = fal
                           BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
                           if(userId ==null){
                             if(!isCustomLoan) {
-                              BlocProvider.of<LivestockCubit>(context)
-                                  .livestockDetailApi(
-                                  context, livestockId.toString(),
-                                  userId: state.response!.farmerMAster![i]
-                                      .userId.toString());
+                              if(livestockId !=null){
+                                BlocProvider.of<LivestockCubit>(context)
+                                    .livestockDetailApi(
+                                    context, livestockId.toString(),
+                                    userId: state.response!.farmerMAster![i]
+                                        .userId.toString());
+                              }
                             }
                           }else{
                             LiveStockCartListScreen(userId:state.response!.farmerMAster![i].userId.toString()).navigate();
