@@ -345,7 +345,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                 child: customProjectContainer(
                                     width: screenWidth(),
                                     child: graphCard(
-                                        '${state.response!.farmerCowDetail !=  null ?state.response!.farmerCowDetail!.yieldPerCow ?? 0 : 0} ltr.',
+                                        '${state.response!.farmerCowDetail !=  null ?state.response!.farmerCowDetail!.yieldPerCow ?? 0 : 0} Ltr.',
                                         'Yield per cow',
                                         'Each day')),
                               ),

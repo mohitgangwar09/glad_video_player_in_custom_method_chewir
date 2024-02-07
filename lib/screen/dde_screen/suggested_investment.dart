@@ -2485,17 +2485,46 @@ class _DDeFarmerInvestmentDetailsState
             .investment !=
         null) {
       kpiData.add(FrontendKpiModel(
-          name: 'Investment',
+          name: 'Project Cost',
           image: Images.investmentKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!
               .farmerProject![0].kpi!.investment!)));
     }
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+        .farmerParticipation !=
+        null) {
+      kpiData.add(FrontendKpiModel(
+          name: 'Farmer Participation',
+          image: Images.farmerParticipationKpi,
+          actionImage: Images.imageEdit,
+          value: getCurrencyString(state.responseFarmerProjectDetail!.data!
+              .farmerProject![0].kpi!.farmerParticipation!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.principleAmount !=
+        null) {
+      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
+          image: Images.loanKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .principleAmount!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
+        null) {
+      kpiData.add(FrontendKpiModel(name: 'Loan',
+          image: Images.loanKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .loan!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
             .revenue !=
         null) {
       kpiData.add(FrontendKpiModel(
-          name: 'Revenue',
+          name: 'Annual Incremental Income',
           image: Images.revenueKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!
               .farmerProject![0].kpi!.revenue!)));
@@ -2510,31 +2539,12 @@ class _DDeFarmerInvestmentDetailsState
               "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi!}%"));
     }
 
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-            .farmerParticipation !=
-        null) {
-      kpiData.add(FrontendKpiModel(
-          name: 'Farmer Participation',
-          image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!
-              .farmerProject![0].kpi!.farmerParticipation!)));
-    }
-
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
-        null) {
-      kpiData.add(FrontendKpiModel(
-          name: 'Loan',
-          image: Images.loanKpi,
-          value: getCurrencyString(state.responseFarmerProjectDetail!.data!
-              .farmerProject![0].kpi!.loan!)));
-    }
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
             .repayment !=
         null) {
       kpiData.add(FrontendKpiModel(
-          name: 'Repayment',
+          name: 'Repayment Tenure',
           actionImage: Images.imageEdit,
           image: Images.repaymentKpi,
           value:
@@ -2584,7 +2594,7 @@ class _DDeFarmerInvestmentDetailsState
               .remainingEmiValue !=
           null) {
         kpiData.add(FrontendKpiModel(
-            name: 'Remaining Payable',
+            name: 'Remaining Loan',
             image: Images.yieldKpi,
             actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!
@@ -2636,7 +2646,7 @@ class _DDeFarmerInvestmentDetailsState
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!=null){
-      kpiData.add(FrontendKpiModel(name: 'Milk Msp',
+      kpiData.add(FrontendKpiModel(name: 'MSP',
           image: Images.yieldKpi,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!} Ltr"
       ));
@@ -3867,6 +3877,7 @@ class _DDeFarmerInvestmentDetailsState
                   farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
                   cartId:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].id!,
                   deliveryStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus!,
+                  remarks:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].remarks,
                   mediaLivestock: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!:[],
                   type:"",
                   cowPrice:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString(),

@@ -5,6 +5,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
@@ -87,7 +88,9 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                             20.verticalSpace(),
                             dde(context, state),
                             20.verticalSpace(),
-                            supplier(context, state),
+                            if(state.responseFarmerProjectDetail!.data!.supplierDetail != null)
+                              supplier(context, state),
+                            // supplier(context, state),
                             InkWell(
                                 onTap: () {
                                   const TrackProgress().navigate();
@@ -763,8 +766,315 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
   }
 
   ///////////SupplierContainerTimeline/////////////
-  Widget supplier(context, ProjectState state) {
-    return Stack(
+  Widget supplier(contexts, ProjectState state) {
+    return state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "completed"?
+    Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(
+            height: state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?
+            state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?170:200:242,
+            width: screenWidth()),
+        Container(
+          height: state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null?
+          state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null?110:138:178,
+          width: screenWidth(),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: ColorResources.grey)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 16, 0, 10),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                        radius: 30,
+                        child: CachedNetworkImage(
+                          imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() == false.toString() ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.photo ?? '',
+                          errorWidget: (_, __, ___) {
+                            return Image.asset(
+                              Images.sampleUser,
+                              fit: BoxFit.cover,
+                              width: 80,
+                              height: 80,
+                            );
+                          },
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
+                        )),
+                    15.horizontalSpace(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.name ?? '',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 16, color: Colors.black)),
+                        10.verticalSpace(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.call,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                            Text(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '',
+                                style: figtreeRegular.copyWith(
+                                    fontSize: 12, color: Colors.black)),
+                          ],
+                        ),
+                        4.verticalSpace(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.location_on,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width *
+                                  0.5,
+                              child: Text(
+                                state.responseFarmerProjectDetail!.data!.supplierDetail!.address != null
+                                    ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"] != null
+                                    && state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] != null
+                                    ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] +
+                                    state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"]
+                                    : ''
+                                    : '',
+                                style: figtreeRegular.copyWith(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      ],
+                    )
+                  ],
+                ),
+
+                if(state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier == null)
+                  Column(
+                    children: [
+                      15.verticalSpace(),
+                      InkWell(
+                        onTap: (){
+                          TextEditingController controller = TextEditingController();
+                          double rating = 1;
+                          modalBottomSheetMenu(context,
+                              radius: 40,
+                              child: StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return SizedBox(
+                                      height: 450,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  'Give your feedback',
+                                                  style: figtreeMedium.copyWith(fontSize: 22),
+                                                ),
+                                              ),
+                                              30.verticalSpace(),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                    child: RatingBar.builder(
+                                                      initialRating: 1,
+                                                      minRating: 0,
+                                                      itemSize: 40,
+                                                      direction: Axis.horizontal,
+                                                      allowHalfRating: false,
+                                                      itemCount: 5,
+                                                      itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                                      itemBuilder: (context, _) => const Icon(
+                                                        Icons.star,
+                                                        color: Color(0xffFFAA00),
+                                                      ),
+                                                      onRatingUpdate: (ratings) {
+                                                        rating = ratings;
+                                                        // print(ratings);
+                                                        // onRatingUpdate!(ratings);
+                                                        // rating = ratings.toString();
+                                                      },
+                                                    ),
+                                                  ),
+                                                  20.verticalSpace(),
+                                                  Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Text(
+                                                      'Tell us more',
+                                                      style: figtreeMedium.copyWith(fontSize: 15),
+                                                    ),
+                                                  ),
+                                                  5.verticalSpace(),
+                                                  TextField(
+                                                    controller: controller,
+                                                    maxLines: 4,
+                                                    minLines: 4,
+                                                    decoration: InputDecoration(
+                                                        hintText: 'Write...',
+                                                        hintStyle:
+                                                        figtreeMedium.copyWith(fontSize: 18),
+                                                        border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(12),
+                                                            borderSide: const BorderSide(
+                                                              width: 1,
+                                                              color: Color(0xff999999),
+                                                            ))),
+                                                  ),
+                                                  30.verticalSpace(),
+                                                  Padding(
+                                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                    child: customButton(
+                                                      'Submit',
+                                                      fontColor: 0xffFFFFFF,
+                                                      onTap: () {
+                                                        if(rating == 0){
+                                                          showCustomToast(context, 'Please give rating',isSuccess: true);
+                                                        }else if(controller.text.isEmpty){
+                                                          showCustomToast(context, 'Please enter your feedback');
+                                                        }else{
+                                                          context.read<ProjectCubit>().projectRatingApi(context, widget.projectId.toString(),'supplier' ,state.responseFarmerProjectDetail!.data!.supplierDetail!.id.toString() ,rating.toString() , controller.text.toString());
+                                                        }
+                                                      },
+                                                      height: 60,
+                                                      width: screenWidth(),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ]),
+                                      ),
+                                    );
+                                  }
+                              ));
+                        },
+                        child: Container(
+                          decoration: boxDecoration(
+                              borderRadius: 15,
+                              backgroundColor: const Color(0xffFFF3F4),
+                              borderColor: const Color(0xff6A0030)
+                            // c: const Color(0xff6A0030),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                            child: Text('Give your feedback',
+                              style: figtreeSemiBold.copyWith(
+                                  color: const Color(0xff000000),
+                                  fontSize: 14
+                              ),),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                else if(state.responseFarmerProjectDetail!.data!.farmerRatingForSupplier != null && state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer == null)
+                  const SizedBox.shrink()
+                else
+                  Container(
+                    width: screenWidth(),
+                    height: 72,
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(right: 12,top: 5),
+                    decoration: boxDecoration(
+                      backgroundColor: const Color(0xffFFF3F4),
+                      borderRadius: 10,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            "Feedback for you:".toString().textMedium(
+                                color: Colors.black,
+                                fontSize: 14
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: RatingBar.builder(
+                                initialRating: double.parse(state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer![0].rating.toString()),
+                                minRating: 0,
+                                itemSize: 20,
+                                direction: Axis.horizontal,
+                                allowHalfRating: false,
+                                itemCount: 5,
+                                ignoreGestures: true,
+                                tapOnlyMode: false,
+                                updateOnDrag: false,
+                                itemPadding: const EdgeInsets.symmetric(horizontal: 0.0,vertical: 0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Color(0xffFFAA00),
+                                ),
+                                onRatingUpdate: (ratings) {
+                                  // print(ratings);
+                                  // onRatingUpdate!(ratings);
+                                  // rating = ratings.toString();
+                                },
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        4.verticalSpace(),
+
+
+                        state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer![0].feedback!=null?state.responseFarmerProjectDetail!.data!.supplierRatingForFarmer![0].feedback.toString().textRegular(fontSize: 12,
+                            maxLines: 2,overflow: TextOverflow.ellipsis):const SizedBox.shrink()
+                      ],
+                    ),
+                  ),
+
+
+
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+            top: -1,
+            left: 0,
+            child: Text(
+              'Supplier',
+              style: figtreeMedium.copyWith(fontSize: 20),
+            )),
+        Positioned(
+            top: 0,
+            right: 10,
+            child: Row(
+              children: [
+                InkWell(
+                    onTap: (){
+                      callOnMobile(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
+                    }, child: SvgPicture.asset(Images.callPrimary)),
+                6.horizontalSpace(),
+                InkWell(onTap: ()async{
+                  await launchWhatsApp(state.responseFarmerProjectDetail!.data!.supplierDetail!.phone ?? '');
+                },child: SvgPicture.asset(Images.whatsapp)),
+                6.horizontalSpace(),
+              ],
+            )),
+      ],
+    ):
+    Stack(
       alignment: Alignment.center,
       children: [
         SizedBox(height: 150, width: screenWidth()),
@@ -783,7 +1093,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                 CircleAvatar(
                     radius: 30,
                     child: CachedNetworkImage(
-                      imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.photo == null ? '' : state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() == false.toString() ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.photo ?? '',
+                      imageUrl: state.responseFarmerProjectDetail!.data!.supplierDetail!.photo.toString() == false.toString() ? '': state.responseFarmerProjectDetail!.data!.supplierDetail!.photo ?? '',
                       errorWidget: (_, __, ___) {
                         return Image.asset(
                           Images.sampleUser,
@@ -854,7 +1164,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
           ),
         ),
         Positioned(
-            top: -5,
+            top: -1,
             left: 0,
             child: Text(
               'Supplier',
@@ -884,14 +1194,14 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
   Widget kpi(contexts,ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
 
-    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
-      kpiData.add(FrontendKpiModel(name: 'Investment',
+   /* if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
+      kpiData.add(FrontendKpiModel(name: 'Project Cost',
           image: Images.investmentKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!)));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.revenue!=null){
-      kpiData.add(FrontendKpiModel(name: 'Revenue',
+      kpiData.add(FrontendKpiModel(name: 'Annual Incremental Income',
           image: Images.revenueKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.revenue!)));
     }
@@ -910,13 +1220,13 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan!=null){
-      kpiData.add(FrontendKpiModel(name: 'Loan',
+      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
           image: Images.loanKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan!)));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!=null){
-      kpiData.add(FrontendKpiModel(name: 'Repayment',
+      kpiData.add(FrontendKpiModel(name: 'Repayment Tenure',
           image: Images.repaymentKpi,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!} MO"));
     }
@@ -977,7 +1287,145 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
         ));
       }
+    }*/
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+        .investment != null) {
+      kpiData.add(FrontendKpiModel(name: 'Project Cost',
+          image: Images.investmentKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .investment!)));
     }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+        .farmerParticipation != null) {
+      kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
+          image: Images.farmerParticipationKpi,
+          actionImage: Images.imageEdit,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .farmerParticipation!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.principleAmount !=
+        null) {
+      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
+          image: Images.loanKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .principleAmount!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
+        null) {
+      kpiData.add(FrontendKpiModel(name: 'Loan',
+          image: Images.loanKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .loan!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+        .revenue != null) {
+      kpiData.add(FrontendKpiModel(name: 'Annual Incremental Income',
+          image: Images.revenueKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .revenue!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.roi !=
+        null) {
+      kpiData.add(FrontendKpiModel(name: 'ROI',
+          image: Images.roiKpi,
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
+              .kpi!.roi!}%"));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+        .repayment != null) {
+      kpiData.add(FrontendKpiModel(name: 'Repayment Tenure',
+          image: Images.repaymentKpi,
+          actionImage: Images.imageEdit,
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
+              .kpi!.repayment!} MO"));
+    }
+
+    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!=null){
+        kpiData.add(FrontendKpiModel(name: 'Repayment Start Date',
+            image: Images.yieldKpi,
+            value: DateFormat('dd MMM, yyyy').format(DateTime.parse(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repaymentStartDate!))
+        ));
+      }
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!=null){
+      kpiData.add(FrontendKpiModel(name: 'EMI',
+          image: Images.emiKpi,
+          value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.emi!)));
+    }
+
+    if(['active', 'hold', "paid", 'completed'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)) {
+
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!=null){
+        kpiData.add(FrontendKpiModel(name: 'Paid EMIs',
+            image: Images.yieldKpi,
+            actionImage: Images.menuIcon,
+            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.paidEmis!}"
+        ));
+      }
+
+      if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
+        kpiData.add(FrontendKpiModel(name: 'Remaining Loan',
+            image: Images.yieldKpi,
+            actionImage: Images.menuIcon,
+            value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
+        ));
+      }
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!=null){
+      kpiData.add(FrontendKpiModel(name: 'Current Yield',
+        image: Images.yieldKpi,
+        // actionImage: Images.menuIcon,
+        value: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.currentYield!} Ltr.',
+      ));
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!=null){
+      kpiData.add(FrontendKpiModel(name: 'Target Yield',
+        image: Images.yieldKpi,
+        value: '${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.expectedYield!} Ltr.',
+      ));
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!=null){
+      kpiData.add(FrontendKpiModel(name: 'Ideal Yield',
+          image: Images.idealKpi,
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.idealYield!} Ltr."
+      ));
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!=null){
+      kpiData.add(FrontendKpiModel(name: 'Target Farm Production',
+          image: Images.yieldKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .targetFarmProduction!)
+        // value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
+      ));
+    }
+
+    if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!=null){
+      kpiData.add(FrontendKpiModel(name: 'MSP',
+          image: Images.yieldKpi,
+          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!} Ltr"
+      ));
+    }
+
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,

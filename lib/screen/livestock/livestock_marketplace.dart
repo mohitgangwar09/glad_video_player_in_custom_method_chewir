@@ -67,7 +67,7 @@ class _LiveStockMarketplaceState extends State<LiveStockMarketplace> {
     return state.responseLivestockList!.data != null ? Padding(
       padding: const EdgeInsets.fromLTRB(20.0, 0, 10, 10),
       child: SizedBox(
-        height: 250,
+        height: state.responseLivestockList!.data!.liveStoclLIst!.isNotEmpty? 250:0,
         child: ListView.separated(
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,

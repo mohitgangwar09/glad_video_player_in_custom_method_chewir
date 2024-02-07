@@ -1560,7 +1560,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
         .investment != null) {
-      kpiData.add(FrontendKpiModel(name: 'Investment',
+      kpiData.add(FrontendKpiModel(name: 'Project Cost',
           image: Images.investmentKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1568,8 +1568,36 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     }
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+        .farmerParticipation != null) {
+      kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
+          image: Images.farmerParticipationKpi,
+          actionImage: Images.imageEdit,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .farmerParticipation!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.principleAmount !=
+        null) {
+      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
+          image: Images.loanKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .principleAmount!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
+        null) {
+      kpiData.add(FrontendKpiModel(name: 'Loan',
+          image: Images.loanKpi,
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .loan!)));
+    }
+
+    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
         .revenue != null) {
-      kpiData.add(FrontendKpiModel(name: 'Revenue',
+      kpiData.add(FrontendKpiModel(name: 'Annual Incremental Income',
           image: Images.revenueKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1584,28 +1612,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
               .kpi!.roi!}%"));
     }
 
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-        .farmerParticipation != null) {
-      kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
-          image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
-          value: getCurrencyString(
-              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-                  .farmerParticipation!)));
-    }
-
-    if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
-        null) {
-      kpiData.add(FrontendKpiModel(name: 'Loan',
-          image: Images.loanKpi,
-          value: getCurrencyString(
-              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
-                  .loan!)));
-    }
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
         .repayment != null) {
-      kpiData.add(FrontendKpiModel(name: 'Repayment',
+      kpiData.add(FrontendKpiModel(name: 'Repayment Tenure',
           image: Images.repaymentKpi,
           actionImage: Images.imageEdit,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
@@ -1639,7 +1649,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       }
 
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
-        kpiData.add(FrontendKpiModel(name: 'Remaining Payable',
+        kpiData.add(FrontendKpiModel(name: 'Remaining Loan',
             image: Images.yieldKpi,
             actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
@@ -1672,12 +1682,15 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!=null){
       kpiData.add(FrontendKpiModel(name: 'Target Farm Production',
           image: Images.yieldKpi,
-          value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
+          value: getCurrencyString(
+              state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
+                  .targetFarmProduction!)
+          // value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
       ));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!=null){
-      kpiData.add(FrontendKpiModel(name: 'Milk Msp',
+      kpiData.add(FrontendKpiModel(name: 'MSP',
           image: Images.yieldKpi,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!} Ltr"
       ));

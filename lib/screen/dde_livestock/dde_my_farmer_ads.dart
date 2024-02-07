@@ -155,7 +155,8 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
 
   Widget landingPage(BuildContext context, LivestockCubitState state){
     return state.responseMyLivestockList!.data != null ? Expanded(
-      child: customGrid(
+      child: state.responseMyLivestockList!.data!.livestocklLIst!.isNotEmpty?
+      customGrid(
           padding: const EdgeInsets.fromLTRB(13,13,13,120),
           list: state.responseMyLivestockList!.data!.livestocklLIst ?? [],
           crossAxisSpacing: 13,
@@ -346,7 +347,13 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
             ),
           ),
         );
-      }),
+      }):const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('No data found'),
+        ],
+      ),
     ) : Padding(
       padding: EdgeInsets.only(top: screenWidth() / 2),
       child: const Column(

@@ -1415,7 +1415,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   Widget kpi(contexts,ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
-      kpiData.add(FrontendKpiModel(name: 'Project Value',
+      kpiData.add(FrontendKpiModel(name: 'Project Cost',
           image: Images.investmentKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!)));
     }

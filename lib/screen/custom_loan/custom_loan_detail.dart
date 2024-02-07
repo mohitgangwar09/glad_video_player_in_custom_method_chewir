@@ -258,6 +258,8 @@ class _CustomLoanDetailState
                             )
                                 : const SizedBox.shrink(),
 
+                            15.verticalSpace(),
+
                             state.responseFarmerProjectDetail!.data!
                                 .farmerProject![0].projectStatus !=
                                 null
@@ -3641,6 +3643,7 @@ class _CustomLoanDetailState
                   farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
                   cartId:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].id!,
                   deliveryStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus!,
+                  remarks: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].remarks,
                   mediaLivestock: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!:[],
                   type:"",
                   cowPrice:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString(),

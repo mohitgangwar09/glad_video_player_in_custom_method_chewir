@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
@@ -363,14 +364,18 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
               fieldHeight: 42,
               // fieldOuterPadding: 2.paddingAll(),
             ),
-            onChanged: (value) {
+            onChanged: (value) async{
               if(value.length == 4){
-                BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerApi(context, value.toString(),
-                    widget.farmerProjectId.toString(),
-                    date,
-                    controller.text ?? '',
-                    "revoked",
-                    widget.projectData.id.toString(),widget.projectData);
+                var future = await BlocProvider.of<LivestockCubit>(context).verifyProjectStatus(context, value.toString(),);
+
+                if(future.status == 200){
+                  BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerApi(context, value.toString(),
+                      widget.farmerProjectId.toString(),
+                      date,
+                      controller.text ?? '',
+                      "revoked",
+                      widget.projectData.id.toString(),widget.projectData);
+                }
               }
 
             },

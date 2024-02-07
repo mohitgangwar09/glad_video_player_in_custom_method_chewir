@@ -945,6 +945,7 @@ class Kpi {
   dynamic roi;
   dynamic farmerParticipation;
   dynamic loan;
+  dynamic principleAmount;
   dynamic repayment;
   dynamic repaymentStartDate;
   dynamic emi;
@@ -984,6 +985,7 @@ class Kpi {
         this.milkSupplyTwoWeek,
         this.milkSupplyOneMonth,
         this.milkMsp,
+        this.principleAmount,
       });
 
   Kpi.fromJson(Map<String, dynamic> json) {
@@ -1008,6 +1010,7 @@ class Kpi {
     milkSupplyOneMonth = json['milk_supply_one_month'];
     milkSupplyTwoWeek = json['milk_supply_two_week'];
     milkMsp = json['milk_msp'];
+    principleAmount = json['principle_amount'];
   }
 
   Map<String, dynamic> toJson() {

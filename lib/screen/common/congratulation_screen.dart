@@ -34,8 +34,22 @@ class CongratulationScreen extends StatelessWidget {
 
                 10.verticalSpace(),
 
-                "The project '${state.responseFarmerProjectDetail!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].name:'' ?? ''}' has been approved on behalf of the farmer. Our designated service provider will start the work as per schedule.".textRegular(fontSize: 16,
-                textAlign: TextAlign.center),
+                if(state.responseFarmerProjectDetail!.data!.supplierDetail != null)
+                  BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"?
+                    "The project '${state.responseFarmerProjectDetail!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].name:'' ?? ''}' has been approved on behalf of the farmer. Our designated service provider will start the work as per schedule.".textRegular(fontSize: 16,
+                        textAlign: TextAlign.center)
+                  :
+                    "The project '${state.responseFarmerProjectDetail!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].name:'' ?? ''}' has been approved successfully. Our designated service provider will start the work as per schedule.".textRegular(fontSize: 16,
+                        textAlign: TextAlign.center),
+
+                if(state.responseFarmerProjectDetail!.data!.seller != null)
+                  BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"?
+                    "The project '${state.responseFarmerProjectDetail!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].name:'' ?? ''}' has been approved on behalf of the farmer.".textRegular(fontSize: 16,
+                        textAlign: TextAlign.center)
+                 :
+                    "The project '${state.responseFarmerProjectDetail!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].name:'' ?? ''}' has been approved successfully.".textRegular(fontSize: 16,
+                        textAlign: TextAlign.center),
+
 
                 /*const SizedBox(height: 210,
                 child: Stack(

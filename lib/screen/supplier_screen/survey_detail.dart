@@ -403,7 +403,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
     List<FrontendKpiModel> kpiData = [];
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!=null){
-      kpiData.add(FrontendKpiModel(name: 'Project Value',
+      kpiData.add(FrontendKpiModel(name: 'Project Cost',
           image: Images.investmentKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.investment!)));
     }

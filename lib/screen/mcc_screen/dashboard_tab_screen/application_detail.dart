@@ -327,11 +327,11 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
             child: (index){
               return InkWell(
                 onTap: () {
-                  if(double.parse(kpiData[index].value!.replaceAll(' LTR', '')) > 0) {
+                  /*if(double.parse(kpiData[index].value!.replaceAll(' LTR', '')) > 0) {
                     MilkProductionYield(type: 'milk_production',
                         farmerId: state.responseFarmerProjectDetail!.data!
                             .farmerProject![0].farmerId.toString()).navigate();
-                  }
+                  }*/
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -872,7 +872,8 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
           mainAxisSpacing: 13,
           mainAxisExtent: 250,
           context, child: (index){
-        return Stack(
+        return state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!=null?
+        Stack(
           children: [
             InkWell(
               onTap: () {
@@ -882,6 +883,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
                   farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
                   cartId:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].id!,
                   deliveryStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus!,
+                  remarks:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].remarks,
                   mediaLivestock: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!:[],
                   type:"",
                   cowPrice:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString(),
@@ -1046,7 +1048,7 @@ class _ApplicationDetailState extends State<ApplicationDetail> {
               ),
             ):const SizedBox.shrink()
           ],
-        );
+        ):const SizedBox.shrink();
       }),
 
       20.verticalSpace(),

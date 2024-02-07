@@ -145,7 +145,9 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(status: ProjectStatus.success, responseDdeProject: response));
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      if(response!=null){
+        showCustomToast(context, response.message.toString());
+      }
     }
   }
 

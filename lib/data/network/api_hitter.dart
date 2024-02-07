@@ -229,7 +229,7 @@ class ApiHitter {
 
   ApiResponse exception(DioException error) {
     return ApiResponse(false,
-        msg: error.response != null ? error.response!.data['message'].toString() : '',
+        msg: error.response != null ? error.response!.data['message'].toString() : 'Network Error',
       statusCode: NetworkExceptions.getErrorMessage(
         NetworkExceptions.getDioException(error),
       )

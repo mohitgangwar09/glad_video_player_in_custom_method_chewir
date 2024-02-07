@@ -17,6 +17,8 @@ import 'package:glad/screen/custom_widget/circular_percent_indicator.dart';
 import 'package:glad/screen/dde_livestock/add_update_participation.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/dde_screen/project_detail_statement.dart';
+import 'package:glad/screen/dde_screen/project_kyc/kyc_update.dart';
+import 'package:glad/screen/dde_screen/project_kyc/view_loan_kyc.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/dde_screen/track_progress.dart';
 import 'package:glad/screen/farmer_screen/common/add_remark.dart';
@@ -124,6 +126,148 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
                               inviteExpert(context, state):const SizedBox.shrink(),
+
+                            state.responseFarmerProjectDetail!.data!
+                                .farmerProject![0].rejectStatus ==
+                                1
+                                ? Padding(
+                              padding: const EdgeInsets.only(bottom: 15.0,top: 20),
+                              child: customProjectContainer(
+                                marginLeft: 0,
+                                marginTop: 0,
+                                borderRadius: 14,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Rejection Remarks:-  ",
+                                        style: figtreeMedium.copyWith(
+                                            color: Colors.red),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          state
+                                              .responseFarmerProjectDetail!
+                                              .data!
+                                              .farmerProject![0]
+                                              .rejectRemark ??
+                                              '',
+                                          style: figtreeMedium.copyWith(
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                                : const SizedBox.shrink(),
+
+                            state.responseFarmerProjectDetail!.data!
+                                .farmerProject![0].projectStatus !=
+                                null
+                                ? state.responseFarmerProjectDetail!.data!
+                                .farmerProject![0].projectStatus
+                                .toString()
+                                .toUpperCase() ==
+                                "interested".toUpperCase()
+                                ? Center(child: customButton(
+                                state
+                                    .responseFarmerProjectDetail!
+                                    .data!
+                                    .farmerProject![0]
+                                    .rejectStatus ==
+                                    0
+                                    ? "Apply for Loan"
+                                    : 'View Document',
+                                // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 16,
+                                    color: Colors.white),
+                                onTap: () {
+                                  if(state
+                                      .responseFarmerProjectDetail!
+                                      .data!
+                                      .farmerProject![0].farmerMaster!.kycStatus!=null){
+                                    if(state
+                                        .responseFarmerProjectDetail!
+                                        .data!
+                                        .farmerProject![0].farmerMaster!.kycStatus == "verified"){
+                                      if (state
+                                          .responseFarmerProjectDetail!
+                                          .data!
+                                          .farmerProject![0]
+                                          .farmerProjectKycDocument ==
+                                          null) {
+                                        ProjectKYC(
+                                            farmerId: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .farmerMaster!
+                                                .id!,
+                                            userId: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .farmerMaster!
+                                                .userId
+                                                .toString(),
+                                            farmerMaster: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .farmerMaster!,
+                                            farmerProjectId: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .id
+                                                .toString())
+                                            .navigate();
+                                      } else {
+                                        ViewLoanKyc(
+                                            farmerDocuments: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .farmerProjectKycDocument!,
+                                            rejectStatus: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .rejectStatus,
+                                            farmerId: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .farmerMaster!
+                                                .id!,
+                                            farmerMaster: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .farmerMaster!,
+                                            farmerProjectId: state
+                                                .responseFarmerProjectDetail!
+                                                .data!
+                                                .farmerProject![0]
+                                                .id
+                                                .toString())
+                                            .navigate();
+                                      }
+                                    }
+                                    else{
+                                      showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                    }
+                                  }else{
+                                    showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                  }
+                                }),
+                            )
+                                : const SizedBox.shrink()
+                                : const SizedBox.shrink(),
 
                             widget.type == "seller"?
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus == "doc_verified"?
@@ -2152,15 +2296,16 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
               onTap: () {
                 LoanLivestockDetail(id: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStockId.toString(), isMyLivestock: false,
                 cowQty:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowQty.toString(),
-                    status:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
+                status:state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString(),
                 farmerProjectId:state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
                 cartId:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].id!,
                 deliveryStatus:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].deliveryStatus!,
+                remarks:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].remarks,
                 mediaLivestock: state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].media!:[],
-                  type:widget.type,
-                  cowPrice:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString(),
-                  sellerDde: state.responseFarmerProjectDetail!.data!.seller,
-                  farmerMasterUser : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!
+                type:widget.type,
+                cowPrice:state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].cowPrice.toString(),
+                sellerDde: state.responseFarmerProjectDetail!.data!.seller,
+                farmerMasterUser : state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!
                 ).navigate();
               },
               child: customShadowContainer(

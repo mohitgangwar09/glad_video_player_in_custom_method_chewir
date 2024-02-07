@@ -216,7 +216,7 @@ class _KYCUpdateState extends State<KYCUpdate> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20.0),
                             child: customButton('Cancel',
-                                onTap: () {},
+                                onTap: () {pressBack();},
                                 radius: 40,
                                 width: double.infinity,
                                 height: 60,

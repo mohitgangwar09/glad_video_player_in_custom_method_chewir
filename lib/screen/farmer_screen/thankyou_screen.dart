@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -58,10 +60,16 @@ class ThankYou extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else if(projectStatus == 'revoked')
-                  Text(
-                      'The loan application has been revoked on behalf of the farmer',
-                      textAlign: TextAlign.center,
-                      style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
+                  if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde")
+                    Text(
+                        'The loan application has been revoked on behalf of the farmer',
+                        textAlign: TextAlign.center,
+                        style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
+                  else
+                    Text(
+                        'The loan application has been revoked successfully',
+                        textAlign: TextAlign.center,
+                        style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else
                   Text(
                       'Farmer feedback has been submitted successfully.',
