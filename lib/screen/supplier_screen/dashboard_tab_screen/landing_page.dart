@@ -264,26 +264,26 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                           )
                                         ],
                                       )
-                                  // else if(stateprofile.responseProfile!.data!.user!.kycStatus == "expired")
-                                  //   Row(
-                                  //         children: [
-                                  //           14.horizontalSpace(),
-                                  //           const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
-                                  //           4.horizontalSpace(),
-                                  //           "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
-                                  //           10.horizontalSpace(),
-                                  //           InkWell(
-                                  //             onTap: (){
-                                  //               const SupplierUpdateKyc().navigate();
-                                  //             },
-                                  //             child: Text(
-                                  //               'Documents',
-                                  //               style: figtreeMedium.copyWith(
-                                  //                   fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
-                                  //             ),
-                                  //           )
-                                  //         ],
-                                  //       )
+                                  else if(stateprofile.responseProfile!.data!.user!.kycStatus == "expired")
+                                    Row(
+                                          children: [
+                                            14.horizontalSpace(),
+                                            const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
+                                            4.horizontalSpace(),
+                                            "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
+                                            10.horizontalSpace(),
+                                            InkWell(
+                                              onTap: (){
+                                                const SupplierUpdateKyc().navigate();
+                                              },
+                                              child: Text(
+                                                'Documents',
+                                                style: figtreeMedium.copyWith(
+                                                    fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                              ),
+                                            )
+                                          ],
+                                        )
                                   else if(stateprofile.responseProfile!.data!.user!.kycStatus == 'rejected')
                                         Row(
                                           children: [

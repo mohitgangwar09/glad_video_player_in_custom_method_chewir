@@ -402,26 +402,26 @@ class _SupplierProfileState extends State<SupplierProfile> {
                             )*/
                           ],
                         )
-                    // else if(state.responseProfile!.data!.user!.kycStatus == "expired")
-                    //   Row(
-                    //         children: [
-                    //
-                    //           05.horizontalSpace(),
-                    //           Text(
-                    //             'KYC expired',
-                    //             style: figtreeMedium.copyWith(
-                    //                 fontSize: 12, color: ColorResources.black),
-                    //           ),
-                    //           10.horizontalSpace(),
-                    //           Text(
-                    //             'Upload Documents',
-                    //             style: figtreeMedium.copyWith(
-                    //                 fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
-                    //           )
-                    //         ],
-                    //       )
-                        else if(state.responseProfile!.data!.user!.kycStatus == "rejected")
-                            Row(
+                    else if(state.responseProfile!.data!.user!.kycStatus == "expired")
+                      Row(
+                            children: [
+
+                              05.horizontalSpace(),
+                              Text(
+                                'Your KYC expired',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: ColorResources.black),
+                              ),
+                              10.horizontalSpace(),
+                              Text(
+                                'Documents',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: ColorResources.maroon,decoration: TextDecoration.underline),
+                              )
+                            ],
+                          )
+                    else if(state.responseProfile!.data!.user!.kycStatus == "rejected")
+                      Row(
                               children: [
                                 const Icon(Icons.watch_later,size: 15,color: Colors.grey,),
                                 05.horizontalSpace(),

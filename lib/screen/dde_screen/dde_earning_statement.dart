@@ -225,19 +225,21 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                                                   fontSize: 18,
                                                   color: ColorResources.black),
 
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: [
-                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
-                                                      fontSize: 14,
-                                                      color: ColorResources.black),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children: [
+                                                    state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
+                                                        fontSize: 14,
+                                                        color: ColorResources.black),
 
-                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString().textMedium(
-                                                      color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString() == 'pending'?const Color(0xff6A0030):
-                                                      state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString() == 'due'?const Color(0xff12CE57):Colors.black
-                                                  )
+                                                    state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString().textMedium(
+                                                        color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString() == 'pending'?const Color(0xff6A0030):
+                                                        state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString() == 'due'?const Color(0xff12CE57):Colors.black
+                                                    )
 
-                                                ],
+                                                  ],
+                                                ),
                                               )
                                             ],
                                           ),
@@ -288,19 +290,21 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                                                   )
                                                 ],
                                               ),
-                                              Container(
-                                                padding: const EdgeInsets.all(12),
-                                                decoration: boxDecoration(
-                                                    backgroundColor:
-                                                    const Color(0xFFFFF3F4),
-                                                    borderColor:
-                                                    const Color(0xffF6B51D),
-                                                    borderRadius: 40,
-                                                    borderWidth: 1),
-                                                child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount+state.responseAccountStatement!.data!.farmerProjectFinancial![index].receivableAmount).toString().textBold(
-                                                    fontSize: 18,
-                                                    color:
-                                                    ColorResources.black),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(12),
+                                                  decoration: boxDecoration(
+                                                      backgroundColor:
+                                                      const Color(0xFFFFF3F4),
+                                                      borderColor:
+                                                      const Color(0xffF6B51D),
+                                                      borderRadius: 40,
+                                                      borderWidth: 1),
+                                                  child: getCurrencyString(state.responseAccountStatement!.data!.farmerProjectFinancial![index].payableAmount+state.responseAccountStatement!.data!.farmerProjectFinancial![index].receivableAmount).toString().textBold(
+                                                      fontSize: 18,
+                                                      color:
+                                                      ColorResources.black),
+                                                ),
                                               )
                                             ],
                                           ),
