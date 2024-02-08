@@ -737,8 +737,8 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   }
 
   // addTeamMembersApi
-  Future<void> updateTeamMembersApi(context,String id,String name,String email, String phone) async {
-    var response = await apiRepository.updateTeamMemberApi(id,name, email, phone);
+  Future<void> updateTeamMembersApi(context,String id,String name,String email, String phone,String status) async {
+    var response = await apiRepository.updateTeamMemberApi(id,name, email, phone,status);
     if (response.status == 200) {
       showCustomToast(context, response.message.toString());
       await teamMemberListApi(context);

@@ -11,6 +11,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 class UpdateTeamMembers extends StatefulWidget {
   const UpdateTeamMembers({super.key,required this.dataMemberList});
@@ -25,6 +26,7 @@ class _UpdateTeamMembersState extends State<UpdateTeamMembers> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  String? teamMemberStatus;
 
   @override
   void initState() {
@@ -32,6 +34,7 @@ class _UpdateTeamMembersState extends State<UpdateTeamMembers> {
     nameController.text = widget.dataMemberList.name.toString();
     phoneController.text = widget.dataMemberList.phone.toString();
     emailController.text = widget.dataMemberList.email.toString();
+    teamMemberStatus = widget.dataMemberList.status.toString();
   }
 
   bool isEmail(String em) {
@@ -98,6 +101,42 @@ class _UpdateTeamMembersState extends State<UpdateTeamMembers> {
                           controller:  emailController,
                           enabled: true,),
 
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: SizedBox(
+                              height: 38,
+                              child: LiteRollingSwitch(
+                                value: teamMemberStatus == "active"?true:false,
+                                width: teamMemberStatus == "active"?100:120,
+                                // width: 100,
+                                textOn: 'Active',
+                                textOff: 'Inactive',
+                                // textSize: 11.5,
+                                textOffColor: Colors.black,
+                                textOnColor: Colors.white,
+                                colorOn: const Color(0xff4BC56F),
+                                colorOff: const Color(0xffECECFF),
+                                iconOn: Icons.lightbulb_outline,
+                                iconOff: Icons.power_settings_new_sharp,
+                                animationDuration: const Duration(milliseconds: 300),
+                                onChanged: (bool state) {
+                                  // print('turned ${(state) ? 'on' : 'off'}');
+                                  setState(() {
+                                    // teamMemberStatus == "active"? 'inactive' : 'active';
+                                    teamMemberStatus = (state) ? 'active' : 'inactive';
+                                    // print(teamMemberStatus);
+                                  });
+                                },
+                                onDoubleTap: () {},
+                                onSwipe: () {},
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                        ),
+
                         40.verticalSpace(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -115,7 +154,7 @@ class _UpdateTeamMembersState extends State<UpdateTeamMembers> {
                               }else if(!isEmail(emailController.text)){
                                 showCustomToast(context, 'Please enter valid email');
                               }else{
-                                BlocProvider.of<ProfileCubit>(context).updateTeamMembersApi(context, widget.dataMemberList.id.toString() ,nameController.text, emailController.text, phoneController.text.toString());
+                                BlocProvider.of<ProfileCubit>(context).updateTeamMembersApi(context, widget.dataMemberList.id.toString() ,nameController.text, emailController.text, phoneController.text.toString(),teamMemberStatus.toString());
                               }
                             },
                             radius: 40,

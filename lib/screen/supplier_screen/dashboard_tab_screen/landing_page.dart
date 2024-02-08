@@ -700,7 +700,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                 }
               }
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.all(20),
               child: Stack(
                 children: [
@@ -780,7 +780,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                       child: SvgPicture.asset(Images.menuIcon))
                 ],
               ),
-            ),
+            ),*/
             10.verticalSpace(),
             CommunityForum(
               onTapShowAll: () {

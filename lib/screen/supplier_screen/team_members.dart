@@ -115,46 +115,50 @@ class _TeamMembersState extends State<TeamMembers> {
                                                 children: [
                                                   Image.asset(Images.sampleUser),
                                                   15.horizontalSpace(),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(state.filterMemberList![index].name??'',
-                                                          style: figtreeMedium
-                                                              .copyWith(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black)),
-                                                      4.verticalSpace(),
-                                                      Row(
-                                                        children: [
-                                                          Text(state.filterMemberList![index].email??'',
-                                                              style: figtreeRegular
-                                                                  .copyWith(
-                                                                  fontSize: 12,
-                                                                  color: ColorResources
-                                                                      .fieldGrey)),
-                                                          8.horizontalSpace(),
-                                                          Container(
-                                                            height: 4,
-                                                            width: 4,
-                                                            decoration:
-                                                            const BoxDecoration(
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(state.filterMemberList![index].name??'',
+                                                            style: figtreeMedium
+                                                                .copyWith(
+                                                                fontSize: 18,
                                                                 color: Colors
-                                                                    .black,
-                                                                shape: BoxShape
-                                                                    .circle),
-                                                          ),
-                                                          8.horizontalSpace(),
-                                                          Text('+256 ${state.filterMemberList![index].phone??''}',
-                                                              style: figtreeRegular
-                                                                  .copyWith(
-                                                                  fontSize: 12,
-                                                                  color: ColorResources
-                                                                      .fieldGrey)),
-                                                        ],
-                                                      ),
-                                                    ],
+                                                                    .black)),
+                                                        4.verticalSpace(),
+                                                        Row(
+                                                          children: [
+                                                            Text(state.filterMemberList![index].email??'',
+                                                                style: figtreeRegular
+                                                                    .copyWith(
+                                                                    fontSize: 12,
+                                                                    color: ColorResources
+                                                                        .fieldGrey)),
+                                                            8.horizontalSpace(),
+                                                            Container(
+                                                              height: 4,
+                                                              width: 4,
+                                                              decoration:
+                                                              const BoxDecoration(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                            ),
+                                                            8.horizontalSpace(),
+                                                            Expanded(
+                                                              child: Text('+256 ${state.filterMemberList![index].phone??''}',
+                                                                  style: figtreeRegular
+                                                                      .copyWith(
+                                                                      fontSize: 12,
+                                                                      color: ColorResources
+                                                                          .fieldGrey)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),

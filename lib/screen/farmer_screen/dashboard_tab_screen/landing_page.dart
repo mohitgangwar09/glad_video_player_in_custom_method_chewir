@@ -149,7 +149,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                     )
                                   ],
                                 )
-                              else if(state.response!.user!.farmerMaster!.kycStatus == "pending" || state.response!.user!.farmerMaster!.kycStatus == "expired")
+                              else if(state.response!.user!.farmerMaster!.kycStatus == "pending")
                                 Row(
                                   children: [
                                     14.horizontalSpace(),
@@ -171,6 +171,26 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                                     )
                                   ],
                                 )
+                              else if(state.response!.user!.farmerMaster!.kycStatus == "expired")
+                                Row(
+                                    children: [
+                                      14.horizontalSpace(),
+                                      SvgPicture.asset(Images.kyc),
+                                      4.horizontalSpace(),
+                                      "Your KYC is expired.".textSemiBold(fontSize: 12,color: Colors.white),
+                                      10.horizontalSpace(),
+                                      InkWell(
+                                        onTap: (){
+                                          EditKYCDocuments(farmerDocuments: state.response!.user!.farmerMaster!.kycDocument, farmerId: state.response!.user!.farmerMaster!.id, userId: state.response!.user!.id.toString()).navigate();
+                                        },
+                                        child: Text(
+                                          'Edit Documents',
+                                          style: figtreeMedium.copyWith(
+                                              fontSize: 12, color: ColorResources.white,decoration: TextDecoration.underline),
+                                        ),
+                                      )
+                                    ],
+                                  )
                               else if(state.response!.user!.farmerMaster!.kycStatus == "rejected")
                                 Row(
                                       children: [

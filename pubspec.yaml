@@ -64,6 +64,7 @@ dependencies:
   info_popup: ^4.3.1
   grouped_list: ^5.1.2
   google_geocoding_api: ^1.4.1
+  lite_rolling_switch: ^1.0.1
 
 dev_dependencies:
   flutter_test:

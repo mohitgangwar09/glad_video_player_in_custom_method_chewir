@@ -10,6 +10,7 @@ import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 class AddTeamMembers extends StatefulWidget {
   const AddTeamMembers({super.key});
@@ -23,6 +24,7 @@ class _AddTeamMembersState extends State<AddTeamMembers> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  String teamMemberStatus = "active";
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +83,40 @@ class _AddTeamMembersState extends State<AddTeamMembers> {
                         CustomTextField2(title: 'Email',
                           controller:  emailController,
                           enabled: true,),
+
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: SizedBox(
+                              height: 38,
+                              child: LiteRollingSwitch(
+                                value: true,
+                                width: teamMemberStatus == "active"?100:120,
+                                // width: 100,
+                                textOn: 'Active',
+                                textOff: 'Inactive',
+                                // textSize: 11.5,
+                                textOffColor: Colors.black,
+                                textOnColor: Colors.white,
+                                colorOn: const Color(0xff4BC56F),
+                                colorOff: const Color(0xffECECFF),
+                                iconOn: Icons.lightbulb_outline,
+                                iconOff: Icons.power_settings_new,
+                                animationDuration: const Duration(milliseconds: 300),
+                                onChanged: (bool state) {
+
+                                  setState(() {
+                                    teamMemberStatus = (state) ? 'active' : 'inactive';
+                                  });
+                                },
+                                onDoubleTap: () {},
+                                onSwipe: () {},
+                                onTap: () {},
+                              ),
+                            ),
+                          ),
+                        ),
 
                         40.verticalSpace(),
                         Padding(

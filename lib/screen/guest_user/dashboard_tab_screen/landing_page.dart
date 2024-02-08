@@ -108,8 +108,8 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
               address:
               state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.address ?? '' : '',
               image: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.photo ?? '',
-              lat: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.latitude ?? 0 : '',
-              long: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.longitude ?? 0 : '',
+              lat: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.latitude ?? 0 : 0,
+              long: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.longitude ?? 0 : 0,
             ),
             10.verticalSpace(),
             if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive == null)

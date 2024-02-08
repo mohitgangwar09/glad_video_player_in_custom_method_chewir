@@ -104,14 +104,17 @@ class ProfileRepository {
 
   ///////////////// updateTeamMemberApi //////////
 
-  Future<ResponseOtpModel> updateTeamMemberApi(String id,String name, String email, String phone) async {
+  Future<ResponseOtpModel> updateTeamMemberApi(String id,String name, String email, String phone,String status) async {
 
     var data = {
       "id" : id,
       "name" : name,
       "email" : email,
       "phone" : phone,
+      "status" : status,
     };
+
+    print(data);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.updateTeamMembersApi,
