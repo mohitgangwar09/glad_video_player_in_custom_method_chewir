@@ -129,6 +129,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                           ),
                           child: Row(
                             children: [
+
                               if(state.response!.user!.farmerMaster!.kycStatus == "not_available")
                                 Row(
                                   children: [

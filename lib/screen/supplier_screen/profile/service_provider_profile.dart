@@ -408,7 +408,7 @@ class _SupplierProfileState extends State<SupplierProfile> {
 
                               05.horizontalSpace(),
                               Text(
-                                'Your KYC expired',
+                                'Your KYC is expired',
                                 style: figtreeMedium.copyWith(
                                     fontSize: 12, color: ColorResources.black),
                               ),
@@ -426,7 +426,7 @@ class _SupplierProfileState extends State<SupplierProfile> {
                                 const Icon(Icons.watch_later,size: 15,color: Colors.grey,),
                                 05.horizontalSpace(),
                                 Text(
-                                  'KYC is rejected',
+                                  'Your KYC is rejected',
                                   style: figtreeMedium.copyWith(
                                       fontSize: 12, color: ColorResources.black),
                                 ),

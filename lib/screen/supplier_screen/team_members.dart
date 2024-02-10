@@ -139,10 +139,9 @@ class _TeamMembersState extends State<TeamMembers> {
                                                             Container(
                                                               height: 4,
                                                               width: 4,
-                                                              decoration:
-                                                              const BoxDecoration(
-                                                                  color: Colors
-                                                                      .black,
+                                                              decoration: BoxDecoration(
+                                                                  color: state.filterMemberList![index].status.toString() == "active"?Colors
+                                                                      .green:Colors.red,
                                                                   shape: BoxShape
                                                                       .circle),
                                                             ),

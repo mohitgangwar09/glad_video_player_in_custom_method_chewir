@@ -305,7 +305,6 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
                         BlocProvider.of<ProjectCubit>(context).sendProjectStatusOtpApi(context,
                             widget.projectData.phone.toString()
                         );
-                        // BlocProvider.of<AuthCubit>(context).resendOtp(context,widget.);
                         setState(() {
                           secondsRemaining = 30;
                           enableResend = false;
@@ -366,16 +365,16 @@ class _AddRemarkRevokeState extends State<AddRemarkRevoke> {
             ),
             onChanged: (value) async{
               if(value.length == 4){
-                var future = await BlocProvider.of<LivestockCubit>(context).verifyProjectStatus(context, value.toString(),);
+                // var future = await BlocProvider.of<LivestockCubit>(context).verifyProjectStatus(context, value.toString(),);
 
-                if(future.status == 200){
+                // if(future.status == 200){
                   BlocProvider.of<ProjectCubit>(context).verifyProjectStatusFarmerApi(context, value.toString(),
                       widget.farmerProjectId.toString(),
                       date,
                       controller.text ?? '',
                       "revoked",
                       widget.projectData.id.toString(),widget.projectData);
-                }
+                // }
               }
 
             },

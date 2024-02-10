@@ -270,7 +270,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                             14.horizontalSpace(),
                                             const Icon(Icons.watch_later_outlined,size: 15,color: Colors.white,),
                                             4.horizontalSpace(),
-                                            "Your KYC expired.".textSemiBold(fontSize: 12,color: Colors.white),
+                                            "Your KYC is expired.".textSemiBold(fontSize: 12,color: Colors.white),
                                             10.horizontalSpace(),
                                             InkWell(
                                               onTap: (){

@@ -331,7 +331,8 @@ class ProjectRepository {
   Future<MobileLoginModel> verifyProjectStatusApi(String otp, String id) async {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.verifyMobileApi,
-        data: {'otp_number': otp,"user_id": id});
+        data: {'otp_number': otp,"user_id": id},
+        headers: {'Authorization': 'Bearer ${getUserToken()}'});
     if (apiResponse.status) {
       return MobileLoginModel.fromJson(apiResponse.response!.data);
     } else {
