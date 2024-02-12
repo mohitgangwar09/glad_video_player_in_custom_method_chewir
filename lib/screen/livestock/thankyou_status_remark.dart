@@ -17,8 +17,9 @@ import 'package:glad/utils/styles.dart';
 
 
 class ThankStatusRemarkYou extends StatelessWidget {
-  const ThankStatusRemarkYou({super.key,this.profileData});
+  const ThankStatusRemarkYou({super.key,this.profileData,this.loanStatus});
   final FarmerMaster? profileData;
+  final String? loanStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +51,16 @@ class ThankStatusRemarkYou extends StatelessWidget {
                     .textMedium(fontSize: 30, color: ColorResources.black),
                 10.verticalSpace(),
 
-                  Text(
-                      'You have successfully accepted the loan application.',
-                      textAlign: TextAlign.center,
-                      style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
+                  if(loanStatus.toString() == "rejected")
+                    Text(
+                        'You have successfully rejected the loan application.',
+                        textAlign: TextAlign.center,
+                        style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
+                else
+                    Text(
+                        'You have successfully accepted the loan application.',
+                        textAlign: TextAlign.center,
+                        style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
 
 
                 30.verticalSpace(),

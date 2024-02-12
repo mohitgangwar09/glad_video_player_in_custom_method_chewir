@@ -184,7 +184,8 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' || state.responseFarmerProfile!.farmer!.kycStatus == 'pending' || state.responseFarmerProfile!.farmer!.kycStatus == 'rejected' ? SvgPicture.asset(Images.kycUnverified) : Container(
+                                              state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' || state.responseFarmerProfile!.farmer!.kycStatus == 'pending'
+                                                  || state.responseFarmerProfile!.farmer!.kycStatus == 'rejected'|| state.responseFarmerProfile!.farmer!.kycStatus == 'expired' ? SvgPicture.asset(Images.kycUnverified) : Container(
                                                   decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
                                                   padding: const EdgeInsets.all(4),
                                                   child: const Icon(Icons.done, color: Colors.white, size: 16,)),

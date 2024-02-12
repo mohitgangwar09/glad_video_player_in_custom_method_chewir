@@ -125,7 +125,10 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                 items: List.generate(state.responseLivestockDetail!.data!.liveStockDocumentFiles!.length, (index) =>
                     ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: CachedNetworkImage(imageUrl: state.responseLivestockDetail!.data!.liveStockDocumentFiles![index].originalUrl ?? '', width: screenWidth(), fit: BoxFit.cover,))),
+                        child: CachedNetworkImage(imageUrl: state.responseLivestockDetail!.data!.liveStockDocumentFiles![index].originalUrl ?? '', width: screenWidth(), fit: BoxFit.cover,
+                            errorWidget: (_, __, ___) =>
+                                Image.asset(Images.sampleVideo,width: screenWidth(),)
+                        ))),
                 options: CarouselOptions(
                   // autoPlay: true,
                   clipBehavior: Clip.none,

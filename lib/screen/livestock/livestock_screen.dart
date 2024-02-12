@@ -449,7 +449,10 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                       SizedBox(
                           // padding: 2.marginAll(),
                           width: screenWidth(),
-                          height:140,child: ClipRRect(borderRadius: const BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),child: CachedNetworkImage(imageUrl: state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles![0].originalUrl ?? '',fit: BoxFit.cover,)))
+                          height:140,child: ClipRRect(borderRadius: const BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),child: CachedNetworkImage(imageUrl: state.responseLivestockList!.data!.liveStoclLIst![index].liveStockDocumentFiles![0].originalUrl ?? '',
+                        fit: BoxFit.cover,
+                        errorWidget: (_, __, ___) =>
+                            Image.asset(Images.sampleVideo,width: screenWidth(),),)))
                     else
                       const SizedBox(height: 140,),
 

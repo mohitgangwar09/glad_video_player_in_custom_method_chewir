@@ -195,7 +195,7 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
 
       ThankStatusRemarkYou(
-          profileData:profileData
+          profileData:profileData,loanStatus: loanStatus,
       ).navigate(isInfinity: true);
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
