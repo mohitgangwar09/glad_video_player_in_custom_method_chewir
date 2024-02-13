@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
+import 'package:glad/notification/fcm_helper.dart';
 import 'package:glad/screen/common/community_forum.dart';
 import 'package:glad/screen/common/dde_in_area.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
@@ -33,6 +36,7 @@ import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
+import 'package:glad/utils/sharedprefrence.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -53,6 +57,15 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
     });
+    Future.delayed(const Duration(seconds: 3), () => handleKillStateNotification);
+  }
+
+  handleKillStateNotification() async {
+    String payload = await SharedPrefManager.getPreferenceString('payload');
+    if(payload != '') {
+      FcmHelper.handleBackgroundStateNavigation(jsonDecode(payload));
+      await SharedPrefManager.savePrefString('payload', '');
+    }
   }
 
   @override
