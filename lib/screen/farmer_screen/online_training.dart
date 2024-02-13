@@ -349,7 +349,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                         )
                                       ],
                                     ),
-                                    Positioned(
+                                    /*Positioned(
                                       right: 10,
                                       top: 10,
                                       child: SvgPicture.asset(
@@ -357,7 +357,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
                                         width: 35,
                                         height: 35,
                                       ),
-                                    )
+                                    )*/
                                   ],
                                 )),
                           ),

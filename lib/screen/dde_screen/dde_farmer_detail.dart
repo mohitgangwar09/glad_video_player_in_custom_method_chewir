@@ -173,7 +173,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                         InkWell(
                                           onTap: state.responseFarmerProfile!.farmer!.kycStatus == 'not_available' ? () {
                                             KYCUpdate(farmerId: state.responseFarmerProfile!.farmer!.id!, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
-                                          } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' ? () {
+                                          } : state.responseFarmerProfile!.farmer!.kycStatus == 'pending' || state.responseFarmerProfile!.farmer!.kycStatus == 'expired'? () {
                                             EditKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!, farmerId: state.responseFarmerProfile!.farmer!.id!, userId: state.responseFarmerProfile!.farmer!.userId.toString()).navigate();
                                           } : state.responseFarmerProfile!.farmer!.kycStatus == 'verified' ? () {
                                             ViewKYCDocuments(farmerDocuments: state.responseFarmerProfile!.farmer!.farmerDocuments!).navigate();

@@ -45,8 +45,10 @@ class _CommunityCommentListState extends State<CommunityCommentList> {
                   color: ColorResources.maroon,
                 ));
           } else if (state.responseCommunityCommentList == null) {
-            return Center(child: Text("${state.responseCommunityCommentList} Api Error"));
-          } else {
+            return Center(child: Text(" Api Error",style: figtreeMedium.copyWith(
+              color: Colors.black
+            ),));
+          }else {
             return Container(
               color: Colors.white,
               child: Stack(
@@ -64,7 +66,13 @@ class _CommunityCommentListState extends State<CommunityCommentList> {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
+
+                                state.responseCommunityCommentList!.data == null?
+                                    SizedBox(height: 500,child: Center(child:"No Comments Available".textRegular(),))
+                                    :const SizedBox.shrink(),
+
                                 20.verticalSpace(),
+
                                 customList(
                                   list: state.responseCommunityCommentList!.data ?? [],
                                   child: (index) => state.responseCommunityCommentList!.data![index].createdBy.toString() == context.read<CommunityCubit>().sharedPreferences.getString(AppConstants.userId) ?
