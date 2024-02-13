@@ -327,7 +327,8 @@ class _NewsAndEventState extends State<NewsAndEvent> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SvgPicture.asset(Images.newsI),
+                                "".textRegular(),
+                                // SvgPicture.asset(Images.newsI),
                                 SvgPicture.asset(Images.menuIcon)
                               ],
                             ),

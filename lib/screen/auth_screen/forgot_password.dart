@@ -35,17 +35,26 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         },
         child: Scaffold(
           backgroundColor: ColorResources.maroon,
-          body: hideKeyboard(
-            context,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: screenWidth(),
-                height: screenHeight(),
-                child: authBackgroundForgotOtp(
-                  widget: mainView(),
+          body: Stack(
+            children: [
+              hideKeyboard(
+                context,
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    width: screenWidth(),
+                    height: screenHeight(),
+                    child: authBackgroundForgotOtp(
+                      widget: mainView(),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Platform.isIOS?
+                  Positioned(top: 50,left: 15,child: InkWell(onTap: (){
+                    pressBack();
+                  },child: const Icon(Icons.arrow_back_ios,color: Colors.white,))):
+              const SizedBox.shrink()
+            ],
           ),
         ),
       ),

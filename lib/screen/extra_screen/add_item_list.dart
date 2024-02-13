@@ -1,162 +1,239 @@
-import 'package:flutter/material.dart';
+// Copyright 2013 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
-class CowsAndYields extends StatefulWidget {
-  const CowsAndYields({super.key});
+// ignore_for_file: public_member_api_docs
+
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class MyAppLaunchPhone extends StatelessWidget {
+  const MyAppLaunchPhone({super.key});
 
   @override
-  CowsAndYieldsState createState() => CowsAndYieldsState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'URL Launcher',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'URL Launcher'),
+    );
+  }
 }
 
-class CowsAndYieldsState extends State<CowsAndYields> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController;
-  static List<String> productionList = [""];
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  bool _hasCallSupport = false;
+  Future<void>? _launched;
+  String _phone = '';
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
+    // Check for phone call support.
+    canLaunchUrl(Uri(scheme: 'tel', path: '123')).then((bool result) {
+      setState(() {
+        _hasCallSupport = result;
+      });
+    });
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
   }
 
+  Future<void> _launchInBrowserView(Uri url) async {
+    // if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+    //   throw Exception('Could not launch $url');
+    // }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(title: const Text('Cows And Yield'),),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 32.0),
-                child: TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                      hintText: 'Enter your Farm name'
-                  ),
+  Future<void> _launchInWebView(Uri url) async {
+    if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
-                ),
-              ),
-              const SizedBox(height: 20,),
-              const Text('Add Production', style: TextStyle(
-                  fontWeight: FontWeight.w700, fontSize: 16),),
-              ..._getProduction(),
-              const SizedBox(height: 40,),
-              TextButton(
-                onPressed: (){
-                  // if(_formKey.currentState.validate()){
-                    _formKey.currentState?.save();
-                    print(productionList);
-                  // }
-                },
-                child: const Text('Submit'),
-                // color: Colors.green,
-              ),
-            ],
-          ),
-        ),
-      ),
+  Future<void> _launchAsInAppWebViewWithCustomHeaders(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(
+          headers: <String, String>{'my_header_key': 'my_header_value'}),
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _launchInWebViewWithoutJavaScript(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(enableJavaScript: false),
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _launchInWebViewWithoutDomStorage(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(enableDomStorage: false),
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _launchUniversalLinkIOS(Uri url) async {
+    final bool nativeAppLaunchSucceeded = await launchUrl(
+      url,
+      mode: LaunchMode.externalNonBrowserApplication,
     );
-  }
-
-  Widget _addRemoveButton(bool add, int index){
-    return InkWell(
-      onTap: (){
-        if(add){
-          productionList.insert(0, "");
-        }
-        else {
-          productionList.removeAt(index);
-        }
-        setState((){});
-      },
-      child: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          color: (add) ? Colors.green : Colors.red,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Icon(
-          (add) ? Icons.add : Icons.remove, color: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _getProduction(){
-    List<Widget> friendsTextFieldsList = [];
-    for(int i=0; i<productionList.length; i++){
-      friendsTextFieldsList.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Row(
-              children: [
-                Expanded(child: ProductionTextField(i)),
-                const SizedBox(width: 16,),
-                // we need add button at last friends row only
-                _addRemoveButton(i == productionList.length-1, i),
-              ],
-            ),
-          )
+    if (!nativeAppLaunchSucceeded) {
+      await launchUrl(
+        url,
+        // mode: LaunchMode.inAppBrowserView,
       );
     }
-    return friendsTextFieldsList;
   }
-}
 
-class ProductionTextField extends StatefulWidget {
-  final int index;
-  const ProductionTextField(this.index, {super.key});
-
-  @override
-  State<ProductionTextField> createState() => _ProductionTextFieldState();
-}
-
-class _ProductionTextFieldState extends State<ProductionTextField> {
-
-  late TextEditingController _nameController;
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController();
+  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
+    if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      return const Text('');
+    }
   }
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 
   @override
   Widget build(BuildContext context) {
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text = CowsAndYieldsState.productionList[widget.index]
-          ?? '';
-    });
-
-    return TextFormField(
-      controller: _nameController,
-      onChanged: (v) => CowsAndYieldsState.productionList[widget.index] = v,
-      decoration: const InputDecoration(
-          hintText: 'Enter your Milk Production Details'
+    // onPressed calls using this URL are not gated on a 'canLaunch' check
+    // because the assumption is that every device can launch a web URL.
+    final Uri toLaunch =
+    Uri(scheme: 'https', host: 'www.cylog.org', path: 'headers/');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
       ),
-
+      body: ListView(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                    onChanged: (String text) => _phone = text,
+                    decoration: const InputDecoration(
+                        hintText: 'Input the phone number to launch')),
+              ),
+              ElevatedButton(
+                onPressed: _hasCallSupport
+                    ? () => setState(() {
+                  _launched = _makePhoneCall(_phone);
+                })
+                    : null,
+                child: _hasCallSupport
+                    ? const Text('Make phone call')
+                    : const Text('Calling not supported'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(toLaunch.toString()),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = _launchInBrowser(toLaunch);
+                }),
+                child: const Text('Launch in browser'),
+              ),
+              const Padding(padding: EdgeInsets.all(16.0)),
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = _launchInBrowserView(toLaunch);
+                }),
+                child: const Text('Launch in app'),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = _launchAsInAppWebViewWithCustomHeaders(toLaunch);
+                }),
+                child: const Text('Launch in app (Custom Headers)'),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = _launchInWebViewWithoutJavaScript(toLaunch);
+                }),
+                child: const Text('Launch in app (JavaScript OFF)'),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = _launchInWebViewWithoutDomStorage(toLaunch);
+                }),
+                child: const Text('Launch in app (DOM storage OFF)'),
+              ),
+              const Padding(padding: EdgeInsets.all(16.0)),
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = _launchUniversalLinkIOS(toLaunch);
+                }),
+                child: const Text(
+                    'Launch a universal link in a native app, fallback to Safari.(Youtube)'),
+              ),
+              const Padding(padding: EdgeInsets.all(16.0)),
+              ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = _launchInWebView(toLaunch);
+                  Timer(const Duration(seconds: 5), () {
+                    closeInAppWebView();
+                  });
+                }),
+                child: const Text('Launch in app + close after 5 seconds'),
+              ),
+              const Padding(padding: EdgeInsets.all(16.0)),
+              Link(
+                uri: Uri.parse(
+                    'https://pub.dev/documentation/url_launcher/latest/link/link-library.html'),
+                target: LinkTarget.blank,
+                builder: (BuildContext ctx, FollowLink? openLink) {
+                  return TextButton.icon(
+                    onPressed: openLink,
+                    label: const Text('Link Widget documentation'),
+                    icon: const Icon(Icons.read_more),
+                  );
+                },
+              ),
+              const Padding(padding: EdgeInsets.all(16.0)),
+              FutureBuilder<void>(future: _launched, builder: _launchStatus),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
-
-
-
-
-

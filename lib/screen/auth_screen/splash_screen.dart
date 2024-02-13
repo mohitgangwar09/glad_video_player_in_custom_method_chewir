@@ -10,7 +10,9 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
+import 'package:glad/screen/auth_screen/introslider.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
+import 'package:glad/screen/extra_screen/add_item_list.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/mcc_screen/dashboard/dashboard_mcc.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
@@ -62,7 +64,8 @@ class _SplashScreenState extends State<SplashScreen> {
         }
 
       }else{
-        const LanguagePermission().navigate(isRemove: true);
+        // const LanguagePermission().navigate(isRemove: true);
+        const IntroSlider().navigate(isRemove: true);
       }
     });
   }
