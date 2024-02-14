@@ -50,7 +50,6 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldDoneCubit>()),
       BlocProvider(create: (context) => di.sl<DdeEnquiryCubit>()),
-      // BlocProvider(create: (context) => di.sl<ImprovementAreaCubit>()),
       BlocProvider(create: (context) => di.sl<CowsAndYieldCubitTest>()),
       BlocProvider(create: (context) => di.sl<ProjectCubit>()),
       BlocProvider(create: (context) => di.sl<TrainingCubit>()),
@@ -69,9 +68,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return const CowsAndYieldsSum();
-    // return  TermsAndCondition(projectData: FarmerMaster(), farmerProjectId: 1, navigateFrom: 'navigateFrom');
-    // return const CreatePassword('');
     return const SplashScreen();
   }
 }

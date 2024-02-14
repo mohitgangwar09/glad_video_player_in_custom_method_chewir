@@ -217,9 +217,10 @@ class _FarmerStatementState extends State<FarmerStatement> {
                             mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
                             children: [
+                              state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!=null?
                               state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!.name.toString().textSemiBold(
                                   fontSize: 18,
-                                  color: ColorResources.black),
+                                  color: ColorResources.black):const SizedBox.shrink(),
 
                               Expanded(
                                 child: Column(
