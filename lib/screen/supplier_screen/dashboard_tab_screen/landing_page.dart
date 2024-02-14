@@ -622,14 +622,18 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       23.verticalSpace(),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24.0),
-                        child: Text('New Survey',
-                            style: figtreeMedium.copyWith(
-                                fontSize: 18, color: Colors.black)),
-                      ),
+
+                      if(state.responseSupplierProject!.data!.projectList!.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0),
+                          child: Text('New Survey',
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 18, color: Colors.black)),
+                        ),
+
                       Container(
-                        height: 240,
+                        height: state.responseSupplierProject!.data!
+                            .projectList!.isNotEmpty? 240:0,
                         margin: const EdgeInsets.only(left: 12,right: 6),
                         child: customList(
                           padding: const EdgeInsets.all(0),
