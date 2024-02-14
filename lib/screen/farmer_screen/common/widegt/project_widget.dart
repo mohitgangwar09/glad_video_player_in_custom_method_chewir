@@ -138,7 +138,7 @@ class ProjectWidget extends StatelessWidget {
 
                 Container(
                   margin: 4.marginTop(),
-                  padding: 20.paddingHorizontal(),
+                  padding: 10.paddingHorizontal(),
                   decoration: boxDecoration(borderRadius: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

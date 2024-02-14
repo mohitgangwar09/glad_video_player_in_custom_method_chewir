@@ -95,7 +95,7 @@ class _LandingCarouselState extends State<LandingCarousel> {
                   child: Image.asset(Images.community))
             ],
             options: CarouselOptions(
-              // autoPlay: true,
+              autoPlay: true,
               enableInfiniteScroll: false,
               viewportFraction: 1,
               // enlargeCenterPage: true,

@@ -49,140 +49,142 @@ class _UpdateTeamMembersState extends State<UpdateTeamMembers> {
 
       body: BlocBuilder<ProfileCubit,ProfileCubitState>(
           builder: (BuildContext context, state) {
-            return Column(
-              children: [
-                CustomAppBar(
-                    context: context,
-                    centerTitle: true,
-                    titleText1: 'Team Members',
-                    titleText1Style:
-                    figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
-                    leading: arrowBackButton()),
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomAppBar(
+                      context: context,
+                      centerTitle: true,
+                      titleText1: 'Team Members',
+                      titleText1Style:
+                      figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
+                      leading: arrowBackButton()),
 
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0,),
-                    child: Column(
-                      children: [
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+                      child: Column(
+                        children: [
 
-                        20.verticalSpace(),
+                          20.verticalSpace(),
 
-                        CustomTextField2(title: 'Name',
-                            enabled: true,
-                            controller: nameController),
-                        20.verticalSpace(),
-                        Row(
-                          children: [
+                          CustomTextField2(title: 'Name',
+                              enabled: true,
+                              controller: nameController),
+                          20.verticalSpace(),
+                          Row(
+                            children: [
 
-                            SizedBox(
-                              width: 100,
-                              child: CustomTextField2(
-                                  title: 'Mobile',
-                                  controller: TextEditingController(text: '+256'),
-                                  enabled: false
+                              SizedBox(
+                                width: 100,
+                                child: CustomTextField2(
+                                    title: 'Mobile',
+                                    controller: TextEditingController(text: '+256'),
+                                    enabled: false
+                                ),
                               ),
-                            ),
 
-                            10.horizontalSpace(),
+                              10.horizontalSpace(),
 
-                            Expanded(
-                              child: CustomTextField2(title: '',
-                                enabled: true,
-                                inputType: TextInputType.phone,
-                                maxLine: 1,
-                                maxLength: 12,
-                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                controller: phoneController,),
-                            ),
-                          ],
-                        ),
-                        20.verticalSpace(),
-                        CustomTextField2(title: 'Email',
-                          controller:  emailController,
-                          enabled: true,),
+                              Expanded(
+                                child: CustomTextField2(title: '',
+                                  enabled: true,
+                                  inputType: TextInputType.phone,
+                                  maxLine: 1,
+                                  maxLength: 12,
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                  controller: phoneController,),
+                              ),
+                            ],
+                          ),
+                          20.verticalSpace(),
+                          CustomTextField2(title: 'Email',
+                            controller:  emailController,
+                            enabled: true,),
 
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: SizedBox(
-                              height: 38,
-                              child: LiteRollingSwitch(
-                                value: teamMemberStatus == "active"?true:false,
-                                width: teamMemberStatus == "active"?100:120,
-                                // width: 100,
-                                textOn: 'Active',
-                                textOff: 'Inactive',
-                                // textSize: 11.5,
-                                textOffColor: Colors.black,
-                                textOnColor: Colors.white,
-                                colorOn: const Color(0xff4BC56F),
-                                colorOff: const Color(0xffECECFF),
-                                iconOn: Icons.lightbulb_outline,
-                                iconOff: Icons.power_settings_new_sharp,
-                                animationDuration: const Duration(milliseconds: 300),
-                                onChanged: (bool state) {
-                                  // print('turned ${(state) ? 'on' : 'off'}');
-                                  setState(() {
-                                    // teamMemberStatus == "active"? 'inactive' : 'active';
-                                    teamMemberStatus = (state) ? 'active' : 'inactive';
-                                    // print(teamMemberStatus);
-                                  });
-                                },
-                                onDoubleTap: () {},
-                                onSwipe: () {},
-                                onTap: () {},
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: SizedBox(
+                                height: 38,
+                                child: LiteRollingSwitch(
+                                  value: teamMemberStatus == "active"?true:false,
+                                  width: teamMemberStatus == "active"?100:120,
+                                  // width: 100,
+                                  textOn: 'Active',
+                                  textOff: 'Inactive',
+                                  // textSize: 11.5,
+                                  textOffColor: Colors.black,
+                                  textOnColor: Colors.white,
+                                  colorOn: const Color(0xff4BC56F),
+                                  colorOff: const Color(0xffECECFF),
+                                  iconOn: Icons.lightbulb_outline,
+                                  iconOff: Icons.power_settings_new_sharp,
+                                  animationDuration: const Duration(milliseconds: 300),
+                                  onChanged: (bool state) {
+                                    // print('turned ${(state) ? 'on' : 'off'}');
+                                    setState(() {
+                                      // teamMemberStatus == "active"? 'inactive' : 'active';
+                                      teamMemberStatus = (state) ? 'active' : 'inactive';
+                                      // print(teamMemberStatus);
+                                    });
+                                  },
+                                  onDoubleTap: () {},
+                                  onSwipe: () {},
+                                  onTap: () {},
+                                ),
                               ),
                             ),
                           ),
-                        ),
 
-                        40.verticalSpace(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: customButton(
-                            'Save',
-                            onTap: () {
-                              if(nameController.text.isEmpty){
-                                showCustomToast(context, 'Please enter name');
-                              }else if(phoneController.text.isEmpty){
-                                showCustomToast(context, 'Please enter mobile');
-                              }else if(phoneController.text.length<8){
-                                showCustomToast(context, 'Please enter valid mobile number');
-                              }else if(emailController.text.isEmpty){
-                                showCustomToast(context, 'Please enter email');
-                              }else if(!isEmail(emailController.text)){
-                                showCustomToast(context, 'Please enter valid email');
-                              }else{
-                                BlocProvider.of<ProfileCubit>(context).updateTeamMembersApi(context, widget.dataMemberList.id.toString() ,nameController.text, emailController.text, phoneController.text.toString(),teamMemberStatus.toString());
-                              }
-                            },
-                            radius: 40,
-                            width: double.infinity,
-                            height: 60,
-                            style: figtreeMedium.copyWith(
-                                color: Colors.white, fontSize: 16),
-                          ),
-                        ),
-                        20.verticalSpace(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: customButton('Cancel',
+                          40.verticalSpace(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: customButton(
+                              'Save',
                               onTap: () {
-                                pressBack();
+                                if(nameController.text.isEmpty){
+                                  showCustomToast(context, 'Please enter name');
+                                }else if(phoneController.text.isEmpty){
+                                  showCustomToast(context, 'Please enter mobile');
+                                }else if(phoneController.text.length<8){
+                                  showCustomToast(context, 'Please enter valid mobile number');
+                                }else if(emailController.text.isEmpty){
+                                  showCustomToast(context, 'Please enter email');
+                                }else if(!isEmail(emailController.text)){
+                                  showCustomToast(context, 'Please enter valid email');
+                                }else{
+                                  BlocProvider.of<ProfileCubit>(context).updateTeamMembersApi(context, widget.dataMemberList.id.toString() ,nameController.text, emailController.text, phoneController.text.toString(),teamMemberStatus.toString());
+                                }
                               },
                               radius: 40,
                               width: double.infinity,
                               height: 60,
                               style: figtreeMedium.copyWith(
-                                  color: Colors.black, fontSize: 16),
-                              color: 0xFFDCDCDC),
-                        ),
-                      ],
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                          ),
+                          20.verticalSpace(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: customButton('Cancel',
+                                onTap: () {
+                                  pressBack();
+                                },
+                                radius: 40,
+                                width: double.infinity,
+                                height: 60,
+                                style: figtreeMedium.copyWith(
+                                    color: Colors.black, fontSize: 16),
+                                color: 0xFFDCDCDC),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }
       ),

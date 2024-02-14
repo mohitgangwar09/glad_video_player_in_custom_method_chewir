@@ -8,6 +8,7 @@ import 'package:glad/data/model/dashboard_news_event.dart';
 import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/show_all_button.dart';
+import 'package:glad/screen/farmer_screen/online_training.dart';
 import 'package:glad/screen/guest_user/dashboard_tab_screen/news_and_event.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
@@ -70,7 +71,7 @@ class _TrendingNewsAndEventsState extends State<TrendingNewsAndEvents> {
                         }
                       }
                     } else{
-                      if(getYoutubeVideoId(widget.newsList[index].webUrl ?? '') != null){
+                      if(getYoutubeVideoId(widget.newsList[index].webUrl ?? '') != ''){
                         showDialog(
                             context: context,
                             builder: (context) => OverlayVideoPlayer(

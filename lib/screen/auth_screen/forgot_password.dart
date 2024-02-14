@@ -26,36 +26,28 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return SafeArea(
       bottom: true,
       top: false,
-      maintainBottomViewPadding: false,
-      child: WillPopScope(
-        onWillPop: () async{
-          // BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
-          pressBack();
-          return true;
-        },
-        child: Scaffold(
-          backgroundColor: ColorResources.maroon,
-          body: Stack(
-            children: [
-              hideKeyboard(
-                context,
-                child: SingleChildScrollView(
-                  child: SizedBox(
-                    width: screenWidth(),
-                    height: screenHeight(),
-                    child: authBackgroundForgotOtp(
-                      widget: mainView(),
-                    ),
+      child: Scaffold(
+        backgroundColor: ColorResources.maroon,
+        body: Stack(
+          children: [
+            hideKeyboard(
+              context,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: screenWidth(),
+                  height: screenHeight(),
+                  child: authBackgroundForgotOtp(
+                    widget: mainView(),
                   ),
                 ),
               ),
-              Platform.isIOS?
-                  Positioned(top: 50,left: 15,child: InkWell(onTap: (){
-                    pressBack();
-                  },child: const Icon(Icons.arrow_back_ios,color: Colors.white,))):
-              const SizedBox.shrink()
-            ],
-          ),
+            ),
+            Platform.isIOS?
+                Positioned(top: 50,left: 15,child: InkWell(onTap: (){
+                  pressBack();
+                },child: const Icon(Icons.arrow_back_ios,color: Colors.white,))):
+            const SizedBox.shrink()
+          ],
         ),
       ),
     );

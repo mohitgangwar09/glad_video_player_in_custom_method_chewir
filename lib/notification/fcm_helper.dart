@@ -25,7 +25,7 @@ class FcmHelper {
     _firebaseMessaging.getToken().then((value) async{
       print("fcmToken---- $value");
       await SharedPrefManager.savePrefString(AppConstants.fcmToken, value.toString());
-    });,
+    });
 
     await initLocalNotifications();
 

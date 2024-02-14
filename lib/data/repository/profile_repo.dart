@@ -81,12 +81,13 @@ class ProfileRepository {
 
   ///////////////// addTeamMemberApi //////////
 
-  Future<ResponseOtpModel> addTeamMemberApi(String name, String email, String phone) async {
+  Future<ResponseOtpModel> addTeamMemberApi(String name, String email, String phone, String status) async {
 
     var data = {
       "name" : name,
       "email" : email,
       "phone" : phone,
+      'status' : status,
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
@@ -113,8 +114,6 @@ class ProfileRepository {
       "phone" : phone,
       "status" : status,
     };
-
-    print(data);
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.updateTeamMembersApi,

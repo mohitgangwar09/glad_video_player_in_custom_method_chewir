@@ -109,106 +109,106 @@ class _GladReviewState extends State<GladReview> {
                                   children: [
                                     Container(
                                       decoration: const BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)), color: Colors.white),
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Row(
+                                      // padding: const EdgeInsets.only(left: 20),
+                                      child: Column(
                                         children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  widget.review,
-                                                  style: figtreeMedium.copyWith(
-                                                      fontSize: 16, color: Colors.black),
-                                                ),
-                                                40.verticalSpace(),
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                        decoration: const BoxDecoration(
-                                                            shape: BoxShape.circle, color: ColorResources.mustard),
-                                                        padding: const EdgeInsets.fromLTRB(7, 0, 7, 20),
-                                                        child: Image.asset(
-                                                          Images.comma,
-                                                          height: 64,
-                                                        )),
-                                                    10.horizontalSpace(),
-                                                    Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                            '${widget.name.split(' ')[0]}, ${widget.userType} ',
-                                                            maxLines: 1,
-                                                            style: figtreeMedium.copyWith(
-                                                                overflow: TextOverflow.ellipsis,
-                                                                fontSize: 14,
-                                                                color: Colors.black)),
-                                                        4.verticalSpace(),
-                                                        Text(widget.location,
-                                                            maxLines: 1,
-                                                            style: figtreeMedium.copyWith(
-                                                                overflow: TextOverflow.ellipsis,
-                                                                fontSize: 12,
-                                                                color: Colors.black)),
-                                                      ],),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          20.horizontalSpace(),
                                           ClipRRect(
-                                            borderRadius: const BorderRadius.only(
-                                                topLeft: Radius.circular(20),
-                                                bottomLeft: Radius.circular(20)),
+                                            borderRadius: const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
                                             child: widget.attachmentType == "image"
                                                 ? InkWell(
-                                              onTap: () {
-                                        PreviewScreen(previewImage: widget.attachment,).navigate();
-                            },
-                                                  child: CachedNetworkImage(
-                                              imageUrl: widget.attachment,
-                                              width: 120,
-                                              height: screenHeight(),
-                                              fit: BoxFit.cover,
-                                              errorWidget: (_, __, ___) => Image.asset(
-                                                    Images.sampleVideo,
+                                                    onTap: () {
+                                                      PreviewScreen(previewImage: widget.attachment,).navigate();
+                                                    },
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: widget.attachment,
+                                                      width: screenWidth(),
+                                                      height: 200,
+                                                      fit: BoxFit.cover,
+                                                      errorWidget: (_, __, ___) => Image.asset(
+                                                          Images.placeHolder,
+                                                          width: screenWidth(),
+                                                          height: 200,
+                                                          fit: BoxFit.cover),
+                                                    ),
+                                                  )
+                                                : videoThumbnail != null
+                                                ? InkWell(
+                                                    onTap: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) => OverlayVideoPlayer(
+                                                              url: widget.attachment));
+                                                    },
+                                                    child: Stack(
+                                                      alignment: Alignment.center,
+                                                      children: [
+                                                        Image.file(
+                                                          File(videoThumbnail!),
+                                                          width: screenWidth(),
+                                                          height: 200,
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder: (_, __, ___) => Image.asset(
+                                                              Images.placeHolder,
+                                                              width: screenWidth(),
+                                                              height: 200,
+                                                              fit: BoxFit.cover),
+                                                        ),
+                                                        SvgPicture.asset(Images.playVideo),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Image.asset(Images.placeHolder,
                                                     width: 120,
                                                     height: screenHeight(),
                                                     fit: BoxFit.cover),
-                                            ),
-                                                )
-                                                : videoThumbnail != null
-                                                ? InkWell(
-                                              onTap: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (context) => OverlayVideoPlayer(
-                                                        url: widget.attachment));
-                                              },
-                                              child: Stack(
-                                                alignment: Alignment.center,
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  Image.file(
-                                                    File(videoThumbnail!),
-                                                    width: 120,
-                                                    height: screenHeight(),
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder: (_, __, ___) => Image.asset(
-                                                        Images.sampleVideo,
-                                                        width: 120,
-                                                        height: screenHeight(),
-                                                        fit: BoxFit.cover),
+                                                  Text(
+                                                    widget.review,
+                                                    style: figtreeMedium.copyWith(
+                                                        fontSize: 16, color: Colors.black),
                                                   ),
-                                                  SvgPicture.asset(Images.playVideo),
+                                                  10.verticalSpace(),
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          decoration: const BoxDecoration(
+                                                              shape: BoxShape.circle, color: ColorResources.mustard),
+                                                          padding: const EdgeInsets.fromLTRB(7, 0, 7, 20),
+                                                          child: Image.asset(
+                                                            Images.comma,
+                                                            height: 64,
+                                                          )),
+                                                      10.horizontalSpace(),
+                                                      Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                              '${widget.name.split(' ')[0]}, ${widget.userType} ',
+                                                              maxLines: 1,
+                                                              style: figtreeMedium.copyWith(
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  fontSize: 14,
+                                                                  color: Colors.black)),
+                                                          4.verticalSpace(),
+                                                          Text(widget.location,
+                                                              maxLines: 1,
+                                                              style: figtreeMedium.copyWith(
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  fontSize: 12,
+                                                                  color: Colors.black)),
+                                                        ],),
+                                                    ],
+                                                  )
                                                 ],
                                               ),
-                                            )
-                                                : Image.asset(Images.sampleVideo,
-                                                width: 120,
-                                                height: screenHeight(),
-                                                fit: BoxFit.cover),
-                                          )
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -264,21 +264,21 @@ class _GladReviewState extends State<GladReview> {
                     bottomLeft: Radius.circular(20)),
                 child: widget.attachmentType == "image"
                     ? InkWell(
-    onTap: () {
-    PreviewScreen(previewImage: widget.attachment,).navigate();
-    },
-                      child: CachedNetworkImage(
-                          imageUrl: widget.attachment,
-                          width: 120,
-                          height: screenHeight(),
-                          fit: BoxFit.cover,
-                          errorWidget: (_, __, ___) => Image.asset(
-                              Images.sampleVideo,
-                              width: 120,
-                              height: screenHeight(),
-                              fit: BoxFit.cover),
-                        ),
-                    )
+                        onTap: () {
+                        PreviewScreen(previewImage: widget.attachment,).navigate();
+                        },
+                        child: CachedNetworkImage(
+                            imageUrl: widget.attachment,
+                            width: 120,
+                            height: screenHeight(),
+                            fit: BoxFit.cover,
+                            errorWidget: (_, __, ___) => Image.asset(
+                                Images.placeHolder,
+                                width: 120,
+                                height: screenHeight(),
+                                fit: BoxFit.cover),
+                          ),
+                      )
                     : videoThumbnail != null
                         ? InkWell(
                             onTap: () {
@@ -296,7 +296,7 @@ class _GladReviewState extends State<GladReview> {
                                   height: screenHeight(),
                                   fit: BoxFit.cover,
                                   errorBuilder: (_, __, ___) => Image.asset(
-                                      Images.sampleVideo,
+                                      Images.placeHolder,
                                       width: 120,
                                       height: screenHeight(),
                                       fit: BoxFit.cover),
@@ -305,7 +305,7 @@ class _GladReviewState extends State<GladReview> {
                               ],
                             ),
                           )
-                        : Image.asset(Images.sampleVideo,
+                        : Image.asset(Images.placeHolder,
                             width: 120,
                             height: screenHeight(),
                             fit: BoxFit.cover),

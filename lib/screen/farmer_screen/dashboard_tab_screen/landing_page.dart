@@ -515,6 +515,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                       },
                     )),
               ),
+              10.verticalSpace(),
               Center(
                   child: Padding(
                     padding: const EdgeInsets.all(5),
@@ -530,7 +531,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
                   )),
             ],) : const SizedBox.shrink(),
 
-            100.verticalSpace()
+            120.verticalSpace()
           ],
         ),
       ),

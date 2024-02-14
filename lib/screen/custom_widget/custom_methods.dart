@@ -406,7 +406,13 @@ Widget checkBox2({bool value = false, ValueChanged<bool?>? onChanged, double opa
 }
 
 String getYoutubeVideoId(String url) {
-  return url == '' ? '' : url.split('v=')[1];
+  String u = url == '' ? '' : url.split('v=')[1];
+  if (u.contains('&')){
+    return u.split('&')[0];
+  } else {
+    return u;
+  }
+
 }
 /*ratingBar(int count,{double itemSize=20,double initialRating=3.0}) {
   return  RatingBar.builder(

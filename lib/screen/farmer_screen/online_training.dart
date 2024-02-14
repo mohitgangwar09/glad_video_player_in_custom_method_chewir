@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -33,6 +34,7 @@ class _OnlineTrainingState extends State<OnlineTraining> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.restoreSystemUIOverlays();
     return Scaffold(
       body: Stack(
         children: [
@@ -398,6 +400,7 @@ class OverlayVideoPlayer extends StatefulWidget {
 
 class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
   YoutubePlayerController? controller;
+  bool fullScreen = false;
 
   @override
   void initState() {
@@ -406,23 +409,22 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
   }
 
   func() {
-    String? videoId = getYoutubeVideoId(widget.url);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    String videoId = getYoutubeVideoId(widget.url);
+    if(videoId == '') {
+      Future.delayed(const Duration(seconds: 2), () {
+        showCustomToast(context, 'Not a valid url');
+        print("pressBack");
+        pressBack();
+      });
+      return;
+    }
     controller = YoutubePlayerController(
       initialVideoId: videoId ?? '',
       flags: const YoutubePlayerFlags(
         autoPlay: true,
       ),
     );
-
-    if(videoId == null) {
-
-      Future.delayed(Duration(seconds: 2), () {
-        showCustomToast(context, 'Not a valid url');
-        print("pressBack");
-        pressBack();
-      });
-
-    }
   }
 
   @override
@@ -437,23 +439,28 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
       player: YoutubePlayer(
         controller: controller!,
         topActions: [
-          arrowBackButton(color: Colors.white),
+          arrowBackButton(color: Colors.white, onTap: () {
+            if (fullScreen) controller!.toggleFullScreenMode();
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+            pressBack();
+          }),
         ],
         // aspectRatio: 4/3,
       ),
       builder: (context, player) {
         return player;
       },
-      // onEnterFullScreen: () {
-      //   setState(() {
-      //     fullScreen = true;
-      //   });
-      // },
-      // onExitFullScreen: () {
-      //   setState(() {
-      //     fullScreen = false;
-      //   });
-      // },
+      onEnterFullScreen: () {
+        setState(() {
+          fullScreen = true;
+        });
+      },
+      onExitFullScreen: () {
+        setState(() {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+          fullScreen = false;
+        });
+      },
     );
   }
 }

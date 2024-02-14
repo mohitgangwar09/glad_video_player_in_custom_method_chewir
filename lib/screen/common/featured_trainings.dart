@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
@@ -122,7 +123,7 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
                                           Text(
                                             '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.viewCount ?? "0"), unit: '')} views',
                                             style: figtreeMedium
-                                                .copyWith(fontSize: 12, color: Color(0xFF727272)),
+                                                .copyWith(fontSize: 12, color: const Color(0xFF727272)),
                                           ),
                                           8.horizontalSpace(),
                                           Container(
@@ -135,7 +136,7 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
                                           Text(
                                             '${getCurrencyString(int.parse(widget.trainingList[index].youtube!.commentCount ?? "0"), unit: '')} comments',
                                             style: figtreeMedium
-                                                .copyWith(fontSize: 12, color: Color(0xFF727272)),
+                                                .copyWith(fontSize: 12, color: const Color(0xFF727272)),
                                           ),
                                         ],
                                       ),
@@ -201,76 +202,78 @@ class _FeaturedTrainingsState extends State<FeaturedTrainings> {
   }
 }
 
-
-class OverlayVideoPlayer extends StatefulWidget {
-  const OverlayVideoPlayer({
-    Key? key,
-    required this.url,
-  }) : super(key: key);
-
-  final String url;
-
-  @override
-  State<OverlayVideoPlayer> createState() => _OverlayVideoPlayerState();
-}
-
-class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
-  YoutubePlayerController? controller;
-
-  @override
-  void initState() {
-    func();
-    super.initState();
-  }
-
-  func() async {
-    String? videoId = getYoutubeVideoId(widget.url);
-    controller = YoutubePlayerController(
-      initialVideoId: videoId ?? '',
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-      ),
-    );
-    if(videoId == null) {
-
-      Future.delayed(const Duration(seconds: 2), () {
-        showCustomToast(context, 'Not a valid url');
-        print("pressBack");
-        pressBack();
-      });
-
-    }
-  }
-
-  @override
-  void dispose() {
-    controller!.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-          player: YoutubePlayer(
-            controller: controller!,
-            topActions: [
-              arrowBackButton(color: Colors.white),
-            ],
-            // aspectRatio: 4/3,
-          ),
-          builder: (context, player) {
-            return player;
-          },
-          // onEnterFullScreen: () {
-          //   setState(() {
-          //     fullScreen = true;
-          //   });
-          // },
-          // onExitFullScreen: () {
-          //   setState(() {
-          //     fullScreen = false;
-          //   });
-          // },
-        );
-  }
-}
+//
+// class OverlayVideoPlayer extends StatefulWidget {
+//   const OverlayVideoPlayer({
+//     Key? key,
+//     required this.url,
+//   }) : super(key: key);
+//
+//   final String url;
+//
+//   @override
+//   State<OverlayVideoPlayer> createState() => _OverlayVideoPlayerState();
+// }
+//
+// class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
+//   YoutubePlayerController? controller;
+//   bool fullScreen = false;
+//
+//   @override
+//   void initState() {
+//     func();
+//     super.initState();
+//   }
+//
+//   func() {
+//     String videoId = getYoutubeVideoId(widget.url);
+//     if(videoId == '') {
+//       Future.delayed(const Duration(seconds: 2), () {
+//         showCustomToast(context, 'Not a valid url');
+//         pressBack();
+//       });
+//       return;
+//     }
+//     controller = YoutubePlayerController(
+//       initialVideoId: videoId ?? '',
+//       flags: const YoutubePlayerFlags(
+//         autoPlay: true,
+//       ),
+//     );
+//   }
+//
+//   @override
+//   void dispose() {
+//     controller!.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return YoutubePlayerBuilder(
+//           player: YoutubePlayer(
+//             controller: controller!,
+//             topActions: [
+//               arrowBackButton(color: Colors.white, onTap: () {
+//                 if (fullScreen) controller!.toggleFullScreenMode();
+//                 pressBack();
+//               }),
+//             ],
+//             // aspectRatio: 4/3,
+//           ),
+//           builder: (context, player) {
+//             return player;
+//           },
+//           onEnterFullScreen: () {
+//             setState(() {
+//               fullScreen = true;
+//             });
+//           },
+//           onExitFullScreen: () {
+//             setState(() {
+//               fullScreen = false;
+//             });
+//           },
+//         );
+//   }
+// }
