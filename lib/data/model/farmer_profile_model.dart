@@ -953,6 +953,7 @@ class DairyDevelopMentExecutive {
   String? createdAt;
   String? updatedAt;
   dynamic image;
+  dynamic photo;
   Address? address;
 
   DairyDevelopMentExecutive(
@@ -974,6 +975,7 @@ class DairyDevelopMentExecutive {
         this.createdAt,
         this.updatedAt,
         this.image,
+        this.photo,
         this.address});
 
   DairyDevelopMentExecutive.fromJson(Map<String, dynamic> json) {
@@ -994,6 +996,7 @@ class DairyDevelopMentExecutive {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    photo = json['photo'];
     image = json['image'];
     address =
     json['address'] != null ? Address.fromJson(json['address']) : null;

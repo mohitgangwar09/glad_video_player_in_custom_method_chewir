@@ -27,7 +27,7 @@ class ProjectState extends Equatable {
   final TextEditingController materialNameController,resourceTypeController,resourceCapacityController,uomController;
   final String? projectId,selectProjectFilter,selectFarmerFilter;
   final String? selectedFilterMCCApplication,statusLoan,roiFilter,filterImprovementAreaName;
-  final dynamic paidAmount,dueAmount,pendingAmount;
+  final dynamic paidAmount,dueAmount,pendingAmount,earningIncrement;
   final TextEditingController revenueFromController,revenueToController,investmentFromController,
       investmentUpToController,roiFromController,roiUpToController,loanAmountFromController,loanAmountUpToController;
   final ResponseFarmerFilterDropdownList? responseFarmerFilterDropdownList;
@@ -67,6 +67,7 @@ class ProjectState extends Equatable {
     required this.responseMilestoneName,
     required this.filterMileStone,
     required this.projectId,
+    required this.earningIncrement,
     required this.filterMaterialType,
     required this.filterResourceCapacityType,
     required this.filterResourceType,
@@ -156,6 +157,7 @@ class ProjectState extends Equatable {
       responseAccountStatement: null,
       paidAmount: null,
       dueAmount: null,
+      earningIncrement: null,
       pendingAmount: null,
       statusLoan: null,
       roiFilter: '',
@@ -193,7 +195,7 @@ class ProjectState extends Equatable {
     TextEditingController? materialNameController,resourceTypeController,resourceCapacityController,
     String? projectId, selectedFilterMCCApplication,
     SupplierProjectModel? responseSupplierProject,
-    dynamic paidAmount,dueAmount,pendingAmount,
+    dynamic paidAmount,dueAmount,pendingAmount,earningIncrement,
     String? statusLoan,roiFilter,filterImprovementAreaName,selectProjectFilter,selectFarmerFilter,
     TextEditingController? revenueFromController,revenueToController,investmentFromController,
     investmentUpToController,roiFromController,roiUpToController,loanAmountFromController,loanAmountUpToController,
@@ -229,6 +231,7 @@ class ProjectState extends Equatable {
           this.responseMaterialType,
       primaryId: primaryId ?? this.primaryId,
       selectResourceType: selectResourceType ?? this.selectResourceType,
+      earningIncrement: earningIncrement ?? this.earningIncrement,
       selectSizeCapacity: selectSizeCapacity ?? this.selectSizeCapacity,
       selectProjectUOM: selectProjectUOM ?? this.selectProjectUOM,
       selectResourceTypeId: selectResourceTypeId ?? this.selectResourceTypeId,
@@ -287,6 +290,7 @@ class ProjectState extends Equatable {
     status,
     responseFarmerProject,
     responseDdeProject,
+    earningIncrement,
     responseFarmerProjectDetail,
     responseFarmerProjectMilestoneDetail,
     responseResourceType,

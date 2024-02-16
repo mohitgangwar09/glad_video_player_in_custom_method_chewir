@@ -209,7 +209,7 @@ class _DDEProfileState extends State<DDEProfile> {
                                                     const Icon(Icons.trending_up,
                                                         size: 25, color: Colors.white),
                                                     Text(
-                                                      '+5.0%',
+                                                      '+${state.responseAccountStatement!.data!.summary!.earningIncrement!=null?state.responseAccountStatement!.data!.summary!.earningIncrement!:0}%',
                                                       style: figtreeBold.copyWith(
                                                           fontSize: 13, color: Colors.white),
                                                     )

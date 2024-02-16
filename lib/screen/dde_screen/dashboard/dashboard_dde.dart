@@ -23,7 +23,6 @@ class DashboardDDE extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = BlocProvider.of<DashboardCubit>(context);
-    // final ListQueue<int> navigationQueue = ListQueue();
 
     final widgetOptions = [
       const DDELandingPage(),

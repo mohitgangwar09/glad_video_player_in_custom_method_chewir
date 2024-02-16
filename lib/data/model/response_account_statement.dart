@@ -57,15 +57,17 @@ class Summary {
   dynamic dueAmount;
   dynamic pendingAmount;
   dynamic totalAmount;
+  dynamic earningIncrement;
 
   Summary(
-      {this.paidAmount, this.dueAmount, this.pendingAmount, this.totalAmount});
+      {this.paidAmount, this.dueAmount, this.pendingAmount, this.totalAmount,this.earningIncrement});
 
   Summary.fromJson(Map<String, dynamic> json) {
     paidAmount = json['paidAmount'];
     dueAmount = json['dueAmount'];
     pendingAmount = json['pendingAmount'];
     totalAmount = json['totalAmount'];
+    earningIncrement = json['earning_increment'];
   }
 
   Map<String, dynamic> toJson() {

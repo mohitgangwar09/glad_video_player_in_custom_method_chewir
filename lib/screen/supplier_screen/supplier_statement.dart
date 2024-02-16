@@ -226,9 +226,11 @@ class _SupplierStatementState extends State<SupplierStatement> {
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                             children: [
-                                              state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!.name.toString().textSemiBold(
-                                                  fontSize: 18,
-                                                  color: ColorResources.black),
+                                              state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!=null?
+                                                  Expanded(child: state.responseAccountStatement!.data!.farmerProjectFinancial![index].farmerProject!.name.toString().textSemiBold(
+                                                      fontSize: 18,
+                                                      color: ColorResources.black))
+                                              :const SizedBox.shrink(),
 
                                               Column(
                                                 crossAxisAlignment: CrossAxisAlignment.end,

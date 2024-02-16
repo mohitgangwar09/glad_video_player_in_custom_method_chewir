@@ -1130,7 +1130,8 @@ class ProjectCubit extends Cubit<ProjectState> {
     if (response.status == 200) {
 
       emit(state.copyWith(status: ProjectStatus.success,responseAccountStatement: response,paidAmount: response.data!.summary!.paidAmount??0,
-          pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0));
+          pendingAmount: response.data!.summary!.pendingAmount??0,dueAmount: response.data!.summary!.dueAmount??0,
+          earningIncrement:  response.data!.summary!.earningIncrement??0));
 
     } else {
       if(response.message!=null){
