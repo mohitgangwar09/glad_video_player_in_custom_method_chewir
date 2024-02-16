@@ -816,10 +816,9 @@ class _FarmerProfileState extends State<FarmerProfile> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.network(
-                        state.responseFarmerProfile!.dairyDevelopMentExecutive!.image ?? '',
-                        errorBuilder: (_, __, ___) =>
-                            Image.asset(Images.sampleUser),
+                      networkImage(
+                        text: state.responseFarmerProfile!.dairyDevelopMentExecutive!.image ?? '',
+                        size: 46, height: 46, width: 46, radius: 1000
                       ),
                       15.horizontalSpace(),
                       Column(

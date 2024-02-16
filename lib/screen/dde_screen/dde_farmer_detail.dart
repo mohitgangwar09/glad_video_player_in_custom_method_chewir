@@ -461,7 +461,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                           30.verticalSpace(),
                           state.responseFarmerProfile!.farmer!.address!=null?
                           address(context,state):const SizedBox.shrink(),
-                          topPerformingFarmer(),
+                          // topPerformingFarmer(),
                           25.verticalSpace(),
                           state.improvementAreaListResponse != null
                               ? state.improvementAreaListResponse!.data!.improvementAreaList!.isNotEmpty

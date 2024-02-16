@@ -74,20 +74,24 @@ class _DDEInAreaState extends State<DDEInArea> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(1000),
-                          child: Container(
-                            height: AppBar().preferredSize.height * 0.7,
-                            width: AppBar().preferredSize.height * 0.7,
-                            decoration:
-                                const BoxDecoration(shape: BoxShape.circle),
-                            child: CachedNetworkImage(
-                              imageUrl: widget.image,
-                              errorWidget: (_, __, ___) =>
-                                  Image.asset(Images.sampleUser),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                        // ClipRRect(
+                        //   borderRadius: BorderRadius.circular(1000),
+                        //   child: Container(
+                        //     height: AppBar().preferredSize.height * 0.7,
+                        //     width: AppBar().preferredSize.height * 0.7,
+                        //     decoration:
+                        //         const BoxDecoration(shape: BoxShape.circle),
+                        //     child: CachedNetworkImage(
+                        //       imageUrl: widget.image,
+                        //       errorWidget: (_, __, ___) =>
+                        //           Image.asset(Images.sampleUser),
+                        //       fit: BoxFit.cover,
+                        //     ),
+                        //   ),
+                        // ),
+                        networkImage(
+                            text: widget.image ?? '',
+                            size: 46, height: 46, width: 46, radius: 1000
                         ),
                         15.horizontalSpace(),
                         Column(
