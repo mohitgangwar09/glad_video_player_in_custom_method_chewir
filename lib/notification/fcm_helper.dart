@@ -14,6 +14,24 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 late FirebaseApp _firebaseApp;
 
+@pragma('vm:entry-point')
+void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
+  print('OnTap BG');
+  if(response.payload != '') {
+    FcmHelper.handleBackgroundStateNavigation(jsonDecode(response.payload!));
+  }
+}
+
+Future<void> msyBackgroundMessageHandler(RemoteMessage? message) async {
+  if (message != null && message.data.isNotEmpty) {
+    print('Background Handler Notification');
+    print(message.data);
+    print("------------------");
+
+    FcmHelper.showNotification(message);
+  }
+}
+
 class FcmHelper {
 
   void initFirebase() async {
@@ -128,37 +146,10 @@ class FcmHelper {
         message.notification?.body, notificationDetails, payload: jsonEncode(message.data));
   }
 
-  // @pragma('vm:entry-point')
-  // void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
-  //   print('OnTap BG');
-  //   if(response.payload != '') {
-  //     handleBackgroundStateNavigation(jsonDecode(response.payload!));
-  //   }
-  // }
-
   static void handleBackgroundStateNavigation(Map payload) {
     if(payload["route"] == 'project') {
       print("object");
       SuggestedProjectDetails(projectId: int.parse(payload["id"])).navigate();
     }
-  }
-}
-
-
-@pragma('vm:entry-point')
-void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
-  print('OnTap BG');
-  if(response.payload != '') {
-    FcmHelper.handleBackgroundStateNavigation(jsonDecode(response.payload!));
-  }
-}
-
-Future<void> msyBackgroundMessageHandler(RemoteMessage? message) async {
-  if (message != null && message.data.isNotEmpty) {
-    print('Background Handler Notification');
-    print(message.data);
-    print("------------------");
-
-    FcmHelper.showNotification(message);
   }
 }

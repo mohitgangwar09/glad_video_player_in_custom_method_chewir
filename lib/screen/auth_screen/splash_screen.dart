@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:device_information/device_information.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,14 +96,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     _route();
     super.initState();
-  }
-  imei() async{
-    await Permission.phone.request();
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    if(!preferences.containsKey(AppConstants.deviceImeiId)) {
-      preferences.setString(
-          AppConstants.deviceImeiId, await DeviceInformation.deviceIMEINumber);
-    }
   }
 
   @override

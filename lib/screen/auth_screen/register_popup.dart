@@ -55,6 +55,7 @@ class _RegisterPopUpState extends State<RegisterPopUp> {
         return Center(child: Text("${state.guestDashboardResponse} Api Error"));
       } else {
         return Stack(children: [
+          Positioned(top: 30, left: 10, child: arrowBackButton()),
           Positioned(left: 80, child: SvgPicture.asset(Images.addRemark1)),
           Positioned(
               bottom: 0, right: 0, child: SvgPicture.asset(Images.otpBack1)),
@@ -118,7 +119,7 @@ class _RegisterPopUpState extends State<RegisterPopUp> {
             image: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.photo ?? '',
             state: state,
           ),
-        Padding(padding: const EdgeInsets.symmetric(horizontal: 30), child: 'Our expert will visit your farm to collect your details and assign in registering you in our application'.textRegular(fontSize: 12, textAlign: TextAlign.center)),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 30), child: 'Our expert will visit your farm to collect your details and assist in registering you in our application'.textRegular(fontSize: 12, textAlign: TextAlign.center)),
 
         30.verticalSpace(),
         Padding(padding: const EdgeInsets.symmetric(horizontal: 60), child: 'OR'.textRegular(fontSize: 16, textAlign: TextAlign.center)),

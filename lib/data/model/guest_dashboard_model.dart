@@ -28,21 +28,30 @@ class GuestDashboardModel {
 
 class Data {
   DairyDevelopmentExecutive? dairyDevelopmentExecutive;
+  MilkCollectionCenter? milkCollectionCenter;
   Enquiry? enquiry;
   List<NewsEvent>? newsEvent;
   List<Community>? community;
   List<Testimonials>? testimonials;
   List<TrainingList>? trainingList;
 
-  Data({this.dairyDevelopmentExecutive, this.enquiry, this.newsEvent,
+  Data({
+    this.dairyDevelopmentExecutive,
+    this.enquiry,
+    this.newsEvent,
     this.community,
     this.trainingList,
-    this.testimonials});
+    this.testimonials,
+    this.milkCollectionCenter,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     dairyDevelopmentExecutive = json['dairyDevelopmentExecutive'] != null
         ? DairyDevelopmentExecutive.fromJson(
         json['dairyDevelopmentExecutive'])
+        : null;
+    milkCollectionCenter = json['milkCollectionCenter'] != null
+        ? MilkCollectionCenter.fromJson(json['milkCollectionCenter'])
         : null;
     enquiry =
     json['enquiry'] != null ? Enquiry.fromJson(json['enquiry']) : null;
@@ -81,6 +90,95 @@ class Data {
     if (enquiry != null) {
       data['enquiry'] = enquiry!.toJson();
     }
+    return data;
+  }
+}
+
+class MilkCollectionCenter {
+  dynamic id;
+  String? name;
+  dynamic userId;
+  String? contactPerson;
+  String? phone;
+  String? landlineNo;
+  String? email;
+  String? type;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic serviceRadius;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic deletedBy;
+  dynamic photo;
+  Address? address;
+
+  MilkCollectionCenter(
+      {this.id,
+        this.name,
+        this.userId,
+        this.contactPerson,
+        this.phone,
+        this.landlineNo,
+        this.email,
+        this.type,
+        this.latitude,
+        this.longitude,
+        this.serviceRadius,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.createdBy,
+        this.updatedBy,
+        this.deletedBy,
+        this.photo,
+        this.address});
+
+  MilkCollectionCenter.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    userId = json['user_id'];
+    contactPerson = json['contact_person'];
+    phone = json['phone'];
+    landlineNo = json['landline_no'];
+    email = json['email'];
+    type = json['type'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    serviceRadius = json['service_radius'];
+    status = json['status'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    deletedBy = json['deleted_by'];
+    photo = json['photo'];
+    address = json['address'] != null ? Address.fromJson(json['address']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['user_id'] = userId;
+    data['contact_person'] = contactPerson;
+    data['phone'] = phone;
+    data['landline_no'] = landlineNo;
+    data['email'] = email;
+    data['type'] = type;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['service_radius'] = serviceRadius;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['deleted_by'] = deletedBy;
+    data['photo'] = photo;
+    data['address'] = address;
     return data;
   }
 }
