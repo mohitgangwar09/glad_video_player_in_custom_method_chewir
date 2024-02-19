@@ -53,7 +53,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       child: SvgPicture.asset(Images.drawer)),
                 ),
 
-                search == true?
+                search == true ?
                 Positioned(
                   bottom: 6,
                   left: 8,right: 8,
@@ -96,9 +96,9 @@ class _ProjectScreenState extends State<ProjectScreen> {
                           icon: const Icon(Icons.clear)))
                     ],
                   ),
-                ):const SizedBox.shrink(),
+                ) : const SizedBox.shrink(),
 
-                search == false?
+                search == false ?
                 Positioned(
                   bottom: 13,
                   right: 20,
@@ -121,7 +121,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                       )
                     ),
                   ),
-                ):const SizedBox.shrink()
+                ) : const SizedBox.shrink()
               ],
             ),
 
@@ -213,77 +213,77 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
             BlocBuilder<ProjectCubit, ProjectState>(
               builder: (context, state) {
-              if (state.status == ProjectStatus.loading) {
-                return const SizedBox(
-                  height: 350,
-                  child: Center(
-                      child: CircularProgressIndicator(
-                        color: ColorResources.maroon,
-                      )),
-                );
-              } else if (state.responseFarmerProject == null) {
-                return Center(child: Text("${state.responseFarmerProject} Api Error"));
-              } else {
-                return Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.only(bottom: 120, left: 10),
-                    child: state.responseFarmerProject!.data!.projectList!
-                        .isNotEmpty ? customList(
-                        list: List.generate(state.responseFarmerProject!.data!
-                            .projectList!.length, (index) => ''),
-                        child: (int i) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: customProjectContainer(
-                                child: ProjectWidget(
-                                  showStatus: true,
-                                  status: formatProjectStatus(state.responseFarmerProject!.data!
-                                      .projectList![i].projectStatus ?? ''),
-                                  image: state.responseFarmerProject!.data!
-                                      .projectList![i].project['image'] ?? '',
-                                  name: state.responseFarmerProject!.data!
-                                      .projectList![i].name ?? '',
-                                  targetYield: state.responseFarmerProject!
-                                      .data!.projectList![i].targetYield ?? 0,
-                                  investment: state.responseFarmerProject!.data!
-                                      .projectList![i].investmentAmount ?? 0,
-                                  revenue: state.responseFarmerProject!.data!
-                                      .projectList![i].revenuePerYear ?? 0,
-                                  index: i + 1,
-                                  incrementalProduction: state
-                                      .responseFarmerProject!.data!
-                                      .projectList![i].incrementalProduction ??
-                                      0,
-                                  roi: state.responseFarmerProject!.data!
-                                      .projectList![i].roiPerYear ?? 0,
-                                  category: state.responseFarmerProject!.data!
-                                      .projectList![i].improvementArea !=
-                                      null ? state.responseFarmerProject!.data!
-                                      .projectList![i].improvementArea!.name ?? '' : '',
-                                  projectId: state.responseFarmerProject!.data!
-                                      .projectList![i].id ?? 0,
-                                  selectedFilter: selectedFilter,
-                                ),
-                                width: screenWidth()),
-                          );
-                        }) :
-                    SizedBox(
-                      width: screenWidth(),
-                      height: 350,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: screenWidth() / 2),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('No data found'),
-                          ],
+                if (state.status == ProjectStatus.loading) {
+                   return const SizedBox(
+                    height: 350,
+                    child: Center(
+                        child: CircularProgressIndicator(
+                          color: ColorResources.maroon,
+                        )),
+                  );
+                } else if (state.responseFarmerProject == null) {
+                   return Center(child: Text("${state.responseFarmerProject} Api Error"));
+                } else {
+                   return Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.only(bottom: 120, left: 10),
+                      child: state.responseFarmerProject!.data!.projectList!
+                          .isNotEmpty ? customList(
+                          list: List.generate(state.responseFarmerProject!.data!
+                              .projectList!.length, (index) => ''),
+                          child: (int i) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 20.0),
+                              child: customProjectContainer(
+                                  child: ProjectWidget(
+                                    showStatus: true,
+                                    status: formatProjectStatus(state.responseFarmerProject!.data!
+                                        .projectList![i].projectStatus ?? ''),
+                                    image: state.responseFarmerProject!.data!
+                                        .projectList![i].project['image'] ?? '',
+                                    name: state.responseFarmerProject!.data!
+                                        .projectList![i].name ?? '',
+                                    targetYield: state.responseFarmerProject!
+                                        .data!.projectList![i].targetYield ?? 0,
+                                    investment: state.responseFarmerProject!.data!
+                                        .projectList![i].investmentAmount ?? 0,
+                                    revenue: state.responseFarmerProject!.data!
+                                        .projectList![i].revenuePerYear ?? 0,
+                                    index: i + 1,
+                                    incrementalProduction: state
+                                        .responseFarmerProject!.data!
+                                        .projectList![i].incrementalProduction ??
+                                        0,
+                                    roi: state.responseFarmerProject!.data!
+                                        .projectList![i].roiPerYear ?? 0,
+                                    category: state.responseFarmerProject!.data!
+                                        .projectList![i].improvementArea !=
+                                        null ? state.responseFarmerProject!.data!
+                                        .projectList![i].improvementArea!.name ?? '' : '',
+                                    projectId: state.responseFarmerProject!.data!
+                                        .projectList![i].id ?? 0,
+                                    selectedFilter: selectedFilter,
+                                  ),
+                                  width: screenWidth()),
+                            );
+                          }) :
+                      SizedBox(
+                        width: screenWidth(),
+                        height: 350,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: screenWidth() / 2),
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('No data found'),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }
+                  );
+                }
               }
             ),
           ],
