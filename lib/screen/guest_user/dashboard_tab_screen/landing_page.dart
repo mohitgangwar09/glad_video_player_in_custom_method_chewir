@@ -101,18 +101,23 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
           children: [
             const LandingCarousel(),
             10.verticalSpace(),
-            if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive != null)
+            if(state.guestDashboardResponse!.data!.milkCollectionCenter != null)
             MCCInArea(
-              name: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.name ?? '',
-              phone: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.phone ?? '',
+              name: state.guestDashboardResponse!.data!.milkCollectionCenter!.name ?? '',
+              phone: state.guestDashboardResponse!.data!.milkCollectionCenter!.phone ?? '',
               address:
-              state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.address ?? '' : '',
-              image: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.photo ?? '',
-              lat: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.latitude ?? 0 : 0,
-              long: state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address != null ? state.guestDashboardResponse!.data!.dairyDevelopmentExecutive!.mcc!.address!.longitude ?? 0 : 0,
+              state.guestDashboardResponse!.data!.milkCollectionCenter!.address != null ? state.guestDashboardResponse!.data!.milkCollectionCenter!.address!.address ?? '' : '',
+              image: state.guestDashboardResponse!.data!.milkCollectionCenter!.photo ?? '',
+              lat: state.guestDashboardResponse!.data!.milkCollectionCenter!.address != null ? state.guestDashboardResponse!.data!.milkCollectionCenter!.address!.latitude ?? 0 : 0,
+              long: state.guestDashboardResponse!.data!.milkCollectionCenter!.address != null ? state.guestDashboardResponse!.data!.milkCollectionCenter!.address!.longitude ?? 0 : 0,
             ),
             10.verticalSpace(),
-            if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive == null)
+            if(state.guestDashboardResponse!.data!.milkCollectionCenter == null)
+              const Padding(
+                padding: EdgeInsets.only(top: 40, bottom: 40),
+                child: Center(child: Text('No MCC, DDE Available')),
+              )
+            else if(state.guestDashboardResponse!.data!.dairyDevelopmentExecutive == null)
               const Padding(
                 padding: EdgeInsets.only(top: 40, bottom: 40),
                 child: Center(child: Text('No DDE Available')),

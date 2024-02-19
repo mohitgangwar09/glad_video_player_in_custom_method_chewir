@@ -41,7 +41,6 @@ dependencies:
   video_player: ^2.5.2
   video_thumbnail: ^0.5.3
   google_search_place: ^0.0.4
-  device_information: ^0.0.4
   device_info_plus: ^9.0.3
 
   intl: ^0.18.1
