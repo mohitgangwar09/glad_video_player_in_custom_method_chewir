@@ -2,12 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/notification/fcm_navigation.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
+import 'package:glad/screen/farmer_screen/common/active_project_detail.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_details.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/sharedprefrence.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -18,16 +24,17 @@ late FirebaseApp _firebaseApp;
 void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
   print('OnTap BG');
   if(response.payload != '') {
-    FcmHelper.handleBackgroundStateNavigation(jsonDecode(response.payload!));
+    FcmNavigation.handleBackgroundStateNavigation(jsonDecode(response.payload!));
   }
 }
 
 Future<void> msyBackgroundMessageHandler(RemoteMessage? message) async {
-  if (message != null && message.data.isNotEmpty) {
-    print('Background Handler Notification');
-    print(message.data);
-    print("------------------");
-
+  print('Background Handler Notification');
+  if (message != null) {
+    if(message.data.isNotEmpty) {
+      print(message.data);
+      print("------------------");
+    }
     FcmHelper.showNotification(message);
   }
 }
@@ -64,22 +71,22 @@ class FcmHelper {
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
-      if (message != null && message.data.isNotEmpty) {
-        print('Foreground State Notification');
-        print(message.data);
-        print("------------------");
-
+      print('Foreground State Notification');
+      if (message != null) {
+        if(message.data.isNotEmpty) {
+          print(message.data);
+          print("------------------");
+        }
         showNotification(message);
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
+      print('Background State Notification');
       if (message != null && message.data.isNotEmpty) {
-        print('Background State Notification');
         print(message.data);
         print("------------------");
-
-        handleBackgroundStateNavigation(message.data);
+        FcmNavigation.handleBackgroundStateNavigation(message.data);
       }
     });
   }
@@ -112,7 +119,7 @@ class FcmHelper {
         onDidReceiveNotificationResponse: (NotificationResponse response) {
           print('OnTap');
           if(response.payload != '') {
-            handleBackgroundStateNavigation(jsonDecode(response.payload!));
+            FcmNavigation.handleBackgroundStateNavigation(jsonDecode(response.payload!));
           }
         },
         onDidReceiveBackgroundNotificationResponse: onDidReceiveBackgroundNotificationResponse
@@ -146,10 +153,4 @@ class FcmHelper {
         message.notification?.body, notificationDetails, payload: jsonEncode(message.data));
   }
 
-  static void handleBackgroundStateNavigation(Map payload) {
-    if(payload["route"] == 'project') {
-      print("object");
-      SuggestedProjectDetails(projectId: int.parse(payload["id"])).navigate();
-    }
-  }
 }
