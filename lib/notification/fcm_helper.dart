@@ -3,12 +3,11 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:glad/notification/fcm_navigation.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
-import 'package:glad/screen/farmer_screen/common/suggested_project_details.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/sharedprefrence.dart';
-
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -18,17 +17,20 @@ late FirebaseApp _firebaseApp;
 void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
   print('OnTap BG');
   if(response.payload != '') {
-    FcmHelper.handleBackgroundStateNavigation(jsonDecode(response.payload!));
+    FcmNavigation.handleBackgroundStateNavigation(jsonDecode(response.payload!));
   }
 }
 
 Future<void> msyBackgroundMessageHandler(RemoteMessage? message) async {
-  if (message != null && message.data.isNotEmpty) {
-    print('Background Handler Notification');
-    print(message.data);
-    print("------------------");
-
-    FcmHelper.showNotification(message);
+  print('Background Handler Notification');
+  if (message != null) {
+    if(message.data.isNotEmpty) {
+      print(message.data);
+      print("------------------");
+    }
+    if (Platform.isAndroid) {
+      FcmHelper.showNotification(message);
+    }
   }
 }
 
@@ -52,34 +54,39 @@ class FcmHelper {
     );
 
     _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) async{
-      if (message != null && message.data.isNotEmpty) {
+      if (message != null) {
         print('Kill State Notification');
-        print(message.data);
-        print("------------------");
+        if(message.data.isNotEmpty) {
+          print(message.data);
+          print("------------------");
 
-        await SharedPrefManager.savePrefString('payload', jsonEncode(message.data));
+          await SharedPrefManager.savePrefString(
+              'payload', jsonEncode(message.data));
 
-        const SplashScreen().navigate(isRemove: true);
+          // const SplashScreen().navigate(isRemove: true);
+        }
       }
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
-      if (message != null && message.data.isNotEmpty) {
-        print('Foreground State Notification');
-        print(message.data);
-        print("------------------");
-
-        showNotification(message);
+      print('Foreground State Notification');
+      if (message != null) {
+        if(message.data.isNotEmpty) {
+          print(message.data);
+          print("------------------");
+        }
+        if (Platform.isAndroid) {
+          showNotification(message);
+        }
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
+      print('Background State Notification');
       if (message != null && message.data.isNotEmpty) {
-        print('Background State Notification');
         print(message.data);
         print("------------------");
-
-        handleBackgroundStateNavigation(message.data);
+        FcmNavigation.handleBackgroundStateNavigation(message.data);
       }
     });
   }
@@ -112,7 +119,7 @@ class FcmHelper {
         onDidReceiveNotificationResponse: (NotificationResponse response) {
           print('OnTap');
           if(response.payload != '') {
-            handleBackgroundStateNavigation(jsonDecode(response.payload!));
+            FcmNavigation.handleBackgroundStateNavigation(jsonDecode(response.payload!));
           }
         },
         onDidReceiveBackgroundNotificationResponse: onDidReceiveBackgroundNotificationResponse
@@ -120,6 +127,7 @@ class FcmHelper {
   }
 
   static showNotification(RemoteMessage message) async {
+    print('show notification');
     const AndroidNotificationDetails androidNotificationDetails =
     AndroidNotificationDetails('channel_id', 'Channel Name',
         channelDescription: 'Channel Description',
@@ -146,10 +154,4 @@ class FcmHelper {
         message.notification?.body, notificationDetails, payload: jsonEncode(message.data));
   }
 
-  static void handleBackgroundStateNavigation(Map payload) {
-    if(payload["route"] == 'project') {
-      print("object");
-      SuggestedProjectDetails(projectId: int.parse(payload["id"])).navigate();
-    }
-  }
 }

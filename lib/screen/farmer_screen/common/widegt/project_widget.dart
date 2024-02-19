@@ -47,6 +47,7 @@ class ProjectWidget extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: InkWell(
             onTap: () {
+              print(status);
               if(status == "Active") {
                 ActiveProjectDetails(projectId: projectId).navigate();
               } else {
