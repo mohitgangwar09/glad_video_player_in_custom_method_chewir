@@ -4,9 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glad/notification/fcm_navigation.dart';
-import 'package:glad/screen/auth_screen/splash_screen.dart';
 import 'package:glad/utils/app_constants.dart';
-import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
