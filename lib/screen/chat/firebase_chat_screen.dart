@@ -66,7 +66,8 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
       // "message_count":FieldValue.increment(1),
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
-    }).then((query) {
+    })
+        .then((query) {
       if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'farmer') {
         if(widget.responseProjectDataForFirebase.farmerId != '') {
           FirebaseFirestore.instance.collection('projects_chats')
@@ -120,6 +121,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
         }
       }
       print("Message Added");
+      BlocProvider.of<LandingPageCubit>(context).sendNotificationProjectChat(context, widget.responseProjectDataForFirebase.farmerProjectId!);
     })
         .catchError((error) => print("Failed to add user: $error"));
     scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
@@ -150,7 +152,8 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
       // "message_count":FieldValue.increment(1),
       "message_type": messageType,
       // "${currentUser}messageCount":FieldValue.increment(1),
-    }).then((query) {
+    })
+        .then((query) {
         if(BlocProvider.of<LandingPageCubit>(context).sharedPreferences.getString(AppConstants.userType) != 'farmer') {
           if(widget.responseProjectDataForFirebase.farmerId != '') {
             FirebaseFirestore.instance.collection('projects_chats')
@@ -204,9 +207,11 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
           }
         }
         print("Image Added");
+        BlocProvider.of<LandingPageCubit>(context).sendNotificationProjectChat(context, widget.responseProjectDataForFirebase.farmerProjectId!);
       scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       // disposeProgress();
-    }).catchError((error) {
+    })
+        .catchError((error) {
       print("Failed to add user: $error");
       showCustomToast(context, error.toString());
       // disposeProgress();

@@ -614,6 +614,7 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                            'user_photo': state.selectedLivestockFarmerMAster!.photo ?? '',
                                            'dde_id': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,
                                            'dde_name': BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name,
+                                           'created_at': Timestamp.now(),
                                          });
                                          LivestockEnquiryChatScreen(
                                            livestockId: widget.id.toString(),
@@ -621,7 +622,9 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                            advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(),
                                            userName: '${BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name ?? ''} (DDE)',
                                            userId: state.selectedLivestockFarmerMAster!.userId.toString(),
-                                           ddeId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
+                                           ddeId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,
+                                           livestockUserId: state.responseLivestockDetail!.data!.userId.toString(),
+                                         ).navigate();
                                        } : () {
                                          const RegisterPopUp().navigate();
                                        },
@@ -807,12 +810,15 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
                                     'user_name': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
                                     'user_address': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address != null ? BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.address!.address ?? '' : '',
                                     'user_photo': BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.photo ?? '',
+                                    'created_at': Timestamp.now(),
                                   });
                               LivestockEnquiryChatScreen(
                                 livestockId: widget.id.toString(),
                                 cowBreed: state.responseLivestockDetail!.data!.cowBreed!.name.toString(),
                                 advertisementNumber: state.responseLivestockDetail!.data!.advertisementNo.toString(), userName: BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.name ?? '',
-                                userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,).navigate();
+                                userId: context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userId)!,
+                                livestockUserId: state.responseLivestockDetail!.data!.userId.toString(),
+                              ).navigate();
                             } : () {
                               RegisterPopUp().navigate();
                             },

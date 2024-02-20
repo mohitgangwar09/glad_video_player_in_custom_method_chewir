@@ -31,6 +31,8 @@ import 'package:glad/utils/extension.dart';
 import 'cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'di_container.dart' as di;
 
+GlobalKey<NavigatorState>? navigatorKey;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -58,8 +60,11 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<LivestockCubit>()),
       BlocProvider(create: (context) => di.sl<WeatherCubit>()),
     ],
-    child: const GetMaterialApp(
-        debugShowCheckedModeBanner: false, home: MyApp()),
+    child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const MyApp(),
+        navigatorKey: navigatorKey,
+    ),
   ));
 }
 

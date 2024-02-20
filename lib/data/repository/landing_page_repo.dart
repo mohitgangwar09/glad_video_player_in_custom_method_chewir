@@ -271,6 +271,51 @@ class LandingPageRepository {
   }
 
   ////////////////////ddeDashboardApi///////////////////////////
+  Future<ResponseOtpModel> sendNotificationProjectChat(int projectId) async {
+
+    Map data = {
+      "project_id": projectId,
+      "event": 'new_project_chat',
+      'sender_type': sharedPreferences!.getString(AppConstants.userType),
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.sendNotificationApi,
+        headers: {'Authorization': 'Bearer ${getUserToken()}'},
+        data: data,
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ////////////////////ddeDashboardApi///////////////////////////
+  Future<ResponseOtpModel> sendNotificationLivestockEnquiryChat(int livestockId, String senderType, int receiverId) async {
+
+    Map data = {
+      "livestock_id": livestockId,
+      "event": 'livestock_enquiry',
+      'sender_type': senderType,
+      'receiverId': receiverId,
+    };
+
+    api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
+        .getPostApiResponse(AppConstants.sendNotificationApi,
+      headers: {'Authorization': 'Bearer ${getUserToken()}'},
+      data: data,
+    );
+
+    if (apiResponse.status) {
+      return ResponseOtpModel.fromJson(apiResponse.response!.data);
+    } else {
+      return ResponseOtpModel(status: 422, message: apiResponse.msg);
+    }
+  }
+
+  ////////////////////ddeDashboardApi///////////////////////////
   Future<ResponseOtpModel> ddeFarmerVisitorApi() async {
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

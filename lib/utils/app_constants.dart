@@ -103,6 +103,7 @@ class AppConstants {
   static const String projectRatingApi = '/api/farmer-project/project-rating';
   static const String supplierKycDocumentApi = '/api/suppliers/supplier-kyc-document';
   static const String supplierKycDocumentUpdateApi = '/api/suppliers/supplier-kyc-document-update';
+  static const String sendNotificationApi = '/api/notification/send-notification';
 
   //Livestock
   static const String livestockBreedApi = '/api/live-stock/cow-breed-list';
