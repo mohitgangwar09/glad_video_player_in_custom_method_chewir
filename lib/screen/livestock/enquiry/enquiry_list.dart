@@ -53,13 +53,13 @@ class _EnquiryListState extends State<EnquiryList> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CustomTextField(
+                        /*const CustomTextField(
                           hint: 'Search message...',
                           leadingImage: Images.search,
                           imageColors: Colors.black,
                           radius: 60,
                         ),
-                        0.verticalSpace(),
+                        0.verticalSpace(),*/
                         StreamBuilder(
                             stream: FirebaseFirestore.instance.collection('livestock_enquiry')
                                 .doc(widget.livestockId).collection('enquiries').orderBy('created_at').snapshots(),
