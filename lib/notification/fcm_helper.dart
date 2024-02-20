@@ -26,9 +26,9 @@ Future<void> msyBackgroundMessageHandler(RemoteMessage? message) async {
       print(message.data);
       print("------------------");
     }
-    if (Platform.isAndroid) {
+    // if (Platform.isAndroid) {
       FcmHelper.showNotification(message);
-    }
+    // }
   }
 }
 
@@ -73,9 +73,9 @@ class FcmHelper {
           print(message.data);
           print("------------------");
         }
-        if (Platform.isAndroid) {
+        // if (Platform.isAndroid) {
           showNotification(message);
-        }
+        // }
       }
     });
 

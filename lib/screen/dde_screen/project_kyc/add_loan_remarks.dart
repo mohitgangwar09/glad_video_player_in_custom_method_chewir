@@ -251,7 +251,6 @@ class _AddLoanRemarkState extends State<AddLoanRemark> {
             ),
           ),
         ),
-
       ],
     );
   }
