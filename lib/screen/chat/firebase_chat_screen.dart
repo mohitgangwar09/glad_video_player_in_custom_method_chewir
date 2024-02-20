@@ -289,14 +289,13 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                       // return const SizedBox.shrink();
                     }
                     final chatDocs = chatSnapShot.data;
-                    print(chatDocs!.docs.length);
 
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
                         child: GroupedListView<dynamic, String>(
                           controller: scrollController,
-                          elements: chatDocs.docs.toList(),
+                          elements: chatDocs!.docs.toList(),
                           groupBy: (element) => element.data()['date'],
                           groupSeparatorBuilder: (String groupByValue) => Align(
                             alignment: Alignment.center,
@@ -310,7 +309,6 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
                                 .get()
                                 .then((value) {
                               if(value.docs.isNotEmpty){
-                                print("value");
                                 for (var doc in value.docs) {
                                   doc.reference.delete();
                                 }

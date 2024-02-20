@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 
 class MessageBubble extends StatelessWidget {
 
-  MessageBubble(
+  const MessageBubble(
       this.message,
       this.username,
       this.createdAt,
@@ -29,7 +29,6 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   print(isMe);
     return Stack(
       children:[
         userType == isMe?

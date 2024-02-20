@@ -79,7 +79,7 @@ class ApiHitter {
               //  contentType: 'text/xml; charset=utf-8',
             ),
             data: data);
-        // debugPrint('URL---------------$baseurl ${response.data.toString()}');
+        debugPrint('URL---------------$baseurl ${response.data.toString()}');
         return ApiResponse(response.statusCode == 200,
             response: response, msg: response.statusMessage!);
       } on DioException catch (error) {
