@@ -87,7 +87,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       padding: const EdgeInsets.only(top: 12.0),
                       child: Text.rich(
                           TextSpan(
-                              text: 'Enter the address associated with your account.',
+                              text: 'Enter the email address associated with your account.',
                               style: figtreeRegular.copyWith(fontSize: 14),
                               children: const <InlineSpan>[
                               ]

@@ -6,11 +6,9 @@ import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/custom_widget/custom_textfield.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/images.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 import 'package:glad/utils/styles.dart';
 
@@ -41,16 +39,6 @@ class _MessageBoardState extends State<MessageBoard> {
                   titleText1Style:
                       figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                   leading: arrowBackButton()),
-              // const Padding(
-              //   padding:
-              //   EdgeInsets.only(left: 18.0, right: 18, top: 20),
-              //   child: CustomTextField(
-              //     hint: 'Search message...',
-              //     leadingImage: Images.search,
-              //     imageColors: Colors.black,
-              //     radius: 60,
-              //   ),
-              // ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -58,13 +46,10 @@ class _MessageBoardState extends State<MessageBoard> {
                         const EdgeInsets.only(left: 18.0, right: 18, top: 10),
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance.collection('projects_chats')
-                            .where(widget.userType,
-                            isEqualTo: widget.userRoleId)
-                            .orderBy('created_at')
+                            .where(widget.userType, isEqualTo: widget.userRoleId)
+                            .orderBy('updated_at')
                             .snapshots(),
                         builder: (ctx,chatSnapShot) {
-                          // if(chatSnapShot.connectionState == ConnectionState.waiting) {
-                          //   return const Center(child: CircularProgressIndicator(),);}
                           if(!chatSnapShot.hasData) {
                             return const SizedBox.shrink();
                           }
@@ -85,7 +70,6 @@ class _MessageBoardState extends State<MessageBoard> {
                               padding: const EdgeInsets.only(bottom: 10),
                               child: InkWell(
                                 onTap: () async{
-                                  print(chatDocs.docs[index]['farmer_id']);
                                   ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(
                                       userName: await SharedPrefManager.getPreferenceString(AppConstants.userName),
                                       projectName: chatDocs.docs[index]['project_name'].toString(),
@@ -98,9 +82,7 @@ class _MessageBoardState extends State<MessageBoard> {
                                       mccId: chatDocs.docs[index]['mcc_id'].toString(),
                                       supplierId: chatDocs.docs[index]['supplier_id'].toString(),
                                       projectImage: chatDocs.docs[index].data()['project_image'] ?? '');
-                                      // userType: 'dde', userId: int.parse(chatDocs.docs[index]['userId'].toString()));
                                   FirebaseChatScreen(responseProjectDataForFirebase: response,).navigate();
-                                  // DDeFarmerInvestmentDetails(projectId: int.parse(chatDocs.docs[index]['dde_id'].toString())).navigate();
                                 },
                                 child: Stack(
                                   children: [
@@ -198,7 +180,6 @@ class _MessageBoardState extends State<MessageBoard> {
                                               if(!snapshot.hasData){
                                                 return const SizedBox.shrink();
                                               }
-                                              print(snapshot.data!.docs.length);
                                               if(snapshot.data!.docs.isEmpty) {
                                                 return const SizedBox.shrink();
                                               }

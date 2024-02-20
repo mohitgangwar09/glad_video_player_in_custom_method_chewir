@@ -896,7 +896,7 @@ class _DDeFarmerInvestmentDetailsState
                                 : ''
                             : '',
                         // 'user_type': 'dde',
-                      });
+                      }, SetOptions(merge: true));
 
                       ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(
                           projectName: state.responseFarmerProjectDetail!.data!

@@ -1,18 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
-import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
-import 'package:glad/utils/helper.dart';
-import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -50,6 +45,10 @@ class _LivestockEnquiryChatScreenState extends State<LivestockEnquiryChatScreen>
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
     }).then((value) {
+      FirebaseFirestore.instance.collection('livestock_enquiry')
+          .doc(widget.livestockId)
+          .collection('enquiries')
+          .doc(widget.userId).update({'updated_at': Timestamp.now()});
       print("Message Added");
     }).catchError((error) {
           print("Failed to add user: $error");

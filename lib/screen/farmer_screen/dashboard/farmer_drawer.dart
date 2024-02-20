@@ -74,7 +74,7 @@ class FarmerDrawer extends StatelessWidget {
           // 30.verticalSpace(),
           navigationBarItem(
               image: Images.aboutus,
-              onTap: () async{
+              onTap: () async {
                 var roleId = await SharedPrefManager.getPreferenceString(AppConstants.userRoleId);
 
                 MessageBoard(userRoleId:roleId.toString(),

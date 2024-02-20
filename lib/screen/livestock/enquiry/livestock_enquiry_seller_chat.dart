@@ -38,7 +38,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
   ScrollController scrollController = ScrollController();
 
   void _sendMessage() async {
-    if (BlocProvider.of<ProfileCubit>(context).state.responseProfile == null) {
+    if (BlocProvider.of<ProfileCubit>(context).state.responseProfile == null && context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde") {
       await BlocProvider.of<ProfileCubit>(context).profileApi(context);
     }
     FirebaseFirestore.instance.collection('livestock_enquiry')
@@ -48,17 +48,22 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
         .collection('chats').add({
       'text': commentController.text,
       'created_at': Timestamp.now(),
-      'user_name': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? '${BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name ?? ''} (DDE)' : context.read<LivestockCubit>().state.responseLivestockDetail!.data!.user!.name ?? '',
+      'user_name': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde"
+          ? '${BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.name ?? ''} (DDE)'
+          : context.read<LivestockCubit>().state.responseLivestockDetail!.data!.user!.name ?? '',
       'date': DateFormat.yMMMMd().format(DateTime.now()),
       'user_type': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? 'seller-dde' : 'seller',
       "message_type": 'text',
-      // "${currentUser}messageCount":FieldValue.increment(1),
     }).then((value) {
-      BlocProvider.of<LandingPageCubit>(context).sendNotificationLivestockEnquiryChat(context, int.parse(widget.livestockId), 'seller', int.parse(widget.userId));
+      FirebaseFirestore.instance.collection('livestock_enquiry')
+          .doc(widget.livestockId)
+          .collection('enquiries')
+          .doc(widget.userId).update({'updated_at': Timestamp.now()});
       print("Message Added");
     }).catchError((error) {
       print("Failed to add user: $error");
     });
+    BlocProvider.of<LandingPageCubit>(context).sendNotificationLivestockEnquiryChat(context, int.parse(widget.livestockId), 'seller', int.parse(widget.userId));
     scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     commentController.clear();
   }

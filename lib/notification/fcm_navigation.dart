@@ -130,7 +130,7 @@ class FcmNavigation {
                     .toString()
                 : ''
             : '',
-      });
+      }, SetOptions(merge: true));
 
       ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(
           projectName: state

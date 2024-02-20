@@ -62,7 +62,7 @@ class _EnquiryListState extends State<EnquiryList> {
                         0.verticalSpace(),
                         StreamBuilder(
                             stream: FirebaseFirestore.instance.collection('livestock_enquiry')
-                                .doc(widget.livestockId).collection('enquiries').orderBy('created_at').snapshots(),
+                                .doc(widget.livestockId).collection('enquiries').orderBy('updated_at').snapshots(),
                             builder: (ctx,chatSnapShot) {
                               // if(chatSnapShot.connectionState == ConnectionState.waiting) {
                               //   return const Center(child: CircularProgressIndicator(),);}

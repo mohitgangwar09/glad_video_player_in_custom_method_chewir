@@ -239,7 +239,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     'farmer_name': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.name.toString(),
                     'farmer_address': state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.address!.address!.toString():'':'',
                     // 'user_type': 'dde',
-                  });
+                  }, SetOptions(merge: true));
 
                   ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(
                       projectName: state.responseFarmerProjectDetail!.data!.farmerProject![0].name!.toString(),

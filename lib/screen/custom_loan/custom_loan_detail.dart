@@ -894,7 +894,7 @@ class _CustomLoanDetailState
                             : ''
                             : '',
                         // 'user_type': 'dde',
-                      });
+                      }, SetOptions(merge: true));
 
                       ResponseProjectDataForFirebase response = ResponseProjectDataForFirebase(
                           projectName: state.responseFarmerProjectDetail!.data!
