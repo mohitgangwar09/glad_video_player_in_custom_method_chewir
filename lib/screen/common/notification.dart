@@ -98,7 +98,8 @@ class CommonNotification extends StatelessWidget {
                                   width: screenWidth() * 0.7,
                                   child: Text(
                                     state.responseNotificationList!.data![index].body ?? '',
-                                    maxLines: 4,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: figtreeMedium.copyWith(fontSize: 14),
                                   ),
                                 ),
