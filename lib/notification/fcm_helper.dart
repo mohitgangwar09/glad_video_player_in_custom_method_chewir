@@ -11,13 +11,13 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 late FirebaseApp _firebaseApp;
 
-@pragma('vm:entry-point')
-void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
-  print('OnTap BG');
-  if(response.payload != '') {
-    FcmNavigation.handleBackgroundStateNavigation(jsonDecode(response.payload!));
-  }
-}
+// @pragma('vm:entry-point')
+// void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
+//   print('OnTap BG');
+//   if(response.payload != '') {
+//     FcmNavigation.handleBackgroundStateNavigation(jsonDecode(response.payload!));
+//   }
+// }
 
 Future<void> msyBackgroundMessageHandler(RemoteMessage? message) async {
   print('Background Handler Notification');
@@ -25,9 +25,6 @@ Future<void> msyBackgroundMessageHandler(RemoteMessage? message) async {
     if(message.data.isNotEmpty) {
       print(message.data);
       print("------------------");
-    }
-    if (Platform.isAndroid) {
-      FcmHelper.showNotification(message);
     }
   }
 }
@@ -60,7 +57,6 @@ class FcmHelper {
 
           await SharedPrefManager.savePrefString(
               'payload', jsonEncode(message.data));
-
           // const SplashScreen().navigate(isRemove: true);
         }
       }
@@ -94,8 +90,28 @@ class FcmHelper {
 
     //Needed by iOS only
     if (Platform.isIOS) {
-      await _firebaseMessaging.requestPermission(sound: true, badge: true, alert: true,);
+      await _firebaseMessaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
     }
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      description: 'This channel is used for important notifications.', // description
+      importance: Importance.max,
+    );
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
     await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
 
@@ -120,7 +136,7 @@ class FcmHelper {
             FcmNavigation.handleBackgroundStateNavigation(jsonDecode(response.payload!));
           }
         },
-        onDidReceiveBackgroundNotificationResponse: onDidReceiveBackgroundNotificationResponse
+        // onDidReceiveBackgroundNotificationResponse: onDidReceiveBackgroundNotificationResponse
     );
   }
 
