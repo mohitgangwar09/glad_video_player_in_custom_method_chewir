@@ -18,13 +18,14 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 
 class LivestockEnquiryChatScreen extends StatefulWidget {
-  const LivestockEnquiryChatScreen({super.key, required this.livestockId, required this.cowBreed, required this.advertisementNumber, required this.userName, required this.userId, this.ddeId});
+  const LivestockEnquiryChatScreen({super.key, required this.livestockId, required this.cowBreed, required this.advertisementNumber, required this.userName, required this.userId, this.ddeId, required this.livestockUserId});
   final String livestockId;
   final String cowBreed;
   final String advertisementNumber;
   final String userName;
   final String userId;
   final String? ddeId;
+  final String livestockUserId;
 
   @override
   State<LivestockEnquiryChatScreen> createState() => _LivestockEnquiryChatScreenState();
@@ -48,8 +49,12 @@ class _LivestockEnquiryChatScreenState extends State<LivestockEnquiryChatScreen>
       'user_type': widget.ddeId != null ? 'buyer-dde' : 'buyer',
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
-    }).then((value) => print("Message Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+    }).then((value) {
+      print("Message Added");
+    }).catchError((error) {
+          print("Failed to add user: $error");
+        });
+    BlocProvider.of<LandingPageCubit>(context).sendNotificationLivestockEnquiryChat(context, int.parse(widget.livestockId), 'buyer', int.parse(widget.livestockUserId));
     scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     commentController.clear();
   }

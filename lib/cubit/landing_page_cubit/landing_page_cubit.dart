@@ -1,3 +1,4 @@
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -203,6 +204,18 @@ class LandingPageCubit extends Cubit<LandingPageState> {
         showCustomToast(context, response.message.toString());
       }
     }
+  }
+
+  // ddeDashboardApi
+  Future<void> sendNotificationProjectChat(context, int projectId) async {
+    var response = await apiRepository.sendNotificationProjectChat(projectId);
+    if (response.status == 200) {} else {}
+  }
+
+  // ddeDashboardApi
+  Future<void> sendNotificationLivestockEnquiryChat(context, int livestockId, String senderType, int receiverId) async {
+    var response = await apiRepository.sendNotificationLivestockEnquiryChat(livestockId, senderType, receiverId);
+    if (response.status == 200) {} else {}
   }
 
   Future<void> ddeFarmerVisitorApi(context) async {

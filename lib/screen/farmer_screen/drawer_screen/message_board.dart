@@ -59,7 +59,9 @@ class _MessageBoardState extends State<MessageBoard> {
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance.collection('projects_chats')
                             .where(widget.userType,
-                            isEqualTo: widget.userRoleId).snapshots(),
+                            isEqualTo: widget.userRoleId)
+                            .orderBy('created_at')
+                            .snapshots(),
                         builder: (ctx,chatSnapShot) {
                           // if(chatSnapShot.connectionState == ConnectionState.waiting) {
                           //   return const Center(child: CircularProgressIndicator(),);}
@@ -78,7 +80,7 @@ class _MessageBoardState extends State<MessageBoard> {
                               shrinkWrap: true,
                               padding: const EdgeInsets.only(top: 20,bottom: 0),
                               controller: ScrollController(),
-                              itemCount: chatDocs!.docs.length,itemBuilder: (ctx,index) {
+                              itemCount: chatDocs.docs.length,itemBuilder: (ctx,index) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: InkWell(

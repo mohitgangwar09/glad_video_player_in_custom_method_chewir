@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
+import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
@@ -52,8 +53,12 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
       'user_type': context.read<LivestockCubit>().sharedPreferences.getString(AppConstants.userType) == "dde" ? 'seller-dde' : 'seller',
       "message_type": 'text',
       // "${currentUser}messageCount":FieldValue.increment(1),
-    }).then((value) => print("Message Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+    }).then((value) {
+      BlocProvider.of<LandingPageCubit>(context).sendNotificationLivestockEnquiryChat(context, int.parse(widget.livestockId), 'seller', int.parse(widget.userId));
+      print("Message Added");
+    }).catchError((error) {
+      print("Failed to add user: $error");
+    });
     scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     commentController.clear();
   }
