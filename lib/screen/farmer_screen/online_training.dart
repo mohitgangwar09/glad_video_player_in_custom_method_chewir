@@ -404,12 +404,17 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     func();
     super.initState();
   }
 
   func() {
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     String videoId = getYoutubeVideoId(widget.url);
     if(videoId == '') {
       Future.delayed(const Duration(seconds: 2), () {
@@ -429,6 +434,10 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     controller!.dispose();
     super.dispose();
   }
@@ -452,6 +461,12 @@ class _OverlayVideoPlayerState extends State<OverlayVideoPlayer> {
       },
       onEnterFullScreen: () {
         setState(() {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+          ]);
           fullScreen = true;
         });
       },
