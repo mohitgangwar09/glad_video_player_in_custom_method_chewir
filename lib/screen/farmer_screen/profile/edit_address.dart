@@ -128,6 +128,7 @@ class _EditAddressState extends State<EditAddress> {
 
                                 CustomTextField2(
                                   title: 'Country',
+                                  backgroundColor: Colors.grey.shade300.value,
                                   controller: state.countryController,
                                   enabled: false,
                                 ),
@@ -136,6 +137,7 @@ class _EditAddressState extends State<EditAddress> {
 
                                 CustomTextField2(
                                   title: 'Region',
+                                  backgroundColor: Colors.grey.shade300.value,
                                   controller: state.regionController,
                                   enabled: false,
                                 ),
@@ -143,6 +145,7 @@ class _EditAddressState extends State<EditAddress> {
                                 // DistrictPicker(),
                                 CustomTextField2(
                                   readOnly: true,
+                                  backgroundColor: Colors.grey.shade300.value,
                                   controller: state.districtController,
                                   title: 'District',
                                 ),
@@ -175,6 +178,7 @@ class _EditAddressState extends State<EditAddress> {
                                 Container(
                                   height: 55,
                                   decoration: BoxDecoration(
+                                    color: Colors.white,
                                     border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
                                     borderRadius: BorderRadius.circular(10)
                                   ),
@@ -187,7 +191,7 @@ class _EditAddressState extends State<EditAddress> {
                                         state.selectCounty.toString(),
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: Theme.of(context).hintColor,
+                                          color: Colors.black,
                                         ),
                                       ),
                                       items: state.counties!
@@ -232,6 +236,7 @@ class _EditAddressState extends State<EditAddress> {
                                 Container(
                                   height: 55,
                                   decoration: BoxDecoration(
+                                    color: Colors.white,
                                       border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
                                       borderRadius: BorderRadius.circular(10)
                                   ),
@@ -244,7 +249,7 @@ class _EditAddressState extends State<EditAddress> {
                                         state.selectSubCounty.toString(),
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: Theme.of(context).hintColor,
+                                          color: Colors.black,
                                         ),
                                       ),
                                       items: state.dataSubCounty!

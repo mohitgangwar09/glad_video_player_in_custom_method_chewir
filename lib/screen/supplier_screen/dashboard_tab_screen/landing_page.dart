@@ -128,7 +128,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
       setState(() {});
     });
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
       BlocProvider.of<ProjectCubit>(context)
           .supplierProjectsApi(context, 'new', true);

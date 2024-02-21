@@ -37,7 +37,7 @@ class _GuestLandingPageState extends State<GuestLandingPage> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<LandingPageCubit>(context).getGuestDashboard(context);
     });
   }

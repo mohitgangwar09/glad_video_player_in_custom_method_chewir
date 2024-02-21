@@ -253,11 +253,25 @@ class _MyLiveStockScreenState extends State<MyLiveStockScreen> {
                         ],
                       ),
                       6.verticalSpace(),
-                      Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
-                          ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!['address'] ?? ''
-                          : '',
-                          style: figtreeMedium.copyWith(
-                              fontSize: 12, color: Colors.black), maxLines: 1,),
+                      Row(
+                        children: [
+                          Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!=null?state.responseMyLivestockList!.data!.livestocklLIst![index].user!.name != null
+                              ? "${state.responseMyLivestockList!.data!.livestocklLIst![index].user!.name}, " ?? ''
+                              : '':'',
+                            style: figtreeMedium.copyWith(
+                                fontSize: 12, color: Colors.black), maxLines: 1,),
+
+                          Flexible(
+                            child: Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!=null?state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
+                                ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!['address'] ?? ''
+                                : '':'',
+                              overflow: TextOverflow.ellipsis,
+                              style: figtreeMedium.copyWith(
+                                  fontSize: 12, color: Colors.black), maxLines: 1,),
+
+                          ),
+                        ],
+                      ),
                       // 12.verticalSpace(),
                       // Row(
                       //   children: [

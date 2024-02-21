@@ -17,21 +17,18 @@ import 'package:glad/utils/color_resources.dart';
 final GlobalKey<ScaffoldState> ddeLandingKey = GlobalKey();
 
 class DashboardDDE extends StatelessWidget {
-  const DashboardDDE({Key? key,this.initialNavigateIndex}) : super(key: key);
-  final int? initialNavigateIndex;
+  const DashboardDDE({Key? key}) : super(key: key);
+
+  static const widgetOptions = [
+    DDELandingPage(),
+    FarmerDdeTabScreen(),
+    ProjectScreen(),
+    EnquiryScreen(),
+    CommunityPost()
+  ];
 
   @override
   Widget build(BuildContext context) {
-    var provider = BlocProvider.of<DashboardCubit>(context);
-
-    final widgetOptions = [
-      const DDELandingPage(),
-      const FarmerDdeTabScreen(),
-      const ProjectScreen(),
-      const EnquiryScreen(),
-      const CommunityPost()
-    ];
-
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
         return willPopScope(
@@ -42,7 +39,7 @@ class DashboardDDE extends StatelessWidget {
               drawer: const DdeDrawer(),
               extendBody: true,
               body: widgetOptions.elementAt(state.selectedIndex),
-              bottomNavigationBar: bottomNavigationBar(provider.state, context)),
+              bottomNavigationBar: bottomNavigationBar(state, context)),
         );
       },
     );

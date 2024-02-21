@@ -31,7 +31,7 @@ class _DDEProfileState extends State<DDEProfile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
       BlocProvider.of<ProfileCubit>(context).ddeTargetMonthsApi(context);
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');

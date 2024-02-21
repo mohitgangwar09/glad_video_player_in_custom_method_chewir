@@ -167,7 +167,7 @@ class ThankYou extends StatelessWidget {
                 40.verticalSpace(),
                 customButton("Back to Home", fontColor: 0xffffffff, onTap: () {
                   if(navigateFrom == "dde"){
-                    const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
+                    const DashboardDDE().navigate(isInfinity: true);
                   }else{
                     const DashboardFarmer().navigate(isInfinity: true);
                   }

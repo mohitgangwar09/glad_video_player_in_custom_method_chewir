@@ -28,7 +28,7 @@ class _MccProfileState extends State<MccProfile> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
     });
   }

@@ -19,21 +19,16 @@ final GlobalKey<ScaffoldState> farmerLandingKey = GlobalKey();
 class DashboardFarmer extends StatelessWidget {
   const DashboardFarmer({Key? key}) : super(key: key);
 
+  static const widgetOptions = [
+    FarmerLandingPage(),
+    ProjectScreen(),
+    FarmerStatement(),
+    LiveStockScreen(),
+    CommunityPost(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-
-    var provider = BlocProvider.of<DashboardCubit>(context);
-
-    // provider.selectedIndex(0);
-
-
-    final widgetOptions = [
-      const FarmerLandingPage(),
-      const ProjectScreen(),
-      const FarmerStatement(),
-      const LiveStockScreen(),
-      const CommunityPost(),
-    ];
 
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
@@ -45,7 +40,7 @@ class DashboardFarmer extends StatelessWidget {
               drawer:const FarmerDrawer(),
               extendBody: true,
               body: widgetOptions.elementAt(state.selectedIndex),
-              bottomNavigationBar: bottomNavigationBar(provider.state,context)
+              bottomNavigationBar: bottomNavigationBar(state,context)
           ),
         );
       },

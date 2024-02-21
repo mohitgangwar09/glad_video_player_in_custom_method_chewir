@@ -34,7 +34,7 @@ class TestCowAndYieldState extends State<TestCowAndYield> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<CowsAndYieldCubitTest>(context).emit(TestYieldState.initial());
       BlocProvider.of<CowsAndYieldCubitTest>(context).getCowBreedDetailsApi(context,"");
       // BlocProvider.of<CowsAndYieldCubit>(context).showMonth(0,MonthWiseData());

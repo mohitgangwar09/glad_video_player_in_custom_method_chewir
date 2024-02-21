@@ -4,6 +4,7 @@ import 'package:dio/io.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart'  as route;
 import 'package:glad/data/repository/auth_repo.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/helper.dart';
@@ -32,24 +33,26 @@ class ApiHitter {
         connectTimeout: const Duration(milliseconds: 30000),
         receiveTimeout: const Duration(milliseconds: 30000),
       );
-      return Dio(options)..options.headers ={
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ${AuthRepository().getUserToken()}'}
-        ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-          return handler.next(options); //continue
-        }, onResponse: (response, handler) async {
-          if (kDebugMode) {
-            print('response::::$response');
-          }
-          return handler.next(response); // continue
-        }, onError: (DioException e, handler) async {
-          if (kDebugMode) {
-            debugPrint('error response::::${e.response}');
-            debugPrint('error message::::${e.message}');
-          }
-
-          return handler.next(e);
-        }));
+      return Dio(options)
+        // ..options.headers ={
+        // 'Content-Type': 'application/json; charset=UTF-8',
+        // 'Authorization': 'Bearer ${AuthRepository().getUserToken()}'}
+        // ..interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+        //   return handler.next(options); //continue
+        // }, onResponse: (response, handler) async {
+        //   if (kDebugMode) {
+        //     print('response::::$response');
+        //   }
+        //   return handler.next(response); // continue
+        // }, onError: (DioException e, handler) async {
+        //   if (kDebugMode) {
+        //     debugPrint('error response::::${e.response}');
+        //     debugPrint('error message::::${e.message}');
+        //   }
+        //
+        //   return handler.next(e);
+        // }))
+      ;
     } else {
       return dio!;
     }
@@ -64,22 +67,16 @@ class ApiHitter {
     bool value = await checkInternetConnection();
     if (value) {
       try {
-        if (kDebugMode) {
-          print('---------------queryParameters---------------');
-          print(data);
-          print('---------------------------------------------');
-        }
-        debugPrint('URL---------------$baseurl$endPoint');
+        debugPrint('Post URL Request--------------- $endPoint $data ${route.Get.currentRoute}');
         var response = await getDio(
           baseurl: baseurl,
         ).post(endPoint,
             options: Options(
               headers: headers,
               contentType: 'application/json',
-              //  contentType: 'text/xml; charset=utf-8',
             ),
             data: data);
-        debugPrint('URL---------------$baseurl ${response.data.toString()}');
+        debugPrint('Post URL Response---------------$endPoint ${response.data.toString()}');
         return ApiResponse(response.statusCode == 200,
             response: response, msg: response.statusMessage!);
       } on DioException catch (error) {
@@ -99,15 +96,10 @@ class ApiHitter {
     Map<String, dynamic>? data,
     String baseurl = '',
   }) async {
-    if (kDebugMode) {
-      print('---------------queryParameters---------------');
-      print(data);
-      print('---------------------------------------------');
-    }
     bool value = await checkInternetConnection();
     if (value) {
       try {
-        debugPrint('URL---------------$baseurl$endPoint');
+        debugPrint('Put URL Request--------------- $endPoint $data ${route.Get.currentRoute}');
         var response = await getDio(
           baseurl: baseurl,
         ).put(endPoint,
@@ -116,6 +108,7 @@ class ApiHitter {
               contentType: 'application/json',
             ),
             data: data);
+        debugPrint('Put URL Response---------------$endPoint ${response.data.toString()}');
         return ApiResponse(response.statusCode == 200,
             response: response, msg: response.statusMessage!);
       } on DioException catch (error) {
@@ -137,15 +130,10 @@ class ApiHitter {
     Map<String, dynamic>? queryParameters,
     String baseurl = '',
   }) async {
-    if (kDebugMode) {
-      print('---------------queryParameters---------------');
-      print(queryParameters);
-      print('---------------------------------------------');
-    }
     bool value = await checkInternetConnection();
     if (value) {
       try {
-        debugPrint('URL---------------$baseurl$endPoint');
+        debugPrint('Get URL Request--------------- $endPoint ${route.Get.currentRoute}');
         var response = await getDio(
           baseurl: baseurl,
         ).get(
@@ -156,6 +144,7 @@ class ApiHitter {
             contentType: 'application/json',
           ),
         );
+        debugPrint('Get URL Response---------------$endPoint ${response.data.toString()}');
         return ApiResponse(response.statusCode == 200,
             response: response, msg: response.statusMessage!);
       } on DioException catch (error) {
@@ -178,15 +167,10 @@ class ApiHitter {
     Map<String, dynamic>? data,
     String baseurl = '',
   }) async {
-    if (kDebugMode) {
-      print('---------------queryParameters---------------');
-      print(data);
-      print('---------------------------------------------');
-    }
     bool value = await checkInternetConnection();
     if (value) {
       try {
-        debugPrint('URL---------------$baseurl$endPoint');
+        debugPrint('Delete URL Request--------------- $endPoint $data ${route.Get.currentRoute}');
         var response = await getDio(
           baseurl: baseurl,
         ).delete(
@@ -197,6 +181,7 @@ class ApiHitter {
             contentType: 'application/json',
           ),
         );
+        debugPrint('Delete URL Response---------------$endPoint ${response.data.toString()}');
         return ApiResponse(response.statusCode == 200,
             response: response, msg: response.statusMessage!);
       } on DioException catch (error) {
@@ -229,6 +214,7 @@ class ApiHitter {
   }
 
   ApiResponse exception(DioException error) {
+    debugPrint('URL Error Response---------------${error.requestOptions.baseUrl} ${error.requestOptions.path} ${error.response != null ? error.response!.data['message'].toString() : 'Network Error'}');
     return ApiResponse(false,
         msg: error.response != null ? error.response!.data['message'].toString() : 'Network Error',
       statusCode: NetworkExceptions.getErrorMessage(

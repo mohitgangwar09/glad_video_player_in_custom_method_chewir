@@ -56,7 +56,7 @@ class _FarmerLandingPageState extends State<FarmerLandingPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<LandingPageCubit>(context).getFarmerDashboard(context);
     });
     Future.delayed(const Duration(seconds: 3), handleKillStateNotification);

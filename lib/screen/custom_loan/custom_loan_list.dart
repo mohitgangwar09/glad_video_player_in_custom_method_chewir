@@ -36,8 +36,15 @@ class _CustomLoanListState extends State<CustomLoanList> {
 
   @override
   void initState() {
-    BlocProvider.of<ProjectCubit>(context).customLoanListApi(context, '');
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<ProjectCubit>(context).customLoanListApi(context, '');
+      if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer"){
+        if(BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile==null){
+          BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+        }
+      }
+    });
   }
 
   @override
@@ -360,7 +367,12 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                           height: screenHeight()-220,
                                           child: selectFarmerAddDdeLivestock(isCustomLoan: true)));
                                 } else {
-                                  const ApplyCustomLoan().navigate();
+
+                                  if(BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.kycStatus.toString() == "verified"){
+                                    const ApplyCustomLoan().navigate();
+                                  }else{
+                                    showCustomToast(context, "Your kyc is not verified");
+                                  }
                                 }
                               }))
                         else
@@ -389,7 +401,11 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                       height: screenHeight()-220,
                                       child: selectFarmerAddDdeLivestock(isCustomLoan: true)));
                             } else {
-                              const ApplyCustomLoan().navigate();
+                              if(BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.kycStatus.toString() == "verified"){
+                                const ApplyCustomLoan().navigate();
+                              }else{
+                                showCustomToast(context, "Your kyc is not verified");
+                              }
                             }
                           }))
               ],

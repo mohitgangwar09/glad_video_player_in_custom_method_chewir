@@ -29,7 +29,7 @@ class _CommunityLikeListState extends State<CommunityLikeList> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<CommunityCubit>(context).likeListApi(context, widget.communityId);
     });
   }

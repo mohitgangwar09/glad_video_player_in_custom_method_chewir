@@ -313,7 +313,7 @@ class _DisputeScreenState extends State<DisputeScreen> {
                     onTap: () {
                       String type = context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType)!;
                       if(type == "dde"){
-                        const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
+                        const DashboardDDE().navigate(isInfinity: true);
                       }else if(type == "farmer"){
                         const DashboardFarmer().navigate(isInfinity: true);
                       } else {
