@@ -47,7 +47,7 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
         .then((value) {
             if(value.docs.isNotEmpty){
               for (var doc in value.docs) {
-                   doc.reference.delete();
+                doc.reference.delete();
               }
             }
         });
