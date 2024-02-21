@@ -250,7 +250,7 @@ class CongratulationScreen extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              'not come',
+                                            state.responseFarmerProjectDetail!.data!.supplierDetail!.address != null ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address!['address'] ?? '' : '',
                                               maxLines: 2,
                                               style:
                                               figtreeRegular.copyWith(
@@ -365,7 +365,7 @@ class CongratulationScreen extends StatelessWidget {
 
                 customButton("Back to Home", fontColor: 0xffffffff, onTap: () {
                   if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
-                    const DashboardDDE(initialNavigateIndex: 0,).navigate(isInfinity: true);
+                    const DashboardDDE().navigate(isInfinity: true);
                   }else{
                     const DashboardFarmer().navigate(isInfinity: true);
                     /*if(navigateFrom == "dde"){

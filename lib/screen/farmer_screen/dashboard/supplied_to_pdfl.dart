@@ -22,7 +22,7 @@ class _SuppliedToPDFLState extends State<SuppliedToPDFL> {
   String duration = "6months";
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<LandingPageCubit>(context)
           .getMilkProductionChart(context, widget.farmerId);
     });

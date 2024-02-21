@@ -67,7 +67,7 @@ class CowsAndYieldsSumDoneState extends State<CowsAndYieldsSumDone> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       // BlocProvider.of<CowsAndYieldDoneCubit>(context).emit(CowsAndCubitDoneState.initial());
       BlocProvider.of<CowsAndYieldDoneCubit>(context).getCowBreedDetailsApi(context,"",id: widget.userId.toString());
       BlocProvider.of<DdeFarmerCubit>(context).getBreedListApi(context,widget.userId.toString());

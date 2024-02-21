@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/data/model/livestock_detail.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/livestock/add_livestock.dart';
@@ -50,6 +52,11 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
   apiCall() async {
     BlocProvider.of<LivestockCubit>(context).livestockCartListApi(context,userId: widget.userId);
+    if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer"){
+      if(BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile==null){
+        BlocProvider.of<ProfileCubit>(context).getFarmerProfile(context);
+      }
+    }
     // loan.text = (int.parse(BlocProvider.of<LivestockCubit>(context).state.responseLivestockCartList!.data![0].cowQty.toString()) * double.parse(BlocProvider.of<LivestockCubit>(context).state.responseLivestockCartList!.data![0].cowPrice.toString()).toInt()).toString();
   }
 
@@ -431,7 +438,6 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                   'Apply Loan',
                                                   fontColor: 0xffFFFFFF,
                                                   onTap: () {
-
                                                     if(controller.text.isEmpty){
 
                                                     }else if(double.parse(controller.text)>subtotal){
@@ -439,9 +445,25 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                     }else if(double.parse(controller.text)<participationPercentage!){
                                                       showCustomToast(context, "Buyer participation can't be less than ${state.responseLivestockCartList!.data![0].farmerParticipationPercent}% of subtotal");
                                                     }else{
-                                                      LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text,
-                                                        farmerMaster: state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.user!.farmerMaster!
-                                                      ).navigate();
+
+                                                      if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer"){
+                                                        if(BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.kycStatus.toString() == "verified"){
+                                                          LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text,
+                                                              farmerMaster: state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.user!.farmerMaster!
+                                                          ).navigate();
+                                                        }else{
+                                                          showCustomToast(context, "Your kyc is not verified");
+                                                        }
+                                                      }else{
+                                                        if(state.selectedLivestockFarmerMAster!.kycStatus.toString() == "verified"){
+                                                          LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text,
+                                                            farmerMaster: state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.user!.farmerMaster!
+                                                        ).navigate();
+                                                        }else{
+                                                          showCustomToast(context, "Farmer kyc is not verified");
+                                                        }
+                                                      }
+
                                                     }
                                                   },
                                                   height: 60,
@@ -456,87 +478,6 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                               }
                           ));
                     })
-
-                    /*40.verticalSpace(),
-
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: "Farmer Participation (UGX)".textMedium(color: Colors.black, fontSize: 12),
-                    ),
-
-                    5.verticalSpace(),
-
-                    Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white
-                      ),
-                      width: screenWidth(),
-                      child: TextField(
-                        maxLines: 1,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        controller: farmer,
-                        maxLength: 10,
-                        // enabled: false,
-                        onChanged: (val) {
-                          if(int.parse(val) > int.parse(state.responseLivestockCartList!.data![0].cowQty.toString()) * double.parse(state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.price.toString())){
-                            showCustomToast(context, 'Farmer Participation cannot be greater than sub total');
-                            setState(() {
-                              loan.text = '';
-                            });
-                          } else {
-                            setState(() {
-                             *//* loan.text = (int.parse(
-                                  state.responseLivestockCartList!.data![0]
-                                      .cowQty.toString()) * double.parse(
-                                  state.responseLivestockCartList!.data![0]
-                                      .liveStockCartDetails!.price.toString()).toInt() -
-                                  int.parse(val)).toString();*//*
-                            });
-                          }
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          counterText: '',
-                          contentPadding: EdgeInsets.only(top: 10,left: 13),
-                        ),
-                      ),
-                    ),
-
-                    20.verticalSpace(),
-
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: "Loan Amount (UGX)".textMedium(color: Colors.black, fontSize: 12),
-                    ),
-
-                    5.verticalSpace(),
-
-                    Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white
-                      ),
-                      width: screenWidth(),
-                      child: TextField(
-                        maxLines: 1,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        controller: loan,
-                        maxLength: 10,
-                        enabled: false,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          counterText: '',
-                          contentPadding: EdgeInsets.only(top: 10,left: 13),
-                        ),
-                      ),
-                    )*/
 
                   ],
                 ),

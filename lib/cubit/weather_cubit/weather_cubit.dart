@@ -20,7 +20,6 @@ class WeatherCubit extends Cubit<WeatherState>{
     var response = await apiRepository.weatherApi(lat,lng);
     var addressResponse = await getAddressFromLatLngDescription(lat, lng);
 
-    print(response);
     emit(state.copyWith(responseWeather: response, responseAddress: addressResponse));
 
     /*if (response.s == 200) {

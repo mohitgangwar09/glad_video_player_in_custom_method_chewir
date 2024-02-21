@@ -23,6 +23,7 @@ class PersonalDetails extends StatelessWidget {
             children: [
               CustomTextField2(title: 'Name',
                 enabled: false,
+                backgroundColor: Colors.grey.shade300.value,
                 controller: TextEditingController()..text = state.responseFarmerProfile!.farmer!.name.toString(),),
               20.verticalSpace(),
               Row(
@@ -32,6 +33,7 @@ class PersonalDetails extends StatelessWidget {
                     width: 100,
                     child: CustomTextField2(
                       title: 'Mobile',
+                      backgroundColor: Colors.grey.shade300.value,
                       controller: TextEditingController(text: '+256'),
                       enabled: false,
                     ),
@@ -42,6 +44,7 @@ class PersonalDetails extends StatelessWidget {
                   Expanded(
                     child: CustomTextField2(title: '',
                       enabled: false,
+                      backgroundColor: Colors.grey.shade300.value,
                       controller: state.phoneController..text = state.responseFarmerProfile!.farmer!.phone == null
                           ? ''
                           : state.responseFarmerProfile!.farmer!.phone
@@ -51,6 +54,7 @@ class PersonalDetails extends StatelessWidget {
               ),
               20.verticalSpace(),
               CustomTextField2(title: 'Email',
+                backgroundColor: Colors.grey.shade300.value,
                 controller:  state.emailController..text = state.responseFarmerProfile!.farmer!.email == null
                     ? ''
                     : state.responseFarmerProfile!.farmer!.email

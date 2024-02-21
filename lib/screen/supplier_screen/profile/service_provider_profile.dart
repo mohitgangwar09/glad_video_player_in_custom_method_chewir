@@ -32,7 +32,7 @@ class _SupplierProfileState extends State<SupplierProfile> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProfileCubit>(context).profileApi(context);
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
     });

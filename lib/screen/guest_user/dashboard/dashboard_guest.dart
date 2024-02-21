@@ -17,18 +17,16 @@ final GlobalKey<ScaffoldState> landingKey = GlobalKey();
 class DashboardGuest extends StatelessWidget {
   const DashboardGuest({Key? key}) : super(key: key);
 
+  static const widgetOptions = [
+    GuestLandingPage(),
+    LiveStockScreen(),
+    CommunityPost(),
+    NewsAndEvent(isBottomAppBar: true,),
+    OnlineTraining(isBottomAppBar: true),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    var provider = BlocProvider.of<DashboardCubit>(context);
-
-    final widgetOptions = [
-      const GuestLandingPage(),
-      const LiveStockScreen(),
-      const CommunityPost(),
-      const NewsAndEvent(isBottomAppBar: true,),
-      const OnlineTraining(isBottomAppBar: true),
-    ];
-
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (BuildContext context, state) {
         return willPopScope(
@@ -39,7 +37,7 @@ class DashboardGuest extends StatelessWidget {
               extendBody: true,
               drawer: const GuestSideDrawer(),
               body: widgetOptions.elementAt(state.selectedIndex),
-              bottomNavigationBar: bottomNavigationBar(provider.state, context)),
+              bottomNavigationBar: bottomNavigationBar(state, context)),
         );
       },
     );
@@ -66,7 +64,6 @@ class DashboardGuest extends StatelessWidget {
               ),
             ],
           ),
-          // height: 72,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

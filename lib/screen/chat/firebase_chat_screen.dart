@@ -116,6 +116,16 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
         });
         }
       }
+      /// Admin
+      FirebaseFirestore.instance.collection('projects_chats')
+          .doc(
+          widget.responseProjectDataForFirebase.farmerProjectId.toString())
+          .collection('read-receipts')
+          .add({
+        "user_id": '',
+        'message_id': query.id,
+        'user_type': 'Admin'
+      });
       print("Message Added");
       BlocProvider.of<LandingPageCubit>(context).sendNotificationProjectChat(context, widget.responseProjectDataForFirebase.farmerProjectId!);
       FirebaseFirestore.instance
@@ -201,6 +211,16 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
           });
           }
         }
+        /// Admin
+        FirebaseFirestore.instance.collection('projects_chats')
+            .doc(
+            widget.responseProjectDataForFirebase.farmerProjectId.toString())
+            .collection('read-receipts')
+            .add({
+          "user_id": '',
+          'message_id': query.id,
+          'user_type': 'Admin'
+        });
         print("Image Added");
         BlocProvider.of<LandingPageCubit>(context).sendNotificationProjectChat(context, widget.responseProjectDataForFirebase.farmerProjectId!);
         FirebaseFirestore.instance

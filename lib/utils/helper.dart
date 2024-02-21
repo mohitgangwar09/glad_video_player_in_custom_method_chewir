@@ -79,18 +79,8 @@ Future<String> videoFromGallery() async {
 Future<bool> checkInternetConnection() async {
   try {
     var result = await InternetAddress.lookup('google.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      if (kDebugMode) {
-        print('connected');
-      }
-      return true;
-    } else {
-      return false;
-    }
+    return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
   } on SocketException catch (_) {
-    if (kDebugMode) {
-      print('not connected');
-    }
     return false;
   }
 }

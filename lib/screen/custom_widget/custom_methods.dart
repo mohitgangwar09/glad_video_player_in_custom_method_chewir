@@ -1481,7 +1481,6 @@ Widget weatherWidget(){
               builder: (context) {
                 String cityName = '';
                 for (var name in state.responseAddress!.results.toList()[0].addressComponents.toList()) {
-                  print('${name.types} ${name.longName}');
                   if(name.types.contains('administrative_area_level_3') && name.longName.isNotEmpty){
                     cityName = name.longName;
                     break;
@@ -1820,8 +1819,12 @@ Widget selectFarmerAddDdeLivestock({String? userId, bool isCustomLoan = false}){
                         onTap: (){
                           pressBack();
                           if(isCustomLoan) {
-                            BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
-                            const ApplyCustomLoan().navigate();
+                            if(state.response!.farmerMAster![i].kycStatus == "verified"){
+                              BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
+                              const ApplyCustomLoan().navigate();
+                            }else{
+                              showCustomToast(context, "Farmer kyc is not verified");
+                            }
                           } else {
                             BlocProvider.of<LivestockCubit>(context).selectedDdeFarmerLivestockDetail(state.response!.farmerMAster![i]);
                             const AddLivestock().navigate();
@@ -2034,7 +2037,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                                 children: [
                                   if(state.responseDdeTarget!.data![index].loanClosureFrom>0)
                                     Text(
-                                      "From ${state.responseDdeTarget!.data![index].loanClosureFrom.toString()}",
+                                      "From ${state.responseDdeTarget!.data![index].loanClosureFrom.toString()} ",
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: figtreeRegular.copyWith(
@@ -2042,16 +2045,12 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                                       ),
                                     ),
 
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        " Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: figtreeRegular.copyWith(
-                                          fontSize: 13,
-                                        ),
-                                      ),
+                                  Text(
+                                    "Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: figtreeRegular.copyWith(
+                                      fontSize: 13,
                                     ),
                                   ),
                                 ],

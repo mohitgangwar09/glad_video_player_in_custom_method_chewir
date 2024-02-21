@@ -30,7 +30,7 @@ class _RegisterPopUpState extends State<RegisterPopUp> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if(BlocProvider.of<LandingPageCubit>(context).state.guestDashboardResponse == null) {
         BlocProvider.of<LandingPageCubit>(context).getGuestDashboard(context);
       }
@@ -55,7 +55,6 @@ class _RegisterPopUpState extends State<RegisterPopUp> {
         return Center(child: Text("${state.guestDashboardResponse} Api Error"));
       } else {
         return Stack(children: [
-          Positioned(top: 30, left: 10, child: arrowBackButton()),
           Positioned(left: 80, child: SvgPicture.asset(Images.addRemark1)),
           Positioned(
               bottom: 0, right: 0, child: SvgPicture.asset(Images.otpBack1)),
@@ -81,7 +80,8 @@ class _RegisterPopUpState extends State<RegisterPopUp> {
                 )
               ],
             ),
-          )
+          ),
+          Positioned(top: 40, left: 10, child: arrowBackButton()),
         ],);
       }
           }

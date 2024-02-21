@@ -64,7 +64,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
 
       BlocProvider.of<LandingPageCubit>(context).ddeDashboardApi(context).then((value) {
         LandingPageState state = BlocProvider.of<LandingPageCubit>(context).state;
@@ -87,8 +87,9 @@ class _DDELandingPageState extends State<DDELandingPage> {
           }
         }
       });
-
-      BlocProvider.of<ProfileCubit>(context).profileApi(context);
+      if(BlocProvider.of<ProfileCubit>(context).state.responseProfile == null) {
+        BlocProvider.of<ProfileCubit>(context).profileApi(context);
+      }
       BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, '');
       BlocProvider.of<DdeFarmerCubit>(context).selectRagRating('');
       BlocProvider.of<ProfileCubit>(context).userRatingApi(context);
@@ -1122,7 +1123,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                                     const Icon(Icons.trending_up,
                                                         size: 25, color: Colors.white),
                                                     Text(
-                                                      '+5.0%',
+                                                      '+${state.responseAccountStatement!.data!.summary!.earningIncrement!=null?state.responseAccountStatement!.data!.summary!.earningIncrement!:0}%',
                                                       style: figtreeBold.copyWith(
                                                           fontSize: 13, color: Colors.white),
                                                     )

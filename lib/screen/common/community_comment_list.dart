@@ -30,7 +30,7 @@ class _CommunityCommentListState extends State<CommunityCommentList> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<CommunityCubit>(context).commentListApi(context, widget.communityId);
     });
   }

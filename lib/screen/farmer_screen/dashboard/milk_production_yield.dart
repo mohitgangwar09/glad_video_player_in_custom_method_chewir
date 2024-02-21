@@ -23,7 +23,7 @@ class MilkProductionYield extends StatefulWidget {
 class _MilkProductionYieldState extends State<MilkProductionYield> {
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<LandingPageCubit>(context)
           .getMilkProductionChart(context, widget.farmerId);
     });

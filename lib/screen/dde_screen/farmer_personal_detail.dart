@@ -82,6 +82,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   title: 'Name',
                   width: 1,
                   enabled: false,
+                  backgroundColor: Colors.grey.shade300.value,
                   borderColor: 0xff727272,
                   controller: state.nameController
                     ..text = state.responseFarmerProfile!.farmer!.name
@@ -95,6 +96,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                       child: CustomTextField2(
                         title: 'Mobile',
                         width: 1,
+                        backgroundColor: Colors.grey.shade300.value,
                         borderColor: 0xff727272,
                         controller: TextEditingController(text: '+256'),
                         enabled: false,
@@ -105,6 +107,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                       child: CustomTextField2(
                         title: '',
                         enabled: false,
+                        backgroundColor: Colors.grey.shade300.value,
                         width: 1,
                         borderColor: 0xff727272,
                         controller: state.phoneController
@@ -122,6 +125,7 @@ class _PersonalDetailState extends State<PersonalDetail> {
                   title: 'Email',
                   width: 1,
                   enabled: false,
+                  backgroundColor: Colors.grey.shade300.value,
                   controller: state.emailController
                     ..text = state.responseFarmerProfile!.farmer!.email
                         .toString(),
