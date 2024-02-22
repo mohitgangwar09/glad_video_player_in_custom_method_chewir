@@ -113,7 +113,7 @@ extension CustomWidget on Widget {
           transition: transition,
           duration: const Duration(milliseconds: 500));
     } else if (isAwait) {
-      return await Get.to(() => this,
+      return await Get.to(this,
           preventDuplicates: false,
           transition: transition,
           duration: const Duration(milliseconds: 500));
