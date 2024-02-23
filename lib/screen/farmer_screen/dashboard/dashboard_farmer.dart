@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/common/community.dart';
 import 'package:glad/screen/farmer_screen/dashboard_tab_screen/project_screen.dart';
@@ -39,6 +40,11 @@ class DashboardFarmer extends StatelessWidget {
               key: farmerLandingKey,
               drawer:const FarmerDrawer(),
               extendBody: true,
+              onDrawerChanged: (value) {
+                if(value) {
+                  BlocProvider.of<ProfileCubit>(context).getNotificationListApi(context);
+                }
+              },
               body: widgetOptions.elementAt(state.selectedIndex),
               bottomNavigationBar: bottomNavigationBar(state,context)
           ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:glad/data/model/loan_purpose_list.dart' as loan;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -185,7 +186,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       emit(state.copyWith(status: ProjectStatus.success, responseFarmerProjectDetail: response));
     } else {
       emit(state.copyWith(status: ProjectStatus.error));
-      showCustomToast(context, response.message.toString());
+      showCustomToast(context ?? Get.key.currentContext, response.message.toString());
     }
   }
 

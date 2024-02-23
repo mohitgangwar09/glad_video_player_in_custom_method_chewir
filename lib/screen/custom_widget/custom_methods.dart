@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -1439,6 +1440,7 @@ return daysInMonth[month - 1];
 
 
 String formatProjectStatus(String status) {
+  if(status == '') return '';
   String formattedStatus = '';
   if(status.contains('_')) {
     List sta = status.split('_');
@@ -1450,6 +1452,8 @@ String formatProjectStatus(String status) {
       sta[sta.length - 1] = sta[sta.length - 1].toString().toUpperCase();
     }
     formattedStatus = sta.join(' ');
+  } else if (status == 'dde') {
+    formattedStatus = status.toUpperCase();
   } else{
     formattedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
   }
@@ -2101,3 +2105,26 @@ Widget willPopScope({required Widget child,required DashboardState state,require
         return false;
       });
 }
+
+Future<int> getMessageBoardCount(chatSnapShot, context) async {
+  int count = 0;
+  for(var chatDocs in chatSnapShot.data!.docs) {
+    await FirebaseFirestore.instance.collection('projects_chats')
+        .doc(chatDocs['farmer_project_id'].toString())
+        .collection('read-receipts')
+        .where('user_id', isEqualTo: BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString())
+        .where('user_type', isEqualTo: BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType).toString())
+        .get().then((QuerySnapshot<Map<String, dynamic>> value) {
+      if(value.docs.isNotEmpty) {
+        count++;
+      }
+    });
+  }
+  return count;
+}
+
+// Stream<int> getMessageCount(chatSnapShot, context) async* {
+//   yield* Stream.periodic(const Duration(seconds: 1), (_) {
+//     return getMessageBoardCount(chatSnapShot, context);
+//   }).asyncMap((event) async => await event);
+// }

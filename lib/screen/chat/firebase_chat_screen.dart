@@ -260,20 +260,22 @@ class _FirebaseChatScreenState extends State<FirebaseChatScreen> {
               child: Row(
                 children: [
                   arrowBackButton(),
-                  14.horizontalSpace(),
+                  10.horizontalSpace(),
                   networkImage(text: widget.responseProjectDataForFirebase.projectImage.toString(), width: 46, height: 46, radius: 46),
                   10.horizontalSpace(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(widget.responseProjectDataForFirebase.projectName.toString(),
-                          style: figtreeMedium.copyWith(
-                              fontSize: 18, color: Colors.black)),
-                      Text(widget.responseProjectDataForFirebase.farmerName.toString(),
-                          style: figtreeRegular.copyWith(
-                              fontSize: 12, color: ColorResources.fieldGrey)),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(widget.responseProjectDataForFirebase.projectName.toString(),
+                            style: figtreeMedium.copyWith(
+                                fontSize: 16, color: Colors.black)),
+                        Text(widget.responseProjectDataForFirebase.farmerName.toString(),
+                            style: figtreeRegular.copyWith(
+                                fontSize: 12, color: ColorResources.fieldGrey)),
+                      ],
+                    ),
                   ),
                 ],
               ),
