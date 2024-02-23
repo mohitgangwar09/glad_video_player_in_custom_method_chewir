@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glad/notification/fcm_navigation.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -116,7 +117,7 @@ class FcmHelper {
         AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('ic_stat_notification');
 
     // Initialize native Ios Notifications
     const DarwinInitializationSettings initializationSettingsIOS =
@@ -147,6 +148,8 @@ class FcmHelper {
         importance: Importance.max,
         priority: Priority.high,
         playSound: true,
+        icon: 'ic_stat_notification',
+        color: ColorResources.maroon,
         number: 1,
         styleInformation: BigTextStyleInformation(''),
         ticker: 'ticker');
