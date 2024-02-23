@@ -33,6 +33,9 @@ class Data {
   String? body;
   dynamic senderId;
   dynamic receiverId;
+  dynamic routeID;
+  String? route;
+  String? userType;
   String? readStatus;
   String? status;
   dynamic createdBy;
@@ -53,7 +56,10 @@ class Data {
         this.updatedBy,
         this.deletedBy,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.routeID,
+        this.route,
+        this.userType});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -68,6 +74,9 @@ class Data {
     deletedBy = json['deleted_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    routeID = json['route_id'];
+    route = json['route'];
+    userType = json['user'] != null ? json['user']['user_type'] : null;
   }
 
   Map<String, dynamic> toJson() {

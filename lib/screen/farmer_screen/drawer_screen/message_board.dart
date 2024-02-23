@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
@@ -12,19 +13,11 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 import 'package:glad/utils/styles.dart';
 
-class MessageBoard extends StatefulWidget {
-  const MessageBoard({super.key,required this.userRoleId,required this.userType,required this.roleType});
-  final String userRoleId,userType,roleType;
+class MessageBoard extends StatelessWidget {
+  const MessageBoard({super.key});
 
-  @override
-  State<MessageBoard> createState() => _MessageBoardState();
-}
-
-class _MessageBoardState extends State<MessageBoard> {
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: Stack(
         children: [
@@ -46,10 +39,13 @@ class _MessageBoardState extends State<MessageBoard> {
                         const EdgeInsets.only(left: 18.0, right: 18, top: 10),
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance.collection('projects_chats')
-                            .where(widget.userType, isEqualTo: widget.userRoleId)
+                            .where('${context.read<AuthCubit>().sharedPreferences.get(AppConstants.userType)}_id', isEqualTo: context.read<AuthCubit>().sharedPreferences.get(AppConstants.userRoleId))
                             .orderBy('updated_at')
                             .snapshots(),
-                        builder: (ctx,chatSnapShot) {
+                        builder: (ctx,AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> chatSnapShot) {
+                          if(chatSnapShot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
                           if(!chatSnapShot.hasData) {
                             return const SizedBox.shrink();
                           }
@@ -74,7 +70,7 @@ class _MessageBoardState extends State<MessageBoard> {
                                       userName: await SharedPrefManager.getPreferenceString(AppConstants.userName),
                                       projectName: chatDocs.docs[index]['project_name'].toString(),
                                       farmerProjectId: int.parse(chatDocs.docs[index]['farmer_project_id']),
-                                      userType: widget.roleType,
+                                      userType: BlocProvider.of<AuthCubit>(context).sharedPreferences.get(AppConstants.userType).toString(),
                                       farmerName: chatDocs.docs[index]['farmer_name'].toString(),
                                       farmerAddress: chatDocs.docs[index]['farmer_address'].toString(),
                                       farmerId: chatDocs.docs[index]['farmer_id'].toString(),
@@ -107,50 +103,52 @@ class _MessageBoardState extends State<MessageBoard> {
                                         MainAxisAlignment.start,
                                         children: [
                                           networkImage(text: chatDocs.docs[index].data()['project_image'] ?? '', width: 46, height: 46, radius: 46),
-                                          15.horizontalSpace(),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Text(chatDocs.docs[index]['project_name'].toString(),
-                                                  style: figtreeMedium
-                                                      .copyWith(
-                                                      fontSize: 18,
-                                                      color: Colors
-                                                          .black)),
-                                              4.verticalSpace(),
-                                              Row(
-                                                children: [
-                                                  Text(chatDocs.docs[index]['farmer_name']??'',
-                                                      style: figtreeRegular
-                                                          .copyWith(
-                                                          fontSize: 12,
-                                                          color: ColorResources
-                                                              .fieldGrey)),
-                                                  8.horizontalSpace(),
-                                                  Container(
-                                                    height: 4,
-                                                    width: 4,
-                                                    decoration:
-                                                    const BoxDecoration(
+                                          10.horizontalSpace(),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(chatDocs.docs[index]['project_name'].toString(),
+                                                    style: figtreeMedium
+                                                        .copyWith(
+                                                        fontSize: 16,
                                                         color: Colors
-                                                            .black,
-                                                        shape: BoxShape
-                                                            .circle),
-                                                  ),
-                                                  8.horizontalSpace(),
-                                                  SizedBox(width: 90,
-                                                    child: Text(chatDocs.docs[index]['farmer_address'].toString(),
-                                                        overflow: TextOverflow.ellipsis,
+                                                            .black)),
+                                                4.verticalSpace(),
+                                                Row(
+                                                  children: [
+                                                    Text(chatDocs.docs[index]['farmer_name']??'',
                                                         style: figtreeRegular
                                                             .copyWith(
                                                             fontSize: 12,
                                                             color: ColorResources
                                                                 .fieldGrey)),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                    8.horizontalSpace(),
+                                                    Container(
+                                                      height: 4,
+                                                      width: 4,
+                                                      decoration:
+                                                      const BoxDecoration(
+                                                          color: Colors
+                                                              .black,
+                                                          shape: BoxShape
+                                                              .circle),
+                                                    ),
+                                                    8.horizontalSpace(),
+                                                    SizedBox(width: 90,
+                                                      child: Text(chatDocs.docs[index]['farmer_address'].toString(),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: figtreeRegular
+                                                              .copyWith(
+                                                              fontSize: 12,
+                                                              color: ColorResources
+                                                                  .fieldGrey)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -185,13 +183,13 @@ class _MessageBoardState extends State<MessageBoard> {
                                               }
                                               return Container(
                                                 padding:
-                                                const EdgeInsets.all(5),
+                                                const EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
                                                     color:
                                                     const Color(0xFFFC5E60),
                                                     borderRadius:
                                                     BorderRadius.circular(
-                                                        8)),
+                                                        20)),
                                                 child: Text(snapshot.data!.docs.length.toString(),
                                                     style:
                                                     figtreeRegular.copyWith(

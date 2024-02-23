@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:isolate';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -72,17 +76,37 @@ class FarmerDrawer extends StatelessWidget {
           //     },
           //     text: 'My earnings'),
           // 30.verticalSpace(),
-          navigationBarItem(
-              image: Images.aboutus,
-              onTap: () async {
-                var roleId = await SharedPrefManager.getPreferenceString(AppConstants.userRoleId);
-
-                MessageBoard(userRoleId:roleId.toString(),
-                    userType: 'farmer_id',
-                    roleType:'farmer').navigate();
-              },
-              text: 'Message board',
-              visible: false),
+          StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('projects_chats')
+                  .where('${BlocProvider.of<AuthCubit>(context).sharedPreferences.get(AppConstants.userType)}_id', isEqualTo: BlocProvider.of<AuthCubit>(context).sharedPreferences.get(AppConstants.userRoleId))
+                  .orderBy('updated_at')
+                  .snapshots(),
+              builder: (ctx,chatSnapShot) {
+                if(!chatSnapShot.hasData) {
+                  return navigationBarItem(
+                      image: Images.aboutus,
+                      onTap: () async {
+                        const MessageBoard().navigate();
+                      },
+                      text: 'Message board',
+                      visible: false);
+                }
+              return FutureBuilder(
+                future: getMessageBoardCount(chatSnapShot, context),
+                initialData: 0,
+                builder: (context, snap) {
+                  return navigationBarItem(
+                      image: Images.aboutus,
+                      onTap: () async {
+                        const MessageBoard().navigate();
+                      },
+                      text: 'Message board',
+                      title: snap.data.toString(),
+                      visible: (snap.data ?? 0) > 0);
+                }
+              );
+            }
+          ),
           30.verticalSpace(),
           navigationBarItem(
               image: Images.drawerTraining, onTap: () {
@@ -98,14 +122,26 @@ class FarmerDrawer extends StatelessWidget {
             text: "Faq's",
           ),
           30.verticalSpace(),
-          navigationBarItem(
-              image: Images.notification,
-              onTap: () {
-                BlocProvider.of<ProfileCubit>(context).getNotificationListApi(context);
-                const CommonNotification().navigate();
-              },
-              text: 'Notification',
-              visible: false),
+          BlocBuilder<ProfileCubit, ProfileCubitState>(
+            builder: (context, state) {
+              int count = 0;
+              if(state.responseNotificationList != null) {
+                for (var data in state.responseNotificationList!.data ?? []) {
+                  if (data.readStatus == 'unread') {
+                    count++;
+                  }
+                }
+              }
+              return navigationBarItem(
+                  image: Images.notification,
+                  onTap: () {
+                    const CommonNotification().navigate();
+                  },
+                  text: 'Notification',
+                  title: count.toString(),
+                  visible: count>0);
+            }
+          ),
           30.verticalSpace(),
           navigationBarItem(
             image: Images.aboutus,

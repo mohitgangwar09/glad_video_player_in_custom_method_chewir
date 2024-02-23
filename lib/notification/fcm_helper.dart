@@ -94,9 +94,9 @@ class FcmHelper {
         alert: true,
         announcement: false,
         badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
+        carPlay: true,
+        criticalAlert: true,
+        provisional: true,
         sound: true,
       );
     }
@@ -141,7 +141,6 @@ class FcmHelper {
   }
 
   static showNotification(RemoteMessage message) async {
-    print('show notification');
     const AndroidNotificationDetails androidNotificationDetails =
     AndroidNotificationDetails('channel_id', 'Channel Name',
         channelDescription: 'Channel Description',
@@ -149,6 +148,7 @@ class FcmHelper {
         priority: Priority.high,
         playSound: true,
         number: 1,
+        styleInformation: BigTextStyleInformation(''),
         ticker: 'ticker');
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
