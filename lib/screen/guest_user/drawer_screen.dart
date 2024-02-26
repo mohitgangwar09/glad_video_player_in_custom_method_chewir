@@ -23,21 +23,30 @@ class GuestSideDrawer extends StatelessWidget {
       child: Stack(
         children: [
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              menuItem(context),
-              const SizedBox(
-                height: 25,
+          CustomScrollView(
+            scrollDirection: Axis.vertical,
+            slivers: [
+
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    menuItem(context),
+                    25.verticalSpace(),
+                    navigationItem(),
+
+                    const Spacer(),
+
+                    helpLineItem(),
+                  ],
+                ),
               ),
-              navigationItem(),
             ],
           ),
 
           sideBackground(),
-
-          helpLineItem(),
 
         ],
       ),
@@ -90,47 +99,45 @@ class GuestSideDrawer extends StatelessWidget {
   }
 
   Widget helpLineItem() {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Column(
-        children: [
-          Container(
-            height: 110,
-            decoration: const BoxDecoration(color: ColorResources.maroon1),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  phoneCall(256758711344),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'GLAD Helpline Number',
-                        style: figtreeMedium.copyWith(
-                            fontSize: 12, color: Colors.white),
-                      ),
-                      5.verticalSpace(),
-                      Text(
-                        '+256 758 711 344',
-                        style: figtreeSemiBold.copyWith(
-                            fontSize: 20, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  whatsapp(256758711344),
-                ]),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          socialMediaItem(),
-          const SizedBox(
-            height: 30,
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        const SizedBox(
+          height: 12,
+        ),
+        Container(
+          height: 110,
+          decoration: const BoxDecoration(color: ColorResources.maroon1),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                phoneCall(256758711344),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'GLAD Helpline Number',
+                      style: figtreeMedium.copyWith(
+                          fontSize: 12, color: Colors.white),
+                    ),
+                    5.verticalSpace(),
+                    Text(
+                      '+256 758 711 344',
+                      style: figtreeSemiBold.copyWith(
+                          fontSize: 20, color: Colors.white),
+                    )
+                  ],
+                ),
+                whatsapp(256758711344),
+              ]),
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        socialMediaItem(),
+        const SizedBox(
+          height: 30,
+        )
+      ],
     );
   }
 
