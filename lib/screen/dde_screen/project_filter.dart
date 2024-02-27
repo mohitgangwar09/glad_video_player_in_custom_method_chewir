@@ -375,7 +375,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            "Loan Amount".textMedium(fontSize: 18),
+                            "Lending Amount".textMedium(fontSize: 18),
                             "In Numbers".textSemiBold(
                                 fontSize: 12, color: const Color(0xff727272))
                           ],
@@ -459,7 +459,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                                     Positioned(
                                         left: 30,
                                         bottom: 6,
-                                        child: "Loan Amount UpTo must be greater than Loan Amount From".textRegular(color: Colors.red,
+                                        child: "Lending Amount UpTo must be greater than Lending Amount From".textRegular(color: Colors.red,
                                             fontSize: 12))
                               ],
                             )),
@@ -479,7 +479,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                                   } else if(state.roiUpToController.text.isNotEmpty && state.revenueFromController.text.isNotEmpty && (int.parse(state.roiUpToController.text)<int.parse(state.roiFromController.text))) {
                                     showCustomToast(context, "ROI UpTo must be greater than ROI From");
                                   } else if(state.loanAmountUpToController.text.isNotEmpty && state.loanAmountFromController.text.isNotEmpty && (int.parse(state.loanAmountUpToController.text)<int.parse(state.loanAmountFromController.text))) {
-                                    showCustomToast(context, "Loan Amount UpTo must be greater than Loan Amount From");
+                                    showCustomToast(context, "Lending Amount UpTo must be greater than Lending Amount From");
                                   } else {
                                     BlocProvider.of<ProjectCubit>(context)
                                         .ddeProjectsApi(

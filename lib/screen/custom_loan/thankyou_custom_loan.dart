@@ -57,7 +57,7 @@ class ThankYouCustomLoan extends StatelessWidget {
                     .textMedium(fontSize: 30, color: ColorResources.black),
                 10.verticalSpace(),
                 Text(
-                    'The loan application has been submitted successfully.',
+                    'The application has been submitted successfully.',
                     textAlign: TextAlign.center,
                     style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
                 40.verticalSpace(),

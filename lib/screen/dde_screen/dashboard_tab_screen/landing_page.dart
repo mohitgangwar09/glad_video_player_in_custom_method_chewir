@@ -345,7 +345,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                                     width:
                                                     screenWidth() * 0.5,
                                                     child: Text(
-                                                      detail.farmerMaster != null ? detail.farmerMaster!.fAddress ?? '' : '',
+                                                      detail.farmerMaster != null ? detail.farmerMaster!.address ?? '' : '',
                                                       style: figtreeRegular.copyWith(
                                                         fontSize: 12,
                                                         color: Colors.black,

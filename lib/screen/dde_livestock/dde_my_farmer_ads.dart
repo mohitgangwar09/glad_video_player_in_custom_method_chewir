@@ -116,7 +116,7 @@ class _DdeMyLiveStockScreenState extends State<DdeMyLiveStockScreen> {
                                       borderWidth: 1,
                                       borderRadius: 62,
                                       backgroundColor: Colors.white),
-                                  child: 'Loan Applications for Farmers'.textMedium(
+                                  child: 'Applications for Farmers'.textMedium(
                                       fontSize: 12, color: Colors.black),
                                 ),
                               ),

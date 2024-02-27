@@ -126,7 +126,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                                               MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Loan Document',
+                                                  'Agreement',
                                                   style:
                                                   figtreeMedium.copyWith(fontSize: 18),
                                                 ),
@@ -1310,7 +1310,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.principleAmount !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
+      kpiData.add(FrontendKpiModel(name: 'GLAD Participation',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1319,7 +1319,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Loan',
+      kpiData.add(FrontendKpiModel(name: 'Lending Amount',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1379,7 +1379,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
       }
 
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
-        kpiData.add(FrontendKpiModel(name: 'Remaining Loan',
+        kpiData.add(FrontendKpiModel(name: 'Remaining Amount',
             image: Images.yieldKpi,
             actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)

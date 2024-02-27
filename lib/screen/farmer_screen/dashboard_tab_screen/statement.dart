@@ -41,7 +41,7 @@ class _FarmerStatementState extends State<FarmerStatement> {
                   children: [
                     CustomAppBar(
                       context: context,
-                      titleText1: 'Loan statement',
+                      titleText1: 'Statement',
                       titleText1Style: figtreeMedium.copyWith(
                           fontSize: 20, color: Colors.black),
                       centerTitle: true,

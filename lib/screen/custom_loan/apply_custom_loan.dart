@@ -90,7 +90,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                   children: [
                     CustomAppBar(
                       context: context,
-                      titleText1: 'Custom Loan',
+                      titleText1: 'Cash Advances',
                       titleText1Style:
                       figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                       centerTitle: true,
@@ -210,7 +210,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              "Purpose of Loan".textMedium(color: Colors.black, fontSize: 12),
+                              "Purpose".textMedium(color: Colors.black, fontSize: 12),
 
                               5.verticalSpace(),
 
@@ -228,7 +228,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                     isDense: true,
                                     value: purpose != '' ? purpose : null,
                                     hint: Text(
-                                      'Select loan purpose',
+                                      'Select purpose',
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context).hintColor,
@@ -271,7 +271,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: "Other purpose of Loan".textMedium(color: Colors.black, fontSize: 12),
+                                  child: "Other purpose".textMedium(color: Colors.black, fontSize: 12),
                                 ),
                                 5.verticalSpace(),
                                 Container(
@@ -298,7 +298,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                           20.verticalSpace(),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: "Loan amount (UGX)".textMedium(color: Colors.black, fontSize: 12),
+                            child: "Lending amount (UGX)".textMedium(color: Colors.black, fontSize: 12),
                           ),
                           5.verticalSpace(),
                           Container(
@@ -324,7 +324,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                 }
                                 setState(() {});
                                 if((int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString()))){
-                                  showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
+                                  showCustomToast(context, 'Requested Amount cannot be more than Remaining Limit');
                                   price.text = state.responseLoanForm!.data!.remainingLimit!.toString();
                                 }
                               },
@@ -578,13 +578,13 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                     // }
 
                                     if(purpose == '') {
-                                      showCustomToast(context, 'Loan Purpose is required');
+                                      showCustomToast(context, 'Purpose is required');
                                     } else if (purpose == 'Other' && purposeOfLoan.text.isEmpty){
-                                      showCustomToast(context, 'Please enter purpose of loan');
+                                      showCustomToast(context, 'Please enter purpose');
                                     }else if (price.text == ''){
-                                      showCustomToast(context, 'Loan Amount is required');
+                                      showCustomToast(context, 'Requested Amount is required');
                                     } else if (int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString())){
-                                      showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
+                                      showCustomToast(context, 'Requested Amount cannot be more than Remaining Limit');
                                     } else if (period.text == ''){
                                       showCustomToast(context, 'Repayment months are required');
                                     } else if (int.parse(period.text) > int.parse(state.responseLoanForm!.data!.maxEmis.toString())){
@@ -645,13 +645,13 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
     }
 
     if(state.responseLoanForm!.data!.loanApplied!=null){
-      kpiData.add(FrontendKpiModel(name: 'Loans Applied',
+      kpiData.add(FrontendKpiModel(name: 'Cash Advances Applied',
           image: Images.emiKpi,
           value: state.responseLoanForm!.data!.loanApplied!.toString()));
     }
 
     if(state.responseLoanForm!.data!.loanValue!=null){
-      kpiData.add(FrontendKpiModel(name: 'Loan Value',
+      kpiData.add(FrontendKpiModel(name: 'Lending Value',
           image: Images.loanKpi,
           value: getCurrencyString(state.responseLoanForm!.data!.loanValue!)));
     }

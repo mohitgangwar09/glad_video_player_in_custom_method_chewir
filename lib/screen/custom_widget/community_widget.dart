@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +17,10 @@ import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
 import 'package:like_button/like_button.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class CommunityWidget extends StatefulWidget {
   final String name;
@@ -134,7 +141,8 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                         ),
                       ),
                       10.verticalSpace(),
-                      Container(
+                      if(!widget.video.endsWith('.mp4'))
+                        Container(
                         margin: 3.marginAll(),
                         height: 244,
                         child: ClipRRect(
@@ -151,7 +159,16 @@ class _CommunityWidgetState extends State<CommunityWidget> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                      ),
+                      )
+                      else
+                        Container(
+                          margin: 3.marginAll(),
+                          height: widget.fromHome ? 244 : null,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CommunityVideoPlayer(url: widget.video),
+                          ),
+                        ),
                       10.verticalSpace(),
                       BlocBuilder<CommunityCubit, CommunityCubitState>(
                         builder: (context, state) {
@@ -322,5 +339,168 @@ class _CommunityWidgetState extends State<CommunityWidget> {
         ],
       ),
     );
+  }
+}
+
+
+class CommunityVideoPlayer extends StatefulWidget {
+  const CommunityVideoPlayer({super.key, required this.url});
+  final String url;
+
+  @override
+  State<CommunityVideoPlayer> createState() => _CommunityVideoPlayerState();
+}
+
+class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
+  late VideoPlayerController _controller;
+  String? videoThumbnail;
+
+  bool _pauseVis = false;
+
+  bool _playVis = false;
+
+  final Key videoPlayerKey = const Key('video-player-key');
+
+  getThumbnail(String path) async {
+    final x = await VideoThumbnail.thumbnailFile(
+        video: path,
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.JPEG,
+        quality: 100);
+    setState(() {
+      videoThumbnail = x!;
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getThumbnail(widget.url);
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url))
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+    _controller.setLooping(true);
+
+    // _controller.play();
+    // setState(() {
+    //   _playVis = false;
+    // });
+  }
+
+  @override
+  void dispose() {
+    // Ensure disposing of the VideoPlayerController to free up resources.
+    _controller.dispose();
+
+    super.dispose();
+  }
+
+  showFadingIcon() {
+    var visible = true;
+    return AnimatedOpacity(
+        opacity: visible ? 1 : 0, duration: const Duration(milliseconds: 500));
+  }
+
+  showAnimation() {
+    if (!_controller.value.isPlaying) {
+      setState(() {
+        _pauseVis = true;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          setState(() {
+            _pauseVis = false;
+            _playVis = true;
+          });
+        });
+      });
+    } else if (_controller.value.isPlaying) {
+      setState(() {
+        _playVis = true;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          setState(() {
+            _playVis = false;
+          });
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _controller.value.isInitialized
+        ? VisibilityDetector(
+            key: videoPlayerKey,
+            onVisibilityChanged: (VisibilityInfo info) {
+              if(info.visibleFraction<0.15){
+                _controller.pause();
+                setState(() {
+                  _playVis=true;
+                });
+              }
+              if(info.visibleFraction>0.75) {
+                _controller.play();
+                showAnimation();
+              }
+            },
+            child: SizedBox(
+              height: min(
+                    MediaQuery.of(context).size.width /
+                        _controller.value.aspectRatio,
+                    350),
+              child: Align(
+                  child: AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _controller.value.isPlaying
+                                ? _controller.pause()
+                                : _controller.play();
+                          });
+                          showAnimation();
+                        },
+                        child: Stack(alignment: Alignment.center, children: [
+                          VideoPlayer(
+                            _controller,
+                            key: videoPlayerKey,
+                          ),
+                          Visibility(
+                            visible: _playVis || !_controller.value.isPlaying,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Icon(Icons.play_arrow, size: 30),
+                            ),
+                          ),
+                          Visibility(
+                              visible: _pauseVis,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Icon(Icons.pause, size: 30),
+                              )),
+                          Positioned(
+                              bottom: 20,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: VideoProgressIndicator(
+                                _controller,
+                                allowScrubbing: true,
+                                padding: const EdgeInsets.only(top: 10.0),
+                              )),
+                        ])),
+                  ),
+              ),
+    ),
+        )
+        : videoThumbnail != null ? Image.file(File(videoThumbnail!)):const SizedBox.shrink();
   }
 }

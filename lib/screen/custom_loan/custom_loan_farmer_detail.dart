@@ -174,7 +174,7 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
                                       .farmerProject![0]
                                       .rejectStatus ==
                                       0
-                                      ? "Apply for Loan"
+                                      ? "Submit Application"
                                       : 'View Document',
                                   // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                   style: figtreeMedium.copyWith(
@@ -301,7 +301,7 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
                                               MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Loan Document',
+                                                  'Agreement',
                                                   style:
                                                   figtreeMedium.copyWith(fontSize: 18),
                                                 ),
@@ -1808,7 +1808,7 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Loan',
+      kpiData.add(FrontendKpiModel(name: 'Lending Amount',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!

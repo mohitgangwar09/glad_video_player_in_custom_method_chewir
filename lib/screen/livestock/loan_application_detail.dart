@@ -82,7 +82,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                 children: [
                   CustomAppBar(
                     context: context,
-                    titleText1: "Loan for ${state.responseFarmerProjectDetail!.data!.farmerProject![0].name ?? ''}",
+                    titleText1: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].name ?? ''}",
                     leading: arrowBackButton(),
                     centerTitle: true,
                     titleText1Style: figtreeMedium.copyWith(
@@ -179,7 +179,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                     .farmerProject![0]
                                     .rejectStatus ==
                                     0
-                                    ? "Apply for Loan"
+                                    ? "Submit Application"
                                     : 'View Document',
                                 // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                 style: figtreeMedium.copyWith(
@@ -259,10 +259,12 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                       }
                                     }
                                     else{
-                                      showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                      showCustomToast(context, "You cannot submit application until Farmer KYC is approved");
+                                      // showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
                                     }
                                   }else{
-                                    showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                    showCustomToast(context, "You cannot submit application until Farmer KYC is approved");
+                                    // showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
                                   }
                                 }),
                             )
@@ -321,7 +323,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                                               MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Loan Document',
+                                                  'Agreement',
                                                   style: figtreeMedium.copyWith(fontSize: 18),
                                                 ),
                                                 InkWell(
@@ -574,7 +576,8 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
 
                                 Center(
                                     child: Text(
-                                      'Tap below to read and agree to the terms and \nconditions of the loan agreement!',
+                                      'Tap below to read and agree to the terms and \nconditions of the agreement!',
+                                      // 'Tap below to read and agree to the terms and \nconditions of the loan agreement!',
                                       textAlign: TextAlign.center,
                                       style: figtreeMedium.copyWith(
                                           fontSize: 14, color: Colors.black),
@@ -1779,7 +1782,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
 
       if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
           null) {
-        kpiData.add(FrontendKpiModel(name: 'Loan',
+        kpiData.add(FrontendKpiModel(name: 'Lending Amount',
             image: Images.loanKpi,
             value: getCurrencyString(
                 state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1861,7 +1864,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
     }else{
       if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
           .investment != null) {
-        kpiData.add(FrontendKpiModel(name: 'Livestock\n Value',
+        kpiData.add(FrontendKpiModel(name: 'Livestock Value',
             image: Images.investmentKpi,
             value: getCurrencyString(
                 state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -2318,6 +2321,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                     Stack(
                       alignment: Alignment.bottomRight,
                       children: [
+                        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock !=null)
                         if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.isNotEmpty)
                           SizedBox(
                               // padding: 2.marginAll(),
@@ -2326,6 +2330,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                         else
                           const SizedBox(height: 140,),
 
+                        if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock !=null)
                         if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.liveStockDocumentFiles!.length > 1)
                           customShadowContainer(
                             backColor: Colors.transparent,
@@ -2345,6 +2350,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock !=null)
                           RichText(
                               text: TextSpan(children: [
                                 TextSpan(
@@ -2377,6 +2383,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                             ],
                           ),
                           12.verticalSpace(),
+                          if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock !=null)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -2413,6 +2420,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
                             ],
                           ),
                           6.verticalSpace(),
+                          if(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock !=null)
                           Text(state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user != null
                               ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dataLivestock!.liveStockCartDetails![index].liveStock!.user!.farmerMaster!.address!.address ?? ''
                               : '',

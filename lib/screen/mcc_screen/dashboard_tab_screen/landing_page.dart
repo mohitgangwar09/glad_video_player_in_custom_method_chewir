@@ -145,7 +145,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                               12.verticalSpace(),
                               'Pending'.textMedium(fontSize: 16),
                               7.verticalSpace(),
-                              "Loans pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
+                              "Applications pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
                                   maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
 
@@ -178,7 +178,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
 
                               'Approved'.textMedium(fontSize: 16),
                               7.verticalSpace(),
-                              'Loans approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
+                              'Applications approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
                                   maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
 
                             ],

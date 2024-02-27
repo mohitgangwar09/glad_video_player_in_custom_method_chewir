@@ -297,7 +297,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                                         borderWidth: 1,
                                         borderRadius: 62,
                                         backgroundColor: Colors.white),
-                                    child: 'Loan Applications'.textMedium(
+                                    child: 'Applications'.textMedium(
                                         fontSize: 12, color: Colors.black),
                                   ),
                                 ),

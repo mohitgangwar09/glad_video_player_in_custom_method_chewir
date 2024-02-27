@@ -379,7 +379,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
 
 
-                    customButton(width: screenWidth()*0.6,'Apply Loan', fontColor: 0xffffffff,onTap: (){
+                    customButton(width: screenWidth()*0.6,'Submit Application', fontColor: 0xffffffff,onTap: (){
                       TextEditingController controller = TextEditingController();
 
                       participationPercentage = (subtotal*state.responseLivestockCartList!.data![0].farmerParticipationPercent)/100;
@@ -435,7 +435,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
                                                 child: customButton(
-                                                  'Apply Loan',
+                                                  'Submit Application',
                                                   fontColor: 0xffFFFFFF,
                                                   onTap: () {
                                                     if(controller.text.isEmpty){

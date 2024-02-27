@@ -987,13 +987,13 @@ Widget kpi(context,LivestockCubitState state) {
   }
 
   if(state.responseLivestockDetail!.data!.loanAccepted!=null){
-    kpiData.add(FrontendKpiModel(name: 'Loan Accepted',
+    kpiData.add(FrontendKpiModel(name: 'Sold',
         image: Images.investmentKpi,
         value: state.responseLivestockDetail!.data!.loanAccepted!.toString()));
   }
 
   if(state.responseLivestockDetail!.data!.loanApproved!=null){
-    kpiData.add(FrontendKpiModel(name: 'Loan Approved',
+    kpiData.add(FrontendKpiModel(name: 'In process',
         image: Images.investmentKpi,
         value: state.responseLivestockDetail!.data!.loanApproved!.toString()));
   }

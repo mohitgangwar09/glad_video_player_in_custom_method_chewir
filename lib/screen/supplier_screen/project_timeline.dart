@@ -21,7 +21,7 @@ class _ProjectTimelineState extends State<ProjectTimeline> {
       id: '1',
       content: {
         'title': 'Applied',
-        'description': 'Loan application submitted by the farmer.',
+        'description': 'Application submitted by the farmer.',
         'date': '21 Feb, 2023',
         'check': true,
         'status': '',
@@ -74,7 +74,7 @@ class _ProjectTimelineState extends State<ProjectTimeline> {
       id: '5',
       content: {
         'title': 'Approved',
-        'description': 'Loan approved by the Credit Committee.',
+        'description': 'Approved by the Credit Committee.',
         'date': '21 Feb, 2023',
         'check': true,
         'status': '',

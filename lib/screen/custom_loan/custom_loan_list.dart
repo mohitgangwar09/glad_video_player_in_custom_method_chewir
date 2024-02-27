@@ -70,7 +70,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
               children: [
                 CustomAppBar(
                   context: context,
-                  titleText1: 'Custom Loan',
+                  titleText1: 'Cash Advances',
                   titleText1Style:
                   figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                   centerTitle: true,
@@ -204,7 +204,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
                                                       getCurrencyString(state.responseCustomLoanList!.data![index].investmentAmount)
                                                           .textSemiBold(color: Colors.black, fontSize: 16),
                                                       3.verticalSpace(),
-                                                      "Loan Amount"
+                                                      "Lending Amount"
                                                           .textRegular(fontSize: 12, color: Colors.black),
                                                     ],
                                                   ),
@@ -356,7 +356,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
                           margin: 20.marginAll(),
                           height: 55,
                           width: screenWidth(),
-                          child: customButton("Apply New Loan",
+                          child: customButton("Apply",
                               fontColor: 0xffffffff,
                               onTap: () async{
                                 if(context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType) == 'dde') {
@@ -390,7 +390,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
                       margin: 15.marginAll(),
                       height: 55,
                       width: screenWidth(),
-                      child: customButton("Apply New Loan",
+                      child: customButton("Apply",
                           fontColor: 0xffffffff,
                           onTap: () async{
                             if(context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType) == 'dde') {

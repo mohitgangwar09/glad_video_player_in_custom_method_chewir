@@ -278,7 +278,7 @@ class _DDeFarmerInvestmentDetailsState
                                                         .farmerProject![0]
                                                         .rejectStatus ==
                                                     0
-                                                ? "Apply for Loan"
+                                                ? "Submit Application"
                                                 : 'View Document',
                                             // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                             style: figtreeMedium.copyWith(
@@ -359,10 +359,10 @@ class _DDeFarmerInvestmentDetailsState
                                                   }
                                                 }
                                                 else{
-                                                  showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                                  showCustomToast(context, "You cannot submit application until Farmer KYC is approved");
                                                 }
                                               }else{
-                                                showCustomToast(context, "You cannot apply for loan until Farmer KYC is approved");
+                                                showCustomToast(context, "You cannot submit application until Farmer KYC is approved");
                                               }
                                             }),
                                       )
@@ -420,7 +420,7 @@ class _DDeFarmerInvestmentDetailsState
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Loan Document',
+                                                  'Agreement',
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 18),
                                                 ),
@@ -672,7 +672,8 @@ class _DDeFarmerInvestmentDetailsState
                                 20.verticalSpace(),
                                 Center(
                                     child: Text(
-                                  'Tap below to read and agree to the terms and \nconditions of the loan agreement!',
+                                  'Tap below to read and agree to the terms and \nconditions of the agreement!',
+                                  // 'Tap below to read and agree to the terms and \nconditions of the loan agreement!',
                                   textAlign: TextAlign.center,
                                   style: figtreeMedium.copyWith(
                                       fontSize: 14, color: Colors.black),
@@ -765,7 +766,8 @@ class _DDeFarmerInvestmentDetailsState
                                             }),
                                           ),
                                           5.verticalSpace(),
-                                          "Tap above to revoke the loan application."
+                                          "Tap above to revoke the application."
+                                          // "Tap above to revoke the loan application."
                                               .textMedium(
                                                   color:
                                                       const Color(0xff727272)),
@@ -2504,7 +2506,7 @@ class _DDeFarmerInvestmentDetailsState
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.principleAmount !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
+      kpiData.add(FrontendKpiModel(name: 'GLAD Participation',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -2513,7 +2515,7 @@ class _DDeFarmerInvestmentDetailsState
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Loan',
+      kpiData.add(FrontendKpiModel(name: 'Lending Amount',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!

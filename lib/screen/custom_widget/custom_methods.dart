@@ -890,7 +890,7 @@ Widget farmerProjectDesign(){
             Text.rich(
               TextSpan(
                 children: [
-                   TextSpan(text: 'Loan: ',
+                   TextSpan(text: 'Lending Amount: ',
                        style: figtreeMedium.copyWith(
                            color: const Color(0xff808080),
                            fontSize: 12
@@ -1939,7 +1939,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
 
                     4.verticalSpace(),
 
-                    "Based on loan closures".textRegular(
+                    "Based on project closures".textRegular(
                       fontSize: 14
                     ),
 

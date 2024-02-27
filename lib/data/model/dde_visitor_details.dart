@@ -115,6 +115,7 @@ class FarmerMaster {
   String? createdAt;
   dynamic photo;
   dynamic achievement;
+  String? address;
 
   FarmerMaster(
       {this.id,
@@ -147,6 +148,7 @@ class FarmerMaster {
         this.updatedBy,
         this.createdAt,
         this.photo,
+        this.address,
         this.achievement});
 
   FarmerMaster.fromJson(Map<String, dynamic> json) {
@@ -181,6 +183,7 @@ class FarmerMaster {
     createdAt = json['created_at'];
     photo = json['photo'];
     achievement = json['achievement'];
+    address = json['address'] != null ? json['address']['address']  ?? '': null;
   }
 
   Map<String, dynamic> toJson() {

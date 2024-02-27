@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:expandable_text/expandable_text.dart';
@@ -139,7 +140,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Loan Document',
+                                                  'Agreement',
                                                   style:
                                                   figtreeMedium.copyWith(fontSize: 18),
                                                 ),
@@ -1579,7 +1580,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.principleAmount !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
+      kpiData.add(FrontendKpiModel(name: 'GLAD Participation',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1588,7 +1589,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Loan',
+      kpiData.add(FrontendKpiModel(name: 'Lending Amount',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1649,7 +1650,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       }
 
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
-        kpiData.add(FrontendKpiModel(name: 'Remaining Loan',
+        kpiData.add(FrontendKpiModel(name: 'Remaining Amount',
             image: Images.yieldKpi,
             actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)

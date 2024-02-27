@@ -156,9 +156,9 @@ class CommunityCubit extends Cubit<CommunityCubitState>{
 
 
   // commentListApi
-  Future<void> addPostApi(context, String remark, String path) async{
+  Future<void> addPostApi(context, String remark, String path, String fileType) async{
     customDialog(widget: launchProgress());
-    var response = await apiRepository.addPostApi(remark, path);
+    var response = await apiRepository.addPostApi(remark, path, fileType);
 
     if (response.status == 200) {
       communityListApi(context, isLoaderRequired: false);

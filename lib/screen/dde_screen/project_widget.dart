@@ -120,7 +120,7 @@ class ProjectWidget extends StatelessWidget {
                           RichText(
                               text: TextSpan(children: [
                                 TextSpan(
-                                    text: 'Loan: ',
+                                    text: 'Lending Amount: ',
                                     style: figtreeMedium.copyWith(
                                         fontSize: 12, color: const Color(0xFF808080))),
                                 TextSpan(

@@ -239,8 +239,8 @@ class OthersRepository {
 
 
   ///////////////// getCommunityListApi //////////
-  Future<ResponseOtpModel> addPostApi(String remark, String path) async {
-      var data = FormData.fromMap({'remark': remark});
+  Future<ResponseOtpModel> addPostApi(String remark, String path, String fileType) async {
+      var data = FormData.fromMap({'remark': remark, "file_type": fileType,});
       data.files.add(MapEntry(
           'community_document_files[]', await MultipartFile.fromFile(path)));
 
