@@ -16,6 +16,7 @@ import 'package:glad/screen/common/featured_trainings.dart';
 import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/custom_loan/custom_loan_list.dart';
 import 'package:glad/screen/dde_livestock/dde_livestock_screen.dart';
+import 'package:glad/screen/dde_screen/dashboard_tab_screen/project_screen.dart';
 import 'package:glad/screen/livestock/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
@@ -486,6 +487,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                   10.horizontalSpace(),
                   InkWell(
                     onTap: () {
+                      ProjectScreenState.statusFromLandingPage = "pending";
                       BlocProvider.of<DashboardCubit>(context).selectedIndex(2);
                     },
                     child: 'View All'.textSemiBold(color: ColorResources.maroon, fontSize: 12, underLine: TextDecoration.underline),

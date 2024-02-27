@@ -16,6 +16,7 @@ import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
 import 'package:glad/screen/common/weather_chart.dart';
 import 'package:glad/screen/custom_loan/apply_custom_loan.dart';
+import 'package:glad/screen/dde_screen/dashboard_tab_screen/project_screen.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
 import 'package:glad/screen/livestock/add_livestock.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
@@ -698,6 +699,7 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
     child: InkWell(
       onTap: (){
         // BlocProvider.of<DashboardCubit>(context).addLast(i);
+        ProjectScreenState.statusFromLandingPage = null;
         BlocProvider.of<DashboardCubit>(context).state.navigationQueue.addLast(i);
         BlocProvider.of<DashboardCubit>(context).selectedIndex(i);
 

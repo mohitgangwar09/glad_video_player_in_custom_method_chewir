@@ -18,16 +18,20 @@ class ProjectScreen extends StatefulWidget {
   const ProjectScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProjectScreen> createState() => _ProjectScreenState();
+  State<ProjectScreen> createState() => ProjectScreenState();
 }
 
-class _ProjectScreenState extends State<ProjectScreen> {
+class ProjectScreenState extends State<ProjectScreen> {
+  static String? statusFromLandingPage;
   String selectedFilter = 'suggested';
   bool search = false;
   TextEditingController searchEditingController = TextEditingController();
 
   @override
   void initState() {
+    if(statusFromLandingPage !=null){
+      selectedFilter = statusFromLandingPage.toString();
+    }
     BlocProvider.of<ProjectCubit>(context)
         .ddeProjectsApi(context, selectedFilter, true);
     super.initState();
