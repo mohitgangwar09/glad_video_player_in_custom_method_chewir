@@ -66,7 +66,8 @@ class LandingPageRepository {
       String lat,
       String long,
       String district,
-      String supplierId) async {
+      String supplierId,
+      String date) async {
     FormData formData = FormData.fromMap({
       "name": name,
       "mobile": mobile,
@@ -77,6 +78,7 @@ class LandingPageRepository {
       'lang': long,
       'district': district,
       'supplier_code' : supplierId,
+      'date': date
     });
     print(formData.fields);
 
@@ -108,11 +110,10 @@ class LandingPageRepository {
 
   ////////////////////getGuestDashboardApi///////////////////////////
   Future<GuestDashboardModel> getGuestDashboardApi(double lat, double long) async {
-    // https://uat-glad.staqo.com/api/guest-user-dashboard?lat=37.33034447&longitude=118.2426&device_id=ED502B45-13A6-45DA-996C-640E9FE78720
     Map<String, dynamic> data = {
-      'device_id': 'ED502B45-13A6-45DA-996C-640E9FE78720',
-      'lat': '37.33034447',
-      'longitude': '118.2426',
+      'device_id': sharedPreferences!.getString(AppConstants.deviceImeiId),
+      'lat': lat,
+      'longitude': long,
     };
 
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()

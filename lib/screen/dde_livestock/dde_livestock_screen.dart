@@ -9,6 +9,7 @@ import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/livestock_cubit/livestock_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/auth_screen/login_with_password.dart';
+import 'package:glad/screen/auth_screen/register_popup.dart';
 import 'package:glad/screen/dde_livestock/dde_my_farmer_ads.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/livestock/livestock_cart_list_screen.dart';
@@ -36,7 +37,11 @@ class DdeLiveStockScreen extends StatefulWidget {
 
 class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
 
-  TextEditingController searchEditingController = TextEditingController();
+  TextEditingController searchEditingControllerBuy = TextEditingController();
+  TextEditingController searchEditingControllerSell = TextEditingController();
+  String selectedFilter = 'buy';
+  bool searchBuy = false;
+  bool searchSell = false;
   String countryCode = "";
 
   @override
@@ -55,372 +60,622 @@ class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
     return Scaffold(
       body: BlocBuilder<LivestockCubit, LivestockCubitState>(
           builder: (contexts, state) {
-            if (state.status == LivestockStatus.submit) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorResources.maroon,
-                  ));
-            } else if (state.responseLivestockList == null) {
-              return Center(child: Text("${state.responseLivestockList} Api Error"));
-            } else {
-              return Container(
-                color: Colors.white,
-                child: Stack(
-                  children: [
-                    landingBackground(),
-                    Column(
-                      children: [
-                        CustomAppBar(
-                          context: context,
-                          titleText1: 'Livestock',
-                          centerTitle: true,
-                          leading: arrowBackButton(onTap: (){
-                            if(widget.isNavigate!=null){
-                              const DashboardDDE().navigate();
-                            }else{
-                              pressBack();
-                            }
-                          }),
-                          action: Row(
-                            children: [
-                              if(BlocProvider
-                                  .of<LandingPageCubit>(context)
-                                  .sharedPreferences
-                                  .containsKey(AppConstants.userType))
-                                InkWell(
-                                    onTap: () async{
-                                      await BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
-                                      getCountryCode();
-                                      modalBottomSheetMenu(context,
-                                          radius: 40,
-                                          child: SizedBox(
-                                              height: screenHeight()-220,
-                                              child: selectFarmer(userId: '1')));
-                                    },
-                                    child: SvgPicture.asset(state.responseLivestockList!.data!.cartCount.toString()== "0"?Images.blankCart:Images.cart)),
-                              if(!BlocProvider
-                                  .of<LandingPageCubit>(context)
-                                  .sharedPreferences
-                                  .containsKey(AppConstants.userType))
-                                InkWell(
-                                    onTap: () {
-                                      List<String> roiList = [
-                                        'Default',
-                                        'Price Highest to Lowest',
-                                        'Price Lowest to Highest',
-                                        'Age Highest to Lowest',
-                                        'Age Lowest to Highest',
-                                        'Yield Highest to Lowest',
-                                        'Yield Lowest to Highest',
-                                      ];
-                                      List<String> roiRequestToApi = [
-                                        '',
-                                        'price_highest_desc',
-                                        'price_lowest_asc',
-                                        'age_highest_desc',
-                                        'age_lowest_asc',
-                                        'yield_highest_desc',
-                                        'yield_lowest_asc'
-                                      ];
-                                      modalBottomSheetMenu(context,
-                                        child: BlocBuilder<LivestockCubit, LivestockCubitState>(
-                                            builder: (context, state) {
-                                              return SizedBox(
-                                                height: screenHeight() * 0.65,
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          left: 8.0, right: 8),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                pressBack();
-                                                              },
-                                                              child: "Cancel".textMedium(
-                                                                  color:
-                                                                  const Color(0xff6A0030),
-                                                                  fontSize: 14)),
-                                                          "Sort By".textMedium(fontSize: 22),
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                BlocProvider.of<LivestockCubit>(context).roiFilter('');
-                                                              },
-                                                              child: "Reset".textMedium(
-                                                                  color:
-                                                                  const Color(0xff6A0030),
-                                                                  fontSize: 14))
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    const Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 20.0, right: 20),
-                                                      child: Divider(),
-                                                    ),
-                                                    Expanded(
-                                                      child: customList(
-                                                          list: roiList,
-                                                          child: (index) {
-                                                            return InkWell(
-                                                              onTap: (){
-                                                                BlocProvider.of<LivestockCubit>(context).roiFilter(roiRequestToApi[index].toString());
-                                                              },
-                                                              child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                      .only (
-                                                                      left: 30,
-                                                                      right: 30,
-                                                                      top: 30,
-                                                                      bottom: 10),
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: [
-                                                                      roiList[index].toString()
-                                                                          .textRegular(
-                                                                          fontSize: 16),
-                                                                      state.roiFilter == roiRequestToApi[index].toString()?
-                                                                      const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
-                                                                    ],
-                                                                  )),
-                                                            );
-                                                          }),
-                                                    ),
-                                                    10.verticalSpace(),
-                                                    Container(
-                                                        margin: 20.marginAll(),
-                                                        height: 55,
-                                                        width: screenWidth(),
-                                                        child: customButton("Apply",
-                                                            fontColor: 0xffffffff,
-                                                            onTap: () {
-                                                              BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false);
-                                                              pressBack();
-                                                            }))
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                        ),
-                                      );
-                                    }, child: SvgPicture.asset(Images.filter2)),
-                              13.horizontalSpace(),
+            return Container(
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  landingBackground(),
+                  Column(
+                    children: [
+                      CustomAppBar(
+                        context: context,
+                        titleText1: 'Livestock',
+                        centerTitle: true,
+                        leading: arrowBackButton(onTap: (){
+                          if(widget.isNavigate!=null){
+                            const DashboardDDE().navigate();
+                          }else{
+                            pressBack();
+                          }
+                        }),
+                        action: selectedFilter == 'buy'
+                            ? Row(
+                          children: [
+                            if(BlocProvider
+                                .of<LandingPageCubit>(context)
+                                .sharedPreferences
+                                .containsKey(AppConstants.userType))
+                              InkWell(
+                                  onTap: () async{
+                                    await BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+                                    getCountryCode();
+                                    modalBottomSheetMenu(context,
+                                        radius: 40,
+                                        child: SizedBox(
+                                            height: screenHeight()-220,
+                                            child: selectFarmer(userId: '1')));
+                                  },
+                                  child: SvgPicture.asset(state.responseLivestockList!.data!.cartCount.toString()== "0"?Images.blankCart:Images.cart)),
+                            if(!BlocProvider
+                                .of<LandingPageCubit>(context)
+                                .sharedPreferences
+                                .containsKey(AppConstants.userType))
                               InkWell(
                                   onTap: () {
-                                    BlocProvider.of<LivestockCubit>(context).livestockBreedApi(context);
-                                    const LivestockFilter("").navigate();
-                                  },
-                                  child: SvgPicture.asset(Images.filter1)),
-                              18.horizontalSpace(),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                              left: 20, right: 20, bottom: 13, top: 23),
-                          height: 50,
-                          decoration: boxDecoration(
-                              borderColor: Colors.grey,
-                              borderRadius: 62,
-                              backgroundColor: Colors.white),
-                          width: screenWidth(),
-                          child: Row(
-                            children: [
-                              13.horizontalSpace(),
-                              SvgPicture.asset(Images.searchLeft),
-                              13.horizontalSpace(),
-                              Expanded(
-                                  child: Stack(
+                                    List<String> roiList = [
+                                      'Default',
+                                      'Price Highest to Lowest',
+                                      'Price Lowest to Highest',
+                                      'Age Highest to Lowest',
+                                      'Age Lowest to Highest',
+                                      'Yield Highest to Lowest',
+                                      'Yield Lowest to Highest',
+                                    ];
+                                    List<String> roiRequestToApi = [
+                                      '',
+                                      'price_highest_desc',
+                                      'price_lowest_asc',
+                                      'age_highest_desc',
+                                      'age_lowest_asc',
+                                      'yield_highest_desc',
+                                      'yield_lowest_asc'
+                                    ];
+                                    modalBottomSheetMenu(context,
+                                      child: BlocBuilder<LivestockCubit, LivestockCubitState>(
+                                          builder: (context, state) {
+                                            return SizedBox(
+                                              height: screenHeight() * 0.65,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        left: 8.0, right: 8),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              pressBack();
+                                                            },
+                                                            child: "Cancel".textMedium(
+                                                                color:
+                                                                const Color(0xff6A0030),
+                                                                fontSize: 14)),
+                                                        "Sort By".textMedium(fontSize: 22),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              BlocProvider.of<LivestockCubit>(context).roiFilter('');
+                                                            },
+                                                            child: "Reset".textMedium(
+                                                                color:
+                                                                const Color(0xff6A0030),
+                                                                fontSize: 14))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 20.0, right: 20),
+                                                    child: Divider(),
+                                                  ),
+                                                  Expanded(
+                                                    child: customList(
+                                                        list: roiList,
+                                                        child: (index) {
+                                                          return InkWell(
+                                                            onTap: (){
+                                                              BlocProvider.of<LivestockCubit>(context).roiFilter(roiRequestToApi[index].toString());
+                                                            },
+                                                            child: Padding(
+                                                                padding: const EdgeInsets
+                                                                    .only (
+                                                                    left: 30,
+                                                                    right: 30,
+                                                                    top: 30,
+                                                                    bottom: 10),
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    roiList[index].toString()
+                                                                        .textRegular(
+                                                                        fontSize: 16),
+                                                                    state.roiFilter == roiRequestToApi[index].toString()?
+                                                                    const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
+                                                                  ],
+                                                                )),
+                                                          );
+                                                        }),
+                                                  ),
+                                                  10.verticalSpace(),
+                                                  Container(
+                                                      margin: 20.marginAll(),
+                                                      height: 55,
+                                                      width: screenWidth(),
+                                                      child: customButton("Apply",
+                                                          fontColor: 0xffffffff,
+                                                          onTap: () {
+                                                            BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false);
+                                                            pressBack();
+                                                          }))
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                      ),
+                                    );
+                                  }, child: SvgPicture.asset(Images.filter2)),
+                            13.horizontalSpace(),
+                            InkWell(
+                                onTap: () {
+                                  BlocProvider.of<LivestockCubit>(context).livestockBreedApi(context);
+                                  const LivestockFilter("").navigate();
+                                },
+                                child: SvgPicture.asset(Images.filter1)),
+                            18.horizontalSpace(),
+                          ],
+                        )
+                            : const SizedBox.shrink(),
+                      ),
+                      10.verticalSpace(),
+                      Container(
+                        height: 50,
+                        margin: 20.marginHorizontal(),
+                        width: screenWidth(),
+                        decoration: boxDecoration(
+                            borderRadius: 62,
+                            borderColor: const Color(0xffDCDCDC),
+                            backgroundColor: Colors.white),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  if (selectedFilter != 'buy') {
+                                    selectedFilter = 'buy';
+                                    setState(() {});
+                                    BlocProvider.of<LivestockCubit>(context).livestockListApi(context,true);
+                                  }
+                                },
+                                child: Container(
+                                  height: screenHeight(),
+                                  margin: const EdgeInsets.all(6),
+                                  decoration: boxDecoration(
+                                      backgroundColor: selectedFilter == 'buy'
+                                          ? const Color(0xff6A0030)
+                                          : Colors.white,
+                                      borderRadius: 62),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      TextField(
-                                        controller: searchEditingController,
-                                        onChanged: (value){
-                                          BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false,searchQuery:value.toString());
-                                        },
-                                        decoration: const InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: "Search by..."),
-                                      ),
-                                      searchEditingController.text.isNotEmpty?
-                                      Positioned(top: 0,bottom: 0,right:7,child: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              searchEditingController.clear();
-                                              BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false,searchQuery:'');
-                                            });
-                                          },
-                                          icon: const Icon(Icons.clear))):const SizedBox.shrink()
+                                      "Buy"
+                                          .textMedium(
+                                          color: selectedFilter == 'buy' ? Colors
+                                              .white : ColorResources.black,
+                                          fontSize: 14),
                                     ],
-                                  )),
-                            ],
-                          ),
-                        ),
-                        if(BlocProvider
-                            .of<LandingPageCubit>(context)
-                            .sharedPreferences
-                            .containsKey(AppConstants.userType))
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap:  (){
-                                        const DdeMyLiveStockScreen().navigate();
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.only(
-                                            right: 12, left: 0),
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: boxDecoration(
-                                            borderColor: const Color(0xffDCDCDC),
-                                            borderWidth: 1,
-                                            borderRadius: 62,
-                                            backgroundColor: Colors.white),
-                                        child: "My Farmer's Ads".textMedium(
-                                            fontSize: 12, color: Colors.black),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap:  (){
-                                        const LoanApplication(type: 'buyer',).navigate();
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.only(
-                                            right: 12, left: 0),
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: boxDecoration(
-                                            borderColor: const Color(0xffDCDCDC),
-                                            borderWidth: 1,
-                                            borderRadius: 62,
-                                            backgroundColor: Colors.white),
-                                        child: "My Farmer's Application".textMedium(
-                                            fontSize: 12, color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                                InkWell(
-                                    onTap: () {
-                                      List<String> roiList = [
-                                        'Default',
-                                        'Price Highest to Lowest',
-                                        'Price Lowest to Highest',
-                                        'Age Highest to Lowest',
-                                        'Age Lowest to Highest',
-                                        'Yield Highest to Lowest',
-                                        'Yield Lowest to Highest',
-                                      ];
-                                      List<String> roiRequestToApi = [
-                                        '',
-                                        'price_highest_desc',
-                                        'price_lowest_asc',
-                                        'age_highest_desc',
-                                        'age_lowest_asc',
-                                        'yield_highest_desc',
-                                        'yield_lowest_asc'
-                                      ];
-                                      modalBottomSheetMenu(context,
-                                        child: BlocBuilder<LivestockCubit, LivestockCubitState>(
-                                            builder: (context, state) {
-                                              return SizedBox(
-                                                height: screenHeight() * 0.65,
-                                                child: Column(
+                              ),
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  if(BlocProvider
+                                      .of<LandingPageCubit>(context)
+                                      .sharedPreferences
+                                      .containsKey(AppConstants.userType)) {
+                                    if (selectedFilter != 'sell') {
+                                      selectedFilter = 'sell';
+                                      setState(() {});
+                                      BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, '', isLoaderRequired: true);
+                                    }
+                                  } else {
+                                    const RegisterPopUp().navigate();
+                                  }
+                                },
+                                child: Container(
+                                  height: screenHeight(),
+                                  margin: const EdgeInsets.all(6),
+                                  decoration: boxDecoration(
+                                      backgroundColor: selectedFilter == 'sell'
+                                          ? const Color(0xff6A0030)
+                                          : Colors.white, borderRadius: 62),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      "Sell".textMedium(
+                                          color: selectedFilter == 'sell'
+                                              ? Colors.white
+                                              : ColorResources.black, fontSize: 14),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if(selectedFilter == "buy")
+                        BlocBuilder<LivestockCubit, LivestockCubitState>(
+                            builder: (context, state) {
+                              if (state.status == LivestockStatus.submit) {
+                                return const Center(
+                                    child: CircularProgressIndicator(
+                                      color: ColorResources.maroon,
+                                    ));
+                              } else if (state.responseLivestockList == null) {
+                                return Center(child: Text("${state.responseLivestockList} Api Error"));
+                              } else {
+                                return Column(
+                                  children: [
+                                    10.verticalSpace(),
+                                    if(BlocProvider
+                                        .of<LandingPageCubit>(context)
+                                        .sharedPreferences
+                                        .containsKey(AppConstants.userType))
+                                      Stack(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                InkWell(
+                                                  onTap:  (){
+                                                    const LoanApplication(type: 'buyer',).navigate();
+                                                  },
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(
+                                                        right: 12, left: 0),
+                                                    padding: const EdgeInsets.all(10),
+                                                    decoration: boxDecoration(
+                                                        borderColor: const Color(0xffDCDCDC),
+                                                        borderWidth: 1,
+                                                        borderRadius: 62,
+                                                        backgroundColor: Colors.white),
+                                                    child: "My Farmer's Application".textMedium(
+                                                        fontSize: 12, color: Colors.black),
+                                                  ),
+                                                ),
+                                                Row(
                                                   children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          left: 8.0, right: 8),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                pressBack();
-                                                              },
-                                                              child: "Cancel".textMedium(
-                                                                  color:
-                                                                  const Color(0xff6A0030),
-                                                                  fontSize: 14)),
-                                                          "Sort By".textMedium(fontSize: 22),
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                BlocProvider.of<LivestockCubit>(context).roiFilter('');
-                                                              },
-                                                              child: "Reset".textMedium(
-                                                                  color:
-                                                                  const Color(0xff6A0030),
-                                                                  fontSize: 14))
-                                                        ],
+                                                    InkWell(
+                                                      onTap: (){
+                                                        setState(() {
+                                                          searchBuy = true;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                          width: 35,
+                                                          height: 35,
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              border: Border.all(color: const Color(0xffDCDCDC))
+                                                          ),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: SvgPicture.asset(Images.search,width: 23,height: 23,),
+                                                          )
                                                       ),
                                                     ),
-                                                    const Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 20.0, right: 20),
-                                                      child: Divider(),
-                                                    ),
-                                                    Expanded(
-                                                      child: customList(
-                                                          list: roiList,
-                                                          child: (index) {
-                                                            return InkWell(
-                                                              onTap: (){
-                                                                BlocProvider.of<LivestockCubit>(context).roiFilter(roiRequestToApi[index].toString());
-                                                              },
-                                                              child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                      .only (
-                                                                      left: 30,
-                                                                      right: 30,
-                                                                      top: 30,
-                                                                      bottom: 10),
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: [
-                                                                      roiList[index].toString()
-                                                                          .textRegular(
-                                                                          fontSize: 16),
-                                                                      state.roiFilter == roiRequestToApi[index].toString()?
-                                                                      const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
-                                                                    ],
-                                                                  )),
-                                                            );
-                                                          }),
-                                                    ),
-                                                    10.verticalSpace(),
-                                                    Container(
-                                                        margin: 20.marginAll(),
-                                                        height: 55,
-                                                        width: screenWidth(),
-                                                        child: customButton("Apply",
-                                                            fontColor: 0xffffffff,
-                                                            onTap: () {
-                                                              BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false);
-                                                              pressBack();
-                                                            }))
+                                                    10.horizontalSpace(),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          List<String> roiList = [
+                                                            'Default',
+                                                            'Price Highest to Lowest',
+                                                            'Price Lowest to Highest',
+                                                            'Age Highest to Lowest',
+                                                            'Age Lowest to Highest',
+                                                            'Yield Highest to Lowest',
+                                                            'Yield Lowest to Highest',
+                                                          ];
+                                                          List<String> roiRequestToApi = [
+                                                            '',
+                                                            'price_highest_desc',
+                                                            'price_lowest_asc',
+                                                            'age_highest_desc',
+                                                            'age_lowest_asc',
+                                                            'yield_highest_desc',
+                                                            'yield_lowest_asc'
+                                                          ];
+                                                          modalBottomSheetMenu(context,
+                                                            child: BlocBuilder<LivestockCubit, LivestockCubitState>(
+                                                                builder: (context, state) {
+                                                                  return SizedBox(
+                                                                    height: screenHeight() * 0.65,
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left: 8.0, right: 8),
+                                                                          child: Row(
+                                                                            mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              TextButton(
+                                                                                  onPressed: () {
+                                                                                    pressBack();
+                                                                                  },
+                                                                                  child: "Cancel".textMedium(
+                                                                                      color:
+                                                                                      const Color(0xff6A0030),
+                                                                                      fontSize: 14)),
+                                                                              "Sort By".textMedium(fontSize: 22),
+                                                                              TextButton(
+                                                                                  onPressed: () {
+                                                                                    BlocProvider.of<LivestockCubit>(context).roiFilter('');
+                                                                                  },
+                                                                                  child: "Reset".textMedium(
+                                                                                      color:
+                                                                                      const Color(0xff6A0030),
+                                                                                      fontSize: 14))
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        const Padding(
+                                                                          padding: EdgeInsets.only(
+                                                                              left: 20.0, right: 20),
+                                                                          child: Divider(),
+                                                                        ),
+                                                                        Expanded(
+                                                                          child: customList(
+                                                                              list: roiList,
+                                                                              child: (index) {
+                                                                                return InkWell(
+                                                                                  onTap: (){
+                                                                                    BlocProvider.of<LivestockCubit>(context).roiFilter(roiRequestToApi[index].toString());
+                                                                                  },
+                                                                                  child: Padding(
+                                                                                      padding: const EdgeInsets
+                                                                                          .only (
+                                                                                          left: 30,
+                                                                                          right: 30,
+                                                                                          top: 30,
+                                                                                          bottom: 10),
+                                                                                      child: Row(
+                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                        children: [
+                                                                                          roiList[index].toString()
+                                                                                              .textRegular(
+                                                                                              fontSize: 16),
+                                                                                          state.roiFilter == roiRequestToApi[index].toString()?
+                                                                                          const Icon(Icons.check,color: Colors.red,):const SizedBox.shrink()
+                                                                                        ],
+                                                                                      )),
+                                                                                );
+                                                                              }),
+                                                                        ),
+                                                                        10.verticalSpace(),
+                                                                        Container(
+                                                                            margin: 20.marginAll(),
+                                                                            height: 55,
+                                                                            width: screenWidth(),
+                                                                            child: customButton("Apply",
+                                                                                fontColor: 0xffffffff,
+                                                                                onTap: () {
+                                                                                  BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false);
+                                                                                  pressBack();
+                                                                                }))
+                                                                      ],
+                                                                    ),
+                                                                  );
+                                                                }
+                                                            ),
+                                                          );
+                                                        }, child: SvgPicture.asset(Images.filter2)),
                                                   ],
                                                 ),
-                                              );
-                                            }
+                                              ],
+                                            ),
+                                          ),
+                                          if(searchBuy)
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 16, right: 16),
+                                              height: 50,
+                                              decoration: boxDecoration(
+                                                  borderColor: Colors.grey,
+                                                  borderRadius: 62,
+                                                  backgroundColor: Colors.white),
+                                              width: screenWidth(),
+                                              child: Row(
+                                                children: [
+                                                  13.horizontalSpace(),
+                                                  SvgPicture.asset(Images.searchLeft),
+                                                  13.horizontalSpace(),
+                                                  Expanded(
+                                                      child: Stack(
+                                                        children: [
+                                                          TextField(
+                                                            controller: searchEditingControllerBuy,
+                                                            onChanged: (value){
+                                                              BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false,searchQuery:value.toString());
+                                                            },
+                                                            decoration: const InputDecoration(
+                                                                border: InputBorder.none,
+                                                                hintText: "Search by..."),
+                                                          ),
+                                                          Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  searchEditingControllerBuy.clear();
+                                                                  searchBuy = false;
+                                                                  BlocProvider.of<LivestockCubit>(context).livestockListApi(context,false,searchQuery:'');
+                                                                });
+                                                              },
+                                                              icon: const Icon(Icons.clear)))
+                                                        ],
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                  ],
+                                );
+                              }
+                            }
+                        ),
+                      if(selectedFilter == "buy")
+                        BlocBuilder<LivestockCubit, LivestockCubitState>(
+                            builder: (context, state) {
+                              if (state.status == LivestockStatus.submit) {
+                                return const SizedBox.shrink();
+                              } else if (state.responseLivestockList == null) {
+                                return const SizedBox.shrink();
+                              } else {
+                                return landingPage(context, state);
+                              }
+                            }
+                        ),
+
+                      if(selectedFilter == 'sell')
+                        BlocBuilder<LivestockCubit, LivestockCubitState>(
+                            builder: (context, state) {
+                              if (state.status == LivestockStatus.submit) {
+                                return const Center(
+                                    child: CircularProgressIndicator(
+                                      color: ColorResources.maroon,
+                                    ));
+                              } else if (state.responseMyLivestockList == null) {
+                                return Center(child: Text("${state.responseMyLivestockList} Api Error"));
+                              } else {
+                                return Column(
+                                  children: [
+                                    10.verticalSpace(),
+                                    Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    const LoanApplication(type: 'seller',).navigate();
+                                                  },
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(
+                                                        right: 12, left: 0),
+                                                    padding: const EdgeInsets.all(10),
+                                                    decoration: boxDecoration(
+                                                        borderColor: const Color(0xffDCDCDC),
+                                                        borderWidth: 1,
+                                                        borderRadius: 62,
+                                                        backgroundColor: Colors.white),
+                                                    child: 'Applications for Farmers'.textMedium(
+                                                        fontSize: 12, color: Colors.black),
+                                                  ),
+                                                ),
+                                              InkWell(
+                                                onTap: (){
+                                                  setState(() {
+                                                    searchSell = true;
+                                                  });
+                                                },
+                                                child: Container(
+                                                    width: 35,
+                                                    height: 35,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(color: const Color(0xffDCDCDC))
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: SvgPicture.asset(Images.search,width: 23,height: 23,),
+                                                    )
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      );
-                                    }, child: SvgPicture.asset(Images.filter2)),
-                              ],
-                            ),
-                          ),
-                        landingPage(context, state),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            }
+                                        if(searchSell)
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 16, right: 16),
+                                            height: 50,
+                                            decoration: boxDecoration(
+                                                borderColor: Colors.grey,
+                                                borderRadius: 62,
+                                                backgroundColor: Colors.white),
+                                            width: screenWidth(),
+                                            child: Row(
+                                              children: [
+                                                13.horizontalSpace(),
+                                                SvgPicture.asset(Images.searchLeft),
+                                                13.horizontalSpace(),
+                                                Expanded(
+                                                    child: Stack(
+                                                      children: [
+                                                        TextField(
+                                                          controller: searchEditingControllerSell,
+                                                          onChanged: (value){
+                                                            BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, value.toString(), isLoaderRequired: false);
+                                                          },
+                                                          decoration: const InputDecoration(
+                                                              border: InputBorder.none,
+                                                              hintText: "Search by..."),
+                                                        ),
+                                                        Positioned(top: 0,bottom: 0,right:7,child: IconButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                searchEditingControllerSell.clear();
+                                                                searchSell = false;
+                                                                BlocProvider.of<LivestockCubit>(context).myLivestockListApi(context, '', isLoaderRequired: false);
+                                                              });
+                                                            },
+                                                            icon: const Icon(Icons.clear)))
+                                                      ],
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              }
+                            }
+                        ),
+                      if(selectedFilter == 'sell')
+                        BlocBuilder<LivestockCubit, LivestockCubitState>(
+                            builder: (context, state) {
+                              if (state.status == LivestockStatus.submit) {
+                                return const SizedBox.shrink();
+                              } else if (state.responseMyLivestockList == null) {
+                                return const SizedBox.shrink();
+                              } else {
+                                return landingPageSell(context, state);
+                              }
+                            }
+                        ),
+                    ],
+                  ),
+                  if(selectedFilter == 'sell')
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () async{
+                          await BlocProvider.of<DdeFarmerCubit>(context).getFarmer(context, '${BlocProvider.of<DdeFarmerCubit>(context).state.selectedRagRatingType}'.toLowerCase(), true);
+                          modalBottomSheetMenu(context,
+                              radius: 40,
+                              child: SizedBox(
+                                  height: screenHeight()-220,
+                                  child: selectFarmerAddDdeLivestock()));
+                        },
+                        child: SvgPicture.asset(
+                          Images.addLivestock,
+                          width: 100,
+                          height: 100,
+                        ),
+                      ))
+                ],
+              ),
+            );
           }
       ),
     );
@@ -611,6 +866,219 @@ class _DdeLiveStockScreenState extends State<DdeLiveStockScreen> {
       children: [
         Text('No data found'),
       ],
+    );
+  }
+
+  Widget landingPageSell(BuildContext context, LivestockCubitState state){
+    return state.responseMyLivestockList!.data != null ? Expanded(
+      child: state.responseMyLivestockList!.data!.livestocklLIst!.isNotEmpty?
+      customGrid(
+          padding: const EdgeInsets.fromLTRB(13,13,13,120),
+          list: state.responseMyLivestockList!.data!.livestocklLIst ?? [],
+          crossAxisSpacing: 13,
+          mainAxisSpacing: 13,
+          mainAxisExtent: 290,
+          context, child: (index){
+        return InkWell(
+          onTap: () {
+            LiveStockDetail(id: state.responseMyLivestockList!.data!.livestocklLIst![index].id.toString(), isMyLivestock: true,type: 'seller',).navigate();
+          },
+          child: customShadowContainer(
+            margin: 0,
+            backColor: Colors.grey.withOpacity(0.4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    SizedBox(
+                      // padding: 2.marginAll(),
+                        width: screenWidth(),
+                        height:140,child: ClipRRect(borderRadius: const BorderRadius.only(topLeft: Radius.circular(14),topRight: Radius.circular(14)),child: CachedNetworkImage(imageUrl: state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.isNotEmpty ? state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles![0].originalUrl ?? '' : '',fit: BoxFit.cover,))),
+                    if(state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.length > 1)
+                      customShadowContainer(
+                        backColor: Colors.transparent,
+                        color: Colors.transparent,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            (state.responseMyLivestockList!.data!.livestocklLIst![index].liveStockDocumentFiles!.length).toString().textRegular(fontSize: 14, color: Colors.white),
+                            const Icon(Icons.image_outlined, color: Colors.white,)
+                          ],),
+                      )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8, top: 6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: '${state.responseMyLivestockList!.data!.livestocklLIst![index].cowBreed!.name ?? ''} cow ',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: Colors.black)),
+                            TextSpan(
+                                text: '(${state.responseMyLivestockList!.data!.livestocklLIst![index].advertisementNo ?? ''})',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 12, color: const Color(0xFF727272)))
+                          ])),
+                      6.verticalSpace(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(getCurrencyString(double.parse(state.responseMyLivestockList!.data!.livestocklLIst![index].price.toString())),
+                              style: figtreeSemiBold.copyWith(
+                                  fontSize: 18, color: Colors.black)),
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: 'Qty: ',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: state.responseMyLivestockList!.data!.livestocklLIst![index].cowQty.toString(),
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
+                        ],
+                      ),
+                      12.verticalSpace(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: 'Age: ',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: '${state.responseMyLivestockList!.data!.livestocklLIst![index].age ?? ''} yrs',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black)),
+                              ])),
+                          // 10.horizontalSpace(),
+                          Container(
+                            height: 5,
+                            width: 5,
+                            decoration: const BoxDecoration(
+                                color: Colors.black, shape: BoxShape.circle),
+                          ),
+                          // 10.horizontalSpace(),
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                    text: 'Milk: ',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: const Color(0xFF727272))),
+                                TextSpan(
+                                    text: '${double.parse(state.responseMyLivestockList!.data!.livestocklLIst![index].yield ?? '').toInt()}L/day',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black))
+                              ])),
+                        ],
+                      ),
+                      6.verticalSpace(),
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 2.0,right: 2),
+                        child: Divider(),
+                      ),
+
+                      2.verticalSpace(),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0,right: 10),
+                        child: Row(
+                          children: [
+
+                            state.responseMyLivestockList!.data!.livestocklLIst![index].user!.profilePic == null ?Image.asset(Images.sampleUser):
+                            networkImage(text: state.responseMyLivestockList!.data!.livestocklLIst![index].user!.profilePic.toString(),height: 30,width: 30,radius: 30),
+
+                            7.horizontalSpace(),
+
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.name != null
+                                      ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.name ?? ''
+                                      : '',
+                                    style: figtreeMedium.copyWith(
+                                        fontSize: 12, color: Colors.black), maxLines: 1,),
+
+                                  Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
+                                      ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!['address'].toString() ?? ''
+                                      : '',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: figtreeRegular.copyWith(
+                                        fontSize: 12, color: Colors.black),
+                                    maxLines: 1,),
+                                ],
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      // Text(state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address != null
+                      //     ? state.responseMyLivestockList!.data!.livestocklLIst![index].user!.address!['address'] ?? ''
+                      //     : '',
+                      //   style: figtreeMedium.copyWith(
+                      //       fontSize: 12, color: Colors.black), maxLines: 1,),
+                      // 12.verticalSpace(),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(26),
+                      //         border: Border.all(color: const Color(0xFFFC5E60)),
+                      //       ),
+                      //       padding: const EdgeInsets.symmetric(
+                      //           horizontal: 16, vertical: 9.5),
+                      //       child: SvgPicture.asset(Images.chatBubble),
+                      //     ),
+                      //     6.horizontalSpace(),
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(50),
+                      //         border: Border.all(color: const Color(0xffF6B51D)),
+                      //       ),
+                      //       padding: const EdgeInsets.symmetric(
+                      //           vertical: 10.0, horizontal: 9.5),
+                      //       child: Text('Add to Cart',
+                      //           style: figtreeMedium.copyWith(
+                      //               fontSize: 13.5, color: Colors.black)),
+                      //     )
+                      //   ],
+                      // )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }):const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('No data found'),
+        ],
+      ),
+    ) : Padding(
+      padding: EdgeInsets.only(top: screenWidth() / 2),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('No data found'),
+        ],
+      ),
     );
   }
 }

@@ -32,8 +32,32 @@ class ApiHitter {
         baseUrl: baseurl.isEmpty ? AppConstants.baseUrl : baseurl,
         connectTimeout: const Duration(milliseconds: 30000),
         receiveTimeout: const Duration(milliseconds: 30000),
+        sendTimeout: const Duration(milliseconds: 30000),
       );
       return Dio(options)
+          ..interceptors.add(InterceptorsWrapper(
+          onRequest:(options, handler){
+            // Do something before request is sent
+            return handler.next(options); //continue
+            // If you want to resolve the request with some custom data，
+            // you can resolve a `Response` object eg: return `dio.resolve(response)`.
+            // If you want to reject the request with a error message,
+            // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+          },
+          onResponse:(response,handler) {
+            // Do something with response data
+            return handler.next(response); // continue
+            // If you want to reject the request with a error message,
+            // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+          },
+          onError: (DioError e, handler) {
+            // Do something with response error
+            return  handler.next(e);//continue
+            // If you want to resolve the request with some custom data，
+            // you can resolve a `Response` object eg: return `dio.resolve(response)`.
+          }
+      ))
+        // ..interceptors.add(RetryOnConnectionChangeInterceptor(dio: Dio(options)))
         // ..options.headers ={
         // 'Content-Type': 'application/json; charset=UTF-8',
         // 'Authorization': 'Bearer ${AuthRepository().getUserToken()}'}
@@ -55,6 +79,7 @@ class ApiHitter {
       ;
     } else {
       return dio!;
+        // ..interceptors.add(RetryOnConnectionChangeInterceptor(dio: dio!));
     }
   }
 
@@ -133,7 +158,7 @@ class ApiHitter {
     bool value = await checkInternetConnection();
     if (value) {
       try {
-        debugPrint('Get URL Request--------------- $endPoint ${route.Get.currentRoute}');
+        debugPrint('Get URL Request--------------- $endPoint ${route.Get.currentRoute} $queryParameters');
         var response = await getDio(
           baseurl: baseurl,
         ).get(
@@ -148,6 +173,7 @@ class ApiHitter {
         return ApiResponse(response.statusCode == 200,
             response: response, msg: response.statusMessage!);
       } on DioException catch (error) {
+        print(error.type.toString());
         return exception(
           error,
         );
@@ -215,6 +241,7 @@ class ApiHitter {
 
   ApiResponse exception(DioException error) {
     debugPrint('URL Error Response---------------${error.requestOptions.baseUrl} ${error.requestOptions.path} ${error.response != null ? error.response!.data['message'].toString() : 'Network Error'}');
+    debugPrint(error.toString());
     return ApiResponse(false,
         msg: error.response != null ? error.response!.data['message'].toString() : 'Network Error',
       statusCode: NetworkExceptions.getErrorMessage(
@@ -232,3 +259,70 @@ class ApiResponse {
 
   ApiResponse(this.status ,{this.msg = 'Success', this.response, this.statusCode});
 }
+
+
+// /// Interceptor
+// class RetryOnConnectionChangeInterceptor extends Interceptor {
+//   final Dio dio;
+//
+//   RetryOnConnectionChangeInterceptor({
+//     required this.dio,
+//   });
+//
+//   @override
+//   void onError(DioException err, ErrorInterceptorHandler handler) async {
+//     debugPrint('Retry Request');
+//     if (_shouldRetryOnHttpException(err)) {
+//       try {
+//         handler.resolve(await DioHttpRequestRetrier(dio: dio).requestRetry(err.requestOptions).catchError((e) {
+//           handler.next(err);
+//         }));
+//       } catch (e) {
+//         handler.next(err);
+//       }
+//     } else {
+//       handler.next(err);
+//     }
+//
+//   }
+//
+//   bool _shouldRetryOnHttpException(DioException err) {
+//     return err.type == DioExceptionType.unknown;
+//   }
+// }
+//
+// /// Retrier
+// class DioHttpRequestRetrier {
+//   final Dio dio;
+//
+//   DioHttpRequestRetrier({
+//     required this.dio,
+//   });
+//
+//   Future<Response> requestRetry(RequestOptions requestOptions) async {
+//     return dio.request(
+//       requestOptions.path,
+//       cancelToken: requestOptions.cancelToken,
+//       data: requestOptions.data,
+//       onReceiveProgress: requestOptions.onReceiveProgress,
+//       onSendProgress: requestOptions.onSendProgress,
+//       queryParameters: requestOptions.queryParameters,
+//       options: Options(
+//         contentType: requestOptions.contentType,
+//         headers: requestOptions.headers,
+//         sendTimeout: requestOptions.sendTimeout,
+//         receiveTimeout: requestOptions.receiveTimeout,
+//         extra: requestOptions.extra,
+//         followRedirects: requestOptions.followRedirects,
+//         listFormat: requestOptions.listFormat,
+//         maxRedirects: requestOptions.maxRedirects,
+//         method: requestOptions.method,
+//         receiveDataWhenStatusError: requestOptions.receiveDataWhenStatusError,
+//         requestEncoder: requestOptions.requestEncoder,
+//         responseDecoder: requestOptions.responseDecoder,
+//         responseType: requestOptions.responseType,
+//         validateStatus: requestOptions.validateStatus,
+//       ),
+//     );
+//   }
+// }

@@ -1338,13 +1338,13 @@ Widget searchBox({bool enabled=true,
   );
 }
 
-Future<DateTime> selectedFutureDate(BuildContext context) async {
+Future<DateTime> selectedFutureDate(BuildContext context, {DateTime? lastDate}) async {
   DateTime selectedDate = DateTime.now();
   final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.now(),
-      lastDate: DateTime(2030,1));
+      lastDate: lastDate ?? DateTime(2030,1));
 
   return picked!;
 }
@@ -2006,7 +2006,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                   crossAxisCount: 2,
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 13,
-                  mainAxisExtent: 153, child: (index) {
+                  mainAxisExtent: 120, child: (index) {
                     return Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -2024,16 +2024,41 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                         padding: const EdgeInsets.fromLTRB(8, 15, 8, 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            15.verticalSpace(),
-                            Text(
-                              '${state.responseDdeTarget!.data![index].commissionPercent.toString()}%',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: figtreeMedium.copyWith(fontSize: 26),
+                            // 15.verticalSpace(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '${state.responseDdeTarget!.data![index].commissionPercent.toString()}%',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: figtreeMedium.copyWith(fontSize: 26),
+                                ),
+                                10.horizontalSpace(),
+                                Container(
+                                  // width: screenWidth(),
+                                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                    color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):
+                                    state.responseDdeTarget!.data![index].targetStatus == "In progress"?
+                                    const Color(0xffF2CA00):const Color(0xff12CE57),
+
+                                    borderRadius: BorderRadius.circular(130),
+                                  ),
+                                  child: Align(
+                                      alignment: Alignment.center
+                                      ,child: (state.responseDdeTarget!.data![index].targetStatus ?? '').toString().textMedium(
+                                      fontSize: 12,
+                                      color: state.responseDdeTarget!.data![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
+                                  )),
+                                ),
+
+                              ],
                             ),
-                            05.verticalSpace(),
+                            // 05.verticalSpace(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -2057,24 +2082,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                                 ),
                               ],
                             ),
-                            05.verticalSpace(),
-                            Container(
-                              width: screenWidth(),
-                              height: 28,
-                              decoration: BoxDecoration(
-                                color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):
-                                state.responseDdeTarget!.data![index].targetStatus == "In progress"?
-                                const Color(0xffF2CA00):const Color(0xff12CE57),
-
-                                borderRadius: BorderRadius.circular(130),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center
-                              ,child: (state.responseDdeTarget!.data![index].targetStatus ?? '').toString().textMedium(
-                                  fontSize: 12,
-                                  color: state.responseDdeTarget!.data![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
-                              )),
-                            )
+                            // 05.verticalSpace(),
                           ],
                         ),
                       ),
