@@ -716,11 +716,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                               0.5,
                           child: Text(
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
-                                ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                : ''
+                                ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] ?? ''
                                 : '',
                             style: figtreeRegular.copyWith(
                               fontSize: 12,
@@ -841,11 +837,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                                   0.5,
                               child: Text(
                                 state.responseFarmerProjectDetail!.data!.supplierDetail!.address != null
-                                    ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"] != null
-                                    && state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"]
-                                    : ''
+                                    ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"] ?? ''
                                     : '',
                                 style: figtreeRegular.copyWith(
                                   fontSize: 12,
@@ -1141,11 +1133,8 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                               0.5,
                           child: Text(
                             state.responseFarmerProjectDetail!.data!.supplierDetail!.address != null
-                                ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"] != null
-                                && state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] != null
-                                ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["sub_county"] +
-                                state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"]
-                                : ''
+                                ? state.responseFarmerProjectDetail!.data!.supplierDetail!.address["address"]
+                                ?? ''
                                 : '',
                             style: figtreeRegular.copyWith(
                               fontSize: 12,
@@ -1319,7 +1308,7 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Lending Amount',
+      kpiData.add(FrontendKpiModel(name: 'Total Repayment',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1557,15 +1546,15 @@ class _ActiveProjectDetailsState extends State<ActiveProjectDetails> {
                         '${kpiData[index].value}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: figtreeMedium.copyWith(fontSize: 14.3),
+                        style: figtreeMedium.copyWith(fontSize: 12),
                       ),
                       05.verticalSpace(),
                       Text(
                         kpiData[index].name.toString(),
-                        maxLines: 2,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: figtreeRegular.copyWith(
-                          fontSize: 12.5,
+                          fontSize: 10,
                         ),
                       )
                     ],

@@ -2414,7 +2414,7 @@ class _CustomLoanDetailState
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
       kpiData.add(FrontendKpiModel(
-          name: 'Lending Amount',
+          name: 'Total Repayment',
           image: Images.loanKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!
               .farmerProject![0].kpi!.loan!)));
@@ -2521,7 +2521,7 @@ class _CustomLoanDetailState
           name: 'Target Farm Production',
           image: Images.yieldKpi,
           value:
-          "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."));
+          "${getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!, unit: '')} Ltr."));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!=null){

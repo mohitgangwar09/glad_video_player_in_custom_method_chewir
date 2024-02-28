@@ -2515,7 +2515,7 @@ class _DDeFarmerInvestmentDetailsState
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Lending Amount',
+      kpiData.add(FrontendKpiModel(name: 'Total Repayment',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!

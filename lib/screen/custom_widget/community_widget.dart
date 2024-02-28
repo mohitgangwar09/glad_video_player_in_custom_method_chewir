@@ -367,6 +367,7 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
         thumbnailPath: (await getTemporaryDirectory()).path,
         imageFormat: ImageFormat.JPEG,
         quality: 100);
+    if(!mounted) return;
     setState(() {
       videoThumbnail = x!;
     });

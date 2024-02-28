@@ -18,12 +18,9 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
-import 'package:glad/screen/dde_screen/project_detail_statement.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/dde_screen/widget/add_remark_revoke.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
-import 'package:glad/screen/farmer_screen/dashboard_tab_screen/statement.dart';
-import 'package:glad/screen/farmer_screen/drawer_screen/chat_screen.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -1183,11 +1180,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   0.5,
                               child: Text(
                                 state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                    && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                    : ''
+                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
                                     : '',
                                 style: figtreeRegular.copyWith(
                                   fontSize: 12,
@@ -1492,11 +1485,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   0.5,
                               child: Text(
                                 state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                    : ''
+                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] ?? ''
                                     : '',
                                 style: figtreeRegular.copyWith(
                                   fontSize: 12,
@@ -1558,7 +1547,6 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 /////////KPI///////////////////////
   Widget kpi(contexts,ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
-
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
         .investment != null) {
       kpiData.add(FrontendKpiModel(name: 'Project Cost',
@@ -1589,7 +1577,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Lending Amount',
+      kpiData.add(FrontendKpiModel(name: 'Total Repayment',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -2032,15 +2020,15 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                           '${kpiData[index].value}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                          style: figtreeMedium.copyWith(fontSize: 12),
                         ),
                         05.verticalSpace(),
                         Text(
                           kpiData[index].name.toString(),
-                          maxLines: 2,
+                          maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: figtreeRegular.copyWith(
-                            fontSize: 12.5,
+                            fontSize: 10,
                           ),
                         )
                       ],

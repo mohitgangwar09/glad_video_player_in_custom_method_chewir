@@ -427,7 +427,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
                                     Align(
                                       alignment: Alignment.centerLeft,
-                                      child: "Rate of Interest (Per Year)".textMedium(color: Colors.black, fontSize: 12),
+                                      child: "Rate of Interest (Per Month)".textMedium(color: Colors.black, fontSize: 12),
                                     ),
                                     5.verticalSpace(),
                                     Container(
@@ -441,7 +441,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       child: TextField(
                                         maxLines: 1,
                                         inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?"${state.responseLoanCalculation!.data!.rateOfInterest}%":''):TextEditingController(),
+                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?"${(double.parse(state.responseLoanCalculation!.data!.rateOfInterest.toString()) / 12).toStringAsFixed(2)}%":''):TextEditingController(),
                                         maxLength: 10,
                                         enabled: false,
                                         keyboardType: TextInputType.number,

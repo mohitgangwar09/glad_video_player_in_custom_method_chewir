@@ -1782,7 +1782,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
 
       if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
           null) {
-        kpiData.add(FrontendKpiModel(name: 'Lending Amount',
+        kpiData.add(FrontendKpiModel(name: 'Total Repayment',
             image: Images.loanKpi,
             value: getCurrencyString(
                 state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1858,7 +1858,7 @@ class _LoanApplicationDetailState extends State<LoanApplicationDetail> {
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!=null){
         kpiData.add(FrontendKpiModel(name: 'Target Farm Production',
             image: Images.yieldKpi,
-            value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."
+            value: "${getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction, unit: '')} Ltr."
         ));
       }
     }else{

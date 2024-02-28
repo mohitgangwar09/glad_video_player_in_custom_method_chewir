@@ -194,7 +194,10 @@ class _CommunityPostAddState extends State<CommunityPostAdd> {
                   onTap: () async{
                     showTestimonialPicker(context, videoFunction: () async {
                       type = 'video';
-                      path = await videoFromGallery();
+                      path = await videoFromGallery(memoryValidation: true, context: context);
+                      if(path == '') {
+                        return;
+                      }
                       await getThumbnail(path!);
                       setState(() {});
                       pressBack();
