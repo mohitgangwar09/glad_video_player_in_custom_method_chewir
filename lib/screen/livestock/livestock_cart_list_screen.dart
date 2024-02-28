@@ -379,11 +379,11 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
 
 
-                    customButton(width: screenWidth()*0.6,'Apply Loan', fontColor: 0xffffffff,onTap: (){
+                    customButton(width: screenWidth()*0.6,'Submit Application', fontColor: 0xffffffff,onTap: (){
                       TextEditingController controller = TextEditingController();
 
                       participationPercentage = (subtotal*state.responseLivestockCartList!.data![0].farmerParticipationPercent)/100;
-                      controller.text = participationPercentage!.toStringAsFixed(0);
+                      controller.text = currencyFormatter().format(participationPercentage!.toStringAsFixed(0));
                       modalBottomSheetMenu(context,
                           radius: 40,
                           child: StatefulBuilder(
@@ -410,7 +410,9 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                 controller: controller,
                                                 maxLines: 1,
                                                 keyboardType: TextInputType.number,
-                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                                inputFormatters: [
+                                                  currencyFormatter()
+                                                ],
                                                 minLines: 1,
                                                 onChanged: (value){
                                                   // if()
@@ -435,14 +437,14 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
                                                 child: customButton(
-                                                  'Apply Loan',
+                                                  'Submit Application',
                                                   fontColor: 0xffFFFFFF,
                                                   onTap: () {
                                                     if(controller.text.isEmpty){
 
                                                     }else if(double.parse(controller.text)>subtotal){
                                                       showCustomToast(context, "Buyer participation can't be more than cart total");
-                                                    }else if(double.parse(controller.text)<participationPercentage!){
+                                                    }else if(double.parse(controller.text.replaceAll(",", ""))<participationPercentage!){
                                                       showCustomToast(context, "Buyer participation can't be less than ${state.responseLivestockCartList!.data![0].farmerParticipationPercent}% of subtotal");
                                                     }else{
 
@@ -456,7 +458,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                         }
                                                       }else{
                                                         if(state.selectedLivestockFarmerMAster!.kycStatus.toString() == "verified"){
-                                                          LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text,
+                                                          LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text.replaceAll(",", ""),
                                                             farmerMaster: state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.user!.farmerMaster!
                                                         ).navigate();
                                                         }else{

@@ -13,6 +13,8 @@ import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/styles.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class CommunityPostAdd extends StatefulWidget {
   const CommunityPostAdd({super.key});
@@ -23,7 +25,20 @@ class CommunityPostAdd extends StatefulWidget {
 
 class _CommunityPostAddState extends State<CommunityPostAdd> {
   TextEditingController description = TextEditingController();
+  String? type;
   String? path;
+  String? videoThumbnail;
+
+  getThumbnail(String path) async {
+    final x = await VideoThumbnail.thumbnailFile(
+        video: path,
+        thumbnailPath: (await getTemporaryDirectory()).path,
+        imageFormat: ImageFormat.JPEG,
+        quality: 100);
+    setState(() {
+      videoThumbnail = x!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,115 +86,236 @@ class _CommunityPostAddState extends State<CommunityPostAdd> {
                 child: Row(
                   children: [
                     5.horizontalSpace(),
-                    'Add Photo'.textMedium(color: Colors.black, fontSize: 12),
+                    'Add Photo/Video'.textMedium(color: Colors.black, fontSize: 12),
                   ],
                 ),
               ),
               5.verticalSpace(),
+              // Visibility(
+              //   visible: path == null,
+              //   child: Stack(
+              //     children: [
+              //       ContainerBorder(
+              //         margin: 0.marginVertical(),
+              //         padding:
+              //         10.paddingOnly(top: 15, bottom: 15),
+              //         borderColor: 0xffD9D9D9,
+              //         backColor: 0xffFFFFFF,
+              //         radius: 10,
+              //         widget: Row(
+              //           mainAxisAlignment:
+              //           MainAxisAlignment.center,
+              //           crossAxisAlignment:
+              //           CrossAxisAlignment.center,
+              //           children: [
+              //             5.horizontalSpace(),
+              //             Expanded(
+              //               child: Padding(
+              //                 padding: const EdgeInsets.only(
+              //                     left: 10.0, top: 2, bottom: 2),
+              //                 child: Column(
+              //                   crossAxisAlignment:
+              //                   CrossAxisAlignment.start,
+              //                   children: [
+              //                     RichText(
+              //                         text: TextSpan(children: [
+              //                           TextSpan(
+              //                               text: 'Choose ',
+              //                               style: figtreeMedium
+              //                                   .copyWith(
+              //                                   fontSize: 16,
+              //                                   color: const Color(
+              //                                       0xFFFC5E60))),
+              //                           TextSpan(
+              //                               text: 'you file here',
+              //                               style: figtreeMedium
+              //                                   .copyWith(
+              //                                   fontSize: 16,
+              //                                   color:
+              //                                   ColorResources
+              //                                       .fieldGrey))
+              //                         ])),
+              //                     Text('Max size 5 MB',
+              //                         style:
+              //                         figtreeMedium.copyWith(
+              //                             fontSize: 12,
+              //                             color:
+              //                             ColorResources
+              //                                 .fieldGrey))
+              //                   ],
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Positioned(
+              //         right: 13,
+              //         top: 0,
+              //         bottom: 0,
+              //         child: Row(
+              //           children: [
+              //             InkWell(
+              //               onTap: () async {
+              //                   path = await imgFromGallery();
+              //                   setState(() {});
+              //               },
+              //               child: SvgPicture.asset(
+              //                 Images.attachment,
+              //                 colorFilter: const ColorFilter.mode(
+              //                     ColorResources.fieldGrey,
+              //                     BlendMode.srcIn),
+              //               ),
+              //             ),
+              //               Row(children: [
+              //                 10.horizontalSpace(),
+              //                 InkWell(
+              //                   onTap: () async{
+              //                     path = await imgFromCamera();
+              //                     setState(() {});
+              //                   },
+              //                   child: SvgPicture.asset(
+              //                     Images.camera,
+              //                     colorFilter: const ColorFilter.mode(
+              //                         ColorResources.fieldGrey,
+              //                         BlendMode.srcIn),
+              //                   ),
+              //                 )
+              //               ],),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Visibility(
                 visible: path == null,
-                child: Stack(
-                  children: [
-                    ContainerBorder(
-                      margin: 0.marginVertical(),
-                      padding:
-                      10.paddingOnly(top: 15, bottom: 15),
-                      borderColor: 0xffD9D9D9,
-                      backColor: 0xffFFFFFF,
-                      radius: 10,
-                      widget: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
-                        crossAxisAlignment:
-                        CrossAxisAlignment.center,
-                        children: [
-                          5.horizontalSpace(),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10.0, top: 2, bottom: 2),
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                      text: TextSpan(children: [
-                                        TextSpan(
-                                            text: 'Choose ',
-                                            style: figtreeMedium
-                                                .copyWith(
-                                                fontSize: 16,
-                                                color: const Color(
-                                                    0xFFFC5E60))),
-                                        TextSpan(
-                                            text: 'you file here',
-                                            style: figtreeMedium
-                                                .copyWith(
-                                                fontSize: 16,
-                                                color:
-                                                ColorResources
-                                                    .fieldGrey))
-                                      ])),
-                                  Text('Max size 5 MB',
-                                      style:
-                                      figtreeMedium.copyWith(
-                                          fontSize: 12,
-                                          color:
-                                          ColorResources
-                                              .fieldGrey))
-                                ],
+                child: InkWell(
+                  onTap: () async{
+                    showTestimonialPicker(context, videoFunction: () async {
+                      type = 'video';
+                      path = await videoFromGallery(memoryValidation: true, context: context);
+                      if(path == '') {
+                        return;
+                      }
+                      await getThumbnail(path!);
+                      setState(() {});
+                      pressBack();
+                    }, photoFunction: () async {
+                      path = await imgFromGallery();
+                      type = 'image';
+                      setState(() {});
+                      pressBack();
+                    });
+                  },
+                  child: Stack(
+                    children: [
+                      ContainerBorder(
+                        margin: 0.marginVertical(),
+                        padding: 10.paddingOnly(top: 15, bottom: 15),
+                        borderColor: 0xffD9D9D9,
+                        backColor: 0xffFFFFFF,
+                        radius: 10,
+                        widget: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            5.horizontalSpace(),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, top: 2, bottom: 2),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: 'Upload ',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color:
+                                                  const Color(0xFFFC5E60))),
+                                          TextSpan(
+                                              text: 'video/photo here',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16,
+                                                  color: ColorResources
+                                                      .fieldGrey))
+                                        ])),
+                                    Text('Max size 20 MB',
+                                        style: figtreeMedium.copyWith(
+                                            fontSize: 12,
+                                            color: ColorResources
+                                                .fieldGrey))
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      right: 13,
-                      top: 0,
-                      bottom: 0,
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                                path = await imgFromGallery();
-                                setState(() {});
-                            },
-                            child: SvgPicture.asset(
+                      Positioned(
+                        right: 13,
+                        top: 0,
+                        bottom: 0,
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
                               Images.attachment,
                               colorFilter: const ColorFilter.mode(
                                   ColorResources.fieldGrey,
                                   BlendMode.srcIn),
                             ),
-                          ),
-                            Row(children: [
-                              10.horizontalSpace(),
-                              InkWell(
-                                onTap: () async{
-                                  path = await imgFromCamera();
-                                  setState(() {});
-                                },
-                                child: SvgPicture.asset(
-                                  Images.camera,
-                                  colorFilter: const ColorFilter.mode(
-                                      ColorResources.fieldGrey,
-                                      BlendMode.srcIn),
-                                ),
-                              )
-                            ],),
-                        ],
+                            10.horizontalSpace(),
+                            SvgPicture.asset(
+                              Images.camera,
+                              colorFilter: const ColorFilter.mode(
+                                  ColorResources.fieldGrey,
+                                  BlendMode.srcIn),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               20.verticalSpace(),
-              path != null ?
+              // path != null ?
+              // Stack(
+              //   children: [
+              //     ClipRRect(
+              //         borderRadius: BorderRadius.circular(20),
+              //         child: Image.file(File(path!), fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
+              //     Positioned(
+              //       right: 5,
+              //       top: 5,
+              //       child: InkWell(
+              //         onTap: () {
+              //           setState(() {
+              //             path = null;
+              //           });
+              //         },
+              //         child: Container(
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(200),
+              //               color: Colors.white),
+              //           child: SvgPicture.asset(
+              //             Images.cancelImage,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ) : const SizedBox.shrink(),
+              path != null || videoThumbnail != null ?
               Stack(
                 children: [
                   ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.file(File(path!), fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
+                      child: Image.file(File(type == 'image' ?path! : videoThumbnail!), fit: BoxFit.fitWidth, width: screenWidth(), height: 200,)),
                   Positioned(
                     right: 5,
                     top: 5,
@@ -187,6 +323,8 @@ class _CommunityPostAddState extends State<CommunityPostAdd> {
                       onTap: () {
                         setState(() {
                           path = null;
+                          type = null;
+                          videoThumbnail = null;
                         });
                       },
                       child: Container(
@@ -206,10 +344,10 @@ class _CommunityPostAddState extends State<CommunityPostAdd> {
                   if(description.text.isEmpty) {
                     showCustomToast(context, 'Description required');
                   } else if(path == null) {
-                    showCustomToast(context, 'Photo required');
+                    showCustomToast(context, 'Video/Image is required');
                   } else {
                     context.read<CommunityCubit>()
-                        .addPostApi(context, description.text, path!);
+                        .addPostApi(context, description.text, path!, type!);
                   }
               }, fontColor: 0xFFFFFFFF, width: screenWidth(), height: 60)
             ],

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +19,9 @@ import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/dde_screen/add_remark_confirm_loan.dart';
 import 'package:glad/screen/dde_screen/preview_screen.dart';
-import 'package:glad/screen/dde_screen/project_detail_statement.dart';
 import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/dde_screen/widget/add_remark_revoke.dart';
 import 'package:glad/screen/farmer_screen/common/suggested_project_milestone_detail.dart';
-import 'package:glad/screen/farmer_screen/dashboard_tab_screen/statement.dart';
-import 'package:glad/screen/farmer_screen/drawer_screen/chat_screen.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
@@ -59,6 +58,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
   @override
   Widget build(BuildContext context) {
+
+    final MediaQueryData mediaData = MediaQuery.of(context);
+
     return Scaffold(
       body: BlocBuilder<ProjectCubit, ProjectState>(builder: (context, state) {
         if (state.status == ProjectStatus.loading) {
@@ -96,7 +98,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                               supplier(context, state),
 
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!=null?
-                            kpi(context,state):const SizedBox.shrink(),
+                            kpi(context,state,mediaData):const SizedBox.shrink(),
                             projectMilestones(context, state),
                             if(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus != null)
                             state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "suggested" ?
@@ -139,7 +141,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Loan Document',
+                                                  'Agreement',
                                                   style:
                                                   figtreeMedium.copyWith(fontSize: 18),
                                                 ),
@@ -1182,11 +1184,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   0.5,
                               child: Text(
                                 state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                    && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                    : ''
+                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
                                     : '',
                                 style: figtreeRegular.copyWith(
                                   fontSize: 12,
@@ -1491,11 +1489,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                   0.5,
                               child: Text(
                                 state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] != null
-                                && state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] != null
-                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["sub_county"] +
-                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"]
-                                    : ''
+                                    ? state.responseFarmerProjectDetail!.data!.farmerProject![0].dairyDevelopMentExecutive!.address["address"] ?? ''
                                     : '',
                                 style: figtreeRegular.copyWith(
                                   fontSize: 12,
@@ -1555,9 +1549,8 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
   }
 
 /////////KPI///////////////////////
-  Widget kpi(contexts,ProjectState state) {
+  Widget kpi(contexts,ProjectState state,MediaQueryData mediaData) {
     List<FrontendKpiModel> kpiData = [];
-
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
         .investment != null) {
       kpiData.add(FrontendKpiModel(name: 'Project Cost',
@@ -1579,7 +1572,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.principleAmount !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Principle Amount',
+      kpiData.add(FrontendKpiModel(name: 'GLAD Participation',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1588,7 +1581,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
 
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
-      kpiData.add(FrontendKpiModel(name: 'Loan',
+      kpiData.add(FrontendKpiModel(name: 'Total Repayment',
           image: Images.loanKpi,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
@@ -1649,7 +1642,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       }
 
       if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!=null){
-        kpiData.add(FrontendKpiModel(name: 'Remaining Loan',
+        kpiData.add(FrontendKpiModel(name: 'Remaining Amount',
             image: Images.yieldKpi,
             actionImage: Images.menuIcon,
             value: getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.remainingEmiValue!)
@@ -1713,336 +1706,265 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
             crossAxisCount: 3,
             mainAxisSpacing: 15,
             crossAxisSpacing: 13,
-            mainAxisExtent: 123,
+            mainAxisExtent: 130,
             child: (index){
-              return InkWell(
-                onTap: (){
-                  if(kpiData[index].name.toString() == "Paid EMIs"){
-                    ProjectDetailFarmerStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
-                  }else if(kpiData[index].name.toString() == "Remaining Payable"){
-                    ProjectDetailFarmerStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
-                    boxShadow:[
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 2.0,
-                          offset: const Offset(0, 2))],
-                  ),
-                  child: Padding(
-                    // padding: 0.paddingAll(),
-                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SvgPicture.asset(
-                              kpiData[index].image.toString(),
-                              width: 30,
-                              height: 30,
-                            ),
-                            /*kpiData[index].actionImage!=null?
+              return MediaQuery(
+                data: screenWidth()<380 ? mediaData.copyWith(textScaleFactor: 0.91):mediaData.copyWith(textScaleFactor: 1),
+                child: InkWell(
+                  onTap: (){
+                    if(kpiData[index].name.toString() == "Paid EMIs"){
+                      ProjectDetailFarmerStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
+                    }else if(kpiData[index].name.toString() == "Remaining Payable"){
+                      ProjectDetailFarmerStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                      boxShadow:[
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            blurRadius: 2.0,
+                            offset: const Offset(0, 2))],
+                    ),
+                    child: Padding(
+                      // padding: 0.paddingAll(),
+                      padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SvgPicture.asset(
+                                kpiData[index].image.toString(),
+                                width: 30,
+                                height: 30,
+                              ),
 
-                            InkWell(
-                                onTap: (){
-                                  TextEditingController controller = TextEditingController();
-                                  controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
-                                  if(kpiData[index].name.toString() == "Farmer Participation"){
-                                    modalBottomSheetMenu(context,
-                                        radius: 40,
-                                        child: StatefulBuilder(
-                                            builder: (context, setState) {
-                                              return SizedBox(
-                                                height: 320,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                                  child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Center(
-                                                          child: Text(
-                                                            'Farmer Participation',
-                                                            style: figtreeMedium.copyWith(fontSize: 22),
+                              kpiData[index].actionImage!=null?
+                              kpiData[index].name.toString() == "Farmer Participation" || kpiData[index].name.toString() == "Repayment"?
+                              state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
+                              state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?
+                              const Align(alignment: Alignment.centerRight,child: Icon(Icons.watch_later,color: Colors.amber,size: 20,)):
+                              InkWell(
+                                  onTap: (){
+                                    TextEditingController controller = TextEditingController();
+                                    controller.text = currencyFormatter().format(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString());
+                                    if(kpiData[index].name.toString() == "Farmer Participation"){
+                                      modalBottomSheetMenu(context,
+                                          radius: 40,
+                                          child: StatefulBuilder(
+                                              builder: (context, setState) {
+                                                return SizedBox(
+                                                  height: 320,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                                    child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Center(
+                                                            child: Text(
+                                                              'Farmer Participation',
+                                                              style: figtreeMedium.copyWith(fontSize: 22),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        30.verticalSpace(),
+                                                          30.verticalSpace(),
 
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              'Participation Value',
-                                                              style: figtreeMedium.copyWith(fontSize: 12),
-                                                            ),
-                                                            5.verticalSpace(),
-                                                            TextField(
-                                                              controller: controller,
-                                                              maxLines: 1,
-                                                              keyboardType: TextInputType.number,
-                                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                                              minLines: 1,
-                                                              decoration: InputDecoration(
-                                                                  hintText: 'Enter participation value',
-                                                                  hintStyle:
-                                                                  figtreeMedium.copyWith(fontSize: 18),
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius: BorderRadius.circular(12),
-                                                                      borderSide: const BorderSide(
-                                                                        width: 1,
-                                                                        color: Color(0xff999999),
-                                                                      ))),
-                                                            ),
-                                                            30.verticalSpace(),
-                                                            Padding(
-                                                              padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                              child: customButton(
-                                                                'Submit',
-                                                                fontColor: 0xffFFFFFF,
-                                                                onTap: () {
-                                                                  if(controller.text.isEmpty){
-                                                                    showCustomToast(context, "Please enter participation value");
-                                                                  }else{
-                                                                    BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
-                                                                  }
-                                                                },
-                                                                height: 60,
-                                                                width: screenWidth(),
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                'Participation Value',
+                                                                style: figtreeMedium.copyWith(fontSize: 12),
                                                               ),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ]),
-                                                ),
-                                              );
-                                            }
-                                        ));
-                                  }
-                                }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):const SizedBox.shrink()*/
-
-                            kpiData[index].actionImage!=null?
-                            kpiData[index].name.toString() == "Farmer Participation" || kpiData[index].name.toString() == "Repayment"?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
-                            state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?
-                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.watch_later,color: Colors.amber,size: 20,)):
-                            InkWell(
-                                onTap: (){
-                                  TextEditingController controller = TextEditingController();
-                                  controller.text = state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.farmerParticipation!.toString();
-                                  if(kpiData[index].name.toString() == "Farmer Participation"){
-                                    modalBottomSheetMenu(context,
-                                        radius: 40,
-                                        child: StatefulBuilder(
-                                            builder: (context, setState) {
-                                              return SizedBox(
-                                                height: 320,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                                  child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Center(
-                                                          child: Text(
-                                                            'Farmer Participation',
-                                                            style: figtreeMedium.copyWith(fontSize: 22),
-                                                          ),
-                                                        ),
-                                                        30.verticalSpace(),
-
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              'Participation Value',
-                                                              style: figtreeMedium.copyWith(fontSize: 12),
-                                                            ),
-                                                            5.verticalSpace(),
-                                                            TextField(
-                                                              controller: controller,
-                                                              maxLines: 1,
-                                                              keyboardType: TextInputType.number,
-                                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                                              minLines: 1,
-                                                              decoration: InputDecoration(
-                                                                  hintText: 'Enter participation value',
-                                                                  hintStyle:
-                                                                  figtreeMedium.copyWith(fontSize: 18),
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius: BorderRadius.circular(12),
-                                                                      borderSide: const BorderSide(
-                                                                        width: 1,
-                                                                        color: Color(0xff999999),
-                                                                      ))),
-                                                            ),
-                                                            30.verticalSpace(),
-                                                            Padding(
-                                                              padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                              child: customButton(
-                                                                'Submit',
-                                                                fontColor: 0xffFFFFFF,
-                                                                onTap: () {
-                                                                  if(controller.text.isEmpty){
-                                                                    showCustomToast(context, "Please enter participation value");
-                                                                  }else{
-                                                                    BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text,widget.projectId);
-                                                                  }
-                                                                },
-                                                                height: 60,
-                                                                width: screenWidth(),
+                                                              5.verticalSpace(),
+                                                              TextField(
+                                                                controller: controller,
+                                                                maxLines: 1,
+                                                                keyboardType: TextInputType.number,
+                                                                inputFormatters: [
+                                                                  currencyFormatter()
+                                                                  // FilteringTextInputFormatter.digitsOnly
+                                                                ],
+                                                                minLines: 1,
+                                                                decoration: InputDecoration(
+                                                                    hintText: 'Enter participation value',
+                                                                    hintStyle:
+                                                                    figtreeMedium.copyWith(fontSize: 18),
+                                                                    border: OutlineInputBorder(
+                                                                        borderRadius: BorderRadius.circular(12),
+                                                                        borderSide: const BorderSide(
+                                                                          width: 1,
+                                                                          color: Color(0xff999999),
+                                                                        ))),
                                                               ),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ]),
-                                                ),
-                                              );
-                                            }
-                                        ));
-                                  }
+                                                              30.verticalSpace(),
+                                                              Padding(
+                                                                padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                                child: customButton(
+                                                                  'Submit',
+                                                                  fontColor: 0xffFFFFFF,
+                                                                  onTap: () {
+                                                                    if(controller.text.isEmpty){
+                                                                      showCustomToast(context, "Please enter participation value");
+                                                                    }else{
+                                                                      BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(context,state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(), controller.text.replaceAll(",", ""),widget.projectId);
+                                                                    }
+                                                                  },
+                                                                  height: 60,
+                                                                  width: screenWidth(),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ]),
+                                                  ),
+                                                );
+                                              }
+                                          ));
+                                    }
 
-                                  if (kpiData[index]
-                                      .name
-                                      .toString() ==
-                                      "Repayment") {
-                                    int quantity;
-                                    if(state
-                                        .responseFarmerProjectDetail!
-                                        .data!
-                                        .farmerProject![0].minRepaymentMonths !=null){
-                                      quantity = int.parse(state
+                                    if (kpiData[index]
+                                        .name
+                                        .toString() ==
+                                        "Repayment") {
+                                      int quantity;
+                                      if(state
                                           .responseFarmerProjectDetail!
                                           .data!
-                                          .farmerProject![0].minRepaymentMonths.toString());
-                                    }else{
-                                      quantity = 0;
-                                    }
-                                    modalBottomSheetMenu(context,
-                                        radius: 40, child:
-                                        StatefulBuilder(builder:
-                                            (context,
-                                            setState) {
-                                          return SizedBox(
-                                            height: 200,
-                                            child: Column(
-                                              children: [
-                                                20.verticalSpace(),
-                                                Container(
-                                                  height: 52,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.black,width: 1.5),
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Colors.white
-                                                  ),
-                                                  width: screenWidth()-50,
-                                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      InkWell(
-                                                          onTap: () {
-                                                            if(quantity == 0) {
-                                                              return;
-                                                            }
-                                                            if(state
-                                                                .responseFarmerProjectDetail!
-                                                                .data!
-                                                                .farmerProject![0].minRepaymentMonths!=null){
-
-                                                              if(quantity>state
+                                          .farmerProject![0].minRepaymentMonths !=null){
+                                        quantity = int.parse(state
+                                            .responseFarmerProjectDetail!
+                                            .data!
+                                            .farmerProject![0].minRepaymentMonths.toString());
+                                      }else{
+                                        quantity = 0;
+                                      }
+                                      modalBottomSheetMenu(context,
+                                          radius: 40, child:
+                                          StatefulBuilder(builder:
+                                              (context,
+                                              setState) {
+                                            return SizedBox(
+                                              height: 200,
+                                              child: Column(
+                                                children: [
+                                                  20.verticalSpace(),
+                                                  Container(
+                                                    height: 52,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(color: Colors.black,width: 1.5),
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        color: Colors.white
+                                                    ),
+                                                    width: screenWidth()-50,
+                                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        InkWell(
+                                                            onTap: () {
+                                                              if(quantity == 0) {
+                                                                return;
+                                                              }
+                                                              if(state
                                                                   .responseFarmerProjectDetail!
                                                                   .data!
-                                                                  .farmerProject![0].minRepaymentMonths){
-                                                                quantity--;
-                                                              }else{
+                                                                  .farmerProject![0].minRepaymentMonths!=null){
 
-                                                                showCustomToast(context, "Minimum repayment month can be ${state
+                                                                if(quantity>state
                                                                     .responseFarmerProjectDetail!
                                                                     .data!
-                                                                    .farmerProject![0].minRepaymentMonths.toString()}");
-                                                              }
-                                                            }else{
-                                                              quantity--;
-                                                            }
-                                                            // }
-                                                            setState(() {
+                                                                    .farmerProject![0].minRepaymentMonths){
+                                                                  quantity--;
+                                                                }else{
 
-                                                            });
-                                                          },
-                                                          child: SvgPicture.asset(Images.minusQuant)),
-                                                      quantity.toString().textMedium(fontSize: 16, color: Colors.black),
-                                                      InkWell(
-                                                          onTap: () {
-                                                            if(quantity == 1000) {
-                                                              return;
-                                                            }
-                                                            if(quantity<state
-                                                                .responseFarmerProjectDetail!
-                                                                .data!
-                                                                .farmerProject![0].maxRepaymentMonths){
-                                                              quantity++;
-                                                            }else{
-                                                              showCustomToast(context, "Repayment month should not be greater than ${state
+                                                                  showCustomToast(context, "Minimum repayment month can be ${state
+                                                                      .responseFarmerProjectDetail!
+                                                                      .data!
+                                                                      .farmerProject![0].minRepaymentMonths.toString()}");
+                                                                }
+                                                              }else{
+                                                                quantity--;
+                                                              }
+                                                              // }
+                                                              setState(() {
+
+                                                              });
+                                                            },
+                                                            child: SvgPicture.asset(Images.minusQuant)),
+                                                        quantity.toString().textMedium(fontSize: 16, color: Colors.black),
+                                                        InkWell(
+                                                            onTap: () {
+                                                              if(quantity == 1000) {
+                                                                return;
+                                                              }
+                                                              if(quantity<state
                                                                   .responseFarmerProjectDetail!
                                                                   .data!
-                                                                  .farmerProject![0].maxRepaymentMonths.toString()} month");
-                                                            }
-                                                            setState(() {
+                                                                  .farmerProject![0].maxRepaymentMonths){
+                                                                quantity++;
+                                                              }else{
+                                                                showCustomToast(context, "Repayment month should not be greater than ${state
+                                                                    .responseFarmerProjectDetail!
+                                                                    .data!
+                                                                    .farmerProject![0].maxRepaymentMonths.toString()} month");
+                                                              }
+                                                              setState(() {
 
-                                                            });
-                                                          },
-                                                          child: SvgPicture.asset(Images.addQuant)),
+                                                              });
+                                                            },
+                                                            child: SvgPicture.asset(Images.addQuant)),
 
-                                                    ],),
-                                                ),
-                                                20.verticalSpace(),
-                                                SizedBox(
-                                                  width: screenWidth()-50,
-                                                  child: customButton("Submit", fontColor: 0xFFFFFFFF,onTap: (){
-                                                    BlocProvider.of<ProjectCubit>(context).updateFarmerRepaymentMonthsApi(context,
-                                                        state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                        state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),
-                                                        quantity.toString(),
-                                                        widget.projectId);
-                                                  }),
-                                                )
-                                              ],
-                                            ),
-                                          );
-                                        }));
-                                  }
+                                                      ],),
+                                                  ),
+                                                  20.verticalSpace(),
+                                                  SizedBox(
+                                                    width: screenWidth()-50,
+                                                    child: customButton("Submit", fontColor: 0xFFFFFFFF,onTap: (){
+                                                      BlocProvider.of<ProjectCubit>(context).updateFarmerRepaymentMonthsApi(context,
+                                                          state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
+                                                          state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),
+                                                          quantity.toString(),
+                                                          widget.projectId);
+                                                    }),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          }));
+                                    }
 
 
-                                }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
-                            const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
-                                :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
-                            /*kpiData[index].actionImage!=null?
-                            SvgPicture.asset(kpiData[index].actionImage.toString()):
-                                const SizedBox.shrink()*/
-                          ],
-                        ),
-                        15.verticalSpace(),
-                        Text(
-                          '${kpiData[index].value}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: figtreeMedium.copyWith(fontSize: 14.3),
-                        ),
-                        05.verticalSpace(),
-                        Text(
-                          kpiData[index].name.toString(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: figtreeRegular.copyWith(
-                            fontSize: 12.5,
+                                  }, child: SvgPicture.asset(kpiData[index].actionImage.toString())):
+                              const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
+                                  :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
+                              /*kpiData[index].actionImage!=null?
+                              SvgPicture.asset(kpiData[index].actionImage.toString()):
+                                  const SizedBox.shrink()*/
+                            ],
                           ),
-                        )
-                      ],
+                          15.verticalSpace(),
+                          Text(
+                            '${kpiData[index].value}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: figtreeMedium.copyWith(fontSize: 12),
+                          ),
+                          05.verticalSpace(),
+                          Text(
+                            kpiData[index].name.toString(),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: figtreeRegular.copyWith(
+                              fontSize: 10,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -276,7 +276,7 @@ class _CustomLoanDetailState
                                       .farmerProject![0]
                                       .rejectStatus ==
                                       0
-                                      ? "Apply for Loan"
+                                      ? "Submit Application"
                                       : 'View Document',
                                   // state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerProjectKycDocument!=null?state.responseFarmerProjectDetail!.data!.farmerProject![0].rejectStatus == 1?"Apply for Loan":'View Document':'Apply for Loan',
                                   style: figtreeMedium.copyWith(
@@ -417,7 +417,7 @@ class _CustomLoanDetailState
                                                   .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Loan Document',
+                                                  'Agreement',
                                                   style: figtreeMedium.copyWith(
                                                       fontSize: 18),
                                                 ),
@@ -2371,6 +2371,8 @@ class _CustomLoanDetailState
   Widget kpi(contexts, ProjectState state) {
     List<FrontendKpiModel> kpiData = [];
 
+    final MediaQueryData mediaData = MediaQuery.of(context);
+
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
         .investment !=
         null) {
@@ -2414,7 +2416,7 @@ class _CustomLoanDetailState
     if (state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.loan !=
         null) {
       kpiData.add(FrontendKpiModel(
-          name: 'Loan',
+          name: 'Total Repayment',
           image: Images.loanKpi,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!
               .farmerProject![0].kpi!.loan!)));
@@ -2521,7 +2523,7 @@ class _CustomLoanDetailState
           name: 'Target Farm Production',
           image: Images.yieldKpi,
           value:
-          "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!} Ltr."));
+          "${getCurrencyString(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.targetFarmProduction!, unit: '')} Ltr."));
     }
 
     if(state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.milkMsp!=null){
@@ -2548,238 +2550,241 @@ class _CustomLoanDetailState
             mainAxisSpacing: 15,
             crossAxisSpacing: 13,
             mainAxisExtent: 123, child: (index) {
-              return InkWell(
-                onTap: () {
-                  if (kpiData[index].name.toString() == "Paid EMIs") {
-                    ProjectDetailStatement(
-                      userRoleId: state.responseFarmerProjectDetail!.data!
-                          .farmerProject![0].farmerMaster!.id
-                          .toString(),
-                      farmerProjectId: widget.projectId.toString(),
-                      status: 'paid',
-                    ).navigate();
-                  } else if (kpiData[index].name.toString() ==
-                      "Remaining Payable") {
-                    ProjectDetailStatement(
-                      userRoleId: state.responseFarmerProjectDetail!.data!
-                          .farmerProject![0].farmerMaster!.id
-                          .toString(),
-                      farmerProjectId: widget.projectId.toString(),
-                      status: 'due',
-                    ).navigate();
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xffDCDCDC), width: 1),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 2.0,
-                          offset: const Offset(0, 2))
-                    ],
-                  ),
-                  child: Padding(
-                    // padding: 0.paddingAll(),
-                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SvgPicture.asset(
-                              kpiData[index].image.toString(),
-                              width: 30,
-                              height: 30,
-                            ),
-                            kpiData[index].actionImage != null
-                                ? kpiData[index].name.toString() ==
-                                "Farmer Participation"
-                                ? state
-                                .responseFarmerProjectDetail!
-                                .data!
-                                .farmerProject![0]
-                                .farmerParticipationStatus
-                                .toString() ==
-                                'pending'
-                                ? state
-                                .responseFarmerProjectDetail!
-                                .data!
-                                .farmerProject![0]
-                                .projectStatus
-                                .toString() ==
-                                "hold" ||
-                                state
-                                    .responseFarmerProjectDetail!
-                                    .data!
-                                    .farmerProject![0]
-                                    .projectStatus
-                                    .toString() ==
-                                    "completed"
-                                ? const Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.watch_later,
-                                  color: Colors.amber,
-                                  size: 20,
-                                ))
-                                : InkWell(
-                                onTap: () {
-                                  TextEditingController controller =
-                                  TextEditingController();
-                                  controller.text = state
+              return MediaQuery(
+                data: screenWidth()<380 ? mediaData.copyWith(textScaleFactor: 0.91):mediaData.copyWith(textScaleFactor: 1),
+                child: InkWell(
+                  onTap: () {
+                    if (kpiData[index].name.toString() == "Paid EMIs") {
+                      ProjectDetailStatement(
+                        userRoleId: state.responseFarmerProjectDetail!.data!
+                            .farmerProject![0].farmerMaster!.id
+                            .toString(),
+                        farmerProjectId: widget.projectId.toString(),
+                        status: 'paid',
+                      ).navigate();
+                    } else if (kpiData[index].name.toString() ==
+                        "Remaining Payable") {
+                      ProjectDetailStatement(
+                        userRoleId: state.responseFarmerProjectDetail!.data!
+                            .farmerProject![0].farmerMaster!.id
+                            .toString(),
+                        farmerProjectId: widget.projectId.toString(),
+                        status: 'due',
+                      ).navigate();
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: const Color(0xffDCDCDC), width: 1),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            blurRadius: 2.0,
+                            offset: const Offset(0, 2))
+                      ],
+                    ),
+                    child: Padding(
+                      // padding: 0.paddingAll(),
+                      padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SvgPicture.asset(
+                                kpiData[index].image.toString(),
+                                width: 30,
+                                height: 30,
+                              ),
+                              kpiData[index].actionImage != null
+                                  ? kpiData[index].name.toString() ==
+                                  "Farmer Participation"
+                                  ? state
+                                  .responseFarmerProjectDetail!
+                                  .data!
+                                  .farmerProject![0]
+                                  .farmerParticipationStatus
+                                  .toString() ==
+                                  'pending'
+                                  ? state
+                                  .responseFarmerProjectDetail!
+                                  .data!
+                                  .farmerProject![0]
+                                  .projectStatus
+                                  .toString() ==
+                                  "hold" ||
+                                  state
                                       .responseFarmerProjectDetail!
                                       .data!
                                       .farmerProject![0]
-                                      .kpi!
-                                      .farmerParticipation!
-                                      .toString();
-                                  if (kpiData[index]
-                                      .name
+                                      .projectStatus
                                       .toString() ==
-                                      "Farmer Participation") {
-                                    modalBottomSheetMenu(context,
-                                        radius: 40, child:
-                                        StatefulBuilder(builder:
-                                            (context,
-                                            setState) {
-                                          return SizedBox(
-                                            height: 320,
-                                            child: Padding(
-                                              padding: const EdgeInsets
-                                                  .fromLTRB(
-                                                  23, 40, 25, 10),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    Center(
-                                                      child: Text(
-                                                        'Farmer Participation',
-                                                        style: figtreeMedium
-                                                            .copyWith(
-                                                            fontSize:
-                                                            22),
-                                                      ),
-                                                    ),
-                                                    30.verticalSpace(),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        Text(
-                                                          'Participation Value',
+                                      "completed"
+                                  ? const Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(
+                                    Icons.watch_later,
+                                    color: Colors.amber,
+                                    size: 20,
+                                  ))
+                                  : InkWell(
+                                  onTap: () {
+                                    TextEditingController controller =
+                                    TextEditingController();
+                                    controller.text = currencyFormatter().format(state
+                                        .responseFarmerProjectDetail!
+                                        .data!
+                                        .farmerProject![0]
+                                        .kpi!
+                                        .farmerParticipation!
+                                        .toString());
+
+                                    if (kpiData[index]
+                                        .name
+                                        .toString() ==
+                                        "Farmer Participation") {
+                                      modalBottomSheetMenu(context,
+                                          radius: 40, child:
+                                          StatefulBuilder(builder:
+                                              (context,
+                                              setState) {
+                                            return SizedBox(
+                                              height: 320,
+                                              child: Padding(
+                                                padding: const EdgeInsets
+                                                    .fromLTRB(
+                                                    23, 40, 25, 10),
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          'Farmer Participation',
                                                           style: figtreeMedium
                                                               .copyWith(
                                                               fontSize:
-                                                              12),
+                                                              22),
                                                         ),
-                                                        5.verticalSpace(),
-                                                        TextField(
-                                                          controller:
-                                                          controller,
-                                                          maxLines: 1,
-                                                          keyboardType:
-                                                          TextInputType
-                                                              .number,
-                                                          inputFormatters: [
-                                                            FilteringTextInputFormatter
-                                                                .digitsOnly
-                                                          ],
-                                                          minLines: 1,
-                                                          decoration: InputDecoration(
-                                                              hintText: 'Enter participation value',
-                                                              hintStyle: figtreeMedium.copyWith(fontSize: 18),
-                                                              border: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(12),
-                                                                  borderSide: const BorderSide(
-                                                                    width:
-                                                                    1,
-                                                                    color:
-                                                                    Color(0xff999999),
-                                                                  ))),
-                                                        ),
-                                                        30.verticalSpace(),
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .fromLTRB(
-                                                              28,
-                                                              0,
-                                                              29,
-                                                              0),
-                                                          child:
-                                                          customButton(
-                                                            'Submit',
-                                                            fontColor:
-                                                            0xffFFFFFF,
-                                                            onTap: () {
-                                                              if (controller
-                                                                  .text
-                                                                  .isEmpty) {
-                                                                showCustomToast(
-                                                                    context,
-                                                                    "Please enter participation value");
-                                                              } else {
-                                                                BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(
-                                                                    context,
-                                                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                                    state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),
-                                                                    controller.text,
-                                                                    widget.projectId);
-                                                              }
-                                                            },
-                                                            height: 60,
-                                                            width:
-                                                            screenWidth(),
+                                                      ),
+                                                      30.verticalSpace(),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          Text(
+                                                            'Participation Value',
+                                                            style: figtreeMedium
+                                                                .copyWith(
+                                                                fontSize:
+                                                                12),
                                                           ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ]),
-                                            ),
-                                          );
-                                        }));
-                                  }
-                                },
-                                child: SvgPicture.asset(
-                                    kpiData[index]
-                                        .actionImage
-                                        .toString()))
-                                : const Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.check_circle,
-                                  color: Colors.green,
-                                  size: 20,
-                                ))
-                                : SvgPicture.asset(
-                                kpiData[index].actionImage.toString())
-                                : const SizedBox.shrink()
-                          ],
-                        ),
-                        15.verticalSpace(),
-                        Text(
-                          '${kpiData[index].value}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: figtreeMedium.copyWith(fontSize: 14.3),
-                        ),
-                        05.verticalSpace(),
-                        Text(
-                          kpiData[index].name.toString(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: figtreeRegular.copyWith(
-                            fontSize: 12.5,
+                                                          5.verticalSpace(),
+                                                          TextField(
+                                                            controller:
+                                                            controller,
+                                                            maxLines: 1,
+                                                            keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                            inputFormatters: [
+                                                              currencyFormatter(),
+                                                            ],
+                                                            minLines: 1,
+                                                            decoration: InputDecoration(
+                                                                hintText: 'Enter participation value',
+                                                                hintStyle: figtreeMedium.copyWith(fontSize: 18),
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.circular(12),
+                                                                    borderSide: const BorderSide(
+                                                                      width:
+                                                                      1,
+                                                                      color:
+                                                                      Color(0xff999999),
+                                                                    ))),
+                                                          ),
+                                                          30.verticalSpace(),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .fromLTRB(
+                                                                28,
+                                                                0,
+                                                                29,
+                                                                0),
+                                                            child:
+                                                            customButton(
+                                                              'Submit',
+                                                              fontColor:
+                                                              0xffFFFFFF,
+                                                              onTap: () {
+                                                                if (controller
+                                                                    .text
+                                                                    .isEmpty) {
+                                                                  showCustomToast(
+                                                                      context,
+                                                                      "Please enter participation value");
+                                                                } else {
+                                                                  BlocProvider.of<ProjectCubit>(context).farmerParticipationApi(
+                                                                      context,
+                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
+                                                                      state.responseFarmerProjectDetail!.data!.farmerProject![0].id.toString(),
+                                                                      controller.text.replaceAll(",", ""),
+                                                                      widget.projectId);
+                                                                }
+                                                              },
+                                                              height: 60,
+                                                              width:
+                                                              screenWidth(),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ]),
+                                              ),
+                                            );
+                                          }));
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                      kpiData[index]
+                                          .actionImage
+                                          .toString()))
+                                  : const Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                    size: 20,
+                                  ))
+                                  : SvgPicture.asset(
+                                  kpiData[index].actionImage.toString())
+                                  : const SizedBox.shrink()
+                            ],
                           ),
-                        )
-                      ],
+                          15.verticalSpace(),
+                          Text(
+                            '${kpiData[index].value}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: figtreeMedium.copyWith(fontSize: 14.3),
+                          ),
+                          05.verticalSpace(),
+                          Text(
+                            kpiData[index].name.toString(),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: figtreeRegular.copyWith(
+                              fontSize: 12.5,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

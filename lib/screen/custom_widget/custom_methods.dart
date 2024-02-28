@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -892,7 +893,7 @@ Widget farmerProjectDesign(){
             Text.rich(
               TextSpan(
                 children: [
-                   TextSpan(text: 'Loan: ',
+                   TextSpan(text: 'Lending Amount: ',
                        style: figtreeMedium.copyWith(
                            color: const Color(0xff808080),
                            fontSize: 12
@@ -1941,7 +1942,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
 
                     4.verticalSpace(),
 
-                    "Based on loan closures".textRegular(
+                    "Based on project closures".textRegular(
                       fontSize: 14
                     ),
 
@@ -2003,84 +2004,79 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
               if(state.responseDdeTarget!.data!=null)
               customGrid(context,
                   list: state.responseDdeTarget!.data!,
-                  crossAxisCount: 3,
+                  crossAxisCount: 2,
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 13,
                   mainAxisExtent: 153, child: (index) {
-                    return InkWell(
-                      onTap: () {
-
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: const Color(0xffDCDCDC), width: 1),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
-                                blurRadius: 1.0,
-                                offset: const Offset(0, 1))
-                          ],
-                        ),
-                        child: Padding(
-                          // padding: 0.paddingAll(),
-                          padding: const EdgeInsets.fromLTRB(8, 15, 8, 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              15.verticalSpace(),
-                              Text(
-                                '${state.responseDdeTarget!.data![index].commissionPercent.toString()}%',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: figtreeMedium.copyWith(fontSize: 26),
-                              ),
-                              05.verticalSpace(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if(state.responseDdeTarget!.data![index].loanClosureFrom>0)
-                                    Text(
-                                      "From ${state.responseDdeTarget!.data![index].loanClosureFrom.toString()} ",
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: figtreeRegular.copyWith(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: const Color(0xffDCDCDC), width: 1),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              blurRadius: 1.0,
+                              offset: const Offset(0, 1))
+                        ],
+                      ),
+                      child: Padding(
+                        // padding: 0.paddingAll(),
+                        padding: const EdgeInsets.fromLTRB(8, 15, 8, 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            15.verticalSpace(),
+                            Text(
+                              '${state.responseDdeTarget!.data![index].commissionPercent.toString()}%',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: figtreeMedium.copyWith(fontSize: 26),
+                            ),
+                            05.verticalSpace(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if(state.responseDdeTarget!.data![index].loanClosureFrom>0)
                                   Text(
-                                    "Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
+                                    "From ${state.responseDdeTarget!.data![index].loanClosureFrom.toString()} ",
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: figtreeRegular.copyWith(
                                       fontSize: 13,
                                     ),
                                   ),
-                                ],
-                              ),
-                              05.verticalSpace(),
-                              Container(
-                                width: screenWidth(),
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):
-                                  state.responseDdeTarget!.data![index].targetStatus == "In progress"?
-                                  const Color(0xffF2CA00):const Color(0xff12CE57),
 
-                                  borderRadius: BorderRadius.circular(130),
+                                Text(
+                                  "Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: figtreeRegular.copyWith(
+                                    fontSize: 13,
+                                  ),
                                 ),
-                                child: Align(
-                                  alignment: Alignment.center
-                                ,child: (state.responseDdeTarget!.data![index].targetStatus ?? '').toString().textMedium(
-                                    fontSize: 12,
-                                    color: state.responseDdeTarget!.data![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
-                                )),
-                              )
-                            ],
-                          ),
+                              ],
+                            ),
+                            05.verticalSpace(),
+                            Container(
+                              width: screenWidth(),
+                              height: 28,
+                              decoration: BoxDecoration(
+                                color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):
+                                state.responseDdeTarget!.data![index].targetStatus == "In progress"?
+                                const Color(0xffF2CA00):const Color(0xff12CE57),
+
+                                borderRadius: BorderRadius.circular(130),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center
+                              ,child: (state.responseDdeTarget!.data![index].targetStatus ?? '').toString().textMedium(
+                                  fontSize: 12,
+                                  color: state.responseDdeTarget!.data![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
+                              )),
+                            )
+                          ],
                         ),
                       ),
                     );
@@ -2123,6 +2119,15 @@ Future<int> getMessageBoardCount(chatSnapShot, context) async {
     });
   }
   return count;
+}
+
+CurrencyTextInputFormatter currencyFormatter({String locale = "en_US"}){
+  CurrencyTextInputFormatter formatter = CurrencyTextInputFormatter(
+    decimalDigits: 0,
+    locale: locale,
+    symbol: ''
+  );
+  return formatter;
 }
 
 // Stream<int> getMessageCount(chatSnapShot, context) async* {

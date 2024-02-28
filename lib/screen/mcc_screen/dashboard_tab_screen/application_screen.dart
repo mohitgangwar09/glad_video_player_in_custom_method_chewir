@@ -53,7 +53,7 @@ class _ApplicationScreenState extends State<ApplicationScreen> {
 
                 CustomAppBar(
                   context: context,
-                  titleText1: 'Loan Applications',
+                  titleText1: 'Applications',
                   titleText1Style: figtreeMedium.copyWith(
                       fontSize: 20, color: Colors.black),
                   centerTitle: true,

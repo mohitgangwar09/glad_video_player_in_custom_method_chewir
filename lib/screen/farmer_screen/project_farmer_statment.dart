@@ -44,7 +44,7 @@ class _ProjectDetailFarmerStatementState extends State<ProjectDetailFarmerStatem
                   children: [
                     CustomAppBar(
                       context: context,
-                      titleText1: 'Loan statement',
+                      titleText1: 'Statement',
                       titleText1Style: figtreeMedium.copyWith(
                           fontSize: 20, color: Colors.black),
                       centerTitle: true,

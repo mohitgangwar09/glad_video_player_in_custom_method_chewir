@@ -69,9 +69,15 @@ Future<List<String>> imgOrPdfFromGallery() async {
 }
 
 // video Picker from Gallery
-Future<String> videoFromGallery() async {
+Future<String> videoFromGallery({bool memoryValidation = false, BuildContext? context}) async {
   XFile? image = await ImagePicker()
       .pickVideo(source: ImageSource.gallery);
+  if(memoryValidation) {
+    if((await image!.readAsBytes()).lengthInBytes > 10 * 1024 * 1024) {
+      showCustomToast(context!, 'Memory size limit is 10 MB');
+      return '';
+    }
+  }
   return image!.path;
 }
 

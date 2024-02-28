@@ -74,7 +74,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                 BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString():
                 BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString(),
                 state.responseLoanForm!.data!.remainingLimit!.toString(), state.responseLoanForm!.data!.maxEmis!.toString());
-            price.text = state.responseLoanForm!.data!.remainingLimit!.toString();
+            price.text = currencyFormatter().format(state.responseLoanForm!.data!.remainingLimit!.toString());
             period.text = state.responseLoanForm!.data!.maxEmis!.toString();
             one = true;
           }
@@ -90,7 +90,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                   children: [
                     CustomAppBar(
                       context: context,
-                      titleText1: 'Custom Loan',
+                      titleText1: 'Cash Advances',
                       titleText1Style:
                       figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                       centerTitle: true,
@@ -210,7 +210,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              "Purpose of Loan".textMedium(color: Colors.black, fontSize: 12),
+                              "Purpose".textMedium(color: Colors.black, fontSize: 12),
 
                               5.verticalSpace(),
 
@@ -228,7 +228,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                     isDense: true,
                                     value: purpose != '' ? purpose : null,
                                     hint: Text(
-                                      'Select loan purpose',
+                                      'Select purpose',
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context).hintColor,
@@ -271,7 +271,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: "Other purpose of Loan".textMedium(color: Colors.black, fontSize: 12),
+                                  child: "Other purpose".textMedium(color: Colors.black, fontSize: 12),
                                 ),
                                 5.verticalSpace(),
                                 Container(
@@ -298,7 +298,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                           20.verticalSpace(),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: "Loan amount (UGX)".textMedium(color: Colors.black, fontSize: 12),
+                            child: "Lending amount (UGX)".textMedium(color: Colors.black, fontSize: 12),
                           ),
                           5.verticalSpace(),
                           Container(
@@ -311,7 +311,10 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                             width: screenWidth(),
                             child: TextField(
                               maxLines: 1,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                              inputFormatters: [
+                                currencyFormatter()
+                                // FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)
+                              ],
                               controller: price,
                               maxLength: 10,
                               onChanged: (value){
@@ -320,12 +323,12 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                   BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context,
                                       BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString():
                                       BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString(),
-                                      value, period.text.isEmpty?'1':period.text);
+                                      value.replaceAll(",", ""), period.text.isEmpty?'1':period.text);
                                 }
                                 setState(() {});
-                                if((int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString()))){
-                                  showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
-                                  price.text = state.responseLoanForm!.data!.remainingLimit!.toString();
+                                if((int.parse(price.text.replaceAll(",", "").toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString()))){
+                                  showCustomToast(context, 'Requested Amount cannot be more than Remaining Limit');
+                                  price.text = currencyFormatter().format(state.responseLoanForm!.data!.remainingLimit!.toString());
                                 }
                               },
                               // enabled: false,
@@ -389,11 +392,11 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                           onChanged: (String? value) {
                                             setState(() {
                                               period.text = value!.toString();
-                                              if(price.text.isNotEmpty){
+                                              if(price.text.replaceAll(",", "").isNotEmpty){
                                                 BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context,
                                                     BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster!.id.toString():
                                                     BlocProvider.of<LivestockCubit>(context).sharedPreferences.getString(AppConstants.userRoleId).toString(),
-                                                    price.text, period.text.isEmpty?'1':period.text);
+                                                    price.text.replaceAll(",", ""), period.text.isEmpty?'1':period.text);
                                               }
                                               /*if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
                                                 BlocProvider.of<ProjectCubit>(context).loanCalculationAPi(context,
@@ -427,7 +430,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
                                     Align(
                                       alignment: Alignment.centerLeft,
-                                      child: "Rate of Interest (Per Year)".textMedium(color: Colors.black, fontSize: 12),
+                                      child: "Rate of Interest (Per Month)".textMedium(color: Colors.black, fontSize: 12),
                                     ),
                                     5.verticalSpace(),
                                     Container(
@@ -441,7 +444,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       child: TextField(
                                         maxLines: 1,
                                         inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?"${state.responseLoanCalculation!.data!.rateOfInterest}%":''):TextEditingController(),
+                                        controller: price.text.replaceAll(",", "").isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?"${(double.parse(state.responseLoanCalculation!.data!.rateOfInterest.toString()) / 12).toStringAsFixed(2)}%":''):TextEditingController(),
                                         maxLength: 10,
                                         enabled: false,
                                         keyboardType: TextInputType.number,
@@ -483,8 +486,11 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       child: TextField(
                                         maxLines: 1,
                                         enabled: false,
-                                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?state.responseLoanCalculation!.data!.totalRepayment.toString():''):TextEditingController(),
+                                        inputFormatters: [
+                                          currencyFormatter()
+                                          // FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)
+                                        ],
+                                        controller: price.text.replaceAll(",", "").isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?currencyFormatter().format(state.responseLoanCalculation!.data!.totalRepayment.toString()):''):TextEditingController(),
                                         maxLength: 10,
                                         // enabled: false,
                                         keyboardType: TextInputType.number,
@@ -521,7 +527,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                         maxLines: 1,
                                         enabled: false,
                                         inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-                                        controller: price.text.isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?"${state.responseLoanCalculation!.data!.emiAmount}":''):TextEditingController(),
+                                        controller: price.text.replaceAll(",", "").isNotEmpty?TextEditingController(text: state.responseLoanCalculation!=null?currencyFormatter().format(state.responseLoanCalculation!.data!.emiAmount.toString()):''):TextEditingController(),
                                         maxLength: 10,
                                         // enabled: false,
                                         keyboardType: TextInputType.number,
@@ -573,18 +579,15 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                               child: customButton("Apply",
                                   fontColor: 0xffffffff,
                                   onTap: () {
-                                    // if (int.parse(period.text) < int.parse(state.responseLoanForm!.data!.maxEmis.toString())){
-
-                                    // }
 
                                     if(purpose == '') {
-                                      showCustomToast(context, 'Loan Purpose is required');
+                                      showCustomToast(context, 'Purpose is required');
                                     } else if (purpose == 'Other' && purposeOfLoan.text.isEmpty){
-                                      showCustomToast(context, 'Please enter purpose of loan');
-                                    }else if (price.text == ''){
-                                      showCustomToast(context, 'Loan Amount is required');
-                                    } else if (int.parse(price.text.toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString())){
-                                      showCustomToast(context, 'Loan Amount cannot be more than Remaining Limit');
+                                      showCustomToast(context, 'Please enter purpose');
+                                    }else if (price.text.replaceAll(",", "") == ''){
+                                      showCustomToast(context, 'Requested Amount is required');
+                                    } else if (int.parse(price.text.replaceAll(",", "").toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString())){
+                                      showCustomToast(context, 'Requested Amount cannot be more than Remaining Limit');
                                     } else if (period.text == ''){
                                       showCustomToast(context, 'Repayment months are required');
                                     } else if (int.parse(period.text) > int.parse(state.responseLoanForm!.data!.maxEmis.toString())){
@@ -594,7 +597,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                     } else {
                                       CustomLoanKYC(
                                         purpose: purpose.toString() == "Other"?purposeOfLoan.text.toString():purpose.toString(),
-                                        price: int.parse(price.text.toString()),
+                                        price: int.parse(price.text.replaceAll(",", "").toString()),
                                         period: int.parse(period.text.toString()),
                                         remarks: remarks.text.toString(),
                                         farmerMaster: BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster! : null,
@@ -625,6 +628,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
   Widget kpi(context,ProjectState state) {
 
     List<FrontendKpiModel> kpiData = [];
+    final MediaQueryData mediaData = MediaQuery.of(context);
 
     if(state.responseLoanForm!.data!.maxLoanLimit != null){
       kpiData.add(FrontendKpiModel(name: 'Max. Limit',
@@ -645,13 +649,13 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
     }
 
     if(state.responseLoanForm!.data!.loanApplied!=null){
-      kpiData.add(FrontendKpiModel(name: 'Loans Applied',
+      kpiData.add(FrontendKpiModel(name: 'Cash Advances Applied',
           image: Images.emiKpi,
           value: state.responseLoanForm!.data!.loanApplied!.toString()));
     }
 
     if(state.responseLoanForm!.data!.loanValue!=null){
-      kpiData.add(FrontendKpiModel(name: 'Loan Value',
+      kpiData.add(FrontendKpiModel(name: 'Lending Value',
           image: Images.loanKpi,
           value: getCurrencyString(state.responseLoanForm!.data!.loanValue!)));
     }
@@ -672,55 +676,58 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
             crossAxisCount: 3,
             mainAxisSpacing: 15,
             crossAxisSpacing: 13,
-            mainAxisExtent: 123,
+            mainAxisExtent: 130,
             child: (index){
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: const Color(0xffDCDCDC),width: 1),
-                  boxShadow:[
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 2.0,
-                        offset: const Offset(0, 2))],
-                ),
-                child: Padding(
-                  // padding: 0.paddingAll(),
-                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SvgPicture.asset(
-                            kpiData[index].image.toString(),
-                            width: 30,
-                            height: 30,
-                          ),
-                          /*kpiData[index].actionImage!=null?
-                          SvgPicture.asset(kpiData[index].actionImage.toString()):
-                              const SizedBox.shrink()*/
-                        ],
-                      ),
-                      15.verticalSpace(),
-                      Text(
-                        '${kpiData[index].value}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: figtreeMedium.copyWith(fontSize: 14.3),
-                      ),
-                      05.verticalSpace(),
-                      Text(
-                        kpiData[index].name.toString(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: figtreeRegular.copyWith(
-                          fontSize: 12.5,
+              return MediaQuery(
+                data: screenWidth()<380 ? mediaData.copyWith(textScaleFactor: 0.91):mediaData.copyWith(textScaleFactor: 1),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                    boxShadow:[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 2.0,
+                          offset: const Offset(0, 2))],
+                  ),
+                  child: Padding(
+                    // padding: 0.paddingAll(),
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              kpiData[index].image.toString(),
+                              width: 30,
+                              height: 30,
+                            ),
+                            /*kpiData[index].actionImage!=null?
+                            SvgPicture.asset(kpiData[index].actionImage.toString()):
+                                const SizedBox.shrink()*/
+                          ],
                         ),
-                      )
-                    ],
+                        15.verticalSpace(),
+                        Text(
+                          '${kpiData[index].value}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeMedium.copyWith(fontSize: 14.3),
+                        ),
+                        05.verticalSpace(),
+                        Text(
+                          kpiData[index].name.toString(),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: figtreeRegular.copyWith(
+                            fontSize: 12.5,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );

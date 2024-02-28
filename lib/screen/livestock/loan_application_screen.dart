@@ -59,7 +59,7 @@ class _LoanApplicationState extends State<LoanApplication> {
                 children: [
                   CustomAppBar(
                     context: context,
-                    titleText1: 'Loan Application',
+                    titleText1: 'Applications',
                     titleText1Style:
                     figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                     centerTitle: true,
@@ -144,7 +144,7 @@ class _LoanApplicationState extends State<LoanApplication> {
                                                   RichText(
                                                       text: TextSpan(children: [
                                                         TextSpan(
-                                                            text: 'Loan: ',
+                                                            text: 'Lend: ',
                                                             style: figtreeMedium.copyWith(
                                                                 fontSize: 12, color: const Color(0xFF808080))),
                                                         TextSpan(

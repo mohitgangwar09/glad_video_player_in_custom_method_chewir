@@ -123,7 +123,8 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                     InkWell(
                                       onTap: () {
                                         TextEditingController controller = TextEditingController();
-                                        controller.text = snapshot.data!.data()!['negotiated_price'].toString();
+
+                                        controller.text = currencyFormatter().format(snapshot.data!.data()!['negotiated_price'].toString());
 
                                         modalBottomSheetMenu(context, radius: 40,
                                             child: StatefulBuilder(
@@ -156,8 +157,9 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                   keyboardType: TextInputType
                                                                       .number,
                                                                   inputFormatters: [
-                                                                    FilteringTextInputFormatter
-                                                                        .digitsOnly
+                                                                    currencyFormatter()
+                                                                    /*FilteringTextInputFormatter
+                                                                        .digitsOnly*/
                                                                   ],
                                                                   minLines: 1,
                                                                   decoration: InputDecoration(
@@ -194,7 +196,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                       if (double
                                                                           .parse(
                                                                           controller
-                                                                              .text) >
+                                                                              .text.replaceAll(",", "")) >
                                                                           double
                                                                               .parse(
                                                                               widget
@@ -205,7 +207,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                       } else {
                                                                         if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde") {
                                                                           pressBack();
-                                                                          NegotiatePriceOTP(projectData: context.read<LivestockCubit>().state.responseLivestockDetail!.data!.user!, livestockId: widget.livestockId, userId: widget.userId, negotiatedPrice: controller.text,);
+                                                                          NegotiatePriceOTP(projectData: context.read<LivestockCubit>().state.responseLivestockDetail!.data!.user!, livestockId: widget.livestockId, userId: widget.userId, negotiatedPrice: controller.text.replaceAll(",", ""),);
                                                                           controller.clear();
                                                                         }
                                                                         else {
@@ -217,7 +219,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                               widget
                                                                                   .livestockId,
                                                                               controller
-                                                                                  .text,
+                                                                                  .text.replaceAll(",", ""),
                                                                               widget
                                                                                   .userId);
                                                                           FirebaseFirestore

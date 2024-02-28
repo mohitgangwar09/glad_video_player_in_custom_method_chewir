@@ -974,6 +974,8 @@ class _LiveStockDetailState extends State<LiveStockDetail> {
 Widget kpi(context,LivestockCubitState state) {
   List<FrontendKpiModel> kpiData = [];
 
+  final MediaQueryData mediaData = MediaQuery.of(context);
+
   if(state.responseLivestockDetail!.data!.cowQty!=null){
     kpiData.add(FrontendKpiModel(name: 'Listed Cows',
         image: Images.investmentKpi,
@@ -987,13 +989,13 @@ Widget kpi(context,LivestockCubitState state) {
   }
 
   if(state.responseLivestockDetail!.data!.loanAccepted!=null){
-    kpiData.add(FrontendKpiModel(name: 'Loan Accepted',
+    kpiData.add(FrontendKpiModel(name: 'Sold',
         image: Images.investmentKpi,
         value: state.responseLivestockDetail!.data!.loanAccepted!.toString()));
   }
 
   if(state.responseLivestockDetail!.data!.loanApproved!=null){
-    kpiData.add(FrontendKpiModel(name: 'Loan Approved',
+    kpiData.add(FrontendKpiModel(name: 'In process',
         image: Images.investmentKpi,
         value: state.responseLivestockDetail!.data!.loanApproved!.toString()));
   }
@@ -1010,169 +1012,173 @@ Widget kpi(context,LivestockCubitState state) {
       crossAxisSpacing: 13,
       mainAxisExtent: 123,
       child: (index){
-        return InkWell(
-          onTap: (){
-            // if(kpiData[index].name.toString() == "Paid EMIs"){
-            //   ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
-            // }else if(kpiData[index].name.toString() == "Remaining Payable"){
-            //   ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
-            // }
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xffDCDCDC),width: 1),
-              boxShadow:[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    blurRadius: 2.0,
-                    offset: const Offset(0, 2))],
-            ),
-            child: Padding(
-              // padding: 0.paddingAll(),
-              padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset(
-                        kpiData[index].image.toString(),
-                        width: 30,
-                        height: 30,
-                      ),
-                      // kpiData[index].actionImage!=null?
-                      kpiData[index].name.toString() == "Sold Directly to Buyers"?
-                      state.responseLivestockDetail!.data!.balanceCows >0?
-                      InkWell(
-                          onTap: (){
-                            int quantity = int.parse(kpiData[index].value ?? '');
-                              modalBottomSheetMenu(context,
-                                  radius: 40,
-                                  child: StatefulBuilder(
-                                      builder: (context, setState) {
-                                        return SizedBox(
-                                          height: 280,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                                            child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      'Sold Directly to Buyers',
-                                                      style: figtreeMedium.copyWith(fontSize: 22),
+        return MediaQuery(
+          data: screenWidth()<380 ? mediaData.copyWith(textScaleFactor: 0.91):mediaData.copyWith(textScaleFactor: 1),
+
+          child: InkWell(
+            onTap: (){
+              // if(kpiData[index].name.toString() == "Paid EMIs"){
+              //   ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'paid',).navigate();
+              // }else if(kpiData[index].name.toString() == "Remaining Payable"){
+              //   ProjectDetailStatement(userRoleId: state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerMaster!.id.toString(),farmerProjectId: widget.projectId.toString(),status: 'due',).navigate();
+              // }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xffDCDCDC),width: 1),
+                boxShadow:[
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 2.0,
+                      offset: const Offset(0, 2))],
+              ),
+              child: Padding(
+                // padding: 0.paddingAll(),
+                padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset(
+                          kpiData[index].image.toString(),
+                          width: 30,
+                          height: 30,
+                        ),
+                        // kpiData[index].actionImage!=null?
+                        kpiData[index].name.toString() == "Sold Directly to Buyers"?
+                        state.responseLivestockDetail!.data!.balanceCows >0?
+                        InkWell(
+                            onTap: (){
+                              int quantity = int.parse(kpiData[index].value ?? '');
+                                modalBottomSheetMenu(context,
+                                    radius: 40,
+                                    child: StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return SizedBox(
+                                            height: 280,
+                                            child: Padding(
+                                              padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                                              child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Center(
+                                                      child: Text(
+                                                        'Sold Directly to Buyers',
+                                                        style: figtreeMedium.copyWith(fontSize: 22),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  30.verticalSpace(),
-                                                  Container(
-                                                    height: 55,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        color: Colors.white
-                                                    ),
-                                                    width: screenWidth(),
-                                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        InkWell(
-                                                            onTap: () {
-                                                              if(quantity>0){
-                                                                if(quantity == 1) {
-                                                                  return;
+                                                    30.verticalSpace(),
+                                                    Container(
+                                                      height: 55,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          color: Colors.white
+                                                      ),
+                                                      width: screenWidth(),
+                                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          InkWell(
+                                                              onTap: () {
+                                                                if(quantity>0){
+                                                                  if(quantity == 1) {
+                                                                    return;
+                                                                  }
+                                                                  quantity--;
+                                                                  setState(() {
+
+                                                                  });
                                                                 }
-                                                                quantity--;
-                                                                setState(() {
+                                                              },
+                                                              child: SvgPicture.asset(Images.minusQuant)),
+                                                          quantity.toString().textMedium(fontSize: 16, color: Colors.black),
+                                                          InkWell(
+                                                              onTap: () {
+                                                                if(quantity < state.responseLivestockDetail!.data!.cowQty){
+                                                                  quantity++;
+                                                                  setState(() {
 
-                                                                });
-                                                              }
-                                                            },
-                                                            child: SvgPicture.asset(Images.minusQuant)),
-                                                        quantity.toString().textMedium(fontSize: 16, color: Colors.black),
-                                                        InkWell(
+                                                                  });
+                                                                }else{
+                                                                  showCustomToast(context, "Available quantity is only $quantity");
+                                                                }
+                                                              },
+                                                              child: SvgPicture.asset(Images.addQuant)),
+
+                                                        ],),
+                                                    ),
+
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+
+                                                        30.verticalSpace(),
+                                                        Padding(
+                                                          padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                                          child: customButton(
+                                                            'Save',
+                                                            fontColor: 0xffFFFFFF,
                                                             onTap: () {
-                                                              if(quantity < state.responseLivestockDetail!.data!.cowQty){
-                                                                quantity++;
-                                                                setState(() {
-
-                                                                });
+                                                              if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
+                                                                modalBottomSheetMenu(context, child: AddMarkAsDeliveryRemove(
+                                                                    projectData: state.responseLivestockDetail!.data!.user!,
+                                                                    id: state.responseLivestockDetail!.data!.user!.id,quantity:quantity.toString(),updateSoldQtyTag:"sold"));
                                                               }else{
-                                                                showCustomToast(context, "Available quantity is only $quantity");
+                                                                BlocProvider.of<LivestockCubit>(context).updateSoldCowApi(context, state.responseLivestockDetail!.data!.id!, quantity);
                                                               }
                                                             },
-                                                            child: SvgPicture.asset(Images.addQuant)),
+                                                            height: 60,
+                                                            width: screenWidth(),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ]),
+                                            ),
+                                          );
+                                        }
+                                    ));
 
-                                                      ],),
-                                                  ),
+                            },
+                            child: Text(
+                              'Update',
+                              style: figtreeMedium.copyWith(
+                                fontSize: 10,
+                                decoration:TextDecoration.underline,
+                                color: const Color(0xFFFC5E60)
+                              ),
+                            ))
+                            :const SizedBox.shrink()
+                            : const SizedBox.shrink(),
+                        // const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
+                        //     :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
 
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-
-                                                      30.verticalSpace(),
-                                                      Padding(
-                                                        padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                                        child: customButton(
-                                                          'Save',
-                                                          fontColor: 0xffFFFFFF,
-                                                          onTap: () {
-                                                            if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde"){
-                                                              modalBottomSheetMenu(context, child: AddMarkAsDeliveryRemove(
-                                                                  projectData: state.responseLivestockDetail!.data!.user!,
-                                                                  id: state.responseLivestockDetail!.data!.user!.id,quantity:quantity.toString(),updateSoldQtyTag:"sold"));
-                                                            }else{
-                                                              BlocProvider.of<LivestockCubit>(context).updateSoldCowApi(context, state.responseLivestockDetail!.data!.id!, quantity);
-                                                            }
-                                                          },
-                                                          height: 60,
-                                                          width: screenWidth(),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                ]),
-                                          ),
-                                        );
-                                      }
-                                  ));
-
-                          },
-                          child: Text(
-                            'Update',
-                            style: figtreeMedium.copyWith(
-                              fontSize: 10,
-                              decoration:TextDecoration.underline,
-                              color: const Color(0xFFFC5E60)
-                            ),
-                          ))
-                          :const SizedBox.shrink()
-                          : const SizedBox.shrink(),
-                      // const Align(alignment: Alignment.centerRight,child: Icon(Icons.check_circle,color: Colors.green,size: 20,))
-                      //     :SvgPicture.asset(kpiData[index].actionImage.toString()):const SizedBox.shrink()
-
-                    ],
-                  ),
-                  15.verticalSpace(),
-                  Text(
-                    '${kpiData[index].value}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: figtreeMedium.copyWith(fontSize: 14.3),
-                  ),
-                  05.verticalSpace(),
-                  Text(
-                    kpiData[index].name.toString(),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: figtreeRegular.copyWith(
-                      fontSize: 12.5,
+                      ],
                     ),
-                  )
-                ],
+                    15.verticalSpace(),
+                    Text(
+                      '${kpiData[index].value}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: figtreeMedium.copyWith(fontSize: 14.3),
+                    ),
+                    05.verticalSpace(),
+                    Text(
+                      kpiData[index].name.toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: figtreeRegular.copyWith(
+                        fontSize: 12.5,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

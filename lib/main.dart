@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,14 +16,9 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/cubit/training_cubit/training_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
-import 'package:glad/data/model/farmer_project_detail_model.dart';
 import 'package:glad/notification/fcm_helper.dart';
-import 'package:glad/screen/auth_screen/create_password.dart';
 import 'package:glad/screen/auth_screen/splash_screen.dart';
-import 'package:glad/screen/common/congratulation_screen.dart';
-import 'package:glad/screen/dde_screen/termsandcondition.dart';
 import 'package:glad/screen/extra_screen/test_cubit_yield.dart';
-import 'package:glad/utils/extension.dart';
 import 'cubit/cowsandyieldDoneCubit/cowsandyielddonecubit.dart';
 import 'di_container.dart' as di;
 
@@ -61,9 +52,9 @@ Future<void> main() async {
       BlocProvider(create: (context) => di.sl<WeatherCubit>()),
     ],
     child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: const MyApp(),
-        navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
+      home: const MyApp(),
+      navigatorKey: navigatorKey,
     ),
   ));
 }

@@ -143,12 +143,14 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                               state.responseMCCDashboard!.data!.farmerProject!.pending.toString().textMedium(fontSize: 32,
                                   color: const Color(0xffFC5E60)),
                               12.verticalSpace(),
-                              'Pending'.textMedium(fontSize: 16),
-                              7.verticalSpace(),
-                              "Loans pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
-                                  maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
-
-
+                              Column(
+                                children: [
+                                  'Pending'.textMedium(fontSize: 16),
+                                  7.verticalSpace(),
+                                  "Applications pending for approval".textMedium(fontSize: 12,color: const Color(0xff727272),
+                                      maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                                ],
+                              )
                             ],
                           ),
                         )),
@@ -165,7 +167,7 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
                         height: 140,
                         width: screenWidth(),
                         child: Padding(
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,11 +178,14 @@ class _MCCLandingPageState extends State<MCCLandingPage> {
 
                               12.verticalSpace(),
 
-                              'Approved'.textMedium(fontSize: 16),
-                              7.verticalSpace(),
-                              'Loans approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
-                                  maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
-
+                              Column(
+                                children: [
+                                  'Approved'.textMedium(fontSize: 16),
+                                  7.verticalSpace(),
+                                  'Applications approved'.textMedium(fontSize: 12,color: const Color(0xff727272),
+                                      maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center),
+                                ],
+                              )
                             ],
                           ),
                         )),

@@ -45,12 +45,14 @@ class ThankYouMcc extends StatelessWidget {
                 10.verticalSpace(),
                 if(projectStatus == 'rejected')
                   Text(
-                      'Loan application has been rejected successfully.',
+                      'Application has been rejected successfully.',
+                      // 'Loan application has been rejected successfully.',
                       textAlign: TextAlign.center,
                       style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else
                 Text(
-                    'Loan application has been approved successfully.',
+                    'Application has been approved successfully.',
+                    // 'Loan application has been approved successfully.',
                     textAlign: TextAlign.center,
                     style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
                 30.verticalSpace(),

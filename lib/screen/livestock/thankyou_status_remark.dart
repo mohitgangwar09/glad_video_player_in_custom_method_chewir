@@ -53,12 +53,14 @@ class ThankStatusRemarkYou extends StatelessWidget {
 
                   if(loanStatus.toString() == "rejected")
                     Text(
-                        'You have successfully rejected the loan application.',
+                        'You have successfully rejected the application.',
+                        // 'You have successfully rejected the loan application.',
                         textAlign: TextAlign.center,
                         style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else
                     Text(
-                        'You have successfully accepted the loan application.',
+                        'You have successfully accepted the application.',
+                        // 'You have successfully accepted the loan application.',
                         textAlign: TextAlign.center,
                         style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,)),
 
@@ -75,7 +77,8 @@ class ThankStatusRemarkYou extends StatelessWidget {
 
                 29.verticalSpace(),
 
-                "We will notify you once the loan is approved by the GLAD Credit Committee.".toString().textRegular(
+                "We will notify you once the application is approved by the GLAD Credit Committee.".toString().textRegular(
+                // "We will notify you once the loan is approved by the GLAD Credit Committee.".toString().textRegular(
                   fontSize: 16,
                   textAlign: TextAlign.center
                 ),

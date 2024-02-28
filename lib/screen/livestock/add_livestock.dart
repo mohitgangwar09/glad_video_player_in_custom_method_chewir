@@ -556,7 +556,10 @@ class _AddLivestockState extends State<AddLivestock> {
                                 width: screenWidth(),
                                 child: TextField(
                                   maxLines: 1,
-                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                  inputFormatters: [
+                                    // FilteringTextInputFormatter.digitsOnly
+                                    currencyFormatter()
+                                  ],
                                   controller: price,
                                   maxLength: 10,
                                   // enabled: false,
