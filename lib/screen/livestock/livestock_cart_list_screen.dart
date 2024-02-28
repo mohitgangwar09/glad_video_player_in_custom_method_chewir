@@ -416,9 +416,9 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                 minLines: 1,
                                                 onChanged: (value){
                                                   // if()
-                                                  if(double.parse(controller.text.toString())>subtotal){
+                                                  if(double.parse(controller.text.replaceAll(",", "").toString())>subtotal){
                                                     showCustomToast(context, "Buyer participation can't be more than cart total");
-                                                  }else if(double.parse(controller.text)<participationPercentage!){
+                                                  }else if(double.parse(controller.text.replaceAll(",", ""))<participationPercentage!){
                                                     showCustomToast(context, "Buyer participation can't be less than ${state.responseLivestockCartList!.data![0].farmerParticipationPercent}% of subtotal");
                                                   }
                                                 },
@@ -440,9 +440,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                   'Submit Application',
                                                   fontColor: 0xffFFFFFF,
                                                   onTap: () {
-                                                    if(controller.text.isEmpty){
-
-                                                    }else if(double.parse(controller.text)>subtotal){
+                                                    if(controller.text.isEmpty){}else if(double.parse(controller.text.replaceAll(",", ""))>subtotal){
                                                       showCustomToast(context, "Buyer participation can't be more than cart total");
                                                     }else if(double.parse(controller.text.replaceAll(",", ""))<participationPercentage!){
                                                       showCustomToast(context, "Buyer participation can't be less than ${state.responseLivestockCartList!.data![0].farmerParticipationPercent}% of subtotal");

@@ -9,6 +9,7 @@ import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
+import 'package:glad/screen/custom_widget/custom_textfield2.dart';
 import 'package:glad/screen/custom_widget/g_map.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
@@ -33,6 +34,7 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
   TextEditingController? addressController = TextEditingController();
   TextEditingController? commentController = TextEditingController();
   TextEditingController? supplierId = TextEditingController();
+  String date = '';
   final TextEditingController _searchPlaceController = TextEditingController();
   double? lat;
   double? long;
@@ -328,6 +330,25 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
             borderColor: 0xff999999,
             radius: 12,
           ),
+          10.verticalSpace(),
+          CustomTextField(
+            hint: 'Preferred date',
+            image2: Images.calender,
+            image2Colors: ColorResources.maroon,
+            readOnly: true,
+            radius: 12,
+            borderColor: 0xff999999,
+            controller: TextEditingController()
+              ..text = date,
+            onTap: () async {
+              var selectDate =
+              await selectedFutureDate(context, lastDate: DateTime.now().add(Duration(days: 30)));
+              date =
+              "${selectDate.year}/${selectDate.month}/${selectDate.day}";
+              setState(() {});
+            },
+            focusNode: FocusNode(),
+          ),
           20.verticalSpace(),
         ],
       ),
@@ -349,6 +370,8 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
               showCustomToast(context, 'Length of Mobile number should be minimum 9 ');
             } else if(addressController!.text.isEmpty) {
               showCustomToast(context, 'Address is required');
+            } else if(date.isEmpty) {
+              showCustomToast(context, 'Date is required');
             }
             // else if(commentController!.text.isEmpty) {
             //   showCustomToast(context, 'Comment is required');
@@ -363,7 +386,8 @@ class _InviteAnExpertState extends State<InviteAnExpert> {
                   lat!.toString(),
                   long!.toString(),
                   district ?? '',
-                  supplierId!.text);
+                  supplierId!.text,
+                  date);
             }
 
           },

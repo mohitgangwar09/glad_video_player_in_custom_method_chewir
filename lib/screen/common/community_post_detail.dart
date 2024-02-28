@@ -88,7 +88,7 @@ class _CommunityPostDetailState extends State<CommunityPostDetail> {
                             10.horizontalSpace(),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(state.responseCommunityDetailList!.data![0].user!.name ?? '',
                                     style: figtreeMedium.copyWith(
