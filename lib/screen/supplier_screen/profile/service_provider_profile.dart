@@ -471,22 +471,22 @@ class _SupplierProfileState extends State<SupplierProfile> {
                 height: 55,
                 width: 55,
               )
-         else if(state.responseProfile!.data!.user!.badge.toString() == 'diamond')
-            SvgPicture.asset(
+            else if(state.responseProfile!.data!.user!.badge.toString() == 'diamond')
+              SvgPicture.asset(
               Images.diamond,
               height: 55,
               width: 55,
             )
-         else if(state.responseProfile!.data!.user!.badge.toString() == 'gold')
-           SvgPicture.asset(
+            else if(state.responseProfile!.data!.user!.badge.toString() == 'gold')
+              SvgPicture.asset(
              Images.gold,
              height: 55,
              width: 55,
            )
-         else if(state.responseProfile!.data!.user!.badge.toString() == 'platinum')
-           SvgPicture.asset(
-             Images.platinum,
-             height: 55,
+            else if(state.responseProfile!.data!.user!.badge.toString() == 'platinum')
+              SvgPicture.asset(
+                Images.platinum,
+                height: 55,
              width: 55,
            )
         ],
