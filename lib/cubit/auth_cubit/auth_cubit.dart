@@ -228,11 +228,12 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
   // forgotPasswordApi
   Future<void> forgotPasswordApi(context) async{
-    if(state.emailController.text.isEmpty){
+    /*if(state.emailController.text.isEmpty){
       emit(state.copyWith(validator: "email",validatorString: 'Please enter email'));
     }else if(!isEmail(state.emailController.text)){
       emit(state.copyWith(validator: "emailError",validatorString: 'Please enter valid email'));
-    }else{
+    }else{*/
+
       customDialog(widget: launchProgress());
       var response = await apiRepository.forgotPasswordApi(state.emailController.text,);
       disposeProgress();
@@ -246,7 +247,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
         if(response.message!=null){
           showCustomToast(context, response.message.toString());
         }
-      }
+      // }
     }
   }
 
