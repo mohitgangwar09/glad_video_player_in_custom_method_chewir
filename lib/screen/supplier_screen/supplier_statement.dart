@@ -33,6 +33,9 @@ class _SupplierStatementState extends State<SupplierStatement> {
 
   @override
   Widget build(BuildContext context) {
+
+    final MediaQueryData mediaData = MediaQuery.of(context);
+
     return Scaffold(
       body: BlocBuilder<ProjectCubit,ProjectState>(
           builder: (context,state) {
@@ -55,7 +58,7 @@ class _SupplierStatementState extends State<SupplierStatement> {
                           onTap: () {},
                           child: SvgPicture.asset(Images.filter2)),*/
                     ),
-                    listviewDetails(state),
+                    listviewDetails(state,mediaData),
                   ],
                 ),
               ],
@@ -65,126 +68,129 @@ class _SupplierStatementState extends State<SupplierStatement> {
     );
   }
 
-  Widget listviewDetails(ProjectState state) {
+  Widget listviewDetails(ProjectState state,MediaQueryData mediaData) {
     return Expanded(
       child: Column(
         children: [
           20.verticalSpace(),
-          Padding(
-            padding: const EdgeInsets.only(left: 1.0,right: 1.0),
-            child: Row(
-              children: [
-                // for (int i in [1, 2, 3]),
-                10.horizontalSpace(),
-                Expanded(
-                  child: InkWell(
-                    onTap: (){
-                      BlocProvider.of<ProjectCubit>(context).statusColor('paid');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'paid');
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              width: state.statusLoan == 'paid'?2:1, color: state.statusLoan == 'paid'?ColorResources.paidGreen:const Color(0xffDCDCDC)),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            BlocBuilder<ProjectCubit,ProjectState>(
-                                builder: (context,state) {
-                                  return Text(
-                                    getCurrencyString(state.paidAmount??0),
-                                    style: figtreeSemiBold.copyWith(fontSize: 15),
-                                  );
-                                }
-                            ),
-                            05.verticalSpace(),
-                            Text(
-                              'Earned',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 14, color: ColorResources.fieldGrey),
-                            )
-                          ]),
+          MediaQuery(
+            data: screenWidth()<380 ? mediaData.copyWith(textScaleFactor: 0.87):mediaData.copyWith(textScaleFactor: 0.95),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 1.0,right: 1.0),
+              child: Row(
+                children: [
+                  // for (int i in [1, 2, 3]),
+                  10.horizontalSpace(),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        BlocProvider.of<ProjectCubit>(context).statusColor('paid');
+                        BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'paid');
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                width: state.statusLoan == 'paid'?2:1, color: state.statusLoan == 'paid'?ColorResources.paidGreen:const Color(0xffDCDCDC)),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              BlocBuilder<ProjectCubit,ProjectState>(
+                                  builder: (context,state) {
+                                    return Text(
+                                      getCurrencyString(state.paidAmount??0),
+                                      style: figtreeSemiBold.copyWith(fontSize: 15),
+                                    );
+                                  }
+                              ),
+                              05.verticalSpace(),
+                              Text(
+                                'Earned',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 14, color: ColorResources.fieldGrey),
+                              )
+                            ]),
+                      ),
                     ),
                   ),
-                ),
-                10.horizontalSpace(),
-                Expanded(
-                  child: InkWell(
-                    onTap: (){
-                      BlocProvider.of<ProjectCubit>(context).statusColor('due');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              width: state.statusLoan == 'due'?2:1, color: state.statusLoan == 'due'?const Color(0xffF6B51D):const Color(0xffDCDCDC)),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            BlocBuilder<ProjectCubit,ProjectState>(
-                                builder: (context,state) {
-                                  return Text(
-                                    getCurrencyString(state.dueAmount??0),
-                                    style: figtreeSemiBold.copyWith(fontSize: 15),
-                                  );
-                                }
-                            ),
-                            05.verticalSpace(),
-                            Text(
-                              'Due',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 14, color: ColorResources.fieldGrey),
-                            )
-                          ]),
+                  10.horizontalSpace(),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        BlocProvider.of<ProjectCubit>(context).statusColor('due');
+                        BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                width: state.statusLoan == 'due'?2:1, color: state.statusLoan == 'due'?const Color(0xffF6B51D):const Color(0xffDCDCDC)),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              BlocBuilder<ProjectCubit,ProjectState>(
+                                  builder: (context,state) {
+                                    return Text(
+                                      getCurrencyString(state.dueAmount??0),
+                                      style: figtreeSemiBold.copyWith(fontSize: 15),
+                                    );
+                                  }
+                              ),
+                              05.verticalSpace(),
+                              Text(
+                                'Due',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 14, color: ColorResources.fieldGrey),
+                              )
+                            ]),
+                      ),
                     ),
                   ),
-                ),
-                10.horizontalSpace(),
-                Expanded(
-                  child: InkWell(
-                    onTap: (){
-                      BlocProvider.of<ProjectCubit>(context).statusColor('pending');
-                      BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'pending');
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              width: state.statusLoan == 'pending'?2:1, color: state.statusLoan == 'pending'?const Color(0xff6A0030):const Color(0xffDCDCDC)),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            BlocBuilder<ProjectCubit,ProjectState>(
-                                builder: (context,state) {
-                                  return Text(
-                                    getCurrencyString(state.pendingAmount??0),
-                                    style: figtreeSemiBold.copyWith(fontSize: 15),
-                                  );
-                                }
-                            ),
-                            05.verticalSpace(),
-                            Text(
-                              'Pending',
-                              style: figtreeMedium.copyWith(
-                                  fontSize: 14, color: ColorResources.fieldGrey),
-                            )
-                          ]),
+                  10.horizontalSpace(),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        BlocProvider.of<ProjectCubit>(context).statusColor('pending');
+                        BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'pending');
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                width: state.statusLoan == 'pending'?2:1, color: state.statusLoan == 'pending'?const Color(0xff6A0030):const Color(0xffDCDCDC)),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              BlocBuilder<ProjectCubit,ProjectState>(
+                                  builder: (context,state) {
+                                    return Text(
+                                      getCurrencyString(state.pendingAmount??0),
+                                      style: figtreeSemiBold.copyWith(fontSize: 15),
+                                    );
+                                  }
+                              ),
+                              05.verticalSpace(),
+                              Text(
+                                'Pending',
+                                style: figtreeMedium.copyWith(
+                                    fontSize: 14, color: ColorResources.fieldGrey),
+                              )
+                            ]),
+                      ),
                     ),
                   ),
-                ),
-                10.horizontalSpace(),
-              ],
+                  10.horizontalSpace(),
+                ],
+              ),
             ),
           ),
           BlocBuilder<ProjectCubit,ProjectState>(
@@ -235,9 +241,9 @@ class _SupplierStatementState extends State<SupplierStatement> {
                                               Column(
                                                 crossAxisAlignment: CrossAxisAlignment.end,
                                                 children: [
-                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate.toString().textMedium(
+                                                  state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate!=null?state.responseAccountStatement!.data!.farmerProjectFinancial![index].dueDate!.toString().textMedium(
                                                       fontSize: 14,
-                                                      color: ColorResources.black),
+                                                      color: ColorResources.black):const SizedBox.shrink(),
 
                                                   state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString().textMedium(
                                                       color: state.responseAccountStatement!.data!.farmerProjectFinancial![index].paymentStatus.toString() == 'pending'?const Color(0xff6A0030):

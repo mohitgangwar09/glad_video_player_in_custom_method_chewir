@@ -72,11 +72,20 @@ class AuthRepository {
   }
 
   // forgot Password Api
-   Future<MobileLoginModel> forgotPasswordApi(String email) async {
+   Future<MobileLoginModel> forgotPasswordApi(dynamic email) async {
 
-    var data = {
-      "email": email
-    };
+     var data;
+
+     if(int.tryParse(email) is int){
+       data = {
+         "mobile": int.tryParse(email) is int ? email : ""
+       };
+     }else{
+       data = {
+         "email": int.tryParse(email) is int ? "":email,
+         // "mobile": int.tryParse(email) is int ? email : ""
+       };
+     }
 
      api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
          .getPostApiResponse(AppConstants.forgotPasswordApi,
