@@ -33,6 +33,7 @@ class Data {
   List<Community>? community;
   List<TrainingList>? trainingList;
   Supplier? supplier;
+  Supplier? supplierTeam;
 
   Data(
       {this.farmerProjectSurvey,
@@ -40,6 +41,7 @@ class Data {
         this.newsEvent,
         this.community,
         this.trainingList,
+        this.supplierTeam,
         this.supplier});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -51,6 +53,9 @@ class Data {
         : null;
     supplier = json['supplier'] != null
         ? Supplier.fromJson(json['supplier'])
+        : null;
+    supplierTeam = json['supplierTeam'] != null
+        ? Supplier.fromJson(json['supplierTeam'])
         : null;
     if (json['newsEvent'] != null) {
       newsEvent = <NewsEvent>[];

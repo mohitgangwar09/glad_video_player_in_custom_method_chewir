@@ -140,14 +140,19 @@ class ServiceProviderDrawer extends StatelessWidget {
                     visible: count>0);
               }
           ),
-          30.verticalSpace(),
-          navigationBarItem(
-            image: Images.faq,
-            onTap: () {
-              pressBack();
-              const TeamMembers().navigate();
-            },
-            text: 'Team Members',
+          if(BlocProvider.of<ProfileCubit>(context).state.responseProfile!.data!.user!.isTeam == 0)
+          Column(
+            children: [
+              30.verticalSpace(),
+              navigationBarItem(
+                image: Images.faq,
+                onTap: () {
+                  pressBack();
+                  const TeamMembers().navigate();
+                },
+                text: 'Team Members',
+              ),
+            ],
           ),
           30.verticalSpace(),
           navigationBarItem(

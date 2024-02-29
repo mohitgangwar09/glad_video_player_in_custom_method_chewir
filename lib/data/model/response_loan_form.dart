@@ -29,6 +29,7 @@ class Data {
   dynamic loanApplied;
   dynamic loanValue;
   dynamic remainingLimit;
+  String? eligibilty;
   Farmer? farmer;
 
   Data(
@@ -38,6 +39,7 @@ class Data {
         this.loanApplied,
         this.loanValue,
         this.remainingLimit,
+        this.eligibilty,
         this.farmer});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -47,6 +49,7 @@ class Data {
     loanApplied = json['loan_applied'];
     loanValue = json['loan_value'];
     remainingLimit = json['remaining_limit'];
+    eligibilty = json['eligibility'];
     farmer =
     json['farmer'] != null ? Farmer.fromJson(json['farmer']) : null;
   }

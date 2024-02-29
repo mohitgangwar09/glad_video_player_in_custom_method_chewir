@@ -4,7 +4,6 @@ import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/custom_widget/custom_textfield.dart';
-import 'package:glad/screen/farmer_screen/drawer_screen/chat_screen.dart';
 import 'package:glad/screen/supplier_screen/add_team_members.dart';
 import 'package:glad/screen/supplier_screen/update_team_members.dart';
 import 'package:glad/utils/color_resources.dart';

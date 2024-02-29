@@ -44,6 +44,10 @@ class DashboardSupplier extends StatelessWidget {
           onDrawerChanged: (value) {
             if(value) {
               BlocProvider.of<ProfileCubit>(context).getNotificationListApi(context);
+              if(BlocProvider.of<ProfileCubit>(context).state.responseProfile==null) {
+                BlocProvider.of<ProfileCubit>(context).profileApi(context);
+              }
+
             }
           },
           bottomNavigationBar: bottomNavigationBar(provider.state, context),

@@ -72,6 +72,7 @@ class User {
   dynamic updatedBy;
   dynamic deletedBy;
   int? isFirst;
+  int? isTeam;
   String? name;
   dynamic profilePic;
   dynamic badge;
@@ -105,6 +106,7 @@ class User {
         this.updatedBy,
         this.deletedBy,
         this.isFirst,
+        this.isTeam,
         this.name,
         this.profilePic,
         this.roles,
@@ -138,6 +140,7 @@ class User {
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     isFirst = json['is_first'];
+    isFirst = json['is_team'];
     name = json['name'];
     badge = json['badge'];
     kycStatus = json['kyc_status'];
