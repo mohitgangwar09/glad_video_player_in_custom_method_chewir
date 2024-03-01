@@ -5,6 +5,10 @@ class DDEVisitorDetails {
   dynamic enquiryId;
   String? enquiryName;
   String? enquiryAddress;
+  String? enquiryStatus;
+  dynamic enquiryLat;
+  dynamic enquiryLong;
+  String? enquiryClosedAt;
   dynamic ddeId;
   String? scheduleDate;
   dynamic scheduleTime;
@@ -38,6 +42,10 @@ class DDEVisitorDetails {
         this.enquiryId,
         this.enquiryName,
         this.enquiryAddress,
+        this.enquiryStatus,
+        this.enquiryLat,
+        this.enquiryLong,
+        this.enquiryClosedAt,
         this.farmerProject});
 
   DDEVisitorDetails.fromJson(Map<String, dynamic> json) {
@@ -58,6 +66,10 @@ class DDEVisitorDetails {
     enquiryId = json['enquiry_id'];
     enquiryName = json['enquiry'] != null ? json['enquiry']['name'] : null;
     enquiryAddress = json['enquiry'] != null ? json['enquiry']['address'] : null;
+    enquiryStatus = json['enquiry'] != null ? json['enquiry']['status'] : null;
+    enquiryLat = json['enquiry'] != null ? json['enquiry']['lat'] : null;
+    enquiryLong = json['enquiry'] != null ? json['enquiry']['lang'] : null;
+    enquiryClosedAt = json['enquiry'] != null ? json['enquiry']['closed_at'] : null;
     farmerMaster = json['farmer_master'] != null
         ? FarmerMaster.fromJson(json['farmer_master'])
         : null;

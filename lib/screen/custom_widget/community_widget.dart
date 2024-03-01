@@ -377,7 +377,9 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
     // TODO: implement initState
     super.initState();
     getThumbnail(widget.url);
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url))
+    _controller = VideoPlayerController.networkUrl(
+        Uri.parse(widget.url),
+    )
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -500,8 +502,8 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
                         ])),
                   ),
               ),
-    ),
+            ),
         )
-        : videoThumbnail != null ? Image.file(File(videoThumbnail!)):const SizedBox.shrink();
+        : videoThumbnail != null ? Image.file(File(videoThumbnail!), height: 350,):const SizedBox.shrink();
   }
 }

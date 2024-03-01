@@ -103,6 +103,9 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
       child: Scaffold(
         body: BlocBuilder<DdeEnquiryCubit, DdeEnquiryState>(
             builder: (context, state) {
+              if (state.status == DdeEnquiryStatus.loading) {
+                return const Center(child: CircularProgressIndicator());
+              }
           return Stack(
             children: [
               landingBackground(),

@@ -140,7 +140,7 @@ class User {
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
     isFirst = json['is_first'];
-    isFirst = json['is_team'];
+    isTeam = json['is_team'];
     name = json['name'];
     badge = json['badge'];
     kycStatus = json['kyc_status'];

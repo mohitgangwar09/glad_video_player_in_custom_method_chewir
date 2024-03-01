@@ -31,9 +31,14 @@ class FcmNavigation {
           SuggestedProjectDetails(projectId: int.parse(payload["id"]))
               .navigate();
         }
-      } else if (payload["route"] == 'project_chat') {
+      }
+      else if (payload["route"] == 'project_chat') {
         _redirectProjectChatScreen(int.parse(payload["id"]), userType);
-      } else {}
+      }
+      // else if (payload["route"] == 'livestock') {
+      //   _redirectProjectChatScreen(int.parse(payload["id"]), userType);
+      // }
+      else {}
     } else if (userType == 'dde') {
       if (payload["route"] == 'project') {
         DDeFarmerInvestmentDetails(

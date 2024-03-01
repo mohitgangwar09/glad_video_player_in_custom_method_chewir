@@ -17,6 +17,7 @@ import 'package:glad/screen/common/landing_carousel.dart';
 import 'package:glad/screen/custom_loan/custom_loan_list.dart';
 import 'package:glad/screen/dde_livestock/dde_livestock_screen.dart';
 import 'package:glad/screen/dde_screen/dashboard_tab_screen/project_screen.dart';
+import 'package:glad/screen/dde_screen/enquiry_details.dart';
 import 'package:glad/screen/livestock/livestock_marketplace.dart';
 import 'package:glad/screen/common/mcc_in_area.dart';
 import 'package:glad/screen/common/trending_news.dart';
@@ -366,13 +367,18 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                 )
                                     : InkWell(
                                     onTap: (){
-                            // BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
-                            // BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
-                            // DDeFarmerInvestmentDetails(projectId: detail.farmerProject!.id,
-                            // // farmerDetail:farmerDetail
-                            // ).navigate();
-
-                            // DdeFarmerDetail(userId: detail.farmerMaster!.userId!,farmerId:detail.farmerMaster!.id!).navigate();
+                                      if(detail.enquiryStatus.toString() == "pending"){
+                                        BlocProvider.of<DdeEnquiryCubit>(context).emit(BlocProvider.of<DdeEnquiryCubit>(context).state.copyWith(markAsClosed: ""));
+                                      }else{
+                                        BlocProvider.of<DdeEnquiryCubit>(context).emit(BlocProvider.of<DdeEnquiryCubit>(context).state.copyWith(pendingFromClose: ""));
+                                      }
+                                      EnquiryDetailsScreen(
+                                        detail.enquiryId.toString(),
+                                        detail.enquiryStatus.toString(),
+                                        detail.enquiryLat.toString(),
+                                        detail.enquiryLong.toString(),
+                                        detail.enquiryClosedAt.toString(),
+                                      ).navigate();
                             },
 
                               child: Container(

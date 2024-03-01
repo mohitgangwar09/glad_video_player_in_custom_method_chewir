@@ -395,12 +395,11 @@ class AuthCubit extends Cubit<AuthCubitState>{
     debugPrint("bearerToken::::::: ${apiRepository.getUserToken()}");
     return apiRepository.isLoggedIn();}
 
-    clearSharedData() async {
+  clearSharedData() async {
     bool isSuccess = await apiRepository.clearSharedData();
-    if(isSuccess)
-      {
-        const DashboardGuest().navigate(isInfinity: true);
-      }
+    if(isSuccess) {
+      const DashboardGuest().navigate(isInfinity: true);
+    }
   }
 
   String getUserToken() {

@@ -801,6 +801,7 @@ class _AddLivestockState extends State<AddLivestock> {
                                 child: customButton(
                                   'Save',
                                   onTap: () {
+
                                     if(selectedBreed == null) {
                                       showCustomToast(context, 'Breed required');
                                     } else if(path.isEmpty) {
@@ -825,7 +826,7 @@ class _AddLivestockState extends State<AddLivestock> {
                                             path:path,
                                             milk:milk.text,
                                             lactation:lactation ?? '',
-                                            price:price.text,
+                                            price:price.text.replaceAll(',', ''),
                                             pregnant:pregnant ?? '',
                                             quantity:quantity.toString(),
                                             age :age.text,
@@ -838,7 +839,7 @@ class _AddLivestockState extends State<AddLivestock> {
                                             path,
                                             milk.text,
                                             lactation ?? '',
-                                            price.text,
+                                            price.text.replaceAll(',', ''),
                                             pregnant ?? '',
                                             quantity.toString(),
                                             age.text,
