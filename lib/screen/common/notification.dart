@@ -101,7 +101,11 @@ class CommonNotification extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: InkWell(
                       onTap: () {
-                        context.read<ProfileCubit>().readNotificationApi(context, state.responseNotificationList!.data![index].id);
+                        if(state.responseNotificationList!.data![index].readStatus == 'unread') {
+                          context.read<ProfileCubit>().readNotificationApi(
+                              context,
+                              state.responseNotificationList!.data![index].id);
+                        }
                         Map route = {'route': state.responseNotificationList!.data![index].route ?? '', 'id': (state.responseNotificationList!.data![index].routeID ?? '').toString()};
                         print(route);
                         FcmNavigation.handleBackgroundStateNavigation(route);
@@ -120,12 +124,20 @@ class CommonNotification extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              SizedBox(
+                                width: screenWidth() * 0.7,
+                                child: Text(
+                                  state.responseNotificationList!.data![index].title ?? '',
+                                  style: figtreeMedium.copyWith(fontSize: 16),
+                                ),
+                              ),
+                              10.verticalSpace(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    width: screenWidth() * 0.7,
+                                    width: screenWidth() * 0.75,
                                     child: Text(
                                       state.responseNotificationList!.data![index].body ?? '',
                                       style: figtreeMedium.copyWith(fontSize: 14),
