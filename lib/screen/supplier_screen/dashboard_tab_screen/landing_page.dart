@@ -146,6 +146,8 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
               ));
         } else if (state.responseSupplierDashboard == null) {
           return Center(child: Text("${state.responseSupplierDashboard} Api Error"));
+        }  else if (state.responseSupplierDashboard!.data == null) {
+          return Center(child: Text("${state.responseSupplierDashboard!.data} Api Error"));
         } else {
           return Container(
             color: Colors.white,
@@ -161,7 +163,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                             CustomAppBar(
                               context: context,
                               titleText1: 'Hello ',
-                              titleText2: state.responseSupplierDashboard!.data!=null?state.responseSupplierDashboard!.data!.supplier!.name.toString():'',
+                              titleText2: state.responseSupplierDashboard!.data!.supplierTeam==null?state.responseSupplierDashboard!.data!.supplier!.name.toString(): state.responseSupplierDashboard!.data!.supplierTeam!.name,
                               leading: openDrawer(
                                   onTap: () {
                                     supplierLandingKey.currentState?.openDrawer();
@@ -184,7 +186,7 @@ class _SupplierLandingPageState extends State<SupplierLandingPage> {
                                           const BoxDecoration(shape: BoxShape.circle),
                                           child: CachedNetworkImage(
                                             imageUrl:
-                                            (state.responseSupplierDashboard!.data != null) ? (state.responseSupplierDashboard!.data!.supplier!.photo ?? '') : '',
+                                            (state.responseSupplierDashboard!.data!.supplierTeam == null) ? (state.responseSupplierDashboard!.data!.supplier!.photo ?? '') : state.responseSupplierDashboard!.data!.supplierTeam!.photo ?? '',
                                             errorWidget: (_, __, ___) =>
                                                 SvgPicture.asset(Images.person),
                                             fit: BoxFit.cover,

@@ -2,6 +2,9 @@ class DDEVisitorDetails {
   dynamic id;
   dynamic farmerId;
   dynamic projectId;
+  dynamic enquiryId;
+  String? enquiryName;
+  String? enquiryAddress;
   dynamic ddeId;
   String? scheduleDate;
   dynamic scheduleTime;
@@ -32,6 +35,9 @@ class DDEVisitorDetails {
         this.updatedAt,
         this.date,
         this.farmerMaster,
+        this.enquiryId,
+        this.enquiryName,
+        this.enquiryAddress,
         this.farmerProject});
 
   DDEVisitorDetails.fromJson(Map<String, dynamic> json) {
@@ -49,16 +55,19 @@ class DDEVisitorDetails {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     date = json['date'];
+    enquiryId = json['enquiry_id'];
+    enquiryName = json['enquiry'] != null ? json['enquiry']['name'] : null;
+    enquiryAddress = json['enquiry'] != null ? json['enquiry']['address'] : null;
     farmerMaster = json['farmer_master'] != null
-        ? new FarmerMaster.fromJson(json['farmer_master'])
+        ? FarmerMaster.fromJson(json['farmer_master'])
         : null;
     farmerProject = json['farmer_project'] != null
-        ? new FarmerProject.fromJson(json['farmer_project'])
+        ? FarmerProject.fromJson(json['farmer_project'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['farmer_id'] = farmerId;
     data['project_id'] = projectId;
@@ -187,7 +196,7 @@ class FarmerMaster {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['user_id'] = userId;
     data['name'] = name;
@@ -357,7 +366,7 @@ class FarmerProject {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['dde_id'] = ddeId;
     data['mcc_id'] = mccId;

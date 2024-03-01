@@ -274,7 +274,8 @@ class _DDELandingPageState extends State<DDELandingPage> {
                             height: 130,
                             width: screenWidth(),
                             child: CarouselSlider(
-                                items: data.map((detail) => InkWell(
+                                items: data.map((detail) => detail.enquiryId == null
+                                    ? InkWell(
                                   onTap: (){
                                     BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
                                     BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
@@ -362,7 +363,94 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                       ),
                                     ),
                                   ),
-                                )).toList(),
+                                )
+                                    : InkWell(
+                                    onTap: (){
+                            // BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();
+                            // BlocProvider.of<ProfileCubit>(context).emit(ProfileCubitState.initial());
+                            // DDeFarmerInvestmentDetails(projectId: detail.farmerProject!.id,
+                            // // farmerDetail:farmerDetail
+                            // ).navigate();
+
+                            // DdeFarmerDetail(userId: detail.farmerMaster!.userId!,farmerId:detail.farmerMaster!.id!).navigate();
+                            },
+
+                              child: Container(
+                                width: screenWidth(),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(12.0, 20, 12, 22),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(1000),
+                                        child: Container(
+                                          height: AppBar().preferredSize.height * 0.7,
+                                          width: AppBar().preferredSize.height * 0.7,
+                                          decoration:
+                                          const BoxDecoration(
+                                            color: ColorResources.paidGreen,
+                                              shape: BoxShape.circle),
+                                          child: Center(child: Text(detail.enquiryName![0].capitalized())),
+                                        ),
+                                      ),
+                                      15.horizontalSpace(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(detail.enquiryName ?? '',
+                                              style: figtreeMedium.copyWith(
+                                                  fontSize: 16, color: Colors.black)),
+                                          4.verticalSpace(),
+
+                                          "Visit schedule for today".textRegular(fontSize: 12),
+
+                                          10.verticalSpace(),
+
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              'New Enquiry'.textRegular(color: Colors.grey,
+                                                  fontSize: 12),
+                                              Text(detail.farmerProject != null ? detail.farmerProject!.name ?? '' : '',
+                                                  style: figtreeRegular.copyWith(
+                                                      fontSize: 12, color: Colors.black)),
+                                            ],
+                                          ),
+                                          4.verticalSpace(),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              const Icon(
+                                                Icons.location_on,
+                                                color: Colors.black,
+                                                size: 16,
+                                              ),
+                                              SizedBox(
+                                                width:
+                                                screenWidth() * 0.5,
+                                                child: Text(
+                                                 detail.enquiryAddress ?? '' ,
+                                                  style: figtreeRegular.copyWith(
+                                                    fontSize: 12,
+                                                    color: Colors.black,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                                ).toList(),
                                 options: CarouselOptions(
                               autoPlay: false,
                               enableInfiniteScroll: false,

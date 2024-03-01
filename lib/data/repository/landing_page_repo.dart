@@ -78,7 +78,7 @@ class LandingPageRepository {
       'lang': long,
       'district': district,
       'supplier_code' : supplierId,
-      'date': date
+      'visit_date': date
     });
     print(formData.fields);
 

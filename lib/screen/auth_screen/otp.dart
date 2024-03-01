@@ -243,8 +243,12 @@ class _OtpScreenState extends State<OtpScreen> {
 
               Center(
                 child: customTextButton(onTap: (){
-                  const LoginWithOTP().navigate(isInfinity: true);
-                  BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+                  // if(widget.tag == "phone"){
+                    const LoginWithOTP().navigate(isInfinity: true);
+                    BlocProvider.of<AuthCubit>(context).emit(AuthCubitState.initial());
+                 /* }else{
+                    pressBack();
+                  }*/
                 }, text: "Cancel",color: const Color(0xff727272),
                     fontSize: 15,decoration: TextDecoration.underline),
               ),

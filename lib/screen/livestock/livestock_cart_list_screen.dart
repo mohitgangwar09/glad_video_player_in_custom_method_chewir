@@ -448,7 +448,7 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
 
                                                       if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "farmer"){
                                                         if(BlocProvider.of<ProfileCubit>(context).state.responseFarmerProfile!.farmer!.kycStatus.toString() == "verified"){
-                                                          LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text,
+                                                          LivestockKyc(id:state.responseLivestockCartList!.data![0].id!,farmerParticipation:controller.text.replaceAll(",", ""),
                                                               farmerMaster: state.responseLivestockCartList!.data![0].liveStockCartDetails![0].liveStock!.user!.farmerMaster!
                                                           ).navigate();
                                                         }else{
@@ -463,7 +463,6 @@ class _LiveStockCartListScreenState extends State<LiveStockCartListScreen> {
                                                           showCustomToast(context, "Farmer kyc is not verified");
                                                         }
                                                       }
-
                                                     }
                                                   },
                                                   height: 60,

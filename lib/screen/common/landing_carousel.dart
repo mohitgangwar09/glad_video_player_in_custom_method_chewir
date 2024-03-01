@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:glad/screen/custom_loan/custom_loan_list.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_livestock/dde_livestock_screen.dart';
 import 'package:glad/screen/farmer_screen/online_training.dart';
@@ -32,7 +33,8 @@ class _LandingCarouselState extends State<LandingCarousel> {
         20.verticalSpace(),
         CarouselSlider(
             items: [
-              Stack(
+              if(widget.todayMilkPrice !=null && widget.todayMilkPrice != 0)
+                Stack(
                   children: [
                     Image.asset(Images.milkPrice),
                     Container(
@@ -92,7 +94,15 @@ class _LandingCarouselState extends State<LandingCarousel> {
                       BlocProvider.of<DashboardCubit>(context).selectedIndex(4);
                     }
                   },
-                  child: Image.asset(Images.community))
+                  child: Image.asset(Images.community)),
+              if((context.read<AuthCubit>().sharedPreferences.getString(AppConstants.userType) ?? '') != '')
+                InkWell(
+                  onTap: () {
+                    String userType = context.read<AuthCubit>().sharedPreferences.getString(AppConstants.userType) ?? '';
+                      const CustomLoanList().navigate();
+
+                  },
+                  child: Image.asset(Images.custom)),
             ],
             options: CarouselOptions(
               autoPlay: true,
@@ -110,7 +120,7 @@ class _LandingCarouselState extends State<LandingCarousel> {
             padding: const EdgeInsets.all(5),
             child: AnimatedSmoothIndicator(
               activeIndex: activeIndex,
-              count: 5,
+              count: ((context.read<AuthCubit>().sharedPreferences.getString(AppConstants.userType) ?? '') != '' ? 6 : 5) -((widget.todayMilkPrice !=null && widget.todayMilkPrice != 0) ? 0 : 1),
               effect: const WormEffect(
                   activeDotColor: ColorResources.maroon,
                   dotHeight: 7,

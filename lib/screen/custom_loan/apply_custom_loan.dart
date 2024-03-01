@@ -570,16 +570,28 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                   border: InputBorder.none),
                             ),
                           ),
-                          20.verticalSpace(),
+                          40.verticalSpace(),
+
+                          if(state.responseLoanForm!.data!.eligibilty == 'no')
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 40),
+                              child: 'Cash advance applications are only permitted for users with at least one active project.'.textRegular(
+                                  fontSize: 12,
+                                  textAlign: TextAlign.center
+                              ),
+                            ),
+                          5.verticalSpace(),
+
 
                           Container(
-                              margin: 20.marginAll(),
+                              margin: 20.marginHorizontal(),
                               height: 55,
                               width: screenWidth(),
                               child: customButton("Apply",
+                                  opacity: state.responseLoanForm!.data!.eligibilty == 'no' ? 0.5 : 1,
                                   fontColor: 0xffffffff,
-                                  onTap: () {
-
+                                  onTap: state.responseLoanForm!.data!.eligibilty != 'no'
+                                      ? () {
                                     if(purpose == '') {
                                       showCustomToast(context, 'Purpose is required');
                                     } else if (purpose == 'Other' && purposeOfLoan.text.isEmpty){
@@ -609,7 +621,10 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       //     int.parse(period.text.toString()),
                                       //     remarks.text.toString(), widget.farmerMAster != null ? widget.farmerMAster!.id.toString() : null);
                                     }
-                                  })),
+                                  }
+                                      : () {}
+                              )
+                          ),
 
                           40.verticalSpace(),
                         ],),
