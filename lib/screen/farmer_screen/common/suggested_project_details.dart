@@ -1564,7 +1564,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         .farmerParticipation != null) {
       kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
           image: Images.farmerParticipationKpi,
-          actionImage: ["suggested","interested","rejected","deferred"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
+          actionImage: ["suggested","interested","rejected","deferred","survey_completed","survey_requested","survey_pending"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
                   .farmerParticipation!)));
@@ -1610,7 +1610,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         .repayment != null) {
       kpiData.add(FrontendKpiModel(name: 'Repayment Tenure',
           image: Images.repaymentKpi,
-          actionImage: ["suggested","interested","rejected","deferred"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
+          actionImage: ["suggested","interested","rejected","deferred","survey_completed","survey_requested","survey_pending"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
               .kpi!.repayment!} MO"));
     }
