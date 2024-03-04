@@ -1564,7 +1564,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         .farmerParticipation != null) {
       kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
           image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
+          actionImage: ["suggested","interested","rejected","deferred"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
                   .farmerParticipation!)));
@@ -1610,7 +1610,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         .repayment != null) {
       kpiData.add(FrontendKpiModel(name: 'Repayment Tenure',
           image: Images.repaymentKpi,
-          actionImage: Images.imageEdit,
+          actionImage: ["suggested","interested","rejected","deferred"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
               .kpi!.repayment!} MO"));
     }
@@ -1745,7 +1745,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                               ),
 
                               kpiData[index].actionImage!=null?
-                              kpiData[index].name.toString() == "Farmer Participation" || kpiData[index].name.toString() == "Repayment"?
+                              kpiData[index].name.toString() == "Farmer Participation" || kpiData[index].name.toString() == "Repayment Tenure"?
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?
                               const Align(alignment: Alignment.centerRight,child: Icon(Icons.watch_later,color: Colors.amber,size: 20,)):
@@ -1830,7 +1830,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                     if (kpiData[index]
                                         .name
                                         .toString() ==
-                                        "Repayment") {
+                                        "Repayment Tenure") {
                                       int quantity;
                                       if(state
                                           .responseFarmerProjectDetail!

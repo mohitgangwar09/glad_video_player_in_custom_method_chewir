@@ -239,7 +239,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                                 'created_at': Timestamp
                                                                                     .now(),
                                                                                 'negotiated_price': controller
-                                                                                    .text
+                                                                                    .text.replaceAll(",", "")
                                                                                 // "${currentUser}messageCount":FieldValue.increment(1),
                                                                               })
                                                                               .then((

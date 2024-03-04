@@ -2503,7 +2503,8 @@ class _DDeFarmerInvestmentDetailsState
       kpiData.add(FrontendKpiModel(
           name: 'Farmer Participation',
           image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
+          actionImage:['verified',"applied","approved",'active'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?
+          null:Images.imageEdit,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!
               .farmerProject![0].kpi!.farmerParticipation!)));
     }
@@ -2551,7 +2552,8 @@ class _DDeFarmerInvestmentDetailsState
         null) {
       kpiData.add(FrontendKpiModel(
           name: 'Repayment Tenure',
-          actionImage: Images.imageEdit,
+          actionImage: ['verified',"applied","approved",'active'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?
+          null:Images.imageEdit,
           image: Images.repaymentKpi,
           value:
               "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!} MO"));
@@ -2725,7 +2727,7 @@ class _DDeFarmerInvestmentDetailsState
                           ),
                           kpiData[index].actionImage != null
                               ? kpiData[index].name.toString() ==
-                                      "Farmer Participation" || kpiData[index].name.toString() == "Repayment"
+                                      "Farmer Participation" || kpiData[index].name.toString() == "Repayment Tenure"
                                   ? state
                                               .responseFarmerProjectDetail!
                                               .data!
@@ -2878,7 +2880,7 @@ class _DDeFarmerInvestmentDetailsState
                                                 if (kpiData[index]
                                                     .name
                                                     .toString() ==
-                                                    "Repayment") {
+                                                    "Repayment Tenure") {
                                                   int quantity;
                                                   if(state
                                                       .responseFarmerProjectDetail!
