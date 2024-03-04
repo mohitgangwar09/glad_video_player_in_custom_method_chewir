@@ -2190,7 +2190,7 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
     await _controller.initialize();
     chewieController = ChewieController(
         videoPlayerController: _controller,
-        autoPlay: true,
+        autoPlay: false,
         looping: true,
         showOptions: false
     );
