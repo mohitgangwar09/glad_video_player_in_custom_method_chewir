@@ -2228,18 +2228,14 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
         }
       },
       child: SizedBox(
+        width: screenWidth(),
         height: min(
             MediaQuery.of(context).size.width /
                 chewieController!.videoPlayerController.value.aspectRatio,
             350),
-        child: Align(
-          child: AspectRatio(
-            aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
-            child: Chewie(
-              controller: chewieController!,
-              key: videoPlayerKey,
-            ),
-          ),
+        child: Chewie(
+          controller: chewieController!,
+          key: videoPlayerKey,
         ),
       ),
     )

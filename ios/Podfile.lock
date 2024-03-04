@@ -906,6 +906,7 @@ PODS:
     - Flutter
   - video_player_avfoundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - video_thumbnail (0.0.1):
     - Flutter
     - libwebp
@@ -935,7 +936,7 @@ DEPENDENCIES:
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
-  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
   - video_thumbnail (from `.symlinks/plugins/video_thumbnail/ios`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
 
@@ -1019,7 +1020,7 @@ EXTERNAL SOURCES:
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player_avfoundation:
-    :path: ".symlinks/plugins/video_player_avfoundation/ios"
+    :path: ".symlinks/plugins/video_player_avfoundation/darwin"
   video_thumbnail:
     :path: ".symlinks/plugins/video_thumbnail/ios"
   wakelock_plus:
@@ -1048,7 +1049,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 9bc34a98d2e0237e1b121915120d4d48ddcf301e
   FirebaseSharedSwift: 19b3f709993d6fa1d84941d41c01e3c4c11eab93
   FirebaseStorage: 8333c4b183764cdd170d9539a61322b71c23adff
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_inappwebview: 3d32228f1304635e7c028b0d4252937730bbc6cf
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
@@ -1079,10 +1080,10 @@ SPEC CHECKSUMS:
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   Toast: ec33c32b8688982cecc6348adeae667c1b9938da
   url_launcher_ios: bf5ce03e0e2088bad9cc378ea97fa0ed5b49673b
-  video_player_avfoundation: 81e49bb3d9fb63dccf9fa0f6d877dc3ddbeac126
+  video_player_avfoundation: e9e6f9cae7d7a6d9b43519b0aab382bca60fcfd1
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   wakelock_plus: 8b09852c8876491e4b6d179e17dfe2a0b5f60d47
 
-PODFILE CHECKSUM: 27cfe88870414057439d1df94d0712f4e0c00dfa
+PODFILE CHECKSUM: 40e3ca182cfbd571c46e751b6eb8a6f2cbbf72fc
 
 COCOAPODS: 1.15.2
