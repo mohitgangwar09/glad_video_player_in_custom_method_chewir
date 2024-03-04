@@ -2194,7 +2194,6 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
         looping: true,
         showOptions: false
     );
-
     setState(() {});
   }
 
@@ -2205,11 +2204,11 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
     super.dispose();
   }
 
-  showFadingIcon() {
-    var visible = true;
-    return AnimatedOpacity(
-        opacity: visible ? 1 : 0, duration: const Duration(milliseconds: 500));
-  }
+  // showFadingIcon() {
+  //   var visible = true;
+  //   return AnimatedOpacity(
+  //       opacity: visible ? 1 : 0, duration: const Duration(milliseconds: 500));
+  // }
 
   @override
   Widget build(BuildContext context) {
