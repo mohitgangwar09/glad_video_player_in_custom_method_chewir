@@ -98,6 +98,7 @@ class _TeamMembersState extends State<TeamMembers> {
                                                   color: Colors.white,
                                                   borderRadius:
                                                   const BorderRadius.only(
+                                                      bottomRight: Radius.circular(20),
                                                       topLeft:
                                                       Radius.circular(20),
                                                       topRight:
@@ -119,21 +120,15 @@ class _TeamMembersState extends State<TeamMembers> {
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                       children: [
-                                                        Text(state.filterMemberList![index].name??'',
-                                                            style: figtreeMedium
-                                                                .copyWith(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .black)),
-                                                        4.verticalSpace(),
                                                         Row(
                                                           children: [
-                                                            Text(state.filterMemberList![index].email??'',
-                                                                style: figtreeRegular
+                                                            Text(state.filterMemberList![index].name??'',
+                                                                maxLines: 2,
+                                                                style: figtreeMedium
                                                                     .copyWith(
-                                                                    fontSize: 12,
-                                                                    color: ColorResources
-                                                                        .fieldGrey)),
+                                                                    fontSize: 18,
+                                                                    color: Colors
+                                                                        .black)),
                                                             8.horizontalSpace(),
                                                             Container(
                                                               height: 4,
@@ -144,17 +139,22 @@ class _TeamMembersState extends State<TeamMembers> {
                                                                   shape: BoxShape
                                                                       .circle),
                                                             ),
-                                                            8.horizontalSpace(),
-                                                            Expanded(
-                                                              child: Text('+256 ${state.filterMemberList![index].phone??''}',
-                                                                  style: figtreeRegular
-                                                                      .copyWith(
-                                                                      fontSize: 12,
-                                                                      color: ColorResources
-                                                                          .fieldGrey)),
-                                                            ),
                                                           ],
                                                         ),
+                                                        4.verticalSpace(),
+                                                        Text(state.filterMemberList![index].email??'',
+                                                            style: figtreeRegular
+                                                                .copyWith(
+                                                                fontSize: 12,
+                                                                color: ColorResources
+                                                                    .fieldGrey)),
+                                                        2.verticalSpace(),
+                                                        Text('+256 ${state.filterMemberList![index].phone??''}',
+                                                            style: figtreeRegular
+                                                                .copyWith(
+                                                                fontSize: 12,
+                                                                color: ColorResources
+                                                                    .fieldGrey)),
                                                       ],
                                                     ),
                                                   ),
