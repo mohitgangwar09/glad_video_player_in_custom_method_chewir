@@ -2677,7 +2677,7 @@ class _DDeFarmerInvestmentDetailsState
             crossAxisSpacing: 13,
             mainAxisExtent: 130, child: (index) {
           return MediaQuery(
-            data: screenWidth()<380 ? mediaData.copyWith(textScaleFactor: 0.91):mediaData.copyWith(textScaleFactor: 1),
+            data: screenWidth()<400 ? mediaData.copyWith(textScaleFactor: 0.9):mediaData.copyWith(textScaleFactor: 1),
             child: InkWell(
               onTap: () {
                 if (kpiData[index].name.toString() == "Paid EMIs") {
@@ -2900,6 +2900,7 @@ class _DDeFarmerInvestmentDetailsState
                                                           setState) {
                                                         return SizedBox(
                                                           height: 200,
+                                                          width: screenWidth(),
                                                           child: Column(
                                                             children: [
                                                               20.verticalSpace(),

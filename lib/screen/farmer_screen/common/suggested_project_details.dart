@@ -1850,6 +1850,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               setState) {
                                             return SizedBox(
                                               height: 200,
+                                              width: screenWidth(),
                                               child: Column(
                                                 children: [
                                                   20.verticalSpace(),
