@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
@@ -34,6 +37,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 Widget customButton(String text,
     {Widget widget = const SizedBox(),
@@ -2143,3 +2149,102 @@ CurrencyTextInputFormatter currencyFormatter({String locale = "en_US"}){
 //     return getMessageBoardCount(chatSnapShot, context);
 //   }).asyncMap((event) async => await event);
 // }
+
+class CommunityVideoPlayer extends StatefulWidget {
+  const CommunityVideoPlayer({super.key, required this.url});
+  final String url;
+
+  @override
+  State<CommunityVideoPlayer> createState() => _CommunityVideoPlayerState();
+}
+
+class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
+  late VideoPlayerController _controller;
+  ChewieController? chewieController;
+  // String? videoThumbnail;
+
+  final Key videoPlayerKey = const Key('video-player-key');
+
+  // getThumbnail(String path) async {
+  //   final x = await VideoThumbnail.thumbnailFile(
+  //       video: path,
+  //       thumbnailPath: (await getTemporaryDirectory()).path,
+  //       imageFormat: ImageFormat.JPEG,
+  //       quality: 100);
+  //   if(!mounted) return;
+  //   setState(() {
+  //     videoThumbnail = x!;
+  //   });
+  // }
+  @override
+  void initState() {
+    super.initState();
+    // getThumbnail(widget.url);
+    initialize();
+  }
+
+  initialize() async {
+    _controller = VideoPlayerController.networkUrl(
+      Uri.parse(widget.url),
+    );
+    await _controller.initialize();
+    chewieController = ChewieController(
+        videoPlayerController: _controller,
+        autoPlay: true,
+        looping: true,
+        showOptions: false
+    );
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    chewieController!.dispose();
+    super.dispose();
+  }
+
+  showFadingIcon() {
+    var visible = true;
+    return AnimatedOpacity(
+        opacity: visible ? 1 : 0, duration: const Duration(milliseconds: 500));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return chewieController != null && chewieController!.videoPlayerController.value.isInitialized
+        ? VisibilityDetector(
+      key: videoPlayerKey,
+      onVisibilityChanged: (VisibilityInfo info) {
+        if(info.visibleFraction<0.15){
+          chewieController!.videoPlayerController.pause();
+          // setState(() {
+          //   _playVis=true;
+          // });
+        }
+        if(info.visibleFraction>0.75) {
+          chewieController!.videoPlayerController.play();
+          // showAnimation();
+        }
+      },
+      child: SizedBox(
+        height: min(
+            MediaQuery.of(context).size.width /
+                chewieController!.videoPlayerController.value.aspectRatio,
+            350),
+        child: Align(
+          child: AspectRatio(
+            aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
+            child: Chewie(
+              controller: chewieController!,
+              key: videoPlayerKey,
+            ),
+          ),
+        ),
+      ),
+    )
+        // : videoThumbnail != null ? Image.file(File(videoThumbnail!), height: 350,)
+        :const SizedBox.shrink();
+  }
+}
