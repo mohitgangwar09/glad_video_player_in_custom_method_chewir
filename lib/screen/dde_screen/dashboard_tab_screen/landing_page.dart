@@ -833,7 +833,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: 120,
+                          height: 130,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -902,7 +902,6 @@ class _DDELandingPageState extends State<DDELandingPage> {
                                   )
                                 ],
                               ),
-
                             ],
                           ),
                         ),

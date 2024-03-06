@@ -1117,10 +1117,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       alignment: Alignment.center,
       children: [
         SizedBox(height: state.responseFarmerProjectDetail!.data!.farmerRatingForDde == null?
-        state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?210:240:265, width: screenWidth()),
+        state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?210:265:265, width: screenWidth()),
         Container(
           height: state.responseFarmerProjectDetail!.data!.farmerRatingForDde==null?
-          state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?150:180:215,
+          state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?150:205:215,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,

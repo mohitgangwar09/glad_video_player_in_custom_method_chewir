@@ -566,8 +566,6 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                 ),
               );
             }),
-
-
       ],
     );
   }
