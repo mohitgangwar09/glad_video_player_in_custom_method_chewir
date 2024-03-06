@@ -344,6 +344,8 @@ class ProjectCubit extends Cubit<ProjectState> {
       // farmerProjectDetailApi(context,projectId);
 
     } else {
+      disposeProgress();
+      pressBack();
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());
     }

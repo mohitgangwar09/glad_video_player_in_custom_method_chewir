@@ -338,26 +338,26 @@ class _DDEProfileState extends State<DDEProfile> {
                 )
             ],
           ),
-          if(state.responseProfile!.data!.user!.badge!=null)
-            if(state.responseProfile!.data!.user!.badge.toString() == 'silver')
+          if(state.responseDdeTarget!.data!=null)
+            if(state.responseDdeTarget!.data!.assignedBadge.toString() == 'silver')
               SvgPicture.asset(
                 Images.silver,
                 height: 55,
                 width: 55,
               )
-            else if(state.responseProfile!.data!.user!.badge.toString() == 'diamond')
+            else if(state.responseDdeTarget!.data!.assignedBadge.toString() == 'diamond')
               SvgPicture.asset(
                 Images.diamond,
                 height: 55,
                 width: 55,
               )
-            else if(state.responseProfile!.data!.user!.badge.toString() == 'gold')
+            else if(state.responseDdeTarget!.data!.assignedBadge.toString() == 'gold')
                 SvgPicture.asset(
                   Images.gold,
                   height: 55,
                   width: 55,
                 )
-              else if(state.responseProfile!.data!.user!.badge.toString() == 'platinum')
+              else if(state.responseDdeTarget!.data!.assignedBadge.toString() == 'platinum')
                   SvgPicture.asset(
                     Images.platinum,
                     height: 55,

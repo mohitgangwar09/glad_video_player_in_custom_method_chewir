@@ -1,19 +1,15 @@
+
 class ResponseDdeTarget {
   String? message;
   int? status;
-  List<DataTarget>? data;
+  DdeData? data;
 
   ResponseDdeTarget({this.message, this.status, this.data});
 
   ResponseDdeTarget.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    if (json['data'] != null) {
-      data = <DataTarget>[];
-      json['data'].forEach((v) {
-        data!.add(DataTarget.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? DdeData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,27 +17,54 @@ class ResponseDdeTarget {
     data['message'] = message;
     data['status'] = status;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
-class DataTarget {
+class DdeData {
+  List<DdeCommissionSlab>? ddeCommissionSlab;
+  String? assignedBadge;
+
+  DdeData({this.ddeCommissionSlab, this.assignedBadge});
+
+  DdeData.fromJson(Map<String, dynamic> json) {
+    if (json['DdeCommissionSlab'] != null) {
+      ddeCommissionSlab = <DdeCommissionSlab>[];
+      json['DdeCommissionSlab'].forEach((v) {
+        ddeCommissionSlab!.add(DdeCommissionSlab.fromJson(v));
+      });
+    }
+    assignedBadge = json['assignedBadge'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (ddeCommissionSlab != null) {
+      data['DdeCommissionSlab'] =
+          ddeCommissionSlab!.map((v) => v.toJson()).toList();
+    }
+    data['assignedBadge'] = assignedBadge;
+    return data;
+  }
+}
+
+class DdeCommissionSlab {
   dynamic id;
   dynamic ddeId;
   dynamic loanClosureFrom;
   dynamic loanClosureUpto;
   dynamic commissionPercent;
-  dynamic status;
+  String? status;
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic targetStatus;
+  String? createdAt;
+  String? updatedAt;
+  String? targetStatus;
 
-  DataTarget(
+  DdeCommissionSlab(
       {this.id,
         this.ddeId,
         this.loanClosureFrom,
@@ -55,7 +78,7 @@ class DataTarget {
         this.updatedAt,
         this.targetStatus});
 
-  DataTarget.fromJson(Map<String, dynamic> json) {
+  DdeCommissionSlab.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     ddeId = json['dde_id'];
     loanClosureFrom = json['loan_closure_from'];

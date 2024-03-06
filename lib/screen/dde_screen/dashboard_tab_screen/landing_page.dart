@@ -272,7 +272,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 130,
+                            height: 135,
                             width: screenWidth(),
                             child: CarouselSlider(
                                 items: data.map((detail) => detail.enquiryId == null
@@ -592,7 +592,7 @@ class _DDELandingPageState extends State<DDELandingPage> {
 
             Container(
               margin: const EdgeInsets.only(left: 10, right: 20),
-              height: 220,
+              height: 240,
               child: customList(
                   list: List.generate(
                       state.responseDdeProject!.data!

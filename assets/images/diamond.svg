@@ -1,12 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18.498" height="24.5" viewBox="0 0 18.498 24.5">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="76.84" height="103.77" viewBox="0 0 76.84 103.77">
   <defs>
-    <linearGradient id="linear-gradient" x1="0.5" y1="-1.759" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#dcdcdc"/>
-      <stop offset="1" stop-color="#475660"/>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4d5c66"/>
+      <stop offset="1" stop-color="#758087"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f9f9f9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#505f69"/>
+      <stop offset="1" stop-color="#707c83"/>
     </linearGradient>
   </defs>
-  <g id="Diamond" transform="translate(1208.366 22400)">
-    <path id="Path_6128" data-name="Path 6128" d="M200,383.393a8.383,8.383,0,0,0-1.771.736l-1.88,1.063a2.032,2.032,0,0,1-1.69,0l-1.88-1.063a10.122,10.122,0,0,0-1.771-.736l-1.254-.354-2.153,5.505,3.788-1.172,2.344,2.916,1.526-4.142,2.562,4.142,2.044-3.216,3.515.3-2.562-4.2Z" transform="translate(-1394.634 -22765.789)" fill-rule="evenodd" fill="url(#linear-gradient)"/>
-    <path id="Path_6129" data-name="Path 6129" d="M178.506,37.039l-.954-1.69a10.134,10.134,0,0,1-.654-1.581l-.545-1.853a1.715,1.715,0,0,0-1.063-1.063l-1.853-.545a10.14,10.14,0,0,1-1.581-.654l-1.69-.927a1.8,1.8,0,0,0-1.5,0l-1.717.927a10.134,10.134,0,0,1-1.581.654l-1.853.545a1.715,1.715,0,0,0-1.063,1.063l-.545,1.853a10.147,10.147,0,0,1-.654,1.581l-.927,1.69a1.8,1.8,0,0,0,0,1.5l.927,1.69a10.133,10.133,0,0,1,.654,1.581l.545,1.853a1.715,1.715,0,0,0,1.063,1.063l1.853.545a10.146,10.146,0,0,1,1.581.654l1.69.927a1.8,1.8,0,0,0,1.5,0l1.69-.927a10.135,10.135,0,0,1,1.581-.654l1.853-.545a1.715,1.715,0,0,0,1.063-1.063l.545-1.853a10.145,10.145,0,0,1,.654-1.581l.927-1.69a1.619,1.619,0,0,0,.055-1.5Z" transform="translate(-1368.531 -22428.564)" fill="url(#linear-gradient)"/>
+  <g id="Diamond" transform="translate(-1140.159 -319)">
+    <g id="Group_12680" data-name="Group 12680" transform="translate(2348.525 22719.004)">
+      <path id="Path_6128" data-name="Path 6128" d="M239.247,384.488a35.257,35.257,0,0,0-7.377,3.01l-7.832,4.348a8.6,8.6,0,0,1-7.037,0l-7.832-4.348a42.581,42.581,0,0,0-7.377-3.01l-5.222-1.449L187.6,405.557l15.777-4.793,9.761,11.928,6.356-16.945,10.67,16.945,8.513-13.154,14.641,1.226L242.652,383.6Z" transform="translate(-1390.507 -22710.926)" fill="#3c4a54" fill-rule="evenodd"/>
+      <path id="Path_6129" data-name="Path 6129" d="M236.352,63.946l-3.962-7.054a42.427,42.427,0,0,1-2.717-6.6l-2.264-7.736a7.143,7.143,0,0,0-4.415-4.437l-7.7-2.275a42,42,0,0,1-6.567-2.731l-7.019-3.868a7.44,7.44,0,0,0-6.227,0l-7.131,3.868a41.98,41.98,0,0,1-6.566,2.731l-7.7,2.275a7.144,7.144,0,0,0-4.415,4.437l-2.264,7.736a42.482,42.482,0,0,1-2.717,6.6l-3.849,7.054a7.545,7.545,0,0,0,0,6.258l3.849,7.054a42.423,42.423,0,0,1,2.717,6.6l2.264,7.736a7.144,7.144,0,0,0,4.415,4.437l7.7,2.275a42.029,42.029,0,0,1,6.566,2.731l7.019,3.868a7.44,7.44,0,0,0,6.227,0l7.019-3.868a41.986,41.986,0,0,1,6.566-2.731l7.7-2.275a7.143,7.143,0,0,0,4.415-4.437l2.264-7.736a42.477,42.477,0,0,1,2.717-6.6l3.849-7.054a6.787,6.787,0,0,0,.227-6.258Z" transform="translate(-1368.531 -22428.568)" fill="url(#linear-gradient)"/>
+    </g>
+    <g id="Group_12685" data-name="Group 12685">
+      <g id="Ellipse_1626" data-name="Ellipse 1626" transform="translate(1150.16 329.271)" stroke="#4f5d67" stroke-width="1" fill="url(#linear-gradient-2)">
+        <circle cx="28" cy="28" r="28" stroke="none"/>
+        <circle cx="28" cy="28" r="27.5" fill="none"/>
+      </g>
+      <text id="Name" transform="translate(1178.16 361.271)" font-size="11.5" font-family="Figtree-Bold, Figtree" font-weight="700" letter-spacing="-0.06em"><tspan x="-25" y="0">DIAMOND</tspan></text>
+      <path id="Path_6130" data-name="Path 6130" d="M239.111,384.511a34.826,34.826,0,0,0-7.358,3.057l-7.811,4.415a8.442,8.442,0,0,1-7.018,0l-7.811-4.415a42.062,42.062,0,0,0-7.358-3.057l-5.208-1.472L187.6,405.906l15.735-4.867,9.736,12.112,6.339-17.207,10.641,17.207,8.49-13.358,14.6,1.245-10.641-17.433Z" transform="translate(957.944 9.619)" fill-rule="evenodd" fill="url(#linear-gradient-3)"/>
+      <path id="Path_6131" data-name="Path 6131" d="M253.148,401.039l-10.641-17.433Z" transform="translate(957.944 7.619)" fill="#999" fill-rule="evenodd"/>
+    </g>
   </g>
 </svg>

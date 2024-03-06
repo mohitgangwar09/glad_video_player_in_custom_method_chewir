@@ -653,9 +653,9 @@ class _SurveyDetailsState extends State<SurveyDetails> {
             Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(height: 153, width: screenWidth()),
+                SizedBox(height: 160, width: screenWidth()),
                 Container(
-                  height: 100,
+                  height: 110,
                   width: screenWidth(),
                   decoration: BoxDecoration(
                       color: Colors.white,

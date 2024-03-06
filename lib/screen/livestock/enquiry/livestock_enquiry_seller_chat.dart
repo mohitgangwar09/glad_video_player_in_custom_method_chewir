@@ -340,13 +340,12 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                 fontColor: 0xffFFFFFF,
                                                                 onTap: () {
                                                                   if (controller
-                                                                      .text.replaceAll(",", "")
+                                                                      .text
                                                                       .isEmpty) {
                                                                     showCustomToast(
                                                                         context,
                                                                         "Please enter negotiated price");
-                                                                  } else
-                                                                  if (double
+                                                                  } else if (double
                                                                       .parse(
                                                                       controller
                                                                           .text.replaceAll(",", "")) >
@@ -386,7 +385,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                           'created_at': Timestamp
                                                                               .now(),
                                                                           'negotiated_price': controller
-                                                                              .text
+                                                                              .text.replaceAll(",", "")
                                                                           // "${currentUser}messageCount":FieldValue.increment(1),
                                                                         })
                                                                         .then((
@@ -614,7 +613,6 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                       );
                     }
                 ),
-
 
                 Container(
                   height: AppBar().preferredSize.height * 1.5,
