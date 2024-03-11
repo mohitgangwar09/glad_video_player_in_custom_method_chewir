@@ -9,6 +9,7 @@ import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/landing_page_cubit/landing_page_cubit.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/cubit/weather_cubit/weather_cubit.dart';
+import 'package:glad/notification/fcm_helper.dart';
 import 'package:glad/screen/auth_screen/introslider.dart';
 import 'package:glad/screen/dde_screen/dashboard/dashboard_dde.dart';
 import 'package:glad/screen/extra_screen/add_item_list.dart';
@@ -37,7 +38,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void _route() async {
     await initPlatformState();
     if(!mounted)return;
-
+    if(await SharedPrefManager.getPreferenceString(AppConstants.fcmToken)== ""){
+      FcmHelper().initFirebase();
+    }
     await BlocProvider.of<AuthCubit>(context).getLocation(context);
     if(!mounted)return;
     await BlocProvider.of<LandingPageCubit>(context).getCurrentLocation();

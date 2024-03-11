@@ -11,6 +11,7 @@ import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/data/model/frontend_kpi_model.dart';
 import 'package:glad/data/model/response_project_data_firebase.dart';
 import 'package:glad/screen/chat/firebase_chat_screen.dart';
+import 'package:glad/screen/custom_widget/container_border.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/dde_screen/add_project_milestone.dart';
@@ -22,6 +23,7 @@ import 'package:glad/screen/supplier_screen/supplier_farmer_detail.dart';
 import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
+import 'package:glad/utils/helper.dart';
 import 'package:glad/utils/images.dart';
 import 'package:glad/utils/sharedprefrence.dart';
 import 'package:glad/utils/styles.dart';
@@ -46,6 +48,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
 
   TextEditingController controller = TextEditingController();
   bool paymentTerms = false;
+  String docOneFile = "";
 
   @override
   void initState() {
@@ -316,7 +319,7 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                                   state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
                                                   controller.text ?? '',
                                                   'survey_accepted',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                                  state.responseFarmerProjectDetail!.data!.farmerProject![0], widget.selectedFilter);
+                                                  state.responseFarmerProjectDetail!.data!.farmerProject![0], widget.selectedFilter,);
                                             }
                                           },
                                           height: 60,
@@ -339,58 +342,179 @@ class _SurveyDetailsState extends State<SurveyDetails> {
               fontColor: 0xffffffff, onTap: () {
                 modalBottomSheetMenu(context,
                     radius: 40,
-                    child: SizedBox(
-                      height: 320,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Remarks',
-                                  style: figtreeMedium.copyWith(fontSize: 22),
-                                ),
-                              ),
-                              30.verticalSpace(),
-                              TextField(
-                                maxLines: 4,
-                                minLines: 4,
-                                controller: controller,
-                                decoration: InputDecoration(
-                                    hintText: 'Write...',
-                                    hintStyle:
-                                    figtreeMedium.copyWith(fontSize: 18),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: const BorderSide(
-                                          width: 1,
-                                          color: Color(0xff999999),
-                                        ))),
-                              ),
-                              30.verticalSpace(),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
-                                child: customButton(
-                                  'Submit',
-                                  fontColor: 0xffFFFFFF,
-                                  onTap: () {
-                                    if(controller.text.isEmpty){
-                                      showCustomToast(context, "Please enter remarks");
-                                    }else{
-                                      context.read<ProjectCubit>().surveyStatusApi(context,
-                                          state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
-                                          controller.text ?? '',
-                                          'survey_completed',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
-                                          state.responseFarmerProjectDetail!.data!.farmerProject![0], widget.selectedFilter);
-                                    }
-                                  },
-                                  height: 60,
-                                  width: screenWidth(),
-                                ),
-                              )
-                            ]),
-                      ),
+                    child: StatefulBuilder(
+                      builder: (BuildContext context, void Function(void Function()) setState) {
+                        return SizedBox(
+                          height: docOneFile == ""?450:550,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(23, 40, 25, 10),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  Center(
+                                    child: Text(
+                                      'Remarks',
+                                      style: figtreeMedium.copyWith(fontSize: 22),
+                                    ),
+                                  ),
+                                  30.verticalSpace(),
+                                  TextField(
+                                    maxLines: 4,
+                                    minLines: 4,
+                                    controller: controller,
+                                    decoration: InputDecoration(
+                                        hintText: 'Write...',
+                                        hintStyle:
+                                        figtreeMedium.copyWith(fontSize: 18),
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                              width: 1,
+                                              color: Color(0xff999999),
+                                            ))),
+                                  ),
+                                  30.verticalSpace(),
+                                  Stack(
+                                    children: [
+                                      ContainerBorder(
+                                        margin: 0.marginVertical(),
+                                        padding: 10.paddingOnly(top: 15, bottom: 15),
+                                        borderColor: 0xffD9D9D9,
+                                        backColor: 0xffFFFFFF,
+                                        radius: 10,
+                                        widget: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            5.horizontalSpace(),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, top: 2, bottom: 2),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    RichText(
+                                                        text: TextSpan(children: [
+                                                          TextSpan(
+                                                              text: 'Choose ',
+                                                              style: figtreeMedium.copyWith(
+                                                                  fontSize: 16,
+                                                                  color: const Color(
+                                                                      0xFFFC5E60))),
+                                                          TextSpan(
+                                                              text: 'you file here',
+                                                              style: figtreeMedium.copyWith(
+                                                                  fontSize: 16,
+                                                                  color: ColorResources
+                                                                      .fieldGrey))
+                                                        ])),
+                                                    Text('Max size 5 MB',
+                                                        style: figtreeMedium.copyWith(
+                                                            fontSize: 12,
+                                                            color:
+                                                            ColorResources.fieldGrey))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 13,
+                                        top: 0,
+                                        bottom: 0,
+                                        child: Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async{
+                                                var image = await imgFromGallery();
+                                                docOneFile = image.toString();
+                                                setState(() {});
+                                              },
+                                              child: SvgPicture.asset(
+                                                Images.attachment,
+                                                colorFilter: const ColorFilter.mode(
+                                                    ColorResources.fieldGrey,
+                                                    BlendMode.srcIn),
+                                              ),
+                                            ),
+                                            10.horizontalSpace(),
+                                            InkWell(
+                                              onTap: () async{
+                                                var image = await imgFromCamera();
+                                                docOneFile = image.toString();
+                                                setState(() {});
+                                              },
+                                              child: SvgPicture.asset(
+                                                Images.camera,
+                                                colorFilter: const ColorFilter.mode(
+                                                    ColorResources.fieldGrey,
+                                                    BlendMode.srcIn),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  if(docOneFile != "")
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                      child: Column(
+                                        children: [
+                                          20.verticalSpace(),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+
+                                              Row(
+                                                children: [
+                                                  documentImage(docOneFile, () {
+                                                    setState(() {
+                                                      docOneFile = "";
+                                                    });
+                                                  }),
+                                                  10.horizontalSpace(),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                  30.verticalSpace(),
+
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(28, 0, 29, 0),
+                                    child: customButton(
+                                      'Submit',
+                                      fontColor: 0xffFFFFFF,
+                                      onTap: () {
+                                        if(controller.text.isEmpty){
+                                          showCustomToast(context, "Please enter remarks");
+                                        }else{
+                                          context.read<ProjectCubit>().surveyStatusApi(context,
+                                              state.responseFarmerProjectDetail!.data!.farmerProject![0].id,
+                                              controller.text ?? '',
+                                              'survey_completed',state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerId.toString(),
+                                              state.responseFarmerProjectDetail!.data!.farmerProject![0], widget.selectedFilter,
+                                              surveyQuotationImage: docOneFile);
+                                        }
+                                      },
+                                      height: 60,
+                                      width: screenWidth(),
+                                    ),
+                                  )
+                                ]),
+                          ),
+                        );
+                      },
                     ));
               }),
         ):const SizedBox.shrink()

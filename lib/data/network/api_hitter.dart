@@ -34,9 +34,9 @@ class ApiHitter {
     if (dio == null) {
       BaseOptions options =   BaseOptions(
         baseUrl: baseurl.isEmpty ?AppConstants.baseUrl : baseurl,
-        connectTimeout:const Duration(seconds: 30) ,
-        receiveTimeout: const Duration(seconds: 30),
-        sendTimeout: const Duration(seconds: 30)
+        connectTimeout:const Duration(minutes: 2) ,
+        receiveTimeout: const Duration(minutes: 2),
+        sendTimeout: const Duration(minutes: 2)
       );
       return   Dio(options)
         ..interceptors.add(InterceptorsWrapper(

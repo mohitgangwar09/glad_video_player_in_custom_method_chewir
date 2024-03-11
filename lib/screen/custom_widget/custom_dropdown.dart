@@ -63,7 +63,7 @@ class CustomDropdown extends StatelessWidget {
             ContainerBorder(
               margin: 0.marginVertical(),
               height: 60,
-              padding: 10.paddingOnly(top: 14, bottom: 14),
+              padding: 10.paddingOnly(top: 10, bottom: 10),
               borderColor: borderColor,
               backColor: backgroundColor,
               radius: 10,

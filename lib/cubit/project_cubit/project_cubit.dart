@@ -327,24 +327,24 @@ class ProjectCubit extends Cubit<ProjectState> {
 
   // surveyStatusApi
   void surveyStatusApi(context, int projectId,
-      String remark,String projectStatus,String farmerId,dde.FarmerProject projectSurvey, String selectedFilter) async {
-    customDialog(widget: launchProgress());
+      String remark,String projectStatus,String farmerId,dde.FarmerProject projectSurvey, String selectedFilter,{String? surveyQuotationImage}) async {
+    // customDialog(widget: launchProgress());
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, "",
-        remark,projectStatus,farmerId);
+        remark,projectStatus,farmerId,surveyQuotation: File(surveyQuotationImage ?? ''));
     if (response.status == 200) {
-      disposeProgress();
+      // disposeProgress();
       if(projectStatus == "survey_rejected"){
-        RejectScreen(farmerProjectSurvey: projectSurvey,).navigate();
+        RejectScreen(farmerProjectSurvey: projectSurvey,).navigate(isInfinity: true);
       }else if(projectStatus == "survey_accepted"){
-        AcceptScreen(farmerProjectSurvey: projectSurvey,).navigate();
+        AcceptScreen(farmerProjectSurvey: projectSurvey,).navigate(isInfinity: true);
       }else{
-        SurveyFinishedScreen(farmerProjectSurvey: projectSurvey,).navigate();
+        SurveyFinishedScreen(farmerProjectSurvey: projectSurvey,).navigate(isInfinity: true);
       }
       supplierProjectsApi(context, selectedFilter, true);
       // farmerProjectDetailApi(context,projectId);
 
     } else {
-      disposeProgress();
+      // disposeProgress();
       pressBack();
       emit(state.copyWith(status: ProjectStatus.error));
       showCustomToast(context, response.message.toString());

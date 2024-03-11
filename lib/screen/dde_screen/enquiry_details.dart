@@ -211,7 +211,7 @@ class EnquiryDetailsScreenState extends State<EnquiryDetailsScreen> {
                                             ),
                                             10.verticalSpace(),
                                             Row(children: [
-                                              Text('Supplier Id: ',
+                                              Text('Farmer ID: ',
                                                   style: figtreeRegular.copyWith(
                                                       fontSize: 14,
                                                       color: Colors.black)),

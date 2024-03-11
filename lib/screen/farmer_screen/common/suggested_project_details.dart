@@ -1423,9 +1423,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(height: 200, width: screenWidth()),
+        SizedBox(height: 220, width: screenWidth()),
         Container(
-          height: 150,
+          height: 170,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,

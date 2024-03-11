@@ -26,7 +26,6 @@ GlobalKey<NavigatorState>? navigatorKey;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   FcmHelper().initFirebase();
 
   await di.init();
