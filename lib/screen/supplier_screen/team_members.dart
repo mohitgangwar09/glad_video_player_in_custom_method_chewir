@@ -98,7 +98,8 @@ class _TeamMembersState extends State<TeamMembers> {
                                                   color: Colors.white,
                                                   borderRadius:
                                                   const BorderRadius.only(
-                                                      bottomRight: Radius.circular(20),
+                                                      bottomRight:
+                                                      Radius.circular(20),
                                                       topLeft:
                                                       Radius.circular(20),
                                                       topRight:
