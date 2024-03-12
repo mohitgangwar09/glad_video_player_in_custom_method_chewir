@@ -357,12 +357,18 @@ class _DDEProfileState extends State<DDEProfile> {
                   height: 55,
                   width: 55,
                 )
-              else if(state.responseDdeTarget!.data!.assignedBadge.toString() == 'platinum')
-                  SvgPicture.asset(
+            else if(state.responseDdeTarget!.data!.assignedBadge.toString() == 'platinum')
+               SvgPicture.asset(
                     Images.platinum,
                     height: 55,
                     width: 55,
                   )
+            else if(state.responseDdeTarget!.data!.assignedBadge.toString() == 'bronze')
+               SvgPicture.asset(
+                      Images.bronze,
+                      height: 55,
+                      width: 55,
+                    )
         ],
       ),
     ):const SizedBox(width: 0,height: 0,);

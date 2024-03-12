@@ -246,6 +246,8 @@ class ProjectRepository {
         'farmer_id': farmerId,
       });
     }else{
+      "isNotEmpty".toast();
+      surveyQuotation.path.toast();
       formData = FormData.fromMap({
         'farmer_project_id': projectId,
         'date': date,
@@ -261,13 +263,7 @@ class ProjectRepository {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.addInviteExpertForSurveyApi,
 
-        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
-          'farmer_project_id': projectId,
-          'date': date,
-          'remarks': remark,
-          'project_status': projectStatus,
-          'farmer_id': farmerId,
-        });
+        headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: formData);
 
 
     if (apiResponse.status) {

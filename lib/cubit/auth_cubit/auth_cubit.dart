@@ -88,7 +88,7 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
   void emailValidateWithSupplierId(){
     if(state.emailController.text.isEmpty){
-      emit(state.copyWith(validator: 'email',validatorString: "Please enter email/supplier id"));
+      emit(state.copyWith(validator: 'email',validatorString: "Please enter email/farmer id"));
     }else{
       emit(state.copyWith(validator: ''));
     }
