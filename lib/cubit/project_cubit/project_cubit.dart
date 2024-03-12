@@ -307,7 +307,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       String remark,String projectStatus,String farmerId) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
-        remark,projectStatus,farmerId);
+        remark,projectStatus,farmerId,surveyQuotation: File(""));
     if (response.status == 200) {
       disposeProgress();
       showCustomToast(context, response.message.toString(), isSuccess: true);
@@ -476,7 +476,7 @@ class ProjectCubit extends Cubit<ProjectState> {
           remarks,
           selectStatus,
           farmerId.toString(),
-          profileData,sharedPreferences.getString(AppConstants.userType)!
+          profileData,sharedPreferences.getString(AppConstants.userType)!,
       );
     }
     else
@@ -508,7 +508,8 @@ class ProjectCubit extends Cubit<ProjectState> {
           remarks,
           selectStatus,
           farmerId.toString(),
-          profileData,sharedPreferences.getString(AppConstants.userType)!
+          profileData,sharedPreferences.getString(AppConstants.userType)!,
+
       );
     }
     else
@@ -658,7 +659,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData,String navigateFrom) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
-        remark,projectStatus,farmerId);
+        remark,projectStatus,farmerId,surveyQuotation: File(""));
     if (response.status == 200) {
 
       CongratulationScreen(navigateFrom: navigateFrom).navigate(isInfinity: true);
@@ -678,7 +679,7 @@ class ProjectCubit extends Cubit<ProjectState> {
       String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData,String navigateFrom) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
-        remark,projectStatus,farmerId);
+        remark,projectStatus,farmerId,surveyQuotation: File(''));
     if (response.status == 200) {
 
       ThankYou(
@@ -702,10 +703,9 @@ class ProjectCubit extends Cubit<ProjectState> {
       String remark,String projectStatus,String farmerId,dde.FarmerMaster profileData) async {
     customDialog(widget: launchProgress());
     var response = await apiRepository.inviteExpertForSurveyApi(projectId, date,
-        remark,projectStatus,farmerId);
+        remark,projectStatus,farmerId,surveyQuotation: File(''));
+
     if (response.status == 200) {
-
-
 
       ThankYouMcc(
           profileData:profileData,projectStatus:projectStatus
