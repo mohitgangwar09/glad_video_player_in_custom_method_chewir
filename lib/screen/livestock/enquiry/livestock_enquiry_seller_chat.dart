@@ -279,7 +279,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                   ), onTap: () {
                                     TextEditingController controller = TextEditingController();
                                     controller.text =
-                                        widget.defaultPrice.toString();
+                                        currencyFormatter().format(widget.defaultPrice.toString());
 
                                     modalBottomSheetMenu(context, radius: 40,
                                         child: StatefulBuilder(
@@ -310,7 +310,8 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                               controller: controller,
                                                               maxLines: 1,
                                                               inputFormatters: [
-                                                                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                                                                currencyFormatter()
+                                                                // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
                                                               ],
                                                               keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                                               minLines: 1,
@@ -344,11 +345,10 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                     showCustomToast(
                                                                         context,
                                                                         "Please enter negotiated price");
-                                                                  } else
-                                                                  if (double
+                                                                  } else if (double
                                                                       .parse(
                                                                       controller
-                                                                          .text) >
+                                                                          .text.replaceAll(",", "")) >
                                                                       double
                                                                           .parse(
                                                                           widget
@@ -365,7 +365,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                         widget
                                                                             .livestockId,
                                                                         controller
-                                                                            .text,
+                                                                            .text.replaceAll(",", ""),
                                                                         widget
                                                                             .userId);
                                                                     FirebaseFirestore
@@ -385,7 +385,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                                           'created_at': Timestamp
                                                                               .now(),
                                                                           'negotiated_price': controller
-                                                                              .text
+                                                                              .text.replaceAll(",", "")
                                                                           // "${currentUser}messageCount":FieldValue.increment(1),
                                                                         })
                                                                         .then((
@@ -613,7 +613,6 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                       );
                     }
                 ),
-
 
                 Container(
                   height: AppBar().preferredSize.height * 1.5,

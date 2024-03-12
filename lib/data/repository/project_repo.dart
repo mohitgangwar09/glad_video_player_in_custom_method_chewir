@@ -23,6 +23,7 @@ import 'package:glad/data/model/response_resource_name.dart';
 import 'package:glad/data/model/response_resource_type.dart';
 import 'package:glad/data/model/supplier_project_model.dart';
 import 'package:glad/utils/app_constants.dart';
+import 'package:glad/utils/extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:glad/data/network/api_hitter.dart' as api_hitter;
 
@@ -232,17 +233,42 @@ class ProjectRepository {
 
   ///////////////// getDdeProjectsApi //////////
   Future<ResponseOtpModel> inviteExpertForSurveyApi(int projectId, String date,
-      String remark,String projectStatus,String farmerId) async {
+      String remark,String projectStatus,String farmerId,{File? surveyQuotation}) async {
+    FormData formData;
+
+    if(surveyQuotation!.path.isEmpty){
+      formData = FormData.fromMap({
+        // 'dde_id' : ddeId,
+        'farmer_project_id': projectId,
+        'date': date,
+        'remarks': remark,
+        'project_status': projectStatus,
+        'farmer_id': farmerId,
+      });
+    }else{
+      formData = FormData.fromMap({
+        'farmer_project_id': projectId,
+        'date': date,
+        'remarks': remark,
+        'project_status': projectStatus,
+        'farmer_id': farmerId,
+        "survey_upload_quotation" : await MultipartFile.fromFile(surveyQuotation.path.toString())
+      });
+
+    }
+
+
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getPostApiResponse(AppConstants.addInviteExpertForSurveyApi,
+
         headers: {'Authorization': 'Bearer ${getUserToken()}'}, data: {
-          // 'dde_id' : ddeId,
           'farmer_project_id': projectId,
           'date': date,
           'remarks': remark,
           'project_status': projectStatus,
           'farmer_id': farmerId,
         });
+
 
     if (apiResponse.status) {
       return ResponseOtpModel.fromJson(apiResponse.response!.data);

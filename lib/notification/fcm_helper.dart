@@ -37,13 +37,15 @@ class FcmHelper {
     _firebaseApp = await Firebase.initializeApp();
     // _firebaseAnalytics = FirebaseAnalytics.instanceFor(app: _firebaseApp);
 
+    await initLocalNotifications();
+
     //Getting the token from FCM
     _firebaseMessaging.getToken().then((value) async{
       print("fcmToken---- $value");
       await SharedPrefManager.savePrefString(AppConstants.fcmToken, value.toString());
     });
 
-    await initLocalNotifications();
+    // await initLocalNotifications();
 
     FirebaseMessaging.onBackgroundMessage(
       msyBackgroundMessageHandler,

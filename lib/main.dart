@@ -26,7 +26,6 @@ GlobalKey<NavigatorState>? navigatorKey;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   FcmHelper().initFirebase();
 
   await di.init();
@@ -53,6 +52,13 @@ Future<void> main() async {
     ],
     child: GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: (BuildContext context, Widget? child){
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+              textScaleFactor: 1.0),
+          child: child!,
+        );
+      },
       home: const MyApp(),
       navigatorKey: navigatorKey,
     ),

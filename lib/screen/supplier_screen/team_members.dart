@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glad/cubit/profile_cubit/profile_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
@@ -114,8 +116,31 @@ class _TeamMembersState extends State<TeamMembers> {
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                                 children: [
-                                                  Image.asset(Images.sampleUser),
+                                                  if(state.filterMemberList![index].photo!=null)
+                                                    ClipRRect(
+                                                      borderRadius: BorderRadius.circular(1000),
+                                                      child: Container(
+                                                        height: AppBar().preferredSize.height * 0.7,
+                                                        width: AppBar().preferredSize.height * 0.7,
+                                                        decoration:
+                                                        const BoxDecoration(shape: BoxShape.circle),
+                                                        child: CachedNetworkImage(
+                                                          imageUrl: state.filterMemberList![index].photo??'',
+                                                          errorWidget: (_, __, ___) =>
+                                                              SvgPicture.asset(Images.person),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  else
+                                                    state.filterMemberList![index].name!=null?
+                                                    CircleAvatar(
+                                                      radius: 24,
+                                                      child: Text(state.filterMemberList![index].name!.substring(0,1)),
+                                                    ):const SizedBox.shrink(),
+
                                                   15.horizontalSpace(),
+
                                                   Expanded(
                                                     child: Column(
                                                       crossAxisAlignment:

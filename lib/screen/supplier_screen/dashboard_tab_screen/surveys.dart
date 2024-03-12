@@ -257,7 +257,7 @@ class _SurveysScreenState extends State<SurveysScreen> {
                                       ? const Color(0xff6A0030)
                                       : Colors.white,
                                   borderRadius: 62),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 7),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

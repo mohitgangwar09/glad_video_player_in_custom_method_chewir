@@ -30,8 +30,6 @@ class LandingPageRepository {
     api_hitter.ApiResponse apiResponse = await api_hitter.ApiHitter()
         .getApiResponse(AppConstants.farmerDashboardApi,
             headers: {'Authorization': 'Bearer ${getUserToken()}'});
-    print("dde");
-    print(apiResponse.response!.data["dde"]);
     if (apiResponse.status) {
       return FarmerDashboard.fromJson(apiResponse.response!.data);
     }else

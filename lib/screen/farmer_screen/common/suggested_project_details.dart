@@ -1117,10 +1117,10 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
       alignment: Alignment.center,
       children: [
         SizedBox(height: state.responseFarmerProjectDetail!.data!.farmerRatingForDde == null?
-        state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?210:240:265, width: screenWidth()),
+        state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?210:265:265, width: screenWidth()),
         Container(
           height: state.responseFarmerProjectDetail!.data!.farmerRatingForDde==null?
-          state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?150:180:215,
+          state.responseFarmerProjectDetail!.data!.farmerRatingForDde != null && state.responseFarmerProjectDetail!.data!.ddeRatingForFarmer == null?150:205:215,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -1423,9 +1423,9 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
     Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(height: 200, width: screenWidth()),
+        SizedBox(height: 220, width: screenWidth()),
         Container(
-          height: 150,
+          height: 170,
           width: screenWidth(),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -1564,7 +1564,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         .farmerParticipation != null) {
       kpiData.add(FrontendKpiModel(name: 'Farmer Participation',
           image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
+          actionImage: ["suggested","interested","rejected","deferred","survey_completed","survey_requested","survey_pending"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
           value: getCurrencyString(
               state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!
                   .farmerParticipation!)));
@@ -1610,7 +1610,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
         .repayment != null) {
       kpiData.add(FrontendKpiModel(name: 'Repayment Tenure',
           image: Images.repaymentKpi,
-          actionImage: Images.imageEdit,
+          actionImage: ["suggested","interested","rejected","deferred","survey_completed","survey_requested","survey_pending"].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?Images.imageEdit:null,
           value: "${state.responseFarmerProjectDetail!.data!.farmerProject![0]
               .kpi!.repayment!} MO"));
     }
@@ -1745,7 +1745,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                               ),
 
                               kpiData[index].actionImage!=null?
-                              kpiData[index].name.toString() == "Farmer Participation" || kpiData[index].name.toString() == "Repayment"?
+                              kpiData[index].name.toString() == "Farmer Participation" || kpiData[index].name.toString() == "Repayment Tenure"?
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].farmerParticipationStatus.toString() == 'pending'?
                               state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "hold"||state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus.toString() == "completed"?
                               const Align(alignment: Alignment.centerRight,child: Icon(Icons.watch_later,color: Colors.amber,size: 20,)):
@@ -1830,7 +1830,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                     if (kpiData[index]
                                         .name
                                         .toString() ==
-                                        "Repayment") {
+                                        "Repayment Tenure") {
                                       int quantity;
                                       if(state
                                           .responseFarmerProjectDetail!
@@ -1850,6 +1850,7 @@ class _SuggestedProjectDetailsState extends State<SuggestedProjectDetails> {
                                               setState) {
                                             return SizedBox(
                                               height: 200,
+                                              width: screenWidth(),
                                               child: Column(
                                                 children: [
                                                   20.verticalSpace(),

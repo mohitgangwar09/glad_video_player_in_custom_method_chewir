@@ -2009,7 +2009,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
             if(state.responseDdeTarget!=null)
               if(state.responseDdeTarget!.data!=null)
               customGrid(context,
-                  list: state.responseDdeTarget!.data!,
+                  list: state.responseDdeTarget!.data!.ddeCommissionSlab!,
                   crossAxisCount: 2,
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 13,
@@ -2038,7 +2038,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${state.responseDdeTarget!.data![index].commissionPercent.toString()}%',
+                                  '${state.responseDdeTarget!.data!.ddeCommissionSlab![index].commissionPercent.toString()}%',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: figtreeMedium.copyWith(fontSize: 26),
@@ -2046,20 +2046,20 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                                 10.horizontalSpace(),
                                 Container(
                                   // width: screenWidth(),
-                                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                   height: 28,
                                   decoration: BoxDecoration(
-                                    color: state.responseDdeTarget!.data![index].targetStatus == "Pending"?const Color(0xff6A0030):
-                                    state.responseDdeTarget!.data![index].targetStatus == "In progress"?
+                                    color: state.responseDdeTarget!.data!.ddeCommissionSlab![index].targetStatus == "Pending"?const Color(0xff6A0030):
+                                    state.responseDdeTarget!.data!.ddeCommissionSlab![index].targetStatus == "In progress"?
                                     const Color(0xffF2CA00):const Color(0xff12CE57),
 
                                     borderRadius: BorderRadius.circular(130),
                                   ),
                                   child: Align(
                                       alignment: Alignment.center
-                                      ,child: (state.responseDdeTarget!.data![index].targetStatus ?? '').toString().textMedium(
+                                      ,child: (state.responseDdeTarget!.data!.ddeCommissionSlab![index].targetStatus ?? '').toString().textMedium(
                                       fontSize: 12,
-                                      color: state.responseDdeTarget!.data![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
+                                      color: state.responseDdeTarget!.data!.ddeCommissionSlab![index].targetStatus.toString() == "In progress"?Colors.black:Colors.white
                                   )),
                                 ),
 
@@ -2069,9 +2069,9 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                if(state.responseDdeTarget!.data![index].loanClosureFrom>0)
+                                if(state.responseDdeTarget!.data!.ddeCommissionSlab![index].loanClosureFrom>0)
                                   Text(
-                                    "From ${state.responseDdeTarget!.data![index].loanClosureFrom.toString()} ",
+                                    "From ${state.responseDdeTarget!.data!.ddeCommissionSlab![index].loanClosureFrom.toString()} ",
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: figtreeRegular.copyWith(
@@ -2080,7 +2080,7 @@ Widget ddeTarget(BuildContext context,ProfileCubitState state){
                                   ),
 
                                 Text(
-                                  "Upto ${state.responseDdeTarget!.data![index].loanClosureUpto.toString()}",
+                                  "Upto ${state.responseDdeTarget!.data!.ddeCommissionSlab![index].loanClosureUpto.toString()}",
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: figtreeRegular.copyWith(
@@ -2228,18 +2228,14 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
         }
       },
       child: SizedBox(
+        width: screenWidth(),
         height: min(
             MediaQuery.of(context).size.width /
                 chewieController!.videoPlayerController.value.aspectRatio,
             350),
-        child: Align(
-          child: AspectRatio(
-            aspectRatio: chewieController!.videoPlayerController.value.aspectRatio,
-            child: Chewie(
-              controller: chewieController!,
-              key: videoPlayerKey,
-            ),
-          ),
+        child: Chewie(
+          controller: chewieController!,
+          key: videoPlayerKey,
         ),
       ),
     )

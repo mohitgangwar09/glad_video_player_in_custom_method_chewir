@@ -38,6 +38,7 @@ class DataMemberList {
   dynamic createdBy;
   dynamic updatedBy;
   dynamic deletedBy;
+  dynamic photo;
   String? createdAt;
   String? updatedAt;
 
@@ -46,6 +47,7 @@ class DataMemberList {
         this.supplierId,
         this.userId,
         this.name,
+        this.photo,
         this.email,
         this.phone,
         this.status,
@@ -63,6 +65,7 @@ class DataMemberList {
     email = json['email'];
     phone = json['phone'];
     status = json['status'];
+    photo = json['photo'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     deletedBy = json['deleted_by'];
@@ -76,6 +79,7 @@ class DataMemberList {
     data['supplier_id'] = supplierId;
     data['user_id'] = userId;
     data['name'] = name;
+    data['photo'] = photo;
     data['email'] = email;
     data['phone'] = phone;
     data['status'] = status;

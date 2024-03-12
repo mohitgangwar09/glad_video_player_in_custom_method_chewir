@@ -51,23 +51,23 @@ class ThankYou extends StatelessWidget {
                 10.verticalSpace(),
                 if(projectStatus == 'loan')
                   Text(
-                      'The loan application has been submitted on behalf of the farmer',
+                      'The application has been submitted on behalf of the farmer',
                       textAlign: TextAlign.center,
                       style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else if(projectStatus == 'verified')
                   Text(
-                      'The loan application has been submitted successfully for final approval',
+                      'The application has been submitted successfully for final approval',
                       textAlign: TextAlign.center,
                       style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else if(projectStatus == 'revoked')
                   if(BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde")
                     Text(
-                        'The loan application has been revoked on behalf of the farmer',
+                        'The application has been revoked on behalf of the farmer',
                         textAlign: TextAlign.center,
                         style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                   else
                     Text(
-                        'The loan application has been revoked successfully',
+                        'The application has been revoked successfully',
                         textAlign: TextAlign.center,
                         style: figtreeRegular.copyWith(fontSize: 16,color: ColorResources.black,))
                 else

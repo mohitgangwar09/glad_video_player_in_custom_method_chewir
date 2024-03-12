@@ -155,7 +155,7 @@ Widget card(BuildContext context){
 
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40,21,40,0),
-                    child: CustomTextField(hint: 'Email / Supplier Id',
+                    child: CustomTextField(hint: 'Email / Farmer ID',
                       controller: state.emailController,
                       maxLine: 1,
                       onChanged: (value){

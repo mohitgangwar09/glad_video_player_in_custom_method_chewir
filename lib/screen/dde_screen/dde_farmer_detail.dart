@@ -623,11 +623,11 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                 Stack(
                   children: [
                     SizedBox(
-                      height: 210,
+                      height: 216,
                       child: Column(
                         children: [
                           Container(
-                            height: 200,
+                            height: 206,
                             decoration: BoxDecoration(boxShadow: [
                               BoxShadow(
                                   color: Colors.grey.withOpacity(.100),
@@ -641,7 +641,7 @@ class _DdeFarmerDetailState extends State<DdeFarmerDetail> {
                                 padding:
                                     const EdgeInsets.only(left: 24.0, right: 20),
                                 child: Column(children: [
-                                  28.verticalSpace(),
+                                  20.verticalSpace(),
                                   Row(
                                     children: [
                                       Expanded(

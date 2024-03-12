@@ -228,18 +228,25 @@ class AuthCubit extends Cubit<AuthCubitState>{
 
   // forgotPasswordApi
   Future<void> forgotPasswordApi(context) async{
-    /*if(state.emailController.text.isEmpty){
+    if(state.emailController.text.isEmpty){
+      showCustomToast(context, "Please enter email / mobile");
       emit(state.copyWith(validator: "email",validatorString: 'Please enter email'));
-    }else if(!isEmail(state.emailController.text)){
+    }/*else if(!isEmail(state.emailController.text)){
       emit(state.copyWith(validator: "emailError",validatorString: 'Please enter valid email'));
-    }else{*/
+    }*/else{
 
       customDialog(widget: launchProgress());
       var response = await apiRepository.forgotPasswordApi(state.emailController.text,);
       disposeProgress();
       if (response.status == 200) {
         emit(state.copyWith(status: AuthStatus.success,id: response.data!.id.toString()));
-        const OtpScreen(tag: "forgot").navigate(isInfinity: true);
+
+        if(int.tryParse(state.emailController.text) is int){
+          const OtpScreen(tag: "forgot").navigate(isInfinity: true);
+        }else{
+          showCustomToast(context, response.message.toString());
+          pressBack();
+        }
       }
       else {
         emit(state.copyWith(status: AuthStatus.error));
@@ -247,12 +254,13 @@ class AuthCubit extends Cubit<AuthCubitState>{
         if(response.message!=null){
           showCustomToast(context, response.message.toString());
         }
-      // }
+      }
     }
   }
 
   ///// verifyOtpAPi /////
   Future<void> verifyOtpAPi(context) async{
+    state.id.toString().toast();
     if(state.otpController.text.isEmpty){
       emit(state.copyWith(validator: 'otp'));
     }else{
@@ -387,12 +395,11 @@ class AuthCubit extends Cubit<AuthCubitState>{
     debugPrint("bearerToken::::::: ${apiRepository.getUserToken()}");
     return apiRepository.isLoggedIn();}
 
-    clearSharedData() async {
+  clearSharedData() async {
     bool isSuccess = await apiRepository.clearSharedData();
-    if(isSuccess)
-      {
-        const DashboardGuest().navigate(isInfinity: true);
-      }
+    if(isSuccess) {
+      const DashboardGuest().navigate(isInfinity: true);
+    }
   }
 
   String getUserToken() {

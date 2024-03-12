@@ -2503,7 +2503,8 @@ class _DDeFarmerInvestmentDetailsState
       kpiData.add(FrontendKpiModel(
           name: 'Farmer Participation',
           image: Images.farmerParticipationKpi,
-          actionImage: Images.imageEdit,
+          actionImage:['verified',"applied","approved",'active'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?
+          null:Images.imageEdit,
           value: getCurrencyString(state.responseFarmerProjectDetail!.data!
               .farmerProject![0].kpi!.farmerParticipation!)));
     }
@@ -2551,7 +2552,8 @@ class _DDeFarmerInvestmentDetailsState
         null) {
       kpiData.add(FrontendKpiModel(
           name: 'Repayment Tenure',
-          actionImage: Images.imageEdit,
+          actionImage: ['verified',"applied","approved",'active'].contains(state.responseFarmerProjectDetail!.data!.farmerProject![0].projectStatus)?
+          null:Images.imageEdit,
           image: Images.repaymentKpi,
           value:
               "${state.responseFarmerProjectDetail!.data!.farmerProject![0].kpi!.repayment!} MO"));
@@ -2675,7 +2677,7 @@ class _DDeFarmerInvestmentDetailsState
             crossAxisSpacing: 13,
             mainAxisExtent: 130, child: (index) {
           return MediaQuery(
-            data: screenWidth()<380 ? mediaData.copyWith(textScaleFactor: 0.91):mediaData.copyWith(textScaleFactor: 1),
+            data: screenWidth()<400 ? mediaData.copyWith(textScaleFactor: 0.9):mediaData.copyWith(textScaleFactor: 1),
             child: InkWell(
               onTap: () {
                 if (kpiData[index].name.toString() == "Paid EMIs") {
@@ -2725,7 +2727,7 @@ class _DDeFarmerInvestmentDetailsState
                           ),
                           kpiData[index].actionImage != null
                               ? kpiData[index].name.toString() ==
-                                      "Farmer Participation" || kpiData[index].name.toString() == "Repayment"
+                                      "Farmer Participation" || kpiData[index].name.toString() == "Repayment Tenure"
                                   ? state
                                               .responseFarmerProjectDetail!
                                               .data!
@@ -2878,7 +2880,7 @@ class _DDeFarmerInvestmentDetailsState
                                                 if (kpiData[index]
                                                     .name
                                                     .toString() ==
-                                                    "Repayment") {
+                                                    "Repayment Tenure") {
                                                   int quantity;
                                                   if(state
                                                       .responseFarmerProjectDetail!
@@ -2898,6 +2900,7 @@ class _DDeFarmerInvestmentDetailsState
                                                           setState) {
                                                         return SizedBox(
                                                           height: 200,
+                                                          width: screenWidth(),
                                                           child: Column(
                                                             children: [
                                                               20.verticalSpace(),
