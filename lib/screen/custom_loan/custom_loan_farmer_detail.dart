@@ -1731,7 +1731,9 @@ class _CustomLoanFarmerDetailState extends State<CustomLoanFarmerDetail> {
                   padding: const EdgeInsets.only(right: 15.0),
                   child: Text(
                     'You may contact our Dairy Development Executive (DDE) for any assistance related to application processing.',
-                    style: figtreeRegular.copyWith(fontSize: 12),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: figtreeRegular.copyWith(fontSize: 11.5),
                     textAlign: TextAlign.center,
                   ),
                 ),

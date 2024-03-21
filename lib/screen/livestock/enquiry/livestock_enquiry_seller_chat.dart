@@ -267,7 +267,7 @@ class _LivestockEnquirySellerChatScreenState extends State<LivestockEnquirySelle
                                                   );
                                                 }));
                                       },
-                                      child: 'edit'.textRegular(color: Color(0xFFFC5E60), fontSize: 14, underLine: TextDecoration.underline),
+                                      child: 'edit'.textRegular(color: const Color(0xFFFC5E60), fontSize: 14, underLine: TextDecoration.underline),
                                     )
                                   ],
                                 ),

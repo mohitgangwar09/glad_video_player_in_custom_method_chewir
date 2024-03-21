@@ -62,8 +62,6 @@ Future<List<String>> imgMultipleFromGallery() async {
 
 // image Picker from Gallery
 Future<List<String>> imgOrPdfFromGallery() async {
-  // XFile? image = await ImagePicker()
-  //     .pickImage(source: ImageSource.gallery, imageQuality: 50);
   FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png']);
   return result!.files.map((e) => e.path!).toList();
 }

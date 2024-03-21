@@ -147,7 +147,7 @@ class _EnquiryListState extends State<EnquiryList> {
                                                   .doc(chatDocs.docs[index]['user_id'].toString()).snapshots(),
                                               builder: (contexts, snapshot) {
                                                 if(!snapshot.hasData) {
-                                                  return SizedBox.shrink();
+                                                  return const SizedBox.shrink();
                                                 }
                                                 if(snapshot.data!.data()!.containsKey('negotiated_price')) {
                                                   return Column(
@@ -164,7 +164,7 @@ class _EnquiryListState extends State<EnquiryList> {
                                                     ],
                                                   );
                                                 }
-                                                return SizedBox.shrink();
+                                                return const SizedBox.shrink();
                                               }
                                           ),
                                         ],

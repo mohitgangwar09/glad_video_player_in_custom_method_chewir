@@ -431,8 +431,8 @@ class _SurveyDetailsState extends State<SurveyDetails> {
                                           children: [
                                             InkWell(
                                               onTap: () async{
-                                                var image = await imgFromGallery();
-                                                docOneFile = image.toString();
+                                                var image = await imgOrPdfFromGallery();
+                                                docOneFile = image[0].toString();
                                                 setState(() {});
                                               },
                                               child: SvgPicture.asset(

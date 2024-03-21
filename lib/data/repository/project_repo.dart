@@ -246,8 +246,6 @@ class ProjectRepository {
         'farmer_id': farmerId,
       });
     }else{
-      "isNotEmpty".toast();
-      surveyQuotation.path.toast();
       formData = FormData.fromMap({
         'farmer_project_id': projectId,
         'date': date,
