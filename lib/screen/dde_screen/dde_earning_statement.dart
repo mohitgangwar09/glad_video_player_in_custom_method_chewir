@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:glad/cubit/auth_cubit/auth_cubit.dart';
 import 'package:glad/cubit/project_cubit/project_cubit.dart';
 import 'package:glad/screen/custom_widget/custom_appbar.dart';
 import 'package:glad/screen/custom_widget/custom_methods.dart';
 import 'package:glad/screen/farmer_screen/dashboard/dashboard_farmer.dart';
 import 'package:glad/screen/supplier_screen/dashboard/dashboard_supplier.dart';
+import 'package:glad/utils/app_constants.dart';
 import 'package:glad/utils/color_resources.dart';
 import 'package:glad/utils/extension.dart';
 import 'package:glad/utils/images.dart';
@@ -108,42 +110,44 @@ class _DdeEarningDetailsState extends State<DdeEarningDetails> {
                       ),
                     ),
                   ),
-                  10.horizontalSpace(),
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        BlocProvider.of<ProjectCubit>(context).statusColor('due');
-                        BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                width: state.statusLoan == 'due'?2:1, color: state.statusLoan == 'due'?const Color(0xffF6B51D):const Color(0xffDCDCDC)),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BlocBuilder<ProjectCubit,ProjectState>(
-                                  builder: (context,state) {
-                                    return Text(
-                                      getCurrencyString(state.dueAmount??0),
-                                      style: figtreeSemiBold.copyWith(fontSize: 15),
-                                    );
-                                  }
-                              ),
-                              05.verticalSpace(),
-                              Text(
-                                'Due',
-                                style: figtreeMedium.copyWith(
-                                    fontSize: 14, color: ColorResources.fieldGrey),
-                              )
-                            ]),
+                  if(context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType) != "dde")
+                    10.horizontalSpace(),
+                  if(context.read<ProjectCubit>().sharedPreferences.getString(AppConstants.userType) != "dde")
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){
+                          BlocProvider.of<ProjectCubit>(context).statusColor('due');
+                          BlocProvider.of<ProjectCubit>(context).accountStatementApi(context, 'due');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  width: state.statusLoan == 'due'?2:1, color: state.statusLoan == 'due'?const Color(0xffF6B51D):const Color(0xffDCDCDC)),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                BlocBuilder<ProjectCubit,ProjectState>(
+                                    builder: (context,state) {
+                                      return Text(
+                                        getCurrencyString(state.dueAmount??0),
+                                        style: figtreeSemiBold.copyWith(fontSize: 15),
+                                      );
+                                    }
+                                ),
+                                05.verticalSpace(),
+                                Text(
+                                  'Due',
+                                  style: figtreeMedium.copyWith(
+                                      fontSize: 14, color: ColorResources.fieldGrey),
+                                )
+                              ]),
+                        ),
                       ),
                     ),
-                  ),
                   10.horizontalSpace(),
                   Expanded(
                     child: InkWell(

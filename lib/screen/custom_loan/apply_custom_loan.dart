@@ -29,7 +29,7 @@ class ApplyCustomLoan extends StatefulWidget {
 class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
 
   String countryCode = "";
-  String? purpose = '';
+  String? purpose = '',paymentMode = '';
   TextEditingController price = TextEditingController();
   TextEditingController period = TextEditingController();
   TextEditingController purposeOfLoan = TextEditingController();
@@ -248,6 +248,64 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                     onChanged: (String? value) {
                                       setState(() {
                                         purpose = value!.toString();
+                                      });
+                                    },
+                                    buttonStyleData: const ButtonStyleData(
+                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                      height: 40,
+                                      width: 140,
+                                    ),
+                                    menuItemStyleData: const MenuItemStyleData(
+                                      height: 40,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          20.verticalSpace(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              "Payment Mode".textMedium(color: Colors.black, fontSize: 12),
+
+                              5.verticalSpace(),
+
+                              Container(
+                                height: 55,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white
+                                ),
+                                width: screenWidth(),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2<String>(
+                                    isExpanded: true,
+                                    isDense: true,
+                                    value: paymentMode != '' ? paymentMode : null,
+                                    hint: Text(
+                                      'Select payment mode',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context).hintColor,
+                                      ),
+                                    ),
+                                    items: ['Mobile money','Banking']
+                                        .map((String item) => DropdownMenuItem<String>(
+                                      value: item.toString(),
+                                      child: Text(
+                                        item.toString(),
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    )).toList(),
+                                    // value: state.counties![0].name!,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        paymentMode = value!.toString();
                                       });
                                     },
                                     buttonStyleData: const ButtonStyleData(

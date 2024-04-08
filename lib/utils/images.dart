@@ -104,7 +104,8 @@ class Images {
   static const String deleteIcon = 'assets/images/delete_icon.png';
   static const String editIcon = 'assets/images/edit_icon.png';
   static const String loans = 'assets/images/loans.svg';
-  static const String customLoan = 'assets/images/customloan.png';
+  static const String customLoan = 'assets/images/cashloans.png';
+  static const String cashLoan = 'assets/images/customloan.png';
 
   static const String timelineApplied = 'assets/images/timelineApplied.svg';
   static const String lessCows = 'assets/images/lessCows.svg';
