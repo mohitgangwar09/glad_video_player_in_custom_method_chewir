@@ -27,6 +27,9 @@ class _AddProjectMileStoneState extends State<AddProjectMileStone> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      click = false;
+      context.read<ProjectCubit>().milestoneId('');
+      context.read<ProjectCubit>().searchMilestoneFilter("", BlocProvider.of<ProjectCubit>(context).state.responseMilestoneName!);
       BlocProvider.of<ProjectCubit>(context).milestoneNameApi(context, widget.farmerId,widget.farmerProjectId);
     });
   }
@@ -117,12 +120,12 @@ class _AddProjectMileStoneState extends State<AddProjectMileStone> {
                               ],
                             ),
 
-
-                            state.milestoneTitle.text.isNotEmpty?
+                            // state.milestoneTitle.text.isNotEmpty?
                             state.filterMileStone!=null?
                             Container(
                               // height: click? 0:state.filterMileStone!.isNotEmpty ? 200 : 0,
-                              constraints: BoxConstraints(maxHeight: click? 0:state.filterMileStone!.isNotEmpty ? 200 : 0),
+                              // constraints: BoxConstraints(maxHeight: click? 0:state.filterMileStone!.isNotEmpty ? 200 : 0),
+                              constraints: BoxConstraints(maxHeight: state.filterMileStone!.isNotEmpty ? 200 : 0),
                               child: Card(
                                 child: ListView.separated(
                                     scrollDirection: Axis.vertical,
@@ -154,8 +157,9 @@ class _AddProjectMileStoneState extends State<AddProjectMileStone> {
                                     itemCount: state.filterMileStone!.length),
                               ),
                             ):
-                            const SizedBox.shrink():
-                            const SizedBox.shrink(),
+                            const SizedBox.shrink()
+                                // : const SizedBox.shrink()
+                            ,
 
                             25.verticalSpace(),
 
