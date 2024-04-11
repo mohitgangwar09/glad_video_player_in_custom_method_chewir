@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "664603976586",
-    "project_id": "glad-2b683",
-    "storage_bucket": "glad-2b683.appspot.com"
+    "project_number": "509672299316",
+    "project_id": "glad-agritech",
+    "storage_bucket": "glad-agritech.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:664603976586:android:2aa36bd945ac1826bb5e73",
+        "mobilesdk_app_id": "1:509672299316:android:98d94db1b96f441d272361",
         "android_client_info": {
-          "package_name": "com.glads"
+          "package_name": "com.glad"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCCGBo-mjzXYkr0UbsgBooz15oiZwDC5xE"
+          "current_key": "AIzaSyDXVLQntE0UAaIlIS8JaquwslzPQzwbd6M"
         }
       ],
       "services": {

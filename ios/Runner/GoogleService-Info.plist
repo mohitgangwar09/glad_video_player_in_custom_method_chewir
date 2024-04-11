@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyDpvNItMPg5g7YyYmeeXXnDsIf6_LiebGo</string>
+	<string>AIzaSyCrJbElFPM-PkLAS2Nf25il0hykV-J1C7k</string>
 	<key>GCM_SENDER_ID</key>
-	<string>664603976586</string>
+	<string>509672299316</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.glads</string>
+	<string>com.gladagritech</string>
 	<key>PROJECT_ID</key>
-	<string>glad-2b683</string>
+	<string>glad-agritech</string>
 	<key>STORAGE_BUCKET</key>
-	<string>glad-2b683.appspot.com</string>
+	<string>glad-agritech.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:664603976586:ios:197bc9cb748d0319bb5e73</string>
+	<string>1:509672299316:ios:f19c32ab9dde9cc8272361</string>
 </dict>
 </plist>
