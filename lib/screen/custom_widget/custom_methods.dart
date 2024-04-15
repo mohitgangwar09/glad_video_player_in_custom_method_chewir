@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -709,7 +710,6 @@ bottomNavigationItem(String text, String image,BuildContext context,int selected
         ProjectScreenState.statusFromLandingPage = null;
         BlocProvider.of<DashboardCubit>(context).state.navigationQueue.addLast(i);
         BlocProvider.of<DashboardCubit>(context).selectedIndex(i);
-
       },
       child: Container(
         padding: const EdgeInsets.only(left:  0,right: 0,top:11,bottom:11),

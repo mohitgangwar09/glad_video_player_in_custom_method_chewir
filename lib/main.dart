@@ -1,3 +1,5 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +29,9 @@ GlobalKey<NavigatorState>? navigatorKey;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FcmHelper().initFirebase();
-
   await di.init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
 
   runApp(MultiBlocProvider(
     providers: [
@@ -67,6 +69,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {

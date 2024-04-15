@@ -265,10 +265,11 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                           ),
 
                           20.verticalSpace(),
+
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              "Payment Mode".textMedium(color: Colors.black, fontSize: 12),
+                              "Remittance Type".textMedium(color: Colors.black, fontSize: 12),
 
                               5.verticalSpace(),
 
@@ -286,13 +287,13 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                     isDense: true,
                                     value: paymentMode != '' ? paymentMode : null,
                                     hint: Text(
-                                      'Select payment mode',
+                                      'Select remittance type',
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context).hintColor,
                                       ),
                                     ),
-                                    items: ['Mobile money','Banking']
+                                    items: ['Mobile Money','Bank Transfer']
                                         .map((String item) => DropdownMenuItem<String>(
                                       value: item.toString(),
                                       child: Text(
@@ -654,6 +655,8 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                       showCustomToast(context, 'Purpose is required');
                                     } else if (purpose == 'Other' && purposeOfLoan.text.isEmpty){
                                       showCustomToast(context, 'Please enter purpose');
+                                    } else if (paymentMode == ''){
+                                      showCustomToast(context, 'Please select remittance type.');
                                     }else if (price.text.replaceAll(",", "") == ''){
                                       showCustomToast(context, 'Requested Amount is required');
                                     } else if (int.parse(price.text.replaceAll(",", "").toString()) > int.parse(state.responseLoanForm!.data!.remainingLimit.toString())){
@@ -671,6 +674,8 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                                         period: int.parse(period.text.toString()),
                                         remarks: remarks.text.toString(),
                                         farmerMaster: BlocProvider.of<AuthCubit>(context).sharedPreferences.getString(AppConstants.userType) == "dde" ? BlocProvider.of<LivestockCubit>(context).state.selectedLivestockFarmerMAster! : null,
+                                        paymentMode: paymentMode.toString()
+
                                       ).navigate();
                                       // BlocProvider.of<ProjectCubit>(context)
                                       //     .customLoanApplyApi(

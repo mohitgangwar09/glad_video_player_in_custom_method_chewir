@@ -747,6 +747,7 @@ class ProjectCubit extends Cubit<ProjectState> {
         dataResourceType = response.data!;
       }
       emit(state.copyWith(responseMaterialType: dataResourceType));
+      searchMaterialName('', dataResourceType);
     } else {
       if(response.message!=null){
         showCustomToast(context, response.message.toString());
@@ -1017,7 +1018,10 @@ class ProjectCubit extends Cubit<ProjectState> {
       if(response.data!=null){
         dataMilestoneName = response.data!;
       }
+
       emit(state.copyWith(responseMilestoneName: dataMilestoneName));
+      milestoneId('');
+      searchMilestoneFilter('', dataMilestoneName);
     } else {
       if(response.message!=null){
         showCustomToast(context, response.message.toString());

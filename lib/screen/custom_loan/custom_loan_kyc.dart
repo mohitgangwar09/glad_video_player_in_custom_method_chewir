@@ -25,13 +25,15 @@ import 'package:glad/utils/styles.dart';
 class CustomLoanKYC extends StatefulWidget {
   const CustomLoanKYC({super.key,
     // required this.id,required this.farmerParticipation,
-    required this.farmerMaster, required this.purpose, required this.price, required this.period, required this.remarks
+    required this.farmerMaster, required this.purpose, required this.price, required this.period, required this.remarks,
+    required this.paymentMode
   });
 
   final String purpose;
   final int price;
   final  int period;
   final String remarks;
+  final String paymentMode;
   // const LivestockKyc({super.key, required this.farmerId, required this.userId,required this.farmerMaster,required this.farmerProjectId});
   final FarmerMAster? farmerMaster;
   // final  int id;

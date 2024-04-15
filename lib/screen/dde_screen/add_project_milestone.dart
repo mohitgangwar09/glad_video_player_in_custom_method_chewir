@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +29,6 @@ class _AddProjectMileStoneState extends State<AddProjectMileStone> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      click = false;
-      context.read<ProjectCubit>().milestoneId('');
-      context.read<ProjectCubit>().searchMilestoneFilter("", BlocProvider.of<ProjectCubit>(context).state.responseMilestoneName!);
       BlocProvider.of<ProjectCubit>(context).milestoneNameApi(context, widget.farmerId,widget.farmerProjectId);
     });
   }
