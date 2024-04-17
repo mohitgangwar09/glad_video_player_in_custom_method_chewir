@@ -1536,10 +1536,12 @@ class ProjectCubit extends Cubit<ProjectState> {
 
   void customLoanApplyApi(context, String loanPurpose, int loanAmount, int repaymentMonths, String remarks, String? farmerId, String addressDocName, String addressDocNo, String addressDocExpiryDate,
       List<String> documentFiles,String idDocName,
-      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto, FarmerMAster? farmerMaster) async {
+      String idDocTypeNo, String idDocTypeExpiryDate, List<String> documentTypeFiles, String farmerPhoto,
+      FarmerMAster? farmerMaster,String? remittanceType) async {
     customDialog(widget: launchProgress());
 
-    var response = await apiRepository.addCustomLoanApi(loanPurpose, loanAmount, repaymentMonths, remarks, farmerId);
+    var response = await apiRepository.addCustomLoanApi(loanPurpose, loanAmount, repaymentMonths, remarks,
+        farmerId,remittanceType);
     if (response.status == 200) {
       customLoanKycApi(context, response.data!['farmer_id'].toString(), response.data!['id'].toString(),
           addressDocName, addressDocNo,

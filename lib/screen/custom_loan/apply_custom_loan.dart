@@ -90,7 +90,7 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                   children: [
                     CustomAppBar(
                       context: context,
-                      titleText1: 'Cash Advances',
+                      titleText1: 'Cash Loan',
                       titleText1Style:
                       figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                       centerTitle: true,
@@ -264,6 +264,38 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                             ],
                           ),
 
+
+                          if(purpose == "Other")
+                            Column(
+                              children: [
+                                20.verticalSpace(),
+
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: "Other purpose".textMedium(color: Colors.black, fontSize: 12),
+                                ),
+                                5.verticalSpace(),
+                                Container(
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white
+                                  ),
+                                  width: screenWidth(),
+                                  child: TextField(
+                                    controller: purposeOfLoan,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      counterText: '',
+                                      contentPadding: EdgeInsets.only(top: 10,left: 13),
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+
                           20.verticalSpace(),
 
                           Column(
@@ -322,37 +354,6 @@ class _ApplyCustomLoanState extends State<ApplyCustomLoan> {
                               ),
                             ],
                           ),
-
-                          if(purpose == "Other")
-                            Column(
-                              children: [
-                                20.verticalSpace(),
-
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: "Other purpose".textMedium(color: Colors.black, fontSize: 12),
-                                ),
-                                5.verticalSpace(),
-                                Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: const Color(0xffD9D9D9,),width: 1.5),
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white
-                                  ),
-                                  width: screenWidth(),
-                                  child: TextField(
-                                    controller: purposeOfLoan,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      counterText: '',
-                                      contentPadding: EdgeInsets.only(top: 10,left: 13),
-                                    ),
-                                  ),
-                                ),
-
-                              ],
-                            ),
 
                           20.verticalSpace(),
                           Align(

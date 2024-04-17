@@ -26,11 +26,11 @@ class AddCustomLoanRemark extends StatefulWidget {
   final String remarks;
   final String addressProof,addressDoc,addressDate;
   final List<String> addressImg,idImage;
-  final String idProof,idDoc,idDate,profilePicture;
+  final String idProof,idDoc,idDate,profilePicture,paymentMode;
 
   const AddCustomLoanRemark(this.remarks,
       this.addressProof,this.addressDoc,this.addressDate,this.addressImg,
-      this.idProof,this.idDoc,this.idDate,this.idImage,this.profilePicture,this.projectData, this.purpose, this.price, this.period, {super.key});
+      this.idProof,this.idDoc,this.idDate,this.idImage,this.profilePicture,this.projectData, this.purpose, this.price, this.period,this.paymentMode, {super.key});
 
   @override
   State<AddCustomLoanRemark> createState() => _AddCustomLoanRemarkState();
@@ -393,7 +393,7 @@ class _AddCustomLoanRemarkState extends State<AddCustomLoanRemark> {
                       widget.idDoc,
                       widget.idDate,
                       widget.idImage,
-                      widget.profilePicture, widget.projectData);
+                      widget.profilePicture, widget.projectData,widget.paymentMode.toString());
                 }
               }
             },

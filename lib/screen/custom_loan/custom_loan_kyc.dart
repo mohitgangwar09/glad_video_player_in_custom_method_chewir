@@ -579,6 +579,7 @@ class _CustomLoanKYCState extends State<CustomLoanKYC> {
                                 widget.purpose,
                                 widget.price,
                                   widget.period,
+                                  widget.paymentMode.toString()
                                 ).navigate();
                               } else {
                                 BlocProvider.of<ProjectCubit>(context).customLoanApplyApi(context,
@@ -596,7 +597,9 @@ class _CustomLoanKYCState extends State<CustomLoanKYC> {
                                     idDoc.text,
                                     idDate.text,
                                     idImg,
-                                    profilePicture, widget.farmerMaster);
+                                    profilePicture, widget.farmerMaster,
+                                    widget.paymentMode.toString()
+                                );
                               }
 
                               /*BlocProvider.of<LivestockCubit>(context).applyLivestockLoanApi(context,

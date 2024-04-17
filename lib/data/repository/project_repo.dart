@@ -1026,13 +1026,15 @@ class ProjectRepository {
   }
 
   ///////////////// getSupplierFarmerFilterListApi //////////
-  Future<ResponseOtpModel> addCustomLoanApi(String loanPurpose, int loanAmount, int repaymentMonths, String remarks, String? farmerId) async {
+  Future<ResponseOtpModel> addCustomLoanApi(String loanPurpose, int loanAmount, int repaymentMonths, String remarks,
+      String? farmerId,String? remittanceType) async {
 
     Map<String, dynamic> query = {
       'loan_purpose': loanPurpose,
       'loan_amount': loanAmount,
       'repayment_months': repaymentMonths,
       'remarks': remarks,
+      "remittance_type" : remittanceType
     };
 
     if(sharedPreferences!.getString(AppConstants.userType)  == 'dde') {

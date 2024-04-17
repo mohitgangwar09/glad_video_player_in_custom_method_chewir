@@ -70,7 +70,7 @@ class _CustomLoanListState extends State<CustomLoanList> {
               children: [
                 CustomAppBar(
                   context: context,
-                  titleText1: 'Cash Advances',
+                  titleText1: 'Cash Loan',
                   titleText1Style:
                   figtreeMedium.copyWith(fontSize: 20, color: Colors.black),
                   centerTitle: true,
