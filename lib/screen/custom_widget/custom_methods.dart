@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -39,7 +38,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 Widget customButton(String text,
@@ -2144,12 +2142,6 @@ CurrencyTextInputFormatter currencyFormatter({String locale = "en_US"}){
   return formatter;
 }
 
-// Stream<int> getMessageCount(chatSnapShot, context) async* {
-//   yield* Stream.periodic(const Duration(seconds: 1), (_) {
-//     return getMessageBoardCount(chatSnapShot, context);
-//   }).asyncMap((event) async => await event);
-// }
-
 class CommunityVideoPlayer extends StatefulWidget {
   const CommunityVideoPlayer({super.key, required this.url});
   final String url;
@@ -2203,12 +2195,6 @@ class _CommunityVideoPlayerState extends State<CommunityVideoPlayer> {
     chewieController!.dispose();
     super.dispose();
   }
-
-  // showFadingIcon() {
-  //   var visible = true;
-  //   return AnimatedOpacity(
-  //       opacity: visible ? 1 : 0, duration: const Duration(milliseconds: 500));
-  // }
 
   @override
   Widget build(BuildContext context) {
